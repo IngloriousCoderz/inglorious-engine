@@ -1,31 +1,33 @@
 {
   "name": "@ingloriouscoderz/ezpz",
   "version": "0.0.1",
+  "license": "MIT",
   "description": "A JavaScript game engine written with global state, immutability, and pure functions in mind. Have func(tional programming) with it!",
-  "main": "index.js",
-  "scripts": {
-    "test": "jest --watchAll"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/IngloriousCoderz/ezpz.git"
-  },
+  "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
   "keywords": [
     "functional",
     "game",
     "engine"
   ],
-  "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
-  "license": "MIT",
+  "homepage": "https://github.com/IngloriousCoderz/ezpz#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IngloriousCoderz/ezpz.git"
+  },
   "bugs": {
     "url": "https://github.com/IngloriousCoderz/ezpz/issues"
   },
-  "homepage": "https://github.com/IngloriousCoderz/ezpz#readme",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "jest --watch"
+  },
   "dependencies": {
     "axios": "^0.27.2",
     "deepmerge": "^4.2.2"
   },
   "devDependencies": {
-    "eslint": "^8.20.0"
+    "eslint": "^8.20.0",
+    "jest": "^28.1.3"
   }
 }
