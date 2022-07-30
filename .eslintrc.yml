@@ -10,4 +10,5 @@ parserOptions:
 
 rules:
   no-console: warn
+  no-magic-numbers: error
   no-unused-vars: warn

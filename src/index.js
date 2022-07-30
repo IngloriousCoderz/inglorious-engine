@@ -1,3 +1,3 @@
 const engine = require('./engine')
 
-engine.start()
+engine.start('nap') // TODO: retrieve from config
