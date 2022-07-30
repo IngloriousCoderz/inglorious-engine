@@ -24,5 +24,8 @@
   "dependencies": {
     "axios": "^0.27.2",
     "deepmerge": "^4.2.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.20.0"
   }
 }
