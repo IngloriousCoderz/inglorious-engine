@@ -9,19 +9,19 @@ module.exports = {
   lag: loopWithLag,
 }
 
-async function loopWithNap({ msPerFrame, shouldQuit }) {
+async function loopWithNap(store, { msPerFrame, shouldQuit }) {
   while (!shouldQuit) {
     const currentTime = Date.now()
 
     processInput()
-    update()
+    update(store)
     render()
 
     await time.sleep(Date.now() - currentTime + msPerFrame)
   }
 }
 
-async function loopWithElapsed({ shouldQuit }) {
+async function loopWithElapsed(store, { shouldQuit }) {
   let previousTime = Date.now()
 
   while (!shouldQuit) {
@@ -29,14 +29,14 @@ async function loopWithElapsed({ shouldQuit }) {
     const elapsed = currentTime - previousTime
 
     processInput()
-    await update(elapsed)
+    await update(store, elapsed)
     render()
 
     previousTime = currentTime
   }
 }
 
-async function loopWithLag({ msPerFrame, shouldQuit }) {
+async function loopWithLag(store, { msPerFrame, shouldQuit }) {
   let previousTime = Date.now()
   let lag = 0
 
@@ -49,7 +49,7 @@ async function loopWithLag({ msPerFrame, shouldQuit }) {
     processInput()
 
     while (lag >= msPerFrame) {
-      update()
+      update(store)
       lag -= msPerFrame
     }
 

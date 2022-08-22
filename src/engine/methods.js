@@ -9,9 +9,9 @@ function processInput() {
   // TODO: implement this function
 }
 
-async function update(elapsed) {
+async function update(store, elapsed) {
   await time.sleep(ONE_SECOND * TO_MILLISECONDS - elapsed) // simulating some heavy calculation
-  // TODO: implement this function
+  store.update(elapsed)
 }
 
 async function render(tick) {
