@@ -1,32 +1,26 @@
-const UPDATE = `game:update`
-const NUM_LISTENERS_TO_REMOVE = 1
-const FIRST_EVENT_INDEX = 0
-
 const DEFAULT_STATE = { events: [], entities: [] }
 
 module.exports = { createStore }
 
-function createStore(initialHandlers, initialState) {
-  const listeners = []
-  const incomingEvents = []
-  const handlers = { ...initialHandlers }
+function createStore(handlers, initialState) {
+  const listeners = new Set()
+  let incomingEvents = []
   let state = { ...DEFAULT_STATE, ...initialState }
 
   return { subscribe, update, remove, notify, getState }
 
   function subscribe(listener) {
-    listeners.push(listener)
+    listeners.add(listener)
 
     return function unsubscribe() {
-      const index = listeners.indexOf(listener)
-      listeners.splice(index, NUM_LISTENERS_TO_REMOVE)
+      listeners.delete(listener)
     }
   }
 
   function update(elapsed) {
     state = {
       ...state,
-      events: [...state.events, { id: UPDATE }],
+      events: [...state.events, { id: 'game:update' }],
     }
 
     while (state.events.length) {
@@ -44,7 +38,7 @@ function createStore(initialHandlers, initialState) {
       ...state,
       events: [...state.events, ...incomingEvents],
     }
-    incomingEvents.splice(FIRST_EVENT_INDEX, incomingEvents.length)
+    incomingEvents = []
 
     listeners.forEach((onUpdate) => onUpdate())
   }
