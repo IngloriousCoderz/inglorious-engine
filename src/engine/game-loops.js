@@ -1,9 +1,9 @@
-const { processInput, update, render } = require('./methods')
-const time = require('../helpers/time')
+import { processInput, update, render } from './methods'
+import * as time from '../helpers/time'
 
 // @see https://gameprogrammingpatterns.com/game-loop.html
 
-module.exports = {
+export default {
   nap: loopWithNap,
   elapsed: loopWithElapsed,
   lag: loopWithLag,

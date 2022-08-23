@@ -1,4 +1,4 @@
-const { createStore } = require('./store')
+import { createStore } from './store'
 
 describe('Store', () => {
   it('should add an event to the event queue', () => {

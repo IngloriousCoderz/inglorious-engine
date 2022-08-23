@@ -1,8 +1,6 @@
 const DEFAULT_STATE = { events: [], entities: [] }
 
-module.exports = { createStore }
-
-function createStore(handlers, initialState) {
+export function createStore(handlers, initialState) {
   const listeners = new Set()
   let incomingEvents = []
   let state = { ...DEFAULT_STATE, ...initialState }
