@@ -138,4 +138,26 @@ describe('Store', () => {
     const state = store.getState()
     expect(state).toEqual(afterState)
   })
+
+  it('should mutate state in an immutable way', () => {
+    const handlers = {
+      kitty: {
+        'game:update'(entity) {
+          entity.wasUpdated = true
+        },
+      },
+    }
+    const beforeState = { entities: [{ id: 'neko', type: 'kitty' }] }
+    const store = createStore(handlers, beforeState)
+    const afterState = {
+      events: [],
+      entities: [{ id: 'neko', type: 'kitty', wasUpdated: true }],
+    }
+
+    store.update()
+
+    const state = store.getState()
+    expect(state).toEqual(afterState)
+    expect(state).not.toBe(beforeState)
+  })
 })

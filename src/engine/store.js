@@ -1,9 +1,17 @@
+import produce from 'immer'
+
 const DEFAULT_STATE = { events: [], entities: [] }
 
 export function createStore(handlers, initialState) {
   const listeners = new Set()
   let incomingEvents = []
   let state = { ...DEFAULT_STATE, ...initialState }
+
+  Object.values(handlers).forEach((handlers) =>
+    Object.keys(handlers).forEach(
+      (event) => (handlers[event] = produce(handlers[event]))
+    )
+  )
 
   return { subscribe, update, remove, notify, getState }
 
