@@ -18,6 +18,7 @@
     "immer": "^9.0.15",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-redux": "^8.0.2",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.0"
   },
@@ -34,7 +35,7 @@
     ],
     "rules": {
       "no-console": "warn",
-      "no-magic-numbers": "error",
+      "no-magic-numbers": "warn",
       "no-unused-vars": "warn"
     }
   },

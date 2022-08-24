@@ -1,17 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import './index.css'
-import App from './App'
+
+import engine from './game'
+import Game from './components/game'
 import reportWebVitals from './reportWebVitals'
-
-import engine from './engine'
-
-engine.start('nap') // TODO: retrieve from config
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <React.StrictMode>
-    <App />
+    <Game engine={engine} />
   </React.StrictMode>
 )
 

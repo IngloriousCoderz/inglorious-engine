@@ -2,7 +2,7 @@ import produce from 'immer'
 
 const DEFAULT_STATE = { events: [], entities: [] }
 
-export function createStore(handlers, initialState) {
+export function createStore({ handlers, state: initialState }) {
   const listeners = new Set()
   let incomingEvents = []
   let state = { ...DEFAULT_STATE, ...initialState }

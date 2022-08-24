@@ -11,7 +11,7 @@ describe('Store', () => {
       },
     }
     const beforeState = { entities: [{ id: 'neko', type: 'kitty' }] }
-    const store = createStore(handlers, beforeState)
+    const store = createStore({ handlers, state: beforeState })
     const afterState = {
       events: [event],
       entities: [{ id: 'neko', type: 'kitty' }],
@@ -41,7 +41,7 @@ describe('Store', () => {
       events: [event],
       entities: [{ id: 'neko', type: 'kitty' }],
     }
-    const store = createStore(handlers, beforeState)
+    const store = createStore({ handlers, state: beforeState })
     const afterState = {
       events: [],
       entities: [
@@ -80,7 +80,7 @@ describe('Store', () => {
         { id: 'inu', type: 'doge' },
       ],
     }
-    const store = createStore(handlers, beforeState)
+    const store = createStore({ handlers, state: beforeState })
     const afterState = {
       events: [event],
       entities: [
@@ -124,7 +124,7 @@ describe('Store', () => {
         { id: 'inu', type: 'doge' },
       ],
     }
-    const store = createStore(handlers, beforeState)
+    const store = createStore({ handlers, state: beforeState })
     const afterState = {
       events: [],
       entities: [
@@ -148,7 +148,7 @@ describe('Store', () => {
       },
     }
     const beforeState = { entities: [{ id: 'neko', type: 'kitty' }] }
-    const store = createStore(handlers, beforeState)
+    const store = createStore({ handlers, state: beforeState })
     const afterState = {
       events: [],
       entities: [{ id: 'neko', type: 'kitty', wasUpdated: true }],

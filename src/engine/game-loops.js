@@ -3,25 +3,31 @@ import * as time from '../helpers/time'
 
 // @see https://gameprogrammingpatterns.com/game-loop.html
 
-export default {
+const LoopType = {
   nap: loopWithNap,
   elapsed: loopWithElapsed,
   lag: loopWithLag,
 }
 
-async function loopWithNap(store, { msPerFrame, shouldQuit }) {
+export default LoopType
+
+async function loopWithNap(engine, msPerFrame) {
+  const { shouldQuit } = engine.getState()
+
   while (!shouldQuit) {
     const currentTime = Date.now()
 
     processInput()
-    update(store)
-    render()
+    update(engine)
+    render(engine)
 
     await time.sleep(Date.now() - currentTime + msPerFrame)
   }
 }
 
-async function loopWithElapsed(store, { shouldQuit }) {
+async function loopWithElapsed(engine) {
+  const { shouldQuit } = engine.getState()
+
   let previousTime = Date.now()
 
   while (!shouldQuit) {
@@ -29,14 +35,16 @@ async function loopWithElapsed(store, { shouldQuit }) {
     const elapsed = currentTime - previousTime
 
     processInput()
-    await update(store, elapsed)
-    render()
+    await update(engine, elapsed)
+    render(engine)
 
     previousTime = currentTime
   }
 }
 
-async function loopWithLag(store, { msPerFrame, shouldQuit }) {
+async function loopWithLag(engine, msPerFrame) {
+  const { shouldQuit } = engine.getState()
+
   let previousTime = Date.now()
   let lag = 0
 
@@ -49,11 +57,11 @@ async function loopWithLag(store, { msPerFrame, shouldQuit }) {
     processInput()
 
     while (lag >= msPerFrame) {
-      update(store)
+      update(engine)
       lag -= msPerFrame
     }
 
     const normalizedLag = lag / msPerFrame
-    await render(normalizedLag)
+    await render(engine, normalizedLag)
   }
 }
