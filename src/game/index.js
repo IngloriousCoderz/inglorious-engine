@@ -5,8 +5,8 @@ const gameConfig = {
   handlers: {
     kitty: {
       'game:update'(entity) {
-        entity.x += 10
-        entity.y += 5
+        entity.x = (entity.x + 10) % 100
+        entity.y = (entity.y + 5) % 100
       },
     },
   },
