@@ -1,20 +1,24 @@
-import * as vectors from '../../../utils/vectors'
-
-const MILLISECONDS_IN_A_SECOND = 1000
+import {
+  angle,
+  magnitude,
+  multiply,
+  normalize,
+  subtract,
+  sum,
+} from '../../../utils/vectors'
 
 export default function flee(character, target, { elapsed }) {
-  let velocity = vectors.subtract(character.position, target.position)
+  let velocity = subtract(character.position, target.position)
 
-  if (!vectors.magnitude(velocity)) {
+  if (!magnitude(velocity)) {
     return character
   }
 
-  velocity = vectors.normalize(velocity)
-  velocity = vectors.multiply(character.speed, velocity)
-  velocity = vectors.multiply(elapsed / MILLISECONDS_IN_A_SECOND, velocity)
+  velocity = normalize(velocity)
+  velocity = multiply(velocity, character.speed * elapsed)
 
-  const position = vectors.sum(character.position, velocity)
-  const orientation = vectors.angle(velocity)
+  const position = sum(character.position, velocity)
+  const orientation = angle(velocity)
 
   return { position, velocity, orientation }
 }

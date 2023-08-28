@@ -1,5 +1,7 @@
 import { processInput, render, update } from '../methods'
 
+const ONE_SECOND = 1000
+
 let id = null
 let previousTime = new Date()
 
@@ -13,7 +15,7 @@ function tick(engine) {
   const elapsed = currentTime - previousTime
 
   processInput()
-  update(engine, elapsed)
+  update(engine, elapsed / ONE_SECOND)
   render(engine)
 
   previousTime = currentTime

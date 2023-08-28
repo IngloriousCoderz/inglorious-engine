@@ -1,5 +1,7 @@
 import { processInput, render, update } from '../methods'
 
+const ONE_SECOND = 1000
+
 export default async function loop(engine, msPerUpdate) {
   const { shouldQuit } = engine.getState()
 
@@ -15,7 +17,7 @@ export default async function loop(engine, msPerUpdate) {
     processInput()
 
     while (lag >= msPerUpdate) {
-      update(engine, elapsed)
+      update(engine, elapsed / ONE_SECOND)
       lag -= msPerUpdate
     }
 

@@ -1,4 +1,4 @@
-import seek from '../../../../ai/movement/kinematic/seek'
+import arrive from '../../../../ai/movement/kinematic/arrive'
 import engine from '../../../../engine'
 import * as vectors from '../../../../utils/vectors'
 
@@ -18,7 +18,11 @@ const config = {
     kitty: {
       'game:update'(entity, _, options) {
         const target = engine.getState().entities.cursor
-        entity = { ...entity, ...seek(entity, target, options) }
+        const arriveOptions = { radius: 8, timeToTarget: 10 }
+        entity = {
+          ...entity,
+          ...arrive(entity, target, { ...options, ...arriveOptions }),
+        }
 
         const [width, height] = engine.config.dimensions
         entity.position = vectors.clamp(

@@ -1,4 +1,4 @@
-import loopStrategies from './loop-strategies'
+import loop from './loop'
 import { createStore } from './store'
 
 const DEFAULT_FPS = 60
@@ -16,7 +16,7 @@ const engine = {
       this.config.loop || {}
     const msPerFrame = ONE_SECOND / fps
 
-    loopStrategies[type](this, msPerFrame)
+    loop[type](this, msPerFrame)
   },
 
   stop() {

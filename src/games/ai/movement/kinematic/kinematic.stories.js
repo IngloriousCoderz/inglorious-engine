@@ -1,4 +1,5 @@
 import Game from '../../../../ui/game'
+import arrive from './arrive'
 import flee from './flee'
 import seek from './seek'
 
@@ -12,4 +13,8 @@ export const Seek = {
 
 export const Flee = {
   args: { config: flee },
+}
+
+export const Arrive = {
+  args: { config: arrive },
 }

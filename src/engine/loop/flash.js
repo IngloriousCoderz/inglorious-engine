@@ -1,5 +1,7 @@
 import { processInput, render, update } from '../methods'
 
+const ONE_SECOND = 1000
+
 export default async function loop(engine) {
   const { shouldQuit } = engine.getState()
 
@@ -10,7 +12,7 @@ export default async function loop(engine) {
     const elapsed = currentTime - previousTime
 
     processInput()
-    update(engine, elapsed)
+    update(engine, elapsed / ONE_SECOND)
     render(engine)
 
     previousTime = currentTime

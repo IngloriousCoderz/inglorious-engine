@@ -1,11 +1,13 @@
 import * as maths from '../maths'
 
+const X = 0
+const Z = 2
+const LAST_COORDINATE = 1
+
 export const add = sum
 
 export function conjugate(vector) {
-  return vector.map((coordinate, index) =>
-    index === 0 ? coordinate : -coordinate
-  )
+  return vector.map((coordinate, index) => (index ? -coordinate : coordinate))
 }
 
 export function sum(...vectors) {
@@ -23,12 +25,39 @@ export function magnitude(vector) {
 }
 
 export function angle(vector) {
-  return maths.arctan(vector[vector.length - 1], vector[0])
+  return maths.arctan(vector[vector.length - LAST_COORDINATE], vector[X])
+}
+
+export const setLength = setMagnitude
+
+export function setMagnitude(vector, length) {
+  const normalized = normalize(vector)
+  return multiply(normalized, length)
+}
+
+export function clamp(vector, min, max) {
+  const length = magnitude(vector)
+
+  if (typeof min === 'number' && length < min) {
+    return setMagnitude(vector, min)
+  }
+
+  if (typeof max === 'number' && length > max) {
+    return setMagnitude(vector, max)
+  }
+
+  if (typeof min !== 'number' && typeof max !== 'number') {
+    return vector.map((coordinate, index) =>
+      maths.clamp(coordinate, min[index], max[index])
+    )
+  }
+
+  return vector
 }
 
 export const times = multiply
 
-export function multiply(scalar, vector) {
+export function multiply(vector, scalar) {
   return vector.map((coordinate) => coordinate * scalar)
 }
 
@@ -45,6 +74,10 @@ export function crossProduct(...vectors) {
   return vectors.reduce(crossMultiplyCoordinates)
 }
 
+export function divide(vector, scalar) {
+  return vector.map((coordinate) => coordinate / scalar)
+}
+
 export const remainder = mod
 
 export function mod(vector, divisor) {
@@ -52,7 +85,7 @@ export function mod(vector, divisor) {
 }
 
 export function shift(vector, index) {
-  return [...vector.slice(index), ...vector.slice(0, index)]
+  return [...vector.slice(index), ...vector.slice(X, index)]
 }
 
 export function toCartesian([magnitude, angle]) {
@@ -66,7 +99,7 @@ export function toPolar(vector) {
 export function toCylindrical(vector) {
   const radius = magnitude(vector)
   const theta = angle(vector)
-  return [radius * maths.cosine(theta), radius * maths.sine(theta), vector[2]]
+  return [radius * maths.cosine(theta), radius * maths.sine(theta), vector[Z]]
 }
 
 // TODO: add toSpherical(vector), as described in https://www.cs.mcgill.ca/~rwest/wikispeedia/wpcd/wp/p/Polar_coordinate_system.htm#:~:text=Polar%20coordinates%20can%20also%20be,as%20in%20the%20polar%20coordinates).

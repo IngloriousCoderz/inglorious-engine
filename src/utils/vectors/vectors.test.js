@@ -68,12 +68,47 @@ test('it should compute the angle of a 3D vector', () => {
   expect(v.angle(vector)).toBe(expectedResult)
 })
 
+test('it should change magnitude of a vector (aka setLength)', () => {
+  const vector = [3, 4]
+  const magnitude = 10
+  const expectedResult = [6, 8]
+
+  expect(v.setMagnitude(vector, magnitude)).toStrictEqual(expectedResult)
+})
+
+test('it should clamp the magnitude of a vector to a certain length if too long', () => {
+  const vector = [6, 8]
+  const min = 0
+  const max = 5
+  const expectedResult = [3, 4]
+
+  expect(v.clamp(vector, min, max)).toStrictEqual(expectedResult)
+})
+
+test('it should not clamp the magnitude of a vector to a certain length if not too long', () => {
+  const vector = [3, 4]
+  const min = 0
+  const max = 6
+  const expectedResult = [3, 4]
+
+  expect(v.clamp(vector, min, max)).toStrictEqual(expectedResult)
+})
+
+test('it should clamp the magnitude of a vector to the values of other vector bounds', () => {
+  const vector = [6, 8]
+  const lowerBound = [0, 0]
+  const upperBound = [3, 4]
+  const expectedResult = [3, 4]
+
+  expect(v.clamp(vector, lowerBound, upperBound)).toStrictEqual(expectedResult)
+})
+
 test('it should multiply a vector with a scalar (aka times)', () => {
-  const scalar = 4
   const vector = [1, 2, 3]
+  const scalar = 4
   const expectedResult = [4, 8, 12]
 
-  expect(v.multiply(scalar, vector)).toStrictEqual(expectedResult)
+  expect(v.multiply(vector, scalar)).toStrictEqual(expectedResult)
 })
 
 test('it should compute the dot product between two vectors (aka scalarProduct)', () => {
@@ -101,6 +136,14 @@ test('it should compute the cross product between two vectors (aka vectorProduct
   const expectedResult = [-3, 6, -3]
 
   expect(v.crossProduct(vector1, vector2)).toStrictEqual(expectedResult)
+})
+
+test('it should divide a vector by a scalar', () => {
+  const vector = [4, 8, 12]
+  const scalar = 4
+  const expectedResult = [1, 2, 3]
+
+  expect(v.divide(vector, scalar)).toStrictEqual(expectedResult)
 })
 
 test('it should apply the mod operator (aka remainder) on a vector', () => {

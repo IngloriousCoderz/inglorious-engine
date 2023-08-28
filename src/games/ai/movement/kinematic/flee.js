@@ -1,6 +1,6 @@
 import flee from '../../../../ai/movement/kinematic/flee'
 import engine from '../../../../engine'
-import * as maths from '../../../../utils/maths'
+import * as vectors from '../../../../utils/vectors'
 
 const config = {
   dimensions: [800, 600],
@@ -17,12 +17,16 @@ const config = {
     },
     kitty: {
       'game:update'(entity, _, options) {
-        const [width, height] = engine.config.dimensions
-
         const target = engine.getState().entities.cursor
         entity = { ...entity, ...flee(entity, target, options) }
-        entity.position[0] = maths.clamp(entity.position[0], 0, width)
-        entity.position[2] = maths.clamp(entity.position[2], 0, height)
+
+        const [width, height] = engine.config.dimensions
+        entity.position = vectors.clamp(
+          entity.position,
+          [0, 0, 0],
+          [width, 0, height]
+        )
+
         return entity
       },
     },
@@ -39,7 +43,7 @@ const config = {
       },
       neko: {
         type: 'kitty',
-        speed: 100,
+        speed: 500,
         position: [400, 0, 300],
         velocity: [0, 0, 0],
       },
