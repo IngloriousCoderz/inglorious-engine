@@ -13,7 +13,7 @@ export function createStore({ handlers, state: initialState }) {
     )
   )
 
-  return { subscribe, update, remove, notify, getState }
+  return { subscribe, update, remove, notify, dispatch: notify, getState }
 
   function subscribe(listener) {
     listeners.add(listener)
@@ -36,7 +36,10 @@ export function createStore({ handlers, state: initialState }) {
       state = {
         ...state,
         events: rest,
-        entities: state.entities.map(handleEvent),
+        entities: Object.keys(state.entities).reduce((acc, id) => {
+          acc[id] = handleEvent(state.entities[id])
+          return acc
+        }, {}),
       }
     }
 

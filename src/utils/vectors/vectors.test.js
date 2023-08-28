@@ -1,6 +1,13 @@
 import { expect, test } from 'vitest'
 
-import * as v from './vector'
+import * as v from '.'
+
+test('it should conjugate a vector', () => {
+  const vector = [1, 2, 3]
+  const expectedResult = [1, -2, -3]
+
+  expect(v.conjugate(vector)).toStrictEqual(expectedResult)
+})
 
 test('it should sum two vectors (aka add)', () => {
   const vector1 = [1, 2, 3]
@@ -47,6 +54,20 @@ test('it should compute the magnitude of a vector (synonim of length)', () => {
   expect(v.magnitude(vector)).toBe(expectedResult)
 })
 
+test('it should compute the angle of a 2D vector', () => {
+  const vector = [1, 1]
+  const expectedResult = 0.7853981633974483
+
+  expect(v.angle(vector)).toBe(expectedResult)
+})
+
+test('it should compute the angle of a 3D vector', () => {
+  const vector = [1, 0, 1]
+  const expectedResult = 0.7853981633974483
+
+  expect(v.angle(vector)).toBe(expectedResult)
+})
+
 test('it should multiply a vector with a scalar (aka times)', () => {
   const scalar = 4
   const vector = [1, 2, 3]
@@ -80,6 +101,14 @@ test('it should compute the cross product between two vectors (aka vectorProduct
   const expectedResult = [-3, 6, -3]
 
   expect(v.crossProduct(vector1, vector2)).toStrictEqual(expectedResult)
+})
+
+test('it should apply the mod operator (aka remainder) on a vector', () => {
+  const vector = [10, 12, 18]
+  const divisor = 12
+  const expectedResult = [10, 0, 6]
+
+  expect(v.mod(vector, divisor)).toStrictEqual(expectedResult)
 })
 
 test('it should shift a vector at a certain index', () => {

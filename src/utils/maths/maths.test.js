@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 
-import * as m from './maths'
+import * as m from '.'
 
 test('it should sum two numbers together', () => {
   const num1 = 2

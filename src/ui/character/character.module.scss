@@ -1,0 +1,18 @@
+.character {
+  width: 20px;
+  height: 20px;
+  border: 1px solid grey;
+  border-radius: 50%;
+  position: absolute;
+  top: var(--z);
+  left: var(--x);
+  transform: translate(-50%, -50%) rotate(var(--angle));
+
+  &::before {
+    content: '🞁';
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(50%, -50%) rotate(90deg);
+  }
+}

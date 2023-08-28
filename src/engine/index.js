@@ -1,5 +1,5 @@
-import { createStore } from './store'
 import gameLoops from './game-loops'
+import { createStore } from './store'
 
 const ONE_FPS = 1
 const ONE_MILLISECOND = 1
@@ -19,16 +19,20 @@ const engine = {
     gameLoops[strategy](this, msPerFrame)
   },
 
-  getState() {
-    return this.store.getState()
-  },
-
   update(elapsed) {
     this.store.update(elapsed)
   },
 
+  getConfig() {
+    return this.config
+  },
+
   getStore() {
     return this.store
+  },
+
+  getState() {
+    return this.store.getState()
   },
 }
 

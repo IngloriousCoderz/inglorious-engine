@@ -1,5 +1,5 @@
 import { processInput, update, render } from './methods'
-import * as time from '../helpers/time'
+import * as time from '../utils/time'
 
 // @see https://gameprogrammingpatterns.com/game-loop.html
 

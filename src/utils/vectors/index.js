@@ -1,6 +1,12 @@
-import * as maths from './maths'
+import * as maths from '../maths'
 
 export const add = sum
+
+export function conjugate(vector) {
+  return vector.map((coordinate, index) =>
+    index === 0 ? coordinate : -coordinate
+  )
+}
 
 export function sum(...vectors) {
   return vectors.reduce(sumCoordinates)
@@ -14,6 +20,10 @@ export const length = magnitude
 
 export function magnitude(vector) {
   return maths.hypothenuse(...vector)
+}
+
+export function angle(vector) {
+  return maths.arctan(vector[vector.length - 1], vector[0])
 }
 
 export const times = multiply
@@ -35,6 +45,12 @@ export function crossProduct(...vectors) {
   return vectors.reduce(crossMultiplyCoordinates)
 }
 
+export const remainder = mod
+
+export function mod(vector, divisor) {
+  return vector.map((coordinate) => coordinate % divisor)
+}
+
 export function shift(vector, index) {
   return [...vector.slice(index), ...vector.slice(0, index)]
 }
@@ -44,13 +60,13 @@ export function toCartesian([magnitude, angle]) {
 }
 
 export function toPolar(vector) {
-  return [maths.hypothenuse(...vector), maths.arctan(vector[1] / vector[0])]
+  return [magnitude(vector), angle(vector)]
 }
 
 export function toCylindrical(vector) {
   const radius = magnitude(vector)
-  const angle = maths.arctan(vector[0] / vector[1])
-  return [radius * maths.cosine(angle), radius * maths.sine(angle), vector[2]]
+  const theta = angle(vector)
+  return [radius * maths.cosine(theta), radius * maths.sine(theta), vector[2]]
 }
 
 // TODO: add toSpherical(vector), as described in https://www.cs.mcgill.ca/~rwest/wikispeedia/wpcd/wp/p/Polar_coordinate_system.htm#:~:text=Polar%20coordinates%20can%20also%20be,as%20in%20the%20polar%20coordinates).

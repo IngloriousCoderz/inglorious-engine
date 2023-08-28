@@ -1,3 +1,15 @@
+export function clamp(num, min, max) {
+  if (num < min) {
+    return min
+  }
+
+  if (num > max) {
+    return max
+  }
+
+  return num
+}
+
 export function sum(num1, num2) {
   return num1 + num2
 }
@@ -16,8 +28,8 @@ export function cosine(angle) {
   return Math.cos(angle)
 }
 
-export function arctan(angle) {
-  return Math.atan(angle)
+export function arctan(y, x) {
+  return Math.atan2(y, x)
 }
 
 export function toRadians(degrees) {

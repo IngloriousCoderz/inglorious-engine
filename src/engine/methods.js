@@ -1,4 +1,4 @@
-import * as time from '../helpers/time'
+import * as time from '../utils/time'
 
 const ONE_SECOND = 1
 const TO_MILLISECONDS = 1000
@@ -18,9 +18,9 @@ export async function render(engine, tick) {
   const { entities } = engine.getState()
   const canvas = document.querySelector('canvas')
 
-  // if (!canvas) {
-  //   return
-  // }
+  if (!canvas) {
+    return
+  }
 
   const ctx = canvas.getContext('2d')
 
@@ -29,7 +29,8 @@ export async function render(engine, tick) {
 
   entities.forEach((entity) => {
     ctx.fillStyle = 'white'
-    ctx.fillRect(entity.x, entity.y, 10, 10)
+    const [x, , z] = entity.position
+    ctx.fillRect(x, z, 10, 10)
   })
   // await time.sleep(ONE_SECOND * TO_MILLISECONDS - tick * TO_MILLISECONDS) // simulating some heavy rendering
   // console.log(counter, 'Hello world!')

@@ -1,0 +1,49 @@
+.cursor {
+  width: 1px;
+  height: 1px;
+  background-color: black;
+  position: absolute;
+  top: var(--z);
+  left: var(--x);
+  transform: translate(-8px, -8px);
+
+  .top,
+  .bottom,
+  .left,
+  .right {
+    background-color: black;
+    position: absolute;
+  }
+
+  .top,
+  .bottom {
+    width: 1px;
+    height: 4px;
+  }
+
+  .top {
+    bottom: 5px;
+    left: 0;
+  }
+
+  .bottom {
+    top: 5px;
+    left: 0;
+  }
+
+  .left,
+  .right {
+    width: 4px;
+    height: 1px;
+  }
+
+  .left {
+    top: 0;
+    right: 5px;
+  }
+
+  .right {
+    top: 0;
+    left: 5px;
+  }
+}

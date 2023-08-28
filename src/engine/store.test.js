@@ -11,11 +11,17 @@ test('it should add an event to the event queue', () => {
       },
     },
   }
-  const beforeState = { entities: [{ id: 'neko', type: 'kitty' }] }
+  const beforeState = {
+    entities: {
+      neko: { type: 'kitty' },
+    },
+  }
   const store = createStore({ handlers, state: beforeState })
   const afterState = {
     events: [event],
-    entities: [{ id: 'neko', type: 'kitty' }],
+    entities: {
+      neko: { type: 'kitty' },
+    },
   }
 
   store.notify(event)
@@ -40,14 +46,20 @@ test('it should process the event queue', () => {
   }
   const beforeState = {
     events: [event],
-    entities: [{ id: 'neko', type: 'kitty' }],
+    entities: {
+      neko: { type: 'kitty' },
+    },
   }
   const store = createStore({ handlers, state: beforeState })
   const afterState = {
     events: [],
-    entities: [
-      { id: 'neko', type: 'kitty', wasNotified: true, wasUpdated: true },
-    ],
+    entities: {
+      neko: {
+        type: 'kitty',
+        wasNotified: true,
+        wasUpdated: true,
+      },
+    },
   }
 
   store.update()
@@ -76,18 +88,28 @@ test('it should send an event from and entity', () => {
     },
   }
   const beforeState = {
-    entities: [
-      { id: 'neko', type: 'kitty', position: 'near' },
-      { id: 'inu', type: 'doge' },
-    ],
+    entities: {
+      neko: {
+        type: 'kitty',
+        position: 'near',
+      },
+      inu: {
+        type: 'doge',
+      },
+    },
   }
   const store = createStore({ handlers, state: beforeState })
   const afterState = {
     events: [event],
-    entities: [
-      { id: 'neko', type: 'kitty', position: 'near' },
-      { id: 'inu', type: 'doge' },
-    ],
+    entities: {
+      neko: {
+        type: 'kitty',
+        position: 'near',
+      },
+      inu: {
+        type: 'doge',
+      },
+    },
   }
 
   store.update()
@@ -120,18 +142,28 @@ test('it should receive an event from an entity', () => {
   }
   const beforeState = {
     events: [event],
-    entities: [
-      { id: 'neko', type: 'kitty', position: 'near' },
-      { id: 'inu', type: 'doge' },
-    ],
+    entities: {
+      neko: {
+        type: 'kitty',
+        position: 'near',
+      },
+      inu: {
+        type: 'doge',
+      },
+    },
   }
   const store = createStore({ handlers, state: beforeState })
   const afterState = {
     events: [],
-    entities: [
-      { id: 'neko', type: 'kitty', position: 'far' },
-      { id: 'inu', type: 'doge' },
-    ],
+    entities: {
+      neko: {
+        type: 'kitty',
+        position: 'far',
+      },
+      inu: {
+        type: 'doge',
+      },
+    },
   }
 
   store.update()
@@ -148,11 +180,22 @@ test('it should mutate state in an immutable way', () => {
       },
     },
   }
-  const beforeState = { entities: [{ id: 'neko', type: 'kitty' }] }
+  const beforeState = {
+    entities: {
+      neko: {
+        type: 'kitty',
+      },
+    },
+  }
   const store = createStore({ handlers, state: beforeState })
   const afterState = {
     events: [],
-    entities: [{ id: 'neko', type: 'kitty', wasUpdated: true }],
+    entities: {
+      neko: {
+        type: 'kitty',
+        wasUpdated: true,
+      },
+    },
   }
 
   store.update()
