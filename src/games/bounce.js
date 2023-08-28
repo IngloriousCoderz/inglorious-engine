@@ -7,7 +7,7 @@ const config = {
   handlers: {
     kitty: {
       'game:update'(entity) {
-        const [width, height] = engine.getConfig().dimensions
+        const [width, height] = engine.config.dimensions
 
         if (entity.position[0] < 0 || entity.position[0] >= width) {
           entity.velocity[0] = -entity.velocity[0]
@@ -33,7 +33,4 @@ const config = {
   },
 }
 
-engine.load(config)
-engine.start('nap') // TODO: retrieve from config
-
-export default engine
+export default config

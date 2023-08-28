@@ -7,9 +7,9 @@ const TO_SECONDS = 1000
 
 const engine = {
   load(gameConfig) {
-    this.config = gameConfig
-    const { handlers, state } = this.config
-    this.store = createStore({ handlers, state })
+    const { handlers, state, ...rest } = gameConfig
+    this._config = rest
+    this._store = createStore({ handlers, state })
   },
 
   start(strategy) {
@@ -23,12 +23,12 @@ const engine = {
     this.store.update(elapsed)
   },
 
-  getConfig() {
-    return this.config
+  get config() {
+    return this._config
   },
 
-  getStore() {
-    return this.store
+  get store() {
+    return this._store
   },
 
   getState() {

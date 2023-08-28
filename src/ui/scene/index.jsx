@@ -6,7 +6,7 @@ import engine from '../../engine'
 import classes from './scene.module.scss'
 
 export default function Scene({ children }) {
-  const [width, height] = engine.getConfig().dimensions
+  const [width, height] = engine.config.dimensions
 
   const dispatch = useDispatch()
 

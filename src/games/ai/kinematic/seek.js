@@ -1,6 +1,6 @@
-import flee from '../ai/movement/kinematic/flee'
-import engine from '../engine'
-import * as maths from '../utils/maths'
+import seek from '../../../ai/movement/kinematic/seek'
+import engine from '../../../engine'
+import * as maths from '../../../utils/maths'
 
 const config = {
   fps: 30,
@@ -13,10 +13,10 @@ const config = {
     },
     kitty: {
       'game:update'(entity) {
-        const [width, height] = engine.getConfig().dimensions
+        const [width, height] = engine.config.dimensions
 
         const target = engine.getState().entities.cursor
-        entity = { ...entity, ...flee(entity, target) }
+        entity = { ...entity, ...seek(entity, target) }
         entity.position[0] = maths.clamp(entity.position[0], 0, width)
         entity.position[2] = maths.clamp(entity.position[2], 0, height)
         return entity
@@ -39,7 +39,4 @@ const config = {
   },
 }
 
-engine.load(config)
-engine.start('nap') // TODO: retrieve from config
-
-export default engine
+export default config
