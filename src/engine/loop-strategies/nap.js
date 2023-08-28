@@ -1,8 +1,6 @@
 import { processInput, render, update } from '../methods'
 
-const MS_PER_UPDATE = 33.3
-
-export default async function loop(engine) {
+export default async function loop(engine, msPerUpdate) {
   const { shouldQuit } = engine.getState()
 
   let previousTime = Date.now()
@@ -16,7 +14,7 @@ export default async function loop(engine) {
     render(engine)
 
     previousTime = currentTime
-    await sleep(Date.now() - currentTime + MS_PER_UPDATE)
+    await sleep(Date.now() - currentTime + msPerUpdate)
   }
 }
 

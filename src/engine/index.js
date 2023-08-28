@@ -1,9 +1,8 @@
 import loopStrategies from './loop-strategies'
 import { createStore } from './store'
 
-const ONE_FPS = 1
-const ONE_MILLISECOND = 1
-const TO_SECONDS = 1000
+const DEFAULT_FPS = 60
+const ONE_SECOND = 1000
 
 const engine = {
   load(gameConfig) {
@@ -12,11 +11,16 @@ const engine = {
     this._store = createStore({ handlers, state })
   },
 
-  start(strategy) {
-    const fps = this.config.fps || ONE_FPS
-    const msPerFrame = (ONE_MILLISECOND * TO_SECONDS) / fps
+  start() {
+    const { type = 'animationFrame', fps = DEFAULT_FPS } =
+      this.config.loop || {}
+    const msPerFrame = ONE_SECOND / fps
 
-    loopStrategies[strategy](this, msPerFrame)
+    loopStrategies[type](this, msPerFrame)
+  },
+
+  stop() {
+    this.getState().shouldQuit = true
   },
 
   update(elapsed) {

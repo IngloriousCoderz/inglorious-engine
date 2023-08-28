@@ -1,3 +1,4 @@
+import animationFrame from './animation-frame'
 import elapsed from './elapsed'
 import flash from './flash'
 import lag from './lag'
@@ -10,4 +11,5 @@ export default {
   nap,
   elapsed,
   lag,
+  animationFrame,
 }

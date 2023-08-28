@@ -1,5 +1,7 @@
 import * as vectors from '../../../utils/vectors'
 
+const MILLISECONDS_IN_A_SECOND = 1000
+
 export default function seek(character, target, { elapsed }) {
   let velocity = vectors.subtract(target.position, character.position)
 
@@ -9,7 +11,7 @@ export default function seek(character, target, { elapsed }) {
 
   velocity = vectors.normalize(velocity)
   velocity = vectors.multiply(character.speed, velocity)
-  velocity = vectors.multiply(elapsed / 1000, velocity)
+  velocity = vectors.multiply(elapsed / MILLISECONDS_IN_A_SECOND, velocity)
 
   const position = vectors.sum(character.position, velocity)
   const orientation = vectors.angle(velocity)

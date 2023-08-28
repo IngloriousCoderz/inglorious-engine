@@ -4,8 +4,12 @@ import * as vectors from '../utils/vectors'
 const config = {
   fps: 30,
   dimensions: [800, 600],
-  loopStrategy: 'nap',
   handlers: {
+    elapsed: {
+      'game:update'(entity, _, { elapsed }) {
+        entity.value = elapsed
+      },
+    },
     kitty: {
       'game:update'(entity) {
         const [width, height] = engine.config.dimensions
@@ -24,10 +28,14 @@ const config = {
   },
   state: {
     entities: {
+      elapsed: {
+        type: 'elapsed',
+        value: 0,
+      },
       neko: {
         type: 'kitty',
         position: [0, 0, 0],
-        velocity: [2, 0, 1],
+        velocity: [10, 0, 5],
         orientation: 0,
       },
     },

@@ -1,11 +1,9 @@
-import seek from '../../../ai/movement/kinematic/seek'
-import engine from '../../../engine'
-import * as maths from '../../../utils/maths'
+import seek from '../../../../ai/movement/kinematic/seek'
+import engine from '../../../../engine'
+import * as maths from '../../../../utils/maths'
 
 const config = {
-  fps: 30,
   dimensions: [800, 600],
-  loopStrategy: 'nap',
   handlers: {
     elapsed: {
       'game:update'(entity, _, { elapsed }) {

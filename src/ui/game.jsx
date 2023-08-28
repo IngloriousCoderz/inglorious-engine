@@ -16,8 +16,10 @@ export default function Game({ config }) {
   const [isReady, setReady] = useState(false)
   useEffect(() => {
     engine.load(config)
-    engine.start(config.loopStrategy)
+    engine.start()
     setReady(true)
+
+    return () => engine.stop()
   }, [config])
 
   if (!isReady) {

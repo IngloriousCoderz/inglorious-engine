@@ -1,8 +1,6 @@
 import { processInput, render, update } from '../methods'
 
-const MS_PER_UPDATE = 33.3
-
-export default async function loop(engine) {
+export default async function loop(engine, msPerUpdate) {
   const { shouldQuit } = engine.getState()
 
   let previousTime = Date.now()
@@ -16,12 +14,12 @@ export default async function loop(engine) {
 
     processInput()
 
-    while (lag >= MS_PER_UPDATE) {
+    while (lag >= msPerUpdate) {
       update(engine, elapsed)
-      lag -= MS_PER_UPDATE
+      lag -= msPerUpdate
     }
 
-    const normalizedLag = lag / MS_PER_UPDATE
+    const normalizedLag = lag / msPerUpdate
     render(engine, normalizedLag)
   }
 }
