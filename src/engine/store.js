@@ -55,7 +55,7 @@ export function createStore({ handlers, state: initialState }) {
   function remove(id) {
     state = {
       ...state,
-      entities: state.entities.filter((entity) => entity.id === id),
+      entities: { ...state.entries, [id]: undefined },
     }
   }
 

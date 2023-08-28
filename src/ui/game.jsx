@@ -16,7 +16,7 @@ export default function Game({ config }) {
   const [isReady, setReady] = useState(false)
   useEffect(() => {
     engine.load(config)
-    engine.start('nap') // TODO: put in config
+    engine.start(config.loopStrategy)
     setReady(true)
   }, [config])
 

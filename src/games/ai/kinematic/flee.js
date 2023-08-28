@@ -5,6 +5,7 @@ import * as maths from '../../../utils/maths'
 const config = {
   fps: 30,
   dimensions: [800, 600],
+  loopStrategy: 'nap',
   handlers: {
     cursor: {
       'mouse:move'(entity, { payload }) {

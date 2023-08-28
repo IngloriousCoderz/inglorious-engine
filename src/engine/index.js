@@ -1,4 +1,4 @@
-import gameLoops from './game-loops'
+import loopStrategies from './loop-strategies'
 import { createStore } from './store'
 
 const ONE_FPS = 1
@@ -16,7 +16,7 @@ const engine = {
     const fps = this.config.fps || ONE_FPS
     const msPerFrame = (ONE_MILLISECOND * TO_SECONDS) / fps
 
-    gameLoops[strategy](this, msPerFrame)
+    loopStrategies[strategy](this, msPerFrame)
   },
 
   update(elapsed) {

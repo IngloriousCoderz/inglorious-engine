@@ -4,6 +4,7 @@ import * as vectors from '../utils/vectors'
 const config = {
   fps: 30,
   dimensions: [800, 600],
+  loopStrategy: 'nap',
   handlers: {
     kitty: {
       'game:update'(entity) {

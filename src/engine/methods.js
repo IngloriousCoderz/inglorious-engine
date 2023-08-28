@@ -1,20 +1,13 @@
-import * as time from '../utils/time'
-
-const ONE_SECOND = 1
-const TO_MILLISECONDS = 1000
-
-let counter = 1
-
 export function processInput() {
   // TODO: implement this function
 }
 
-export async function update(engine, elapsed) {
-  // await time.sleep(ONE_SECOND * TO_MILLISECONDS - elapsed) // simulating some heavy calculation
+export function update(engine, elapsed) {
   engine.update(elapsed)
 }
 
-export async function render(engine, tick) {
+export function render(engine, lag) {
+  // TODO: implement this function for real
   const { entities } = engine.getState()
   const canvas = document.querySelector('canvas')
 
@@ -32,8 +25,4 @@ export async function render(engine, tick) {
     const [x, , z] = entity.position
     ctx.fillRect(x, z, 10, 10)
   })
-  // await time.sleep(ONE_SECOND * TO_MILLISECONDS - tick * TO_MILLISECONDS) // simulating some heavy rendering
-  // console.log(counter, 'Hello world!')
-  // counter++
-  // TODO: implement this function
 }
