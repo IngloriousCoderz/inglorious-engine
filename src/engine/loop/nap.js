@@ -2,12 +2,12 @@ import { processInput, render, update } from '../methods'
 
 const ONE_SECOND = 1000
 
-export default async function loop(engine, msPerUpdate) {
-  const { shouldQuit } = engine.getState()
+let shouldStop = false
 
+export async function loop(engine, msPerUpdate) {
   let previousTime = Date.now()
 
-  while (!shouldQuit) {
+  while (!shouldStop) {
     const currentTime = Date.now()
     const elapsed = currentTime - previousTime
 
@@ -18,6 +18,10 @@ export default async function loop(engine, msPerUpdate) {
     previousTime = currentTime
     await sleep(Date.now() - currentTime + msPerUpdate)
   }
+}
+
+export function stop() {
+  shouldStop = true
 }
 
 function sleep(ms) {

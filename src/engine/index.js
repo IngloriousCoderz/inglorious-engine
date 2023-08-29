@@ -4,23 +4,25 @@ import { createStore } from './store'
 const DEFAULT_FPS = 60
 const ONE_SECOND = 1000
 
+const DEFAULT_LOOP = { type: 'animationFrame', fps: DEFAULT_FPS }
+
 const engine = {
-  load(gameConfig) {
-    const { handlers, state, ...rest } = gameConfig
-    this._config = rest
-    this._store = createStore({ handlers, state })
+  load(game) {
+    const { types, state, ...rest } = game
+    this._config = { loop: DEFAULT_LOOP, ...rest }
+    this._store = createStore({ types, state })
   },
 
   start() {
-    const { type = 'animationFrame', fps = DEFAULT_FPS } =
-      this.config.loop || {}
+    const { type, fps } = this.config.loop
     const msPerFrame = ONE_SECOND / fps
 
-    loop[type](this, msPerFrame)
+    loop[type].start(this, msPerFrame)
   },
 
   stop() {
-    this.getState().shouldQuit = true
+    const { type } = this.config.loop
+    loop[type].stop()
   },
 
   update(elapsed) {

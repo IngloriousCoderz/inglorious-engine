@@ -5,8 +5,13 @@ const ONE_SECOND = 1000
 let id = null
 let previousTime = new Date()
 
-export default function loop(engine) {
+export function start(engine) {
   tick(engine)
+}
+
+export function stop() {
+  window.cancelAnimationFrame(id)
+  id = null
 }
 
 function tick(engine) {
@@ -19,14 +24,4 @@ function tick(engine) {
   render(engine)
 
   previousTime = currentTime
-
-  const { shouldQuit } = engine.getState()
-  if (shouldQuit) {
-    stop()
-  }
-}
-
-function stop() {
-  window.cancelAnimationFrame(id)
-  id = null
 }

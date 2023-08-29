@@ -2,9 +2,9 @@ import flee from '../../../../ai/movement/kinematic/flee'
 import engine from '../../../../engine'
 import * as vectors from '../../../../utils/vectors'
 
-const config = {
+export default {
   dimensions: [800, 600],
-  handlers: {
+  types: {
     elapsed: {
       'game:update'(entity, _, { elapsed }) {
         entity.value = elapsed
@@ -12,12 +12,19 @@ const config = {
     },
     cursor: {
       'mouse:move'(entity, { payload }) {
-        entity.position = payload
+        entity.position = vectors.subtract(payload, [16, 0, 16])
+
+        const [width, height] = engine.config.dimensions
+        entity.position = vectors.clamp(
+          entity.position,
+          [0, 0, 0],
+          [width, 0, height]
+        )
       },
     },
     kitty: {
       'game:update'(entity, _, options) {
-        const target = engine.getState().entities.cursor
+        const target = engine.getState().instances.cursor
         entity = { ...entity, ...flee(entity, target, options) }
 
         const [width, height] = engine.config.dimensions
@@ -32,7 +39,7 @@ const config = {
     },
   },
   state: {
-    entities: {
+    instances: {
       elapsed: {
         type: 'elapsed',
         value: 0,
@@ -50,5 +57,3 @@ const config = {
     },
   },
 }
-
-export default config

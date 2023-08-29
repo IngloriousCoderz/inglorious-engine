@@ -28,5 +28,5 @@ export default function arrive(
   const position = sum(character.position, velocity)
   const orientation = angle(velocity)
 
-  return { position, velocity, orientation }
+  return { velocity, position, orientation }
 }

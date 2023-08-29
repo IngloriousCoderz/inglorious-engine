@@ -2,12 +2,12 @@ import { processInput, render, update } from '../methods'
 
 const ONE_SECOND = 1000
 
-export default async function loop(engine) {
-  const { shouldQuit } = engine.getState()
+let shouldStop = false
 
+export async function start(engine) {
   let previousTime = Date.now()
 
-  while (!shouldQuit) {
+  while (!shouldStop) {
     const currentTime = Date.now()
     const elapsed = currentTime - previousTime
 
@@ -17,4 +17,8 @@ export default async function loop(engine) {
 
     previousTime = currentTime
   }
+}
+
+export function stop() {
+  shouldStop = true
 }

@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux'
 const ONE_SECOND = 1
 
 export default function Debug({ id }) {
-  const elapsed = useSelector((state) => state.entities.elapsed)
-  const entity = useSelector((state) => state.entities[id])
+  const elapsed = useSelector((state) => state.instances.elapsed)
+  const entity = useSelector((state) => state.instances[id])
 
   return (
     <div>

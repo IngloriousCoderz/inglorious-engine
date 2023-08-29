@@ -1,19 +1,26 @@
 import produce from 'immer'
 
-const DEFAULT_STATE = { events: [], entities: [] }
+const DEFAULT_STATE = { events: [], instances: {} }
 
-export function createStore({ handlers, state: initialState }) {
+export function createStore({ types = {}, state: initialState }) {
   const listeners = new Set()
   let incomingEvents = []
   let state = { ...DEFAULT_STATE, ...initialState }
 
-  Object.values(handlers).forEach((handlers) =>
-    Object.keys(handlers).forEach(
-      (event) => (handlers[event] = produce(handlers[event]))
-    )
+  Object.values(types).forEach((events) =>
+    Object.keys(events).forEach((id) => {
+      events[id] = produce(events[id])
+    })
   )
 
-  return { subscribe, update, remove, notify, dispatch: notify, getState }
+  return {
+    subscribe,
+    update,
+    remove,
+    notify,
+    dispatch: notify,
+    getState,
+  }
 
   function subscribe(listener) {
     listeners.add(listener)
@@ -31,13 +38,18 @@ export function createStore({ handlers, state: initialState }) {
 
     while (state.events.length) {
       const [event, ...rest] = state.events
+
+      if (event.id === 'engine:stop') {
+        state = { ...state, shouldQuit: true }
+      }
+
       const handleEvent = createHandleEvent(event, { elapsed, notify })
 
       state = {
         ...state,
         events: rest,
-        entities: Object.keys(state.entities).reduce((acc, id) => {
-          acc[id] = handleEvent(state.entities[id])
+        instances: Object.keys(state.instances).reduce((acc, id) => {
+          acc[id] = handleEvent(state.instances[id])
           return acc
         }, {}),
       }
@@ -55,7 +67,7 @@ export function createStore({ handlers, state: initialState }) {
   function remove(id) {
     state = {
       ...state,
-      entities: { ...state.entries, [id]: undefined },
+      instances: { ...state.entries, [id]: undefined },
     }
   }
 
@@ -68,9 +80,9 @@ export function createStore({ handlers, state: initialState }) {
   }
 
   function createHandleEvent(event, options) {
-    return (entity) => {
-      const handle = handlers[entity.type][event.id]
-      return (handle && handle(entity, event, options)) || entity
+    return (instance) => {
+      const handle = types[instance.type][event.id]
+      return (handle && handle(instance, event, options)) || instance
     }
   }
 }

@@ -4,22 +4,22 @@ import { createStore } from './store'
 
 test('it should add an event to the event queue', () => {
   const event = { id: 'something:happened' }
-  const handlers = {
+  const types = {
     kitty: {
-      [event.id](entity) {
-        return { ...entity, wasNotified: true }
+      [event.id](instance) {
+        return { ...instance, wasNotified: true }
       },
     },
   }
   const beforeState = {
-    entities: {
+    instances: {
       neko: { type: 'kitty' },
     },
   }
-  const store = createStore({ handlers, state: beforeState })
+  const store = createStore({ types, state: beforeState })
   const afterState = {
     events: [event],
-    entities: {
+    instances: {
       neko: { type: 'kitty' },
     },
   }
@@ -33,27 +33,27 @@ test('it should add an event to the event queue', () => {
 
 test('it should process the event queue', () => {
   const event = { id: 'something:happened' }
-  const handlers = {
+  const types = {
     kitty: {
-      'game:update'(entity) {
-        return { ...entity, wasUpdated: true }
+      'game:update'(instance) {
+        return { ...instance, wasUpdated: true }
       },
 
-      [event.id](entity) {
-        return { ...entity, wasNotified: true }
+      [event.id](instance) {
+        return { ...instance, wasNotified: true }
       },
     },
   }
   const beforeState = {
     events: [event],
-    entities: {
+    instances: {
       neko: { type: 'kitty' },
     },
   }
-  const store = createStore({ handlers, state: beforeState })
+  const store = createStore({ types, state: beforeState })
   const afterState = {
     events: [],
-    entities: {
+    instances: {
       neko: {
         type: 'kitty',
         wasNotified: true,
@@ -68,27 +68,27 @@ test('it should process the event queue', () => {
   expect(state).toEqual(afterState)
 })
 
-test('it should send an event from and entity', () => {
+test('it should send an event from and instance', () => {
   const event = {
     id: 'doge:message',
     payload: { id: 'inu', message: 'Woof!' },
   }
-  const handlers = {
+  const types = {
     doge: {
-      'game:update'(entity, _, { notify }) {
+      'game:update'(instance, _, { notify }) {
         notify(event)
-        return entity
+        return instance
       },
     },
     kitty: {
-      [event.id](entity) {
+      [event.id](instance) {
         // should do nothing at first
-        return entity
+        return instance
       },
     },
   }
   const beforeState = {
-    entities: {
+    instances: {
       neko: {
         type: 'kitty',
         position: 'near',
@@ -98,10 +98,10 @@ test('it should send an event from and entity', () => {
       },
     },
   }
-  const store = createStore({ handlers, state: beforeState })
+  const store = createStore({ types, state: beforeState })
   const afterState = {
     events: [event],
-    entities: {
+    instances: {
       neko: {
         type: 'kitty',
         position: 'near',
@@ -118,31 +118,31 @@ test('it should send an event from and entity', () => {
   expect(state).toEqual(afterState)
 })
 
-test('it should receive an event from an entity', () => {
+test('it should receive an event from an instance', () => {
   const event = {
     id: 'doge:message',
     payload: { id: 'inu', message: 'Woof!' },
   }
-  const handlers = {
+  const types = {
     doge: {
-      'game:update'(entity) {
+      'game:update'(instance) {
         // no need to send further messages
-        return entity
+        return instance
       },
     },
     kitty: {
-      [event.id](entity, { payload }) {
+      [event.id](instance, { payload }) {
         if (payload.id === 'inu' && payload.message === 'Woof!') {
-          return { ...entity, position: 'far' }
+          return { ...instance, position: 'far' }
         }
 
-        return entity
+        return instance
       },
     },
   }
   const beforeState = {
     events: [event],
-    entities: {
+    instances: {
       neko: {
         type: 'kitty',
         position: 'near',
@@ -152,10 +152,10 @@ test('it should receive an event from an entity', () => {
       },
     },
   }
-  const store = createStore({ handlers, state: beforeState })
+  const store = createStore({ types, state: beforeState })
   const afterState = {
     events: [],
-    entities: {
+    instances: {
       neko: {
         type: 'kitty',
         position: 'far',
@@ -173,24 +173,24 @@ test('it should receive an event from an entity', () => {
 })
 
 test('it should mutate state in an immutable way', () => {
-  const handlers = {
+  const types = {
     kitty: {
-      'game:update'(entity) {
-        entity.wasUpdated = true
+      'game:update'(instance) {
+        instance.wasUpdated = true
       },
     },
   }
   const beforeState = {
-    entities: {
+    instances: {
       neko: {
         type: 'kitty',
       },
     },
   }
-  const store = createStore({ handlers, state: beforeState })
+  const store = createStore({ types, state: beforeState })
   const afterState = {
     events: [],
-    entities: {
+    instances: {
       neko: {
         type: 'kitty',
         wasUpdated: true,

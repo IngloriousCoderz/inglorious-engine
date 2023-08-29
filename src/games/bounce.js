@@ -1,10 +1,10 @@
 import engine from '../engine'
 import * as vectors from '../utils/vectors'
 
-const config = {
+export default {
   fps: 30,
   dimensions: [800, 600],
-  handlers: {
+  types: {
     elapsed: {
       'game:update'(entity, _, { elapsed }) {
         entity.value = elapsed
@@ -27,7 +27,7 @@ const config = {
     },
   },
   state: {
-    entities: {
+    instances: {
       elapsed: {
         type: 'elapsed',
         value: 0,
@@ -41,5 +41,3 @@ const config = {
     },
   },
 }
-
-export default config
