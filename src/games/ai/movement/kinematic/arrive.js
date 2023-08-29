@@ -1,9 +1,10 @@
 import arrive from '../../../../ai/movement/kinematic/arrive'
 import engine from '../../../../engine'
+import { clampToBounds } from '../../../../utils/characters'
 import * as vectors from '../../../../utils/vectors'
 
 export default {
-  dimensions: [800, 600],
+  bounds: [0, 0, 800, 600],
   types: {
     elapsed: {
       'game:update'(instance, _, { elapsed }) {
@@ -14,12 +15,7 @@ export default {
       'mouse:move'(instance, { payload }) {
         instance.position = vectors.subtract(payload, [16, 0, 16])
 
-        const [width, height] = engine.config.dimensions
-        instance.position = vectors.clamp(
-          instance.position,
-          [0, 0, 0],
-          [width, 0, height]
-        )
+        clampToBounds(instance, engine.config.bounds)
       },
     },
     kitty: {
@@ -31,12 +27,7 @@ export default {
           ...arrive(instance, target, { ...options, ...arriveOptions }),
         }
 
-        const [width, height] = engine.config.dimensions
-        instance.position = vectors.clamp(
-          instance.position,
-          [0, 0, 0],
-          [width, 0, height]
-        )
+        clampToBounds(instance, engine.config.bounds)
 
         return instance
       },

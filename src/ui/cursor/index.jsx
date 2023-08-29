@@ -6,15 +6,15 @@ const X = 0
 const Z = 2
 
 export default function Cursor() {
-  const entity = useSelector((state) => state.instances.cursor)
+  const instance = useSelector((state) => state.instances.cursor)
 
   return (
-    entity && (
+    instance && (
       <div
         className={classes.cursor}
         style={{
-          '--x': `${entity.position[X]}px`,
-          '--z': `${entity.position[Z]}px`,
+          '--x': `${instance.position[X]}px`,
+          '--z': `${instance.position[Z]}px`,
         }}
       >
         <div className={classes.top} />

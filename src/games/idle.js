@@ -1,5 +1,5 @@
 export default {
-  dimensions: [800, 600],
+  bounds: [0, 0, 800, 600],
   // loop: { type: 'nap', fps: 10 },
   types: {
     elapsed: {

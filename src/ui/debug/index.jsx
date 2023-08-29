@@ -4,7 +4,7 @@ const ONE_SECOND = 1
 
 export default function Debug({ id }) {
   const elapsed = useSelector((state) => state.instances.elapsed)
-  const entity = useSelector((state) => state.instances[id])
+  const instance = useSelector((state) => state.instances[id])
 
   return (
     <div>
@@ -12,11 +12,11 @@ export default function Debug({ id }) {
       <br />
       Elapsed: {elapsed?.value ?? '-'}
       <br />
-      Position: {JSON.stringify(entity.position)}
+      Position: {JSON.stringify(instance.position)}
       <br />
-      Velocity: {JSON.stringify(entity.velocity)}
+      Velocity: {JSON.stringify(instance.velocity)}
       <br />
-      Orientation: {JSON.stringify(entity.orientation)}
+      Orientation: {JSON.stringify(instance.orientation)}
     </div>
   )
 }

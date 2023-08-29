@@ -1,8 +1,9 @@
 import wander from '../../../../ai/movement/kinematic/wander'
 import engine from '../../../../engine'
+import { flip } from '../../../../utils/characters'
 
 export default {
-  dimensions: [800, 600],
+  bounds: [0, 0, 800, 600],
   types: {
     elapsed: {
       'game:update'(instance, _, { elapsed }) {
@@ -13,12 +14,7 @@ export default {
       'game:update'(instance, _, options) {
         Object.assign(instance, wander(instance, options))
 
-        const [width] = engine.config.dimensions
-        if (instance.position[0] < 0) {
-          instance.direction = [1, 0, 0]
-        } else if (instance.position[0] >= width) {
-          instance.direction = [-1, 0, 0]
-        }
+        flip(instance, engine.config.bounds)
       },
     },
   },
