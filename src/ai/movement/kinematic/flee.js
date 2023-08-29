@@ -15,7 +15,7 @@ export default function flee(character, target, { elapsed }) {
   }
 
   velocity = normalize(velocity)
-  velocity = multiply(velocity, character.speed * elapsed)
+  velocity = multiply(velocity, character.maxSpeed * elapsed)
 
   const position = sum(character.position, velocity)
   const orientation = angle(velocity)

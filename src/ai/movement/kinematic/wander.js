@@ -4,7 +4,7 @@ import { angle, multiply, rotate, sum } from '../../../utils/vectors'
 export default function wander(character, { elapsed }) {
   const rotation = randomBinomial() * character.maxRotation
 
-  let velocity = multiply(character.direction, character.speed * elapsed)
+  let velocity = multiply(character.direction, character.maxSpeed * elapsed)
   velocity = rotate(velocity, rotation)
 
   const position = sum(character.position, velocity)

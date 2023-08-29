@@ -30,7 +30,7 @@ export default {
       },
       neko: {
         type: 'kitty',
-        speed: 100,
+        maxSpeed: 500,
         maxRotation: Math.PI / 2,
         position: [0, 0, 300],
         direction: [1, 0, 0],

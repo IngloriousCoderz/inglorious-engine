@@ -23,7 +23,7 @@ export default function arrive(
   }
 
   velocity = divide(velocity, timeToTarget)
-  velocity = clamp(velocity, MIN_SPEED, character.speed * elapsed)
+  velocity = clamp(velocity, MIN_SPEED, character.maxSpeed * elapsed)
 
   const position = sum(character.position, velocity)
   const orientation = angle(velocity)

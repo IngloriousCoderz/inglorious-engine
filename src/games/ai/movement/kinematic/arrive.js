@@ -54,9 +54,8 @@ export default {
       },
       neko: {
         type: 'kitty',
-        speed: 500,
+        maxSpeed: 500,
         position: [400, 0, 300],
-        velocity: [0, 0, 0],
       },
     },
   },
