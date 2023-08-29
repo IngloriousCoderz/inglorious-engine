@@ -1,5 +1,3 @@
-import { processInput, render, update } from '../methods'
-
 const ONE_SECOND = 1000
 
 let shouldStop
@@ -15,15 +13,15 @@ export async function start(engine, msPerUpdate) {
     previousTime = currentTime
     lag += elapsed
 
-    processInput()
+    engine.processInput()
 
     while (lag >= msPerUpdate) {
-      update(engine, elapsed / ONE_SECOND)
+      engine.update(elapsed / ONE_SECOND)
       lag -= msPerUpdate
     }
 
     const normalizedLag = lag / msPerUpdate
-    render(engine, normalizedLag)
+    engine.render(engine, normalizedLag)
   }
 }
 

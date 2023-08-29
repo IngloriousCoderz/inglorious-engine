@@ -7,6 +7,20 @@ const ONE_SECOND = 1000
 const DEFAULT_LOOP = { type: 'animationFrame', fps: DEFAULT_FPS }
 
 const engine = {
+  get config() {
+    return this._config
+  },
+
+  get store() {
+    return this._store
+  },
+
+  getInstances(type) {
+    return this.store
+      ?.getState()
+      .instances.filter((instance) => instance.type === type)
+  },
+
   load(game) {
     const { types, state, ...rest } = game
     this._config = { loop: DEFAULT_LOOP, ...rest }
@@ -25,20 +39,16 @@ const engine = {
     loop[type].stop()
   },
 
+  processInput() {
+    // TODO: implement this function
+  },
+
   update(elapsed) {
     this.store.update(elapsed)
   },
 
-  get config() {
-    return this._config
-  },
-
-  get store() {
-    return this._store
-  },
-
-  getState() {
-    return this.store.getState()
+  render(msPerUpdate) {
+    // TODO: implement this function
   },
 }
 

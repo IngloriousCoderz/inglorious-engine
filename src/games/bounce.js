@@ -9,24 +9,24 @@ export default {
         instance.value = elapsed
       },
     },
-    kitty: {
+    character: {
       'game:update'(instance) {
         bounce(instance, engine.config.bounds)
       },
     },
   },
   state: {
-    instances: {
-      elapsed: {
+    instances: [
+      {
         type: 'elapsed',
         value: 0,
       },
-      neko: {
-        type: 'kitty',
+      {
+        type: 'character',
         position: [0, 0, 0],
         velocity: [10, 0, 5],
         orientation: 0,
       },
-    },
+    ],
   },
 }

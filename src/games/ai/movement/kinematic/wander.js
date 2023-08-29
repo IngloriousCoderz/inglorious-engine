@@ -10,7 +10,7 @@ export default {
         instance.value = elapsed
       },
     },
-    kitty: {
+    character: {
       'game:update'(instance, _, options) {
         Object.assign(instance, wander(instance, options))
 
@@ -19,18 +19,18 @@ export default {
     },
   },
   state: {
-    instances: {
-      elapsed: {
+    instances: [
+      {
         type: 'elapsed',
         value: 0,
       },
-      neko: {
-        type: 'kitty',
+      {
+        type: 'character',
         maxSpeed: 500,
         maxRotation: Math.PI / 2,
         position: [0, 0, 300],
         direction: [1, 0, 0],
       },
-    },
+    ],
   },
 }

@@ -1,10 +1,7 @@
-import { useSelector } from 'react-redux'
-
 import classes from './character.module.scss'
 
-export default function Character({ id }) {
-  const { position, orientation } = useSelector((state) => state.instances[id])
-
+export default function Character({ instance }) {
+  const { position, orientation } = instance
   const [x, , z] = position
 
   return (

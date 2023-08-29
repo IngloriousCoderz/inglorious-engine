@@ -8,22 +8,22 @@ export default {
       },
     },
     cursor: {},
-    kitty: {},
+    character: {},
   },
   state: {
-    instances: {
-      elapsed: {
+    instances: [
+      {
         type: 'elapsed',
         value: 0,
       },
-      cursor: {
+      {
         type: 'cursor',
         position: [0, 0, 0],
       },
-      neko: {
-        type: 'kitty',
+      {
+        type: 'character',
         position: [0, 0, 0],
       },
-    },
+    ],
   },
 }

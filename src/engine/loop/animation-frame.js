@@ -1,5 +1,3 @@
-import { processInput, render, update } from '../methods'
-
 const ONE_SECOND = 1000
 
 let id = null
@@ -19,9 +17,9 @@ function tick(engine) {
   id = window.requestAnimationFrame(() => tick(engine))
   const elapsed = currentTime - previousTime
 
-  processInput()
-  update(engine, elapsed / ONE_SECOND)
-  render(engine)
+  engine.processInput()
+  engine.update(elapsed / ONE_SECOND)
+  engine.render(engine)
 
   previousTime = currentTime
 }

@@ -1,8 +1,8 @@
-import { useEffect } from 'react'
-import { useState } from 'react'
-import { Provider } from 'react-redux'
+import { useEffect, useState } from 'react'
+import { Provider, useSelector } from 'react-redux'
 
 import engine from '../engine'
+import { selectInstances } from '../engine/store'
 import Character from './character'
 import Cursor from './cursor'
 import Debug from './debug'
@@ -12,7 +12,7 @@ if (import.meta.env.DEV) {
   window.store = engine.store
 }
 
-export default function Game({ config }) {
+export default function GameWrapper({ config }) {
   const [isReady, setReady] = useState(false)
   useEffect(() => {
     engine.load(config)
@@ -28,11 +28,23 @@ export default function Game({ config }) {
 
   return (
     <Provider store={engine.store}>
-      <Scene>
-        <Cursor />
-        <Debug id="neko" />
-        <Character id="neko" />
-      </Scene>
+      <Game />
     </Provider>
+  )
+}
+
+function Game() {
+  const [cursor] = useSelector((state) => selectInstances(state, 'cursor'))
+  const [elapsed] = useSelector((state) => selectInstances(state, 'elapsed'))
+  const characters = useSelector((state) => selectInstances(state, 'character'))
+
+  return (
+    <Scene>
+      {cursor && <Cursor instance={cursor} />}
+      {elapsed && <Debug instance={elapsed} />}
+      {characters.map((character, index) => (
+        <Character key={index} instance={character} />
+      ))}
+    </Scene>
   )
 }

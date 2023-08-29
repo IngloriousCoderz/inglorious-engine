@@ -18,9 +18,9 @@ export default {
         clampToBounds(instance, engine.config.bounds)
       },
     },
-    kitty: {
+    character: {
       'game:update'(instance, _, options) {
-        const target = engine.getState().instances.cursor
+        const [target] = engine.getInstances('cursor')
         instance = { ...instance, ...flee(instance, target, options) }
 
         clampToBounds(instance, engine.config.bounds)
@@ -30,20 +30,20 @@ export default {
     },
   },
   state: {
-    instances: {
-      elapsed: {
+    instances: [
+      {
         type: 'elapsed',
         value: 0,
       },
-      cursor: {
+      {
         type: 'cursor',
         position: [0, 0, 0],
       },
-      neko: {
-        type: 'kitty',
+      {
+        type: 'character',
         maxSpeed: 500,
         position: [400, 0, 300],
       },
-    },
+    ],
   },
 }

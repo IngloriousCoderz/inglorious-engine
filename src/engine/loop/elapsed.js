@@ -1,5 +1,3 @@
-import { processInput, render, update } from '../methods'
-
 const ONE_SECOND = 1000
 
 let shouldStop
@@ -12,9 +10,9 @@ export async function start(engine) {
     const currentTime = Date.now()
     const elapsed = currentTime - previousTime
 
-    processInput()
-    update(engine, elapsed / ONE_SECOND)
-    render(engine)
+    engine.processInput()
+    engine.update(elapsed / ONE_SECOND)
+    engine.render(engine)
 
     previousTime = currentTime
   }

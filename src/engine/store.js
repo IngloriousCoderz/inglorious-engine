@@ -1,6 +1,7 @@
 import produce from 'immer'
+import { createSelector } from 'reselect'
 
-const DEFAULT_STATE = { events: [], instances: {} }
+const DEFAULT_STATE = { events: [], instances: [] }
 
 export function createStore({ types = {}, state: initialState }) {
   const listeners = new Set()
@@ -39,19 +40,12 @@ export function createStore({ types = {}, state: initialState }) {
     while (state.events.length) {
       const [event, ...rest] = state.events
 
-      if (event.id === 'engine:stop') {
-        state = { ...state, shouldQuit: true }
-      }
-
       const handleEvent = createHandleEvent(event, { elapsed, notify })
 
       state = {
         ...state,
         events: rest,
-        instances: Object.keys(state.instances).reduce((acc, id) => {
-          acc[id] = handleEvent(state.instances[id])
-          return acc
-        }, {}),
+        instances: state.instances.map(handleEvent),
       }
     }
 
@@ -67,7 +61,7 @@ export function createStore({ types = {}, state: initialState }) {
   function remove(id) {
     state = {
       ...state,
-      instances: { ...state.entries, [id]: undefined },
+      instances: state.instances.filter((_, index) => index !== id),
     }
   }
 
@@ -86,3 +80,9 @@ export function createStore({ types = {}, state: initialState }) {
     }
   }
 }
+
+export const selectInstances = createSelector(
+  (state) => state.instances,
+  (_, type) => type,
+  (instances, type) => instances.filter((instance) => instance.type === type)
+)
