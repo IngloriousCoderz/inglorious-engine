@@ -24,3 +24,10 @@ test('it should convert an angle from degrees to radians', () => {
 
   expect(m.toRadians(angle)).toBe(expectedResult)
 })
+
+test('it should create a random number between - 1 and 1', () => {
+  const randomNumber = m.randomBinomial()
+
+  expect(randomNumber).toBeGreaterThan(-1)
+  expect(randomNumber).toBeLessThan(1)
+})

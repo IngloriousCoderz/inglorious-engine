@@ -2,6 +2,7 @@ import Game from '../../../../ui/game'
 import arrive from './arrive'
 import flee from './flee'
 import seek from './seek'
+import wander from './wander'
 
 export default {
   title: 'Games/AI/Movement/Kinematic',
@@ -17,4 +18,8 @@ export const Flee = {
 
 export const Arrive = {
   args: { config: arrive },
+}
+
+export const Wander = {
+  args: { config: wander },
 }

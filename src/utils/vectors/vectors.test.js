@@ -9,6 +9,22 @@ test('it should conjugate a vector', () => {
   expect(v.conjugate(vector)).toStrictEqual(expectedResult)
 })
 
+test('it should rotate a vector by a certain angle', () => {
+  const vector = [1, 0, 1]
+  const angle = 0.7853981633974483 // pi/4
+  const expectedResult = [8.659560562354934e-17, 0, 1.4142135623730951] // close to [0, 0, sqrt(2)]
+
+  expect(v.rotate(vector, angle)).toStrictEqual(expectedResult)
+})
+
+test('it should rotate a vector that faces left by a certain angle', () => {
+  const vector = [-1, 0, 0]
+  const angle = 0.7853981633974483 // pi/4
+  const expectedResult = [-0.7071067811865477, 0, -0.7071067811865475] // close to [-sqrt(2), 0, -sqrt(2)]
+
+  expect(v.rotate(vector, angle)).toStrictEqual(expectedResult)
+})
+
 test('it should sum two vectors (aka add)', () => {
   const vector1 = [1, 2, 3]
   const vector2 = [4, 5, 6]
@@ -54,6 +70,14 @@ test('it should compute the magnitude of a vector (synonim of length)', () => {
   expect(v.magnitude(vector)).toBe(expectedResult)
 })
 
+test('it should change magnitude of a vector (aka setLength)', () => {
+  const vector = [3, 4]
+  const magnitude = 10
+  const expectedResult = [6, 8]
+
+  expect(v.setMagnitude(vector, magnitude)).toStrictEqual(expectedResult)
+})
+
 test('it should compute the angle of a 2D vector', () => {
   const vector = [1, 1]
   const expectedResult = 0.7853981633974483
@@ -68,12 +92,11 @@ test('it should compute the angle of a 3D vector', () => {
   expect(v.angle(vector)).toBe(expectedResult)
 })
 
-test('it should change magnitude of a vector (aka setLength)', () => {
-  const vector = [3, 4]
-  const magnitude = 10
-  const expectedResult = [6, 8]
+test('it should create a 3D unit vector from an angle', () => {
+  const angle = 0.7853981633974483
+  const expectedResult = [0.7071067811865476, 0, 0.7071067811865475]
 
-  expect(v.setMagnitude(vector, magnitude)).toStrictEqual(expectedResult)
+  expect(v.fromAngle(angle)).toStrictEqual(expectedResult)
 })
 
 test('it should clamp the magnitude of a vector to a certain length if too long', () => {

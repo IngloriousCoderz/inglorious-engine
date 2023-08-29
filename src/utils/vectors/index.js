@@ -3,11 +3,19 @@ import * as maths from '../maths'
 const X = 0
 const Z = 2
 const LAST_COORDINATE = 1
+const UNIT_LENGTH = 1
+const NO_Y = 0
 
 export const add = sum
 
 export function conjugate(vector) {
   return vector.map((coordinate, index) => (index ? -coordinate : coordinate))
+}
+
+export function rotate(vector, angle) {
+  const [magnitude, fromAngle] = toPolar(vector)
+  const [x, z] = toCartesian([magnitude, fromAngle + angle])
+  return [x, NO_Y, z]
 }
 
 export function sum(...vectors) {
@@ -24,15 +32,20 @@ export function magnitude(vector) {
   return maths.hypothenuse(...vector)
 }
 
-export function angle(vector) {
-  return maths.arctan(vector[vector.length - LAST_COORDINATE], vector[X])
-}
-
 export const setLength = setMagnitude
 
 export function setMagnitude(vector, length) {
   const normalized = normalize(vector)
   return multiply(normalized, length)
+}
+
+export function angle(vector) {
+  return maths.arctan(vector[vector.length - LAST_COORDINATE], vector[X])
+}
+
+export function fromAngle(angle) {
+  const [x, z] = toCartesian([UNIT_LENGTH, angle])
+  return [x, NO_Y, z]
 }
 
 export function clamp(vector, min, max) {

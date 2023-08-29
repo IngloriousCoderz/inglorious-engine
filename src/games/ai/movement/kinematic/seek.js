@@ -6,35 +6,35 @@ export default {
   dimensions: [800, 600],
   types: {
     elapsed: {
-      'game:update'(entity, _, { elapsed }) {
-        entity.value = elapsed
+      'game:update'(instance, _, { elapsed }) {
+        instance.value = elapsed
       },
     },
     cursor: {
-      'mouse:move'(entity, { payload }) {
-        entity.position = vectors.subtract(payload, [16, 0, 16])
+      'mouse:move'(instance, { payload }) {
+        instance.position = vectors.subtract(payload, [16, 0, 16])
 
         const [width, height] = engine.config.dimensions
-        entity.position = vectors.clamp(
-          entity.position,
+        instance.position = vectors.clamp(
+          instance.position,
           [0, 0, 0],
           [width, 0, height]
         )
       },
     },
     kitty: {
-      'game:update'(entity, _, options) {
+      'game:update'(instance, _, options) {
         const target = engine.getState().instances.cursor
-        entity = { ...entity, ...seek(entity, target, options) }
+        instance = { ...instance, ...seek(instance, target, options) }
 
         const [width, height] = engine.config.dimensions
-        entity.position = vectors.clamp(
-          entity.position,
+        instance.position = vectors.clamp(
+          instance.position,
           [0, 0, 0],
           [width, 0, height]
         )
 
-        return entity
+        return instance
       },
     },
   },

@@ -28,7 +28,7 @@ test('it should add an event to the event queue', () => {
   store.update()
 
   const state = store.getState()
-  expect(state).toEqual(afterState)
+  expect(state).toStrictEqual(afterState)
 })
 
 test('it should process the event queue', () => {
@@ -65,7 +65,7 @@ test('it should process the event queue', () => {
   store.update()
 
   const state = store.getState()
-  expect(state).toEqual(afterState)
+  expect(state).toStrictEqual(afterState)
 })
 
 test('it should send an event from and instance', () => {
@@ -115,7 +115,7 @@ test('it should send an event from and instance', () => {
   store.update()
 
   const state = store.getState()
-  expect(state).toEqual(afterState)
+  expect(state).toStrictEqual(afterState)
 })
 
 test('it should receive an event from an instance', () => {
@@ -169,7 +169,7 @@ test('it should receive an event from an instance', () => {
   store.update()
 
   const state = store.getState()
-  expect(state).toEqual(afterState)
+  expect(state).toStrictEqual(afterState)
 })
 
 test('it should mutate state in an immutable way', () => {
@@ -201,6 +201,6 @@ test('it should mutate state in an immutable way', () => {
   store.update()
 
   const state = store.getState()
-  expect(state).toEqual(afterState)
+  expect(state).toStrictEqual(afterState)
   expect(state).not.toBe(beforeState)
 })
