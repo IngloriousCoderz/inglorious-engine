@@ -2,7 +2,6 @@ import engine from '../engine'
 import * as vectors from '../utils/vectors'
 
 export default {
-  fps: 30,
   dimensions: [800, 600],
   types: {
     elapsed: {

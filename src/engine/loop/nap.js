@@ -2,9 +2,10 @@ import { processInput, render, update } from '../methods'
 
 const ONE_SECOND = 1000
 
-let shouldStop = false
+let shouldStop
 
-export async function loop(engine, msPerUpdate) {
+export async function start(engine, msPerUpdate) {
+  shouldStop = false
   let previousTime = Date.now()
 
   while (!shouldStop) {

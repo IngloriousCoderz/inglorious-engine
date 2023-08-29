@@ -1,5 +1,4 @@
 export default {
-  fps: 30,
   dimensions: [800, 600],
   // loop: { type: 'nap', fps: 10 },
   types: {
