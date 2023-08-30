@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 
-import { createStore } from './store'
+import { createStore } from '.'
 
 test('it should add an event to the event queue', () => {
   const event = { id: 'something:happened' }
@@ -12,12 +12,17 @@ test('it should add an event to the event queue', () => {
     },
   }
   const beforeState = {
-    instances: [{ type: 'kitty' }],
+    instances: {
+      instance1: { type: 'kitty' },
+    },
   }
   const store = createStore({ types, state: beforeState })
   const afterState = {
     events: [event],
-    instances: [{ type: 'kitty' }],
+    instances: {
+      game: { type: 'game' },
+      instance1: { type: 'kitty' },
+    },
   }
 
   store.notify(event)
@@ -42,18 +47,21 @@ test('it should process the event queue', () => {
   }
   const beforeState = {
     events: [event],
-    instances: [{ type: 'kitty' }],
+    instances: {
+      instance1: { type: 'kitty' },
+    },
   }
   const store = createStore({ types, state: beforeState })
   const afterState = {
     events: [],
-    instances: [
-      {
+    instances: {
+      game: { type: 'game' },
+      instance1: {
         type: 'kitty',
         wasNotified: true,
         wasUpdated: true,
       },
-    ],
+    },
   }
 
   store.update()
@@ -82,28 +90,29 @@ test('it should send an event from and instance', () => {
     },
   }
   const beforeState = {
-    instances: [
-      {
+    instances: {
+      instance1: {
         type: 'kitty',
         position: 'near',
       },
-      {
+      instance2: {
         type: 'doge',
       },
-    ],
+    },
   }
   const store = createStore({ types, state: beforeState })
   const afterState = {
     events: [event],
-    instances: [
-      {
+    instances: {
+      game: { type: 'game' },
+      instance1: {
         type: 'kitty',
         position: 'near',
       },
-      {
+      instance2: {
         type: 'doge',
       },
-    ],
+    },
   }
 
   store.update()
@@ -136,28 +145,29 @@ test('it should receive an event from an instance', () => {
   }
   const beforeState = {
     events: [event],
-    instances: [
-      {
+    instances: {
+      instance1: {
         type: 'kitty',
         position: 'near',
       },
-      {
+      instance2: {
         type: 'doge',
       },
-    ],
+    },
   }
   const store = createStore({ types, state: beforeState })
   const afterState = {
     events: [],
-    instances: [
-      {
+    instances: {
+      game: { type: 'game' },
+      instance1: {
         type: 'kitty',
         position: 'far',
       },
-      {
+      instance2: {
         type: 'doge',
       },
-    ],
+    },
   }
 
   store.update()
@@ -175,21 +185,22 @@ test('it should mutate state in an immutable way', () => {
     },
   }
   const beforeState = {
-    instances: [
-      {
+    instances: {
+      instance1: {
         type: 'kitty',
       },
-    ],
+    },
   }
   const store = createStore({ types, state: beforeState })
   const afterState = {
     events: [],
-    instances: [
-      {
+    instances: {
+      game: { type: 'game' },
+      instance1: {
         type: 'kitty',
         wasUpdated: true,
       },
-    ],
+    },
   }
 
   store.update()

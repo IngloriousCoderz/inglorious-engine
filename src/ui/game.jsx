@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Provider, useSelector } from 'react-redux'
 
 import engine from '../engine'
-import { selectInstances } from '../engine/store'
+import Button from './button'
 import Character from './character'
 import Cursor from './cursor'
 import Debug from './debug'
@@ -33,18 +33,27 @@ export default function GameWrapper({ config }) {
   )
 }
 
+const Components = {
+  cursor: Cursor,
+  elapsed: Debug,
+  button: Button,
+  character: Character,
+}
+
 function Game() {
-  const [cursor] = useSelector((state) => selectInstances(state, 'cursor'))
-  const [elapsed] = useSelector((state) => selectInstances(state, 'elapsed'))
-  const characters = useSelector((state) => selectInstances(state, 'character'))
+  const instances = useSelector((state) => state.instances)
 
   return (
     <Scene>
-      {cursor && <Cursor instance={cursor} />}
-      {elapsed && <Debug instance={elapsed} />}
-      {characters.map((character, index) => (
-        <Character key={index} instance={character} />
-      ))}
+      {Object.entries(instances).map(([id, instance]) => {
+        const Component = Components[instance.type]
+
+        if (!Component) {
+          return null
+        }
+
+        return <Component key={id} id={id} instance={instance} />
+      })}
     </Scene>
   )
 }

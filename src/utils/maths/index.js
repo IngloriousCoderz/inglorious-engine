@@ -5,5 +5,5 @@ import * as t from './trigonometry'
 
 export const { hypothenuse, pythagoras } = g
 export const { clamp } = n
-export const { random, randomBinomial } = r
+export const { random, randomBinomial, randomRange } = r
 export const { arctan, cosine, pi, sine, toRadians } = t

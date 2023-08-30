@@ -34,20 +34,20 @@ export default {
     },
   },
   state: {
-    instances: [
-      {
+    instances: {
+      instance1: {
         type: 'elapsed',
         value: 0,
       },
-      {
+      instance2: {
         type: 'cursor',
         position: [0, 0, 0],
       },
-      {
+      instance3: {
         type: 'character',
         maxSpeed: 500,
         position: [400, 0, 300],
       },
-    ],
+    },
   },
 }

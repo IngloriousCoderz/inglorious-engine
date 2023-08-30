@@ -5,6 +5,7 @@ const DEFAULT_FPS = 60
 const ONE_SECOND = 1000
 
 const DEFAULT_LOOP = { type: 'animationFrame', fps: DEFAULT_FPS }
+const DEFAULT_GAME = {}
 
 const engine = {
   get config() {
@@ -16,9 +17,8 @@ const engine = {
   },
 
   getInstances(type) {
-    return this.store
-      ?.getState()
-      .instances.filter((instance) => instance.type === type)
+    const { instances } = this.store.getState()
+    return Object.values(instances).filter((instance) => instance.type === type)
   },
 
   load(game) {

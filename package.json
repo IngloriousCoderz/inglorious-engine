@@ -23,10 +23,10 @@
   "dependencies": {
     "axios": "^0.27.2",
     "immer": "^9.0.15",
+    "lodash.merge": "^4.6.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-redux": "^8.0.2",
-    "reselect": "^4.1.8"
+    "react-redux": "^8.0.2"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "7.3.2",
