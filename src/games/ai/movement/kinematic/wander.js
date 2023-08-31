@@ -26,7 +26,7 @@ export default {
       },
       instance2: {
         type: 'character',
-        maxSpeed: 500,
+        maxSpeed: 250,
         maxRotation: Math.PI / 4,
         position: [0, 0, 300],
         direction: [1, 0, 0],

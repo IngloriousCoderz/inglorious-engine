@@ -7,22 +7,27 @@ import {
   sum,
 } from '../../../utils/vectors'
 
-const DEFAULT_RADIUS = 0
-const DEFAULT_TIME_TO_TARGET = 1
+const DEFAULT_TARGET_RADIUS = 0
+const DEFAULT_TIME_TO_TARGET = 0.1
 const MIN_SPEED = 0
 
 export default function arrive(
   character,
   target,
-  { elapsed, radius = DEFAULT_RADIUS, timeToTarget = DEFAULT_TIME_TO_TARGET }
+  {
+    elapsed,
+    targetRadius = DEFAULT_TARGET_RADIUS,
+    timeToTarget = DEFAULT_TIME_TO_TARGET,
+  }
 ) {
-  let velocity = subtract(target.position, character.position)
+  const direction = subtract(target.position, character.position)
+  const distance = magnitude(direction)
 
-  if (magnitude(velocity) < radius) {
+  if (distance < targetRadius) {
     return character
   }
 
-  velocity = divide(velocity, timeToTarget)
+  let velocity = divide(direction, timeToTarget)
   velocity = clamp(velocity, MIN_SPEED, character.maxSpeed * elapsed)
 
   const position = sum(character.position, velocity)

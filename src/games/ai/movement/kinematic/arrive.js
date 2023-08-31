@@ -45,7 +45,7 @@ export default {
       },
       instance3: {
         type: 'character',
-        maxSpeed: 500,
+        maxSpeed: 250,
         position: [400, 0, 300],
       },
     },

@@ -1,21 +1,20 @@
 import {
   angle,
   magnitude,
-  multiply,
-  normalize,
+  setMagnitude,
   subtract,
   sum,
 } from '../../../utils/vectors'
 
 export default function seek(character, target, { elapsed }) {
-  let velocity = subtract(target.position, character.position)
+  const direction = subtract(target.position, character.position)
+  const distance = magnitude(direction)
 
-  if (!magnitude(velocity)) {
+  if (!distance) {
     return character
   }
 
-  velocity = normalize(velocity)
-  velocity = multiply(velocity, character.maxSpeed * elapsed)
+  const velocity = setMagnitude(direction, character.maxSpeed * elapsed)
 
   const position = sum(character.position, velocity)
   const orientation = angle(velocity)

@@ -10,6 +10,7 @@ export default {
 export const Idle = {
   args: { config: idle },
 }
+
 export const Bounce = {
   args: { config: bounce },
 }

@@ -1,4 +1,4 @@
-import flee from '../../../../ai/movement/kinematic/flee'
+import flee from '../../../../ai/movement/steering/flee'
 import engine from '../../../../engine'
 import { clampToBounds } from '../../../../utils/characters'
 import * as vectors from '../../../../utils/vectors'
@@ -41,7 +41,8 @@ export default {
       },
       instance3: {
         type: 'character',
-        maxSpeed: 250,
+        maxAcceleration: 10,
+        velocity: [0, 0, 0],
         position: [400, 0, 300],
       },
     },

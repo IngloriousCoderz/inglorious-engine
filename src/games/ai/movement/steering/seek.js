@@ -1,4 +1,4 @@
-import flee from '../../../../ai/movement/kinematic/flee'
+import seek from '../../../../ai/movement/steering/seek'
 import engine from '../../../../engine'
 import { clampToBounds } from '../../../../utils/characters'
 import * as vectors from '../../../../utils/vectors'
@@ -21,7 +21,7 @@ export default {
     character: {
       'game:update'(instance, _, options) {
         const [target] = engine.getInstances('cursor')
-        instance = { ...instance, ...flee(instance, target, options) }
+        instance = { ...instance, ...seek(instance, target, options) }
 
         clampToBounds(instance, engine.config.bounds)
 
@@ -41,7 +41,8 @@ export default {
       },
       instance3: {
         type: 'character',
-        maxSpeed: 250,
+        maxAcceleration: 10,
+        velocity: [0, 0, 0],
         position: [400, 0, 300],
       },
     },
