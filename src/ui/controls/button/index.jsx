@@ -2,20 +2,22 @@ import { useDispatch } from 'react-redux'
 
 import classes from './button.module.scss'
 
-export default function Button({ instance }) {
+export default function Button({ id, instance }) {
   const dispatch = useDispatch()
 
-  const [x, , z] = instance.position
+  const { position, label, ...rest } = instance
+  const [x, , z] = position
 
-  const handleClick = () => dispatch({ id: 'button:click' })
+  const handleClick = () => dispatch({ id: 'button:click', payload: { id } })
 
   return (
     <button
+      {...rest}
       onClick={handleClick}
       className={classes.button}
       style={{ '--x': `${x}px`, '--z': `${z}px` }}
     >
-      {instance.label}
+      {label}
     </button>
   )
 }

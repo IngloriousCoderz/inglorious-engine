@@ -5,7 +5,13 @@ export default {
   bounds: [0, 0, 800, 600],
   types: {
     game: {
-      'button:click'() {
+      'button:click'(_, event) {
+        const { id } = event.payload
+
+        if (id !== 'button') {
+          return
+        }
+
         const ids = Object.keys(engine.store.getState().instances).filter(
           (id) => id.startsWith('instance')
         )

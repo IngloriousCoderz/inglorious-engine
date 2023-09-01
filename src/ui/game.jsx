@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react'
 import { Provider, useSelector } from 'react-redux'
 
 import engine from '../engine'
-import Button from './button'
 import Character from './character'
+import Button from './controls/button'
+import Input from './controls/input'
+import Label from './controls/label'
 import Cursor from './cursor'
 import Debug from './debug'
 import Scene from './scene'
@@ -38,6 +40,8 @@ const Components = {
   elapsed: Debug,
   button: Button,
   character: Character,
+  input: Input,
+  label: Label,
 }
 
 function Game() {
