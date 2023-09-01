@@ -37,11 +37,11 @@ export default {
     },
     character: {
       'game:update'(instance, _, { instances, ...options }) {
-        const [target] = engine.getInstances('cursor')
+        const target = instances.cursor
 
-        const targetRadiusInput = instances['targetRadiusInput']
-        const slowRadiusInput = instances['slowRadiusInput']
-        const timeToTargetInput = instances['timeToTargetInput']
+        const targetRadiusInput = instances.targetRadiusInput
+        const slowRadiusInput = instances.slowRadiusInput
+        const timeToTargetInput = instances.timeToTargetInput
 
         instance = {
           ...instance,

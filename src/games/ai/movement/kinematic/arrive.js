@@ -19,8 +19,8 @@ export default {
       },
     },
     character: {
-      'game:update'(instance, _, options) {
-        const [target] = engine.getInstances('cursor')
+      'game:update'(instance, _, { instances, ...options }) {
+        const target = instances.cursor
         const arriveOptions = { radius: 8, timeToTarget: 10 }
         instance = {
           ...instance,
@@ -35,15 +35,15 @@ export default {
   },
   state: {
     instances: {
-      instance1: {
+      debug: {
         type: 'elapsed',
         value: 0,
       },
-      instance2: {
+      cursor: {
         type: 'cursor',
         position: [0, 0, 0],
       },
-      instance3: {
+      character: {
         type: 'character',
         maxSpeed: 250,
         position: [400, 0, 300],

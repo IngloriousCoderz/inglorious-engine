@@ -38,7 +38,7 @@ export default {
       ...Array(5)
         .fill(null)
         .reduce((acc, _, index) => {
-          acc[`instance${index + 1}`] = {
+          acc[`character${index + 1}`] = {
             type: 'character',
             position: [randomRange(0, 800), 0, randomRange(0, 600)],
             orientation: randomRange(0, 2 * Math.PI, 0.01),

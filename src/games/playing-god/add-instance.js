@@ -13,14 +13,14 @@ export default {
         }
 
         const ids = Object.keys(engine.store.getState().instances).filter(
-          (id) => id.startsWith('instance')
+          (id) => id.startsWith('character')
         )
 
         const maxId = ids.length
-          ? Number(ids[ids.length - 1].replace('instance', ''))
+          ? Number(ids[ids.length - 1].replace('character', ''))
           : 0
 
-        engine.store.add(`instance${maxId + 1}`, {
+        engine.store.add(`character${maxId + 1}`, {
           type: 'character',
           position: [randomRange(0, 800), 0, randomRange(0, 600)],
           orientation: randomRange(0, 2 * Math.PI, 0.01),

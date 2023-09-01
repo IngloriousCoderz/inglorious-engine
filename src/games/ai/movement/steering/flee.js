@@ -19,8 +19,8 @@ export default {
       },
     },
     character: {
-      'game:update'(instance, _, options) {
-        const [target] = engine.getInstances('cursor')
+      'game:update'(instance, _, { instances, ...options }) {
+        const target = instances.cursor
         instance = { ...instance, ...flee(instance, target, options) }
 
         clampToBounds(instance, engine.config.bounds)
@@ -31,15 +31,15 @@ export default {
   },
   state: {
     instances: {
-      instance1: {
+      debug: {
         type: 'elapsed',
         value: 0,
       },
-      instance2: {
+      cursor: {
         type: 'cursor',
         position: [0, 0, 0],
       },
-      instance3: {
+      character: {
         type: 'character',
         maxAcceleration: 10,
         velocity: [0, 0, 0],

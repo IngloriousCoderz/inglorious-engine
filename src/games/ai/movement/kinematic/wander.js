@@ -20,11 +20,11 @@ export default {
   },
   state: {
     instances: {
-      instance1: {
+      debug: {
         type: 'elapsed',
         value: 0,
       },
-      instance2: {
+      character: {
         type: 'character',
         maxSpeed: 250,
         maxRotation: Math.PI / 4,
