@@ -1,9 +1,3 @@
-@use '../styles/depth.scss';
-
-div:has(.cursor) {
-  z-index: depth.$cursor;
-}
-
 .cursor {
   width: 1px;
   height: 1px;

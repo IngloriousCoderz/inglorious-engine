@@ -1,14 +1,8 @@
-@use '../../styles/depth.scss';
-
 $black: #282c34;
 $dark-grey: #32363e;
 $middle-grey: #5c6370;
 $light-grey: #abb2bf;
 $highlight: #c678dd;
-
-div:has(.form) {
-  z-index: depth.$controls;
-}
 
 .form {
   font-family: system-ui;
