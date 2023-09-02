@@ -13,23 +13,14 @@ export default {
   bounds: [0, 0, 800, 600],
   types: {
     game: {
-      'targetRadiusInput:change'(_, event, { instances }) {
-        instances.targetRadiusInput.value = event.payload
+      'targetRadius:change'(_, event, { instances }) {
+        instances.form.fields.targetRadius.value = event.payload
       },
-      'targetRadiusResetButton:click'(_, event, { instances }) {
-        instances.targetRadiusInput.value = DEFAULT_VALUES.targetRadius
+      'slowRadius:change'(_, event, { instances }) {
+        instances.form.fields.slowRadius.value = event.payload
       },
-      'slowRadiusInput:change'(_, event, { instances }) {
-        instances.slowRadiusInput.value = event.payload
-      },
-      'slowRadiusResetButton:click'(_, event, { instances }) {
-        instances.slowRadiusInput.value = DEFAULT_VALUES.slowRadius
-      },
-      'timeToTargetInput:change'(_, event, { instances }) {
-        instances.timeToTargetInput.value = event.payload
-      },
-      'timeToTargetResetButton:click'(_, event, { instances }) {
-        instances.timeToTargetInput.value = DEFAULT_VALUES.timeToTarget
+      'timeToTarget:change'(_, event, { instances }) {
+        instances.form.fields.timeToTarget.value = event.payload
       },
     },
     elapsed: {
@@ -48,17 +39,13 @@ export default {
       'game:update'(instance, _, { instances, ...options }) {
         const target = instances.cursor
 
-        const targetRadiusInput = instances.targetRadiusInput
-        const slowRadiusInput = instances.slowRadiusInput
-        const timeToTargetInput = instances.timeToTargetInput
-
         instance = {
           ...instance,
           ...arrive(instance, target, {
             ...options,
-            targetRadius: targetRadiusInput?.value,
-            slowRadius: slowRadiusInput?.value,
-            timeToTarget: timeToTargetInput?.value,
+            targetRadius: instances.form.fields.targetRadius.value,
+            slowRadius: instances.form.fields.slowRadius.value,
+            timeToTarget: instances.form.fields.timeToTarget.value,
           }),
         }
 
@@ -67,9 +54,7 @@ export default {
         return instance
       },
     },
-    label: {},
-    input: {},
-    button: {},
+    form: {},
   },
   state: {
     instances: {
@@ -89,56 +74,30 @@ export default {
         position: [400, 0, 300],
       },
 
-      targetRadiusLabel: {
-        type: 'label',
-        value: 'Target Radius',
+      form: {
+        type: 'form',
         position: [800 - 177 - 51 - 100, 0, 0 * 21],
-      },
-      targetRadiusInput: {
-        type: 'input',
-        inputType: 'number',
-        value: DEFAULT_VALUES.targetRadius,
-        position: [800 - 177 - 51, 0, 0 * 21],
-      },
-      targetRadiusResetButton: {
-        type: 'button',
-        label: 'Reset',
-        position: [800 - 51, 0, 0 * 21],
-      },
-
-      slowRadiusLabel: {
-        type: 'label',
-        value: 'Slow Radius',
-        position: [800 - 177 - 51 - 100, 0, 1 * 21],
-      },
-      slowRadiusInput: {
-        type: 'input',
-        inputType: 'number',
-        value: DEFAULT_VALUES.slowRadius,
-        position: [800 - 177 - 51, 0, 1 * 21],
-      },
-      slowRadiusResetButton: {
-        type: 'button',
-        label: 'Reset',
-        position: [800 - 51, 0, 1 * 21],
-      },
-
-      timeToTargetLabel: {
-        type: 'label',
-        value: 'Time To Target',
-        position: [800 - 177 - 51 - 100, 0, 2 * 21],
-      },
-      timeToTargetInput: {
-        type: 'input',
-        inputType: 'number',
-        value: DEFAULT_VALUES.timeToTarget,
-        step: 0.1,
-        position: [800 - 177 - 51, 0, 2 * 21],
-      },
-      timeToTargetResetButton: {
-        type: 'button',
-        label: 'Reset',
-        position: [800 - 51, 0, 2 * 21],
+        fields: {
+          targetRadius: {
+            type: 'field',
+            label: 'Target Radius',
+            inputType: 'number',
+            defaultValue: DEFAULT_VALUES.targetRadius,
+          },
+          slowRadius: {
+            type: 'field',
+            label: 'Slow Radius',
+            inputType: 'number',
+            defaultValue: DEFAULT_VALUES.slowRadius,
+          },
+          timeToTarget: {
+            type: 'field',
+            label: 'Time To Target',
+            inputType: 'number',
+            step: 0.1,
+            defaultValue: DEFAULT_VALUES.timeToTarget,
+          },
+        },
       },
     },
   },

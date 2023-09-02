@@ -5,8 +5,7 @@ import classes from './character.module.scss'
 export default function Character({ id, instance }) {
   const dispatch = useDispatch()
 
-  const { position, orientation } = instance
-  const [x, , z] = position
+  const { orientation } = instance
 
   const handleClick = () => dispatch({ id: 'character:click', payload: id })
 
@@ -14,8 +13,6 @@ export default function Character({ id, instance }) {
     <div
       className={classes.character}
       style={{
-        '--x': `${x}px`,
-        '--z': `${z}px`,
         '--angle': `${orientation}rad`,
       }}
       onClick={handleClick}

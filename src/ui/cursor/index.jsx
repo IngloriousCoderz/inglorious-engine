@@ -1,16 +1,8 @@
 import classes from './cursor.module.scss'
 
-export default function Cursor({ instance }) {
-  const { position } = instance
-  const [x, , z] = position
+export default function Cursor() {
   return (
-    <div
-      className={classes.cursor}
-      style={{
-        '--x': `${x}px`,
-        '--z': `${z}px`,
-      }}
-    >
+    <div className={classes.cursor}>
       <div className={classes.top} />
       <div className={classes.bottom} />
       <div className={classes.left} />

@@ -1,0 +1,42 @@
+$black: #282c34;
+$dark-grey: #32363e;
+$middle-grey: #5c6370;
+$light-grey: #abb2bf;
+$highlight: #c678dd;
+
+.form {
+  font-family: system-ui;
+  background-color: $dark-grey;
+  padding: 1rem;
+  display: grid;
+  row-gap: 1rem;
+
+  > div {
+    > * {
+      box-sizing: border-box;
+      color: $light-grey;
+    }
+
+    > input {
+      background-color: $dark-grey;
+      border-top: 1px solid $black;
+      border-left: 1px solid $black;
+      border-bottom: 1px solid $light-grey;
+      border-right: 1px solid $light-grey;
+      outline: none;
+
+      &:focus {
+        outline: 1px solid $highlight;
+      }
+    }
+
+    > button {
+      color: $light-grey;
+      background-color: $dark-grey;
+      border-top: 1px solid $light-grey;
+      border-left: 1px solid $light-grey;
+      border-bottom: 1px solid $black;
+      border-right: 1px solid $black;
+    }
+  }
+}

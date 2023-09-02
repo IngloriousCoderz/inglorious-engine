@@ -4,10 +4,13 @@ import { Provider, useSelector } from 'react-redux'
 import engine from '../engine'
 import Character from './character'
 import Button from './controls/button'
+import Field from './controls/field'
+import Form from './controls/form'
 import Input from './controls/input'
 import Label from './controls/label'
 import Cursor from './cursor'
 import Debug from './debug'
+import { withAbsolutePosition } from './hocs/with-absolute-position'
 import Scene from './scene'
 
 if (import.meta.env.DEV) {
@@ -36,12 +39,14 @@ export default function GameWrapper({ config }) {
 }
 
 const Components = {
-  cursor: Cursor,
-  elapsed: Debug,
-  button: Button,
-  character: Character,
-  input: Input,
-  label: Label,
+  cursor: withAbsolutePosition(Cursor),
+  elapsed: withAbsolutePosition(Debug),
+  button: withAbsolutePosition(Button),
+  character: withAbsolutePosition(Character),
+  input: withAbsolutePosition(Input),
+  label: withAbsolutePosition(Label),
+  field: withAbsolutePosition(Field),
+  form: withAbsolutePosition(Form),
 }
 
 function Game() {

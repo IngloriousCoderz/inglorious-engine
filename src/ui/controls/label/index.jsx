@@ -1,16 +1,10 @@
 import classes from './label.module.scss'
 
-export default function Label({ instance }) {
-  const { position, value, ...rest } = instance
-
-  const [x, , z] = position
+export default function Label({ id, instance }) {
+  const { value, ...rest } = instance
 
   return (
-    <label
-      {...rest}
-      className={classes.label}
-      style={{ '--x': `${x}px`, '--z': `${z}px` }}
-    >
+    <label {...rest} htmlFor={id} className={classes.label}>
       {value}
     </label>
   )

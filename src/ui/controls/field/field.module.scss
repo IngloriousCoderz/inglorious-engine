@@ -1,0 +1,5 @@
+.field {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  column-gap: 0.5rem;
+}
