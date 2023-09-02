@@ -1,4 +1,7 @@
-import arrive from '../../../../ai/movement/kinematic/arrive'
+import arrive, {
+  DEFAULT_TARGET_RADIUS,
+  DEFAULT_TIME_TO_TARGET,
+} from '../../../../ai/movement/kinematic/arrive'
 import engine from '../../../../engine'
 import { clampToBounds } from '../../../../utils/characters'
 import * as vectors from '../../../../utils/vectors'
@@ -6,6 +9,16 @@ import * as vectors from '../../../../utils/vectors'
 export default {
   bounds: [0, 0, 800, 600],
   types: {
+    game: {
+      'targetRadius:change'(_, event, { instances }) {
+        instances.parameters.groups.arrive.fields.targetRadius.value =
+          event.payload
+      },
+      'timeToTarget:change'(_, event, { instances }) {
+        instances.parameters.groups.arrive.fields.timeToTarget.value =
+          event.payload
+      },
+    },
     elapsed: {
       'game:update'(instance, _, { elapsed }) {
         instance.value = elapsed
@@ -21,10 +34,15 @@ export default {
     character: {
       'game:update'(instance, _, { instances, ...options }) {
         const target = instances.cursor
-        const arriveOptions = { radius: 8, timeToTarget: 10 }
+        const { fields } = instances.parameters.groups.arrive
+
         instance = {
           ...instance,
-          ...arrive(instance, target, { ...options, ...arriveOptions }),
+          ...arrive(instance, target, {
+            ...options,
+            targetRadius: fields.targetRadius.value,
+            timeToTarget: fields.timeToTarget.value,
+          }),
         }
 
         clampToBounds(instance, engine.config.bounds)
@@ -32,6 +50,7 @@ export default {
         return instance
       },
     },
+    form: {},
   },
   state: {
     instances: {
@@ -47,6 +66,29 @@ export default {
         type: 'character',
         maxSpeed: 250,
         position: [400, 0, 300],
+      },
+
+      parameters: {
+        type: 'form',
+        position: [800 - 177 - 51 - 100, 0, 0 * 21],
+        groups: {
+          arrive: {
+            title: 'Kinematic Arrive',
+            fields: {
+              targetRadius: {
+                label: 'Target Radius',
+                inputType: 'number',
+                defaultValue: DEFAULT_TARGET_RADIUS,
+              },
+              timeToTarget: {
+                label: 'Time To Target',
+                inputType: 'number',
+                step: 0.1,
+                defaultValue: DEFAULT_TIME_TO_TARGET,
+              },
+            },
+          },
+        },
       },
     },
   },

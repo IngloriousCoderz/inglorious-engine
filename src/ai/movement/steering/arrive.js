@@ -8,9 +8,10 @@ import {
   sum,
 } from '../../../utils/vectors'
 
-const DEFAULT_TARGET_RADIUS = 1
-const DEFAULT_SLOW_RADIUS = 100
-const DEFAULT_TIME_TO_TARGET = 0.1
+export const DEFAULT_TARGET_RADIUS = 1
+export const DEFAULT_SLOW_RADIUS = 100
+export const DEFAULT_TIME_TO_TARGET = 0.1
+
 const MIN_ACCELERATION = 0
 
 export default function arrive(

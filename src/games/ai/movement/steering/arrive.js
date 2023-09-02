@@ -1,26 +1,27 @@
-import arrive from '../../../../ai/movement/steering/arrive'
+import arrive, {
+  DEFAULT_SLOW_RADIUS,
+  DEFAULT_TARGET_RADIUS,
+  DEFAULT_TIME_TO_TARGET,
+} from '../../../../ai/movement/steering/arrive'
 import engine from '../../../../engine'
 import { clampToBounds } from '../../../../utils/characters'
 import * as vectors from '../../../../utils/vectors'
-
-const DEFAULT_VALUES = {
-  targetRadius: 1,
-  slowRadius: 100,
-  timeToTarget: 0.1,
-}
 
 export default {
   bounds: [0, 0, 800, 600],
   types: {
     game: {
       'targetRadius:change'(_, event, { instances }) {
-        instances.form.fields.targetRadius.value = event.payload
+        instances.parameters.groups.arrive.fields.targetRadius.value =
+          event.payload
       },
       'slowRadius:change'(_, event, { instances }) {
-        instances.form.fields.slowRadius.value = event.payload
+        instances.parameters.groups.arrive.fields.slowRadius.value =
+          event.payload
       },
       'timeToTarget:change'(_, event, { instances }) {
-        instances.form.fields.timeToTarget.value = event.payload
+        instances.parameters.groups.arrive.fields.timeToTarget.value =
+          event.payload
       },
     },
     elapsed: {
@@ -38,14 +39,15 @@ export default {
     character: {
       'game:update'(instance, _, { instances, ...options }) {
         const target = instances.cursor
+        const { fields } = instances.parameters.groups.arrive
 
         instance = {
           ...instance,
           ...arrive(instance, target, {
             ...options,
-            targetRadius: instances.form.fields.targetRadius.value,
-            slowRadius: instances.form.fields.slowRadius.value,
-            timeToTarget: instances.form.fields.timeToTarget.value,
+            targetRadius: fields.targetRadius.value,
+            slowRadius: fields.slowRadius.value,
+            timeToTarget: fields.timeToTarget.value,
           }),
         }
 
@@ -74,28 +76,30 @@ export default {
         position: [400, 0, 300],
       },
 
-      form: {
+      parameters: {
         type: 'form',
         position: [800 - 177 - 51 - 100, 0, 0 * 21],
-        fields: {
-          targetRadius: {
-            type: 'field',
-            label: 'Target Radius',
-            inputType: 'number',
-            defaultValue: DEFAULT_VALUES.targetRadius,
-          },
-          slowRadius: {
-            type: 'field',
-            label: 'Slow Radius',
-            inputType: 'number',
-            defaultValue: DEFAULT_VALUES.slowRadius,
-          },
-          timeToTarget: {
-            type: 'field',
-            label: 'Time To Target',
-            inputType: 'number',
-            step: 0.1,
-            defaultValue: DEFAULT_VALUES.timeToTarget,
+        groups: {
+          arrive: {
+            title: 'Steering Arrive',
+            fields: {
+              targetRadius: {
+                label: 'Target Radius',
+                inputType: 'number',
+                defaultValue: DEFAULT_TARGET_RADIUS,
+              },
+              slowRadius: {
+                label: 'Slow Radius',
+                inputType: 'number',
+                defaultValue: DEFAULT_SLOW_RADIUS,
+              },
+              timeToTarget: {
+                label: 'Time To Target',
+                inputType: 'number',
+                step: 0.1,
+                defaultValue: DEFAULT_TIME_TO_TARGET,
+              },
+            },
           },
         },
       },

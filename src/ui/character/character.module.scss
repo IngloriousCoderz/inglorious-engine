@@ -1,3 +1,9 @@
+@use '../styles/depth.scss';
+
+div:has(.character) {
+  z-index: depth.$default;
+}
+
 .character {
   width: 20px;
   height: 20px;
