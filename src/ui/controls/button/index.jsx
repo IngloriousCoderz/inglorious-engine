@@ -8,7 +8,7 @@ export default function Button({ id, instance }) {
   const { position, label, ...rest } = instance
   const [x, , z] = position
 
-  const handleClick = () => dispatch({ id: 'button:click', payload: { id } })
+  const handleClick = () => dispatch({ id: `${id}:click` })
 
   return (
     <button

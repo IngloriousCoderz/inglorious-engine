@@ -9,7 +9,7 @@ export default function Input({ id, instance }) {
   const [x, , z] = position
 
   const handleChange = (event) =>
-    dispatch({ id: 'input:change', payload: { id, value: event.target.value } })
+    dispatch({ id: `${id}:change`, payload: event.target.value })
 
   return (
     <input

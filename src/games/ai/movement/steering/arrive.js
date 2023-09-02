@@ -4,7 +4,7 @@ import { clampToBounds } from '../../../../utils/characters'
 import * as vectors from '../../../../utils/vectors'
 
 const DEFAULT_VALUES = {
-  targetRadius: 0,
+  targetRadius: 1,
   slowRadius: 100,
   timeToTarget: 0.1,
 }
@@ -13,14 +13,23 @@ export default {
   bounds: [0, 0, 800, 600],
   types: {
     game: {
-      'input:change'(_, event, { instances }) {
-        const { id, value } = event.payload
-        instances[id].value = value
+      'targetRadiusInput:change'(_, event, { instances }) {
+        instances.targetRadiusInput.value = event.payload
       },
-      'button:click'(_, event, { instances }) {
-        const { id } = event.payload
-        instances[id.replace('ResetButton', 'Input')].value =
-          DEFAULT_VALUES[id.replace('ResetButton', '')]
+      'targetRadiusResetButton:click'(_, event, { instances }) {
+        instances.targetRadiusInput.value = DEFAULT_VALUES.targetRadius
+      },
+      'slowRadiusInput:change'(_, event, { instances }) {
+        instances.slowRadiusInput.value = event.payload
+      },
+      'slowRadiusResetButton:click'(_, event, { instances }) {
+        instances.slowRadiusInput.value = DEFAULT_VALUES.slowRadius
+      },
+      'timeToTargetInput:change'(_, event, { instances }) {
+        instances.timeToTargetInput.value = event.payload
+      },
+      'timeToTargetResetButton:click'(_, event, { instances }) {
+        instances.timeToTargetInput.value = DEFAULT_VALUES.timeToTarget
       },
     },
     elapsed: {

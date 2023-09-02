@@ -5,16 +5,10 @@ export default {
   bounds: [0, 0, 800, 600],
   types: {
     game: {
-      'button:click'(_, event) {
-        const { id } = event.payload
-
-        if (id !== 'button') {
-          return
-        }
-
-        const ids = Object.keys(engine.store.getState().instances).filter(
-          (id) => id.startsWith('character')
-        )
+      'button:click'(_, event, { instances }) {
+        const ids = Object.entries(instances)
+          .filter(([, { type }]) => type === 'character')
+          .map(([id]) => id)
 
         const maxId = ids.length
           ? Number(ids[ids.length - 1].replace('character', ''))
