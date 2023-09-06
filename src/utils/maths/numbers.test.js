@@ -28,3 +28,11 @@ test('it should not clamp a number in the range', () => {
 
   expect(n.clamp(num, min, max)).toBe(expectedResult)
 })
+
+test('it should compute the modulo operator on negative numbers', () => {
+  const num = -2
+  const divisor = 12
+  const expectedResult = 10
+
+  expect(n.mod(num, divisor)).toBe(expectedResult)
+})

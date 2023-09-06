@@ -15,9 +15,20 @@ export default function Scene({ children }) {
   const ref = useRef()
 
   useEffect(() => {
-    ref.current.addEventListener('mousemove', ({ clientX, clientY }) =>
+    const scene = ref.current
+
+    const handleMouseMove = ({ clientX, clientY }) =>
       dispatch({ id: 'mouse:move', payload: [clientX, NO_Y, clientY] })
-    )
+    const handleKeyPress = ({ code }) =>
+      dispatch({ id: 'key:press', payload: code })
+
+    scene.addEventListener('mousemove', handleMouseMove)
+    document.addEventListener('keydown', handleKeyPress)
+
+    return () => {
+      scene.removeEventListener('mousemove', handleMouseMove)
+      document.removeEventListener('keydown', handleKeyPress)
+    }
   }, [dispatch])
 
   return (

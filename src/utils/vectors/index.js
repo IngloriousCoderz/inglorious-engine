@@ -14,6 +14,7 @@ export const {
   normalize,
   remainder,
   rotate,
+  setAngle,
   setLength,
   setMagnitude,
   shift,
@@ -21,6 +22,7 @@ export const {
   toCartesian,
   toCylindrical,
   toPolar,
+  toRotation,
 } = vector
 
 export const {

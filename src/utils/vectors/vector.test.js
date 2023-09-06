@@ -73,7 +73,7 @@ test('it should compute the magnitude of a vector (aka length)', () => {
 })
 
 test('it should apply the mod operator (aka remainder) on a vector', () => {
-  const vector = [10, 12, 18]
+  const vector = [10, 12, -18]
   const divisor = 12
   const expectedResult = [10, 0, 6]
 
@@ -111,6 +111,13 @@ test('it should rotate a vector that faces left by a certain angle', () => {
   expect(v.rotate(vector, angle)).toStrictEqual(expectedResult)
 })
 
+test('it should change the angle of a vector', () => {
+  const vector = [0.7071067811865476, 0, 0.7071067811865476] // cos(pi/4) and sin(pi/4)
+  const expectedResult = [6.123233995736766e-17, 0, 1] // close to [0, 0, 1]
+
+  expect(v.setAngle(vector, 1.5707963267948966)).toStrictEqual(expectedResult)
+})
+
 test('it should change magnitude of a vector (aka setLength)', () => {
   const vector = [3, 4]
   const magnitude = 10
@@ -146,4 +153,11 @@ test('it should convert a 2D cartesian vector to polar coordinates', () => {
   const expectedResult = [1.4142135623730951, 0.7853981633974483]
 
   expect(v.toPolar(vector)).toStrictEqual(expectedResult)
+})
+
+test('it should convert an orientation vector to a rotation between -pi and pi', () => {
+  const vector = [-0.7071067811865477, 0, -0.7071067811865477] // cos(5/4*pi) and sin(5/4*pi)
+  const expectedResult = [0.7071067811865477, 0, 0.7071067811865476] // cos(pi/4) and sin(pi/4)
+
+  expect(v.toRotation(vector)).toStrictEqual(expectedResult)
 })

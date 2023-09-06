@@ -9,3 +9,7 @@ export function clamp(num, min, max) {
 
   return num
 }
+
+export function mod(dividend, divisor) {
+  return ((dividend % divisor) + divisor) % divisor
+}

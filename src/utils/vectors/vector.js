@@ -50,7 +50,7 @@ export function magnitude(vector) {
 }
 
 export function mod(vector, divisor) {
-  return vector.map((coordinate) => coordinate % divisor)
+  return vector.map((coordinate) => m.mod(coordinate, divisor))
 }
 
 export function multiply(vector, scalar) {
@@ -58,15 +58,21 @@ export function multiply(vector, scalar) {
 }
 
 export function normalize(vector) {
-  const radius = magnitude(vector)
-  return vector.map((coordinate) => coordinate / radius)
+  const length = magnitude(vector)
+  return vector.map((coordinate) => coordinate / length)
 }
 
 export const remainder = mod
 
 export function rotate(vector, angle) {
-  const [magnitude, fromAngle] = toPolar(vector)
-  const [x, z] = toCartesian([magnitude, fromAngle + angle])
+  const [length, fromAngle] = toPolar(vector)
+  const [x, z] = toCartesian([length, fromAngle + angle])
+  return [x, NO_Y, z]
+}
+
+export function setAngle(vector, angle) {
+  const length = magnitude(vector)
+  const [x, z] = toCartesian([length, angle])
   return [x, NO_Y, z]
 }
 
@@ -95,6 +101,12 @@ export function toCylindrical(vector) {
 
 export function toPolar(vector) {
   return [magnitude(vector), angle(vector)]
+}
+
+export function toRotation(vector) {
+  let theta = angle(vector)
+  theta = m.mod(theta, m.pi())
+  return setAngle(vector, theta)
 }
 
 // TODO: add toSpherical(vector), as described in https://www.cs.mcgill.ca/~rwest/wikispeedia/wpcd/wp/p/Polar_coordinate_system.htm#:~:text=Polar%20coordinates%20can%20also%20be,as%20in%20the%20polar%20coordinates).

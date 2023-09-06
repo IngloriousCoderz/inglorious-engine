@@ -1,8 +1,15 @@
 import classes from './cursor.module.scss'
 
-export default function Cursor() {
+export default function Cursor({ instance }) {
+  const { orientation } = instance
+
   return (
-    <div className={classes.cursor}>
+    <div
+      className={classes.cursor}
+      style={{
+        '--angle': `${orientation}rad`,
+      }}
+    >
       <div className={classes.top} />
       <div className={classes.bottom} />
       <div className={classes.left} />

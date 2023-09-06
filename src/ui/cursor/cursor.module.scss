@@ -2,6 +2,7 @@
   width: 1px;
   height: 1px;
   background-color: black;
+  transform: rotate(var(--angle));
 
   .top,
   .bottom,
