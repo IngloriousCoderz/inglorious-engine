@@ -1,18 +1,9 @@
-import {
-  angle,
-  clamp,
-  divide,
-  magnitude,
-  setMagnitude,
-  subtract,
-  sum,
-} from '../../../utils/vectors'
+import { magnitude, setMagnitude, subtract } from '../../../utils/vectors'
+import matchVelocity from './match-velocity'
 
 export const DEFAULT_TARGET_RADIUS = 1
 export const DEFAULT_SLOW_RADIUS = 100
 export const DEFAULT_TIME_TO_TARGET = 1
-
-const MIN_ACCELERATION = 0
 
 export default function arrive(
   character,
@@ -39,18 +30,9 @@ export default function arrive(
   }
   const targetVelocity = setMagnitude(direction, targetSpeed * elapsed)
 
-  const velocityDelta = subtract(targetVelocity, character.velocity)
-
-  let acceleration = divide(velocityDelta, timeToTarget)
-  acceleration = clamp(
-    acceleration,
-    MIN_ACCELERATION,
-    character.maxAcceleration * elapsed
+  return matchVelocity(
+    character,
+    { velocity: targetVelocity },
+    { elapsed, timeToTarget }
   )
-
-  const velocity = sum(character.velocity, acceleration)
-  const position = sum(character.position, velocity)
-  const orientation = angle(velocity)
-
-  return { velocity, position, orientation }
 }
