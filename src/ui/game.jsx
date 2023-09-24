@@ -13,16 +13,13 @@ import Debug from './debug'
 import { withAbsolutePosition } from './hocs/with-absolute-position'
 import Scene from './scene'
 
-if (import.meta.env.DEV) {
-  window.store = engine.store
-}
-
 export default function GameWrapper({ config }) {
   const [isReady, setReady] = useState(false)
   useEffect(() => {
     engine.load(config)
     engine.start()
     setReady(true)
+    window.engine = engine
 
     return () => engine.stop()
   }, [config])

@@ -1,4 +1,4 @@
-import { abs, clamp, toRange } from '../../../utils/maths'
+import { abs, clamp, toRange } from '../../../utils/math'
 
 export const DEFAULT_TARGET_RADIUS = 0.1
 export const DEFAULT_SLOW_RADIUS = 0.1

@@ -1,4 +1,4 @@
-import { randomRange } from '../../utils/maths'
+import { randomRange } from '../../utils/math'
 
 export default {
   bounds: [0, 0, 800, 600],

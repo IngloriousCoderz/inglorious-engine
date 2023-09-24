@@ -90,9 +90,16 @@ test('it should multiply a vector with a scalar (aka times)', () => {
 
 test('it should normalize a vector so it has unit length', () => {
   const vector = [3, 4]
-  const expectedResult = 1
+  const expectedResult = [0.6, 0.8]
 
-  expect(v.length(v.normalize(vector))).toBe(expectedResult)
+  expect(v.normalize(vector)).toStrictEqual(expectedResult)
+})
+
+test('it should normalize a negative vector', () => {
+  const vector = [-3, -4]
+  const expectedResult = [-0.6, -0.8]
+
+  expect(v.normalize(vector)).toStrictEqual(expectedResult)
 })
 
 test('it should rotate a vector by a certain angle', () => {
@@ -122,6 +129,14 @@ test('it should change magnitude of a vector (aka setLength)', () => {
   const vector = [3, 4]
   const magnitude = 10
   const expectedResult = [6, 8]
+
+  expect(v.setMagnitude(vector, magnitude)).toStrictEqual(expectedResult)
+})
+
+test('it should change magnitude of a negative vector', () => {
+  const vector = [-3, -4]
+  const magnitude = 10
+  const expectedResult = [-6, -8]
 
   expect(v.setMagnitude(vector, magnitude)).toStrictEqual(expectedResult)
 })

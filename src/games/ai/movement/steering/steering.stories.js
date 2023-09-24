@@ -2,6 +2,7 @@ import Game from '../../../../ui/game'
 import align from './align'
 import arrive from './arrive'
 import flee from './flee'
+import matchVelocity from './match-velocity'
 import seek from './seek'
 
 export default {
@@ -23,4 +24,8 @@ export const Arrive = {
 
 export const Align = {
   args: { config: align },
+}
+
+export const MatchVelocity = {
+  args: { config: matchVelocity },
 }

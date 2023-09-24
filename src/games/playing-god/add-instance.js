@@ -1,6 +1,6 @@
 import engine from '../../engine'
 import { clampToBounds } from '../../utils/characters'
-import { randomRange } from '../../utils/maths'
+import { randomRange } from '../../utils/math'
 import * as vectors from '../../utils/vectors'
 
 export default {

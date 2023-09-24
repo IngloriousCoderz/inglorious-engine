@@ -1,4 +1,4 @@
-import * as m from '../maths'
+import * as m from '../math'
 
 const X = 0
 const Z = 2

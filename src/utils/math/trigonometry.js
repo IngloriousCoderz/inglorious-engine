@@ -1,4 +1,4 @@
-import { mod } from '../maths'
+import { mod } from '.'
 
 const HALF_CIRCLE_IN_DEGRESS = 180
 const FULL_CIRCLE = 2

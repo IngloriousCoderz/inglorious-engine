@@ -1,3 +1,4 @@
+import { abs } from '../math'
 import { angle, clamp, sum } from '../vectors'
 
 const X = 0
@@ -31,14 +32,14 @@ export function flip(instance, [minX, minZ, maxX, maxZ]) {
   const [x, , z] = instance.position
 
   if (x < minX) {
-    instance.direction[X] = Math.abs(instance.direction[X])
+    instance.direction[X] = abs(instance.direction[X])
   } else if (x >= maxX) {
-    instance.direction[X] = -Math.abs(instance.direction[X])
+    instance.direction[X] = -abs(instance.direction[X])
   }
 
   if (z < minZ) {
-    instance.direction[Z] = Math.abs(instance.direction[Z])
+    instance.direction[Z] = abs(instance.direction[Z])
   } else if (z >= maxZ) {
-    instance.direction[Z] = -Math.abs(instance.direction[Z])
+    instance.direction[Z] = -abs(instance.direction[Z])
   }
 }

@@ -17,3 +17,11 @@ export function clamp(num, min, max) {
 export function mod(dividend, divisor) {
   return ((dividend % divisor) + divisor) % divisor
 }
+
+export function sign(num) {
+  if (!num) {
+    return num
+  }
+
+  return num / abs(num)
+}

@@ -59,3 +59,17 @@ test('it should convert a number less than -1 to a range between -1 and 1', () =
 
   expect(n.mod(num, divisor)).toBe(expectedResult)
 })
+
+test('it should calculate the sign of a number', () => {
+  const num = -3
+  const expectedResult = -1
+
+  expect(n.sign(num)).toBe(expectedResult)
+})
+
+test('it should return the number itself if the sign is zero', () => {
+  const num = 0
+  const expectedResult = 0
+
+  expect(n.sign(num)).toBe(expectedResult)
+})

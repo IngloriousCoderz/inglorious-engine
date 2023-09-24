@@ -1,4 +1,4 @@
-import { randomBinomial } from '../../../utils/maths'
+import { randomBinomial } from '../../../utils/math'
 import { angle, rotate, setMagnitude, sum } from '../../../utils/vectors'
 
 export default function wander(character, { elapsed }) {

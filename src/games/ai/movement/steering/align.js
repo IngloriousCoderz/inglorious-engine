@@ -5,7 +5,7 @@ import align, {
 } from '../../../../ai/movement/steering/align'
 import engine from '../../../../engine'
 import { clampToBounds } from '../../../../utils/characters'
-import * as maths from '../../../../utils/maths'
+import * as math from '../../../../utils/math'
 import * as vectors from '../../../../utils/vectors'
 
 export default {
@@ -93,7 +93,7 @@ export default {
 
       character: {
         type: 'character',
-        maxRotation: maths.pi() / 4,
+        maxRotation: math.pi() / 4,
         maxAngularAcceleration: 10,
         position: [400, 0, 300],
         angularVelocity: 0,

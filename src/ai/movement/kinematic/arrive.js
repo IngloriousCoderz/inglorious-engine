@@ -8,7 +8,7 @@ import {
 } from '../../../utils/vectors'
 
 export const DEFAULT_TARGET_RADIUS = 1
-export const DEFAULT_TIME_TO_TARGET = 0.1
+export const DEFAULT_TIME_TO_TARGET = 1
 
 const MIN_SPEED = 0
 
