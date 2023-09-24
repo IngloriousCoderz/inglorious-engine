@@ -1,4 +1,5 @@
 import Game from '../../../../ui/game'
+import align from './align'
 import arrive from './arrive'
 import flee from './flee'
 import seek from './seek'
@@ -23,4 +24,8 @@ export const Arrive = {
 
 export const Wander = {
   args: { config: wander },
+}
+
+export const Align = {
+  args: { config: align },
 }

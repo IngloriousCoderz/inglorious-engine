@@ -7,7 +7,9 @@ export default {
         instance.value = elapsed
       },
     },
+
     cursor: {},
+
     character: {},
   },
   state: {
@@ -16,10 +18,12 @@ export default {
         type: 'elapsed',
         value: 0,
       },
+
       instance2: {
         type: 'cursor',
         position: [0, 0, 0],
       },
+
       instance3: {
         type: 'character',
         position: [0, 0, 0],

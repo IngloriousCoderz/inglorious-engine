@@ -155,9 +155,10 @@ test('it should convert a 2D cartesian vector to polar coordinates', () => {
   expect(v.toPolar(vector)).toStrictEqual(expectedResult)
 })
 
-test('it should convert an orientation vector to a rotation between -pi and pi', () => {
-  const vector = [-0.7071067811865477, 0, -0.7071067811865477] // cos(5/4*pi) and sin(5/4*pi)
-  const expectedResult = [0.7071067811865477, 0, 0.7071067811865476] // cos(pi/4) and sin(pi/4)
+test('it should create a unit vector oriented on the X-axis', () => {
+  expect(v.unit()).toStrictEqual([1, 0, 0])
+})
 
-  expect(v.toRotation(vector)).toStrictEqual(expectedResult)
+test('it should create a unit vector oriented on the Z-axis', () => {
+  expect(v.unit(Math.PI / 2)).toStrictEqual([6.123233995736766e-17, 0, 1]) // [0, 0, 1]
 })

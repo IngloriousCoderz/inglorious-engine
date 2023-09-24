@@ -10,6 +10,7 @@ import * as vectors from '../../../../utils/vectors'
 
 export default {
   bounds: [0, 0, 800, 600],
+
   types: {
     game: {
       'targetRadius:change'(_, event, { instances }) {
@@ -24,12 +25,18 @@ export default {
         instances.parameters.groups.align.fields.timeToTarget.value =
           event.payload
       },
+      'targetOrientation:change'(_, event, { instances }) {
+        instances.parameters.groups.align.fields.targetOrientation.value =
+          event.payload
+      },
     },
+
     elapsed: {
       'game:update'(instance, _, { elapsed }) {
         instance.value = elapsed
       },
     },
+
     cursor: {
       'mouse:move'(instance, { payload }) {
         instance.position = vectors.subtract(payload, [16, 0, 16])
@@ -38,12 +45,16 @@ export default {
       },
       'key:press'(instance, { payload }) {
         if (['ArrowRight', 'ArrowDown'].includes(payload)) {
-          instance.orientation -= 1
+          instance.orientation += 0.1
         } else if (['ArrowLeft', 'ArrowUp'].includes(payload)) {
-          instance.orientation += 1
+          instance.orientation -= 0.1
         }
       },
+      'targetOrientation:change'(instance, event) {
+        instance.orientation = -event.payload * Math.PI
+      },
     },
+
     character: {
       'game:update'(instance, _, { instances, ...options }) {
         const target = instances.cursor
@@ -64,6 +75,7 @@ export default {
         return instance
       },
     },
+
     form: {},
   },
   state: {
@@ -72,17 +84,19 @@ export default {
         type: 'elapsed',
         value: 0,
       },
+
       cursor: {
         type: 'cursor',
         position: [0, 0, 0],
-        orientation: maths.pi() / 2,
+        orientation: 0,
       },
+
       character: {
         type: 'character',
         maxRotation: maths.pi() / 4,
-        maxAcceleration: 10,
-        velocity: [0, 0, 0],
+        maxAngularAcceleration: 10,
         position: [400, 0, 300],
+        angularVelocity: 0,
         orientation: 0,
       },
 
@@ -108,6 +122,14 @@ export default {
                 inputType: 'number',
                 step: 0.1,
                 defaultValue: DEFAULT_TIME_TO_TARGET,
+              },
+              targetOrientation: {
+                label: 'Target Orientation',
+                inputType: 'number',
+                step: 0.25,
+                min: -1,
+                max: 1,
+                defaultValue: 0,
               },
             },
           },

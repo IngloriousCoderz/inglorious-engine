@@ -10,6 +10,7 @@ export default {
         instance.value = elapsed
       },
     },
+
     character: {
       'game:update'(instance, _, options) {
         Object.assign(instance, wander(instance, options))
@@ -24,6 +25,7 @@ export default {
         type: 'elapsed',
         value: 0,
       },
+
       character: {
         type: 'character',
         maxSpeed: 250,

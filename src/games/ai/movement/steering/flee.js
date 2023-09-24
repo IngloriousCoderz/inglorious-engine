@@ -11,6 +11,7 @@ export default {
         instance.value = elapsed
       },
     },
+
     cursor: {
       'mouse:move'(instance, { payload }) {
         instance.position = vectors.subtract(payload, [16, 0, 16])
@@ -18,6 +19,7 @@ export default {
         clampToBounds(instance, engine.config.bounds)
       },
     },
+
     character: {
       'game:update'(instance, _, { instances, ...options }) {
         const target = instances.cursor
@@ -35,10 +37,12 @@ export default {
         type: 'elapsed',
         value: 0,
       },
+
       cursor: {
         type: 'cursor',
         position: [0, 0, 0],
       },
+
       character: {
         type: 'character',
         maxAcceleration: 10,

@@ -4,6 +4,6 @@ import * as r from './random'
 import * as t from './trigonometry'
 
 export const { hypothenuse, pythagoras } = g
-export const { clamp, mod } = n
+export const { abs, clamp, mod } = n
 export const { random, randomBinomial, randomRange } = r
-export const { arctan, cosine, pi, sine, toRadians } = t
+export const { arctan, cosine, pi, sine, toDegrees, toRange, toRadians } = t

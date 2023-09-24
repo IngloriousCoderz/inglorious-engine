@@ -23,11 +23,13 @@ export default {
         })
       },
     },
+
     elapsed: {
       'game:update'(instance, _, { elapsed }) {
         instance.value = elapsed
       },
     },
+
     cursor: {
       'mouse:move'(instance, { payload }) {
         instance.position = vectors.subtract(payload, [16, 0, 16])
@@ -35,7 +37,9 @@ export default {
         clampToBounds(instance, engine.config.bounds)
       },
     },
+
     button: {},
+
     character: {},
   },
   state: {
@@ -44,10 +48,12 @@ export default {
         type: 'elapsed',
         value: 0,
       },
+
       cursor: {
         type: 'cursor',
         position: [0, 0, 0],
       },
+
       button: {
         type: 'button',
         position: [800 - 66, 0, 0],

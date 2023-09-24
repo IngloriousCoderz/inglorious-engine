@@ -1,23 +1,8 @@
-import {
-  angle,
-  clamp,
-  divide,
-  magnitude,
-  setAngle,
-  setMagnitude,
-  subtract,
-  sum,
-  toCartesian,
-  toRotation,
-} from '../../../utils/vectors'
+import { abs, clamp, toRange } from '../../../utils/maths'
 
-export const DEFAULT_MAX_ANGULAR_ACCELERATION = 1
-export const DEFAULT_TARGET_RADIUS = 1
-export const DEFAULT_SLOW_RADIUS = 100
-export const DEFAULT_TIME_TO_TARGET = 0.1
-
-const UNIT_VECTOR = [1, 0, 0]
-const MIN_ACCELERATION = 0
+export const DEFAULT_TARGET_RADIUS = 0.1
+export const DEFAULT_SLOW_RADIUS = 0.1
+export const DEFAULT_TIME_TO_TARGET = 1
 
 export default function align(
   character,
@@ -29,49 +14,32 @@ export default function align(
     timeToTarget = DEFAULT_TIME_TO_TARGET,
   }
 ) {
-  const targetOrientation = setAngle(UNIT_VECTOR, target.orientation)
-  const characterOrientation = setAngle(UNIT_VECTOR, character.orientation)
+  const orientationDelta = target.orientation - character.orientation
+  const radius = toRange(orientationDelta)
 
-  const orientationDelta = subtract(targetOrientation, characterOrientation)
-  const rotation = toRotation(orientationDelta)
-  const radius = magnitude(rotation)
-
-  if (radius < targetRadius) {
+  if (abs(radius) < targetRadius) {
     return character
   }
 
-  let targetRotationLength
-  if (radius > slowRadius) {
-    targetRotationLength = character.maxRotation
+  let targetRotationSpeed
+  if (abs(radius) > slowRadius) {
+    targetRotationSpeed = character.maxRotation
   } else {
-    targetRotationLength = (radius * character.maxRotation) / slowRadius
+    targetRotationSpeed = (radius * character.maxRotation) / slowRadius
   }
+  const targetAngularVelocity = targetRotationSpeed * elapsed
 
-  // targetRotation *= rotation / radius // ???
-  const targetRotation = setMagnitude(rotation, targetRotationLength * elapsed)
+  const angularVelocityDelta = targetAngularVelocity - character.angularVelocity
 
-  const accelerationDelta = subtract(targetRotation, characterOrientation)
-
-  let acceleration = divide(accelerationDelta, timeToTarget)
-  acceleration = clamp(
-    acceleration,
-    MIN_ACCELERATION,
-    character.maxAcceleration * elapsed
+  let angularAcceleration = angularVelocityDelta / timeToTarget
+  angularAcceleration = clamp(
+    angularAcceleration,
+    -character.maxAngularAcceleration * elapsed,
+    character.maxAngularAcceleration * elapsed
   )
-  // const angularAcceleration = magnitude(acceleration)
-  // if (angularAcceleration > maxAngularAcceleration) {
-  //   acceleration = divide(acceleration, angularAcceleration)
-  //   acceleration = mulitply(acceleration, maxAngularAcceleration)
-  // }
 
-  // const acceleration = setMagnitude(
-  //   direction,
-  //   character.maxAcceleration * elapsed
-  // )
+  const angularVelocity = character.angularVelocity + angularAcceleration
+  const orientation = character.orientation + angularVelocity
 
-  // const velocity = sum(character.velocity, acceleration)
-  // const position = sum(character.position, velocity)
-  const orientation = angle(acceleration)
-
-  return { orientation }
+  return { angularVelocity, orientation }
 }

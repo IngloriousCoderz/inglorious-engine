@@ -9,6 +9,7 @@ export default {
         instance.value = elapsed
       },
     },
+
     character: {
       'game:update'(instance) {
         bounce(instance, engine.config.bounds)
@@ -21,6 +22,7 @@ export default {
         type: 'elapsed',
         value: 0,
       },
+
       instance2: {
         type: 'character',
         position: [0, 0, 0],

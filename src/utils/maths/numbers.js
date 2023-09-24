@@ -1,3 +1,7 @@
+export function abs(num) {
+  return Math.abs(num)
+}
+
 export function clamp(num, min, max) {
   if (num < min) {
     return min

@@ -22,7 +22,7 @@ export const {
   toCartesian,
   toCylindrical,
   toPolar,
-  toRotation,
+  unit,
 } = vector
 
 export const {

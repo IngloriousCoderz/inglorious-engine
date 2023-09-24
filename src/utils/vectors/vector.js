@@ -6,6 +6,8 @@ const LAST_COORDINATE = 1
 const UNIT_LENGTH = 1
 const NO_Y = 0
 
+const UNIT_VECTOR = [1, 0, 0] // eslint-disable-line no-magic-numbers
+
 export function angle(vector) {
   return m.arctan(vector[vector.length - LAST_COORDINATE], vector[X])
 }
@@ -103,10 +105,12 @@ export function toPolar(vector) {
   return [magnitude(vector), angle(vector)]
 }
 
-export function toRotation(vector) {
-  let theta = angle(vector)
-  theta = m.mod(theta, m.pi())
-  return setAngle(vector, theta)
-}
-
 // TODO: add toSpherical(vector), as described in https://www.cs.mcgill.ca/~rwest/wikispeedia/wpcd/wp/p/Polar_coordinate_system.htm#:~:text=Polar%20coordinates%20can%20also%20be,as%20in%20the%20polar%20coordinates).
+
+export function unit(angle) {
+  if (!angle) {
+    return UNIT_VECTOR
+  }
+
+  return setAngle(UNIT_VECTOR, angle)
+}

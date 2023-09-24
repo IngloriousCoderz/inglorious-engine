@@ -8,6 +8,7 @@ export default {
         instance.value = elapsed
       },
     },
+
     character: {},
   },
   state: {
@@ -16,6 +17,7 @@ export default {
         type: 'elapsed',
         value: 0,
       },
+
       ...Array(100)
         .fill(null)
         .reduce((acc, _, index) => {
