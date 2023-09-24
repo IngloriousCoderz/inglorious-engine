@@ -1,6 +1,7 @@
 import Game from '../../../../ui/game'
 import align from './align'
 import arrive from './arrive'
+import evade from './evade'
 import flee from './flee'
 import matchVelocity from './match-velocity'
 import pursue from './pursue'
@@ -33,4 +34,8 @@ export const MatchVelocity = {
 
 export const Pursue = {
   args: { config: pursue },
+}
+
+export const Evade = {
+  args: { config: evade },
 }
