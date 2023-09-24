@@ -3,6 +3,7 @@ import align from './align'
 import arrive from './arrive'
 import flee from './flee'
 import matchVelocity from './match-velocity'
+import pursue from './pursue'
 import seek from './seek'
 
 export default {
@@ -28,4 +29,8 @@ export const Align = {
 
 export const MatchVelocity = {
   args: { config: matchVelocity },
+}
+
+export const Pursue = {
+  args: { config: pursue },
 }
