@@ -14,19 +14,20 @@ export default function align(
     timeToTarget = DEFAULT_TIME_TO_TARGET,
   }
 ) {
-  const orientationDelta = target.orientation - character.orientation
-  const radius = toRange(orientationDelta)
+  const direction = toRange(target.orientation - character.orientation)
+  const distance = abs(direction)
 
-  if (abs(radius) < targetRadius) {
+  if (distance < targetRadius) {
     return character
   }
 
   let targetRotationSpeed
-  if (abs(radius) > slowRadius) {
+  if (distance > slowRadius) {
     targetRotationSpeed = character.maxRotation
   } else {
-    targetRotationSpeed = (radius * character.maxRotation) / slowRadius
+    targetRotationSpeed = (distance * character.maxRotation) / slowRadius
   }
+  targetRotationSpeed *= direction / distance // restore rotation sign
   const targetAngularVelocity = targetRotationSpeed * elapsed
 
   const angularVelocityDelta = targetAngularVelocity - character.angularVelocity
