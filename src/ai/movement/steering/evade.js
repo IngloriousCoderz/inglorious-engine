@@ -11,6 +11,10 @@ export default function evade(
   const direction = subtract(target.position, character.position)
   const distance = magnitude(direction)
 
+  if (!distance) {
+    return character
+  }
+
   const speed = magnitude(character.velocity)
 
   let prediction
