@@ -4,6 +4,7 @@ import arrive from './arrive'
 import evade from './evade'
 import face from './face'
 import flee from './flee'
+import lookWhereYoureGoing from './look-where-youre-going'
 import matchVelocity from './match-velocity'
 import pursue from './pursue'
 import seek from './seek'
@@ -43,4 +44,9 @@ export const Evade = {
 
 export const Face = {
   args: { config: face },
+}
+
+export const LookWhereYoureGoing = {
+  name: "Look Where You're Going",
+  args: { config: lookWhereYoureGoing },
 }
