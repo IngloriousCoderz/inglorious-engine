@@ -19,15 +19,19 @@ export default function Scene({ children }) {
 
     const handleMouseMove = ({ clientX, clientY }) =>
       dispatch({ id: 'mouse:move', payload: [clientX, NO_Y, clientY] })
-    const handleKeyPress = ({ code }) =>
-      dispatch({ id: 'key:press', payload: code })
+    const handleKeyDown = ({ code }) =>
+      dispatch({ id: 'keyboard:keyDown', payload: code })
+    const handleKeyUp = ({ code }) =>
+      dispatch({ id: 'keyboard:keyUp', payload: code })
 
     scene.addEventListener('mousemove', handleMouseMove)
-    document.addEventListener('keydown', handleKeyPress)
+    document.addEventListener('keydown', handleKeyDown)
+    document.addEventListener('keyup', handleKeyUp)
 
     return () => {
       scene.removeEventListener('mousemove', handleMouseMove)
-      document.removeEventListener('keydown', handleKeyPress)
+      document.removeEventListener('keydown', handleKeyDown)
+      document.removeEventListener('keyup', handleKeyUp)
     }
   }, [dispatch])
 
