@@ -1,5 +1,5 @@
-import wander from '../../../../ai/movement/kinematic/wander'
 import engine from '../../../../engine'
+import wander from '../../../../engine/ai/movement/kinematic/wander'
 import { flip } from '../../../../utils/characters'
 
 export default {

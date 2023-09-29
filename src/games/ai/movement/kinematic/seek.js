@@ -1,6 +1,6 @@
-import seek from '../../../../ai/movement/kinematic/seek'
 import engine from '../../../../engine'
-import { mouseInstance, mouseType } from '../../../../input/mouse'
+import seek from '../../../../engine/ai/movement/kinematic/seek'
+import { mouseInstance, mouseType } from '../../../../engine/input/mouse'
 import { clampToBounds } from '../../../../utils/characters'
 
 export default {

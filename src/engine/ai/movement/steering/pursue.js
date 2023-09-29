@@ -1,4 +1,4 @@
-import { magnitude, multiply, subtract, sum } from '../../../utils/vectors'
+import { magnitude, multiply, subtract, sum } from '../../../../utils/vectors'
 import seek from './seek'
 
 export const DEFAULT_MAX_PREDICTION = 10

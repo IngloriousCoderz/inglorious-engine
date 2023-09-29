@@ -1,4 +1,4 @@
-import { mouseInstance, mouseType } from '../../input/mouse'
+import { mouseInstance, mouseType } from '../../engine/input/mouse'
 import { subtract } from '../../utils/vectors'
 
 export default {

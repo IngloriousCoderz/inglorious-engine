@@ -1,5 +1,5 @@
 import engine from '../../engine'
-import { mouseInstance, mouseType } from '../../input/mouse'
+import { mouseInstance, mouseType } from '../../engine/input/mouse'
 import { randomRange } from '../../utils/math'
 
 export default {

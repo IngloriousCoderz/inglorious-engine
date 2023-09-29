@@ -1,6 +1,6 @@
-import engine from '../engine'
-import { clampToBounds } from '../utils/characters'
-import { subtract, ZERO_VECTOR } from '../utils/vectors'
+import engine from '../../engine'
+import { clampToBounds } from '../../utils/characters'
+import { subtract, ZERO_VECTOR } from '../../utils/vectors'
 
 const CURSOR_SIZE = 16
 const NO_Y = 0

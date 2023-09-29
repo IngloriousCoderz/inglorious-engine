@@ -1,4 +1,4 @@
-import { magnitude, setMagnitude, subtract } from '../../../utils/vectors'
+import { magnitude, setMagnitude, subtract } from '../../../../utils/vectors'
 import matchVelocity from './match-velocity'
 
 export const DEFAULT_TARGET_RADIUS = 1

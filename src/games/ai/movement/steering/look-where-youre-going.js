@@ -1,11 +1,14 @@
+import engine from '../../../../engine'
 import {
   DEFAULT_SLOW_RADIUS,
   DEFAULT_TARGET_RADIUS,
   DEFAULT_TIME_TO_TARGET,
-} from '../../../../ai/movement/steering/align'
-import lookWhereYoureGoing from '../../../../ai/movement/steering/look-where-youre-going'
-import engine from '../../../../engine'
-import { keyboardInstance, keyboardType } from '../../../../input/keyboard'
+} from '../../../../engine/ai/movement/steering/align'
+import lookWhereYoureGoing from '../../../../engine/ai/movement/steering/look-where-youre-going'
+import {
+  keyboardInstance,
+  keyboardType,
+} from '../../../../engine/input/keyboard'
 import { clampToBounds } from '../../../../utils/characters'
 import * as math from '../../../../utils/math'
 import * as vectors from '../../../../utils/vectors'

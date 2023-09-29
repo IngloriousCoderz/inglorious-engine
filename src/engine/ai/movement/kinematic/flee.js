@@ -4,10 +4,10 @@ import {
   setMagnitude,
   subtract,
   sum,
-} from '../../../utils/vectors'
+} from '../../../../utils/vectors'
 
-export default function seek(character, target, { elapsed }) {
-  const direction = subtract(target.position, character.position)
+export default function flee(character, target, { elapsed }) {
+  const direction = subtract(character.position, target.position)
   const distance = magnitude(direction)
 
   if (!distance) {

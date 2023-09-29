@@ -1,5 +1,5 @@
-import matchVelocity from '../../ai/movement/steering/match-velocity'
-import { keyboardInstance, keyboardType } from '../../input/keyboard'
+import matchVelocity from '../../engine/ai/movement/steering/match-velocity'
+import { keyboardInstance, keyboardType } from '../../engine/input/keyboard'
 
 export default {
   bounds: [0, 0, 800, 600],
@@ -17,18 +17,20 @@ export default {
       'game:update'(instance, _, { elapsed, instances }) {
         const { keyboard } = instances
 
+        const SPEED = 5
+
         const target = { velocity: [0, 0, 0] }
         if (keyboard.ArrowLeft) {
-          target.velocity[0] = -10
+          target.velocity[0] = -SPEED
         }
         if (keyboard.ArrowUp) {
-          target.velocity[2] = -10
+          target.velocity[2] = -SPEED
         }
         if (keyboard.ArrowRight) {
-          target.velocity[0] = 10
+          target.velocity[0] = SPEED
         }
         if (keyboard.ArrowDown) {
-          target.velocity[2] = 10
+          target.velocity[2] = SPEED
         }
 
         instance = {

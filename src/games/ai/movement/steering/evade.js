@@ -1,8 +1,8 @@
+import engine from '../../../../engine'
 import evade, {
   DEFAULT_MAX_PREDICTION,
-} from '../../../../ai/movement/steering/evade'
-import engine from '../../../../engine'
-import { mouseInstance, mouseType } from '../../../../input/mouse'
+} from '../../../../engine/ai/movement/steering/evade'
+import { mouseInstance, mouseType } from '../../../../engine/input/mouse'
 import { clampToBounds } from '../../../../utils/characters'
 
 export default {

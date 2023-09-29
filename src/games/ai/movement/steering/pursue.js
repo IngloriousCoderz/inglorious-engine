@@ -1,8 +1,8 @@
+import engine from '../../../../engine'
 import pursue, {
   DEFAULT_MAX_PREDICTION,
-} from '../../../../ai/movement/steering/pursue'
-import engine from '../../../../engine'
-import { mouseInstance, mouseType } from '../../../../input/mouse'
+} from '../../../../engine/ai/movement/steering/pursue'
+import { mouseInstance, mouseType } from '../../../../engine/input/mouse'
 import { clampToBounds } from '../../../../utils/characters'
 
 export default {

@@ -1,10 +1,13 @@
+import engine from '../../../../engine'
 import align, {
   DEFAULT_TARGET_RADIUS,
   DEFAULT_TIME_TO_TARGET,
-} from '../../../../ai/movement/kinematic/align'
-import engine from '../../../../engine'
-import { keyboardInstance, keyboardType } from '../../../../input/keyboard'
-import { mouseInstance, mouseType } from '../../../../input/mouse'
+} from '../../../../engine/ai/movement/kinematic/align'
+import {
+  keyboardInstance,
+  keyboardType,
+} from '../../../../engine/input/keyboard'
+import { mouseInstance, mouseType } from '../../../../engine/input/mouse'
 import { clampToBounds } from '../../../../utils/characters'
 import * as math from '../../../../utils/math'
 import { clamp } from '../../../../utils/math/numbers'

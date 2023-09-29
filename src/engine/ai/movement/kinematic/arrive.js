@@ -5,7 +5,7 @@ import {
   magnitude,
   subtract,
   sum,
-} from '../../../utils/vectors'
+} from '../../../../utils/vectors'
 
 export const DEFAULT_TARGET_RADIUS = 1
 export const DEFAULT_TIME_TO_TARGET = 1

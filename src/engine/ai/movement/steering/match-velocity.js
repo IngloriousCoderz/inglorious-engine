@@ -1,4 +1,4 @@
-import { angle, clamp, divide, subtract, sum } from '../../../utils/vectors'
+import { angle, clamp, divide, subtract, sum } from '../../../../utils/vectors'
 
 export const DEFAULT_TIME_TO_TARGET = 1
 

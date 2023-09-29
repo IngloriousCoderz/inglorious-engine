@@ -1,7 +1,7 @@
+import engine from '../../../../engine'
 import matchVelocity, {
   DEFAULT_TIME_TO_TARGET,
-} from '../../../../ai/movement/steering/match-velocity'
-import engine from '../../../../engine'
+} from '../../../../engine/ai/movement/steering/match-velocity'
 import { clampToBounds } from '../../../../utils/characters'
 
 export default {

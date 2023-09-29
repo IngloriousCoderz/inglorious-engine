@@ -1,6 +1,6 @@
-import flee from '../../../../ai/movement/steering/flee'
 import engine from '../../../../engine'
-import { mouseInstance, mouseType } from '../../../../input/mouse'
+import flee from '../../../../engine/ai/movement/steering/flee'
+import { mouseInstance, mouseType } from '../../../../engine/input/mouse'
 import { clampToBounds } from '../../../../utils/characters'
 
 export default {

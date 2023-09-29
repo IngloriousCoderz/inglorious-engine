@@ -1,9 +1,9 @@
+import engine from '../../../../engine'
 import arrive, {
   DEFAULT_TARGET_RADIUS,
   DEFAULT_TIME_TO_TARGET,
-} from '../../../../ai/movement/kinematic/arrive'
-import engine from '../../../../engine'
-import { mouseInstance, mouseType } from '../../../../input/mouse'
+} from '../../../../engine/ai/movement/kinematic/arrive'
+import { mouseInstance, mouseType } from '../../../../engine/input/mouse'
 import { clampToBounds } from '../../../../utils/characters'
 
 export default {
