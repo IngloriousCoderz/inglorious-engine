@@ -1,6 +1,6 @@
-import engine from '../../../../engine'
-import wander from '../../../../engine/ai/movement/kinematic/wander'
-import { flip } from '../../../../utils/characters'
+import engine from '@ezpz/engine'
+import wander from '@ezpz/engine/ai/movement/kinematic/wander'
+import { flip } from '@ezpz/utils/characters'
 
 export default {
   bounds: [0, 0, 800, 600],

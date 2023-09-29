@@ -1,5 +1,5 @@
-import engine from '../../engine'
-import { randomRange } from '../../utils/math'
+import engine from '@ezpz/engine'
+import { randomRange } from '@ezpz/utils/math'
 
 export default {
   bounds: [0, 0, 800, 600],

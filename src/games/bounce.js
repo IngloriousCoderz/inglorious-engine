@@ -1,5 +1,5 @@
-import engine from '../engine'
-import { bounce } from '../utils/characters'
+import engine from '@ezpz/engine'
+import { bounce } from '@ezpz/utils/characters'
 
 export default {
   bounds: [0, 0, 800, 600],

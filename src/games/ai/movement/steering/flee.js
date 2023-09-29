@@ -1,7 +1,7 @@
-import engine from '../../../../engine'
-import flee from '../../../../engine/ai/movement/steering/flee'
-import { mouseInstance, mouseType } from '../../../../engine/input/mouse'
-import { clampToBounds } from '../../../../utils/characters'
+import engine from '@ezpz/engine'
+import flee from '@ezpz/engine/ai/movement/steering/flee'
+import { mouseInstance, mouseType } from '@ezpz/engine/input/mouse'
+import { clampToBounds } from '@ezpz/utils/characters'
 
 export default {
   bounds: [0, 0, 800, 600],

@@ -1,9 +1,9 @@
-import engine from '../../../../engine'
+import engine from '@ezpz/engine'
 import evade, {
   DEFAULT_MAX_PREDICTION,
-} from '../../../../engine/ai/movement/steering/evade'
-import { mouseInstance, mouseType } from '../../../../engine/input/mouse'
-import { clampToBounds } from '../../../../utils/characters'
+} from '@ezpz/engine/ai/movement/steering/evade'
+import { mouseInstance, mouseType } from '@ezpz/engine/input/mouse'
+import { clampToBounds } from '@ezpz/utils/characters'
 
 export default {
   bounds: [0, 0, 800, 600],

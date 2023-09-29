@@ -13,15 +13,15 @@ export async function start(engine, msPerUpdate) {
     previousTime = currentTime
     lag += elapsed
 
-    engine.processInput()
+    // engine.processInput()
 
     while (lag >= msPerUpdate) {
       engine.update(elapsed / ONE_SECOND)
       lag -= msPerUpdate
     }
 
-    const normalizedLag = lag / msPerUpdate
-    engine.render(engine, normalizedLag)
+    // const normalizedLag = lag / msPerUpdate
+    // engine.render(engine, normalizedLag)
   }
 }
 

@@ -1,8 +1,7 @@
-import { useRef } from 'react'
-import { useEffect } from 'react'
+import engine from '@ezpz/engine'
+import { useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 
-import engine from '../../engine'
 import classes from './scene.module.scss'
 
 const NO_Y = 0

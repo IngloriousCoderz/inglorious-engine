@@ -10,9 +10,9 @@ export async function start(engine, msPerUpdate) {
     const currentTime = Date.now()
     const elapsed = currentTime - previousTime
 
-    engine.processInput()
+    // engine.processInput()
     engine.update(elapsed / ONE_SECOND)
-    engine.render(engine, msPerUpdate)
+    // engine.render(engine, msPerUpdate)
 
     previousTime = currentTime
     await sleep(Date.now() - currentTime + msPerUpdate)

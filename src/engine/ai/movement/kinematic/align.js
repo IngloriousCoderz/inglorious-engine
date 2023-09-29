@@ -1,4 +1,4 @@
-import { abs, clamp, toRange } from '../../../../utils/math'
+import { abs, clamp, toRange } from '@ezpz/utils/math'
 
 export const DEFAULT_TARGET_RADIUS = 0.1
 export const DEFAULT_TIME_TO_TARGET = 1

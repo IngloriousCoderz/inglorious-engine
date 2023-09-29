@@ -1,6 +1,5 @@
+import { map, merge } from '@ezpz/utils/objects'
 import produce from 'immer'
-
-import { map, merge } from '../../utils/objects'
 
 const DEFAULT_TYPES = { game: {} }
 const DEFAULT_STATE = { events: [], instances: { game: { type: 'game' } } }

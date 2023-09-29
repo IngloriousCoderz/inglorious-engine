@@ -1,8 +1,8 @@
-import engine from '../../../../engine'
+import engine from '@ezpz/engine'
 import matchVelocity, {
   DEFAULT_TIME_TO_TARGET,
-} from '../../../../engine/ai/movement/steering/match-velocity'
-import { clampToBounds } from '../../../../utils/characters'
+} from '@ezpz/engine/ai/movement/steering/match-velocity'
+import { clampToBounds } from '@ezpz/utils/characters'
 
 export default {
   bounds: [0, 0, 800, 600],

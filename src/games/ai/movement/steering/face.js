@@ -1,13 +1,13 @@
-import engine from '../../../../engine'
+import engine from '@ezpz/engine'
 import {
   DEFAULT_SLOW_RADIUS,
   DEFAULT_TARGET_RADIUS,
   DEFAULT_TIME_TO_TARGET,
-} from '../../../../engine/ai/movement/steering/align'
-import face from '../../../../engine/ai/movement/steering/face'
-import { mouseInstance, mouseType } from '../../../../engine/input/mouse'
-import { clampToBounds } from '../../../../utils/characters'
-import * as math from '../../../../utils/math'
+} from '@ezpz/engine/ai/movement/steering/align'
+import face from '@ezpz/engine/ai/movement/steering/face'
+import { mouseInstance, mouseType } from '@ezpz/engine/input/mouse'
+import { clampToBounds } from '@ezpz/utils/characters'
+import * as math from '@ezpz/utils/math'
 
 export default {
   bounds: [0, 0, 800, 600],

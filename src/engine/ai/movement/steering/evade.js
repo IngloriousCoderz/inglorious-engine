@@ -1,4 +1,5 @@
-import { magnitude, multiply, subtract, sum } from '../../../../utils/vectors'
+import { magnitude, multiply, subtract, sum } from '@ezpz/utils/vectors'
+
 import flee from './flee'
 
 export const DEFAULT_MAX_PREDICTION = 10

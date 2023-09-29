@@ -10,9 +10,9 @@ export async function start(engine) {
     const currentTime = Date.now()
     const elapsed = currentTime - previousTime
 
-    engine.processInput()
+    // engine.processInput()
     engine.update(elapsed / ONE_SECOND)
-    engine.render(engine)
+    // engine.render(engine)
 
     previousTime = currentTime
   }

@@ -1,4 +1,5 @@
-import { angle, magnitude } from '../../../../utils/vectors'
+import { angle, magnitude } from '@ezpz/utils/vectors'
+
 import align from './align'
 
 export default function lookWhereYoureGoing(character, _, options) {

@@ -1,5 +1,5 @@
-import matchVelocity from '../../engine/ai/movement/steering/match-velocity'
-import { keyboardInstance, keyboardType } from '../../engine/input/keyboard'
+import matchVelocity from '@ezpz/engine/ai/movement/steering/match-velocity'
+import { keyboardInstance, keyboardType } from '@ezpz/engine/input/keyboard'
 
 export default {
   bounds: [0, 0, 800, 600],

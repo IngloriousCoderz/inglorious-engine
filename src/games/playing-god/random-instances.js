@@ -1,4 +1,4 @@
-import { randomRange } from '../../utils/math'
+import { randomRange } from '@ezpz/utils/math'
 
 export default {
   bounds: [0, 0, 800, 600],

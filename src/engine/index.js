@@ -38,16 +38,8 @@ const engine = {
     loop[type].stop()
   },
 
-  processInput() {
-    // TODO: implement this function
-  },
-
   update(elapsed) {
     this.store.update(elapsed)
-  },
-
-  render(msPerUpdate) {
-    // TODO: implement this function
   },
 }
 

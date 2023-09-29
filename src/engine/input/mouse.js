@@ -1,6 +1,6 @@
-import engine from '../../engine'
-import { clampToBounds } from '../../utils/characters'
-import { subtract, ZERO_VECTOR } from '../../utils/vectors'
+import engine from '@ezpz/engine'
+import { clampToBounds } from '@ezpz/utils/characters'
+import { subtract, ZERO_VECTOR } from '@ezpz/utils/vectors'
 
 const CURSOR_SIZE = 16
 const NO_Y = 0

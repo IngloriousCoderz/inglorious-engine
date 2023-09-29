@@ -1,17 +1,14 @@
-import engine from '../../../../engine'
+import engine from '@ezpz/engine'
 import {
   DEFAULT_SLOW_RADIUS,
   DEFAULT_TARGET_RADIUS,
   DEFAULT_TIME_TO_TARGET,
-} from '../../../../engine/ai/movement/steering/align'
-import lookWhereYoureGoing from '../../../../engine/ai/movement/steering/look-where-youre-going'
-import {
-  keyboardInstance,
-  keyboardType,
-} from '../../../../engine/input/keyboard'
-import { clampToBounds } from '../../../../utils/characters'
-import * as math from '../../../../utils/math'
-import * as vectors from '../../../../utils/vectors'
+} from '@ezpz/engine/ai/movement/steering/align'
+import lookWhereYoureGoing from '@ezpz/engine/ai/movement/steering/look-where-youre-going'
+import { keyboardInstance, keyboardType } from '@ezpz/engine/input/keyboard'
+import { clampToBounds } from '@ezpz/utils/characters'
+import * as math from '@ezpz/utils/math'
+import * as vectors from '@ezpz/utils/vectors'
 
 export default {
   bounds: [0, 0, 800, 600],

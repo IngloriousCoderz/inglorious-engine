@@ -4,7 +4,7 @@ import {
   setMagnitude,
   subtract,
   sum,
-} from '../../../../utils/vectors'
+} from '@ezpz/utils/vectors'
 
 export default function flee(character, target, { elapsed }) {
   const direction = subtract(character.position, target.position)

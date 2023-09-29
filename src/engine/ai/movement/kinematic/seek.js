@@ -4,7 +4,7 @@ import {
   setMagnitude,
   subtract,
   sum,
-} from '../../../../utils/vectors'
+} from '@ezpz/utils/vectors'
 
 export default function seek(character, target, { elapsed }) {
   const direction = subtract(target.position, character.position)

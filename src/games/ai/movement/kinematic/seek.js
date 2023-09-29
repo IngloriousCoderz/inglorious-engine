@@ -1,7 +1,7 @@
-import engine from '../../../../engine'
-import seek from '../../../../engine/ai/movement/kinematic/seek'
-import { mouseInstance, mouseType } from '../../../../engine/input/mouse'
-import { clampToBounds } from '../../../../utils/characters'
+import engine from '@ezpz/engine'
+import seek from '@ezpz/engine/ai/movement/kinematic/seek'
+import { mouseInstance, mouseType } from '@ezpz/engine/input/mouse'
+import { clampToBounds } from '@ezpz/utils/characters'
 
 export default {
   bounds: [0, 0, 800, 600],

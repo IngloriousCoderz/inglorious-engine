@@ -1,4 +1,5 @@
-import { angle, magnitude, subtract } from '../../../../utils/vectors'
+import { angle, magnitude, subtract } from '@ezpz/utils/vectors'
+
 import align from './align'
 
 export default function face(character, target, options) {

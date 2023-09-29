@@ -1,5 +1,5 @@
-import { mouseInstance, mouseType } from '../../engine/input/mouse'
-import { subtract } from '../../utils/vectors'
+import { mouseInstance, mouseType } from '@ezpz/engine/input/mouse'
+import { subtract } from '@ezpz/utils/vectors'
 
 export default {
   bounds: [0, 0, 800, 600],
