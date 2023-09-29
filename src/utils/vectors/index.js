@@ -2,6 +2,7 @@ import * as vector from './vector'
 import * as vectors from './vectors'
 
 export const {
+  ZERO_VECTOR,
   angle,
   clamp,
   conjugate,

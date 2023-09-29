@@ -6,6 +6,7 @@ const LAST_COORDINATE = 1
 const UNIT_LENGTH = 1
 const NO_Y = 0
 
+export const ZERO_VECTOR = [0, 0, 0] // eslint-disable-line no-magic-numbers
 const UNIT_VECTOR = [1, 0, 0] // eslint-disable-line no-magic-numbers
 
 export function angle(vector) {

@@ -1,4 +1,4 @@
-export function keyboardType() {
+export function keyboardType(events = {}) {
   return {
     'keyboard:keyDown'(instance, { payload }) {
       instance[payload] = true
@@ -7,6 +7,8 @@ export function keyboardType() {
     'keyboard:keyUp'(instance, { payload }) {
       instance[payload] = false
     },
+
+    ...events,
   }
 }
 

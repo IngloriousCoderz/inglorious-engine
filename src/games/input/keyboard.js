@@ -3,6 +3,7 @@ import { keyboardInstance, keyboardType } from '../../input/keyboard'
 
 export default {
   bounds: [0, 0, 800, 600],
+
   types: {
     keyboard: keyboardType(),
 
@@ -14,7 +15,7 @@ export default {
 
     character: {
       'game:update'(instance, _, { elapsed, instances }) {
-        const { keyboard = {} } = instances
+        const { keyboard } = instances
 
         const target = { velocity: [0, 0, 0] }
         if (keyboard.ArrowLeft) {
@@ -39,6 +40,7 @@ export default {
       },
     },
   },
+
   state: {
     instances: {
       keyboard: keyboardInstance(),

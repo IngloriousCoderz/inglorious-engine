@@ -6,7 +6,14 @@ import { clampToBounds } from '../../../../utils/characters'
 
 export default {
   bounds: [0, 0, 800, 600],
+
   types: {
+    target: {
+      'targetSpeed:change'(instance, event) {
+        instance.velocity = [event.payload, 0, 0]
+      },
+    },
+
     game: {
       'timeToTarget:change'(_, event, { instances }) {
         instances.parameters.groups.matchVelocity.fields.timeToTarget.value =
@@ -25,15 +32,9 @@ export default {
       },
     },
 
-    cursor: {
-      'targetSpeed:change'(instance, event) {
-        instance.velocity = [event.payload, 0, 0]
-      },
-    },
-
     character: {
       'game:update'(instance, _, { instances, ...options }) {
-        const target = instances.cursor
+        const { target } = instances
         const { fields } = instances.parameters.groups.matchVelocity
 
         instance = {
@@ -52,17 +53,12 @@ export default {
 
     form: {},
   },
+
   state: {
     instances: {
       debug: {
         type: 'elapsed',
         value: 0,
-      },
-
-      cursor: {
-        type: 'cursor',
-        velocity: [0, 0, 0],
-        position: [0, 0, 0],
       },
 
       character: {
@@ -71,6 +67,11 @@ export default {
         maxAcceleration: 10,
         velocity: [0, 0, 0],
         position: [400, 0, 300],
+      },
+
+      target: {
+        type: 'target',
+        velocity: [0, 0, 0],
       },
 
       parameters: {

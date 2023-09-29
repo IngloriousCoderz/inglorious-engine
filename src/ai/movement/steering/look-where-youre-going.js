@@ -1,7 +1,7 @@
 import { angle, magnitude } from '../../../utils/vectors'
 import align from './align'
 
-export default function lookWhereYoureGoing(character, target, options) {
+export default function lookWhereYoureGoing(character, _, options) {
   const speed = magnitude(character.velocity)
 
   if (!speed) {

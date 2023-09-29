@@ -5,6 +5,7 @@ import {
 } from '../../../../ai/movement/steering/align'
 import lookWhereYoureGoing from '../../../../ai/movement/steering/look-where-youre-going'
 import engine from '../../../../engine'
+import { keyboardInstance, keyboardType } from '../../../../input/keyboard'
 import { clampToBounds } from '../../../../utils/characters'
 import * as math from '../../../../utils/math'
 import * as vectors from '../../../../utils/vectors'
@@ -13,6 +14,8 @@ export default {
   bounds: [0, 0, 800, 600],
 
   types: {
+    keyboard: keyboardType(),
+
     game: {
       'targetRadius:change'(_, event, { instances }) {
         instances.parameters.groups.align.fields.targetRadius.value =
@@ -34,31 +37,31 @@ export default {
       },
     },
 
-    cursor: {
-      'mouse:move'(instance, { payload }) {
-        instance.position = vectors.subtract(payload, [16, 0, 16])
-
-        clampToBounds(instance, engine.config.bounds)
-      },
-    },
-
     character: {
-      'key:press'(instance, { payload }) {
-        if (['ArrowLeft'].includes(payload)) {
-          instance.velocity = [-1, 0, 0]
-        } else if (['ArrowRight'].includes(payload)) {
-          instance.velocity = [1, 0, 0]
-        } else if (['ArrowUp'].includes(payload)) {
-          instance.velocity = [0, 0, -1]
-        } else if (['ArrowDown'].includes(payload)) {
-          instance.velocity = [0, 0, 1]
-        }
-
-        instance.position = vectors.sum(instance.position, instance.velocity)
-      },
-
       'game:update'(instance, _, { instances, ...options }) {
         const { fields } = instances.parameters.groups.align
+
+        const { keyboard = {} } = instances
+
+        const target = { velocity: [0, 0, 0] }
+        if (keyboard.ArrowLeft) {
+          target.velocity[0] = -1
+        }
+        if (keyboard.ArrowUp) {
+          target.velocity[2] = -1
+        }
+        if (keyboard.ArrowRight) {
+          target.velocity[0] = 1
+        }
+        if (keyboard.ArrowDown) {
+          target.velocity[2] = 1
+        }
+
+        instance = {
+          ...instance,
+          velocity: target.velocity,
+          position: vectors.sum(instance.position, target.velocity),
+        }
 
         instance = {
           ...instance,
@@ -78,16 +81,14 @@ export default {
 
     form: {},
   },
+
   state: {
     instances: {
+      keyboard: keyboardInstance(),
+
       debug: {
         type: 'elapsed',
         value: 0,
-      },
-
-      cursor: {
-        type: 'cursor',
-        position: [0, 0, 0],
       },
 
       character: {

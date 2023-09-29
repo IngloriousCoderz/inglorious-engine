@@ -2,6 +2,7 @@ import { randomRange } from '../../utils/math'
 
 export default {
   bounds: [0, 0, 800, 600],
+
   types: {
     elapsed: {
       'game:update'(instance, _, { elapsed }) {
@@ -11,6 +12,7 @@ export default {
 
     character: {},
   },
+
   state: {
     instances: {
       debug: {

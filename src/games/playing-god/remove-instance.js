@@ -1,22 +1,16 @@
 import engine from '../../engine'
-import { clampToBounds } from '../../utils/characters'
+import { mouseInstance, mouseType } from '../../input/mouse'
 import { randomRange } from '../../utils/math'
-import * as vectors from '../../utils/vectors'
 
 export default {
   bounds: [0, 0, 800, 600],
+
   types: {
+    mouse: mouseType(),
+
     game: {
       'character:click'(_, { payload }) {
         engine.store.remove(payload)
-      },
-    },
-
-    cursor: {
-      'mouse:move'(instance, { payload }) {
-        instance.position = vectors.subtract(payload, [16, 0, 16])
-
-        clampToBounds(instance, engine.config.bounds)
       },
     },
 
@@ -28,16 +22,14 @@ export default {
 
     character: {},
   },
+
   state: {
     instances: {
+      mouse: mouseInstance(),
+
       debug: {
         type: 'elapsed',
         value: 0,
-      },
-
-      cursor: {
-        type: 'cursor',
-        position: [0, 0, 0],
       },
 
       ...Array(5)

@@ -4,12 +4,15 @@ import arrive, {
   DEFAULT_TIME_TO_TARGET,
 } from '../../../../ai/movement/steering/arrive'
 import engine from '../../../../engine'
+import { mouseInstance, mouseType } from '../../../../input/mouse'
 import { clampToBounds } from '../../../../utils/characters'
-import * as vectors from '../../../../utils/vectors'
 
 export default {
   bounds: [0, 0, 800, 600],
+
   types: {
+    mouse: mouseType(),
+
     game: {
       'targetRadius:change'(_, event, { instances }) {
         instances.parameters.groups.arrive.fields.targetRadius.value =
@@ -31,17 +34,9 @@ export default {
       },
     },
 
-    cursor: {
-      'mouse:move'(instance, { payload }) {
-        instance.position = vectors.subtract(payload, [16, 0, 16])
-
-        clampToBounds(instance, engine.config.bounds)
-      },
-    },
-
     character: {
       'game:update'(instance, _, { instances, ...options }) {
-        const target = instances.cursor
+        const target = instances.mouse
         const { fields } = instances.parameters.groups.arrive
 
         instance = {
@@ -62,16 +57,14 @@ export default {
 
     form: {},
   },
+
   state: {
     instances: {
+      mouse: mouseInstance(),
+
       debug: {
         type: 'elapsed',
         value: 0,
-      },
-
-      cursor: {
-        type: 'cursor',
-        position: [0, 0, 0],
       },
 
       character: {

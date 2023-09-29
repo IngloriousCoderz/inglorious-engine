@@ -3,14 +3,39 @@ import align, {
   DEFAULT_TIME_TO_TARGET,
 } from '../../../../ai/movement/kinematic/align'
 import engine from '../../../../engine'
+import { keyboardInstance, keyboardType } from '../../../../input/keyboard'
+import { mouseInstance, mouseType } from '../../../../input/mouse'
 import { clampToBounds } from '../../../../utils/characters'
 import * as math from '../../../../utils/math'
-import * as vectors from '../../../../utils/vectors'
+import { clamp } from '../../../../utils/math/numbers'
 
 export default {
   bounds: [0, 0, 800, 600],
 
   types: {
+    mouse: mouseType({
+      'targetOrientation:change'(instance, event) {
+        instance.orientation = -event.payload * Math.PI
+      },
+
+      'game:update'(instance, _, { instances }) {
+        const { keyboard } = instances
+
+        if (keyboard.ArrowLeft || keyboard.ArrowUp) {
+          instance.orientation -= 0.1
+        } else if (keyboard.ArrowRight || keyboard.ArrowDown) {
+          instance.orientation += 0.1
+        }
+        instance.orientation = clamp(
+          instance.orientation,
+          -math.pi(),
+          math.pi()
+        )
+      },
+    }),
+
+    keyboard: keyboardType(),
+
     game: {
       'targetRadius:change'(_, event, { instances }) {
         instances.parameters.groups.align.fields.targetRadius.value =
@@ -32,27 +57,9 @@ export default {
       },
     },
 
-    cursor: {
-      'mouse:move'(instance, { payload }) {
-        instance.position = vectors.subtract(payload, [16, 0, 16])
-
-        clampToBounds(instance, engine.config.bounds)
-      },
-      'key:press'(instance, { payload }) {
-        if (['ArrowRight', 'ArrowDown'].includes(payload)) {
-          instance.orientation += 0.1
-        } else if (['ArrowLeft', 'ArrowUp'].includes(payload)) {
-          instance.orientation -= 0.1
-        }
-      },
-      'targetOrientation:change'(instance, event) {
-        instance.orientation = -event.payload * Math.PI
-      },
-    },
-
     character: {
       'game:update'(instance, _, { instances, ...options }) {
-        const target = instances.cursor
+        const target = instances.mouse
         const { fields } = instances.parameters.groups.align
 
         instance = {
@@ -72,17 +79,15 @@ export default {
 
     form: {},
   },
+
   state: {
     instances: {
+      mouse: mouseInstance(),
+      keyboard: keyboardInstance(),
+
       debug: {
         type: 'elapsed',
         value: 0,
-      },
-
-      cursor: {
-        type: 'cursor',
-        position: [0, 0, 0],
-        orientation: 0,
       },
 
       character: {

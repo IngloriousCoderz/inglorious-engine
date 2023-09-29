@@ -3,6 +3,7 @@ import { bounce } from '../utils/characters'
 
 export default {
   bounds: [0, 0, 800, 600],
+
   types: {
     elapsed: {
       'game:update'(instance, _, { elapsed }) {
@@ -16,6 +17,7 @@ export default {
       },
     },
   },
+
   state: {
     instances: {
       instance1: {

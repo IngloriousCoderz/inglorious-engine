@@ -5,14 +5,16 @@ import {
 } from '../../../../ai/movement/steering/align'
 import face from '../../../../ai/movement/steering/face'
 import engine from '../../../../engine'
+import { mouseInstance, mouseType } from '../../../../input/mouse'
 import { clampToBounds } from '../../../../utils/characters'
 import * as math from '../../../../utils/math'
-import * as vectors from '../../../../utils/vectors'
 
 export default {
   bounds: [0, 0, 800, 600],
 
   types: {
+    mouse: mouseType(),
+
     game: {
       'targetRadius:change'(_, event, { instances }) {
         instances.parameters.groups.face.fields.targetRadius.value =
@@ -33,17 +35,9 @@ export default {
       },
     },
 
-    cursor: {
-      'mouse:move'(instance, { payload }) {
-        instance.position = vectors.subtract(payload, [16, 0, 16])
-
-        clampToBounds(instance, engine.config.bounds)
-      },
-    },
-
     character: {
       'game:update'(instance, _, { instances, ...options }) {
-        const target = instances.cursor
+        const target = instances.mouse
         const { fields } = instances.parameters.groups.face
 
         instance = {
@@ -64,17 +58,14 @@ export default {
 
     form: {},
   },
+
   state: {
     instances: {
+      mouse: mouseInstance(),
+
       debug: {
         type: 'elapsed',
         value: 0,
-      },
-
-      cursor: {
-        type: 'cursor',
-        position: [0, 0, 0],
-        orientation: 0,
       },
 
       character: {

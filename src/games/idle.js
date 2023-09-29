@@ -1,6 +1,7 @@
 export default {
   bounds: [0, 0, 800, 600],
   // loop: { type: 'nap', fps: 10 },
+
   types: {
     elapsed: {
       'game:update'(instance, _, { elapsed }) {
@@ -12,6 +13,7 @@ export default {
 
     character: {},
   },
+
   state: {
     instances: {
       instance1: {

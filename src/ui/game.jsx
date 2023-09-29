@@ -36,7 +36,7 @@ export default function GameWrapper({ config }) {
 }
 
 const Components = {
-  cursor: withAbsolutePosition(Cursor),
+  mouse: withAbsolutePosition(Cursor),
   elapsed: withAbsolutePosition(Debug),
   button: withAbsolutePosition(Button),
   character: withAbsolutePosition(Character),
