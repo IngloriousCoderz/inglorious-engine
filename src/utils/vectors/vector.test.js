@@ -123,8 +123,8 @@ test('it should normalize a negative vector', () => {
 
 test('it should rotate a vector by a certain angle', () => {
   const vector = [1, 0, 0]
-  const angle = pi() / 2
-  const expectedResult = [2.220446049250313e-16, 0, -1] // close to [0, 0, -1]
+  const angle = pi() / 4
+  const expectedResult = [sine(angle), 0, -cosine(angle)]
 
   expect(rotate(vector, angle)).toStrictEqual(expectedResult)
 })
@@ -141,6 +141,14 @@ test('it should rotate a vector that faces left by a certain angle', () => {
   const vector = [-1, 0, 0]
   const angle = pi() / 4
   const expectedResult = [-sine(angle), 0, cosine(angle)]
+
+  expect(rotate(vector, angle)).toStrictEqual(expectedResult)
+})
+
+test('it should rotate a 2D vector by a certain angle', () => {
+  const vector = [1, 0]
+  const angle = pi() / 4
+  const expectedResult = [sine(angle), -cosine(angle)]
 
   expect(rotate(vector, angle)).toStrictEqual(expectedResult)
 })

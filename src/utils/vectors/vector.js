@@ -2,6 +2,7 @@ import { hypothenuse } from '@ezpz/utils/math/geometry'
 import { clamp as nClamp, mod as nMod } from '@ezpz/utils/math/numbers'
 import { arctan, cosine, sine } from '@ezpz/utils/math/trigonometry'
 
+import { from2D, is2D, to2D } from './2d'
 import { quaternion } from './quaternion'
 import { cross, sum } from './vectors'
 
@@ -73,12 +74,22 @@ export function normalize(vector) {
 export const remainder = mod
 
 export function rotate(vector, angle) {
+  let v = vector
+  if (is2D(vector)) {
+    v = from2D(vector)
+  }
+
   const [w, ...r] = quaternion(angle)
 
-  return sum(
-    vector,
-    cross(multiply(r, 2), sum(cross(r, vector), multiply(vector, w))) // eslint-disable-line no-magic-numbers
+  let result = sum(
+    v,
+    cross(multiply(r, 2), sum(cross(r, v), multiply(v, w))) // eslint-disable-line no-magic-numbers
   )
+  if (is2D(vector)) {
+    result = to2D(result)
+  }
+
+  return result
 }
 
 export function setAngle(vector, angle) {
