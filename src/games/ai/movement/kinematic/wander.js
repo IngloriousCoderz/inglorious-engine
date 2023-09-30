@@ -16,7 +16,6 @@ export default {
     character: {
       'game:update'(instance, _, options) {
         Object.assign(instance, wander(instance, options))
-
         flip(instance, engine.config.bounds)
       },
     },
@@ -33,8 +32,8 @@ export default {
         type: 'character',
         maxSpeed: 250,
         maxRotation: pi() / 4,
+        orientation: 0,
         position: [0, 0, 300],
-        direction: [1, 0, 0],
       },
     },
   },

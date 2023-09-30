@@ -9,7 +9,6 @@ import { cross, sum } from './vectors'
 const X = 0
 const Z = 2
 const LAST_COORDINATE = 1
-const UNIT_LENGTH = 1
 const NO_Y = 0
 
 export const ZERO_VECTOR = [0, 0, 0] // eslint-disable-line no-magic-numbers
@@ -48,8 +47,7 @@ export function divide(vector, scalar) {
 }
 
 export function fromAngle(angle) {
-  const [x, z] = toCartesian([UNIT_LENGTH, angle])
-  return [x, NO_Y, z]
+  return rotate(UNIT_VECTOR, angle)
 }
 
 export const length = magnitude
@@ -89,7 +87,7 @@ export function rotate(vector, angle) {
     result = to2D(result)
   }
 
-  return result
+  return conjugate(result)
 }
 
 export function setAngle(vector, angle) {

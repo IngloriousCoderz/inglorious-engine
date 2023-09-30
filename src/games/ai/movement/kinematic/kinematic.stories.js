@@ -5,6 +5,7 @@ import arrive from './arrive'
 import flee from './flee'
 import seek from './seek'
 import wander from './wander'
+import wanderAsSeek from './wander-as-seek'
 
 export default {
   title: 'Games/AI/Movement/Kinematic',
@@ -25,6 +26,10 @@ export const Arrive = {
 
 export const Wander = {
   args: { config: wander },
+}
+
+export const WanderAsSeek = {
+  args: { config: wanderAsSeek },
 }
 
 export const Align = {

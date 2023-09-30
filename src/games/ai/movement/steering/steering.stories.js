@@ -1,4 +1,5 @@
 import Game from '@ezpz/ui/game'
+
 import align from './align'
 import arrive from './arrive'
 import evade from './evade'
@@ -8,6 +9,7 @@ import lookWhereYoureGoing from './look-where-youre-going'
 import matchVelocity from './match-velocity'
 import pursue from './pursue'
 import seek from './seek'
+import wander from './wander'
 
 export default {
   title: 'Games/AI/Movement/Steering',
@@ -49,4 +51,8 @@ export const Face = {
 export const LookWhereYoureGoing = {
   name: "Look Where You're Going",
   args: { config: lookWhereYoureGoing },
+}
+
+export const Wander = {
+  args: { config: wander },
 }

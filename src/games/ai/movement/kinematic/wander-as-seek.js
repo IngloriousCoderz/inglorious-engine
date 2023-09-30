@@ -1,8 +1,7 @@
 import engine from '@ezpz/engine'
-import wander, {
-  DEFAULT_WANDER_OFFSET,
+import wanderAsSeek, {
   DEFAULT_WANDER_RADIUS,
-} from '@ezpz/engine/ai/movement/steering/wander'
+} from '@ezpz/engine/ai/movement/kinematic/wander-as-seek'
 import { flip } from '@ezpz/utils/characters'
 import { pi } from '@ezpz/utils/math/trigonometry'
 
@@ -11,12 +10,8 @@ export default {
 
   types: {
     game: {
-      'wanderOffset:change'(_, event, { instances }) {
-        instances.parameters.groups.wander.fields.wanderOffset.value =
-          event.payload
-      },
       'wanderRadius:change'(_, event, { instances }) {
-        instances.parameters.groups.wander.fields.wanderRadius.value =
+        instances.parameters.groups.wanderAsSeek.fields.wanderRadius.value =
           event.payload
       },
     },
@@ -29,13 +24,12 @@ export default {
 
     character: {
       'game:update'(instance, _, { instances, ...options }) {
-        const { fields } = instances.parameters.groups.wander
+        const { fields } = instances.parameters.groups.wanderAsSeek
 
         Object.assign(
           instance,
-          wander(instance, {
+          wanderAsSeek(instance, {
             ...options,
-            wanderOffset: fields.wanderOffset.value,
             wanderRadius: fields.wanderRadius.value,
           })
         )
@@ -55,11 +49,9 @@ export default {
 
       character: {
         type: 'character',
-        maxAcceleration: 10,
-        maxSpeed: 2,
+        maxSpeed: 250,
         maxRotation: pi() / 4,
         orientation: 0,
-        velocity: [0, 0, 0],
         position: [0, 0, 300],
       },
 
@@ -67,18 +59,12 @@ export default {
         type: 'form',
         position: [800 - 352, 0, 0],
         groups: {
-          wander: {
-            title: 'Steering Wander',
+          wanderAsSeek: {
+            title: 'Wander As Seek',
             fields: {
-              wanderOffset: {
-                label: 'Wander Offset',
-                inputType: 'number',
-                defaultValue: DEFAULT_WANDER_OFFSET,
-              },
               wanderRadius: {
                 label: 'Wander Radius',
                 inputType: 'number',
-                step: 0.1,
                 defaultValue: DEFAULT_WANDER_RADIUS,
               },
             },

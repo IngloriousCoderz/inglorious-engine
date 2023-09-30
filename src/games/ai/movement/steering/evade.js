@@ -64,7 +64,7 @@ export default {
 
       parameters: {
         type: 'form',
-        position: [800 - 177 - 51 - 100, 0, 0 * 21],
+        position: [800 - 343, 0, 0],
         groups: {
           evade: {
             title: 'Evade',

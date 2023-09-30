@@ -69,15 +69,15 @@ export default {
 
       character: {
         type: 'character',
-        maxSpeed: 250,
         maxAcceleration: 10,
+        maxSpeed: 250,
         velocity: [0, 0, 0],
         position: [400, 0, 300],
       },
 
       parameters: {
         type: 'form',
-        position: [800 - 177 - 51 - 100, 0, 0 * 21],
+        position: [800 - 328, 0, 0],
         groups: {
           arrive: {
             title: 'Steering Arrive',

@@ -1,5 +1,10 @@
 import { abs } from '@ezpz/utils/math/numbers'
-import { angle, clamp } from '@ezpz/utils/vectors/vector'
+import {
+  angle,
+  clamp,
+  fromAngle,
+  ZERO_VECTOR,
+} from '@ezpz/utils/vectors/vector'
 import { sum } from '@ezpz/utils/vectors/vectors'
 
 const X = 0
@@ -32,15 +37,24 @@ export function clampToBounds(character, [minX, minZ, maxX, maxZ]) {
 export function flip(instance, [minX, minZ, maxX, maxZ]) {
   const [x, , z] = instance.position
 
-  if (x < minX) {
-    instance.direction[X] = abs(instance.direction[X])
-  } else if (x >= maxX) {
-    instance.direction[X] = -abs(instance.direction[X])
+  const direction = fromAngle(instance.orientation)
+
+  if (x < minX || x >= maxX || z < minZ || z >= maxZ) {
+    if (x < minX) {
+      direction[X] = abs(direction[X])
+    } else if (x >= maxX) {
+      direction[X] = -abs(direction[X])
+    }
+
+    if (z < minZ) {
+      direction[Z] = abs(direction[Z])
+    } else if (z >= maxZ) {
+      direction[Z] = -abs(direction[Z])
+    }
+
+    instance.acceleration = ZERO_VECTOR
+    instance.velocity = ZERO_VECTOR
   }
 
-  if (z < minZ) {
-    instance.direction[Z] = abs(instance.direction[Z])
-  } else if (z >= maxZ) {
-    instance.direction[Z] = -abs(instance.direction[Z])
-  }
+  instance.orientation = angle(direction)
 }

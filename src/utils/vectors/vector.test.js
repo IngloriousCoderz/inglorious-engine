@@ -79,7 +79,7 @@ test('it should divide a vector by a scalar', () => {
 
 test('it should create a 3D unit vector from an angle', () => {
   const angle = pi() / 4
-  const expectedResult = [cosine(angle), 0, sine(angle)]
+  const expectedResult = [sine(angle), -0, cosine(angle)]
 
   expect(fromAngle(angle)).toStrictEqual(expectedResult)
 })
@@ -124,7 +124,7 @@ test('it should normalize a negative vector', () => {
 test('it should rotate a vector by a certain angle', () => {
   const vector = [1, 0, 0]
   const angle = pi() / 4
-  const expectedResult = [sine(angle), 0, -cosine(angle)]
+  const expectedResult = [sine(angle), -0, cosine(angle)]
 
   expect(rotate(vector, angle)).toStrictEqual(expectedResult)
 })
@@ -132,7 +132,7 @@ test('it should rotate a vector by a certain angle', () => {
 test('it should not rotate a vector when the angle is zero', () => {
   const vector = [1, 0, 0]
   const angle = 0
-  const expectedResult = [1, 0, 0]
+  const expectedResult = [1, -0, -0]
 
   expect(rotate(vector, angle)).toStrictEqual(expectedResult)
 })
@@ -140,7 +140,7 @@ test('it should not rotate a vector when the angle is zero', () => {
 test('it should rotate a vector that faces left by a certain angle', () => {
   const vector = [-1, 0, 0]
   const angle = pi() / 4
-  const expectedResult = [-sine(angle), 0, cosine(angle)]
+  const expectedResult = [-sine(angle), -0, -cosine(angle)]
 
   expect(rotate(vector, angle)).toStrictEqual(expectedResult)
 })
@@ -148,7 +148,7 @@ test('it should rotate a vector that faces left by a certain angle', () => {
 test('it should rotate a 2D vector by a certain angle', () => {
   const vector = [1, 0]
   const angle = pi() / 4
-  const expectedResult = [sine(angle), -cosine(angle)]
+  const expectedResult = [sine(angle), cosine(angle)]
 
   expect(rotate(vector, angle)).toStrictEqual(expectedResult)
 })
