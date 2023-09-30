@@ -1,4 +1,5 @@
-import { angle, magnitude, subtract } from '@ezpz/utils/vectors'
+import { angle, magnitude } from '@ezpz/utils/vectors/vector'
+import { subtract } from '@ezpz/utils/vectors/vectors'
 
 import align from './align'
 
@@ -10,5 +11,7 @@ export default function face(character, target, options) {
     return character
   }
 
-  return align(character, { ...target, orientation: angle(direction) }, options)
+  const orientation = angle(direction)
+
+  return align(character, { ...target, orientation }, options)
 }

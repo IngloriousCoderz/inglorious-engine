@@ -1,4 +1,5 @@
-import Game from '../../../../ui/game'
+import Game from '@ezpz/ui/game'
+
 import align from './align'
 import arrive from './arrive'
 import flee from './flee'

@@ -1,4 +1,4 @@
-import { angle, magnitude } from '@ezpz/utils/vectors'
+import { angle, magnitude } from '@ezpz/utils/vectors/vector'
 
 import align from './align'
 

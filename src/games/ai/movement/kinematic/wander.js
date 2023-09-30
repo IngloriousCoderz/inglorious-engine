@@ -1,6 +1,7 @@
 import engine from '@ezpz/engine'
 import wander from '@ezpz/engine/ai/movement/kinematic/wander'
 import { flip } from '@ezpz/utils/characters'
+import { pi } from '@ezpz/utils/math/trigonometry'
 
 export default {
   bounds: [0, 0, 800, 600],
@@ -31,7 +32,7 @@ export default {
       character: {
         type: 'character',
         maxSpeed: 250,
-        maxRotation: Math.PI / 4,
+        maxRotation: pi() / 4,
         position: [0, 0, 300],
         direction: [1, 0, 0],
       },

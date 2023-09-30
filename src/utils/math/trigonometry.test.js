@@ -1,31 +1,52 @@
 import { expect, test } from 'vitest'
 
-import * as t from './trigonometry'
+import { pi, toDegrees, toRadians, toRange } from './trigonometry'
 
 test('it should convert radians to degrees', () => {
-  const radians = 0.7853981633974483
+  const radians = pi() / 4
   const expectedResult = 45
 
-  expect(t.toDegrees(radians)).toBe(expectedResult)
+  expect(toDegrees(radians)).toBeCloseTo(expectedResult)
 })
 
 test('it should convert an angle greater than pi to a range between -pi and pi', () => {
-  const angle = (5 / 4) * Math.PI
-  const expectedResult = (-3 / 4) * Math.PI
+  const angle = (5 / 4) * pi()
+  const expectedResult = (-3 / 4) * pi()
 
-  expect(t.toRange(angle)).toBe(expectedResult)
+  expect(toRange(angle)).toBeCloseTo(expectedResult)
 })
 
-// test('it should convert an angle less than pi to a range between -pi and pi', () => {
-//   const angle = (-5 / 4) * Math.PI
-//   const expectedResult = (3 / 4) * Math.PI
+test('it should convert an angle greater than 2pi to a range between -pi and pi', () => {
+  const angle = (13 / 4) * pi()
+  const expectedResult = (-3 / 4) * pi()
 
-//   expect(t.toRange(angle)).toBe(expectedResult)
-// })
+  expect(toRange(angle)).toBeCloseTo(expectedResult)
+})
+
+test('it should convert an angle less than pi to a range between -pi and pi', () => {
+  const angle = (-5 / 4) * pi()
+  const expectedResult = (3 / 4) * pi()
+
+  expect(toRange(angle)).toBeCloseTo(expectedResult)
+})
+
+test('it should convert an angle less than 2pi to a range between -pi and pi', () => {
+  const angle = (-13 / 4) * pi()
+  const expectedResult = (3 / 4) * pi()
+
+  expect(toRange(angle)).toBeCloseTo(expectedResult)
+})
+
+test('it should not convert an angle already in the range [-pi, pi]', () => {
+  const angle = (3 / 4) * pi()
+  const expectedResult = (3 / 4) * pi()
+
+  expect(toRange(angle)).toBe(expectedResult)
+})
 
 test('it should convert radians to degrees', () => {
   const degrees = 45
-  const expectedResult = 0.7853981633974483
+  const expectedResult = pi() / 4
 
-  expect(t.toRadians(degrees)).toBe(expectedResult)
+  expect(toRadians(degrees)).toBeCloseTo(expectedResult)
 })

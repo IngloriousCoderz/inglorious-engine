@@ -1,5 +1,6 @@
-import { randomBinomial } from '@ezpz/utils/math'
-import { angle, rotate, setMagnitude, sum } from '@ezpz/utils/vectors'
+import { randomBinomial } from '@ezpz/utils/math/random'
+import { angle, rotate, setMagnitude } from '@ezpz/utils/vectors/vector'
+import { sum } from '@ezpz/utils/vectors/vectors'
 
 export default function wander(character, { elapsed }) {
   const rotation = randomBinomial() * character.maxRotation

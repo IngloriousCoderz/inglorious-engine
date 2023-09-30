@@ -1,4 +1,5 @@
-import { randomRange } from '@ezpz/utils/math'
+import { randomRange } from '@ezpz/utils/math/random'
+import { pi } from '@ezpz/utils/math/trigonometry'
 
 export default {
   bounds: [0, 0, 800, 600],
@@ -26,7 +27,7 @@ export default {
           acc[`character${index + 1}`] = {
             type: 'character',
             position: [randomRange(0, 800), 0, randomRange(0, 600)],
-            orientation: randomRange(0, 2 * Math.PI, 0.01),
+            orientation: randomRange(0, 2 * pi(), 0.01),
           }
           return acc
         }, {}),

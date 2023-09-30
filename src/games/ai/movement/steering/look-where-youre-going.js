@@ -7,8 +7,8 @@ import {
 import lookWhereYoureGoing from '@ezpz/engine/ai/movement/steering/look-where-youre-going'
 import { keyboardInstance, keyboardType } from '@ezpz/engine/input/keyboard'
 import { clampToBounds } from '@ezpz/utils/characters'
-import * as math from '@ezpz/utils/math'
-import * as vectors from '@ezpz/utils/vectors'
+import { pi } from '@ezpz/utils/math/trigonometry'
+import { sum } from '@ezpz/utils/vectors/vectors'
 
 export default {
   bounds: [0, 0, 800, 600],
@@ -60,7 +60,7 @@ export default {
         instance = {
           ...instance,
           velocity: target.velocity,
-          position: vectors.sum(instance.position, target.velocity),
+          position: sum(instance.position, target.velocity),
         }
 
         instance = {
@@ -93,7 +93,7 @@ export default {
 
       character: {
         type: 'character',
-        maxRotation: math.pi() / 4,
+        maxRotation: pi() / 4,
         maxAngularAcceleration: 10,
         velocity: [0, 0, 0],
         position: [400, 0, 300],

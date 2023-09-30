@@ -1,4 +1,9 @@
-import * as m from '../math'
+import { hypothenuse } from '@ezpz/utils/math/geometry'
+import { clamp as nClamp, mod as nMod } from '@ezpz/utils/math/numbers'
+import { arctan, cosine, sine } from '@ezpz/utils/math/trigonometry'
+
+import { quaternion } from './quaternion'
+import { cross, sum } from './vectors'
 
 const X = 0
 const Z = 2
@@ -10,7 +15,7 @@ export const ZERO_VECTOR = [0, 0, 0] // eslint-disable-line no-magic-numbers
 const UNIT_VECTOR = [1, 0, 0] // eslint-disable-line no-magic-numbers
 
 export function angle(vector) {
-  return m.arctan(vector[vector.length - LAST_COORDINATE], vector[X])
+  return arctan(vector[vector.length - LAST_COORDINATE], vector[X])
 }
 
 export function clamp(vector, min, max) {
@@ -26,7 +31,7 @@ export function clamp(vector, min, max) {
 
   if (typeof min !== 'number' && typeof max !== 'number') {
     return vector.map((coordinate, index) =>
-      m.clamp(coordinate, min[index], max[index])
+      nClamp(coordinate, min[index], max[index])
     )
   }
 
@@ -49,11 +54,11 @@ export function fromAngle(angle) {
 export const length = magnitude
 
 export function magnitude(vector) {
-  return m.hypothenuse(...vector)
+  return hypothenuse(...vector)
 }
 
 export function mod(vector, divisor) {
-  return vector.map((coordinate) => m.mod(coordinate, divisor))
+  return vector.map((coordinate) => nMod(coordinate, divisor))
 }
 
 export function multiply(vector, scalar) {
@@ -68,9 +73,12 @@ export function normalize(vector) {
 export const remainder = mod
 
 export function rotate(vector, angle) {
-  const [length, fromAngle] = toPolar(vector)
-  const [x, z] = toCartesian([length, fromAngle + angle])
-  return [x, NO_Y, z]
+  const [w, ...r] = quaternion(angle)
+
+  return sum(
+    vector,
+    cross(multiply(r, 2), sum(cross(r, vector), multiply(vector, w))) // eslint-disable-line no-magic-numbers
+  )
 }
 
 export function setAngle(vector, angle) {
@@ -93,13 +101,13 @@ export function shift(vector, index) {
 export const times = multiply
 
 export function toCartesian([magnitude, angle]) {
-  return [magnitude * m.cosine(angle), magnitude * m.sine(angle)]
+  return [magnitude * cosine(angle), magnitude * sine(angle)]
 }
 
 export function toCylindrical(vector) {
   const radius = magnitude(vector)
   const theta = angle(vector)
-  return [radius * m.cosine(theta), radius * m.sine(theta), vector[Z]]
+  return [radius * cosine(theta), radius * sine(theta), vector[Z]]
 }
 
 export function toPolar(vector) {

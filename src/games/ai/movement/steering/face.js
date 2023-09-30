@@ -7,7 +7,7 @@ import {
 import face from '@ezpz/engine/ai/movement/steering/face'
 import { mouseInstance, mouseType } from '@ezpz/engine/input/mouse'
 import { clampToBounds } from '@ezpz/utils/characters'
-import * as math from '@ezpz/utils/math'
+import { pi } from '@ezpz/utils/math/trigonometry'
 
 export default {
   bounds: [0, 0, 800, 600],
@@ -70,7 +70,7 @@ export default {
 
       character: {
         type: 'character',
-        maxRotation: math.pi() / 4,
+        maxRotation: pi() / 4,
         maxAngularAcceleration: 10,
         position: [400, 0, 300],
         angularVelocity: 0,

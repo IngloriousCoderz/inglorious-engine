@@ -1,4 +1,4 @@
-import { mod } from '.'
+import { mod } from '@ezpz/utils/math/numbers'
 
 const HALF_CIRCLE_IN_DEGRESS = 180
 const FULL_CIRCLE = 2
@@ -24,14 +24,16 @@ export function toDegrees(radians) {
 }
 
 export function toRange(angle) {
+  if (angle > -pi() && angle < pi()) {
+    return angle
+  }
+
+  angle = mod(angle, FULL_CIRCLE * pi())
+
   if (angle > pi()) {
-    const multipleOfPi = angle - mod(angle, pi())
-    return angle - FULL_CIRCLE * multipleOfPi
+    angle -= FULL_CIRCLE * pi()
   }
-  if (angle < pi()) {
-    const multipleOfPi = angle - mod(angle, -pi())
-    return angle - FULL_CIRCLE * -multipleOfPi
-  }
+
   return angle
 }
 

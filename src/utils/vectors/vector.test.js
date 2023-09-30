@@ -1,19 +1,38 @@
+import { cosine, pi, sine } from '@ezpz/utils/math/trigonometry'
 import { expect, test } from 'vitest'
 
-import * as v from './vector'
+import {
+  angle,
+  clamp,
+  conjugate,
+  divide,
+  fromAngle,
+  magnitude,
+  mod,
+  multiply,
+  normalize,
+  rotate,
+  setAngle,
+  setMagnitude,
+  shift,
+  toCartesian,
+  toCylindrical,
+  toPolar,
+  unit,
+} from './vector'
 
 test('it should compute the angle of a 2D vector', () => {
   const vector = [1, 1]
-  const expectedResult = 0.7853981633974483
+  const expectedResult = pi() / 4
 
-  expect(v.angle(vector)).toBe(expectedResult)
+  expect(angle(vector)).toBe(expectedResult)
 })
 
 test('it should compute the angle of a 3D vector', () => {
   const vector = [1, 0, 1]
-  const expectedResult = 0.7853981633974483
+  const expectedResult = pi() / 4
 
-  expect(v.angle(vector)).toBe(expectedResult)
+  expect(angle(vector)).toBe(expectedResult)
 })
 
 test('it should clamp the magnitude of a vector to a certain length if too long', () => {
@@ -22,7 +41,7 @@ test('it should clamp the magnitude of a vector to a certain length if too long'
   const max = 5
   const expectedResult = [3, 4]
 
-  expect(v.clamp(vector, min, max)).toStrictEqual(expectedResult)
+  expect(clamp(vector, min, max)).toStrictEqual(expectedResult)
 })
 
 test('it should not clamp the magnitude of a vector to a certain length if not too long', () => {
@@ -31,7 +50,7 @@ test('it should not clamp the magnitude of a vector to a certain length if not t
   const max = 6
   const expectedResult = [3, 4]
 
-  expect(v.clamp(vector, min, max)).toStrictEqual(expectedResult)
+  expect(clamp(vector, min, max)).toStrictEqual(expectedResult)
 })
 
 test('it should clamp the magnitude of a vector to the values of other vector bounds', () => {
@@ -40,14 +59,14 @@ test('it should clamp the magnitude of a vector to the values of other vector bo
   const upperBound = [3, 4]
   const expectedResult = [3, 4]
 
-  expect(v.clamp(vector, lowerBound, upperBound)).toStrictEqual(expectedResult)
+  expect(clamp(vector, lowerBound, upperBound)).toStrictEqual(expectedResult)
 })
 
 test('it should conjugate a vector', () => {
   const vector = [1, 2, 3]
   const expectedResult = [1, -2, -3]
 
-  expect(v.conjugate(vector)).toStrictEqual(expectedResult)
+  expect(conjugate(vector)).toStrictEqual(expectedResult)
 })
 
 test('it should divide a vector by a scalar', () => {
@@ -55,21 +74,21 @@ test('it should divide a vector by a scalar', () => {
   const scalar = 4
   const expectedResult = [1, 2, 3]
 
-  expect(v.divide(vector, scalar)).toStrictEqual(expectedResult)
+  expect(divide(vector, scalar)).toStrictEqual(expectedResult)
 })
 
 test('it should create a 3D unit vector from an angle', () => {
-  const angle = 0.7853981633974483
-  const expectedResult = [0.7071067811865476, 0, 0.7071067811865475]
+  const angle = pi() / 4
+  const expectedResult = [cosine(angle), 0, sine(angle)]
 
-  expect(v.fromAngle(angle)).toStrictEqual(expectedResult)
+  expect(fromAngle(angle)).toStrictEqual(expectedResult)
 })
 
 test('it should compute the magnitude of a vector (aka length)', () => {
   const vector = [3, 4]
   const expectedResult = 5
 
-  expect(v.magnitude(vector)).toBe(expectedResult)
+  expect(magnitude(vector)).toBe(expectedResult)
 })
 
 test('it should apply the mod operator (aka remainder) on a vector', () => {
@@ -77,7 +96,7 @@ test('it should apply the mod operator (aka remainder) on a vector', () => {
   const divisor = 12
   const expectedResult = [10, 0, 6]
 
-  expect(v.mod(vector, divisor)).toStrictEqual(expectedResult)
+  expect(mod(vector, divisor)).toStrictEqual(expectedResult)
 })
 
 test('it should multiply a vector with a scalar (aka times)', () => {
@@ -85,44 +104,52 @@ test('it should multiply a vector with a scalar (aka times)', () => {
   const scalar = 4
   const expectedResult = [4, 8, 12]
 
-  expect(v.multiply(vector, scalar)).toStrictEqual(expectedResult)
+  expect(multiply(vector, scalar)).toStrictEqual(expectedResult)
 })
 
 test('it should normalize a vector so it has unit length', () => {
   const vector = [3, 4]
   const expectedResult = [0.6, 0.8]
 
-  expect(v.normalize(vector)).toStrictEqual(expectedResult)
+  expect(normalize(vector)).toStrictEqual(expectedResult)
 })
 
 test('it should normalize a negative vector', () => {
   const vector = [-3, -4]
   const expectedResult = [-0.6, -0.8]
 
-  expect(v.normalize(vector)).toStrictEqual(expectedResult)
+  expect(normalize(vector)).toStrictEqual(expectedResult)
 })
 
 test('it should rotate a vector by a certain angle', () => {
-  const vector = [1, 0, 1]
-  const angle = 0.7853981633974483 // pi/4
-  const expectedResult = [8.659560562354934e-17, 0, 1.4142135623730951] // close to [0, 0, sqrt(2)]
+  const vector = [1, 0, 0]
+  const angle = pi() / 2
+  const expectedResult = [2.220446049250313e-16, 0, -1] // close to [0, 0, -1]
 
-  expect(v.rotate(vector, angle)).toStrictEqual(expectedResult)
+  expect(rotate(vector, angle)).toStrictEqual(expectedResult)
+})
+
+test('it should not rotate a vector when the angle is zero', () => {
+  const vector = [1, 0, 0]
+  const angle = 0
+  const expectedResult = [1, 0, 0]
+
+  expect(rotate(vector, angle)).toStrictEqual(expectedResult)
 })
 
 test('it should rotate a vector that faces left by a certain angle', () => {
   const vector = [-1, 0, 0]
-  const angle = 0.7853981633974483 // pi/4
-  const expectedResult = [-0.7071067811865477, 0, -0.7071067811865475] // close to [-sqrt(2), 0, -sqrt(2)]
+  const angle = pi() / 4
+  const expectedResult = [-sine(angle), 0, cosine(angle)]
 
-  expect(v.rotate(vector, angle)).toStrictEqual(expectedResult)
+  expect(rotate(vector, angle)).toStrictEqual(expectedResult)
 })
 
 test('it should change the angle of a vector', () => {
-  const vector = [0.7071067811865476, 0, 0.7071067811865476] // cos(pi/4) and sin(pi/4)
+  const vector = [cosine(pi() / 4), 0, sine(pi() / 4)]
   const expectedResult = [6.123233995736766e-17, 0, 1] // close to [0, 0, 1]
 
-  expect(v.setAngle(vector, 1.5707963267948966)).toStrictEqual(expectedResult)
+  expect(setAngle(vector, 1.5707963267948966)).toStrictEqual(expectedResult)
 })
 
 test('it should change magnitude of a vector (aka setLength)', () => {
@@ -130,7 +157,7 @@ test('it should change magnitude of a vector (aka setLength)', () => {
   const magnitude = 10
   const expectedResult = [6, 8]
 
-  expect(v.setMagnitude(vector, magnitude)).toStrictEqual(expectedResult)
+  expect(setMagnitude(vector, magnitude)).toStrictEqual(expectedResult)
 })
 
 test('it should change magnitude of a negative vector', () => {
@@ -138,7 +165,7 @@ test('it should change magnitude of a negative vector', () => {
   const magnitude = 10
   const expectedResult = [-6, -8]
 
-  expect(v.setMagnitude(vector, magnitude)).toStrictEqual(expectedResult)
+  expect(setMagnitude(vector, magnitude)).toStrictEqual(expectedResult)
 })
 
 test('it should shift a vector at a certain index', () => {
@@ -146,34 +173,34 @@ test('it should shift a vector at a certain index', () => {
   const index = 2
   const expectedResult = [3, 4, 5, 1, 2]
 
-  expect(v.shift(vector, index)).toStrictEqual(expectedResult)
+  expect(shift(vector, index)).toStrictEqual(expectedResult)
 })
 
 test('it should convert a 2D polar vector to cartesian coordinates', () => {
-  const vector = [1.4142135623730951, 0.7853981633974483]
+  const vector = [2 ** 0.5, pi() / 4]
   const expectedResult = [1.0000000000000002, 1]
 
-  expect(v.toCartesian(vector)).toStrictEqual(expectedResult)
+  expect(toCartesian(vector)).toStrictEqual(expectedResult)
 })
 
 test('it should convert a 3D cartesian vector to cylindrical coordinates', () => {
   const vector = [1, 1, 1]
   const expectedResult = [1.2247448713915892, 1.224744871391589, 1]
 
-  expect(v.toCylindrical(vector)).toStrictEqual(expectedResult)
+  expect(toCylindrical(vector)).toStrictEqual(expectedResult)
 })
 
 test('it should convert a 2D cartesian vector to polar coordinates', () => {
   const vector = [1, 1]
-  const expectedResult = [1.4142135623730951, 0.7853981633974483]
+  const expectedResult = [2 ** 0.5, pi() / 4]
 
-  expect(v.toPolar(vector)).toStrictEqual(expectedResult)
+  expect(toPolar(vector)).toStrictEqual(expectedResult)
 })
 
 test('it should create a unit vector oriented on the X-axis', () => {
-  expect(v.unit()).toStrictEqual([1, 0, 0])
+  expect(unit()).toStrictEqual([1, 0, 0])
 })
 
 test('it should create a unit vector oriented on the Z-axis', () => {
-  expect(v.unit(Math.PI / 2)).toStrictEqual([6.123233995736766e-17, 0, 1]) // [0, 0, 1]
+  expect(unit(pi() / 2)).toStrictEqual([6.123233995736766e-17, 0, 1]) // close to [0, 0, 1]
 })

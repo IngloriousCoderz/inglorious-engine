@@ -1,5 +1,6 @@
-import { abs } from '../math'
-import { angle, clamp, sum } from '../vectors'
+import { abs } from '@ezpz/utils/math/numbers'
+import { angle, clamp } from '@ezpz/utils/vectors/vector'
+import { sum } from '@ezpz/utils/vectors/vectors'
 
 const X = 0
 const Z = 2

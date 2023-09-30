@@ -7,8 +7,8 @@ import align, {
 import { keyboardInstance, keyboardType } from '@ezpz/engine/input/keyboard'
 import { mouseInstance, mouseType } from '@ezpz/engine/input/mouse'
 import { clampToBounds } from '@ezpz/utils/characters'
-import * as math from '@ezpz/utils/math'
 import { clamp } from '@ezpz/utils/math/numbers'
+import { pi } from '@ezpz/utils/math/trigonometry'
 
 export default {
   bounds: [0, 0, 800, 600],
@@ -16,7 +16,7 @@ export default {
   types: {
     mouse: mouseType({
       'targetOrientation:change'(instance, event) {
-        instance.orientation = -event.payload * Math.PI
+        instance.orientation = -event.payload * pi()
       },
 
       'game:update'(instance, _, { instances }) {
@@ -27,11 +27,7 @@ export default {
         } else if (keyboard.ArrowRight || keyboard.ArrowDown) {
           instance.orientation += 0.1
         }
-        instance.orientation = clamp(
-          instance.orientation,
-          -math.pi(),
-          math.pi()
-        )
+        instance.orientation = clamp(instance.orientation, -pi(), pi())
       },
     }),
 
@@ -98,7 +94,7 @@ export default {
 
       character: {
         type: 'character',
-        maxRotation: math.pi() / 4,
+        maxRotation: pi() / 4,
         maxAngularAcceleration: 10,
         position: [400, 0, 300],
         angularVelocity: 0,

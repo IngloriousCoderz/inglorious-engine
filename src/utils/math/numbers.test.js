@@ -1,12 +1,12 @@
 import { expect, test } from 'vitest'
 
-import * as n from './numbers'
+import { abs, clamp, mod, sign } from './numbers'
 
 test('it should return the absolute value of a number', () => {
   const num = -7
   const expectedResult = 7
 
-  expect(n.abs(num)).toBe(expectedResult)
+  expect(abs(num)).toBe(expectedResult)
 })
 
 test('it should clamp a number too big', () => {
@@ -15,7 +15,7 @@ test('it should clamp a number too big', () => {
   const max = 6
   const expectedResult = 6
 
-  expect(n.clamp(num, min, max)).toBe(expectedResult)
+  expect(clamp(num, min, max)).toBe(expectedResult)
 })
 
 test('it should clamp a number too small', () => {
@@ -24,7 +24,7 @@ test('it should clamp a number too small', () => {
   const max = 6
   const expectedResult = 3
 
-  expect(n.clamp(num, min, max)).toBe(expectedResult)
+  expect(clamp(num, min, max)).toBe(expectedResult)
 })
 
 test('it should not clamp a number in the range', () => {
@@ -33,7 +33,7 @@ test('it should not clamp a number in the range', () => {
   const max = 6
   const expectedResult = 4
 
-  expect(n.clamp(num, min, max)).toBe(expectedResult)
+  expect(clamp(num, min, max)).toBe(expectedResult)
 })
 
 test('it should compute the modulo operator on negative numbers', () => {
@@ -41,15 +41,23 @@ test('it should compute the modulo operator on negative numbers', () => {
   const divisor = 12
   const expectedResult = 10
 
-  expect(n.mod(num, divisor)).toBe(expectedResult)
+  expect(mod(num, divisor)).toBe(expectedResult)
 })
 
 test('it should convert a number greater than 1 to a range between -1 and 1', () => {
   const num = 5 / 4
-  const divisor = -1
-  const expectedResult = -3 / 4
+  const divisor = 1
+  const expectedResult = 1 / 4
 
-  expect(n.mod(num, divisor)).toBe(expectedResult)
+  expect(mod(num, divisor)).toBe(expectedResult)
+})
+
+test('it should convert a number greater than 2 to a range between -1 and 1', () => {
+  const num = 13 / 4
+  const divisor = 1
+  const expectedResult = 1 / 4
+
+  expect(mod(num, divisor)).toBe(expectedResult)
 })
 
 test('it should convert a number less than -1 to a range between -1 and 1', () => {
@@ -57,19 +65,19 @@ test('it should convert a number less than -1 to a range between -1 and 1', () =
   const divisor = 1
   const expectedResult = 3 / 4
 
-  expect(n.mod(num, divisor)).toBe(expectedResult)
+  expect(mod(num, divisor)).toBe(expectedResult)
 })
 
 test('it should calculate the sign of a number', () => {
   const num = -3
   const expectedResult = -1
 
-  expect(n.sign(num)).toBe(expectedResult)
+  expect(sign(num)).toBe(expectedResult)
 })
 
 test('it should return the number itself if the sign is zero', () => {
   const num = 0
   const expectedResult = 0
 
-  expect(n.sign(num)).toBe(expectedResult)
+  expect(sign(num)).toBe(expectedResult)
 })

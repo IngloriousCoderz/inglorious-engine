@@ -1,10 +1,5 @@
-import {
-  angle,
-  magnitude,
-  setMagnitude,
-  subtract,
-  sum,
-} from '@ezpz/utils/vectors'
+import { angle, magnitude, setMagnitude } from '@ezpz/utils/vectors/vector'
+import { subtract, sum } from '@ezpz/utils/vectors/vectors'
 
 export default function flee(character, target, { elapsed }) {
   const direction = subtract(character.position, target.position)

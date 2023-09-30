@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 
-import * as o from '.'
+import { map } from '.'
 
 test('it should behave like Array.prototype.map, but on an object', () => {
   const obj = {
@@ -15,5 +15,5 @@ test('it should behave like Array.prototype.map, but on an object', () => {
     key3: 'VALUE3',
   }
 
-  expect(o.map(obj, callback)).toStrictEqual(expectedResult)
+  expect(map(obj, callback)).toStrictEqual(expectedResult)
 })
