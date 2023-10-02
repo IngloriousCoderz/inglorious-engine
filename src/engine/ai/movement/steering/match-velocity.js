@@ -1,5 +1,5 @@
-import { angle, clamp, divide } from '@ezpz/utils/vectors/vector'
-import { subtract, sum } from '@ezpz/utils/vectors/vectors'
+import { angle, clamp, divide } from '@ezpz/utils/math/linear/vector'
+import { subtract, sum } from '@ezpz/utils/math/linear/vectors'
 
 export const DEFAULT_TIME_TO_TARGET = 1
 

@@ -7,6 +7,8 @@ export function arctan(y, x) {
   return Math.atan2(y, x)
 }
 
+export const cos = cosine
+
 export function cosine(angle) {
   return Math.cos(angle)
 }
@@ -14,6 +16,8 @@ export function cosine(angle) {
 export function pi() {
   return Math.PI
 }
+
+export const sin = sine
 
 export function sine(angle) {
   return Math.sin(angle)

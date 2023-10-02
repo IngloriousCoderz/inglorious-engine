@@ -8,7 +8,7 @@ import lookWhereYoureGoing from '@ezpz/engine/ai/movement/steering/look-where-yo
 import { keyboardInstance, keyboardType } from '@ezpz/engine/input/keyboard'
 import { clampToBounds } from '@ezpz/utils/characters'
 import { pi } from '@ezpz/utils/math/trigonometry'
-import { sum } from '@ezpz/utils/vectors/vectors'
+import { sum } from '@ezpz/utils/math/linear/vectors'
 
 export default {
   bounds: [0, 0, 800, 600],

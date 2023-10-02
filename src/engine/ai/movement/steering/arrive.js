@@ -1,5 +1,5 @@
-import { magnitude, setMagnitude } from '@ezpz/utils/vectors/vector'
-import { subtract } from '@ezpz/utils/vectors/vectors'
+import { magnitude, setMagnitude } from '@ezpz/utils/math/linear/vector'
+import { subtract } from '@ezpz/utils/math/linear/vectors'
 
 import matchVelocity from './match-velocity'
 

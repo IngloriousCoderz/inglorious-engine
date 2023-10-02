@@ -1,6 +1,6 @@
 import { randomBinomial } from '@ezpz/utils/math/random'
-import { angle, fromAngle, multiply } from '@ezpz/utils/vectors/vector'
-import { sum } from '@ezpz/utils/vectors/vectors'
+import { angle, fromAngle, multiply } from '@ezpz/utils/math/linear/vector'
+import { sum } from '@ezpz/utils/math/linear/vectors'
 
 export default function wander(character, { elapsed }) {
   const targetOrientation =

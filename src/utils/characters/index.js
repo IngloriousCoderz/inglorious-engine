@@ -4,8 +4,8 @@ import {
   clamp,
   fromAngle,
   ZERO_VECTOR,
-} from '@ezpz/utils/vectors/vector'
-import { sum } from '@ezpz/utils/vectors/vectors'
+} from '@ezpz/utils/math/linear/vector'
+import { sum } from '@ezpz/utils/math/linear/vectors'
 
 const X = 0
 const Z = 2

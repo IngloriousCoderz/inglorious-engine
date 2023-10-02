@@ -4,7 +4,7 @@ export function random() {
 }
 
 export function randomBinomial() {
-  return Math.random() - Math.random()
+  return random() - random()
 }
 
 export function randomRange(...args) {
@@ -22,5 +22,5 @@ export function randomRange(...args) {
     to = (args[1] + 1) / step
   }
 
-  return Math.floor(Math.random() * (to - from) + from) * step
+  return Math.floor(random() * (to - from) + from) * step
 }

@@ -2,13 +2,14 @@ import { hypothenuse } from '@ezpz/utils/math/geometry'
 import { clamp as nClamp, mod as nMod } from '@ezpz/utils/math/numbers'
 import { arctan, cosine, sine } from '@ezpz/utils/math/trigonometry'
 
-import { from2D, is2D, to2D } from './2d'
+import { from2D, to2D } from './2d'
 import { quaternion } from './quaternion'
 import { cross, sum } from './vectors'
 
 const X = 0
 const Z = 2
 const LAST_COORDINATE = 1
+const TWO_COORDINATES = 2
 const NO_Y = 0
 
 export const ZERO_VECTOR = [0, 0, 0] // eslint-disable-line no-magic-numbers
@@ -72,22 +73,13 @@ export function normalize(vector) {
 export const remainder = mod
 
 export function rotate(vector, angle) {
-  let v = vector
-  if (is2D(vector)) {
-    v = from2D(vector)
-  }
+  const is2D = vector.length === TWO_COORDINATES
 
-  const [w, ...r] = quaternion(angle)
+  let v = is2D ? from2D(vector) : vector
 
-  let result = sum(
-    v,
-    cross(multiply(r, 2), sum(cross(r, v), multiply(v, w))) // eslint-disable-line no-magic-numbers
-  )
-  if (is2D(vector)) {
-    result = to2D(result)
-  }
+  let result = rotateWithQuaternion(v, angle)
 
-  return conjugate(result)
+  return is2D ? to2D(result) : result
 }
 
 export function setAngle(vector, angle) {
@@ -131,4 +123,14 @@ export function unit(angle) {
   }
 
   return setAngle(UNIT_VECTOR, angle)
+}
+
+function rotateWithQuaternion(v, angle) {
+  // @see https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation#Performance_comparisons
+  const [w, ...r] = quaternion(angle)
+  const result = sum(
+    v,
+    cross(multiply(r, 2), sum(cross(r, v), multiply(v, w))) // eslint-disable-line no-magic-numbers
+  )
+  return conjugate(result) // HACK: not really sure why we should conjugate
 }

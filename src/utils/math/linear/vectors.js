@@ -1,4 +1,4 @@
-import { shift } from '@ezpz/utils/vectors/vector'
+import { shift } from '@ezpz/utils/math/linear/vector'
 
 export const add = sum
 

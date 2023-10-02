@@ -1,5 +1,5 @@
-import { angle, magnitude } from '@ezpz/utils/vectors/vector'
-import { subtract } from '@ezpz/utils/vectors/vectors'
+import { angle, magnitude } from '@ezpz/utils/math/linear/vector'
+import { subtract } from '@ezpz/utils/math/linear/vectors'
 
 import align from './align'
 
