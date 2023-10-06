@@ -1,8 +1,8 @@
-import { cosine, pi, sine } from '@ezpz/utils/math/trigonometry'
+import { cos, pi, sin } from '@ezpz/utils/math/trigonometry'
 import { expect, test } from 'vitest'
 
-import { quaternion } from './quaternion'
-import { combine } from './quaternions'
+import { quaternion } from '../quaternion'
+import { combine } from '.'
 
 test('it should combine two zero-angle quaternions by giving the same 0-angle quaternion', () => {
   const q1 = quaternion(0)
@@ -15,7 +15,7 @@ test('it should combine two zero-angle quaternions by giving the same 0-angle qu
 test('it should combine a zero-angle quaternion with a nonzero-angle quaternion', () => {
   const q1 = quaternion(0)
   const q2 = quaternion(pi() / 2)
-  const expectedResult = [cosine(pi() / 4), 0, sine(pi() / 4), 0]
+  const expectedResult = [cos(pi() / 4), 0, sin(pi() / 4), 0]
 
   expect(combine(q1, q2)).toStrictEqual(expectedResult)
 })

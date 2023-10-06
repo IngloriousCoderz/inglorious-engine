@@ -1,7 +1,7 @@
-import { cosine, pi, sine } from '@ezpz/utils/math/trigonometry'
+import { cos, pi, sin } from '@ezpz/utils/math/trigonometry'
 import { expect, test } from 'vitest'
 
-import { quaternion } from './quaternion'
+import { quaternion } from '.'
 
 test('it should return the quaternion for no rotation', () => {
   const angle = 0
@@ -12,14 +12,14 @@ test('it should return the quaternion for no rotation', () => {
 
 test('it should return the quaternion for a rotation of pi/2', () => {
   const angle = pi() / 2
-  const expectedResult = [cosine(pi() / 4), 0, sine(pi() / 4), 0]
+  const expectedResult = [cos(pi() / 4), 0, sin(pi() / 4), 0]
 
   expect(quaternion(angle)).toStrictEqual(expectedResult)
 })
 
 test('it should return the quaternion for a rotation of negative pi/2', () => {
   const angle = -pi() / 2
-  const expectedResult = [cosine(-pi() / 4), -0, sine(-pi() / 4), -0]
+  const expectedResult = [cos(-pi() / 4), -0, sin(-pi() / 4), -0]
 
   expect(quaternion(angle)).toStrictEqual(expectedResult)
 })

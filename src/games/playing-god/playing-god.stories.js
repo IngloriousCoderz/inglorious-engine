@@ -12,10 +12,10 @@ export const RandomInstances = {
   args: { config: randomInstances },
 }
 
-export const RemoveInstance = {
-  args: { config: removeInstance },
-}
-
 export const AddInstance = {
   args: { config: addInstance },
+}
+
+export const RemoveInstance = {
+  args: { config: removeInstance },
 }

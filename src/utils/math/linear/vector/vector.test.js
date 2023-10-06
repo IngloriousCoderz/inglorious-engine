@@ -1,4 +1,4 @@
-import { cosine, pi, sine } from '@ezpz/utils/math/trigonometry'
+import { cos, pi, sin } from '@ezpz/utils/math/trigonometry'
 import { expect, test } from 'vitest'
 
 import {
@@ -18,8 +18,9 @@ import {
   toCartesian,
   toCylindrical,
   toPolar,
+  toString,
   unit,
-} from './vector'
+} from '.'
 
 test('it should compute the angle of a 2D vector', () => {
   const vector = [1, 1]
@@ -79,7 +80,7 @@ test('it should divide a vector by a scalar', () => {
 
 test('it should create a 3D unit vector from an angle', () => {
   const angle = pi() / 4
-  const expectedResult = [sine(angle), -0, cosine(angle)]
+  const expectedResult = [sin(angle), -0, cos(angle)]
 
   expect(fromAngle(angle)).toStrictEqual(expectedResult)
 })
@@ -121,10 +122,10 @@ test('it should normalize a negative vector', () => {
   expect(normalize(vector)).toStrictEqual(expectedResult)
 })
 
-test('it should rotate a vector by a certain angle', () => {
-  const vector = [1, 0, 0]
+test('it should rotate a 2D vector by a certain angle', () => {
+  const vector = [1, 0]
   const angle = pi() / 4
-  const expectedResult = [sine(angle), -0, cosine(angle)]
+  const expectedResult = [sin(angle), cos(angle)]
 
   expect(rotate(vector, angle)).toStrictEqual(expectedResult)
 })
@@ -137,24 +138,24 @@ test('it should not rotate a vector when the angle is zero', () => {
   expect(rotate(vector, angle)).toStrictEqual(expectedResult)
 })
 
-test('it should rotate a vector that faces left by a certain angle', () => {
-  const vector = [-1, 0, 0]
+test('it should rotate a vector by a certain angle', () => {
+  const vector = [1, 0, 0]
   const angle = pi() / 4
-  const expectedResult = [-sine(angle), -0, -cosine(angle)]
+  const expectedResult = [sin(angle), -0, cos(angle)]
 
   expect(rotate(vector, angle)).toStrictEqual(expectedResult)
 })
 
-test('it should rotate a 2D vector by a certain angle', () => {
-  const vector = [1, 0]
+test('it should rotate a vector that faces left by a certain angle', () => {
+  const vector = [-1, 0, 0]
   const angle = pi() / 4
-  const expectedResult = [sine(angle), cosine(angle)]
+  const expectedResult = [-sin(angle), -0, -cos(angle)]
 
   expect(rotate(vector, angle)).toStrictEqual(expectedResult)
 })
 
 test('it should change the angle of a vector', () => {
-  const vector = [cosine(pi() / 4), 0, sine(pi() / 4)]
+  const vector = [cos(pi() / 4), 0, sin(pi() / 4)]
   const expectedResult = [6.123233995736766e-17, 0, 1] // close to [0, 0, 1]
 
   expect(setAngle(vector, 1.5707963267948966)).toStrictEqual(expectedResult)
@@ -203,6 +204,21 @@ test('it should convert a 2D cartesian vector to polar coordinates', () => {
   const expectedResult = [2 ** 0.5, pi() / 4]
 
   expect(toPolar(vector)).toStrictEqual(expectedResult)
+})
+
+test('it should create a string representation of an integer vector', () => {
+  const vector = [3, 4]
+  const expectedResult = '[3, 4]'
+
+  expect(toString(vector)).toBe(expectedResult)
+})
+
+test('it should create a string representation of a float vector', () => {
+  const vector = [pi() / 4, pi() / 4]
+  const decimals = 2
+  const expectedResult = '[0.79, 0.79]'
+
+  expect(toString(vector, decimals)).toBe(expectedResult)
 })
 
 test('it should create a unit vector oriented on the X-axis', () => {

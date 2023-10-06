@@ -1,0 +1,42 @@
+import { Meta } from '@storybook/blocks'
+
+import { combine } from '.'
+import { quaternion } from '../quaternion'
+import { toString } from '../vector'
+import { pi } from '../../trigonometry'
+
+<Meta title="Utils/Math/Linear/Quaternions" />
+
+# Quaternions
+
+Functions that deal with multiple quaternions.
+
+## Combine
+
+Multiplies two quaternions together. The algorithm used is the second approach described in [Wikipedia](https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation#Used_methods).
+
+{<p>
+
+  <code>
+    combine(quaternion(0), quaternion(0)) =={' '}
+    {toString(combine(quaternion(0), quaternion(0)))}
+  </code>
+</p>
+}
+
+{<p>
+
+  <code>
+    combine(quaternion(0), quaternion(pi() / 2)) =={' '}
+    {toString(combine(quaternion(0), quaternion(pi() / 2)), 3)} (&asymp;[cos(&pi;/4), 0, sin(&pi;/4), 0])
+  </code>
+</p>}
+
+{<p>
+
+  <code>
+    combine(quaternion(pi() / 2), quaternion(pi() / 2)) =={' '}
+    {toString(combine(quaternion(pi() / 2), quaternion(pi() / 2)))}
+  </code>
+</p>
+}

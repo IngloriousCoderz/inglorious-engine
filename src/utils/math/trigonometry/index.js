@@ -3,28 +3,32 @@ import { mod } from '@ezpz/utils/math/numbers'
 const HALF_CIRCLE_IN_DEGRESS = 180
 const FULL_CIRCLE = 2
 
-export function arctan(y, x) {
+export function atan2(y, x) {
   return Math.atan2(y, x)
 }
 
-export const cos = cosine
-
-export function cosine(angle) {
+export function cos(angle) {
   return Math.cos(angle)
 }
+
+export const cosine = cos
 
 export function pi() {
   return Math.PI
 }
 
-export const sin = sine
-
-export function sine(angle) {
+export function sin(angle) {
   return Math.sin(angle)
 }
 
+export const sine = sin
+
 export function toDegrees(radians) {
   return (radians * HALF_CIRCLE_IN_DEGRESS) / pi()
+}
+
+export function toRadians(degrees) {
+  return (degrees * pi()) / HALF_CIRCLE_IN_DEGRESS
 }
 
 export function toRange(angle) {
@@ -39,8 +43,4 @@ export function toRange(angle) {
   }
 
   return angle
-}
-
-export function toRadians(degrees) {
-  return (degrees * pi()) / HALF_CIRCLE_IN_DEGRESS
 }

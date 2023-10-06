@@ -1,0 +1,29 @@
+import { Meta } from '@storybook/blocks'
+
+import { quaternion } from '.'
+import { toString } from '../vector'
+import { pi } from '../../trigonometry'
+
+<Meta title="Utils/Math/Linear/Quaternion" />
+
+# Quaternion
+
+Functions to deal with a single quaternion.
+
+## Quaternion
+
+Creates a quaternion from any angle.
+
+<p>
+  <code>quaternion(0) == {toString(quaternion(0))}</code>
+</p>
+
+<p>
+  <code>quaternion(pi() / 2) == {toString(quaternion(pi() / 2), 3)}</code>{' '}
+  (&asymp;[cos(&pi;/4), 0, sin(&pi;/4), 0])
+</p>
+
+<p>
+  <code>quaternion(-pi() / 2) == {toString(quaternion(-pi() / 2), 3)}</code>{' '}
+  (&asymp;[cos(-&pi;/4), 0, sin(-&pi;/4), 0])
+</p>

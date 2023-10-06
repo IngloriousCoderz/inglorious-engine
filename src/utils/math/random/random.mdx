@@ -1,0 +1,47 @@
+import { Meta } from '@storybook/blocks'
+
+import { random, randomBinomial, randomRange } from '.'
+
+<Meta title="Utils/Math/Random" />
+
+# Random
+
+Random number generators.
+
+## Random
+
+Generates a random number in the range `[0, 1)` (zero included, one excluded).
+
+<p>
+  <code>random() == {random()}</code>
+</p>
+
+## Random Binomial
+
+Generates a random number in the range `(-1, 1)` (minus one excluded, one excluded), with probability following the [Binomial Distribution](https://en.wikipedia.org/wiki/Binomial_distribution).
+
+<p>
+  <code>randomBinomial() == {randomBinomial()}</code>
+</p>
+
+## Random Range
+
+Generates a random number with optional parameters that specify range and step.
+
+One parameter means the random number will be an integer between zero and that number included.
+
+<p>
+  <code>randomRange(6) == {randomRange(6)}</code>
+</p>
+
+Two parameters means the random number will be an integer between the first parameter and the second included.
+
+<p>
+  <code>randomRange(1, 6) == {randomRange(1, 6)}</code>
+</p>
+
+A third parameter allows to specify the step.
+
+<p>
+  <code>randomRange(2, 6, 2) == {randomRange(2, 6, 2)}</code>
+</p>

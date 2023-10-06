@@ -1,0 +1,91 @@
+import { Meta } from '@storybook/blocks'
+
+import { cross, dot, scalarProduct, subtract, sum, vectorProduct } from '.'
+import { toString } from '../vector'
+import { pi, cos, sin } from '../../trigonometry'
+
+<Meta title="Utils/Math/Linear/Vectors" />
+
+# Vectors
+
+Functions that deal with a multiple vectors.
+
+## Cross
+
+Performs the cross product between multiple vectors (alias `vectorProduct`).
+
+{<p>
+
+  <code>
+    cross([1, 2, 3], [4, 5, 6]) == {toString(cross([1, 2, 3], [4, 5, 6]))}
+  </code>
+</p>}
+
+{<p>
+
+  <code>
+    cross([1, 2, 3], [4, 5, 6], [7, 8, 9]) == {toString(cross([1, 2, 3], [4, 5, 6], [7, 8, 9]))}
+  </code>
+</p>}
+
+## Dot
+
+Performs the dot product between multiple vectors (alias `scalarProduct`).
+
+{<p>
+
+  <code>
+    dot([1, 2, 3], [4, 5, 6]) == {dot([1, 2, 3], [4, 5, 6])}
+  </code>
+</p>}
+
+{<p>
+
+  <code>
+    dot([1, 2, 3], [4, 5, 6], [7, 8, 9]) == {dot([1, 2, 3], [4, 5, 6], [7, 8, 9])}
+  </code>
+</p>}
+
+## Scalar Product
+
+Alias of `dot`.
+
+## Subtract
+
+Subtracts all other vectors from the first one.
+
+{<p>
+
+  <code>
+    subtract([1, 2, 3], [4, 5, 6]) == {toString(subtract([1, 2, 3], [4, 5, 6]))}
+  </code>
+</p>}
+
+{<p>
+
+  <code>
+    subtract([1, 2, 3], [4, 5, 6], [7, 8, 9]) == {toString(subtract([1, 2, 3], [4, 5, 6], [7, 8, 9]))}
+  </code>
+</p>}
+
+## Sum
+
+Sums all coordinates together.
+
+{<p>
+
+  <code>
+    sum([1, 2, 3], [4, 5, 6]) == {toString(sum([1, 2, 3], [4, 5, 6]))}
+  </code>
+</p>}
+
+{<p>
+
+  <code>
+    sum([1, 2, 3], [4, 5, 6], [7, 8, 9]) == {toString(sum([1, 2, 3], [4, 5, 6], [7, 8, 9]))}
+  </code>
+</p>}
+
+## Vector Product
+
+Alias of `cross`.

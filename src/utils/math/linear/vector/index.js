@@ -1,22 +1,23 @@
 import { hypothenuse } from '@ezpz/utils/math/geometry'
 import { clamp as nClamp, mod as nMod } from '@ezpz/utils/math/numbers'
-import { arctan, cosine, sine } from '@ezpz/utils/math/trigonometry'
+import { atan2, cos, sin } from '@ezpz/utils/math/trigonometry'
 
-import { from2D, to2D } from './2d'
-import { quaternion } from './quaternion'
-import { cross, sum } from './vectors'
+import { from2D, to2D } from '../2d'
+import { quaternion } from '../quaternion'
+import { cross, sum } from '../vectors'
+
+export const ZERO_VECTOR = [0, 0, 0] // eslint-disable-line no-magic-numbers
+const UNIT_VECTOR = [1, 0, 0] // eslint-disable-line no-magic-numbers
 
 const X = 0
 const Z = 2
 const LAST_COORDINATE = 1
 const TWO_COORDINATES = 2
 const NO_Y = 0
-
-export const ZERO_VECTOR = [0, 0, 0] // eslint-disable-line no-magic-numbers
-const UNIT_VECTOR = [1, 0, 0] // eslint-disable-line no-magic-numbers
+const DEFAULT_DECIMALS = 0
 
 export function angle(vector) {
-  return arctan(vector[vector.length - LAST_COORDINATE], vector[X])
+  return atan2(vector[vector.length - LAST_COORDINATE], vector[X])
 }
 
 export function clamp(vector, min, max) {
@@ -102,17 +103,23 @@ export function shift(vector, index) {
 export const times = multiply
 
 export function toCartesian([magnitude, angle]) {
-  return [magnitude * cosine(angle), magnitude * sine(angle)]
+  return [magnitude * cos(angle), magnitude * sin(angle)]
 }
 
 export function toCylindrical(vector) {
   const radius = magnitude(vector)
   const theta = angle(vector)
-  return [radius * cosine(theta), radius * sine(theta), vector[Z]]
+  return [radius * cos(theta), radius * sin(theta), vector[Z]]
 }
 
 export function toPolar(vector) {
   return [magnitude(vector), angle(vector)]
+}
+
+export function toString(vector, decimals = DEFAULT_DECIMALS) {
+  return `[${vector
+    .map((coordinate) => coordinate.toFixed(decimals))
+    .join(', ')}]`
 }
 
 // TODO: add toSpherical(vector), as described in https://www.cs.mcgill.ca/~rwest/wikispeedia/wpcd/wp/p/Polar_coordinate_system.htm#:~:text=Polar%20coordinates%20can%20also%20be,as%20in%20the%20polar%20coordinates).
