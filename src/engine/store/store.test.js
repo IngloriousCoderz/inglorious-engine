@@ -70,7 +70,7 @@ test('it should process the event queue', () => {
   expect(state).toStrictEqual(afterState)
 })
 
-test('it should send an event from and instance', () => {
+test('it should send an event from an instance', () => {
   const event = {
     id: 'doge:message',
     payload: { id: 'inu', message: 'Woof!' },
@@ -134,8 +134,8 @@ test('it should receive an event from an instance', () => {
       },
     },
     kitty: {
-      [event.id](instance, { payload }) {
-        if (payload.id === 'inu' && payload.message === 'Woof!') {
+      [event.id](instance, event) {
+        if (event.payload.id === 'inu' && event.payload.message === 'Woof!') {
           return { ...instance, position: 'far' }
         }
 

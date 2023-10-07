@@ -1,4 +1,5 @@
-import { map, merge } from '@ezpz/utils/objects'
+import { map } from '@ezpz/utils/data-structures/object'
+import { merge } from '@ezpz/utils/data-structures/objects'
 import produce from 'immer'
 
 const DEFAULT_TYPES = { game: {} }
@@ -47,13 +48,13 @@ export function createStore({
     while (state.events.length) {
       const event = state.events.shift()
 
-      state.instances = map(state.instances, (_, instance) => {
+      state.instances = map((id, instance) => {
         const handle = types[instance.type][event.id]
         return (
           (handle && handle(instance, event, { engine, elapsed, notify })) ||
           instance
         )
-      })
+      })(state.instances)
     }
 
     state.events.push(...incomingEvents)

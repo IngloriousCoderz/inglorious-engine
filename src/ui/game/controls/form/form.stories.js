@@ -1,4 +1,4 @@
-import Game from '../../game'
+import Game from '@ezpz/ui/game'
 
 export default {
   title: 'Controls/Form',

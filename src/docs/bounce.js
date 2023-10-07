@@ -5,13 +5,13 @@ export default {
 
   types: {
     elapsed: {
-      'game:update'(instance, _, { elapsed }) {
+      'game:update'(instance, event, { elapsed }) {
         instance.value = elapsed
       },
     },
 
     character: {
-      'game:update'(instance, _, { engine }) {
+      'game:update'(instance, event, { engine }) {
         bounce(instance, engine.config.bounds)
       },
     },

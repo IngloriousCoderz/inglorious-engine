@@ -1,0 +1,53 @@
+import { Meta } from '@storybook/blocks'
+
+import { filter, find, map, toString } from '@ezpz/utils/data-structures/object'
+
+<Meta title="Utils/Data Structures/Object" />
+
+# Object
+
+Functions that deal with a single object.
+
+## Filter
+
+Behaves similar to `Array.prototype.filter`, returning an object that contains only properties that satisfy the given predicate.
+
+<code>const predicate = (key) =&gt; ['key2', 'key3'].includes(key)</code>&nbsp;
+
+<code>const obj = &#123; key1: 'value1', key2: 'value2', key3: 'value3' &#125;</code>&nbsp;
+
+<code>filter(predicate, obj) == {toString(filter((key) => ['key2', 'key3'].includes(key), { key1: 'value1', key2: 'value2', key3: 'value3' }))}</code>&nbsp;
+
+_Note_: the function is also currified, meaning that you can also invoke it as `filter(predicate)(obj)`.
+
+## Find
+
+Behaves similar to `Array.prototype.find`, returning an object that contains only the first property that satisfies the given predicate.
+
+<code>const predicate = (key) =&gt; ['key2', 'key3'].includes(key)</code>&nbsp;
+
+<code>const obj = &#123; key1: 'value1', key2: 'value2', key3: 'value3' &#125;</code>&nbsp;
+
+<code>find(predicate, obj) == {toString(find((key) => ['key2', 'key3'].includes(key), { key1: 'value1', key2: 'value2', key3: 'value3' }))}</code>&nbsp;
+
+_Note_: the function is also currified, meaning that you can also invoke it as `find(predicate)(obj)`.
+
+## Map
+
+Behaves similar to `Array.prototype.map`, returning an object that has values transformed according to the given callback.
+
+<code>const callback = (key, value) =&gt; value.toUpperCase()</code>&nbsp;
+
+<code>const obj = &#123; key1: 'value1', key2: 'value2', key3: 'value3' &#125;</code>&nbsp;
+
+<code>map(callback, obj) == {toString(map((key, value) => value.toUpperCase(), { key1: 'value1', key2: 'value2', key3: 'value3' }))}</code>&nbsp;
+
+_Note_: the function is also currified, meaning that you can also invoke it as `map(callback)(obj)`.
+
+## To String
+
+Returns a string representation of a given object.
+
+<code>const obj = &#123; key1: 'value1', key2: 'value2', key3: 'value3' &#125;</code>&nbsp;
+
+<code>toString(obj) == "{toString({ key1: 'value1', key2: 'value2', key3: 'value3' })}"</code>&nbsp;

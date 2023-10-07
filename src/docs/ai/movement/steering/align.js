@@ -18,7 +18,7 @@ export default {
         instance.orientation = -event.payload * pi()
       },
 
-      'game:update'(instance, _, { engine }) {
+      'game:update'(instance, event, { engine }) {
         const { keyboard } = engine.instances
 
         if (keyboard.ArrowLeft || keyboard.ArrowUp) {
@@ -33,7 +33,7 @@ export default {
     keyboard: keyboardType(),
 
     game: {
-      'targetRadius:change'(_, event, { engine }) {
+      'targetRadius:change'(instance, event, { engine }) {
         engine.instances.parameters.groups.align.fields.targetRadius.value =
           event.payload
       },

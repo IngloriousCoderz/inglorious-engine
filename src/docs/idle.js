@@ -4,7 +4,7 @@ export default {
 
   types: {
     elapsed: {
-      'game:update'(instance, _, { elapsed }) {
+      'game:update'(instance, event, { elapsed }) {
         instance.value = elapsed
       },
     },

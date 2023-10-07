@@ -17,7 +17,7 @@ export default {
         instance.orientation = -event.payload * pi()
       },
 
-      'game:update'(instance, _, { engine }) {
+      'game:update'(instance, event, { engine }) {
         const { keyboard } = engine.instances
 
         if (keyboard.ArrowLeft || keyboard.ArrowUp) {
@@ -32,28 +32,28 @@ export default {
     keyboard: keyboardType(),
 
     game: {
-      'targetRadius:change'(_, event, { engine }) {
+      'targetRadius:change'(instance, event, { engine }) {
         engine.instances.parameters.groups.align.fields.targetRadius.value =
           event.payload
       },
-      'timeToTarget:change'(_, event, { engine }) {
+      'timeToTarget:change'(instance, event, { engine }) {
         engine.instances.parameters.groups.align.fields.timeToTarget.value =
           event.payload
       },
-      'targetOrientation:change'(_, event, { engine }) {
+      'targetOrientation:change'(instance, event, { engine }) {
         engine.instances.parameters.groups.align.fields.targetOrientation.value =
           event.payload
       },
     },
 
     elapsed: {
-      'game:update'(instance, _, { elapsed }) {
+      'game:update'(instance, event, { elapsed }) {
         instance.value = elapsed
       },
     },
 
     character: {
-      'game:update'(instance, _, { engine, ...options }) {
+      'game:update'(instance, event, { engine, ...options }) {
         const target = engine.instances.mouse
         const { fields } = engine.instances.parameters.groups.align
 

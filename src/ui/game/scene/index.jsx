@@ -1,7 +1,7 @@
+import { useKeyboard } from '@ezpz/ui/hooks/use-keyboard'
+import { useMouse } from '@ezpz/ui/hooks/use-mouse'
 import { useRef } from 'react'
 
-import { useKeyboard } from '../hooks/use-keyboard'
-import { useMouse } from '../hooks/use-mouse'
 import classes from './scene.module.scss'
 
 export default function Scene({ config, children }) {

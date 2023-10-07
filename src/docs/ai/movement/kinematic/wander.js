@@ -7,13 +7,13 @@ export default {
 
   types: {
     elapsed: {
-      'game:update'(instance, _, { elapsed }) {
+      'game:update'(instance, event, { elapsed }) {
         instance.value = elapsed
       },
     },
 
     character: {
-      'game:update'(instance, _, { engine, ...options }) {
+      'game:update'(instance, event, { engine, ...options }) {
         Object.assign(instance, wander(instance, options))
         flip(instance, engine.config.bounds)
       },

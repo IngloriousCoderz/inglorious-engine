@@ -11,6 +11,9 @@ dependencies:
   immer:
     specifier: ^9.0.15
     version: 9.0.21
+  lodash.curry:
+    specifier: ^4.1.1
+    version: 4.1.1
   lodash.merge:
     specifier: ^4.6.2
     version: 4.6.2
@@ -6491,6 +6494,10 @@ packages:
     dependencies:
       p-locate: 5.0.0
     dev: true
+
+  /lodash.curry@4.1.1:
+    resolution: {integrity: sha512-/u14pXGviLaweY5JI0IUzgzF2J6Ne8INyzAZjImcryjgkZ+ebruBxy2/JaOOkTqScddcYtakjhSaeemV8lR0tA==}
+    dev: false
 
   /lodash.debounce@4.0.8:
     resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==}

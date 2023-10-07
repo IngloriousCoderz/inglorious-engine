@@ -1,7 +1,7 @@
 import { Meta } from '@storybook/blocks'
 
-import { from2D, to2D } from '@ezpz/utils/math/linear/2d'
-import { toString } from '@ezpz/utils/math/linear/vector'
+import { from2D, to2D } from '@ezpz/utils/math/linear-algebra/2d'
+import { toString } from '@ezpz/utils/math/linear-algebra/vector'
 
 <Meta title="Utils/Math/Linear/2D" />
 
@@ -13,14 +13,10 @@ Functions to convert any vector to 2D and viceversa.
 
 Builds a 3D vector from a 2D one.
 
-<p>
-  <code>from2D([3, 4]) == {toString(from2D([3, 4]))}</code>
-</p>
+<code>from2D([3, 4]) == {toString(from2D([3, 4]))}</code>&nbsp;
 
 ## To 2D
 
 Builds a 2D vector from a 3D one.
 
-<p>
-  <code>to2D([3, 0, 4]) == {toString(to2D([3, 0, 4]))}</code>
-</p>
+<code>to2D([3, 0, 4]) == {toString(to2D([3, 0, 4]))}</code>&nbsp;

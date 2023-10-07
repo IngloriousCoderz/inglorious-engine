@@ -1,5 +1,5 @@
-import { magnitude, multiply } from '@ezpz/utils/math/linear/vector'
-import { subtract, sum } from '@ezpz/utils/math/linear/vectors'
+import { magnitude, multiply } from '@ezpz/utils/math/linear-algebra/vector'
+import { subtract, sum } from '@ezpz/utils/math/linear-algebra/vectors'
 
 import seek from './seek'
 

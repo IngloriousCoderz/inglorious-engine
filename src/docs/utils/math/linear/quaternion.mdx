@@ -1,7 +1,7 @@
 import { Meta } from '@storybook/blocks'
 
-import { quaternion } from '@ezpz/utils/math/linear/quaternion'
-import { toString } from '@ezpz/utils/math/linear/vector'
+import { quaternion } from '@ezpz/utils/math/linear-algebra/quaternion'
+import { toString } from '@ezpz/utils/math/linear-algebra/vector'
 import { pi } from '@ezpz/utils/math/trigonometry'
 
 <Meta title="Utils/Math/Linear/Quaternion" />
@@ -14,16 +14,8 @@ Functions to deal with a single quaternion.
 
 Creates a quaternion from any angle.
 
-<p>
-  <code>quaternion(0) == {toString(quaternion(0))}</code>
-</p>
+<code>quaternion(0) == {toString(quaternion(0))}</code>&nbsp;
 
-<p>
-  <code>quaternion(pi() / 2) == {toString(quaternion(pi() / 2), 3)}</code>{' '}
-  (&asymp;[cos(&pi;/4), 0, sin(&pi;/4), 0])
-</p>
+<code>quaternion(pi() / 2) == {toString(quaternion(pi() / 2), 3)}</code> (&asymp;[cos(&pi;/4), 0, sin(&pi;/4), 0])
 
-<p>
-  <code>quaternion(-pi() / 2) == {toString(quaternion(-pi() / 2), 3)}</code>{' '}
-  (&asymp;[cos(-&pi;/4), 0, sin(-&pi;/4), 0])
-</p>
+<code>quaternion(-pi() / 2) == {toString(quaternion(-pi() / 2), 3)}</code> (&asymp;[cos(-&pi;/4), 0, sin(-&pi;/4), 0])

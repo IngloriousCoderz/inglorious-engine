@@ -9,13 +9,13 @@ export default {
     mouse: mouseType(),
 
     elapsed: {
-      'game:update'(instance, _, { elapsed }) {
+      'game:update'(instance, event, { elapsed }) {
         instance.value = elapsed
       },
     },
 
     character: {
-      'game:update'(instance, _, { engine, ...options }) {
+      'game:update'(instance, event, { engine, ...options }) {
         const target = engine.instances.mouse
         instance = { ...instance, ...seek(instance, target, options) }
 

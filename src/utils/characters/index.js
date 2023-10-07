@@ -1,11 +1,11 @@
-import { abs } from '@ezpz/utils/math/numbers'
 import {
   angle,
   clamp,
   fromAngle,
   ZERO_VECTOR,
-} from '@ezpz/utils/math/linear/vector'
-import { sum } from '@ezpz/utils/math/linear/vectors'
+} from '@ezpz/utils/math/linear-algebra/vector'
+import { sum } from '@ezpz/utils/math/linear-algebra/vectors'
+import { abs } from '@ezpz/utils/math/numbers'
 
 const X = 0
 const Z = 2

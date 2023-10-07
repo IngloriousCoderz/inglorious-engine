@@ -22,37 +22,30 @@ Basic trigonometry functions.
 
 Returns the atan2 of y and x.
 
-<p>
-  <code>atan2(0, 0) == {atan2(0, 0)}</code>
-</p>
 
-<p>
-  <code>atan2(0, pi() / 2) == {atan2(0, pi() / 2)}</code>
-</p>
+<code>atan2(0, 0) == {atan2(0, 0)}</code>&nbsp;
 
-<p>
-  <code>atan2(pi() / 2, 0) == {atan2(pi() / 2, 0)}</code>
-</p>
 
-<p>
-  <code>atan2(pi() / 2, pi() / 2) == {atan2(pi() / 2, pi() / 2)}</code>
-</p>
+<code>atan2(0, pi() / 2) == {atan2(0, pi() / 2)}</code>&nbsp;
+
+
+<code>atan2(pi() / 2, 0) == {atan2(pi() / 2, 0)}</code>&nbsp;
+
+
+<code>atan2(pi() / 2, pi() / 2) == {atan2(pi() / 2, pi() / 2)}</code>&nbsp;
 
 ## Cos
 
 Returns the cosine of an angle in radians (alias `cosine`).
 
-<p>
-  <code>cos(0) == {cos(0)}</code>
-</p>
 
-<p>
-  <code>cos(pi() / 4) == {cos(pi() / 4).toFixed(3)}</code>
-</p>
+<code>cos(0) == {cos(0)}</code>&nbsp;
 
-<p>
-  <code>cos(pi() / 2) == {cos(pi() / 2)}</code> (&asymp;0)
-</p>
+
+<code>cos(pi() / 4) == {cos(pi() / 4).toFixed(3)}</code>&nbsp;
+
+
+<code>cos(pi() / 2) == {cos(pi() / 2)}</code> (&asymp;0)
 
 ## Cosine
 
@@ -62,25 +55,21 @@ Alias of `cos`.
 
 Returns an approximation of &pi;.
 
-<p>
-  <code>pi() == {pi()}</code> (&asymp;&pi;)
-</p>
+
+<code>pi() == {pi()}</code> (&asymp;&pi;)
 
 ## Sin
 
 Return the sine of an angle in degrees (alias `sine`).
 
-<p>
-  <code>sin(0) == {sin(0)}</code>
-</p>
 
-<p>
-  <code>sin(pi() / 4) == {sin(pi() / 4).toFixed(3)}</code>
-</p>
+<code>sin(0) == {sin(0)}</code>&nbsp;
 
-<p>
-  <code>sin(pi() / 2) == {sin(pi() / 2)}</code>
-</p>
+
+<code>sin(pi() / 4) == {sin(pi() / 4).toFixed(3)}</code>&nbsp;
+
+
+<code>sin(pi() / 2) == {sin(pi() / 2)}</code>&nbsp;
 
 ## Sine
 
@@ -90,43 +79,31 @@ Alias of `sin`.
 
 Converts radians into degrees.
 
-<p>
-  <code>toDegrees(pi() / 4) == {toDegrees(pi() / 4)}</code>
-</p>
+
+<code>toDegrees(pi() / 4) == {toDegrees(pi() / 4)}</code>&nbsp;
 
 ## To Radians
 
 Converts degrees into radians.
 
-<p>
-  <code>toRadians(45) == {toRadians(45)}</code> (&asymp;&pi;/4)
-</p>
+
+<code>toRadians(45) == {toRadians(45)}</code> (&asymp;&pi;/4)
 
 ## To Range
 
 Clamps any angle into the range [-&pi;, &pi;].
 
-<p>
-  <code>toRange(5 / 4 * pi()) == {toRange((5 / 4) * pi())}</code>{' '}
-  (&asymp;-3/4&pi;)
-</p>
 
-<p>
-  <code>toRange(13 / 4 * pi()) == {toRange((13 / 4) * pi())}</code>{' '}
-  (&asymp;-3/4&pi;)
-</p>
+<code>toRange(5 / 4 * pi()) == {toRange((5 / 4) * pi())}</code> (&asymp;-3/4&pi;)
 
-<p>
-  <code>toRange(-5 / 4 * pi()) == {toRange((-5 / 4) * pi())}</code>{' '}
-  (&asymp;3/4&pi;)
-</p>
 
-<p>
-  <code>toRange(-13 / 4 * pi()) == {toRange((-13 / 4) * pi())}</code>{' '}
-  (&asymp;3/4&pi;)
-</p>
+<code>toRange(13 / 4 * pi()) == {toRange((13 / 4) * pi())}</code> (&asymp;-3/4&pi;)
 
-<p>
-  <code>toRange(3 / 4 * pi()) == {toRange((3 / 4) * pi())}</code>{' '}
-  (&asymp;3/4&pi;)
-</p>
+
+<code>toRange(-5 / 4 * pi()) == {toRange((-5 / 4) * pi())}</code> (&asymp;3/4&pi;)
+
+
+<code>toRange(-13 / 4 * pi()) == {toRange((-13 / 4) * pi())}</code> (&asymp;3/4&pi;)
+
+
+<code>toRange(3 / 4 * pi()) == {toRange((3 / 4) * pi())}</code> (&asymp;3/4&pi;)

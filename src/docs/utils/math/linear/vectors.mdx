@@ -1,14 +1,14 @@
 import { Meta } from '@storybook/blocks'
 
 import {
-  cross,
-  dot,
-  scalarProduct,
-  subtract,
-  sum,
-  vectorProduct,
-} from '@ezpz/utils/math/linear/vectors'
-import { toString } from '@ezpz/utils/math/linear/vector'
+cross,
+dot,
+scalarProduct,
+subtract,
+sum,
+vectorProduct,
+} from '@ezpz/utils/math/linear-algebra/vectors'
+import { toString } from '@ezpz/utils/math/linear-algebra/vector'
 import { pi, cos, sin } from '@ezpz/utils/math/trigonometry'
 
 <Meta title="Utils/Math/Linear/Vectors" />
@@ -21,37 +21,17 @@ Functions that deal with a multiple vectors.
 
 Performs the cross product between multiple vectors (alias `vectorProduct`).
 
-{<p>
+<code>cross([1, 2, 3], [4, 5, 6]) == {toString(cross([1, 2, 3], [4, 5, 6]))}</code>&nbsp;
 
-  <code>
-    cross([1, 2, 3], [4, 5, 6]) == {toString(cross([1, 2, 3], [4, 5, 6]))}
-  </code>
-</p>}
-
-{<p>
-
-  <code>
-    cross([1, 2, 3], [4, 5, 6], [7, 8, 9]) == {toString(cross([1, 2, 3], [4, 5, 6], [7, 8, 9]))}
-  </code>
-</p>}
+<code>cross([1, 2, 3], [4, 5, 6], [7, 8, 9]) == {toString(cross([1, 2, 3], [4, 5, 6], [7, 8, 9]))}</code>&nbsp;
 
 ## Dot
 
 Performs the dot product between multiple vectors (alias `scalarProduct`).
 
-{<p>
+<code>dot([1, 2, 3], [4, 5, 6]) == {dot([1, 2, 3], [4, 5, 6])}</code>&nbsp;
 
-  <code>
-    dot([1, 2, 3], [4, 5, 6]) == {dot([1, 2, 3], [4, 5, 6])}
-  </code>
-</p>}
-
-{<p>
-
-  <code>
-    dot([1, 2, 3], [4, 5, 6], [7, 8, 9]) == {dot([1, 2, 3], [4, 5, 6], [7, 8, 9])}
-  </code>
-</p>}
+<code>dot([1, 2, 3], [4, 5, 6], [7, 8, 9]) == {dot([1, 2, 3], [4, 5, 6], [7, 8, 9])}</code>&nbsp;
 
 ## Scalar Product
 
@@ -61,37 +41,17 @@ Alias of `dot`.
 
 Subtracts all other vectors from the first one.
 
-{<p>
+<code>subtract([1, 2, 3], [4, 5, 6]) == {toString(subtract([1, 2, 3], [4, 5, 6]))}</code>&nbsp;
 
-  <code>
-    subtract([1, 2, 3], [4, 5, 6]) == {toString(subtract([1, 2, 3], [4, 5, 6]))}
-  </code>
-</p>}
-
-{<p>
-
-  <code>
-    subtract([1, 2, 3], [4, 5, 6], [7, 8, 9]) == {toString(subtract([1, 2, 3], [4, 5, 6], [7, 8, 9]))}
-  </code>
-</p>}
+<code>subtract([1, 2, 3], [4, 5, 6], [7, 8, 9]) == {toString(subtract([1, 2, 3], [4, 5, 6], [7, 8, 9]))}</code>&nbsp;
 
 ## Sum
 
 Sums all coordinates together.
 
-{<p>
+<code>sum([1, 2, 3], [4, 5, 6]) == {toString(sum([1, 2, 3], [4, 5, 6]))}</code>&nbsp;
 
-  <code>
-    sum([1, 2, 3], [4, 5, 6]) == {toString(sum([1, 2, 3], [4, 5, 6]))}
-  </code>
-</p>}
-
-{<p>
-
-  <code>
-    sum([1, 2, 3], [4, 5, 6], [7, 8, 9]) == {toString(sum([1, 2, 3], [4, 5, 6], [7, 8, 9]))}
-  </code>
-</p>}
+<code>sum([1, 2, 3], [4, 5, 6], [7, 8, 9]) == {toString(sum([1, 2, 3], [4, 5, 6], [7, 8, 9]))}</code>&nbsp;
 
 ## Vector Product
 

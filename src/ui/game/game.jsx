@@ -1,7 +1,6 @@
-import { useEffect, useMemo, useState } from 'react'
-import { Provider, useSelector } from 'react-redux'
+import { withAbsolutePosition } from '@ezpz/ui/hocs/with-absolute-position'
+import { useSelector } from 'react-redux'
 
-import Engine from '../engine'
 import Character from './character'
 import Button from './controls/button'
 import Field from './controls/field'
@@ -10,32 +9,7 @@ import Input from './controls/input'
 import Label from './controls/label'
 import Cursor from './cursor'
 import Debug from './debug'
-import { withAbsolutePosition } from './hocs/with-absolute-position'
 import Scene from './scene'
-
-export default function GameWrapper({ config }) {
-  const [isReady, setReady] = useState(false)
-
-  const engine = useMemo(() => new Engine(config), [config])
-
-  useEffect(() => {
-    engine.start()
-    setReady(true)
-    window.engine = engine
-
-    return () => engine.stop()
-  }, [engine, config])
-
-  if (!isReady) {
-    return null
-  }
-
-  return (
-    <Provider store={engine._store}>
-      <Game engine={engine} />
-    </Provider>
-  )
-}
 
 const Components = {
   mouse: withAbsolutePosition(Cursor),
@@ -48,7 +22,7 @@ const Components = {
   form: withAbsolutePosition(Form),
 }
 
-function Game({ engine }) {
+export default function Game({ engine }) {
   const instances = useSelector((state) => state.instances) // don't use engine.instances: need to subscribe to animate scene!
 
   return (

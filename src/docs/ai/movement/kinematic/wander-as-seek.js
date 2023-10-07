@@ -9,20 +9,20 @@ export default {
 
   types: {
     game: {
-      'wanderRadius:change'(_, event, { engine }) {
+      'wanderRadius:change'(instance, event, { engine }) {
         engine.instances.parameters.groups.wanderAsSeek.fields.wanderRadius.value =
           event.payload
       },
     },
 
     elapsed: {
-      'game:update'(instance, _, { elapsed }) {
+      'game:update'(instance, event, { elapsed }) {
         instance.value = elapsed
       },
     },
 
     character: {
-      'game:update'(instance, _, { engine, ...options }) {
+      'game:update'(instance, event, { engine, ...options }) {
         const { fields } = engine.instances.parameters.groups.wanderAsSeek
 
         Object.assign(

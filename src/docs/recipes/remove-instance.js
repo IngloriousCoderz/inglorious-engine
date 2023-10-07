@@ -9,8 +9,8 @@ export default {
     mouse: mouseType(),
 
     game: {
-      'character:click'(_, { payload }, { engine }) {
-        engine.remove(payload)
+      'character:click'(_, event, { engine }) {
+        engine.remove(event.payload)
       },
     },
 

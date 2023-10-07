@@ -1,0 +1,20 @@
+import { Meta } from '@storybook/blocks'
+
+import { merge } from '@ezpz/utils/data-structures/objects'
+import { toString } from '@ezpz/utils/data-structures/object'
+
+<Meta title="Utils/Data Structures/Objects" />
+
+# Objects
+
+Functions that deal with multiple object.
+
+## Merge
+
+Performs a deep merge between multiple objects.
+
+<code>const obj1 = &#123; a: 1, b: [2, 3], c: &#123; d: 4 &#125;, e: [&#123; f: 5 &#125;] &#125;</code>&nbsp;
+
+<code>const obj2 = &#123; g: 6, b: [7], c: &#123; h: 8 &#125;, e: [&#123; i: 9 &#125;] &#125;</code>&nbsp;
+
+<code>merge(obj1, obj2) == {toString({ a: 1, b: [2, 3], c: { d: 4 }, e: [{ f: 5 }] }, { g: 6, b: [7], c: { h: 8 }, e: [{ i: 9 }] })}</code>&nbsp;

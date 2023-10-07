@@ -6,7 +6,7 @@ import {
 import lookWhereYoureGoing from '@ezpz/engine/ai/movement/steering/look-where-youre-going'
 import { keyboardInstance, keyboardType } from '@ezpz/engine/input/keyboard'
 import { clampToBounds } from '@ezpz/utils/characters'
-import { sum } from '@ezpz/utils/math/linear/vectors'
+import { sum } from '@ezpz/utils/math/linear-algebra/vectors'
 import { pi } from '@ezpz/utils/math/trigonometry'
 
 export default {

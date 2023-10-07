@@ -6,16 +6,10 @@ export default {
 
   types: {
     game: {
-      'button:click'(_, event, { engine }) {
-        const ids = Object.entries(engine.instances)
-          .filter(([, { type }]) => type === 'character')
-          .map(([id]) => id)
+      'button:click'(instance, event, { engine }) {
+        const characters = Object.keys(engine.instances)
 
-        const maxId = ids.length
-          ? Number(ids[ids.length - 1].replace('character', ''))
-          : 0
-
-        engine.add(`character${maxId + 1}`, {
+        engine.add(`character${characters.length + 1}`, {
           type: 'character',
           position: [randomRange(0, 800), 0, randomRange(0, 600)],
           orientation: randomRange(0, 2 * pi(), 0.01),
@@ -24,7 +18,7 @@ export default {
     },
 
     elapsed: {
-      'game:update'(instance, _, { elapsed }) {
+      'game:update'(instance, event, { elapsed }) {
         instance.value = elapsed
       },
     },

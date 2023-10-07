@@ -1,5 +1,9 @@
-import { angle, magnitude, setMagnitude } from '@ezpz/utils/math/linear/vector'
-import { subtract, sum } from '@ezpz/utils/math/linear/vectors'
+import {
+  angle,
+  magnitude,
+  setMagnitude,
+} from '@ezpz/utils/math/linear-algebra/vector'
+import { subtract, sum } from '@ezpz/utils/math/linear-algebra/vectors'
 
 export default function flee(character, target, { elapsed }) {
   const direction = subtract(character.position, target.position)

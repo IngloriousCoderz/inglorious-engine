@@ -1,25 +1,25 @@
 import { Meta } from '@storybook/blocks'
 
 import {
-  angle,
-  clamp,
-  conjugate,
-  divide,
-  fromAngle,
-  magnitude,
-  mod,
-  multiply,
-  normalize,
-  rotate,
-  setAngle,
-  setMagnitude,
-  shift,
-  toCartesian,
-  toCylindrical,
-  toPolar,
-  toString,
-  unit,
-} from '@ezpz/utils/math/linear/vector'
+angle,
+clamp,
+conjugate,
+divide,
+fromAngle,
+magnitude,
+mod,
+multiply,
+normalize,
+rotate,
+setAngle,
+setMagnitude,
+shift,
+toCartesian,
+toCylindrical,
+toPolar,
+toString,
+unit,
+} from '@ezpz/utils/math/linear-algebra/vector'
 import { pi, cos, sin } from '@ezpz/utils/math/trigonometry'
 
 <Meta title="Utils/Math/Linear/Vector" />
@@ -32,58 +32,39 @@ Functions that deal with a single vector.
 
 Returns the angle of a vector, calculated as the `atan2` between the last and first coordinate.
 
-<p>
-  <code>angle([1, 1]) == {angle([1, 1]).toFixed(3)}</code> (&asymp;&pi;/4)
-</p>
+<code>angle([1, 1]) == {angle([1, 1]).toFixed(3)}</code> (&asymp;&pi;/4)
 
-<p>
-  <code>angle([1, 0, 1]) == {angle([1, 0, 1]).toFixed(3)}</code> (&asymp;&pi;/4)
-</p>
+<code>angle([1, 0, 1]) == {angle([1, 0, 1]).toFixed(3)}</code> (&asymp;&pi;/4)
 
 ## Clamp
 
 Limits the magnitude of a vector to a lower and upper bound.
 
-<p>
-  <code>clamp([6, 8], 0, 5) == {toString(clamp([6, 8], 0, 5))}</code>
-</p>
+<code>clamp([6, 8], 0, 5) == {toString(clamp([6, 8], 0, 5))}</code>&nbsp;
 
-<p>
-  <code>clamp([3, 4], 0, 5) == {toString(clamp([3, 4], 0, 5))}</code>
-</p>
+<code>clamp([3, 4], 0, 5) == {toString(clamp([3, 4], 0, 5))}</code>&nbsp;
 
 Bounds can be specified as other vectors too.
 
-{<p>
-
-  <code>
-    clamp([6, 8], [0, 0], [3, 4]) == {toString(clamp([6, 8], [0, 0], [3, 4]))}
-  </code>
-</p>}
+<code>clamp([6, 8], [0, 0], [3, 4]) == {toString(clamp([6, 8], [0, 0], [3, 4]))}</code>&nbsp;
 
 ## Conjugate
 
 Flips the sign of all coordinates except the first one.
 
-<p>
-  <code>conjugate([1, 2, 3]) == {toString(conjugate([1, 2, 3]))}</code>
-</p>
+<code>conjugate([1, 2, 3]) == {toString(conjugate([1, 2, 3]))}</code>&nbsp;
 
 ## Divide
 
 Divides any vector by a scalar.
 
-<p>
-  <code>divide([4, 8, 12], 4) == {toString(divide([4, 8, 12], 4))}</code>
-</p>
+<code>divide([4, 8, 12], 4) == {toString(divide([4, 8, 12], 4))}</code>&nbsp;
 
 ## From Angle
 
 Creates a 3D unit vector from a given angle.
 
-<p>
-  <code>fromAngle(pi() / 4) == {toString(fromAngle(pi() / 4))}</code>
-</p>
+<code>fromAngle(pi() / 4) == {toString(fromAngle(pi() / 4))}</code>&nbsp;
 
 ## Length
 
@@ -93,37 +74,27 @@ Alias of `magnitude`.
 
 Computes the magnitude of any vector (alias `length`).
 
-<p>
-  <code>magnitude([3, 4]) == {magnitude([3, 4])}</code>
-</p>
+<code>magnitude([3, 4]) == {magnitude([3, 4])}</code>&nbsp;
 
 ## Mod
 
 Applies the `mod` operator on any vector (alias `remainder`).
 
-<p>
-  <code>mod([10, 12, -18], 12) == {toString(mod([10, 12, -18], 12))}</code>
-</p>
+<code>mod([10, 12, -18], 12) == {toString(mod([10, 12, -18], 12))}</code>&nbsp;
 
 ## Multiply
 
 Multiplies a vector with a scalar (alias `times`).
 
-<p>
-  <code>multiply([1, 2, 3], 4) == {toString(multiply([1, 2, 3], 4))}</code>
-</p>
+<code>multiply([1, 2, 3], 4) == {toString(multiply([1, 2, 3], 4))}</code>&nbsp;
 
 ## Normalize
 
 Gives the vector unit length while maintaining its angle.
 
-<p>
-  <code>normalize([3, 4]) == {toString(normalize([3, 4]), 1)}</code>
-</p>
+<code>normalize([3, 4]) == {toString(normalize([3, 4]), 1)}</code>&nbsp;
 
-<p>
-  <code>normalize([-3, -4]) == {toString(normalize([-3, -4]), 1)}</code>
-</p>
+<code>normalize([-3, -4]) == {toString(normalize([-3, -4]), 1)}</code>&nbsp;
 
 ## Remainder
 
@@ -133,72 +104,35 @@ Alias of `mod`.
 
 Adds the given angle to a 2D or 3D vector using quaternions.
 
-<p>
-  <code>rotate([1, 0], 0) == {toString(rotate([1, 0], 0))}</code>
-</p>
+<code>rotate([1, 0], 0) == {toString(rotate([1, 0], 0))}</code>&nbsp;
 
-{<p>
+<code>rotate([1, 0], pi() / 4) == {toString(rotate([1, 0], pi() / 4), 3)}</code> (&asymp;[cos(&pi;/4), sin(&pi;/4)])
 
-  <code>
-    rotate([1, 0], pi() / 4) == {toString(rotate([1, 0], pi() / 4), 3)} (&asymp;[cos(&pi;/4), sin(&pi;/4)])
-  </code>
-</p>}
+<code>rotate([1, 0, 0], 0) == {toString(rotate([1, 0, 0], 0))}</code>&nbsp;
 
-<p>
-  <code>rotate([1, 0, 0], 0) == {toString(rotate([1, 0, 0], 0))}</code>
-</p>
+<code>rotate([1, 0, 0], pi() / 4) == {toString(rotate([1, 0, 0], pi() / 4), 3)}</code> (&asymp;[cos(&pi;/4), 0, sin(&pi;/4)])
 
-{<p>
-
-  <code>
-    rotate([1, 0, 0], pi() / 4) == {toString(rotate([1, 0, 0], pi() / 4), 3)} (&asymp;[cos(&pi;/4), 0, sin(&pi;/4)])
-  </code>
-</p>}
-
-{<p>
-
-  <code>
-    rotate([-1, 0, 0], pi() / 4) == {toString(rotate([-1, 0, 0], pi() / 4), 3)} (&asymp;[cos(-3/4*&pi;), 0, sin(-3/4*&pi;)])
-  </code>
-</p>}
+<code>rotate([-1, 0, 0], pi() / 4) == {toString(rotate([-1, 0, 0], pi() / 4), 3)}</code> (&asymp;[cos(-3/4*&pi;), 0, sin(-3/4*&pi;)])
 
 ## Set Angle
 
 Changes the angle of a vector.
 
-{<p>
-
-  <code>
-    setAngle([cos(pi() / 4), 0, sin(pi() / 4)], pi() / 2) =={' '}
-    {toString(setAngle([cos(pi() / 4), 0, sin(pi() / 4)], pi() / 2))}
-  </code>
-</p>}
+<code>setAngle([cos(pi() / 4), 0, sin(pi() / 4)], pi() / 2) == {toString(setAngle([cos(pi() / 4), 0, sin(pi() / 4)], pi() / 2))}</code>&nbsp;
 
 ## Set Magnitude
 
 Changes the magnitude of any vector, keeping its angle.
 
-<p>
-  <code>setMagnitude([3, 4], 10) == {toString(setMagnitude([3, 4], 10))}</code>
-</p>
+<code>setMagnitude([3, 4], 10) == {toString(setMagnitude([3, 4], 10))}</code>&nbsp;
 
-{<p>
-
-  <code>
-    setMagnitude([-3, -4], 10) == {toString(setMagnitude([-3, -4], 10))}
-  </code>
-</p>}
+<code>setMagnitude([-3, -4], 10) == {toString(setMagnitude([-3, -4], 10))}</code>&nbsp;
 
 ## Shift
 
 Moves coordinates around by a certain index.
 
-{<p>
-
-  <code>
-    shift([1, 2, 3, 4, 5], 2) == {toString(shift([1, 2, 3, 4, 5], 2))}
-  </code>
-</p>}
+<code>shift([1, 2, 3, 4, 5], 2) == {toString(shift([1, 2, 3, 4, 5], 2))}</code>&nbsp;
 
 ## Times
 
@@ -208,37 +142,19 @@ Alias of `multiply`.
 
 Converts a 2D polar vector into cartesian coordinates.
 
-{<p>
-
-  <code>
-    toCartesian([2 ** 0.5, pi() / 4]) =={' '}
-    {toString(toCartesian([2 ** 0.5, pi() / 4]))}
-  </code>
-</p>}
+<code>toCartesian([2 ** 0.5, pi() / 4]) == {toString(toCartesian([2 ** 0.5, pi() / 4]))}</code>&nbsp;
 
 ## To Cylindrical
 
 Converts a 3D cartesian vector to cylindrical coordinates.
 
-{<p>
-
-  <code>
-    toCylindrical([1, 1, 1]) =={' '}
-    {toString(toCylindrical([1, 1, 1]), 3)}
-  </code>
-</p>}
+<code>toCylindrical([1, 1, 1]) == {toString(toCylindrical([1, 1, 1]), 3)}</code>&nbsp;
 
 ## To Polar
 
 Converts a 2D cartesian vector to polar coordinates.
 
-{<p>
-
-  <code>
-    toPolar([1, 1]) =={' '}
-    {toString(toPolar([1, 1]))} (&asymp;[&#8730;2, &pi;/4])
-  </code>
-</p>}
+<code>toPolar([1, 1]) == {toString(toPolar([1, 1]))}</code> (&asymp;[&#8730;2, &pi;/4])
 
 ## To Spherical
 
@@ -248,25 +164,14 @@ TBD
 
 Returns a string representation of any vector, up to optional decimal points.
 
-<p>
-  <code>toString([1, 0]) == "{toString([1, 0])}"</code>
-</p>
+<code>toString([1, 0]) == "{toString([1, 0])}"</code>&nbsp;
 
-{<p>
-
-  <code>
-    toString([cos(pi() / 4), 0], 3) == "{toString([cos(pi() / 4), 0], 3)}"
-  </code>
-</p>}
+<code>toString([cos(pi() / 4), 0], 3) == "{toString([cos(pi() / 4), 0], 3)}"</code>&nbsp;
 
 ## Unit
 
 Returns a unit 3D vector at a given optional angle.
 
-<p>
-  <code>unit() == {toString(unit())}</code>
-</p>
+<code>unit() == {toString(unit())}</code>&nbsp;
 
-<p>
-  <code>unit(pi() / 2) == {toString(unit(pi() / 2))}</code>
-</p>
+<code>unit(pi() / 2) == {toString(unit(pi() / 2))}</code>&nbsp;

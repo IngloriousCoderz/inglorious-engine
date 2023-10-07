@@ -36,7 +36,7 @@ export default function Field({ id, instance }) {
         checked={value}
         onChange={handleChange}
       />
-      <button onClick={handleClick}>Reset</button>
+      <button onClick={handleClick}>&#8634;</button>
     </div>
   )
 }
