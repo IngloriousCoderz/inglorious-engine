@@ -1,4 +1,3 @@
-import engine from '@ezpz/engine'
 import { bounce } from '@ezpz/utils/characters'
 
 export default {
@@ -12,7 +11,7 @@ export default {
     },
 
     character: {
-      'game:update'(instance) {
+      'game:update'(instance, _, { engine }) {
         bounce(instance, engine.config.bounds)
       },
     },

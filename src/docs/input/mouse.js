@@ -14,8 +14,9 @@ export default {
     },
 
     character: {
-      'game:update'(instance, _, { instances }) {
-        instance.position = subtract(instances.mouse.position, [10, 0, 10])
+      'game:update'(instance, _, { engine }) {
+        const { mouse } = engine.instances
+        instance.position = subtract(mouse.position, [10, 0, 10])
       },
     },
   },

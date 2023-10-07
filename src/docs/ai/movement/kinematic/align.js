@@ -1,4 +1,3 @@
-import engine from '@ezpz/engine'
 import align, {
   DEFAULT_TARGET_RADIUS,
   DEFAULT_TIME_TO_TARGET,
@@ -18,8 +17,8 @@ export default {
         instance.orientation = -event.payload * pi()
       },
 
-      'game:update'(instance, _, { instances }) {
-        const { keyboard } = instances
+      'game:update'(instance, _, { engine }) {
+        const { keyboard } = engine.instances
 
         if (keyboard.ArrowLeft || keyboard.ArrowUp) {
           instance.orientation -= 0.1
@@ -33,16 +32,16 @@ export default {
     keyboard: keyboardType(),
 
     game: {
-      'targetRadius:change'(_, event, { instances }) {
-        instances.parameters.groups.align.fields.targetRadius.value =
+      'targetRadius:change'(_, event, { engine }) {
+        engine.instances.parameters.groups.align.fields.targetRadius.value =
           event.payload
       },
-      'timeToTarget:change'(_, event, { instances }) {
-        instances.parameters.groups.align.fields.timeToTarget.value =
+      'timeToTarget:change'(_, event, { engine }) {
+        engine.instances.parameters.groups.align.fields.timeToTarget.value =
           event.payload
       },
-      'targetOrientation:change'(_, event, { instances }) {
-        instances.parameters.groups.align.fields.targetOrientation.value =
+      'targetOrientation:change'(_, event, { engine }) {
+        engine.instances.parameters.groups.align.fields.targetOrientation.value =
           event.payload
       },
     },
@@ -54,9 +53,9 @@ export default {
     },
 
     character: {
-      'game:update'(instance, _, { instances, ...options }) {
-        const target = instances.mouse
-        const { fields } = instances.parameters.groups.align
+      'game:update'(instance, _, { engine, ...options }) {
+        const target = engine.instances.mouse
+        const { fields } = engine.instances.parameters.groups.align
 
         instance = {
           ...instance,

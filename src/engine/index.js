@@ -1,46 +1,50 @@
-import loop from './loop'
+import Loop from './loop'
 import { createStore } from './store'
 
 const DEFAULT_FPS = 60
 const ONE_SECOND = 1000
 
-const DEFAULT_LOOP = { type: 'animationFrame', fps: DEFAULT_FPS }
+const DEFAULT_CONFIG = { loop: { type: 'animationFrame', fps: DEFAULT_FPS } }
 
-const engine = {
+export default class Engine {
+  constructor(game) {
+    const { types, state, ...rest } = game
+    this._config = { ...DEFAULT_CONFIG, ...rest }
+    this._store = createStore({ engine: this, types, state })
+    this._loop = new Loop[this._config.loop.type]()
+  }
+
   get config() {
     return this._config
-  },
+  }
 
-  get store() {
-    return this._store
-  },
+  get instances() {
+    return this._store.getState().instances
+  }
 
-  getInstancesByType(type) {
-    const { instances } = this.store.getState()
-    return Object.values(instances).filter((instance) => instance.type === type)
-  },
+  add(id, instance) {
+    this._store.add(id, instance)
+  }
 
-  load(game) {
-    const { types, state, ...rest } = game
-    this._config = { loop: DEFAULT_LOOP, ...rest }
-    this._store = createStore({ types, state })
-  },
+  remove(id) {
+    this._store.remove(id)
+  }
+
+  notify(event) {
+    this._store.notify(event)
+  }
 
   start() {
-    const { type, fps } = this.config.loop
+    const { fps } = this.config.loop
     const msPerFrame = ONE_SECOND / fps
-
-    loop[type].start(this, msPerFrame)
-  },
+    this._loop.start(this, msPerFrame)
+  }
 
   stop() {
-    const { type } = this.config.loop
-    loop[type].stop()
-  },
+    this._loop.stop()
+  }
 
   update(elapsed) {
-    this.store.update(elapsed)
-  },
+    this._store.update(elapsed)
+  }
 }
-
-export default engine

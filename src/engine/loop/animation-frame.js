@@ -1,25 +1,25 @@
 const ONE_SECOND = 1000
 
-let id = null
-let previousTime = new Date()
+export default class AnimationFrameLoop {
+  _id = null
+  _previousTime = new Date()
 
-export function start(engine) {
-  tick(engine)
-}
+  start(engine) {
+    this._tick(engine)
+  }
 
-export function stop() {
-  window.cancelAnimationFrame(id)
-  id = null
-}
+  stop() {
+    window.cancelAnimationFrame(this._id)
+    this._id = null
+  }
 
-function tick(engine) {
-  const currentTime = new Date()
-  id = window.requestAnimationFrame(() => tick(engine))
-  const elapsed = currentTime - previousTime
+  _tick(engine) {
+    const currentTime = new Date()
+    this._id = window.requestAnimationFrame(() => this._tick(engine))
+    const elapsed = currentTime - this._previousTime
 
-  // engine.processInput()
-  engine.update(elapsed / ONE_SECOND)
-  // engine.render(engine)
+    engine.update(elapsed / ONE_SECOND)
 
-  previousTime = currentTime
+    this._previousTime = currentTime
+  }
 }

@@ -1,15 +1,15 @@
-import * as animationFrame from './animation-frame'
-import * as elapsed from './elapsed'
-import * as flash from './flash'
-import * as lag from './lag'
-import * as nap from './nap'
+import AnimationFrameLoop from './animation-frame'
+import ElapsedLoop from './elapsed'
+import FlashLoop from './flash'
+import LagLoop from './lag'
+import NapLoop from './nap'
 
 // @see https://gameprogrammingpatterns.com/game-loop.html
 
 export default {
-  flash,
-  nap,
-  elapsed,
-  lag,
-  animationFrame,
+  flash: FlashLoop,
+  nap: NapLoop,
+  elapsed: ElapsedLoop,
+  lag: LagLoop,
+  animationFrame: AnimationFrameLoop,
 }

@@ -1,4 +1,3 @@
-import engine from '@ezpz/engine'
 import { clampToBounds } from '@ezpz/utils/characters'
 import { ZERO_VECTOR } from '@ezpz/utils/math/linear/vector'
 import { subtract } from '@ezpz/utils/math/linear/vectors'
@@ -8,7 +7,7 @@ const NO_Y = 0
 
 export function mouseType(events = {}) {
   return {
-    'mouse:move'(instance, { payload }) {
+    'mouse:move'(instance, { payload }, { engine }) {
       instance.position = subtract(payload, [CURSOR_SIZE, NO_Y, CURSOR_SIZE])
 
       clampToBounds(instance, engine.config.bounds)

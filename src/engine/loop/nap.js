@@ -1,26 +1,25 @@
 const ONE_SECOND = 1000
 
-let shouldStop
+export default class NapLoop {
+  _shouldStop = false
 
-export async function start(engine, msPerUpdate) {
-  shouldStop = false
-  let previousTime = Date.now()
+  async start(engine, msPerUpdate) {
+    let previousTime = Date.now()
 
-  while (!shouldStop) {
-    const currentTime = Date.now()
-    const elapsed = currentTime - previousTime
+    while (!this._shouldStop) {
+      const currentTime = Date.now()
+      const elapsed = currentTime - previousTime
 
-    // engine.processInput()
-    engine.update(elapsed / ONE_SECOND)
-    // engine.render(engine, msPerUpdate)
+      engine.update(elapsed / ONE_SECOND)
 
-    previousTime = currentTime
-    await sleep(Date.now() - currentTime + msPerUpdate)
+      previousTime = currentTime
+      await sleep(Date.now() - currentTime + msPerUpdate)
+    }
   }
-}
 
-export function stop() {
-  shouldStop = true
+  stop() {
+    this._shouldStop = true
+  }
 }
 
 function sleep(ms) {

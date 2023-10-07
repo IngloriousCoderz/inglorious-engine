@@ -1,0 +1,32 @@
+import { Meta, Canvas, Story } from '@storybook/blocks'
+import * as Recipes from './recipes.stories'
+
+<Meta title="Games/Recipes" of={Recipes} />
+
+# Recipes
+
+Some common patterns that can be used in your game. Check the source code of each recipe and take inspiration!
+
+## Random Instances
+
+Shows how to spawn multiple random instances at startup.
+
+<Canvas>
+  <Story of={Recipes.RandomInstances} />
+</Canvas>
+
+## Add Instance
+
+Shows how to programmatically spawn a new instance on the scene.
+
+<Canvas>
+  <Story of={Recipes.AddInstance} />
+</Canvas>
+
+## Remove Instance
+
+Shows how to programmatically remove an instance from the scene.
+
+<Canvas>
+  <Story of={Recipes.RemoveInstance} />
+</Canvas>

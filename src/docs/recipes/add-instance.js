@@ -1,4 +1,3 @@
-import engine from '@ezpz/engine'
 import { randomRange } from '@ezpz/utils/math/random'
 import { pi } from '@ezpz/utils/math/trigonometry'
 
@@ -7,8 +6,8 @@ export default {
 
   types: {
     game: {
-      'button:click'(_, event, { instances }) {
-        const ids = Object.entries(instances)
+      'button:click'(_, event, { engine }) {
+        const ids = Object.entries(engine.instances)
           .filter(([, { type }]) => type === 'character')
           .map(([id]) => id)
 
@@ -16,7 +15,7 @@ export default {
           ? Number(ids[ids.length - 1].replace('character', ''))
           : 0
 
-        engine.store.add(`character${maxId + 1}`, {
+        engine.add(`character${maxId + 1}`, {
           type: 'character',
           position: [randomRange(0, 800), 0, randomRange(0, 600)],
           orientation: randomRange(0, 2 * pi(), 0.01),

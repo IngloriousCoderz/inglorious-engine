@@ -14,8 +14,8 @@ export default {
     },
 
     character: {
-      'game:update'(instance, _, { elapsed, instances }) {
-        const { keyboard } = instances
+      'game:update'(instance, _, { elapsed, engine }) {
+        const { keyboard } = engine.instances
 
         const SPEED = 5
 

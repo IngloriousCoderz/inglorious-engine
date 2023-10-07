@@ -1,23 +1,22 @@
 const ONE_SECOND = 1000
 
-let shouldStop
+export default class ElapsedLoop {
+  _shouldStop = false
 
-export async function start(engine) {
-  shouldStop = false
-  let previousTime = Date.now()
+  start(engine) {
+    let previousTime = Date.now()
 
-  while (!shouldStop) {
-    const currentTime = Date.now()
-    const elapsed = currentTime - previousTime
+    while (!this._shouldStop) {
+      const currentTime = Date.now()
+      const elapsed = currentTime - previousTime
 
-    // engine.processInput()
-    engine.update(elapsed / ONE_SECOND)
-    // engine.render(engine)
+      engine.update(elapsed / ONE_SECOND)
 
-    previousTime = currentTime
+      previousTime = currentTime
+    }
   }
-}
 
-export function stop() {
-  shouldStop = true
+  stop() {
+    this._shouldStop = true
+  }
 }

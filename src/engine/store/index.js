@@ -4,7 +4,11 @@ import produce from 'immer'
 const DEFAULT_TYPES = { game: {} }
 const DEFAULT_STATE = { events: [], instances: { game: { type: 'game' } } }
 
-export function createStore({ types: initialTypes, state: initialState }) {
+export function createStore({
+  engine,
+  types: initialTypes,
+  state: initialState,
+}) {
   const listeners = new Set()
   let incomingEvents = []
 
@@ -46,12 +50,7 @@ export function createStore({ types: initialTypes, state: initialState }) {
       state.instances = map(state.instances, (_, instance) => {
         const handle = types[instance.type][event.id]
         return (
-          (handle &&
-            handle(instance, event, {
-              instances: state.instances,
-              elapsed,
-              notify,
-            })) ||
+          (handle && handle(instance, event, { engine, elapsed, notify })) ||
           instance
         )
       })

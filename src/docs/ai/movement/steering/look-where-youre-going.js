@@ -1,4 +1,3 @@
-import engine from '@ezpz/engine'
 import {
   DEFAULT_SLOW_RADIUS,
   DEFAULT_TARGET_RADIUS,
@@ -7,8 +6,8 @@ import {
 import lookWhereYoureGoing from '@ezpz/engine/ai/movement/steering/look-where-youre-going'
 import { keyboardInstance, keyboardType } from '@ezpz/engine/input/keyboard'
 import { clampToBounds } from '@ezpz/utils/characters'
-import { pi } from '@ezpz/utils/math/trigonometry'
 import { sum } from '@ezpz/utils/math/linear/vectors'
+import { pi } from '@ezpz/utils/math/trigonometry'
 
 export default {
   bounds: [0, 0, 800, 600],
@@ -17,16 +16,16 @@ export default {
     keyboard: keyboardType(),
 
     game: {
-      'targetRadius:change'(_, event, { instances }) {
-        instances.parameters.groups.align.fields.targetRadius.value =
+      'targetRadius:change'(_, event, { engine }) {
+        engine.instances.parameters.groups.align.fields.targetRadius.value =
           event.payload
       },
-      'slowRadius:change'(_, event, { instances }) {
-        instances.parameters.groups.align.fields.slowRadius.value =
+      'slowRadius:change'(_, event, { engine }) {
+        engine.instances.parameters.groups.align.fields.slowRadius.value =
           event.payload
       },
-      'timeToTarget:change'(_, event, { instances }) {
-        instances.parameters.groups.align.fields.timeToTarget.value =
+      'timeToTarget:change'(_, event, { engine }) {
+        engine.instances.parameters.groups.align.fields.timeToTarget.value =
           event.payload
       },
     },
@@ -38,10 +37,10 @@ export default {
     },
 
     character: {
-      'game:update'(instance, _, { instances, ...options }) {
-        const { fields } = instances.parameters.groups.align
+      'game:update'(instance, _, { engine, ...options }) {
+        const { fields } = engine.instances.parameters.groups.align
 
-        const { keyboard = {} } = instances
+        const { keyboard = {} } = engine.instances
 
         const target = { velocity: [0, 0, 0] }
         if (keyboard.ArrowLeft) {

@@ -1,30 +1,26 @@
 const ONE_SECOND = 1000
 
-let shouldStop
+export default class LagLoop {
+  _shouldStop = false
 
-export async function start(engine, msPerUpdate) {
-  shouldStop = false
-  let previousTime = Date.now()
-  let lag = 0
+  start(engine, msPerUpdate) {
+    let previousTime = Date.now()
+    let lag = 0
 
-  while (!shouldStop) {
-    const currentTime = Date.now()
-    const elapsed = currentTime - previousTime
-    previousTime = currentTime
-    lag += elapsed
+    while (!this._shouldStop) {
+      const currentTime = Date.now()
+      const elapsed = currentTime - previousTime
+      previousTime = currentTime
+      lag += elapsed
 
-    // engine.processInput()
-
-    while (lag >= msPerUpdate) {
-      engine.update(elapsed / ONE_SECOND)
-      lag -= msPerUpdate
+      while (lag >= msPerUpdate) {
+        engine.update(elapsed / ONE_SECOND)
+        lag -= msPerUpdate
+      }
     }
-
-    // const normalizedLag = lag / msPerUpdate
-    // engine.render(engine, normalizedLag)
   }
-}
 
-export function stop() {
-  shouldStop = true
+  stop() {
+    this._shouldStop = true
+  }
 }

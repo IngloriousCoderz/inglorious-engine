@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Provider, useSelector } from 'react-redux'
 
-import engine from '../engine'
+import Engine from '../engine'
 import Character from './character'
 import Button from './controls/button'
 import Field from './controls/field'
@@ -15,22 +15,24 @@ import Scene from './scene'
 
 export default function GameWrapper({ config }) {
   const [isReady, setReady] = useState(false)
+
+  const engine = useMemo(() => new Engine(config), [config])
+
   useEffect(() => {
-    engine.load(config)
     engine.start()
     setReady(true)
     window.engine = engine
 
     return () => engine.stop()
-  }, [config])
+  }, [engine, config])
 
   if (!isReady) {
     return null
   }
 
   return (
-    <Provider store={engine.store}>
-      <Game />
+    <Provider store={engine._store}>
+      <Game engine={engine} />
     </Provider>
   )
 }
@@ -46,11 +48,11 @@ const Components = {
   form: withAbsolutePosition(Form),
 }
 
-function Game() {
-  const instances = useSelector((state) => state.instances)
+function Game({ engine }) {
+  const instances = useSelector((state) => state.instances) // don't use engine.instances: need to subscribe to animate scene!
 
   return (
-    <Scene>
+    <Scene config={engine.config}>
       {Object.entries(instances).map(([id, instance]) => {
         const Component = Components[instance.type]
 

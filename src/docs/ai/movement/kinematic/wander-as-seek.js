@@ -1,4 +1,3 @@
-import engine from '@ezpz/engine'
 import wanderAsSeek, {
   DEFAULT_WANDER_RADIUS,
 } from '@ezpz/engine/ai/movement/kinematic/wander-as-seek'
@@ -10,8 +9,8 @@ export default {
 
   types: {
     game: {
-      'wanderRadius:change'(_, event, { instances }) {
-        instances.parameters.groups.wanderAsSeek.fields.wanderRadius.value =
+      'wanderRadius:change'(_, event, { engine }) {
+        engine.instances.parameters.groups.wanderAsSeek.fields.wanderRadius.value =
           event.payload
       },
     },
@@ -23,8 +22,8 @@ export default {
     },
 
     character: {
-      'game:update'(instance, _, { instances, ...options }) {
-        const { fields } = instances.parameters.groups.wanderAsSeek
+      'game:update'(instance, _, { engine, ...options }) {
+        const { fields } = engine.instances.parameters.groups.wanderAsSeek
 
         Object.assign(
           instance,

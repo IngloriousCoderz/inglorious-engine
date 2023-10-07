@@ -1,4 +1,3 @@
-import engine from '@ezpz/engine'
 import evade, {
   DEFAULT_MAX_PREDICTION,
 } from '@ezpz/engine/ai/movement/steering/evade'
@@ -12,8 +11,8 @@ export default {
     mouse: mouseType(),
 
     game: {
-      'maxPrediction:change'(_, event, { instances }) {
-        instances.parameters.groups.evade.fields.maxPrediction.value =
+      'maxPrediction:change'(_, event, { engine }) {
+        engine.instances.parameters.groups.evade.fields.maxPrediction.value =
           event.payload
       },
     },
@@ -25,9 +24,9 @@ export default {
     },
 
     character: {
-      'game:update'(instance, _, { instances, ...options }) {
-        const target = instances.mouse
-        const { fields } = instances.parameters.groups.evade
+      'game:update'(instance, _, { engine, ...options }) {
+        const target = engine.instances.mouse
+        const { fields } = engine.instances.parameters.groups.evade
 
         instance = {
           ...instance,

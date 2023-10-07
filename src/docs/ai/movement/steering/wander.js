@@ -1,4 +1,3 @@
-import engine from '@ezpz/engine'
 import wander, {
   DEFAULT_WANDER_OFFSET,
   DEFAULT_WANDER_RADIUS,
@@ -11,12 +10,12 @@ export default {
 
   types: {
     game: {
-      'wanderOffset:change'(_, event, { instances }) {
-        instances.parameters.groups.wander.fields.wanderOffset.value =
+      'wanderOffset:change'(_, event, { engine }) {
+        engine.instances.parameters.groups.wander.fields.wanderOffset.value =
           event.payload
       },
-      'wanderRadius:change'(_, event, { instances }) {
-        instances.parameters.groups.wander.fields.wanderRadius.value =
+      'wanderRadius:change'(_, event, { engine }) {
+        engine.instances.parameters.groups.wander.fields.wanderRadius.value =
           event.payload
       },
     },
@@ -28,8 +27,8 @@ export default {
     },
 
     character: {
-      'game:update'(instance, _, { instances, ...options }) {
-        const { fields } = instances.parameters.groups.wander
+      'game:update'(instance, _, { engine, ...options }) {
+        const { fields } = engine.instances.parameters.groups.wander
 
         Object.assign(
           instance,

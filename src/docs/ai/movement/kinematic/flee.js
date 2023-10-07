@@ -1,4 +1,3 @@
-import engine from '@ezpz/engine'
 import flee from '@ezpz/engine/ai/movement/kinematic/flee'
 import { mouseInstance, mouseType } from '@ezpz/engine/input/mouse'
 import { clampToBounds } from '@ezpz/utils/characters'
@@ -16,8 +15,8 @@ export default {
     },
 
     character: {
-      'game:update'(instance, _, { instances, ...options }) {
-        const target = instances.mouse
+      'game:update'(instance, _, { engine, ...options }) {
+        const target = engine.instances.mouse
         instance = { ...instance, ...flee(instance, target, options) }
 
         clampToBounds(instance, engine.config.bounds)

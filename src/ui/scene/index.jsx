@@ -1,38 +1,15 @@
-import engine from '@ezpz/engine'
-import { useEffect, useRef } from 'react'
-import { useDispatch } from 'react-redux'
+import { useRef } from 'react'
 
+import { useKeyboard } from '../hooks/use-keyboard'
+import { useMouse } from '../hooks/use-mouse'
 import classes from './scene.module.scss'
 
-const NO_Y = 0
-
-export default function Scene({ children }) {
-  const [, , width, height] = engine.config.bounds
-
-  const dispatch = useDispatch()
+export default function Scene({ config, children }) {
+  const [, , width, height] = config.bounds
 
   const ref = useRef()
-
-  useEffect(() => {
-    const scene = ref.current
-
-    const handleMouseMove = ({ clientX, clientY }) =>
-      dispatch({ id: 'mouse:move', payload: [clientX, NO_Y, clientY] })
-    const handleKeyDown = ({ code }) =>
-      dispatch({ id: 'keyboard:keyDown', payload: code })
-    const handleKeyUp = ({ code }) =>
-      dispatch({ id: 'keyboard:keyUp', payload: code })
-
-    scene.addEventListener('mousemove', handleMouseMove)
-    document.addEventListener('keydown', handleKeyDown)
-    document.addEventListener('keyup', handleKeyUp)
-
-    return () => {
-      scene.removeEventListener('mousemove', handleMouseMove)
-      document.removeEventListener('keydown', handleKeyDown)
-      document.removeEventListener('keyup', handleKeyUp)
-    }
-  }, [dispatch])
+  useMouse({ parent: ref.current })
+  useKeyboard()
 
   return (
     <div

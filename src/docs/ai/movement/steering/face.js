@@ -1,4 +1,3 @@
-import engine from '@ezpz/engine'
 import {
   DEFAULT_SLOW_RADIUS,
   DEFAULT_TARGET_RADIUS,
@@ -16,15 +15,16 @@ export default {
     mouse: mouseType(),
 
     game: {
-      'targetRadius:change'(_, event, { instances }) {
-        instances.parameters.groups.face.fields.targetRadius.value =
+      'targetRadius:change'(_, event, { engine }) {
+        engine.instances.parameters.groups.face.fields.targetRadius.value =
           event.payload
       },
-      'slowRadius:change'(_, event, { instances }) {
-        instances.parameters.groups.face.fields.slowRadius.value = event.payload
+      'slowRadius:change'(_, event, { engine }) {
+        engine.instances.parameters.groups.face.fields.slowRadius.value =
+          event.payload
       },
-      'timeToTarget:change'(_, event, { instances }) {
-        instances.parameters.groups.face.fields.timeToTarget.value =
+      'timeToTarget:change'(_, event, { engine }) {
+        engine.instances.parameters.groups.face.fields.timeToTarget.value =
           event.payload
       },
     },
@@ -36,9 +36,9 @@ export default {
     },
 
     character: {
-      'game:update'(instance, _, { instances, ...options }) {
-        const target = instances.mouse
-        const { fields } = instances.parameters.groups.face
+      'game:update'(instance, _, { engine, ...options }) {
+        const target = engine.instances.mouse
+        const { fields } = engine.instances.parameters.groups.face
 
         instance = {
           ...instance,

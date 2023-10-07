@@ -1,4 +1,3 @@
-import engine from '@ezpz/engine'
 import { mouseInstance, mouseType } from '@ezpz/engine/input/mouse'
 import { randomRange } from '@ezpz/utils/math/random'
 import { pi } from '@ezpz/utils/math/trigonometry'
@@ -10,8 +9,8 @@ export default {
     mouse: mouseType(),
 
     game: {
-      'character:click'(_, { payload }) {
-        engine.store.remove(payload)
+      'character:click'(_, { payload }, { engine }) {
+        engine.remove(payload)
       },
     },
 
