@@ -4,7 +4,7 @@ import randomInstances from './random-instances'
 import removeInstance from './remove-instance'
 
 export default {
-  title: 'Games/Playing God',
+  title: 'Games/Recipes',
   component: Game,
 }
 

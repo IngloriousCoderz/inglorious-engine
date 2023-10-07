@@ -25,7 +25,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['*.test.js', 'src/**/*.stories.js', 'src/games/**/*.js'],
+      files: ['*.test.js', 'src/**/*.stories.js', 'src/docs/**/*.js'],
       rules: {
         'no-magic-numbers': 'off',
       },
