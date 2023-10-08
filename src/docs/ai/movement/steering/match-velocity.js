@@ -36,17 +36,15 @@ export default {
         const { target } = engine.instances
         const { fields } = engine.instances.parameters.groups.matchVelocity
 
-        instance = {
-          ...instance,
-          ...matchVelocity(instance, target, {
+        Object.assign(
+          instance,
+          matchVelocity(instance, target, {
             ...options,
             timeToTarget: fields.timeToTarget.value,
-          }),
-        }
+          })
+        )
 
         clampToBounds(instance, engine.config.bounds)
-
-        return instance
       },
     },
 

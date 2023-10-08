@@ -57,18 +57,16 @@ export default {
         const target = engine.instances.mouse
         const { fields } = engine.instances.parameters.groups.align
 
-        instance = {
-          ...instance,
-          ...align(instance, target, {
+        Object.assign(
+          instance,
+          align(instance, target, {
             ...options,
             targetRadius: fields.targetRadius.value,
             timeToTarget: fields.timeToTarget.value,
-          }),
-        }
+          })
+        )
 
         clampToBounds(instance, engine.config.bounds)
-
-        return instance
       },
     },
 

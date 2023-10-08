@@ -17,11 +17,10 @@ export default {
     character: {
       'game:update'(instance, _, { engine, ...options }) {
         const target = engine.instances.mouse
-        instance = { ...instance, ...seek(instance, target, options) }
+
+        Object.assign(instance, seek(instance, target, options))
 
         clampToBounds(instance, engine.config.bounds)
-
-        return instance
       },
     },
   },

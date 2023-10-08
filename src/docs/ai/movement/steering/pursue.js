@@ -28,17 +28,15 @@ export default {
         const target = engine.instances.mouse
         const { fields } = engine.instances.parameters.groups.pursue
 
-        instance = {
-          ...instance,
-          ...pursue(instance, target, {
+        Object.assign(
+          instance,
+          pursue(instance, target, {
             ...options,
             maxPrediction: fields.maxPrediction.value,
-          }),
-        }
+          })
+        )
 
         clampToBounds(instance, engine.config.bounds)
-
-        return instance
       },
     },
 

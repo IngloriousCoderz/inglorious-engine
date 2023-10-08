@@ -38,19 +38,17 @@ export default {
         const target = engine.instances.mouse
         const { fields } = engine.instances.parameters.groups.arrive
 
-        instance = {
-          ...instance,
-          ...arrive(instance, target, {
+        Object.assign(
+          instance,
+          arrive(instance, target, {
             ...options,
             targetRadius: fields.targetRadius.value,
             slowRadius: fields.slowRadius.value,
             timeToTarget: fields.timeToTarget.value,
-          }),
-        }
+          })
+        )
 
         clampToBounds(instance, engine.config.bounds)
-
-        return instance
       },
     },
 

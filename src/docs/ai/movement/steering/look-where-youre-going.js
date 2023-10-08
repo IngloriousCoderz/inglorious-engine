@@ -56,25 +56,22 @@ export default {
           target.velocity[2] = 1
         }
 
-        instance = {
-          ...instance,
+        Object.assign(instance, {
           velocity: target.velocity,
           position: sum(instance.position, target.velocity),
-        }
+        })
 
-        instance = {
-          ...instance,
-          ...lookWhereYoureGoing(instance, null, {
+        Object.assign(
+          instance,
+          lookWhereYoureGoing(instance, null, {
             ...options,
             targetRadius: fields.targetRadius.value,
             slowRadius: fields.slowRadius.value,
             timeToTarget: fields.timeToTarget.value,
-          }),
-        }
+          })
+        )
 
         clampToBounds(instance, engine.config.bounds)
-
-        return instance
       },
     },
 

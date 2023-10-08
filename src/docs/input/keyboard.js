@@ -33,12 +33,7 @@ export default {
           target.velocity[2] = SPEED
         }
 
-        instance = {
-          ...instance,
-          ...matchVelocity(instance, target, { elapsed }),
-        }
-
-        return instance
+        Object.assign(instance, matchVelocity(instance, target, { elapsed }))
       },
     },
   },

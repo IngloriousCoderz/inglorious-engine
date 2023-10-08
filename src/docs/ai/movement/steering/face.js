@@ -40,19 +40,17 @@ export default {
         const target = engine.instances.mouse
         const { fields } = engine.instances.parameters.groups.face
 
-        instance = {
-          ...instance,
-          ...face(instance, target, {
+        Object.assign(
+          instance,
+          face(instance, target, {
             ...options,
             targetRadius: fields.targetRadius.value,
             slowRadius: fields.slowRadius.value,
             timeToTarget: fields.timeToTarget.value,
-          }),
-        }
+          })
+        )
 
         clampToBounds(instance, engine.config.bounds)
-
-        return instance
       },
     },
 

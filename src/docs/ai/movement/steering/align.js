@@ -62,19 +62,17 @@ export default {
         const target = engine.instances.cursor
         const { fields } = engine.instances.parameters.groups.align
 
-        instance = {
-          ...instance,
-          ...align(instance, target, {
+        Object.assign(
+          instance,
+          align(instance, target, {
             ...options,
             targetRadius: fields.targetRadius.value,
             slowRadius: fields.slowRadius.value,
             timeToTarget: fields.timeToTarget.value,
-          }),
-        }
+          })
+        )
 
         clampToBounds(instance, engine.config.bounds)
-
-        return instance
       },
     },
 
