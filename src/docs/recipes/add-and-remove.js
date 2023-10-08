@@ -26,18 +26,9 @@ export default {
       },
     }),
 
-    elapsed: {
-      'game:update'(instance, event, { elapsed }) {
-        instance.value = elapsed
-      },
-    },
-
     character: {
       'character:click'(instance, event, { notify }) {
-        notify({
-          id: 'instance:remove',
-          payload: event.payload,
-        })
+        notify({ id: 'instance:remove', payload: event.payload })
       },
     },
   },
@@ -45,11 +36,6 @@ export default {
   state: {
     instances: {
       mouse: mouseInstance(),
-
-      debug: {
-        type: 'elapsed',
-        value: 0,
-      },
     },
   },
 }

@@ -2,7 +2,7 @@ import evade, {
   DEFAULT_MAX_PREDICTION,
 } from '@ezpz/engine/ai/movement/steering/evade'
 import { mouseInstance, mouseType } from '@ezpz/engine/input/mouse'
-import { clampToBounds } from '@ezpz/utils/characters'
+import { clampToBounds } from '@ezpz/utils/character'
 import { merge } from '@ezpz/utils/data-structures/objects'
 
 export default {
@@ -16,7 +16,7 @@ export default {
       },
     },
 
-    elapsed: {
+    fps: {
       'game:update'(instance, _, { elapsed }) {
         instance.value = elapsed
       },
@@ -47,7 +47,7 @@ export default {
       mouse: mouseInstance(),
 
       debug: {
-        type: 'elapsed',
+        type: 'fps',
         value: 0,
       },
 

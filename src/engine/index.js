@@ -6,7 +6,7 @@ import { createStore } from './store'
 const DEFAULT_FPS = 60
 
 const DEFAULT_CONFIG = {
-  bounds: ['0', '0', '800px', '600px'],
+  bounds: [0, 0, 800, 600], // eslint-disable-line no-magic-numbers
   loop: { type: 'animationFrame', fps: DEFAULT_FPS },
 }
 

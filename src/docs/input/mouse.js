@@ -5,7 +5,7 @@ export default {
   types: {
     mouse: mouseType(),
 
-    elapsed: {
+    fps: {
       'game:update'(instance, event, { elapsed }) {
         instance.value = elapsed
       },
@@ -24,7 +24,7 @@ export default {
       mouse: mouseInstance(),
 
       debug: {
-        type: 'elapsed',
+        type: 'fps',
         value: 0,
       },
 

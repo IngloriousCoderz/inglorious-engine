@@ -5,7 +5,7 @@ import align, {
 } from '@ezpz/engine/ai/movement/steering/align'
 import { keyboardInstance, keyboardType } from '@ezpz/engine/input/keyboard'
 import { mouseInstance, mouseType } from '@ezpz/engine/input/mouse'
-import { clampToBounds } from '@ezpz/utils/characters'
+import { clampToBounds } from '@ezpz/utils/character'
 import { merge } from '@ezpz/utils/data-structures/objects'
 import { clamp } from '@ezpz/utils/math/numbers'
 import { pi } from '@ezpz/utils/math/trigonometry'
@@ -50,7 +50,7 @@ export default {
       },
     },
 
-    elapsed: {
+    fps: {
       'game:update'(instance, _, { elapsed }) {
         instance.value = elapsed
       },
@@ -84,7 +84,7 @@ export default {
       keyboard: keyboardInstance(),
 
       debug: {
-        type: 'elapsed',
+        type: 'fps',
         value: 0,
       },
 

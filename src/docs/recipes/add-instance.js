@@ -21,23 +21,12 @@ export default {
       },
     }),
 
-    elapsed: {
-      'game:update'(instance, event, { elapsed }) {
-        instance.value = elapsed
-      },
-    },
-
     character: {},
   },
 
   state: {
     instances: {
       mouse: mouseInstance(),
-
-      debug: {
-        type: 'elapsed',
-        value: 0,
-      },
     },
   },
 }

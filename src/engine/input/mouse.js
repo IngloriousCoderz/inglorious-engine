@@ -1,4 +1,4 @@
-import { clampToBounds } from '@ezpz/utils/characters'
+import { clampToBounds } from '@ezpz/utils/character'
 import { ZERO_VECTOR } from '@ezpz/utils/math/linear-algebra/vector'
 import { subtract } from '@ezpz/utils/math/linear-algebra/vectors'
 
@@ -8,16 +8,6 @@ const NO_Y = 0
 export function mouseType(events = {}) {
   return {
     'mouse:move'(instance, event, { config }) {
-      instance.position = subtract(event.payload, [
-        CURSOR_SIZE,
-        NO_Y,
-        CURSOR_SIZE,
-      ])
-
-      clampToBounds(instance, config.bounds)
-    },
-
-    'mouse:click'(instance, event, { config }) {
       instance.position = subtract(event.payload, [
         CURSOR_SIZE,
         NO_Y,

@@ -8,12 +8,12 @@ import Form from './controls/form'
 import Input from './controls/input'
 import Label from './controls/label'
 import Cursor from './cursor'
-import Debug from './debug'
+import Fps from './fps'
 import Scene from './scene'
 
 const Components = {
   mouse: withAbsolutePosition(Cursor),
-  elapsed: withAbsolutePosition(Debug),
+  fps: withAbsolutePosition(Fps),
   button: withAbsolutePosition(Button),
   character: withAbsolutePosition(Character),
   input: withAbsolutePosition(Input),

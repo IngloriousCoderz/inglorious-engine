@@ -1,32 +1,253 @@
-import { Meta, Canvas } from '@storybook/blocks'
+import { Canvas, Meta, Source } from '@storybook/blocks'
 import * as Recipes from './recipes.stories'
 
-<Meta title="Games/Recipes" of={Recipes} />
+<Meta of={Recipes} />
 
 # Recipes
 
 Some common patterns that can be used in your game. Check the source code of each recipe and take inspiration!
 
-## Random Instances
+## Spawning Random Instances
 
-Shows how to spawn multiple random instances at startup.
+The game configuration is pure JavaScript, so there's not much difference between defining the instances one by one or writing some code that generates them automatically!
+
+Here we are using a couple of utility functions from the [random](/?path=/docs/utils-math-random--docs) and [trigonometry](/?path=/docs/utils-math-trigonometry--docs) packages.
+
+<Source code={`import { randomRange } from '@ezpz/utils/math/random'
+import { pi } from '@ezpz/utils/math/trigonometry'
+
+export default {
+  types: {
+    character: {}
+  },
+
+  state: {
+    instances: {
+      ...Object.fromEntries(
+        Array(100)
+          .fill(null)
+          .map((_, index) => [
+            \`character\${index + 1}\`,
+            {
+              type: 'character',
+              position: [randomRange(0, 800), 0, randomRange(0, 600)],
+              orientation: randomRange(0, 2 * pi(), 0.01),
+            }
+          ])
+      )
+    }
+  }
+}`} />
 
 <Canvas of={Recipes.RandomInstances} />
 
-## Add Instance
+## Adding An Instance
 
-Shows how to programmatically spawn a new instance on the scene.
+Programmatically adding a new instance to the scene is as easy as sending an event to the game engine asking nicely.
+
+Try clicking anywhere on the scene to create a new instance with random orientation.
+
+Here, apart from some math functions, we are also using a predefined mouse [input](/?path=/docs/games-input--docs) package that allows us to position a cursor and handle its events.
+
+<Source code={`import { mouseInstance, mouseType } from '@ezpz/engine/input/mouse'
+import { subtract } from '@ezpz/utils/math/linear-algebra/vectors'
+import { randomRange } from '@ezpz/utils/math/random'
+import { pi } from '@ezpz/utils/math/trigonometry'
+
+export default {
+  types: {
+    mouse: mouseType({
+      'mouse:click'(instance, event, { instances, notify }) {
+        const characters = Object.keys(instances)
+
+        notify({
+          id: 'instance:add',
+          payload: {
+            id: \`character\${characters.length + 1}\`,
+            type: 'character',
+            position: subtract(event.payload, [15, 0, 15]),
+            orientation: randomRange(0, 2 * pi(), 0.01)
+          }
+        })
+      }
+    }),
+
+    character: {},
+  },
+
+  state: {
+    instances: {
+      mouse: mouseInstance()
+    }
+  }
+}
+`} />
 
 <Canvas of={Recipes.AddInstance} />
 
-## Remove Instance
+## Removing An Instance
 
-Shows how to programmatically remove an instance from the scene.
+Removing an instance is pretty much the same: we notify the engine of our intention and we enjoy the result.
+
+Try clicking on any instance do remove it from the scene.
+
+<Source code={`import { mouseInstance, mouseType } from '@ezpz/engine/input/mouse'
+import { randomRange } from '@ezpz/utils/math/random'
+import { pi } from '@ezpz/utils/math/trigonometry'
+
+export default {
+  types: {
+    mouse: mouseType(),
+
+    character: {
+      'character:click'(instance, event, { notify }) {
+        notify({ id: 'instance:remove', payload: event.payload })
+      }
+    }
+  },
+
+  state: {
+    instances: {
+      mouse: mouseInstance(),
+
+      ...Object.fromEntries(
+        Array(5)
+          .fill(null)
+          .map((_, index) => [
+            \`character\${index + 1}\`,
+            {
+              type: 'character',
+              position: [randomRange(0, 800), 0, randomRange(0, 600)],
+              orientation: randomRange(0, 2 * pi(), 0.01),
+            }
+          ])
+      )
+    }
+  }
+}`} />
 
 <Canvas of={Recipes.RemoveInstance} />
 
+## Add And Remove
+
+Clicking on a character will prevent the event from bubbling on the scene, so it's safe to add and remove characters by using the same strategy: click as if there's no tomorrow!
+
+The most complex part of this code is generating new incremental ids, which is not even mandatory. You know best what's good for your game!
+
+<Source code={`import { mouseInstance, mouseType } from '@ezpz/engine/input/mouse'
+import { subtract } from '@ezpz/utils/math/linear-algebra/vectors'
+import { randomRange } from '@ezpz/utils/math/random'
+import { pi } from '@ezpz/utils/math/trigonometry'
+
+export default {
+  types: {
+    mouse: mouseType({
+      'mouse:click'(instance, event, { instances, notify }) {
+        const ids = Object.keys(instances).filter((id) =>
+          id.startsWith('character')
+        )
+        const maxId = ids.length
+          ? Number(ids[ids.length - 1].replace('character', ''))
+          : 0
+
+        notify({
+          id: 'instance:add',
+          payload: {
+            id: \`character\${maxId + 1}\`,
+            type: 'character',
+            position: subtract(event.payload, [15, 0, 15]),
+            orientation: randomRange(0, 2 * pi(), 0.01)
+          }
+        })
+      }
+    }),
+
+    character: {
+      'character:click'(instance, event, { notify }) {
+        notify({ id: 'instance:remove', payload: event.payload })
+      }
+    }
+  },
+
+  state: {
+    instances: {
+      mouse: mouseInstance(),
+    }
+  }
+}
+`} />
+
+<Canvas of={Recipes.AddAndRemove} />
+
 ## FSM
 
-Shows ho to implement a Finite State Machine (FSM) for your game.
+Adding a Finite State Machine (FSM) is very easy, in fact every game so far was secretely using FSMs already!
+
+We just need to wrap our event handlers into states, set an initial state on our instance, and transition from one state to another inside the event handlers.
+
+Try moving the cursor near the character to make it hunt you, and then moving it away to see the character wander around aimlessly.
+
+This code may seem a lot, but it's just a merge of the *Arrive* and *Wander* [Kinematic AI Movement](/?path=/docs/games-ai-movement-kinematic--docs) examples so feel free to take a look at them before approaching this one.
+
+<Source code={`import arrive from '@ezpz/engine/ai/movement/kinematic/arrive'
+import wander from '@ezpz/engine/ai/movement/kinematic/wander'
+import { mouseInstance, mouseType } from '@ezpz/engine/input/mouse'
+import { clampToBounds, flip } from '@ezpz/utils/character'
+import { merge } from '@ezpz/utils/data-structures/objects'
+import { length } from '@ezpz/utils/math/linear-algebra/vector'
+import { subtract } from '@ezpz/utils/math/linear-algebra/vectors'
+import { pi } from '@ezpz/utils/math/trigonometry'
+
+export default {
+  types: {
+    mouse: mouseType(),
+
+    character: {
+      states: {
+        meandering: {
+          'game:update'(instance, event, { elapsed, config, instances }) {
+            const target = instances.mouse
+
+            merge(instance, wander(instance, { elapsed }))
+            flip(instance, config.bounds)
+
+            if (length(subtract(instance.position, target.position)) < 200) {
+              instance.state = 'hunting'
+            }
+          }
+        },
+
+        hunting: {
+          'game:update'(instance, event, { elapsed, config, instances }) {
+            const target = instances.mouse
+
+            merge(instance, arrive(instance, target, { elapsed }))
+            clampToBounds(instance, config.bounds)
+
+            if (length(subtract(instance.position, target.position)) >= 200) {
+              instance.state = 'meandering'
+            }
+          }
+        }
+      }
+    }
+  },
+
+  state: {
+    instances: {
+      mouse: mouseInstance(),
+
+      character: {
+        type: 'character',
+        state: 'meandering',
+        maxSpeed: 250,
+        maxRotation: pi() / 4,
+        orientation: 0,
+        position: [400, 0, 300]
+      }
+    }
+  }
+}
+`} />
 
 <Canvas of={Recipes.FSM} />

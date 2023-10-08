@@ -1,8 +1,8 @@
-import { bounce } from '@ezpz/utils/characters'
+import { bounce } from '@ezpz/utils/character'
 
 export default {
   types: {
-    elapsed: {
+    fps: {
       'game:update'(instance, event, { elapsed }) {
         instance.value = elapsed
       },
@@ -18,7 +18,7 @@ export default {
   state: {
     instances: {
       instance1: {
-        type: 'elapsed',
+        type: 'fps',
         value: 0,
       },
 
@@ -26,7 +26,6 @@ export default {
         type: 'character',
         position: [0, 0, 0],
         velocity: [10, 0, 5],
-        orientation: 0,
       },
     },
   },

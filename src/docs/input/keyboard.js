@@ -6,7 +6,7 @@ export default {
   types: {
     keyboard: keyboardType(),
 
-    elapsed: {
+    fps: {
       'game:update'(instance, _, { elapsed }) {
         instance.value = elapsed
       },
@@ -42,7 +42,7 @@ export default {
       keyboard: keyboardInstance(),
 
       debug: {
-        type: 'elapsed',
+        type: 'fps',
         value: 0,
       },
 

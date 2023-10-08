@@ -1,0 +1,122 @@
+import { Canvas, Meta, Source } from '@storybook/blocks'
+import * as Games from './games.stories'
+
+<Meta of={Games} />
+
+# Games
+
+The best documentation to me is one by example. So here's a few examples of games!
+
+## Empty
+
+The most minimal configuration you can pass is an empty object. This will render an 800x600 scene with a light grey background.
+
+Here's the code for this beauty:
+
+<Source code={`export default {}`} />
+
+<Canvas of={Games.Empty} />
+
+## Bounds
+
+We can customize the game's bounds by passing an array of four numbers: these will hold the upper and lower bounds in pixels.
+
+<Source code={`export default {
+  bounds: [0, 0, 600, 800]
+}`} />
+
+<Canvas of={Games.Bounds} />
+
+## Types And Instances
+
+Let's add something to the scene. The game configuration requires that we specify a static part, which is stuff that will never change, and a dynamic part, which is basically the current game state.
+
+The static part includes the definition of each `type` of actors we want to show on the screen. For convenience we provide a default type called `character` that shows its position and orientation.
+
+In the dynamic part we add an instance of this type. In this basic scenario the `character` instance needs to specify only its type and position. Something like this:
+
+<Source code={`export default {
+  types: {
+    character: {}
+  },
+
+  state: {
+    instances: {
+      instance1: { type: 'character', position: [400, 0, 300] }
+    }
+  }
+}`} />
+
+<Canvas of={Games.Instances} />
+
+## Event Handlers
+
+To animate stuff we write event handlers for events that are triggered by our instances or by the game itself. The `game:update` event, for example, is triggered at every cycle of the game loop.
+
+An event handler accepts the following arguments:
+
+- The `instance` itself that is handling the event, so we can change its properties to our needs;
+- The triggered `event`, which contains a `payload` that holds whatever we need to accomplish our task;
+- An `options` object that contains the following:
+  - The `elapsed` time, which can help slow down certain movement algorithms based on the current FPS;
+  - The game's current `config` object (here you can find the scene's `bounds`, for example);
+  - All `instances` present in the scene; note that they are read-only, so look but don't touch!
+
+The `fps` type shows FPS debug info on the top left of the scene; its value is updated based on the `elapsed` time at every `game:update` event.
+
+<Source code={`export default {
+  types: {
+    fps: {
+      'game:update'(instance, event, { elapsed, config, instances }) {
+        instance.value = elapsed
+      }
+    }
+  },
+
+  state: {
+    instances: {
+      instance1: { type: 'fps', value: 0 }
+    }
+  }
+}`} />
+
+<Canvas of={Games.EventHandlers} />
+
+## Default Handlers
+
+Coding is beautiful, but reusing code without reinventing the wheel is even better!
+
+The event handler for this character is using a predefined `bounce()` function which makes it look like one of those old DVD logo screensavers.
+
+This time the `character` needs to specify not only its position but also its initial velocity, so the `bounce()` function can update both. 
+
+<Source code={`import { bounce } from '@ezpz/utils/character'
+
+export default {
+  types: {
+    fps: {
+      'game:update'(instance, event, { elapsed }) {
+        instance.value = elapsed
+      }
+    },
+
+    character: {
+      'game:update'(instance, event, { config }) {
+        bounce(instance, config.bounds)
+      }
+    }
+  },
+
+  state: {
+    instances: {
+      instance1: { type: 'fps', value: 0 },
+
+      instance2: {
+        type: 'character', position: [0, 0, 0], velocity: [10, 0, 5] }
+    }
+  }
+}`} />
+
+<Canvas of={Games.Bounce} />
+
+So far so good? Let's move on to some complex stuff then! See how we can trigger some more events, such as [input](/?path=/docs/games-input--docs) events, then take a look at some [recipes](/?path=/docs/games-recipes--docs) that give life to our game!

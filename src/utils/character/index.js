@@ -11,24 +11,24 @@ const X = 0
 const Z = 2
 const NO_Y = 0
 
-export function bounce(character, [minX, minZ, maxX, maxZ]) {
-  const [x, , z] = character.position
+export function bounce(instance, [minX, minZ, maxX, maxZ]) {
+  const [x, , z] = instance.position
 
   if (x < minX || x >= maxX) {
-    character.velocity[X] = -character.velocity[X]
+    instance.velocity[X] = -instance.velocity[X]
   }
 
   if (z < minZ || z >= maxZ) {
-    character.velocity[Z] = -character.velocity[Z]
+    instance.velocity[Z] = -instance.velocity[Z]
   }
 
-  character.position = sum(character.position, character.velocity)
-  character.orientation = angle(character.velocity)
+  instance.position = sum(instance.position, instance.velocity)
+  instance.orientation = angle(instance.velocity)
 }
 
-export function clampToBounds(character, [minX, minZ, maxX, maxZ]) {
-  character.position = clamp(
-    character.position,
+export function clampToBounds(instance, [minX, minZ, maxX, maxZ]) {
+  instance.position = clamp(
+    instance.position,
     [minX, NO_Y, minZ],
     [maxX, NO_Y, maxZ]
   )

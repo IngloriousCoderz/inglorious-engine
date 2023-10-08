@@ -14,7 +14,7 @@ export default function Scene({ config, children }) {
   return (
     <div
       className={classes.scene}
-      style={{ '--width': width, '--height': height }}
+      style={{ '--width': `${width}px`, '--height': `${height}px` }}
       {...mouseEventHandlers}
       ref={ref}
     >

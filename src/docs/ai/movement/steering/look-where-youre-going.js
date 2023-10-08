@@ -5,7 +5,7 @@ import {
 } from '@ezpz/engine/ai/movement/steering/align'
 import lookWhereYoureGoing from '@ezpz/engine/ai/movement/steering/look-where-youre-going'
 import { keyboardInstance, keyboardType } from '@ezpz/engine/input/keyboard'
-import { clampToBounds } from '@ezpz/utils/characters'
+import { clampToBounds } from '@ezpz/utils/character'
 import { merge } from '@ezpz/utils/data-structures/objects'
 import { sum } from '@ezpz/utils/math/linear-algebra/vectors'
 import { pi } from '@ezpz/utils/math/trigonometry'
@@ -29,7 +29,7 @@ export default {
       },
     },
 
-    elapsed: {
+    fps: {
       'game:update'(instance, _, { elapsed }) {
         instance.value = elapsed
       },
@@ -82,7 +82,7 @@ export default {
       keyboard: keyboardInstance(),
 
       debug: {
-        type: 'elapsed',
+        type: 'fps',
         value: 0,
       },
 

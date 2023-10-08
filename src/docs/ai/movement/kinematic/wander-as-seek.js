@@ -1,7 +1,7 @@
 import wanderAsSeek, {
   DEFAULT_WANDER_RADIUS,
 } from '@ezpz/engine/ai/movement/kinematic/wander-as-seek'
-import { flip } from '@ezpz/utils/characters'
+import { flip } from '@ezpz/utils/character'
 import { merge } from '@ezpz/utils/data-structures/objects'
 import { pi } from '@ezpz/utils/math/trigonometry'
 
@@ -14,7 +14,7 @@ export default {
       },
     },
 
-    elapsed: {
+    fps: {
       'game:update'(instance, event, { elapsed }) {
         instance.value = elapsed
       },
@@ -41,7 +41,7 @@ export default {
   state: {
     instances: {
       debug: {
-        type: 'elapsed',
+        type: 'fps',
         value: 0,
       },
 

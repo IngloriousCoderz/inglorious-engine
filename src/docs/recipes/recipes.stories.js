@@ -8,6 +8,7 @@ import removeInstance from './remove-instance'
 export default {
   title: 'Games/Recipes',
   component: Game,
+  parameters: { layout: 'centered' },
 }
 
 export const RandomInstances = {
