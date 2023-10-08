@@ -7,8 +7,6 @@ import { merge } from '@ezpz/utils/data-structures/objects'
 import { pi } from '@ezpz/utils/math/trigonometry'
 
 export default {
-  bounds: [0, 0, 800, 600],
-
   types: {
     game: {
       'wanderOffset:change'(_, event, { engine }) {

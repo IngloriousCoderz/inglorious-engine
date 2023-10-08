@@ -20,8 +20,14 @@ test('it should add an event to the event queue', () => {
   const afterState = {
     events: [event],
     instances: {
-      game: { type: 'game' },
-      instance1: { type: 'kitty' },
+      game: {
+        type: 'game',
+        state: 'default',
+      },
+      instance1: {
+        type: 'kitty',
+        state: 'default',
+      },
     },
   }
 
@@ -55,9 +61,13 @@ test('it should process the event queue', () => {
   const afterState = {
     events: [],
     instances: {
-      game: { type: 'game' },
+      game: {
+        type: 'game',
+        state: 'default',
+      },
       instance1: {
         type: 'kitty',
+        state: 'default',
         wasNotified: true,
         wasUpdated: true,
       },
@@ -104,13 +114,18 @@ test('it should send an event from an instance', () => {
   const afterState = {
     events: [event],
     instances: {
-      game: { type: 'game' },
+      game: {
+        type: 'game',
+        state: 'default',
+      },
       instance1: {
         type: 'kitty',
+        state: 'default',
         position: 'near',
       },
       instance2: {
         type: 'doge',
+        state: 'default',
       },
     },
   }
@@ -159,13 +174,18 @@ test('it should receive an event from an instance', () => {
   const afterState = {
     events: [],
     instances: {
-      game: { type: 'game' },
+      game: {
+        type: 'game',
+        state: 'default',
+      },
       instance1: {
         type: 'kitty',
+        state: 'default',
         position: 'far',
       },
       instance2: {
         type: 'doge',
+        state: 'default',
       },
     },
   }
@@ -195,9 +215,13 @@ test('it should mutate state in an immutable way', () => {
   const afterState = {
     events: [],
     instances: {
-      game: { type: 'game' },
+      game: {
+        type: 'game',
+        state: 'default',
+      },
       instance1: {
         type: 'kitty',
+        state: 'default',
         wasUpdated: true,
       },
     },

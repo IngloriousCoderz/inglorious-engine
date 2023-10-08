@@ -8,8 +8,6 @@ import { clampToBounds } from '@ezpz/utils/characters'
 import { merge } from '@ezpz/utils/data-structures/objects'
 
 export default {
-  bounds: [0, 0, 800, 600],
-
   types: {
     mouse: mouseType(),
 

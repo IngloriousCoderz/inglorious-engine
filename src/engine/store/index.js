@@ -1,4 +1,4 @@
-import { map } from '@ezpz/utils/data-structures/object'
+import { filter, map } from '@ezpz/utils/data-structures/object'
 import { merge } from '@ezpz/utils/data-structures/objects'
 import produce from 'immer'
 
@@ -14,13 +14,11 @@ export function createStore({
   let incomingEvents = []
 
   let types = merge({}, DEFAULT_TYPES, initialTypes)
-  let state = merge({}, DEFAULT_STATE, initialState)
+  types = turnTypesIntoFsm(types)
+  types = enableMutability(types)
 
-  Object.values(types).forEach((events) =>
-    Object.keys(events).forEach((id) => {
-      events[id] = produce(events[id])
-    })
-  )
+  let state = merge({}, DEFAULT_STATE, initialState)
+  state = turnStateIntoFsm(state)
 
   return {
     subscribe,
@@ -49,7 +47,7 @@ export function createStore({
       const event = state.events.shift()
 
       state.instances = map((id, instance) => {
-        const handle = types[instance.type][event.id]
+        const handle = types[instance.type].states[instance.state][event.id]
         return (
           (handle && handle(instance, event, { engine, elapsed, notify })) ||
           instance
@@ -66,6 +64,7 @@ export function createStore({
   function add(id, instance) {
     state = { ...state }
     state.instances[id] = instance
+    instance.state = instance.state ?? 'default'
 
     listeners.forEach((onUpdate) => onUpdate())
   }
@@ -83,5 +82,50 @@ export function createStore({
 
   function getState() {
     return state
+  }
+}
+
+function turnTypesIntoFsm(types) {
+  return map((id, type) => {
+    const isFsm = Object.keys(type).some((key) => key === 'states')
+    if (isFsm) {
+      return type
+    }
+
+    const eventHandlers = filter(
+      (_, value) => typeof value === 'function',
+      type
+    )
+    const typeWithoutEventHandlers = filter(
+      (_, value) => typeof value !== 'function',
+      type
+    )
+    return merge(typeWithoutEventHandlers, {
+      states: { default: eventHandlers },
+    })
+  }, types)
+}
+
+function enableMutability(types) {
+  return map(
+    (typeId, { states, ...rest }) => ({
+      ...rest,
+      states: map(
+        (stateId, events) => map((eventId, event) => produce(event), events),
+        states
+      ),
+    }),
+    types
+  )
+}
+
+function turnStateIntoFsm(state) {
+  return {
+    ...state,
+    instances: map(
+      (id, instance) =>
+        instance.state == null ? { ...instance, state: 'default' } : instance,
+      state.instances
+    ),
   }
 }

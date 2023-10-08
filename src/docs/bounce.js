@@ -1,8 +1,6 @@
 import { bounce } from '@ezpz/utils/characters'
 
 export default {
-  bounds: [0, 0, 800, 600],
-
   types: {
     elapsed: {
       'game:update'(instance, event, { elapsed }) {

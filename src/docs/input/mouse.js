@@ -2,8 +2,6 @@ import { mouseInstance, mouseType } from '@ezpz/engine/input/mouse'
 import { subtract } from '@ezpz/utils/math/linear-algebra/vectors'
 
 export default {
-  bounds: [0, 0, 800, 600],
-
   types: {
     mouse: mouseType(),
 

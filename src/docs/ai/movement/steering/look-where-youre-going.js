@@ -11,8 +11,6 @@ import { sum } from '@ezpz/utils/math/linear-algebra/vectors'
 import { pi } from '@ezpz/utils/math/trigonometry'
 
 export default {
-  bounds: [0, 0, 800, 600],
-
   types: {
     keyboard: keyboardType(),
 

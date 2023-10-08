@@ -10,8 +10,6 @@ import { clamp } from '@ezpz/utils/math/numbers'
 import { pi } from '@ezpz/utils/math/trigonometry'
 
 export default {
-  bounds: [0, 0, 800, 600],
-
   types: {
     mouse: mouseType({
       'targetOrientation:change'(instance, event) {

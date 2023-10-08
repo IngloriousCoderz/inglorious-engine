@@ -3,8 +3,6 @@ import { keyboardInstance, keyboardType } from '@ezpz/engine/input/keyboard'
 import { merge } from '@ezpz/utils/data-structures/objects'
 
 export default {
-  bounds: [0, 0, 800, 600],
-
   types: {
     keyboard: keyboardType(),
 

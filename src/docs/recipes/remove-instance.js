@@ -3,8 +3,6 @@ import { randomRange } from '@ezpz/utils/math/random'
 import { pi } from '@ezpz/utils/math/trigonometry'
 
 export default {
-  bounds: [0, 0, 800, 600],
-
   types: {
     mouse: mouseType(),
 

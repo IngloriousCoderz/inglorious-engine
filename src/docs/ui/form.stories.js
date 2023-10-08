@@ -1,14 +1,13 @@
 import Game from '@ezpz/ui/game'
 
 export default {
-  title: 'Controls/Form',
+  title: 'UI/Form',
   component: Game,
 }
 
 export const Default = {
   args: {
     config: {
-      bounds: [0, 0, 800, 600],
       types: {
         form: {},
       },

@@ -1,10 +1,17 @@
 import Loop from './loop'
 import { createStore } from './store'
 
+const DEFAULT_WIDTH = 800
+const DEFAULT_HEIGHT = 600
+const DEFAULT_POSITION = 0
+
 const DEFAULT_FPS = 60
 const ONE_SECOND = 1000
 
-const DEFAULT_CONFIG = { loop: { type: 'animationFrame', fps: DEFAULT_FPS } }
+const DEFAULT_CONFIG = {
+  bounds: [DEFAULT_POSITION, DEFAULT_POSITION, DEFAULT_WIDTH, DEFAULT_HEIGHT],
+  loop: { type: 'animationFrame', fps: DEFAULT_FPS },
+}
 
 export default class Engine {
   constructor(game) {
