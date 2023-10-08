@@ -3,6 +3,7 @@ import pursue, {
 } from '@ezpz/engine/ai/movement/steering/pursue'
 import { mouseInstance, mouseType } from '@ezpz/engine/input/mouse'
 import { clampToBounds } from '@ezpz/utils/characters'
+import { merge } from '@ezpz/utils/data-structures/objects'
 
 export default {
   bounds: [0, 0, 800, 600],
@@ -28,7 +29,7 @@ export default {
         const target = engine.instances.mouse
         const { fields } = engine.instances.parameters.groups.pursue
 
-        Object.assign(
+        merge(
           instance,
           pursue(instance, target, {
             ...options,

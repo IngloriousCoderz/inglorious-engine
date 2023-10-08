@@ -5,6 +5,7 @@ import arrive, {
 } from '@ezpz/engine/ai/movement/steering/arrive'
 import { mouseInstance, mouseType } from '@ezpz/engine/input/mouse'
 import { clampToBounds } from '@ezpz/utils/characters'
+import { merge } from '@ezpz/utils/data-structures/objects'
 
 export default {
   bounds: [0, 0, 800, 600],
@@ -38,7 +39,7 @@ export default {
         const target = engine.instances.mouse
         const { fields } = engine.instances.parameters.groups.arrive
 
-        Object.assign(
+        merge(
           instance,
           arrive(instance, target, {
             ...options,

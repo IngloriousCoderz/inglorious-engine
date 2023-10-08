@@ -2,6 +2,7 @@ import wanderAsSeek, {
   DEFAULT_WANDER_RADIUS,
 } from '@ezpz/engine/ai/movement/kinematic/wander-as-seek'
 import { flip } from '@ezpz/utils/characters'
+import { merge } from '@ezpz/utils/data-structures/objects'
 import { pi } from '@ezpz/utils/math/trigonometry'
 
 export default {
@@ -25,7 +26,7 @@ export default {
       'game:update'(instance, event, { engine, ...options }) {
         const { fields } = engine.instances.parameters.groups.wanderAsSeek
 
-        Object.assign(
+        merge(
           instance,
           wanderAsSeek(instance, {
             ...options,

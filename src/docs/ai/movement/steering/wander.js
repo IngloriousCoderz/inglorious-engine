@@ -3,6 +3,7 @@ import wander, {
   DEFAULT_WANDER_RADIUS,
 } from '@ezpz/engine/ai/movement/steering/wander'
 import { flip } from '@ezpz/utils/characters'
+import { merge } from '@ezpz/utils/data-structures/objects'
 import { pi } from '@ezpz/utils/math/trigonometry'
 
 export default {
@@ -30,7 +31,7 @@ export default {
       'game:update'(instance, _, { engine, ...options }) {
         const { fields } = engine.instances.parameters.groups.wander
 
-        Object.assign(
+        merge(
           instance,
           wander(instance, {
             ...options,

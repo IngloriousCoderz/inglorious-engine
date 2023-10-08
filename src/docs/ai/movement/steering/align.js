@@ -6,6 +6,7 @@ import align, {
 import { keyboardInstance, keyboardType } from '@ezpz/engine/input/keyboard'
 import { mouseInstance, mouseType } from '@ezpz/engine/input/mouse'
 import { clampToBounds } from '@ezpz/utils/characters'
+import { merge } from '@ezpz/utils/data-structures/objects'
 import { clamp } from '@ezpz/utils/math/numbers'
 import { pi } from '@ezpz/utils/math/trigonometry'
 
@@ -62,7 +63,7 @@ export default {
         const target = engine.instances.cursor
         const { fields } = engine.instances.parameters.groups.align
 
-        Object.assign(
+        merge(
           instance,
           align(instance, target, {
             ...options,

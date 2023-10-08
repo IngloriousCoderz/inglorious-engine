@@ -1,5 +1,6 @@
 import matchVelocity from '@ezpz/engine/ai/movement/steering/match-velocity'
 import { keyboardInstance, keyboardType } from '@ezpz/engine/input/keyboard'
+import { merge } from '@ezpz/utils/data-structures/objects'
 
 export default {
   bounds: [0, 0, 800, 600],
@@ -33,7 +34,7 @@ export default {
           target.velocity[2] = SPEED
         }
 
-        Object.assign(instance, matchVelocity(instance, target, { elapsed }))
+        merge(instance, matchVelocity(instance, target, { elapsed }))
       },
     },
   },

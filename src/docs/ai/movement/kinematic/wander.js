@@ -1,5 +1,6 @@
 import wander from '@ezpz/engine/ai/movement/kinematic/wander'
 import { flip } from '@ezpz/utils/characters'
+import { merge } from '@ezpz/utils/data-structures/objects'
 import { pi } from '@ezpz/utils/math/trigonometry'
 
 export default {
@@ -14,7 +15,7 @@ export default {
 
     character: {
       'game:update'(instance, event, { engine, ...options }) {
-        Object.assign(instance, wander(instance, options))
+        merge(instance, wander(instance, options))
         flip(instance, engine.config.bounds)
       },
     },

@@ -2,6 +2,7 @@ import matchVelocity, {
   DEFAULT_TIME_TO_TARGET,
 } from '@ezpz/engine/ai/movement/steering/match-velocity'
 import { clampToBounds } from '@ezpz/utils/characters'
+import { merge } from '@ezpz/utils/data-structures/objects'
 
 export default {
   bounds: [0, 0, 800, 600],
@@ -36,7 +37,7 @@ export default {
         const { target } = engine.instances
         const { fields } = engine.instances.parameters.groups.matchVelocity
 
-        Object.assign(
+        merge(
           instance,
           matchVelocity(instance, target, {
             ...options,

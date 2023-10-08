@@ -1,6 +1,7 @@
 import seek from '@ezpz/engine/ai/movement/kinematic/seek'
 import { mouseInstance, mouseType } from '@ezpz/engine/input/mouse'
 import { clampToBounds } from '@ezpz/utils/characters'
+import { merge } from '@ezpz/utils/data-structures/objects'
 
 export default {
   bounds: [0, 0, 800, 600],
@@ -18,7 +19,7 @@ export default {
       'game:update'(instance, event, { engine, ...options }) {
         const target = engine.instances.mouse
 
-        Object.assign(instance, seek(instance, target, options))
+        merge(instance, seek(instance, target, options))
 
         clampToBounds(instance, engine.config.bounds)
       },

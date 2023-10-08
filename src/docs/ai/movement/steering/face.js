@@ -6,6 +6,7 @@ import {
 import face from '@ezpz/engine/ai/movement/steering/face'
 import { mouseInstance, mouseType } from '@ezpz/engine/input/mouse'
 import { clampToBounds } from '@ezpz/utils/characters'
+import { merge } from '@ezpz/utils/data-structures/objects'
 import { pi } from '@ezpz/utils/math/trigonometry'
 
 export default {
@@ -40,7 +41,7 @@ export default {
         const target = engine.instances.mouse
         const { fields } = engine.instances.parameters.groups.face
 
-        Object.assign(
+        merge(
           instance,
           face(instance, target, {
             ...options,
