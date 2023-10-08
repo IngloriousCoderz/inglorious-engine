@@ -6,14 +6,14 @@ export default {
     mouse: mouseType(),
 
     elapsed: {
-      'game:update'(instance, _, { elapsed }) {
+      'game:update'(instance, event, { elapsed }) {
         instance.value = elapsed
       },
     },
 
     character: {
-      'game:update'(instance, _, { engine }) {
-        const { mouse } = engine.instances
+      'game:update'(instance, event, { instances }) {
+        const { mouse } = instances
         instance.position = subtract(mouse.position, [10, 0, 10])
       },
     },

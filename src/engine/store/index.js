@@ -6,7 +6,7 @@ const DEFAULT_TYPES = { game: {} }
 const DEFAULT_STATE = { events: [], instances: { game: { type: 'game' } } }
 
 export function createStore({
-  engine,
+  config,
   types: initialTypes,
   state: initialState,
 }) {
@@ -23,8 +23,6 @@ export function createStore({
   return {
     subscribe,
     update,
-    add,
-    remove,
     notify,
     dispatch: notify,
     getState,
@@ -46,13 +44,28 @@ export function createStore({
     while (state.events.length) {
       const event = state.events.shift()
 
+      if (event.id === 'instance:add') {
+        const { id, ...rest } = event.payload
+        add(id, rest)
+      }
+
       state.instances = map((id, instance) => {
         const handle = types[instance.type].states[instance.state][event.id]
         return (
-          (handle && handle(instance, event, { engine, elapsed, notify })) ||
+          (handle &&
+            handle(instance, event, {
+              elapsed,
+              config,
+              instances: state.instances,
+              notify,
+            })) ||
           instance
         )
       })(state.instances)
+
+      if (event.id === 'instance:remove') {
+        remove(event.payload)
+      }
     }
 
     state.events.push(...incomingEvents)
@@ -65,15 +78,11 @@ export function createStore({
     state = { ...state }
     state.instances[id] = instance
     instance.state = instance.state ?? 'default'
-
-    listeners.forEach((onUpdate) => onUpdate())
   }
 
   function remove(id) {
     state = { ...state }
     delete state.instances[id]
-
-    listeners.forEach((onUpdate) => onUpdate())
   }
 
   function notify(event) {

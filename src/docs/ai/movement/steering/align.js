@@ -17,8 +17,8 @@ export default {
         instance.orientation = -event.payload * pi()
       },
 
-      'game:update'(instance, event, { engine }) {
-        const { keyboard } = engine.instances
+      'game:update'(instance, event, { instances }) {
+        const { keyboard } = instances
 
         if (keyboard.ArrowLeft || keyboard.ArrowUp) {
           instance.orientation -= 0.1
@@ -32,20 +32,20 @@ export default {
     keyboard: keyboardType(),
 
     game: {
-      'targetRadius:change'(instance, event, { engine }) {
-        engine.instances.parameters.groups.align.fields.targetRadius.value =
+      'targetRadius:change'(instance, event, { instances }) {
+        instances.parameters.groups.align.fields.targetRadius.value =
           event.payload
       },
-      'slowRadius:change'(_, event, { engine }) {
-        engine.instances.parameters.groups.align.fields.slowRadius.value =
+      'slowRadius:change'(_, event, { instances }) {
+        instances.parameters.groups.align.fields.slowRadius.value =
           event.payload
       },
-      'timeToTarget:change'(_, event, { engine }) {
-        engine.instances.parameters.groups.align.fields.timeToTarget.value =
+      'timeToTarget:change'(_, event, { instances }) {
+        instances.parameters.groups.align.fields.timeToTarget.value =
           event.payload
       },
-      'targetOrientation:change'(_, event, { engine }) {
-        engine.instances.parameters.groups.align.fields.targetOrientation.value =
+      'targetOrientation:change'(_, event, { instances }) {
+        instances.parameters.groups.align.fields.targetOrientation.value =
           event.payload
       },
     },
@@ -57,21 +57,21 @@ export default {
     },
 
     character: {
-      'game:update'(instance, _, { engine, ...options }) {
-        const target = engine.instances.cursor
-        const { fields } = engine.instances.parameters.groups.align
+      'game:update'(instance, _, { elapsed, config, instances }) {
+        const target = instances.cursor
+        const { fields } = instances.parameters.groups.align
 
         merge(
           instance,
           align(instance, target, {
-            ...options,
+            elapsed,
             targetRadius: fields.targetRadius.value,
             slowRadius: fields.slowRadius.value,
             timeToTarget: fields.timeToTarget.value,
           })
         )
 
-        clampToBounds(instance, engine.config.bounds)
+        clampToBounds(instance, config.bounds)
       },
     },
 

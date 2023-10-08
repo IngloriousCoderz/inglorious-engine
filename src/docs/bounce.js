@@ -9,8 +9,8 @@ export default {
     },
 
     character: {
-      'game:update'(instance, event, { engine }) {
-        bounce(instance, engine.config.bounds)
+      'game:update'(instance, event, { config }) {
+        bounce(instance, config.bounds)
       },
     },
   },

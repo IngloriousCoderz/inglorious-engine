@@ -14,12 +14,12 @@ export default {
     },
 
     character: {
-      'game:update'(instance, _, { engine, ...options }) {
-        const target = engine.instances.mouse
+      'game:update'(instance, _, { elapsed, config, instances }) {
+        const target = instances.mouse
 
-        merge(instance, flee(instance, target, options))
+        merge(instance, flee(instance, target, { elapsed }))
 
-        clampToBounds(instance, engine.config.bounds)
+        clampToBounds(instance, config.bounds)
       },
     },
   },

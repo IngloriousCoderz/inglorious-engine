@@ -15,16 +15,16 @@ export default {
     keyboard: keyboardType(),
 
     game: {
-      'targetRadius:change'(_, event, { engine }) {
-        engine.instances.parameters.groups.align.fields.targetRadius.value =
+      'targetRadius:change'(_, event, { instances }) {
+        instances.parameters.groups.align.fields.targetRadius.value =
           event.payload
       },
-      'slowRadius:change'(_, event, { engine }) {
-        engine.instances.parameters.groups.align.fields.slowRadius.value =
+      'slowRadius:change'(_, event, { instances }) {
+        instances.parameters.groups.align.fields.slowRadius.value =
           event.payload
       },
-      'timeToTarget:change'(_, event, { engine }) {
-        engine.instances.parameters.groups.align.fields.timeToTarget.value =
+      'timeToTarget:change'(_, event, { instances }) {
+        instances.parameters.groups.align.fields.timeToTarget.value =
           event.payload
       },
     },
@@ -36,10 +36,10 @@ export default {
     },
 
     character: {
-      'game:update'(instance, _, { engine, ...options }) {
-        const { fields } = engine.instances.parameters.groups.align
+      'game:update'(instance, _, { elapsed, config, instances }) {
+        const { fields } = instances.parameters.groups.align
 
-        const { keyboard = {} } = engine.instances
+        const { keyboard = {} } = instances
 
         const target = { velocity: [0, 0, 0] }
         if (keyboard.ArrowLeft) {
@@ -63,14 +63,14 @@ export default {
         merge(
           instance,
           lookWhereYoureGoing(instance, null, {
-            ...options,
+            elapsed,
             targetRadius: fields.targetRadius.value,
             slowRadius: fields.slowRadius.value,
             timeToTarget: fields.timeToTarget.value,
           })
         )
 
-        clampToBounds(instance, engine.config.bounds)
+        clampToBounds(instance, config.bounds)
       },
     },
 

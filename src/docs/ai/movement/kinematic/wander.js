@@ -12,9 +12,9 @@ export default {
     },
 
     character: {
-      'game:update'(instance, event, { engine, ...options }) {
-        merge(instance, wander(instance, options))
-        flip(instance, engine.config.bounds)
+      'game:update'(instance, event, { elapsed, config }) {
+        merge(instance, wander(instance, { elapsed }))
+        flip(instance, config.bounds)
       },
     },
   },

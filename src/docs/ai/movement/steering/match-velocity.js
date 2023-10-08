@@ -13,13 +13,13 @@ export default {
     },
 
     game: {
-      'timeToTarget:change'(_, event, { engine }) {
-        engine.instances.parameters.groups.matchVelocity.fields.timeToTarget.value =
+      'timeToTarget:change'(_, event, { instances }) {
+        instances.parameters.groups.matchVelocity.fields.timeToTarget.value =
           event.payload
       },
 
-      'targetSpeed:change'(_, event, { engine }) {
-        engine.instances.parameters.groups.matchVelocity.fields.targetSpeed.value =
+      'targetSpeed:change'(_, event, { instances }) {
+        instances.parameters.groups.matchVelocity.fields.targetSpeed.value =
           event.payload
       },
     },
@@ -31,19 +31,19 @@ export default {
     },
 
     character: {
-      'game:update'(instance, _, { engine, ...options }) {
-        const { target } = engine.instances
-        const { fields } = engine.instances.parameters.groups.matchVelocity
+      'game:update'(instance, _, { elapsed, config, instances }) {
+        const { target } = instances
+        const { fields } = instances.parameters.groups.matchVelocity
 
         merge(
           instance,
           matchVelocity(instance, target, {
-            ...options,
+            elapsed,
             timeToTarget: fields.timeToTarget.value,
           })
         )
 
-        clampToBounds(instance, engine.config.bounds)
+        clampToBounds(instance, config.bounds)
       },
     },
 

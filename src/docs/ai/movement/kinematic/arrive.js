@@ -11,12 +11,12 @@ export default {
     mouse: mouseType(),
 
     game: {
-      'targetRadius:change'(instance, event, { engine }) {
-        engine.instances.parameters.groups.arrive.fields.targetRadius.value =
+      'targetRadius:change'(instance, event, { instances }) {
+        instances.parameters.groups.arrive.fields.targetRadius.value =
           event.payload
       },
-      'timeToTarget:change'(instance, event, { engine }) {
-        engine.instances.parameters.groups.arrive.fields.timeToTarget.value =
+      'timeToTarget:change'(instance, event, { instances }) {
+        instances.parameters.groups.arrive.fields.timeToTarget.value =
           event.payload
       },
     },
@@ -28,20 +28,20 @@ export default {
     },
 
     character: {
-      'game:update'(instance, event, { engine, ...options }) {
-        const target = engine.instances.mouse
-        const { fields } = engine.instances.parameters.groups.arrive
+      'game:update'(instance, event, { elapsed, config, instances }) {
+        const target = instances.mouse
+        const { fields } = instances.parameters.groups.arrive
 
         merge(
           instance,
           arrive(instance, target, {
-            ...options,
+            elapsed,
             targetRadius: fields.targetRadius.value,
             timeToTarget: fields.timeToTarget.value,
           })
         )
 
-        clampToBounds(instance, engine.config.bounds)
+        clampToBounds(instance, config.bounds)
       },
     },
 

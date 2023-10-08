@@ -8,8 +8,8 @@ import { pi } from '@ezpz/utils/math/trigonometry'
 export default {
   types: {
     game: {
-      'wanderRadius:change'(instance, event, { engine }) {
-        engine.instances.parameters.groups.wanderAsSeek.fields.wanderRadius.value =
+      'wanderRadius:change'(instance, event, { instances }) {
+        instances.parameters.groups.wanderAsSeek.fields.wanderRadius.value =
           event.payload
       },
     },
@@ -21,17 +21,17 @@ export default {
     },
 
     character: {
-      'game:update'(instance, event, { engine, ...options }) {
-        const { fields } = engine.instances.parameters.groups.wanderAsSeek
+      'game:update'(instance, event, { elapsed, config, instances }) {
+        const { fields } = instances.parameters.groups.wanderAsSeek
 
         merge(
           instance,
           wanderAsSeek(instance, {
-            ...options,
+            elapsed,
             wanderRadius: fields.wanderRadius.value,
           })
         )
-        flip(instance, engine.config.bounds)
+        flip(instance, config.bounds)
       },
     },
 

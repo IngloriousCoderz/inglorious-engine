@@ -1,4 +1,5 @@
 import Game from '../../ui/game'
+import addAndRemove from './add-and-remove'
 import addInstance from './add-instance'
 import fsm from './fsm'
 import randomInstances from './random-instances'
@@ -19,6 +20,10 @@ export const AddInstance = {
 
 export const RemoveInstance = {
   args: { config: removeInstance },
+}
+
+export const AddAndRemove = {
+  args: { config: addAndRemove },
 }
 
 export const FSM = {

@@ -16,8 +16,8 @@ export default {
         instance.orientation = -event.payload * pi()
       },
 
-      'game:update'(instance, event, { engine }) {
-        const { keyboard } = engine.instances
+      'game:update'(instance, event, { instances }) {
+        const { keyboard } = instances
 
         if (keyboard.ArrowLeft || keyboard.ArrowUp) {
           instance.orientation -= 0.1
@@ -31,16 +31,16 @@ export default {
     keyboard: keyboardType(),
 
     game: {
-      'targetRadius:change'(instance, event, { engine }) {
-        engine.instances.parameters.groups.align.fields.targetRadius.value =
+      'targetRadius:change'(instance, event, { instances }) {
+        instances.parameters.groups.align.fields.targetRadius.value =
           event.payload
       },
-      'timeToTarget:change'(instance, event, { engine }) {
-        engine.instances.parameters.groups.align.fields.timeToTarget.value =
+      'timeToTarget:change'(instance, event, { instances }) {
+        instances.parameters.groups.align.fields.timeToTarget.value =
           event.payload
       },
-      'targetOrientation:change'(instance, event, { engine }) {
-        engine.instances.parameters.groups.align.fields.targetOrientation.value =
+      'targetOrientation:change'(instance, event, { instances }) {
+        instances.parameters.groups.align.fields.targetOrientation.value =
           event.payload
       },
     },
@@ -52,20 +52,20 @@ export default {
     },
 
     character: {
-      'game:update'(instance, event, { engine, ...options }) {
-        const target = engine.instances.mouse
-        const { fields } = engine.instances.parameters.groups.align
+      'game:update'(instance, event, { elapsed, config, instances }) {
+        const target = instances.mouse
+        const { fields } = instances.parameters.groups.align
 
         merge(
           instance,
           align(instance, target, {
-            ...options,
+            elapsed,
             targetRadius: fields.targetRadius.value,
             timeToTarget: fields.timeToTarget.value,
           })
         )
 
-        clampToBounds(instance, engine.config.bounds)
+        clampToBounds(instance, config.bounds)
       },
     },
 

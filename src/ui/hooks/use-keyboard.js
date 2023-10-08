@@ -2,13 +2,14 @@ import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
 export function useKeyboard() {
-  const dispatch = useDispatch()
+  const notify = useDispatch()
 
   useEffect(() => {
     const handleKeyDown = ({ code }) =>
-      dispatch({ id: 'keyboard:keyDown', payload: code })
+      notify({ id: 'keyboard:keyDown', payload: code })
+
     const handleKeyUp = ({ code }) =>
-      dispatch({ id: 'keyboard:keyUp', payload: code })
+      notify({ id: 'keyboard:keyUp', payload: code })
 
     document.addEventListener('keydown', handleKeyDown)
     document.addEventListener('keyup', handleKeyUp)
@@ -17,5 +18,5 @@ export function useKeyboard() {
       document.removeEventListener('keydown', handleKeyDown)
       document.removeEventListener('keyup', handleKeyUp)
     }
-  }, [dispatch])
+  }, [notify])
 }

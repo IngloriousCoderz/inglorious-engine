@@ -6,19 +6,20 @@ export default {
   types: {
     mouse: mouseType(),
 
-    game: {
-      'character:click'(_, event, { engine }) {
-        engine.remove(event.payload)
-      },
-    },
-
     elapsed: {
       'game:update'(instance, _, { elapsed }) {
         instance.value = elapsed
       },
     },
 
-    character: {},
+    character: {
+      'character:click'(instance, event, { notify }) {
+        notify({
+          id: 'instance:remove',
+          payload: event.payload,
+        })
+      },
+    },
   },
 
   state: {

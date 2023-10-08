@@ -8,13 +8,14 @@ export default function Scene({ config, children }) {
   const [, , width, height] = config.bounds
 
   const ref = useRef()
-  useMouse({ parent: ref.current })
+  const mouseEventHandlers = useMouse({ parent: ref.current })
   useKeyboard()
 
   return (
     <div
       className={classes.scene}
-      style={{ '--width': `${width}px`, '--height': `${height}px` }}
+      style={{ '--width': width, '--height': height }}
+      {...mouseEventHandlers}
       ref={ref}
     >
       {children}

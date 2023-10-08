@@ -10,8 +10,8 @@ export default {
     mouse: mouseType(),
 
     game: {
-      'maxPrediction:change'(_, event, { engine }) {
-        engine.instances.parameters.groups.pursue.fields.maxPrediction.value =
+      'maxPrediction:change'(_, event, { instances }) {
+        instances.parameters.groups.pursue.fields.maxPrediction.value =
           event.payload
       },
     },
@@ -23,19 +23,19 @@ export default {
     },
 
     character: {
-      'game:update'(instance, _, { engine, ...options }) {
-        const target = engine.instances.mouse
-        const { fields } = engine.instances.parameters.groups.pursue
+      'game:update'(instance, _, { elapsed, config, instances }) {
+        const target = instances.mouse
+        const { fields } = instances.parameters.groups.pursue
 
         merge(
           instance,
           pursue(instance, target, {
-            ...options,
+            elapsed,
             maxPrediction: fields.maxPrediction.value,
           })
         )
 
-        clampToBounds(instance, engine.config.bounds)
+        clampToBounds(instance, config.bounds)
       },
     },
 

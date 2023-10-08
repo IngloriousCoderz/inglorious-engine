@@ -20,11 +20,11 @@ export default {
     character: {
       states: {
         meandering: {
-          'game:update'(instance, event, { engine, ...options }) {
-            const target = engine.instances.mouse
+          'game:update'(instance, event, { elapsed, config, instances }) {
+            const target = instances.mouse
 
-            merge(instance, wander(instance, options))
-            flip(instance, engine.config.bounds)
+            merge(instance, wander(instance, { elapsed }))
+            flip(instance, config.bounds)
 
             if (length(subtract(instance.position, target.position)) < 200) {
               instance.state = 'hunting'
@@ -33,11 +33,11 @@ export default {
         },
 
         hunting: {
-          'game:update'(instance, event, { engine, ...options }) {
-            const target = engine.instances.mouse
+          'game:update'(instance, event, { elapsed, config, instances }) {
+            const target = instances.mouse
 
-            merge(instance, arrive(instance, target, options))
-            clampToBounds(instance, engine.config.bounds)
+            merge(instance, arrive(instance, target, { elapsed }))
+            clampToBounds(instance, config.bounds)
 
             if (length(subtract(instance.position, target.position)) >= 200) {
               instance.state = 'meandering'

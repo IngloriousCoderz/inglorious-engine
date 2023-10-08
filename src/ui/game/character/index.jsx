@@ -7,7 +7,10 @@ export default function Character({ id, instance }) {
 
   const { orientation } = instance
 
-  const handleClick = () => dispatch({ id: 'character:click', payload: id })
+  const handleClick = (event) => {
+    event.stopPropagation()
+    dispatch({ id: 'character:click', payload: id })
+  }
 
   return (
     <div

@@ -7,12 +7,17 @@ export default {
   types: {
     mouse: mouseType({
       'mouse:click'(instance, event, { instances, notify }) {
-        const characters = Object.keys(instances)
+        const ids = Object.keys(instances).filter((id) =>
+          id.startsWith('character')
+        )
+        const maxId = ids.length
+          ? Number(ids[ids.length - 1].replace('character', ''))
+          : 0
 
         notify({
           id: 'instance:add',
           payload: {
-            id: `character${characters.length + 1}`,
+            id: `character${maxId + 1}`,
             type: 'character',
             position: subtract(event.payload, [15, 0, 15]),
             orientation: randomRange(0, 2 * pi(), 0.01),
@@ -27,7 +32,14 @@ export default {
       },
     },
 
-    character: {},
+    character: {
+      'character:click'(instance, event, { notify }) {
+        notify({
+          id: 'instance:remove',
+          payload: event.payload,
+        })
+      },
+    },
   },
 
   state: {
