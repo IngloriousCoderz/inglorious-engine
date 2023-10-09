@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom/client'
 
-import game from './games/bounce'
+import game from './docs/chase-the-mouse'
 import Game from './ui/game'
 
 ReactDOM.createRoot(document.getElementById('root')).render(

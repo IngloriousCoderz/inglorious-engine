@@ -5,7 +5,7 @@ import produce from 'immer'
 const DEFAULT_TYPES = { game: {} }
 const DEFAULT_STATE = { events: [], instances: { game: { type: 'game' } } }
 
-export function createStore(config) {
+export function createStore({ state: initialState, ...config }) {
   const listeners = new Set()
   let incomingEvents = []
 
@@ -14,7 +14,6 @@ export function createStore(config) {
   types = turnTypesIntoFsm(types)
   types = enableMutability(types)
 
-  const initialState = config.state
   let state = merge({}, DEFAULT_STATE, initialState)
   state = turnStateIntoFsm(state)
 
@@ -53,7 +52,7 @@ export function createStore(config) {
           (handle &&
             handle(instance, event, {
               elapsed,
-              config,
+              config: config,
               instances: state.instances,
               notify,
             })) ||

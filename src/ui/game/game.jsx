@@ -10,6 +10,7 @@ import Label from './controls/label'
 import Cursor from './cursor'
 import Fps from './fps'
 import Scene from './scene'
+import Sprite from './sprite'
 
 const Components = {
   mouse: withAbsolutePosition(Cursor),
@@ -20,6 +21,7 @@ const Components = {
   label: withAbsolutePosition(Label),
   field: withAbsolutePosition(Field),
   form: withAbsolutePosition(Form),
+  cat: withAbsolutePosition(Sprite),
 }
 
 export default function Game({ engine }) {
@@ -34,7 +36,14 @@ export default function Game({ engine }) {
           return null
         }
 
-        return <Component key={id} id={id} instance={instance} />
+        return (
+          <Component
+            key={id}
+            id={id}
+            type={engine.config.types[instance.type]}
+            instance={instance}
+          />
+        )
       })}
     </Scene>
   )
