@@ -14,7 +14,7 @@ test('it should behave like Array.prototype.filter, but on an object', () => {
     key3: 'value3',
   }
 
-  expect(filter(callback)(obj)).toStrictEqual(expectedResult)
+  expect(filter(obj, callback)).toStrictEqual(expectedResult)
 })
 
 test('it should behave like Array.prototype.find, but on an object', () => {
@@ -28,7 +28,7 @@ test('it should behave like Array.prototype.find, but on an object', () => {
     key2: 'value2',
   }
 
-  expect(find(callback)(obj)).toStrictEqual(expectedResult)
+  expect(find(obj, callback)).toStrictEqual(expectedResult)
 })
 
 test('it should behave like Array.prototype.map, but on an object', () => {
@@ -44,7 +44,7 @@ test('it should behave like Array.prototype.map, but on an object', () => {
     key3: 'VALUE3',
   }
 
-  expect(map(callback)(obj)).toStrictEqual(expectedResult)
+  expect(map(obj, callback)).toStrictEqual(expectedResult)
 })
 
 test('it should return a string representation of a shallow object', () => {

@@ -4,19 +4,22 @@ import { createStore } from '.'
 
 test('it should add an event to the event queue', () => {
   const event = { id: 'something:happened' }
-  const types = {
-    kitty: {
-      [event.id](instance) {
-        return { ...instance, wasNotified: true }
+  const config = {
+    types: {
+      kitty: {
+        [event.id](instance) {
+          return { ...instance, wasNotified: true }
+        },
+      },
+    },
+
+    state: {
+      instances: {
+        instance1: { type: 'kitty' },
       },
     },
   }
-  const beforeState = {
-    instances: {
-      instance1: { type: 'kitty' },
-    },
-  }
-  const store = createStore({ types, state: beforeState })
+  const store = createStore(config)
   const afterState = {
     events: [event],
     instances: {
@@ -40,24 +43,26 @@ test('it should add an event to the event queue', () => {
 
 test('it should process the event queue', () => {
   const event = { id: 'something:happened' }
-  const types = {
-    kitty: {
-      'game:update'(instance) {
-        return { ...instance, wasUpdated: true }
-      },
+  const config = {
+    types: {
+      kitty: {
+        'game:update'(instance) {
+          return { ...instance, wasUpdated: true }
+        },
 
-      [event.id](instance) {
-        return { ...instance, wasNotified: true }
+        [event.id](instance) {
+          return { ...instance, wasNotified: true }
+        },
+      },
+    },
+    state: {
+      events: [event],
+      instances: {
+        instance1: { type: 'kitty' },
       },
     },
   }
-  const beforeState = {
-    events: [event],
-    instances: {
-      instance1: { type: 'kitty' },
-    },
-  }
-  const store = createStore({ types, state: beforeState })
+  const store = createStore(config)
   const afterState = {
     events: [],
     instances: {
@@ -85,32 +90,34 @@ test('it should send an event from an instance', () => {
     id: 'doge:message',
     payload: { id: 'inu', message: 'Woof!' },
   }
-  const types = {
-    doge: {
-      'game:update'(instance, _, { notify }) {
-        notify(event)
-        return instance
+  const config = {
+    types: {
+      doge: {
+        'game:update'(instance, _, { notify }) {
+          notify(event)
+          return instance
+        },
+      },
+      kitty: {
+        [event.id](instance) {
+          // should do nothing at first
+          return instance
+        },
       },
     },
-    kitty: {
-      [event.id](instance) {
-        // should do nothing at first
-        return instance
+    state: {
+      instances: {
+        instance1: {
+          type: 'kitty',
+          position: 'near',
+        },
+        instance2: {
+          type: 'doge',
+        },
       },
     },
   }
-  const beforeState = {
-    instances: {
-      instance1: {
-        type: 'kitty',
-        position: 'near',
-      },
-      instance2: {
-        type: 'doge',
-      },
-    },
-  }
-  const store = createStore({ types, state: beforeState })
+  const store = createStore(config)
   const afterState = {
     events: [event],
     instances: {
@@ -141,36 +148,38 @@ test('it should receive an event from an instance', () => {
     id: 'doge:message',
     payload: { id: 'inu', message: 'Woof!' },
   }
-  const types = {
-    doge: {
-      'game:update'(instance) {
-        // no need to send further messages
-        return instance
+  const config = {
+    types: {
+      doge: {
+        'game:update'(instance) {
+          // no need to send further messages
+          return instance
+        },
       },
-    },
-    kitty: {
-      [event.id](instance, event) {
-        if (event.payload.id === 'inu' && event.payload.message === 'Woof!') {
-          return { ...instance, position: 'far' }
-        }
+      kitty: {
+        [event.id](instance, event) {
+          if (event.payload.id === 'inu' && event.payload.message === 'Woof!') {
+            return { ...instance, position: 'far' }
+          }
 
-        return instance
+          return instance
+        },
+      },
+    },
+    state: {
+      events: [event],
+      instances: {
+        instance1: {
+          type: 'kitty',
+          position: 'near',
+        },
+        instance2: {
+          type: 'doge',
+        },
       },
     },
   }
-  const beforeState = {
-    events: [event],
-    instances: {
-      instance1: {
-        type: 'kitty',
-        position: 'near',
-      },
-      instance2: {
-        type: 'doge',
-      },
-    },
-  }
-  const store = createStore({ types, state: beforeState })
+  const store = createStore(config)
   const afterState = {
     events: [],
     instances: {
@@ -197,21 +206,23 @@ test('it should receive an event from an instance', () => {
 })
 
 test('it should mutate state in an immutable way', () => {
-  const types = {
-    kitty: {
-      'game:update'(instance) {
-        instance.wasUpdated = true
+  const config = {
+    types: {
+      kitty: {
+        'game:update'(instance) {
+          instance.wasUpdated = true
+        },
+      },
+    },
+    state: {
+      instances: {
+        instance1: {
+          type: 'kitty',
+        },
       },
     },
   }
-  const beforeState = {
-    instances: {
-      instance1: {
-        type: 'kitty',
-      },
-    },
-  }
-  const store = createStore({ types, state: beforeState })
+  const store = createStore(config)
   const afterState = {
     events: [],
     instances: {
@@ -231,5 +242,5 @@ test('it should mutate state in an immutable way', () => {
 
   const state = store.getState()
   expect(state).toStrictEqual(afterState)
-  expect(state).not.toBe(beforeState)
+  expect(state).not.toBe(config.state)
 })

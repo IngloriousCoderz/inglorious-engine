@@ -5,7 +5,9 @@ import * as Games from './games.stories'
 
 # Games
 
-The best documentation to me is one by example. So here's a few examples of games!
+Ezpz is a headless game engine that takes a configuration file in plain JavaScript and creates a scene. The UI can be implemented in any technology: canvas, HTML, ...here we are using React components.
+
+But the best documentation is through examples, so here's a few games!
 
 ## Empty
 
@@ -31,7 +33,7 @@ We can customize the game's bounds by passing an array of four numbers: these wi
 
 Let's add something to the scene. The game configuration requires that we specify a static part, which is stuff that will never change, and a dynamic part, which is basically the current game state.
 
-The static part includes the definition of each `type` of actors we want to show on the screen. For convenience we provide a default type called `character` that shows its position and orientation.
+The static part includes the definition of each `type` of actors we want to show on the screen. For convenience we provide a type called `character` that shows as a circle with a triangle, to easily show its position and orientation.
 
 In the dynamic part we add an instance of this type. In this basic scenario the `character` instance needs to specify only its type and position. Something like this:
 

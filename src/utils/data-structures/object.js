@@ -1,26 +1,24 @@
-import { curry } from '@ezpz/utils/functions/function'
-
 const INITIAL_LEVEL = 0
 const NEXT_LEVEL = 2
 
-export const filter = curry((callback, obj) =>
-  Object.fromEntries(
+export function filter(obj, callback) {
+  return Object.fromEntries(
     Object.entries(obj).filter(([key, value], obj) => callback(key, value, obj))
   )
-)
+}
 
-export const find = curry((callback, obj) =>
-  Object.fromEntries([
+export function find(obj, callback) {
+  return Object.fromEntries([
     Object.entries(obj).find(([key, value], obj) => callback(key, value, obj)),
   ])
-)
+}
 
-export const map = curry((callback, obj) =>
-  Object.entries(obj).reduce((acc, [key, value]) => {
+export function map(obj, callback) {
+  return Object.entries(obj).reduce((acc, [key, value]) => {
     acc[key] = callback(key, value, obj)
     return acc
   }, {})
-)
+}
 
 export function toString(obj, level = INITIAL_LEVEL) {
   if (Array.isArray(obj)) {

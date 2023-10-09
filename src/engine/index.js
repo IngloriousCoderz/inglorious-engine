@@ -14,10 +14,10 @@ const ONE_SECOND = 1000
 
 export default class Engine {
   constructor(game) {
-    const { types, state, ...rest } = game
+    // const { state, ...rest } = game
 
-    this._config = merge({}, DEFAULT_CONFIG, rest)
-    this._store = createStore({ config: this._config, types, state })
+    this._config = merge({}, DEFAULT_CONFIG, game)
+    this._store = createStore(this._config)
     this._loop = new Loop[this._config.loop.type]()
   }
 

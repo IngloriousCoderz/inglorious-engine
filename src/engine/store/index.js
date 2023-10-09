@@ -5,18 +5,16 @@ import produce from 'immer'
 const DEFAULT_TYPES = { game: {} }
 const DEFAULT_STATE = { events: [], instances: { game: { type: 'game' } } }
 
-export function createStore({
-  config,
-  types: initialTypes,
-  state: initialState,
-}) {
+export function createStore(config) {
   const listeners = new Set()
   let incomingEvents = []
 
+  const initialTypes = config.types
   let types = merge({}, DEFAULT_TYPES, initialTypes)
   types = turnTypesIntoFsm(types)
   types = enableMutability(types)
 
+  const initialState = config.state
   let state = merge({}, DEFAULT_STATE, initialState)
   state = turnStateIntoFsm(state)
 
@@ -24,7 +22,7 @@ export function createStore({
     subscribe,
     update,
     notify,
-    dispatch: notify,
+    dispatch: notify, // needed for react-redux
     getState,
   }
 
@@ -49,7 +47,7 @@ export function createStore({
         add(id, rest)
       }
 
-      state.instances = map((id, instance) => {
+      state.instances = map(state.instances, (id, instance) => {
         const handle = types[instance.type].states[instance.state][event.id]
         return (
           (handle &&
@@ -61,7 +59,7 @@ export function createStore({
             })) ||
           instance
         )
-      })(state.instances)
+      })
 
       if (event.id === 'instance:remove') {
         remove(event.payload)
@@ -77,6 +75,7 @@ export function createStore({
   function add(id, instance) {
     state = { ...state }
     state.instances[id] = instance
+    instance.type = types[instance.type]
     instance.state = instance.state ?? 'default'
   }
 
@@ -95,46 +94,41 @@ export function createStore({
 }
 
 function turnTypesIntoFsm(types) {
-  return map((id, type) => {
+  return map(types, (id, type) => {
     const isFsm = Object.keys(type).some((key) => key === 'states')
     if (isFsm) {
       return type
     }
 
     const eventHandlers = filter(
-      (_, value) => typeof value === 'function',
-      type
+      type,
+      (_, value) => typeof value === 'function'
     )
     const typeWithoutEventHandlers = filter(
-      (_, value) => typeof value !== 'function',
-      type
+      type,
+      (_, value) => typeof value !== 'function'
     )
+
     return merge(typeWithoutEventHandlers, {
       states: { default: eventHandlers },
     })
-  }, types)
+  })
 }
 
 function enableMutability(types) {
-  return map(
-    (typeId, { states, ...rest }) => ({
-      ...rest,
-      states: map(
-        (stateId, events) => map((eventId, event) => produce(event), events),
-        states
-      ),
-    }),
-    types
-  )
+  return map(types, (typeId, { states, ...rest }) => ({
+    ...rest,
+    states: map(states, (stateId, events) =>
+      map(events, (eventId, event) => produce(event))
+    ),
+  }))
 }
 
 function turnStateIntoFsm(state) {
   return {
     ...state,
-    instances: map(
-      (id, instance) =>
-        instance.state == null ? { ...instance, state: 'default' } : instance,
-      state.instances
+    instances: map(state.instances, (id, instance) =>
+      instance.state == null ? { ...instance, state: 'default' } : instance
     ),
   }
 }
