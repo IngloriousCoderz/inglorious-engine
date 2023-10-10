@@ -21,7 +21,7 @@ const Components = {
   label: withAbsolutePosition(Label),
   field: withAbsolutePosition(Field),
   form: withAbsolutePosition(Form),
-  cat: withAbsolutePosition(Sprite),
+  sprite: withAbsolutePosition(Sprite),
 }
 
 export default function Game({ engine }) {
@@ -30,20 +30,16 @@ export default function Game({ engine }) {
   return (
     <Scene config={engine.config}>
       {Object.entries(instances).map(([id, instance]) => {
-        const Component = Components[instance.type]
+        const type = engine.config.types?.[instance.type]
+        const Component = type?.sprite
+          ? Components.sprite
+          : Components[instance.type]
 
         if (!Component) {
           return null
         }
 
-        return (
-          <Component
-            key={id}
-            id={id}
-            type={engine.config.types[instance.type]}
-            instance={instance}
-          />
-        )
+        return <Component key={id} id={id} type={type} instance={instance} />
       })}
     </Scene>
   )

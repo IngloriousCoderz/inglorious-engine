@@ -1,6 +1,7 @@
 import { mod } from '@ezpz/utils/math/numbers'
 import { useEffect } from 'react'
 import { useState } from 'react'
+import { useRef } from 'react'
 import { useDispatch } from 'react-redux'
 
 import SpriteComponent from './sprite'
@@ -12,20 +13,24 @@ const LAST_FRAME = 1
 
 export default function Sprite({ type, instance }) {
   const notify = useDispatch()
+  const interval = useRef()
 
   const { speed, states, ...rest } = type.sprite
-  const frames = states[instance.spriteState]
+  const frames = states[instance.sprite]
   const flip = instance.spriteFlip
 
   const [frame, setFrame] = useState(FIRST_FRAME)
 
   useEffect(() => {
-    const id = setInterval(() => {
+    clearInterval(interval.current)
+    setFrame(FIRST_FRAME)
+
+    interval.current = setInterval(() => {
       setFrame((frame) => mod(frame + NEXT_FRAME, frames.length))
     }, speed * ONE_SECOND)
 
-    return () => clearInterval(id)
-  }, [frames.length, speed])
+    return () => clearInterval(interval.current)
+  }, [instance.sprite, frames.length, speed])
 
   useEffect(() => {
     if (frame === frames.length - LAST_FRAME) {

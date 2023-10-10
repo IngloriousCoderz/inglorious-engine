@@ -23,6 +23,10 @@ export default {
         speed: 0.2,
         states: {
           idle: [[4, 0]],
+          aware: [
+            [0, 0],
+            [4, 0],
+          ],
           down: [
             [1, 0],
             [0, 1],
@@ -43,20 +47,47 @@ export default {
             [4, 2],
             [4, 3],
           ],
+          sleepy: [
+            [4, 0],
+            [4, 1],
+            [4, 1],
+            [3, 0],
+            [3, 1],
+            [3, 2],
+            [3, 1],
+            [3, 2],
+            [3, 2],
+          ],
+          sleeping: [
+            [2, 4],
+            [2, 4],
+            [3, 4],
+            [3, 4],
+          ],
         },
       },
 
       states: {
         idle: {
           'game:update'(instance, event, { instances }) {
+            instance.sprite = 'idle'
+
             const target = instances.mouse
             const direction = subtract(target.position, instance.position)
 
-            instance.spriteState = 'idle'
-
             if (length(direction) < 200) {
-              instance.state = 'chasing'
+              instance.state = 'aware'
             }
+          },
+        },
+
+        aware: {
+          'game:update'(instance) {
+            instance.sprite = 'aware'
+          },
+
+          'sprite:animationEnd'(instance) {
+            instance.state = 'chasing'
           },
         },
 
@@ -64,17 +95,28 @@ export default {
           'game:update'(instance, event, { elapsed, instances }) {
             const target = instances.mouse
             const direction = subtract(target.position, instance.position)
+
+            if (length(direction) >= 200) {
+              instance.state = 'idle'
+              instance.spriteFlip = ''
+              return
+            } else if (length(direction) < 10) {
+              instance.state = 'sleepy'
+              instance.spriteFlip = ''
+              return
+            }
+
             const theta = angle(direction)
 
             if (abs(theta) > pi() / 3 && abs(theta) < (pi() * 2) / 3) {
-              instance.spriteState = theta > 0 ? 'down' : 'up'
+              instance.sprite = theta > 0 ? 'down' : 'up'
             } else if (
               (abs(theta) >= pi() / 6 && abs(theta) <= pi() / 3) ||
               (abs(theta) >= (pi() * 2) / 3 && abs(theta) <= (pi() * 5) / 6)
             ) {
-              instance.spriteState = theta > 0 ? 'rightDown' : 'rightUp'
+              instance.sprite = theta > 0 ? 'rightDown' : 'rightUp'
             } else {
-              instance.spriteState = 'right'
+              instance.sprite = 'right'
             }
 
             instance.spriteFlip = direction[0] < 0 ? 'h' : ''
@@ -83,6 +125,40 @@ export default {
 
             if (length(direction) >= 200) {
               instance.state = 'idle'
+              instance.spriteFlip = ''
+            } else if (length(direction) < 10) {
+              instance.state = 'sleepy'
+              instance.spriteFlip = ''
+            }
+          },
+        },
+
+        sleepy: {
+          'game:update'(instance, event, { instances }) {
+            instance.sprite = 'sleepy'
+
+            const target = instances.mouse
+            const direction = subtract(target.position, instance.position)
+
+            if (length(direction) >= 10) {
+              instance.state = 'aware'
+            }
+          },
+
+          'sprite:animationEnd'(instance) {
+            instance.state = 'sleeping'
+          },
+        },
+
+        sleeping: {
+          'game:update'(instance, event, { instances }) {
+            instance.sprite = 'sleeping'
+
+            const target = instances.mouse
+            const direction = subtract(target.position, instance.position)
+
+            if (length(direction) >= 10) {
+              instance.state = 'aware'
             }
           },
         },
@@ -96,7 +172,7 @@ export default {
 
       neko: {
         type: 'cat',
-        state: 'chasing',
+        state: 'idle',
         maxSpeed: 250,
         orientation: 0,
         position: [400, 0, 300],

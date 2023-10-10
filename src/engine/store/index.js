@@ -10,9 +10,9 @@ export function createStore({ state: initialState, ...config }) {
   let incomingEvents = []
 
   const initialTypes = config.types
-  let types = merge({}, DEFAULT_TYPES, initialTypes)
-  types = turnTypesIntoFsm(types)
-  types = enableMutability(types)
+  config.types = merge({}, DEFAULT_TYPES, initialTypes)
+  config.types = turnTypesIntoFsm(config.types)
+  config.types = enableMutability(config.types)
 
   let state = merge({}, DEFAULT_STATE, initialState)
   state = turnStateIntoFsm(state)
@@ -47,7 +47,8 @@ export function createStore({ state: initialState, ...config }) {
       }
 
       state.instances = map(state.instances, (id, instance) => {
-        const handle = types[instance.type].states[instance.state][event.id]
+        const handle =
+          config.types[instance.type].states[instance.state][event.id]
         return (
           (handle &&
             handle(instance, event, {
@@ -74,7 +75,7 @@ export function createStore({ state: initialState, ...config }) {
   function add(id, instance) {
     state = { ...state }
     state.instances[id] = instance
-    instance.type = types[instance.type]
+    instance.type = config.types[instance.type]
     instance.state = instance.state ?? 'default'
   }
 
