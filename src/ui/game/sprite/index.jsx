@@ -16,8 +16,7 @@ export default function Sprite({ type, instance }) {
   const interval = useRef()
 
   const { speed, states, ...rest } = type.sprite
-  const frames = states[instance.sprite]
-  const flip = instance.spriteFlip
+  const { frames, flip } = states[instance.sprite]
 
   const [frame, setFrame] = useState(FIRST_FRAME)
 
