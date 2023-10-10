@@ -5,25 +5,11 @@ import {
   ZERO_VECTOR,
 } from '@ezpz/utils/math/linear-algebra/vector'
 import { sum } from '@ezpz/utils/math/linear-algebra/vectors'
-import { abs, mod } from '@ezpz/utils/math/numbers'
+import { abs } from '@ezpz/utils/math/numbers'
 
 const X = 0
 const Z = 2
 const NO_Y = 0
-
-export function animate(instance, config, { elapsed }) {
-  const { speed, states } = config.types[instance.type].sprite
-  const frames = states[instance.spriteState]
-
-  instance.counter = instance.counter ?? 0
-  instance.frame = instance.frame ?? 0
-
-  instance.counter += elapsed
-  if (instance.counter >= speed) {
-    instance.frame = mod(instance.frame + 1, frames.length)
-    instance.counter = 0
-  }
-}
 
 export function bounce(instance, [minX, minZ, maxX, maxZ]) {
   const [x, , z] = instance.position
