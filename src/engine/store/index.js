@@ -75,7 +75,6 @@ export function createStore({ state: initialState, ...config }) {
   function add(id, instance) {
     state = { ...state }
     state.instances[id] = instance
-    instance.type = config.types[instance.type]
     instance.state = instance.state ?? 'default'
   }
 
