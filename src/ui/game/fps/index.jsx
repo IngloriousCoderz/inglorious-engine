@@ -19,8 +19,7 @@ export default function Fps({ type, instance }) {
     }, frequency * MILLISECONDS)
 
     return () => clearInterval(id)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return <div>FPS: {fps.toFixed(DECIMALS)}</div>
 }

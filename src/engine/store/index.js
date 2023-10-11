@@ -49,16 +49,14 @@ export function createStore({ state: initialState, ...config }) {
       state.instances = map(state.instances, (id, instance) => {
         const handle =
           config.types[instance.type].states[instance.state][event.id]
-        return (
-          (handle &&
-            handle(instance, event, {
+        return handle
+          ? handle(instance, event, {
               elapsed,
               config: config,
               instances: state.instances,
               notify,
-            })) ||
-          instance
-        )
+            })
+          : instance
       })
 
       if (event.id === 'instance:remove') {

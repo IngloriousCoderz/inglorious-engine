@@ -1,7 +1,5 @@
 import { mod } from '@ezpz/utils/math/numbers'
-import { useEffect } from 'react'
-import { useState } from 'react'
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 
 import SpriteComponent from './sprite'
@@ -29,15 +27,13 @@ export default function Sprite({ type, instance }) {
     }, speed * MILLISECONDS)
 
     return () => clearInterval(interval.current)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [instance.sprite])
+  }, [instance.sprite]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (frame === frames.length - LAST_FRAME) {
-      notify({ id: 'sprite:animationEnd' })
+      notify({ id: `sprite:animationEnd`, payload: instance.sprite })
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [frame])
+  }, [frame]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return <SpriteComponent {...rest} flip={flip} frame={frames[frame]} />
 }

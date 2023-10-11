@@ -128,8 +128,10 @@ export default {
             instance.sprite = 'aware'
           },
 
-          'sprite:animationEnd'(instance) {
-            instance.state = 'chasing'
+          'sprite:animationEnd'(instance, event) {
+            if (event.payload === 'aware') {
+              instance.state = 'chasing'
+            }
           },
         },
 
@@ -163,8 +165,10 @@ export default {
             }
           },
 
-          'sprite:animationEnd'(instance) {
-            instance.state = 'sleeping'
+          'sprite:animationEnd'(instance, event) {
+            if (event.payload === 'sleepy') {
+              instance.state = 'sleeping'
+            }
           },
         },
 

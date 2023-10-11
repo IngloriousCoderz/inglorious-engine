@@ -13,6 +13,7 @@ module.exports = {
   settings: { react: { version: '18.2' } },
   plugins: ['react-refresh', 'simple-import-sort'],
   rules: {
+    'no-console': 'error',
     'no-magic-numbers': 'warn',
     'no-unused-vars': 'warn',
     'react/prop-types': 'off',
