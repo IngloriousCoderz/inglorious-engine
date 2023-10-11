@@ -3,6 +3,7 @@ import { bounce } from '@ezpz/utils/character'
 export default {
   types: {
     fps: {
+      frequency: 0.1,
       'game:update'(instance, event, { elapsed }) {
         instance.value = elapsed
       },

@@ -92,11 +92,14 @@ The event handler for this character is using a predefined `bounce()` function w
 
 This time the `character` needs to specify not only its position but also its initial velocity, so the `bounce()` function can update both. 
 
+By the way, did you know you can set the FPS update frequency?
+
 <Source code={`import { bounce } from '@ezpz/utils/character'
 
 export default {
   types: {
     fps: {
+      frequency: 0.1,
       'game:update'(instance, event, { elapsed }) {
         instance.value = elapsed
       }

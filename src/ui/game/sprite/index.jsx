@@ -29,13 +29,15 @@ export default function Sprite({ type, instance }) {
     }, speed * MILLISECONDS)
 
     return () => clearInterval(interval.current)
-  }, [instance.sprite, frames.length, speed])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [instance.sprite])
 
   useEffect(() => {
     if (frame === frames.length - LAST_FRAME) {
       notify({ id: 'sprite:animationEnd' })
     }
-  }, [frame, frames.length, notify])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [frame])
 
   return <SpriteComponent {...rest} flip={flip} frame={frames[frame]} />
 }
