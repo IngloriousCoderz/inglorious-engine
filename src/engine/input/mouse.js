@@ -7,7 +7,6 @@ const NO_Y = 0
 
 export function mouseType(events = {}) {
   return {
-    size: 1,
     'mouse:move'(instance, event, { config }) {
       instance.position = subtract(event.payload, [
         CURSOR_SIZE,

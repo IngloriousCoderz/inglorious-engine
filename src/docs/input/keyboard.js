@@ -22,13 +22,13 @@ export default {
         if (keyboard.ArrowLeft) {
           target.velocity[0] = -SPEED
         }
-        if (keyboard.ArrowUp) {
+        if (keyboard.ArrowDown) {
           target.velocity[2] = -SPEED
         }
         if (keyboard.ArrowRight) {
           target.velocity[0] = SPEED
         }
-        if (keyboard.ArrowDown) {
+        if (keyboard.ArrowUp) {
           target.velocity[2] = SPEED
         }
 

@@ -1,4 +1,9 @@
-import { angle, clamp, divide } from '@ezpz/utils/math/linear-algebra/vector'
+import {
+  angle,
+  clamp,
+  divide,
+  magnitude,
+} from '@ezpz/utils/math/linear-algebra/vector'
 import { subtract, sum } from '@ezpz/utils/math/linear-algebra/vectors'
 
 export const DEFAULT_TIME_TO_TARGET = 1
@@ -21,7 +26,9 @@ export default function matchVelocity(
 
   const velocity = sum(character.velocity, acceleration)
   const position = sum(character.position, velocity)
-  const orientation = angle(velocity)
+  const orientation = magnitude(velocity)
+    ? angle(velocity)
+    : character.orientation
 
   return { velocity, position, orientation }
 }
