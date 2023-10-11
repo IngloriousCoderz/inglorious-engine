@@ -9,7 +9,7 @@ const FIRST_FRAME = 0
 const NEXT_FRAME = 1
 const LAST_FRAME = 1
 
-export default function Sprite({ type, instance }) {
+export default function Sprite({ id, type, instance }) {
   const notify = useDispatch()
   const interval = useRef()
 
@@ -31,7 +31,10 @@ export default function Sprite({ type, instance }) {
 
   useEffect(() => {
     if (frame === frames.length - LAST_FRAME) {
-      notify({ id: `sprite:animationEnd`, payload: instance.sprite })
+      notify({
+        id: `sprite:animationEnd`,
+        payload: { id, sprite: instance.sprite },
+      })
     }
   }, [frame]) // eslint-disable-line react-hooks/exhaustive-deps
 

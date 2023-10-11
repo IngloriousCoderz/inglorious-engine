@@ -129,7 +129,9 @@ export default {
           },
 
           'sprite:animationEnd'(instance, event) {
-            if (event.payload === 'aware') {
+            const { id, sprite } = event.payload
+
+            if (id === 'neko' && sprite === 'aware') {
               instance.state = 'chasing'
             }
           },
@@ -166,7 +168,9 @@ export default {
           },
 
           'sprite:animationEnd'(instance, event) {
-            if (event.payload === 'sleepy') {
+            const { id, sprite } = event.payload
+
+            if (id === 'neko' && sprite === 'sleepy') {
               instance.state = 'sleeping'
             }
           },
