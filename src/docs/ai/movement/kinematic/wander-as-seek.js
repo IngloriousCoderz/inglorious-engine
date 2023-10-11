@@ -55,7 +55,7 @@ export default {
 
       parameters: {
         type: 'form',
-        position: [800 - 352, 0, 0],
+        position: [800 - 352, 0, 600],
         groups: {
           wanderAsSeek: {
             title: 'Wander As Seek',

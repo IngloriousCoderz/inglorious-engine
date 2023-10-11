@@ -60,7 +60,7 @@ export default {
 
       parameters: {
         type: 'form',
-        position: [800 - 343, 0, 0],
+        position: [800 - 343, 0, 600],
         groups: {
           pursue: {
             title: 'Pursue',

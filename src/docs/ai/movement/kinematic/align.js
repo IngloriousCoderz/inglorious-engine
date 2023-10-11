@@ -20,9 +20,9 @@ export default {
         const { keyboard } = instances
 
         if (keyboard.ArrowLeft || keyboard.ArrowUp) {
-          instance.orientation -= 0.1
-        } else if (keyboard.ArrowRight || keyboard.ArrowDown) {
           instance.orientation += 0.1
+        } else if (keyboard.ArrowRight || keyboard.ArrowDown) {
+          instance.orientation -= 0.1
         }
         instance.orientation = clamp(instance.orientation, -pi(), pi())
       },
@@ -92,7 +92,7 @@ export default {
 
       parameters: {
         type: 'form',
-        position: [800 - 328, 0, 0],
+        position: [800 - 328, 0, 600],
         groups: {
           align: {
             title: 'Kinematic Align',

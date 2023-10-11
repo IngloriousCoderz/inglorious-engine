@@ -8,7 +8,7 @@ export default function Scene({ config, children }) {
   const [, , width, height] = config.bounds
 
   const ref = useRef()
-  const mouseEventHandlers = useMouse({ parent: ref.current })
+  const mouseEventHandlers = useMouse({ parent: ref.current, height })
   useKeyboard()
 
   return (

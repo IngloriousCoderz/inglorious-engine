@@ -28,11 +28,11 @@ export function setFourSprite(instance, target) {
   const theta = toRange(angle(direction)) / multiple
 
   if (theta >= -2 + BEFORE && theta < -2 + AFTER) {
-    instance.sprite = 'up'
+    instance.sprite = 'down'
   } else if (theta >= 0 + BEFORE && theta < 0 + AFTER) {
     instance.sprite = 'right'
   } else if (theta >= 2 + BEFORE && theta < 2 + AFTER) {
-    instance.sprite = 'down'
+    instance.sprite = 'up'
   } else {
     instance.sprite = 'left'
   }
@@ -46,19 +46,19 @@ export function setSixSprite(instance, target) {
   const theta = toRange(angle(direction)) / multiple
 
   if (theta >= -6 + BEFORE && theta < -6 + AFTER) {
-    instance.sprite = 'leftUp'
+    instance.sprite = 'leftDown'
   } else if (theta >= -4 + BEFORE && theta < -4 + AFTER) {
-    instance.sprite = 'up'
+    instance.sprite = 'down'
   } else if (theta >= -2 + BEFORE && theta < -2 + AFTER) {
-    instance.sprite = 'rightUp'
+    instance.sprite = 'rightDown'
   } else if (theta >= 0 + BEFORE && theta < 0 + AFTER) {
     instance.sprite = 'right'
   } else if (theta >= 2 + BEFORE && theta < 2 + AFTER) {
-    instance.sprite = 'rightDown'
+    instance.sprite = 'rightUp'
   } else if (theta >= 4 + BEFORE && theta < 4 + AFTER) {
-    instance.sprite = 'down'
+    instance.sprite = 'up'
   } else if (theta >= 6 + BEFORE && theta < 6 + AFTER) {
-    instance.sprite = 'leftDown'
+    instance.sprite = 'leftUp'
   } else {
     instance.sprite = 'left'
   }
@@ -72,19 +72,19 @@ export function setEightSprite(instance, target) {
   const theta = toRange(angle(direction)) / multiple
 
   if (theta >= -6 + BEFORE && theta < -6 + AFTER) {
-    instance.sprite = 'leftUp'
+    instance.sprite = 'leftDown'
   } else if (theta >= -4 + BEFORE && theta < -4 + AFTER) {
-    instance.sprite = 'up'
+    instance.sprite = 'down'
   } else if (theta >= -2 + BEFORE && theta < -2 + AFTER) {
-    instance.sprite = 'rightUp'
+    instance.sprite = 'rightDown'
   } else if (theta >= 0 + BEFORE && theta < 0 + AFTER) {
     instance.sprite = 'right'
   } else if (theta >= 2 + BEFORE && theta < 2 + AFTER) {
-    instance.sprite = 'rightDown'
+    instance.sprite = 'rightUp'
   } else if (theta >= 4 + BEFORE && theta < 4 + AFTER) {
-    instance.sprite = 'down'
+    instance.sprite = 'up'
   } else if (theta >= 6 + BEFORE && theta < 6 + AFTER) {
-    instance.sprite = 'leftDown'
+    instance.sprite = 'leftUp'
   } else {
     instance.sprite = 'left'
   }

@@ -72,7 +72,7 @@ export default {
 
       parameters: {
         type: 'form',
-        position: [800 - 328, 0, 0],
+        position: [800 - 328, 0, 600],
         groups: {
           matchVelocity: {
             title: 'Match Velocity',

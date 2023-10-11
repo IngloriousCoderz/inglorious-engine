@@ -2,6 +2,7 @@ import classes from './with-absolute-position.module.scss'
 
 export function withAbsolutePosition(Component) {
   return function AbsolutePosition(props) {
+    const [, , , height] = props.config.bounds
     const { position } = props.instance
 
     if (!position) {
@@ -13,7 +14,7 @@ export function withAbsolutePosition(Component) {
     return (
       <div
         className={classes.withAbsolutePosition}
-        style={{ '--x': `${x}px`, '--z': `${z}px` }}
+        style={{ '--x': `${x}px`, '--y': `${height - z}px` }}
       >
         <Component {...props} />
       </div>

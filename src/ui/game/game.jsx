@@ -39,7 +39,15 @@ export default function Game({ engine }) {
           return null
         }
 
-        return <Component key={id} id={id} type={type} instance={instance} />
+        return (
+          <Component
+            key={id}
+            id={id}
+            config={engine.config}
+            type={type}
+            instance={instance}
+          />
+        )
       })}
     </Scene>
   )

@@ -7,7 +7,7 @@ export default function Cursor({ instance }) {
     <div
       className={classes.cursor}
       style={{
-        '--angle': `${orientation}rad`,
+        '--angle': `${-orientation}rad`,
       }}
     >
       <div className={classes.top} />

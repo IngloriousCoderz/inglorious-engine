@@ -2,10 +2,14 @@ import { useDispatch } from 'react-redux'
 
 import classes from './character.module.scss'
 
-export default function Character({ id, instance }) {
+const DEFAULT_SIZE = 24
+const DEFAULT_ORIENTATION = 0
+
+export default function Character({ id, config, instance }) {
   const dispatch = useDispatch()
 
-  const { orientation } = instance
+  const size = config.types[instance.type].size ?? DEFAULT_SIZE
+  const { orientation = DEFAULT_ORIENTATION } = instance
 
   const handleClick = (event) => {
     event.stopPropagation()
@@ -16,7 +20,8 @@ export default function Character({ id, instance }) {
     <div
       className={classes.character}
       style={{
-        '--angle': `${orientation}rad`,
+        '--size': `${size}px`,
+        '--angle': `${-orientation}rad`,
       }}
       onClick={handleClick}
     />

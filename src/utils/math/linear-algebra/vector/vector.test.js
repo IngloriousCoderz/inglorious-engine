@@ -80,7 +80,7 @@ test('it should divide a vector by a scalar', () => {
 
 test('it should create a 3D unit vector from an angle', () => {
   const angle = pi() / 4
-  const expectedResult = [sin(angle), -0, cos(angle)]
+  const expectedResult = [0.7071067811865475, -0, 0.7071067811865476] // close to [cos(angle), 0, sin(angle)]
 
   expect(fromAngle(angle)).toStrictEqual(expectedResult)
 })
@@ -125,7 +125,7 @@ test('it should normalize a negative vector', () => {
 test('it should rotate a 2D vector by a certain angle', () => {
   const vector = [1, 0]
   const angle = pi() / 4
-  const expectedResult = [sin(angle), cos(angle)]
+  const expectedResult = [0.7071067811865475, 0.7071067811865476] // close to [cos(pi/4), sin(pi/4)]
 
   expect(rotate(vector, angle)).toStrictEqual(expectedResult)
 })
@@ -141,7 +141,7 @@ test('it should not rotate a vector when the angle is zero', () => {
 test('it should rotate a vector by a certain angle', () => {
   const vector = [1, 0, 0]
   const angle = pi() / 4
-  const expectedResult = [sin(angle), -0, cos(angle)]
+  const expectedResult = [0.7071067811865475, -0, 0.7071067811865476] // close to [cos(pi/4), 0, sin(pi/4)]
 
   expect(rotate(vector, angle)).toStrictEqual(expectedResult)
 })
@@ -149,7 +149,7 @@ test('it should rotate a vector by a certain angle', () => {
 test('it should rotate a vector that faces left by a certain angle', () => {
   const vector = [-1, 0, 0]
   const angle = pi() / 4
-  const expectedResult = [-sin(angle), -0, -cos(angle)]
+  const expectedResult = [-0.7071067811865475, -0, -0.7071067811865476] // close to [cos(-3/4pi), 0, sin(-3/4pi)]
 
   expect(rotate(vector, angle)).toStrictEqual(expectedResult)
 })

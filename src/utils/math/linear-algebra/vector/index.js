@@ -139,5 +139,6 @@ function rotateWithQuaternion(v, angle) {
     v,
     cross(multiply(r, 2), sum(cross(r, v), multiply(v, w))) // eslint-disable-line no-magic-numbers
   )
-  return conjugate(result) // Y-axis is inverted in games
+
+  return conjugate(result) // HACK: not really sure why I should invert the result, it just works this way
 }

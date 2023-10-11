@@ -45,13 +45,13 @@ export default {
         if (keyboard.ArrowLeft) {
           target.velocity[0] = -1
         }
-        if (keyboard.ArrowUp) {
+        if (keyboard.ArrowDown) {
           target.velocity[2] = -1
         }
         if (keyboard.ArrowRight) {
           target.velocity[0] = 1
         }
-        if (keyboard.ArrowDown) {
+        if (keyboard.ArrowUp) {
           target.velocity[2] = 1
         }
 
@@ -98,7 +98,7 @@ export default {
 
       parameters: {
         type: 'form',
-        position: [800 - 328, 0, 0],
+        position: [800 - 328, 0, 600],
         groups: {
           align: {
             title: 'Steering Align',

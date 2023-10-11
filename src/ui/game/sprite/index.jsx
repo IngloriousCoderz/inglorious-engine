@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux'
 
 import SpriteComponent from './sprite'
 
-const ONE_SECOND = 1000
+const MILLISECONDS = 1000
 const FIRST_FRAME = 0
 const NEXT_FRAME = 1
 const LAST_FRAME = 1
@@ -26,7 +26,7 @@ export default function Sprite({ type, instance }) {
 
     interval.current = setInterval(() => {
       setFrame((frame) => mod(frame + NEXT_FRAME, frames.length))
-    }, speed * ONE_SECOND)
+    }, speed * MILLISECONDS)
 
     return () => clearInterval(interval.current)
   }, [instance.sprite, frames.length, speed])
