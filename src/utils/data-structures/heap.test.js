@@ -16,6 +16,14 @@ test('it should convert an array into a heap', () => {
   expect(heapify(arr)).toStrictEqual(expectedResult)
 })
 
+test('it should convert an array into a maxheap', () => {
+  const arr = [1, 2, 3, 4, 5, 6, 7]
+  const comparator = (a, b) => a - b
+  const expectedResult = [7, 4, 6, 1, 3, 2, 5]
+
+  expect(heapify(arr, comparator)).toStrictEqual(expectedResult)
+})
+
 test('it should push the first element of the heap', () => {
   const heap = []
   const value = 7
@@ -45,4 +53,13 @@ test('it should pop the lowest value from the end of the heap', () => {
   const expectedResult = [13, 21, 19, 33, 42, 23]
 
   expect(pop(heap)).toStrictEqual(expectedResult)
+})
+
+test('it should push the biggest value at the beginning of a maxheap', () => {
+  const heap = [3, 13, 19, 33, 42, 23, 21]
+  const comparator = (a, b) => a - b
+  const value = 50
+  const expectedResult = [50, 3, 19, 13, 42, 23, 21, 33]
+
+  expect(push(value, heap, comparator)).toStrictEqual(expectedResult)
 })

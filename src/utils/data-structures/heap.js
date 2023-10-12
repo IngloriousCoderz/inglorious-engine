@@ -2,20 +2,22 @@
 
 // @see https://stackfull.dev/heaps-in-javascript
 
-export function heapify(arr) {
+const DEFAULT_COMPARATOR = (a, b) => b - a
+
+export function heapify(arr, comparator = DEFAULT_COMPARATOR) {
   let heap = []
   for (const value of arr) {
-    heap = push(value, heap)
+    heap = push(value, heap, comparator)
   }
   return heap
 }
 
-export function push(value, heap) {
+export function push(value, heap, comparator = DEFAULT_COMPARATOR) {
   const h = [...heap, value]
 
   let index = h.length - 1
   let parent = parentIndex(index)
-  while (h[index] < h[parent]) {
+  while (comparator(h[index], h[parent]) > 0) {
     ;[h[index], h[parent]] = [h[parent], h[index]] // eslint-disable-line no-extra-semi
 
     index = parent
@@ -25,7 +27,7 @@ export function push(value, heap) {
   return h
 }
 
-export function pop(heap) {
+export function pop(heap, comparator = DEFAULT_COMPARATOR) {
   const h = [...heap]
   ;[h[0], h[h.length - 1]] = [h[h.length - 1], h[0]]
 
@@ -36,7 +38,7 @@ export function pop(heap) {
   let right = rightIndex(index)
   while (left < h.length) {
     const minIndex = right < h.length && h[right] < h[left] ? right : left
-    if (h[minIndex] < h[index]) {
+    if (comparator(h[minIndex], h[index]) > 0) {
       ;[h[minIndex], h[index]] = [h[index], h[minIndex]] // eslint-disable-line no-extra-semi
 
       index = minIndex
