@@ -36,28 +36,28 @@ export default {
         instances.parameters.groups.align.fields.targetRadius.value =
           event.payload
       },
-      'slowRadius:change'(_, event, { instances }) {
+      'slowRadius:change'(instance, event, { instances }) {
         instances.parameters.groups.align.fields.slowRadius.value =
           event.payload
       },
-      'timeToTarget:change'(_, event, { instances }) {
+      'timeToTarget:change'(instance, event, { instances }) {
         instances.parameters.groups.align.fields.timeToTarget.value =
           event.payload
       },
-      'targetOrientation:change'(_, event, { instances }) {
+      'targetOrientation:change'(instance, event, { instances }) {
         instances.parameters.groups.align.fields.targetOrientation.value =
           event.payload
       },
     },
 
     fps: {
-      'game:update'(instance, _, { elapsed }) {
+      'game:update'(instance, event, { elapsed }) {
         instance.value = elapsed
       },
     },
 
     character: {
-      'game:update'(instance, _, { elapsed, config, instances }) {
+      'game:update'(instance, event, { elapsed, config, instances }) {
         const target = instances.cursor
         const { fields } = instances.parameters.groups.align
 

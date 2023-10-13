@@ -8,7 +8,7 @@ export const DEFAULT_WANDER_OFFSET = 10
 export const DEFAULT_WANDER_RADIUS = 10
 
 export default function wander(
-  character,
+  instance,
   {
     wanderOffset = DEFAULT_WANDER_OFFSET,
     wanderRadius = DEFAULT_WANDER_RADIUS,
@@ -16,16 +16,16 @@ export default function wander(
   }
 ) {
   const targetOrientation =
-    character.orientation + randomBinomial() * character.maxRotation
+    instance.orientation + randomBinomial() * instance.maxRotation
 
   let targetPosition = sum(
-    character.position,
-    multiply(fromAngle(character.orientation), wanderOffset)
+    instance.position,
+    multiply(fromAngle(instance.orientation), wanderOffset)
   )
   targetPosition = sum(
     targetPosition,
     multiply(fromAngle(targetOrientation), wanderRadius)
   )
 
-  return seek(character, { position: targetPosition }, options)
+  return seek(instance, { position: targetPosition }, options)
 }

@@ -93,46 +93,48 @@ test('it should send an event from an instance', () => {
   const config = {
     types: {
       doge: {
-        'game:update'(instance, _, { notify }) {
-          notify(event)
-          return instance
+        'game:update'(instance, event, { instances, notify }) {
+          if (instances.instance2.position === 'near') {
+            notify(event)
+          }
         },
       },
       kitty: {
         [event.id](instance) {
-          // should do nothing at first
-          return instance
+          if (event.payload.id === 'inu' && event.payload.message === 'Woof!') {
+            instance.position = 'far'
+          }
         },
       },
     },
     state: {
       instances: {
         instance1: {
-          type: 'kitty',
-          position: 'near',
+          type: 'doge',
         },
         instance2: {
-          type: 'doge',
+          type: 'kitty',
+          position: 'near',
         },
       },
     },
   }
   const store = createStore(config)
   const afterState = {
-    events: [event],
+    events: [{ id: 'game:update' }],
     instances: {
       game: {
         type: 'game',
         state: 'default',
       },
       instance1: {
-        type: 'kitty',
-        state: 'default',
-        position: 'near',
-      },
-      instance2: {
         type: 'doge',
         state: 'default',
+      },
+      instance2: {
+        type: 'kitty',
+        state: 'default',
+        position: 'near', // should do nothing at first
       },
     },
   }
@@ -151,18 +153,17 @@ test('it should receive an event from an instance', () => {
   const config = {
     types: {
       doge: {
-        'game:update'(instance) {
-          // no need to send further messages
-          return instance
+        'game:update'(instance, event, { instances, notify }) {
+          if (instances.instance2.position === 'near') {
+            notify(event)
+          }
         },
       },
       kitty: {
         [event.id](instance, event) {
           if (event.payload.id === 'inu' && event.payload.message === 'Woof!') {
-            return { ...instance, position: 'far' }
+            instance.position = 'far'
           }
-
-          return instance
         },
       },
     },
@@ -170,11 +171,11 @@ test('it should receive an event from an instance', () => {
       events: [event],
       instances: {
         instance1: {
-          type: 'kitty',
-          position: 'near',
+          type: 'doge',
         },
         instance2: {
-          type: 'doge',
+          type: 'kitty',
+          position: 'near',
         },
       },
     },
@@ -188,13 +189,13 @@ test('it should receive an event from an instance', () => {
         state: 'default',
       },
       instance1: {
-        type: 'kitty',
-        state: 'default',
-        position: 'far',
-      },
-      instance2: {
         type: 'doge',
         state: 'default',
+      },
+      instance2: {
+        type: 'kitty',
+        state: 'default',
+        position: 'far', // position changed
       },
     },
   }

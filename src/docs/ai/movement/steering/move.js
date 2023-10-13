@@ -1,5 +1,6 @@
-import move from '@ezpz/engine/ai/movement/kinematic/move'
+import move from '@ezpz/engine/ai/movement/steering/move'
 import { keyboardInstance, keyboardType } from '@ezpz/engine/input/keyboard'
+import { clampToBounds } from '@ezpz/utils/character'
 import { merge } from '@ezpz/utils/data-structures/objects'
 
 export default {
@@ -13,24 +14,26 @@ export default {
     },
 
     character: {
-      'game:update'(instance, event, { elapsed, instances }) {
+      'game:update'(instance, event, { elapsed, config, instances }) {
         const { keyboard } = instances
 
-        instance.velocity = [0, 0, 0]
+        instance.acceleration = [0, 0, 0]
         if (keyboard.ArrowLeft) {
-          instance.velocity[0] = -instance.maxSpeed
+          instance.acceleration[0] = -instance.maxAcceleration
         }
         if (keyboard.ArrowDown) {
-          instance.velocity[2] = -instance.maxSpeed
+          instance.acceleration[2] = -instance.maxAcceleration
         }
         if (keyboard.ArrowRight) {
-          instance.velocity[0] = instance.maxSpeed
+          instance.acceleration[0] = instance.maxAcceleration
         }
         if (keyboard.ArrowUp) {
-          instance.velocity[2] = instance.maxSpeed
+          instance.acceleration[2] = instance.maxAcceleration
         }
 
         merge(instance, move(instance, { elapsed }))
+
+        clampToBounds(instance, config.bounds)
       },
     },
   },
@@ -48,6 +51,7 @@ export default {
         type: 'character',
         maxAcceleration: 10,
         maxSpeed: 250,
+        acceleration: [0, 0, 0],
         velocity: [0, 0, 0],
         position: [400, 0, 300],
       },

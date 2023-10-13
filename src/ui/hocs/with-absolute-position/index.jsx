@@ -9,12 +9,12 @@ export function withAbsolutePosition(Component) {
       return <Component {...props} />
     }
 
-    const [x, , z] = position
+    const [x, y, z] = position
 
     return (
       <div
         className={classes.withAbsolutePosition}
-        style={{ '--x': `${x}px`, '--y': `${height - z}px` }}
+        style={{ '--x': `${x}px`, '--y': `${height - y - z}px` }}
       >
         <Component {...props} />
       </div>

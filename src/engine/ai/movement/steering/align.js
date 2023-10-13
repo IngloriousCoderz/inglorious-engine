@@ -6,7 +6,7 @@ export const DEFAULT_SLOW_RADIUS = 0.1
 export const DEFAULT_TIME_TO_TARGET = 1
 
 export default function align(
-  character,
+  instance,
   target,
   {
     elapsed,
@@ -15,33 +15,33 @@ export default function align(
     timeToTarget = DEFAULT_TIME_TO_TARGET,
   }
 ) {
-  const direction = toRange(target.orientation - character.orientation)
+  const direction = toRange(target.orientation - instance.orientation)
   const distance = abs(direction)
 
   if (distance < targetRadius) {
-    return character
+    return instance
   }
 
   let targetRotationSpeed
   if (distance > slowRadius) {
-    targetRotationSpeed = character.maxRotation
+    targetRotationSpeed = instance.maxRotation
   } else {
-    targetRotationSpeed = (distance * character.maxRotation) / slowRadius
+    targetRotationSpeed = (distance * instance.maxRotation) / slowRadius
   }
   targetRotationSpeed *= direction / distance // restore rotation sign
   const targetAngularVelocity = targetRotationSpeed * elapsed
 
-  const angularVelocityDelta = targetAngularVelocity - character.angularVelocity
+  const angularVelocityDelta = targetAngularVelocity - instance.angularVelocity
 
   let angularAcceleration = angularVelocityDelta / timeToTarget
   angularAcceleration = clamp(
     angularAcceleration,
-    -character.maxAngularAcceleration * elapsed,
-    character.maxAngularAcceleration * elapsed
+    -instance.maxAngularAcceleration * elapsed,
+    instance.maxAngularAcceleration * elapsed
   )
 
-  const angularVelocity = character.angularVelocity + angularAcceleration
-  const orientation = character.orientation + angularVelocity
+  const angularVelocity = instance.angularVelocity + angularAcceleration
+  const orientation = instance.orientation + angularVelocity
 
   return { angularVelocity, orientation }
 }

@@ -8,13 +8,13 @@ export default {
     mouse: mouseType(),
 
     fps: {
-      'game:update'(instance, _, { elapsed }) {
+      'game:update'(instance, event, { elapsed }) {
         instance.value = elapsed
       },
     },
 
     character: {
-      'game:update'(instance, _, { elapsed, config, instances }) {
+      'game:update'(instance, event, { elapsed, config, instances }) {
         const target = instances.mouse
 
         merge(instance, seek(instance, target, { elapsed }))

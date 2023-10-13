@@ -12,28 +12,28 @@ export default {
     mouse: mouseType(),
 
     game: {
-      'targetRadius:change'(_, event, { instances }) {
+      'targetRadius:change'(instance, event, { instances }) {
         instances.parameters.groups.arrive.fields.targetRadius.value =
           event.payload
       },
-      'slowRadius:change'(_, event, { instances }) {
+      'slowRadius:change'(instance, event, { instances }) {
         instances.parameters.groups.arrive.fields.slowRadius.value =
           event.payload
       },
-      'timeToTarget:change'(_, event, { instances }) {
+      'timeToTarget:change'(instance, event, { instances }) {
         instances.parameters.groups.arrive.fields.timeToTarget.value =
           event.payload
       },
     },
 
     fps: {
-      'game:update'(instance, _, { elapsed }) {
+      'game:update'(instance, event, { elapsed }) {
         instance.value = elapsed
       },
     },
 
     character: {
-      'game:update'(instance, _, { elapsed, config, instances }) {
+      'game:update'(instance, event, { elapsed, config, instances }) {
         const target = instances.mouse
         const { fields } = instances.parameters.groups.arrive
 

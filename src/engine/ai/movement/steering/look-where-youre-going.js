@@ -2,12 +2,12 @@ import { angle, magnitude } from '@ezpz/utils/math/linear-algebra/vector'
 
 import align from './align'
 
-export default function lookWhereYoureGoing(character, _, options) {
-  const speed = magnitude(character.velocity)
+export default function lookWhereYoureGoing(instance, options) {
+  const speed = magnitude(instance.velocity)
 
   if (!speed) {
-    return character
+    return instance
   }
 
-  return align(character, { orientation: angle(character.velocity) }, options)
+  return align(instance, { orientation: angle(instance.velocity) }, options)
 }

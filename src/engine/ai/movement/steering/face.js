@@ -3,15 +3,15 @@ import { subtract } from '@ezpz/utils/math/linear-algebra/vectors'
 
 import align from './align'
 
-export default function face(character, target, options) {
-  const direction = subtract(target.position, character.position)
+export default function face(instance, target, options) {
+  const direction = subtract(target.position, instance.position)
   const distance = magnitude(direction)
 
   if (!distance) {
-    return character
+    return instance
   }
 
   const orientation = angle(direction)
 
-  return align(character, { ...target, orientation }, options)
+  return align(instance, { ...target, orientation }, options)
 }

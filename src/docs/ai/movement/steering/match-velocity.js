@@ -10,20 +10,20 @@ export default {
     keyboard: keyboardType(),
 
     game: {
-      'timeToTarget:change'(_, event, { instances }) {
+      'timeToTarget:change'(instance, event, { instances }) {
         instances.parameters.groups.matchVelocity.fields.timeToTarget.value =
           event.payload
       },
     },
 
     fps: {
-      'game:update'(instance, _, { elapsed }) {
+      'game:update'(instance, event, { elapsed }) {
         instance.value = elapsed
       },
     },
 
     character: {
-      'game:update'(instance, _, { elapsed, config, instances }) {
+      'game:update'(instance, event, { elapsed, config, instances }) {
         const { fields } = instances.parameters.groups.matchVelocity
 
         const { keyboard } = instances
@@ -70,7 +70,6 @@ export default {
 
       character: {
         type: 'character',
-        maxSpeed: 250,
         maxAcceleration: 10,
         velocity: [0, 0, 0],
         position: [400, 0, 300],

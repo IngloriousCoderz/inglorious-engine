@@ -12,7 +12,7 @@ export const DEFAULT_TIME_TO_TARGET = 1
 const MIN_SPEED = 0
 
 export default function arrive(
-  character,
+  instance,
   target,
   {
     elapsed,
@@ -20,17 +20,17 @@ export default function arrive(
     timeToTarget = DEFAULT_TIME_TO_TARGET,
   }
 ) {
-  const direction = subtract(target.position, character.position)
+  const direction = subtract(target.position, instance.position)
   const distance = magnitude(direction)
 
   if (distance < targetRadius) {
-    return character
+    return instance
   }
 
   let velocity = divide(direction, timeToTarget)
-  velocity = clamp(velocity, MIN_SPEED, character.maxSpeed * elapsed)
+  velocity = clamp(velocity, MIN_SPEED, instance.maxSpeed * elapsed)
 
-  const position = sum(character.position, velocity)
+  const position = sum(instance.position, velocity)
   const orientation = angle(velocity)
 
   return { velocity, position, orientation }

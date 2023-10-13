@@ -6,16 +6,16 @@ import {
 import { sum } from '@ezpz/utils/math/linear-algebra/vectors'
 import { randomBinomial } from '@ezpz/utils/math/random'
 
-export default function wander(character, { elapsed }) {
+export default function wander(instance, { elapsed }) {
   const targetOrientation =
-    character.orientation + randomBinomial() * character.maxRotation
+    instance.orientation + randomBinomial() * instance.maxRotation
 
   const velocity = multiply(
     fromAngle(targetOrientation),
-    character.maxSpeed * elapsed
+    instance.maxSpeed * elapsed
   )
 
-  const position = sum(character.position, velocity)
+  const position = sum(instance.position, velocity)
   const orientation = angle(velocity)
 
   return { velocity, position, orientation }

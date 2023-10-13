@@ -7,6 +7,7 @@ import face from './face'
 import flee from './flee'
 import lookWhereYoureGoing from './look-where-youre-going'
 import matchVelocity from './match-velocity'
+import move from './move'
 import pursue from './pursue'
 import seek from './seek'
 import wander from './wander'
@@ -34,6 +35,10 @@ export const Align = {
 
 export const MatchVelocity = {
   args: { config: matchVelocity },
+}
+
+export const Move = {
+  args: { config: move },
 }
 
 export const Pursue = {

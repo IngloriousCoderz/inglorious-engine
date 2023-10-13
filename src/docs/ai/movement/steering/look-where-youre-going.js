@@ -15,28 +15,28 @@ export default {
     keyboard: keyboardType(),
 
     game: {
-      'targetRadius:change'(_, event, { instances }) {
+      'targetRadius:change'(instance, event, { instances }) {
         instances.parameters.groups.align.fields.targetRadius.value =
           event.payload
       },
-      'slowRadius:change'(_, event, { instances }) {
+      'slowRadius:change'(instance, event, { instances }) {
         instances.parameters.groups.align.fields.slowRadius.value =
           event.payload
       },
-      'timeToTarget:change'(_, event, { instances }) {
+      'timeToTarget:change'(instance, event, { instances }) {
         instances.parameters.groups.align.fields.timeToTarget.value =
           event.payload
       },
     },
 
     fps: {
-      'game:update'(instance, _, { elapsed }) {
+      'game:update'(instance, event, { elapsed }) {
         instance.value = elapsed
       },
     },
 
     character: {
-      'game:update'(instance, _, { elapsed, config, instances }) {
+      'game:update'(instance, event, { elapsed, config, instances }) {
         const { fields } = instances.parameters.groups.align
 
         const { keyboard = {} } = instances
@@ -62,7 +62,7 @@ export default {
 
         merge(
           instance,
-          lookWhereYoureGoing(instance, null, {
+          lookWhereYoureGoing(instance, {
             elapsed,
             targetRadius: fields.targetRadius.value,
             slowRadius: fields.slowRadius.value,

@@ -9,24 +9,24 @@ import { pi } from '@ezpz/utils/math/trigonometry'
 export default {
   types: {
     game: {
-      'wanderOffset:change'(_, event, { instances }) {
+      'wanderOffset:change'(instance, event, { instances }) {
         instances.parameters.groups.wander.fields.wanderOffset.value =
           event.payload
       },
-      'wanderRadius:change'(_, event, { instances }) {
+      'wanderRadius:change'(instance, event, { instances }) {
         instances.parameters.groups.wander.fields.wanderRadius.value =
           event.payload
       },
     },
 
     fps: {
-      'game:update'(instance, _, { elapsed }) {
+      'game:update'(instance, event, { elapsed }) {
         instance.value = elapsed
       },
     },
 
     character: {
-      'game:update'(instance, _, { elapsed, config, instances }) {
+      'game:update'(instance, event, { elapsed, config, instances }) {
         const { fields } = instances.parameters.groups.wander
 
         merge(

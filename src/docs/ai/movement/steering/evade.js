@@ -10,20 +10,20 @@ export default {
     mouse: mouseType(),
 
     game: {
-      'maxPrediction:change'(_, event, { instances }) {
+      'maxPrediction:change'(instance, event, { instances }) {
         instances.parameters.groups.evade.fields.maxPrediction.value =
           event.payload
       },
     },
 
     fps: {
-      'game:update'(instance, _, { elapsed }) {
+      'game:update'(instance, event, { elapsed }) {
         instance.value = elapsed
       },
     },
 
     character: {
-      'game:update'(instance, _, { elapsed, config, instances }) {
+      'game:update'(instance, event, { elapsed, config, instances }) {
         const target = instances.mouse
         const { fields } = instances.parameters.groups.evade
 

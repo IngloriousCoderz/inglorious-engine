@@ -1,5 +1,6 @@
 import move from '@ezpz/engine/ai/movement/kinematic/move'
 import { keyboardInstance, keyboardType } from '@ezpz/engine/input/keyboard'
+import { clampToBounds } from '@ezpz/utils/character'
 import { merge } from '@ezpz/utils/data-structures/objects'
 
 export default {
@@ -13,7 +14,7 @@ export default {
     },
 
     character: {
-      'game:update'(instance, event, { elapsed, instances }) {
+      'game:update'(instance, event, { elapsed, config, instances }) {
         const { keyboard } = instances
 
         instance.velocity = [0, 0, 0]
@@ -31,6 +32,8 @@ export default {
         }
 
         merge(instance, move(instance, { elapsed }))
+
+        clampToBounds(instance, config.bounds)
       },
     },
   },
@@ -46,7 +49,6 @@ export default {
 
       character: {
         type: 'character',
-        maxAcceleration: 10,
         maxSpeed: 250,
         velocity: [0, 0, 0],
         position: [400, 0, 300],

@@ -3,6 +3,7 @@ import Game from '@ezpz/ui/game'
 import align from './align'
 import arrive from './arrive'
 import flee from './flee'
+import move from './move'
 import seek from './seek'
 import wander from './wander'
 import wanderAsSeek from './wander-as-seek'
@@ -34,4 +35,8 @@ export const WanderAsSeek = {
 
 export const Align = {
   args: { config: align },
+}
+
+export const Move = {
+  args: { config: move },
 }

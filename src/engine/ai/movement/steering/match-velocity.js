@@ -11,24 +11,24 @@ export const DEFAULT_TIME_TO_TARGET = 1
 const MIN_ACCELERATION = 0
 
 export default function matchVelocity(
-  character,
+  instance,
   target,
   { elapsed, timeToTarget = DEFAULT_TIME_TO_TARGET }
 ) {
-  const velocityDelta = subtract(target.velocity, character.velocity)
+  const velocityDelta = subtract(target.velocity, instance.velocity)
 
   let acceleration = divide(velocityDelta, timeToTarget)
   acceleration = clamp(
     acceleration,
     MIN_ACCELERATION,
-    character.maxAcceleration * elapsed
+    instance.maxAcceleration * elapsed
   )
 
-  const velocity = sum(character.velocity, acceleration)
-  const position = sum(character.position, velocity)
+  const velocity = sum(instance.velocity, acceleration)
+  const position = sum(instance.position, velocity)
   const orientation = magnitude(velocity)
     ? angle(velocity)
-    : character.orientation
+    : instance.orientation
 
-  return { velocity, position, orientation }
+  return { acceleration, velocity, position, orientation }
 }

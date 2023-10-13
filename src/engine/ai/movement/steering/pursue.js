@@ -6,18 +6,18 @@ import seek from './seek'
 export const DEFAULT_MAX_PREDICTION = 10
 
 export default function pursue(
-  character,
+  instance,
   target,
   { elapsed, maxPrediction = DEFAULT_MAX_PREDICTION }
 ) {
-  const direction = subtract(target.position, character.position)
+  const direction = subtract(target.position, instance.position)
   const distance = magnitude(direction)
 
   if (!distance) {
-    return character
+    return instance
   }
 
-  const speed = magnitude(character.velocity)
+  const speed = magnitude(instance.velocity)
 
   let prediction
   if (speed <= distance / maxPrediction) {
@@ -31,5 +31,5 @@ export default function pursue(
     multiply(target.velocity, prediction)
   )
 
-  return seek(character, { ...target, position: targetPosition }, { elapsed })
+  return seek(instance, { ...target, position: targetPosition }, { elapsed })
 }
