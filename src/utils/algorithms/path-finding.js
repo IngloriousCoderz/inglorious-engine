@@ -1,10 +1,14 @@
 /* eslint-disable no-magic-numbers */
 
 import { contains, min, push, remove } from '@ezpz/utils/data-structures/heap'
-import { magnitude } from '@ezpz/utils/math/linear-algebra/vector'
+import { abs, magnitude } from '@ezpz/utils/math/linear-algebra/vector'
 import { subtract } from '@ezpz/utils/math/linear-algebra/vectors'
 
-const eucledianDistance = (a, b) => magnitude(subtract(a.position, b.position))
+export const dijkstra = () => 0
+export const eucledianDistance = (a, b) =>
+  magnitude(subtract(a.position, b.position))
+export const manhattanDistance = (a, b) => abs(subtract(a.position, b.position))
+
 const compareCost = (a, b) => b.cost - a.cost
 const compareTotalCost = (a, b) => b.totalCost - a.totalCost
 

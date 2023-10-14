@@ -1,5 +1,9 @@
 import { hypothenuse } from '@ezpz/utils/math/geometry'
-import { clamp as nClamp, mod as nMod } from '@ezpz/utils/math/numbers'
+import {
+  abs as nAbs,
+  clamp as nClamp,
+  mod as nMod,
+} from '@ezpz/utils/math/numbers'
 import { atan2, cos, sin } from '@ezpz/utils/math/trigonometry'
 
 import { from2D, to2D } from '../2d'
@@ -15,6 +19,10 @@ const LAST_COORDINATE = 1
 const TWO_COORDINATES = 2
 const NO_Y = 0
 const DEFAULT_DECIMALS = 0
+
+export function abs(vector) {
+  return vector.map(nAbs)
+}
 
 export function angle(vector) {
   return atan2(vector[vector.length - LAST_COORDINATE], vector[X])

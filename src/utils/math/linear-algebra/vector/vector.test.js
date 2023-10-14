@@ -2,6 +2,7 @@ import { cos, pi, sin } from '@ezpz/utils/math/trigonometry'
 import { expect, test } from 'vitest'
 
 import {
+  abs,
   angle,
   clamp,
   conjugate,
@@ -21,6 +22,13 @@ import {
   toString,
   unit,
 } from '.'
+
+test("it should compute the absolute value of a vector's coordinates", () => {
+  const vector = [-2, 0, 3]
+  const expectedResult = [2, 0, 3]
+
+  expect(abs(vector)).toStrictEqual(expectedResult)
+})
 
 test('it should compute the angle of a 2D vector', () => {
   const vector = [1, 1]
