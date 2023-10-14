@@ -4,20 +4,33 @@
 
 const DEFAULT_COMPARATOR = (a, b) => b - a
 
+export function contains(heap, item) {
+  return heap.includes(item)
+}
+
 export function heapify(arr, comparator = DEFAULT_COMPARATOR) {
   let heap = []
-  for (const value of arr) {
-    heap = push(value, heap, comparator)
+  for (const item of arr) {
+    heap = push(heap, item, comparator)
   }
   return heap
 }
 
-export function push(value, heap, comparator = DEFAULT_COMPARATOR) {
-  const h = [...heap, value]
+export function min(heap) {
+  return heap[0]
+}
+
+export function push(heap, item, comparator = DEFAULT_COMPARATOR) {
+  const h = [...heap, item]
+
+  if (h.length === 1) {
+    return h
+  }
 
   let index = h.length - 1
   let parent = parentIndex(index)
-  while (comparator(h[index], h[parent]) > 0) {
+
+  while (index > 0 && comparator(h[index], h[parent]) > 0) {
     ;[h[index], h[parent]] = [h[parent], h[index]] // eslint-disable-line no-extra-semi
 
     index = parent
@@ -36,42 +49,49 @@ export function pop(heap, comparator = DEFAULT_COMPARATOR) {
   let index = 0
   let left = leftIndex(index)
   let right = rightIndex(index)
-  while (left < h.length) {
+  let newMinFound = false
+
+  while (left < h.length && !newMinFound) {
     const minIndex = right < h.length && h[right] < h[left] ? right : left
-    if (comparator(h[minIndex], h[index]) > 0) {
+    newMinFound = comparator(h[minIndex], h[index]) > 0
+
+    if (newMinFound) {
       ;[h[minIndex], h[index]] = [h[index], h[minIndex]] // eslint-disable-line no-extra-semi
 
       index = minIndex
       left = leftIndex(index)
       right = rightIndex(index)
-    } else {
-      break
     }
   }
 
   return h
 }
 
-export function left(index, heap) {
-  return heap[leftIndex(index)]
+export function remove(heap) {
+  const [, ...rest] = heap
+  return heapify([...rest.slice(-1), ...rest.slice(0, -1)])
 }
 
-export function leftIndex(index) {
+// function left(index, heap) {
+//   return heap[leftIndex(index)]
+// }
+
+function leftIndex(index) {
   return 2 * index + 1
 }
 
-export function right(index, heap) {
-  return heap[rightIndex(index)]
-}
+// function right(index, heap) {
+//   return heap[rightIndex(index)]
+// }
 
-export function rightIndex(index) {
+function rightIndex(index) {
   return 2 * index + 2
 }
 
-export function parent(index, heap) {
-  return heap[parentIndex(index)]
-}
+// function parent(index, heap) {
+//   return heap[parentIndex(index)]
+// }
 
-export function parentIndex(index) {
+function parentIndex(index) {
   return Math.floor((index - 1) / 2)
 }
