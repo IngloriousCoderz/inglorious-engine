@@ -1,8 +1,9 @@
 /* eslint-disable no-magic-numbers */
 
-const nullFiller = () => null
+const NULL_FILLER = () => null
+const CELL_TO_STRING = (cell) => `${cell}`
 
-export function createBoard([rows, columns], filler = nullFiller) {
+export function createBoard([rows, columns], filler = NULL_FILLER) {
   return new Array(rows)
     .fill(null)
     .map((_, i) => new Array(columns).fill(null).map((_, j) => filler(i, j)))
@@ -38,6 +39,12 @@ export function right([i, j], [, columns]) {
   }
 
   return [i, j + 1]
+}
+
+export function toString(board, cellToString = CELL_TO_STRING) {
+  return `${board
+    .map((row, i) => row.map((cell, j) => cellToString(cell, i, j)).join(' '))
+    .join('\n')}`
 }
 
 export function up([i, j]) {

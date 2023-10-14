@@ -28,13 +28,13 @@ export function push(heap, item, comparator = DEFAULT_COMPARATOR) {
   }
 
   let index = h.length - 1
-  let parent = parentIndex(index)
+  let parentIndex = parent(index)
 
-  while (index > 0 && comparator(h[index], h[parent]) > 0) {
-    ;[h[index], h[parent]] = [h[parent], h[index]] // eslint-disable-line no-extra-semi
+  while (index > 0 && comparator(h[index], h[parentIndex]) > 0) {
+    ;[h[index], h[parentIndex]] = [h[parentIndex], h[index]] // eslint-disable-line no-extra-semi
 
-    index = parent
-    parent = parentIndex(index)
+    index = parentIndex
+    parentIndex = parent(index)
   }
 
   return h
@@ -47,20 +47,23 @@ export function pop(heap, comparator = DEFAULT_COMPARATOR) {
   h.pop()
 
   let index = 0
-  let left = leftIndex(index)
-  let right = rightIndex(index)
+  let leftIndex = left(index)
+  let rightIndex = right(index)
   let newMinFound = false
 
-  while (left < h.length && !newMinFound) {
-    const minIndex = right < h.length && h[right] < h[left] ? right : left
+  while (leftIndex < h.length && !newMinFound) {
+    const minIndex =
+      rightIndex < h.length && h[rightIndex] < h[leftIndex]
+        ? rightIndex
+        : leftIndex
     newMinFound = comparator(h[minIndex], h[index]) > 0
 
     if (newMinFound) {
       ;[h[minIndex], h[index]] = [h[index], h[minIndex]] // eslint-disable-line no-extra-semi
 
       index = minIndex
-      left = leftIndex(index)
-      right = rightIndex(index)
+      leftIndex = left(index)
+      rightIndex = right(index)
     }
   }
 
@@ -72,26 +75,14 @@ export function remove(heap) {
   return heapify([...rest.slice(-1), ...rest.slice(0, -1)])
 }
 
-// function left(index, heap) {
-//   return heap[leftIndex(index)]
-// }
-
-function leftIndex(index) {
+function left(index) {
   return 2 * index + 1
 }
 
-// function right(index, heap) {
-//   return heap[rightIndex(index)]
-// }
-
-function rightIndex(index) {
+function right(index) {
   return 2 * index + 2
 }
 
-// function parent(index, heap) {
-//   return heap[parentIndex(index)]
-// }
-
-function parentIndex(index) {
+function parent(index) {
   return Math.floor((index - 1) / 2)
 }

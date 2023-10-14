@@ -8,6 +8,7 @@ import {
   downRight,
   left,
   right,
+  toString,
   up,
   upLeft,
   upRight,
@@ -147,6 +148,35 @@ test('it should not return coordinates to the right if cell is rightmost', () =>
   const coordinates = [3, 7]
 
   expect(() => right(coordinates, size)).toThrow()
+})
+
+test('it should return a string representation of the given board', () => {
+  const board = [
+    [1, 0, 1, 0],
+    [0, 1, 0, 1],
+    [1, 0, 1, 0],
+    [0, 1, 0, 1],
+  ]
+
+  expect(toString(board)).toBe(`1 0 1 0
+0 1 0 1
+1 0 1 0
+0 1 0 1`)
+})
+
+test('it should return a custom string representation of the given board', () => {
+  const board = [
+    [1, 0, 1, 0],
+    [0, 1, 0, 1],
+    [1, 0, 1, 0],
+    [0, 1, 0, 1],
+  ]
+  const cellToString = (cell) => cell.toFixed(1)
+
+  expect(toString(board, cellToString)).toBe(`1.0 0.0 1.0 0.0
+0.0 1.0 0.0 1.0
+1.0 0.0 1.0 0.0
+0.0 1.0 0.0 1.0`)
 })
 
 test('it should return the coordinates of the cell upward', () => {
