@@ -1,4 +1,6 @@
 import { toString } from '@ezpz/utils/math/linear-algebra/vector'
+import { useState } from 'react'
+import { useEffect } from 'react'
 
 import classes from './debug.module.scss'
 
@@ -9,6 +11,11 @@ export default function Debug({ config, instance }) {
   const x = 600
   const z = 600
 
+  const [maxVy, setMaxVy] = useState(instance.vy)
+  useEffect(() => {
+    setMaxVy((maxVy) => Math.max(maxVy, instance.vy))
+  }, [instance.vy])
+
   return (
     <div
       className={classes.debug}
@@ -18,7 +25,7 @@ export default function Debug({ config, instance }) {
       <div>Velocity: {toString(instance.velocity)}</div>
       <div>Position: {toString(instance.position)}</div>
       <div>ay: {instance.ay.toFixed(DECIMALS)}</div>
-      <div>vy: {instance.vy.toFixed(DECIMALS)}</div>
+      <div>max vy: {maxVy.toFixed(DECIMALS)}</div>
       <div>py: {instance.py.toFixed(DECIMALS)}</div>
     </div>
   )

@@ -1,9 +1,5 @@
 /* eslint-disable no-magic-numbers */
 
-import { abs } from '@ezpz/utils/math/numbers'
-
-const X = 0
-
 /*
 @see https://youtu.be/hG9SzQxaCm8
 
@@ -34,8 +30,7 @@ y += v_y*dt + 1/2*a_y*dt*dt
 */
 
 export default function jump(instance, { dt }) {
-  instance.vy =
-    (2 * instance.maxJump * abs(instance.velocity[X])) / instance.maxLeap
+  instance.vy = (2 * instance.maxJump * instance.maxSpeed) / instance.maxLeap
   instance.py += instance.vy * dt
 
   return instance

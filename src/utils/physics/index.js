@@ -32,9 +32,8 @@ y += v_y*dt + 1/2*a_y*dt*dt
 */
 
 export function applyGravity(instance, { dt }) {
-  const v = magnitude(instance.velocity)
-
-  instance.ay = (-2 * instance.maxJump * v ** 2) / instance.maxLeap ** 2
+  instance.ay =
+    (-2 * instance.maxJump * instance.maxSpeed ** 2) / instance.maxLeap ** 2
   instance.vy += instance.ay * dt
   instance.py += instance.vy * dt + 0.5 * instance.ay * dt * dt
 
