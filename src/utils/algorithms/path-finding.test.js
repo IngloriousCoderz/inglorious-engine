@@ -1,5 +1,6 @@
 import { expect, test } from 'vitest'
 
+import { createBoard, down, downRight, right } from '../data-structures/board'
 import { findPath } from './path-finding'
 
 test('it should find the shortest path in a trivial example', () => {
@@ -97,6 +98,48 @@ test('it should find the shortest path between two nodes with arc costs', () => 
   const start = 'A'
   const end = 'D'
   const expectedResult = ['A', 'E', 'F', 'G', 'D']
+
+  expect(findPath(graph, start, end)).toStrictEqual(expectedResult)
+})
+
+test('it should find the best path in a board graph', () => {
+  const size = [5, 5]
+  const filler = (i, j) => ({ id: `${i}${j}`, position: [i, j] })
+  const board = createBoard(size, filler)
+
+  const graph = {
+    nodes: board.flatMap((row) => row),
+    arcs: [],
+  }
+
+  for (let i = 0; i < board.length - 1; i++) {
+    for (let j = 0; j < board[i].length - 1; j++) {
+      graph.arcs.push({
+        from: `${i}${j}`,
+        to: down([i, j], size).join(''),
+      })
+      graph.arcs.push({
+        from: `${i}${j}`,
+        to: right([i, j], size).join(''),
+      })
+      graph.arcs.push({
+        from: `${i}${j}`,
+        to: downRight([i, j], size).join(''),
+      })
+    }
+  }
+  graph.arcs.push({
+    from: `${board.length - 2}${board.length - 1}`,
+    to: down([board.length - 2, board.length - 1], size).join(''),
+  })
+  graph.arcs.push({
+    from: `${board.length - 1}${board.length - 2}`,
+    to: right([board.length - 1, board.length - 2], size).join(''),
+  })
+
+  const start = '00'
+  const end = '44'
+  const expectedResult = ['00', '11', '22', '33', '44']
 
   expect(findPath(graph, start, end)).toStrictEqual(expectedResult)
 })
