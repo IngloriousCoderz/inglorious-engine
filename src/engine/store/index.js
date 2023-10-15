@@ -33,7 +33,7 @@ export function createStore({ state: initialState, ...config }) {
     }
   }
 
-  function update(elapsed) {
+  function update(dt) {
     state = { ...state }
 
     state.events.push({ id: 'game:update' })
@@ -51,7 +51,7 @@ export function createStore({ state: initialState, ...config }) {
           config.types[instance.type].states[instance.state][event.id]
         return handle
           ? handle(instance, event, {
-              elapsed,
+              dt,
               config: config,
               instances: state.instances,
               notify,

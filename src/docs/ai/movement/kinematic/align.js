@@ -46,20 +46,20 @@ export default {
     },
 
     fps: {
-      'game:update'(instance, event, { elapsed }) {
-        instance.value = elapsed
+      'game:update'(instance, event, { dt }) {
+        instance.value = dt
       },
     },
 
     character: {
-      'game:update'(instance, event, { elapsed, config, instances }) {
+      'game:update'(instance, event, { dt, config, instances }) {
         const target = instances.mouse
         const { fields } = instances.parameters.groups.align
 
         merge(
           instance,
           align(instance, target, {
-            elapsed,
+            dt,
             targetRadius: fields.targetRadius.value,
             timeToTarget: fields.timeToTarget.value,
           })

@@ -15,7 +15,7 @@ export default function arrive(
   instance,
   target,
   {
-    elapsed,
+    dt,
     targetRadius = DEFAULT_TARGET_RADIUS,
     timeToTarget = DEFAULT_TIME_TO_TARGET,
   }
@@ -28,7 +28,7 @@ export default function arrive(
   }
 
   let velocity = divide(direction, timeToTarget)
-  velocity = clamp(velocity, MIN_SPEED, instance.maxSpeed * elapsed)
+  velocity = clamp(velocity, MIN_SPEED, instance.maxSpeed * dt)
 
   const position = sum(instance.position, velocity)
   const orientation = angle(velocity)

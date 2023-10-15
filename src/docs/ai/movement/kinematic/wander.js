@@ -6,14 +6,14 @@ import { pi } from '@ezpz/utils/math/trigonometry'
 export default {
   types: {
     fps: {
-      'game:update'(instance, event, { elapsed }) {
-        instance.value = elapsed
+      'game:update'(instance, event, { dt }) {
+        instance.value = dt
       },
     },
 
     character: {
-      'game:update'(instance, event, { elapsed, config }) {
-        merge(instance, wander(instance, { elapsed }))
+      'game:update'(instance, event, { dt, config }) {
+        merge(instance, wander(instance, { dt }))
         flip(instance, config.bounds)
       },
     },

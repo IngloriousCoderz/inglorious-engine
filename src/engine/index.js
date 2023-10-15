@@ -29,8 +29,8 @@ export default class Engine {
     this._loop.start(this, msPerFrame)
   }
 
-  update(elapsed) {
-    this._store.update(elapsed)
+  update(dt) {
+    this._store.update(dt)
   }
 
   notify(event) {

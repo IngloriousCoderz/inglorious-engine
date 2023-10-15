@@ -16,9 +16,9 @@ export default class AnimationFrameLoop {
   _tick(engine) {
     const currentTime = new Date()
     this._id = window.requestAnimationFrame(() => this._tick(engine))
-    const elapsed = currentTime - this._previousTime
+    const dt = currentTime - this._previousTime
 
-    engine.update(elapsed / ONE_SECOND)
+    engine.update(dt / ONE_SECOND)
 
     this._previousTime = currentTime
   }

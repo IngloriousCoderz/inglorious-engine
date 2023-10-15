@@ -138,12 +138,12 @@ export default {
         },
 
         chasing: {
-          'game:update'(instance, event, { elapsed, instances }) {
+          'game:update'(instance, event, { dt, instances }) {
             const target = instances.mouse
 
             setEightSprite(instance, target)
 
-            merge(instance, arrive(instance, target, { elapsed }))
+            merge(instance, arrive(instance, target, { dt }))
 
             const direction = subtract(target.position, instance.position)
 

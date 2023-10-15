@@ -13,7 +13,7 @@ const MIN_ACCELERATION = 0
 export default function matchVelocity(
   instance,
   target,
-  { elapsed, timeToTarget = DEFAULT_TIME_TO_TARGET }
+  { dt, timeToTarget = DEFAULT_TIME_TO_TARGET }
 ) {
   const velocityDelta = subtract(target.velocity, instance.velocity)
 
@@ -21,7 +21,7 @@ export default function matchVelocity(
   acceleration = clamp(
     acceleration,
     MIN_ACCELERATION,
-    instance.maxAcceleration * elapsed
+    instance.maxAcceleration * dt
   )
 
   const velocity = sum(instance.velocity, acceleration)

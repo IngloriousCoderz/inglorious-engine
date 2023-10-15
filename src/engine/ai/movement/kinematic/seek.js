@@ -5,7 +5,7 @@ import {
 } from '@ezpz/utils/math/linear-algebra/vector'
 import { subtract, sum } from '@ezpz/utils/math/linear-algebra/vectors'
 
-export default function seek(instance, target, { elapsed }) {
+export default function seek(instance, target, { dt }) {
   const direction = subtract(target.position, instance.position)
   const distance = magnitude(direction)
 
@@ -13,7 +13,7 @@ export default function seek(instance, target, { elapsed }) {
     return instance
   }
 
-  const velocity = setMagnitude(direction, instance.maxSpeed * elapsed)
+  const velocity = setMagnitude(direction, instance.maxSpeed * dt)
 
   const position = sum(instance.position, velocity)
   const orientation = angle(velocity)

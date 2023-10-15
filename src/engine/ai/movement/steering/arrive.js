@@ -11,7 +11,7 @@ export default function arrive(
   instance,
   target,
   {
-    elapsed,
+    dt,
     targetRadius = DEFAULT_TARGET_RADIUS,
     slowRadius = DEFAULT_SLOW_RADIUS,
     timeToTarget = DEFAULT_TIME_TO_TARGET,
@@ -30,11 +30,11 @@ export default function arrive(
   } else {
     targetSpeed = (distance * instance.maxSpeed) / slowRadius
   }
-  const targetVelocity = setMagnitude(direction, targetSpeed * elapsed)
+  const targetVelocity = setMagnitude(direction, targetSpeed * dt)
 
   return matchVelocity(
     instance,
     { velocity: targetVelocity },
-    { elapsed, timeToTarget }
+    { dt, timeToTarget }
   )
 }

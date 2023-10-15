@@ -7,13 +7,13 @@ export default {
     keyboard: keyboardType(),
 
     fps: {
-      'game:update'(instance, event, { elapsed }) {
-        instance.value = elapsed
+      'game:update'(instance, event, { dt }) {
+        instance.value = dt
       },
     },
 
     character: {
-      'game:update'(instance, event, { elapsed, instances }) {
+      'game:update'(instance, event, { dt, instances }) {
         const { keyboard } = instances
 
         instance.velocity = [0, 0, 0]
@@ -30,7 +30,7 @@ export default {
           instance.velocity[2] = instance.maxSpeed
         }
 
-        merge(instance, move(instance, { elapsed }))
+        merge(instance, move(instance, { dt }))
       },
     },
   },

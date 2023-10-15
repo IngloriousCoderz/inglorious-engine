@@ -4,8 +4,8 @@ export default {
   types: {
     fps: {
       frequency: 0.1,
-      'game:update'(instance, event, { elapsed }) {
-        instance.value = elapsed
+      'game:update'(instance, event, { dt }) {
+        instance.value = dt
       },
     },
 

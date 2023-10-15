@@ -8,9 +8,9 @@ export default class ElapsedLoop {
 
     while (!this._shouldStop) {
       const currentTime = Date.now()
-      const elapsed = currentTime - previousTime
+      const dt = currentTime - previousTime
 
-      engine.update(elapsed / ONE_SECOND)
+      engine.update(dt / ONE_SECOND)
 
       previousTime = currentTime
     }

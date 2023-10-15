@@ -8,7 +8,7 @@ export default function align(
   instance,
   target,
   {
-    elapsed,
+    dt,
     targetRadius = DEFAULT_TARGET_RADIUS,
     timeToTarget = DEFAULT_TIME_TO_TARGET,
   }
@@ -23,8 +23,8 @@ export default function align(
   let angularVelocity = direction / timeToTarget
   angularVelocity = clamp(
     angularVelocity,
-    -instance.maxAngularSpeed * elapsed,
-    instance.maxAngularSpeed * elapsed
+    -instance.maxAngularSpeed * dt,
+    instance.maxAngularSpeed * dt
   )
 
   const orientation = instance.orientation + angularVelocity

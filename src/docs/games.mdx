@@ -60,17 +60,17 @@ An event handler accepts the following arguments:
 - The `instance` itself that is handling the event, so we can change its properties to our needs;
 - The triggered `event`, which contains a `payload` that holds whatever we need to accomplish our task;
 - An `options` object that contains the following:
-  - The `elapsed` time, which can help slow down certain movement algorithms based on the current FPS;
+  - The elapsed time `dt`, which can help slow down certain movement algorithms based on the current FPS;
   - The game's current `config` object (here you can find the scene's `bounds`, for example);
   - All `instances` present in the scene; note that they are read-only, so look but don't touch!
 
-The `fps` type shows FPS debug info on the top left of the scene; its value is updated based on the `elapsed` time at every `game:update` event.
+The `fps` type shows FPS debug info on the top left of the scene; its value is updated based on the `dt` time at every `game:update` event.
 
 <Source code={`export default {
   types: {
     fps: {
-      'game:update'(instance, event, { elapsed, config, instances }) {
-        instance.value = elapsed
+      'game:update'(instance, event, { dt, config, instances }) {
+        instance.value = dt
       }
     }
   },
@@ -100,8 +100,8 @@ export default {
   types: {
     fps: {
       frequency: 0.1,
-      'game:update'(instance, event, { elapsed }) {
-        instance.value = elapsed
+      'game:update'(instance, event, { dt }) {
+        instance.value = dt
       }
     },
 

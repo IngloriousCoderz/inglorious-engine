@@ -8,22 +8,33 @@ export default {
   types: {
     keyboard: keyboardType(),
 
+    debug: {},
+
     character: {
       states: {
         jumping: {
-          'game:update'(instance, event, { elapsed, instances }) {
-            act(instance, event, { elapsed, instances })
+          'game:update'(instance, event, { dt, instances }) {
+            act(instance, event, { dt, instances })
           },
         },
 
         notJumping: {
-          'game:update'(instance, event, { elapsed, instances }) {
-            act(instance, event, { elapsed, instances })
-
+          'game:update'(instance, event, { dt, instances }) {
             const { keyboard } = instances
+
+            instance.acceleration = [0, 0, 0]
+            if (keyboard.ArrowLeft) {
+              instance.acceleration[0] = -instance.maxAcceleration
+            }
+            if (keyboard.ArrowRight) {
+              instance.acceleration[0] = instance.maxAcceleration
+            }
+
+            act(instance, event, { dt, instances })
+
             if (keyboard.Space) {
               instance.state = 'jumping'
-              jump(instance, { elapsed })
+              jump(instance, { dt })
             }
           },
         },
@@ -35,36 +46,49 @@ export default {
     instances: {
       keyboard: keyboardInstance(),
 
+      debug: {
+        type: 'debug',
+        position: [600, 0, 600],
+      },
+
       character: {
         type: 'character',
-        maxJumpAcceleration: 250,
-        maxJumpSpeed: 250,
-        maxAcceleration: 10,
+        maxAcceleration: 500,
         maxSpeed: 250,
+        friction: 250,
         acceleration: [0, 0, 0],
         velocity: [0, 0, 0],
-        position: [400, 300, 0],
+        position: [400, 0, 300],
+        maxJump: 100,
+        maxLeap: 100,
+        ay: 0,
+        vy: 0,
+        py: 0,
         state: 'notJumping',
       },
     },
   },
 }
 
-function act(instance, event, { elapsed, instances }) {
-  const { keyboard } = instances
+function act(instance, event, { dt }) {
+  // const { keyboard } = instances
 
-  if (keyboard.ArrowLeft) {
-    instance.acceleration[0] = -instance.maxAcceleration
-  }
-  if (keyboard.ArrowRight) {
-    instance.acceleration[0] = instance.maxAcceleration
-  }
+  // instance.acceleration = [0, 0, 0]
+  // if (keyboard.ArrowLeft) {
+  //   instance.acceleration[0] = -instance.maxAcceleration
+  // }
+  // if (keyboard.ArrowRight) {
+  //   instance.acceleration[0] = instance.maxAcceleration
+  // }
 
-  merge(instance, move(instance, { elapsed }))
+  merge(instance, move(instance, { dt }))
 
-  applyGravity(instance)
-  if (instance.position[1] <= 300) {
-    instance.position[1] = 300
+  applyGravity(instance, { dt })
+
+  if (instance.py <= 0) {
+    // instance.ay = 0
+    instance.vy = 0
+    instance.py = 0
     instance.state = 'notJumping'
   }
 }

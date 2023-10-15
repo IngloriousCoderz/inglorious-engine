@@ -9,12 +9,12 @@ export default class LagLoop {
 
     while (!this._shouldStop) {
       const currentTime = Date.now()
-      const elapsed = currentTime - previousTime
+      const dt = currentTime - previousTime
       previousTime = currentTime
-      lag += elapsed
+      lag += dt
 
       while (lag >= msPerUpdate) {
-        engine.update(elapsed / ONE_SECOND)
+        engine.update(dt / ONE_SECOND)
         lag -= msPerUpdate
       }
     }

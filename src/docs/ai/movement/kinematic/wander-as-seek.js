@@ -15,19 +15,19 @@ export default {
     },
 
     fps: {
-      'game:update'(instance, event, { elapsed }) {
-        instance.value = elapsed
+      'game:update'(instance, event, { dt }) {
+        instance.value = dt
       },
     },
 
     character: {
-      'game:update'(instance, event, { elapsed, config, instances }) {
+      'game:update'(instance, event, { dt, config, instances }) {
         const { fields } = instances.parameters.groups.wanderAsSeek
 
         merge(
           instance,
           wanderAsSeek(instance, {
-            elapsed,
+            dt,
             wanderRadius: fields.wanderRadius.value,
           })
         )

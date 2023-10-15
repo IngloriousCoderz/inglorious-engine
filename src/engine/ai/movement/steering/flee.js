@@ -5,7 +5,7 @@ import {
 } from '@ezpz/utils/math/linear-algebra/vector'
 import { subtract, sum } from '@ezpz/utils/math/linear-algebra/vectors'
 
-export default function flee(instance, target, { elapsed }) {
+export default function flee(instance, target, { dt }) {
   const direction = subtract(instance.position, target.position)
   const distance = magnitude(direction)
 
@@ -13,10 +13,7 @@ export default function flee(instance, target, { elapsed }) {
     return instance
   }
 
-  const acceleration = setMagnitude(
-    direction,
-    instance.maxAcceleration * elapsed
-  )
+  const acceleration = setMagnitude(direction, instance.maxAcceleration * dt)
 
   const velocity = sum(instance.velocity, acceleration)
   const position = sum(instance.position, velocity)

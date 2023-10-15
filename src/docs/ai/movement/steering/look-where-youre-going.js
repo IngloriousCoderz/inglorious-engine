@@ -30,13 +30,13 @@ export default {
     },
 
     fps: {
-      'game:update'(instance, event, { elapsed }) {
-        instance.value = elapsed
+      'game:update'(instance, event, { dt }) {
+        instance.value = dt
       },
     },
 
     character: {
-      'game:update'(instance, event, { elapsed, config, instances }) {
+      'game:update'(instance, event, { dt, config, instances }) {
         const { fields } = instances.parameters.groups.align
 
         const { keyboard = {} } = instances
@@ -63,7 +63,7 @@ export default {
         merge(
           instance,
           lookWhereYoureGoing(instance, {
-            elapsed,
+            dt,
             targetRadius: fields.targetRadius.value,
             slowRadius: fields.slowRadius.value,
             timeToTarget: fields.timeToTarget.value,

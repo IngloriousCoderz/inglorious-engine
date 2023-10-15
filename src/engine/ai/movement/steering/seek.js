@@ -8,7 +8,7 @@ import { subtract, sum } from '@ezpz/utils/math/linear-algebra/vectors'
 
 const MIN_SPEED = 0
 
-export default function seek(instance, target, { elapsed }) {
+export default function seek(instance, target, { dt }) {
   const direction = subtract(target.position, instance.position)
   const distance = magnitude(direction)
 
@@ -16,10 +16,7 @@ export default function seek(instance, target, { elapsed }) {
     return instance
   }
 
-  const acceleration = setMagnitude(
-    direction,
-    instance.maxAcceleration * elapsed
-  )
+  const acceleration = setMagnitude(direction, instance.maxAcceleration * dt)
 
   let velocity = sum(instance.velocity, acceleration)
   velocity = clamp(velocity, MIN_SPEED, instance.maxSpeed)
