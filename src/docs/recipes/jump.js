@@ -29,6 +29,12 @@ export default {
             if (keyboard.ArrowRight) {
               instance.acceleration[0] = instance.maxAcceleration
             }
+            if (keyboard.ArrowDown) {
+              instance.acceleration[2] = -instance.maxAcceleration
+            }
+            if (keyboard.ArrowUp) {
+              instance.acceleration[2] = instance.maxAcceleration
+            }
 
             act(instance, event, { dt, instances })
 
