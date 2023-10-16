@@ -37,10 +37,6 @@ export const MatchVelocity = {
   args: { config: matchVelocity },
 }
 
-export const Move = {
-  args: { config: move },
-}
-
 export const Pursue = {
   args: { config: pursue },
 }
@@ -60,4 +56,8 @@ export const LookWhereYoureGoing = {
 
 export const Wander = {
   args: { config: wander },
+}
+
+export const Move = {
+  args: { config: move },
 }

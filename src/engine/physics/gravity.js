@@ -29,9 +29,11 @@ v_y += a_y*dt
 y += v_y*dt + 1/2*a_y*dt*dt
 */
 
-export default function jump(instance, { dt }) {
-  instance.vy = (2 * instance.maxJump * instance.maxSpeed) / instance.maxLeap
-  instance.py += instance.vy * dt
+export function applyGravity(instance, { dt }) {
+  instance.ay =
+    (-2 * instance.maxJump * instance.maxSpeed ** 2) / instance.maxLeap ** 2
+  instance.vy += instance.ay * dt
+  instance.py += instance.vy * dt + 0.5 * instance.ay * dt * dt
 
   return instance
 }

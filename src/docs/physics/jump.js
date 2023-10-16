@@ -1,14 +1,14 @@
-import jump from '@ezpz/engine/ai/movement/steering/jump'
 import move from '@ezpz/engine/ai/movement/steering/move'
 import { keyboardInstance, keyboardType } from '@ezpz/engine/input/keyboard'
+import { applyGravity } from '@ezpz/engine/physics/gravity'
+import { jump } from '@ezpz/engine/physics/jump'
 import { merge } from '@ezpz/utils/data-structures/objects'
-import { applyGravity } from '@ezpz/utils/physics'
 
 export default {
   types: {
     keyboard: keyboardType(),
 
-    debug: {},
+    stats: {},
 
     character: {
       states: {
@@ -52,9 +52,10 @@ export default {
     instances: {
       keyboard: keyboardInstance(),
 
-      debug: {
-        type: 'debug',
+      stats: {
+        type: 'stats',
         position: [600, 0, 600],
+        target: 'character',
       },
 
       character: {
@@ -77,22 +78,11 @@ export default {
 }
 
 function act(instance, event, { dt }) {
-  // const { keyboard } = instances
-
-  // instance.acceleration = [0, 0, 0]
-  // if (keyboard.ArrowLeft) {
-  //   instance.acceleration[0] = -instance.maxAcceleration
-  // }
-  // if (keyboard.ArrowRight) {
-  //   instance.acceleration[0] = instance.maxAcceleration
-  // }
-
   merge(instance, move(instance, { dt }))
 
   applyGravity(instance, { dt })
 
   if (instance.py <= 0) {
-    // instance.ay = 0
     instance.vy = 0
     instance.py = 0
     instance.state = 'notJumping'

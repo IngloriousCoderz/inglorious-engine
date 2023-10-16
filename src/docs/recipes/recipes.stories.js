@@ -2,7 +2,6 @@ import Game from '../../ui/game'
 import addAndRemove from './add-and-remove'
 import addInstance from './add-instance'
 import fsm from './fsm'
-import jump from './jump'
 import randomInstances from './random-instances'
 import removeInstance from './remove-instance'
 
@@ -30,8 +29,4 @@ export const AddAndRemove = {
 
 export const FSM = {
   args: { config: fsm },
-}
-
-export const Jump = {
-  args: { config: jump },
 }

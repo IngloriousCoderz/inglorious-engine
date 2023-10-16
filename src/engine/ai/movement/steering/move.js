@@ -1,3 +1,4 @@
+import { applyFriction } from '@ezpz/engine/physics/friction'
 import {
   angle,
   clamp,
@@ -5,7 +6,6 @@ import {
   multiply,
 } from '@ezpz/utils/math/linear-algebra/vector'
 import { sum } from '@ezpz/utils/math/linear-algebra/vectors'
-import { applyFriction } from '@ezpz/utils/physics'
 
 const MIN_ACCELERATION = 0
 const MIN_SPEED = 0

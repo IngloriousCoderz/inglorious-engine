@@ -8,15 +8,14 @@ import Form from './controls/form'
 import Input from './controls/input'
 import Label from './controls/label'
 import Cursor from './cursor'
-import Debug from './debug'
 import Fps from './fps'
 import Scene from './scene'
 import Sprite from './sprite'
+import Stats from './stats'
 
 const Components = {
   button: withAbsolutePosition(Button),
   character: withAbsolutePosition(Character),
-  debug: Debug,
   field: withAbsolutePosition(Field),
   form: withAbsolutePosition(Form),
   fps: withAbsolutePosition(Fps),
@@ -24,10 +23,12 @@ const Components = {
   label: withAbsolutePosition(Label),
   mouse: withAbsolutePosition(Cursor),
   sprite: withAbsolutePosition(Sprite),
+  stats: withAbsolutePosition(Stats),
 }
 
 export default function Game({ engine }) {
-  const instances = useSelector((state) => state.instances) // don't use engine.instances: need to subscribe to animate scene!
+  // NOTE: don't use simply engine.instances here: need to subscribe to animate scene!
+  const instances = useSelector((state) => state.instances)
 
   return (
     <Scene config={engine.config}>
@@ -41,18 +42,6 @@ export default function Game({ engine }) {
           return null
         }
 
-        if (Component === Components.debug) {
-          return (
-            <Component
-              key={id}
-              id={id}
-              config={engine.config}
-              type={type}
-              instance={instances.character}
-            />
-          )
-        }
-
         return (
           <Component
             key={id}
@@ -60,6 +49,7 @@ export default function Game({ engine }) {
             config={engine.config}
             type={type}
             instance={instance}
+            instances={instances}
           />
         )
       })}
