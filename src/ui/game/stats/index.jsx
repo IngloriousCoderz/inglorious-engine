@@ -3,17 +3,18 @@ import { toString } from '@ezpz/utils/math/linear-algebra/vector'
 const DECIMALS = 1
 
 export default function Stats({ instance, instances }) {
-  const target = instances[instance.target]
+  const { acceleration, velocity, position, ay, vy, py } =
+    instances[instance.target]
 
   return (
     <>
-      <div>Acceleration: {toString(target.acceleration)}</div>
-      <div>Velocity: {toString(target.velocity)}</div>
-      <div>Position: {toString(target.position)}</div>
+      {acceleration && <div>Acceleration: {toString(acceleration)}</div>}
+      {velocity && <div>Velocity: {toString(velocity)}</div>}
+      {position && <div>Position: {toString(position)}</div>}
 
-      {target.ay != null && <div>ay: {target.ay.toFixed(DECIMALS)}</div>}
-      {target.vy != null && <div>max vy: {target.vy.toFixed(DECIMALS)}</div>}
-      {target.py != null && <div>py: {target.py.toFixed(DECIMALS)}</div>}
+      {ay != null && <div>ay: {ay.toFixed(DECIMALS)}</div>}
+      {vy != null && <div>max vy: {vy.toFixed(DECIMALS)}</div>}
+      {py != null && <div>py: {py.toFixed(DECIMALS)}</div>}
     </>
   )
 }

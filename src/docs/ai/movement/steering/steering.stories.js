@@ -5,6 +5,7 @@ import arrive from './arrive'
 import evade from './evade'
 import face from './face'
 import flee from './flee'
+import jump from './jump'
 import lookWhereYoureGoing from './look-where-youre-going'
 import matchVelocity from './match-velocity'
 import move from './move'
@@ -60,4 +61,8 @@ export const Wander = {
 
 export const Move = {
   args: { config: move },
+}
+
+export const Jump = {
+  args: { config: jump },
 }

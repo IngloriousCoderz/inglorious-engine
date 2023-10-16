@@ -1,4 +1,3 @@
-import { applyFriction } from '@ezpz/engine/physics/friction'
 import {
   angle,
   clamp,
@@ -6,6 +5,7 @@ import {
   multiply,
 } from '@ezpz/utils/math/linear-algebra/vector'
 import { sum } from '@ezpz/utils/math/linear-algebra/vectors'
+import { applyFriction } from '@ezpz/utils/physics/friction'
 
 const MIN_ACCELERATION = 0
 const MIN_SPEED = 0
@@ -19,13 +19,12 @@ export default function move(instance, { dt }) {
     instance.maxAcceleration
   )
 
-  instance.velocity = clamp(
+  let velocity = clamp(
     sum(instance.velocity, multiply(acceleration, dt)),
     MIN_SPEED,
     instance.maxSpeed
   )
-  applyFriction(instance, { dt })
-  const velocity = instance.velocity
+  velocity = applyFriction({ velocity, friction: instance.friction }, { dt })
 
   const position = sum(
     instance.position,

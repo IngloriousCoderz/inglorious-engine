@@ -1,8 +1,8 @@
+import jump from '@ezpz/engine/ai/movement/steering/jump'
 import move from '@ezpz/engine/ai/movement/steering/move'
 import { keyboardInstance, keyboardType } from '@ezpz/engine/input/keyboard'
-import { applyGravity } from '@ezpz/engine/physics/gravity'
-import { jump } from '@ezpz/engine/physics/jump'
 import { merge } from '@ezpz/utils/data-structures/objects'
+import { applyGravity } from '@ezpz/utils/physics/gravity'
 
 export default {
   types: {
@@ -77,10 +77,10 @@ export default {
   },
 }
 
-function act(instance, event, { dt }) {
-  merge(instance, move(instance, { dt }))
+function act(instance, event, options) {
+  merge(instance, move(instance, options))
 
-  applyGravity(instance, { dt })
+  merge(instance, applyGravity(instance, options))
 
   if (instance.py <= 0) {
     instance.vy = 0

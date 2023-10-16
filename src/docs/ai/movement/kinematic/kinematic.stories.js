@@ -3,6 +3,7 @@ import Game from '@ezpz/ui/game'
 import align from './align'
 import arrive from './arrive'
 import flee from './flee'
+import jump from './jump'
 import move from './move'
 import seek from './seek'
 import wander from './wander'
@@ -39,4 +40,8 @@ export const Align = {
 
 export const Move = {
   args: { config: move },
+}
+
+export const Jump = {
+  args: { config: jump },
 }
