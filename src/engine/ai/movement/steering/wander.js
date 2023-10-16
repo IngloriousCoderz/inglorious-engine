@@ -1,6 +1,9 @@
-import { fromAngle, multiply } from '@ezpz/utils/math/linear-algebra/vector'
-import { sum } from '@ezpz/utils/math/linear-algebra/vectors'
-import { randomBinomial } from '@ezpz/utils/math/random'
+import {
+  fromAngle,
+  multiply,
+} from '@inglorious/utils/math/linear-algebra/vector'
+import { sum } from '@inglorious/utils/math/linear-algebra/vectors'
+import { randomBinomial } from '@inglorious/utils/math/random'
 
 import seek from './seek'
 

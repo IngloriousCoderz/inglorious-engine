@@ -1,7 +1,7 @@
-import wander from '@ezpz/engine/ai/movement/kinematic/wander'
-import { flip } from '@ezpz/utils/character'
-import { merge } from '@ezpz/utils/data-structures/objects'
-import { pi } from '@ezpz/utils/math/trigonometry'
+import wander from '@inglorious/engine/ai/movement/kinematic/wander'
+import { flip } from '@inglorious/utils/character'
+import { merge } from '@inglorious/utils/data-structures/objects'
+import { pi } from '@inglorious/utils/math/trigonometry'
 
 export default {
   types: {

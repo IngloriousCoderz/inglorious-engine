@@ -1,10 +1,10 @@
 import wander, {
   DEFAULT_WANDER_OFFSET,
   DEFAULT_WANDER_RADIUS,
-} from '@ezpz/engine/ai/movement/steering/wander'
-import { flip } from '@ezpz/utils/character'
-import { merge } from '@ezpz/utils/data-structures/objects'
-import { pi } from '@ezpz/utils/math/trigonometry'
+} from '@inglorious/engine/ai/movement/steering/wander'
+import { flip } from '@inglorious/utils/character'
+import { merge } from '@inglorious/utils/data-structures/objects'
+import { pi } from '@inglorious/utils/math/trigonometry'
 
 export default {
   types: {

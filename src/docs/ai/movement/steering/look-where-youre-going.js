@@ -2,13 +2,16 @@ import {
   DEFAULT_SLOW_RADIUS,
   DEFAULT_TARGET_RADIUS,
   DEFAULT_TIME_TO_TARGET,
-} from '@ezpz/engine/ai/movement/steering/align'
-import lookWhereYoureGoing from '@ezpz/engine/ai/movement/steering/look-where-youre-going'
-import { keyboardInstance, keyboardType } from '@ezpz/engine/input/keyboard'
-import { clampToBounds } from '@ezpz/utils/character'
-import { merge } from '@ezpz/utils/data-structures/objects'
-import { sum } from '@ezpz/utils/math/linear-algebra/vectors'
-import { pi } from '@ezpz/utils/math/trigonometry'
+} from '@inglorious/engine/ai/movement/steering/align'
+import lookWhereYoureGoing from '@inglorious/engine/ai/movement/steering/look-where-youre-going'
+import {
+  keyboardInstance,
+  keyboardType,
+} from '@inglorious/engine/input/keyboard'
+import { clampToBounds } from '@inglorious/utils/character'
+import { merge } from '@inglorious/utils/data-structures/objects'
+import { sum } from '@inglorious/utils/math/linear-algebra/vectors'
+import { pi } from '@inglorious/utils/math/trigonometry'
 
 export default {
   types: {

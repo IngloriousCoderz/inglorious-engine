@@ -1,11 +1,11 @@
-import arrive from '@ezpz/engine/ai/movement/kinematic/arrive'
-import wander from '@ezpz/engine/ai/movement/kinematic/wander'
-import { mouseInstance, mouseType } from '@ezpz/engine/input/mouse'
-import { clampToBounds, flip } from '@ezpz/utils/character'
-import { merge } from '@ezpz/utils/data-structures/objects'
-import { length } from '@ezpz/utils/math/linear-algebra/vector'
-import { subtract } from '@ezpz/utils/math/linear-algebra/vectors'
-import { pi } from '@ezpz/utils/math/trigonometry'
+import arrive from '@inglorious/engine/ai/movement/kinematic/arrive'
+import wander from '@inglorious/engine/ai/movement/kinematic/wander'
+import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
+import { clampToBounds, flip } from '@inglorious/utils/character'
+import { merge } from '@inglorious/utils/data-structures/objects'
+import { length } from '@inglorious/utils/math/linear-algebra/vector'
+import { subtract } from '@inglorious/utils/math/linear-algebra/vectors'
+import { pi } from '@inglorious/utils/math/trigonometry'
 
 export default {
   types: {

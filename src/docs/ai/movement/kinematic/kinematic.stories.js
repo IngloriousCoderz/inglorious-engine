@@ -1,4 +1,4 @@
-import Game from '@ezpz/ui/game'
+import Game from '@inglorious/ui/game'
 
 import align from './align'
 import arrive from './arrive'

@@ -1,5 +1,8 @@
-import { magnitude, setMagnitude } from '@ezpz/utils/math/linear-algebra/vector'
-import { subtract } from '@ezpz/utils/math/linear-algebra/vectors'
+import {
+  magnitude,
+  setMagnitude,
+} from '@inglorious/utils/math/linear-algebra/vector'
+import { subtract } from '@inglorious/utils/math/linear-algebra/vectors'
 
 import matchVelocity from './match-velocity'
 

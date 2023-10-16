@@ -3,8 +3,8 @@ import {
   clamp,
   magnitude,
   setMagnitude,
-} from '@ezpz/utils/math/linear-algebra/vector'
-import { subtract, sum } from '@ezpz/utils/math/linear-algebra/vectors'
+} from '@inglorious/utils/math/linear-algebra/vector'
+import { subtract, sum } from '@inglorious/utils/math/linear-algebra/vectors'
 
 const MIN_SPEED = 0
 

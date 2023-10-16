@@ -2,9 +2,9 @@ import {
   angle,
   fromAngle,
   multiply,
-} from '@ezpz/utils/math/linear-algebra/vector'
-import { sum } from '@ezpz/utils/math/linear-algebra/vectors'
-import { randomBinomial } from '@ezpz/utils/math/random'
+} from '@inglorious/utils/math/linear-algebra/vector'
+import { sum } from '@inglorious/utils/math/linear-algebra/vectors'
+import { randomBinomial } from '@inglorious/utils/math/random'
 
 export default function wander(instance, { dt }) {
   const targetOrientation =

@@ -1,9 +1,9 @@
-import arrive from '@ezpz/engine/ai/movement/kinematic/arrive'
-import { mouseInstance, mouseType } from '@ezpz/engine/input/mouse'
-import { setEightSprite } from '@ezpz/utils/character/sprite'
-import { merge } from '@ezpz/utils/data-structures/objects'
-import { length } from '@ezpz/utils/math/linear-algebra/vector'
-import { subtract } from '@ezpz/utils/math/linear-algebra/vectors'
+import arrive from '@inglorious/engine/ai/movement/kinematic/arrive'
+import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
+import { setEightSprite } from '@inglorious/utils/character/sprite'
+import { merge } from '@inglorious/utils/data-structures/objects'
+import { length } from '@inglorious/utils/math/linear-algebra/vector'
+import { subtract } from '@inglorious/utils/math/linear-algebra/vectors'
 
 import neko from './neko.png'
 

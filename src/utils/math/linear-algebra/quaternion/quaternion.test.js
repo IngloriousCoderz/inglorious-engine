@@ -1,4 +1,4 @@
-import { cos, pi, sin } from '@ezpz/utils/math/trigonometry'
+import { cos, pi, sin } from '@inglorious/utils/math/trigonometry'
 import { expect, test } from 'vitest'
 
 import { quaternion } from '.'

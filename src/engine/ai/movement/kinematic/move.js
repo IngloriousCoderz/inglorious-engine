@@ -3,8 +3,8 @@ import {
   clamp,
   magnitude,
   multiply,
-} from '@ezpz/utils/math/linear-algebra/vector'
-import { sum } from '@ezpz/utils/math/linear-algebra/vectors'
+} from '@inglorious/utils/math/linear-algebra/vector'
+import { sum } from '@inglorious/utils/math/linear-algebra/vectors'
 
 export const DEFAULT_TIME_TO_TARGET = 1
 const MIN_SPEED = 0

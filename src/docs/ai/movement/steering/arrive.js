@@ -2,10 +2,10 @@ import arrive, {
   DEFAULT_SLOW_RADIUS,
   DEFAULT_TARGET_RADIUS,
   DEFAULT_TIME_TO_TARGET,
-} from '@ezpz/engine/ai/movement/steering/arrive'
-import { mouseInstance, mouseType } from '@ezpz/engine/input/mouse'
-import { clampToBounds } from '@ezpz/utils/character'
-import { merge } from '@ezpz/utils/data-structures/objects'
+} from '@inglorious/engine/ai/movement/steering/arrive'
+import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
+import { clampToBounds } from '@inglorious/utils/character'
+import { merge } from '@inglorious/utils/data-structures/objects'
 
 export default {
   types: {

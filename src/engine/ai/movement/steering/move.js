@@ -3,9 +3,9 @@ import {
   clamp,
   magnitude,
   multiply,
-} from '@ezpz/utils/math/linear-algebra/vector'
-import { sum } from '@ezpz/utils/math/linear-algebra/vectors'
-import { applyFriction } from '@ezpz/utils/physics/friction'
+} from '@inglorious/utils/math/linear-algebra/vector'
+import { sum } from '@inglorious/utils/math/linear-algebra/vectors'
+import { applyFriction } from '@inglorious/utils/physics/friction'
 
 const MIN_ACCELERATION = 0
 const MIN_SPEED = 0

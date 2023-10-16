@@ -1,5 +1,5 @@
-import { randomRange } from '@ezpz/utils/math/random'
-import { pi } from '@ezpz/utils/math/trigonometry'
+import { randomRange } from '@inglorious/utils/math/random'
+import { pi } from '@inglorious/utils/math/trigonometry'
 
 export default {
   types: {

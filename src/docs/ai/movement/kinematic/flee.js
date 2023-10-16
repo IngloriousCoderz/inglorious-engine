@@ -1,7 +1,7 @@
-import flee from '@ezpz/engine/ai/movement/kinematic/flee'
-import { mouseInstance, mouseType } from '@ezpz/engine/input/mouse'
-import { clampToBounds } from '@ezpz/utils/character'
-import { merge } from '@ezpz/utils/data-structures/objects'
+import flee from '@inglorious/engine/ai/movement/kinematic/flee'
+import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
+import { clampToBounds } from '@inglorious/utils/character'
+import { merge } from '@inglorious/utils/data-structures/objects'
 
 export default {
   types: {

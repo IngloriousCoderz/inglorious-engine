@@ -1,8 +1,13 @@
 /* eslint-disable no-magic-numbers */
 
-import { contains, min, push, remove } from '@ezpz/utils/data-structures/heap'
-import { abs, magnitude } from '@ezpz/utils/math/linear-algebra/vector'
-import { subtract } from '@ezpz/utils/math/linear-algebra/vectors'
+import {
+  contains,
+  min,
+  push,
+  remove,
+} from '@inglorious/utils/data-structures/heap'
+import { abs, magnitude } from '@inglorious/utils/math/linear-algebra/vector'
+import { subtract } from '@inglorious/utils/math/linear-algebra/vectors'
 
 export const dijkstra = () => 0
 export const eucledianDistance = (a, b) =>

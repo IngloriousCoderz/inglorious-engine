@@ -1,8 +1,11 @@
-import move from '@ezpz/engine/ai/movement/kinematic/move'
-import jump from '@ezpz/engine/ai/movement/steering/jump'
-import { keyboardInstance, keyboardType } from '@ezpz/engine/input/keyboard'
-import { merge } from '@ezpz/utils/data-structures/objects'
-import { applyGravity } from '@ezpz/utils/physics/gravity'
+import move from '@inglorious/engine/ai/movement/kinematic/move'
+import jump from '@inglorious/engine/ai/movement/steering/jump'
+import {
+  keyboardInstance,
+  keyboardType,
+} from '@inglorious/engine/input/keyboard'
+import { merge } from '@inglorious/utils/data-structures/objects'
+import { applyGravity } from '@inglorious/utils/physics/gravity'
 
 export default {
   types: {

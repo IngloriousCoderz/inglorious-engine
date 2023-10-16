@@ -1,4 +1,4 @@
-import { mouseInstance, mouseType } from '@ezpz/engine/input/mouse'
+import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
 
 export default {
   types: {

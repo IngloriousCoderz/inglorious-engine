@@ -2,12 +2,12 @@ import {
   DEFAULT_SLOW_RADIUS,
   DEFAULT_TARGET_RADIUS,
   DEFAULT_TIME_TO_TARGET,
-} from '@ezpz/engine/ai/movement/steering/align'
-import face from '@ezpz/engine/ai/movement/steering/face'
-import { mouseInstance, mouseType } from '@ezpz/engine/input/mouse'
-import { clampToBounds } from '@ezpz/utils/character'
-import { merge } from '@ezpz/utils/data-structures/objects'
-import { pi } from '@ezpz/utils/math/trigonometry'
+} from '@inglorious/engine/ai/movement/steering/align'
+import face from '@inglorious/engine/ai/movement/steering/face'
+import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
+import { clampToBounds } from '@inglorious/utils/character'
+import { merge } from '@inglorious/utils/data-structures/objects'
+import { pi } from '@inglorious/utils/math/trigonometry'
 
 export default {
   types: {

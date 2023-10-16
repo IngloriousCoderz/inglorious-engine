@@ -1,5 +1,5 @@
-import { filter, map } from '@ezpz/utils/data-structures/object'
-import { merge } from '@ezpz/utils/data-structures/objects'
+import { filter, map } from '@inglorious/utils/data-structures/object'
+import { merge } from '@inglorious/utils/data-structures/objects'
 import produce from 'immer'
 
 const DEFAULT_TYPES = { game: {} }

@@ -3,8 +3,8 @@ import {
   clamp,
   divide,
   magnitude,
-} from '@ezpz/utils/math/linear-algebra/vector'
-import { subtract, sum } from '@ezpz/utils/math/linear-algebra/vectors'
+} from '@inglorious/utils/math/linear-algebra/vector'
+import { subtract, sum } from '@inglorious/utils/math/linear-algebra/vectors'
 
 export const DEFAULT_TARGET_RADIUS = 1
 export const DEFAULT_TIME_TO_TARGET = 1

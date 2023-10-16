@@ -1,10 +1,10 @@
-import { hypothenuse } from '@ezpz/utils/math/geometry'
+import { hypothenuse } from '@inglorious/utils/math/geometry'
 import {
   abs as nAbs,
   clamp as nClamp,
   mod as nMod,
-} from '@ezpz/utils/math/numbers'
-import { atan2, cos, sin } from '@ezpz/utils/math/trigonometry'
+} from '@inglorious/utils/math/numbers'
+import { atan2, cos, sin } from '@inglorious/utils/math/trigonometry'
 
 import { from2D, to2D } from '../2d'
 import { quaternion } from '../quaternion'

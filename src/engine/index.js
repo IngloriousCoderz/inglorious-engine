@@ -1,4 +1,4 @@
-import { merge } from '@ezpz/utils/data-structures/objects'
+import { merge } from '@inglorious/utils/data-structures/objects'
 
 import Loop from './loop'
 import { createStore } from './store'

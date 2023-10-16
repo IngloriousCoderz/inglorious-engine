@@ -1,5 +1,5 @@
-import { angle, magnitude } from '@ezpz/utils/math/linear-algebra/vector'
-import { subtract } from '@ezpz/utils/math/linear-algebra/vectors'
+import { angle, magnitude } from '@inglorious/utils/math/linear-algebra/vector'
+import { subtract } from '@inglorious/utils/math/linear-algebra/vectors'
 
 import align from './align'
 

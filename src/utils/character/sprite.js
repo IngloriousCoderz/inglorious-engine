@@ -1,7 +1,7 @@
 /* eslint-disable no-magic-numbers */
-import { angle } from '@ezpz/utils/math/linear-algebra/vector'
-import { subtract } from '@ezpz/utils/math/linear-algebra/vectors'
-import { pi, toRange } from '@ezpz/utils/math/trigonometry'
+import { angle } from '@inglorious/utils/math/linear-algebra/vector'
+import { subtract } from '@inglorious/utils/math/linear-algebra/vectors'
+import { pi, toRange } from '@inglorious/utils/math/trigonometry'
 
 const BEFORE = -1
 const AFTER = 1

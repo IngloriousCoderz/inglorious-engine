@@ -2,8 +2,8 @@ import {
   angle,
   magnitude,
   setMagnitude,
-} from '@ezpz/utils/math/linear-algebra/vector'
-import { subtract, sum } from '@ezpz/utils/math/linear-algebra/vectors'
+} from '@inglorious/utils/math/linear-algebra/vector'
+import { subtract, sum } from '@inglorious/utils/math/linear-algebra/vectors'
 
 export default function seek(instance, target, { dt }) {
   const direction = subtract(target.position, instance.position)

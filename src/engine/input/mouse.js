@@ -1,6 +1,6 @@
-import { clampToBounds } from '@ezpz/utils/character'
-import { ZERO_VECTOR } from '@ezpz/utils/math/linear-algebra/vector'
-import { subtract } from '@ezpz/utils/math/linear-algebra/vectors'
+import { clampToBounds } from '@inglorious/utils/character'
+import { ZERO_VECTOR } from '@inglorious/utils/math/linear-algebra/vector'
+import { subtract } from '@inglorious/utils/math/linear-algebra/vectors'
 
 const CURSOR_SIZE = 16
 const NO_Y = 0

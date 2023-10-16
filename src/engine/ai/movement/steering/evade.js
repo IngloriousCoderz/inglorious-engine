@@ -1,5 +1,8 @@
-import { magnitude, multiply } from '@ezpz/utils/math/linear-algebra/vector'
-import { subtract, sum } from '@ezpz/utils/math/linear-algebra/vectors'
+import {
+  magnitude,
+  multiply,
+} from '@inglorious/utils/math/linear-algebra/vector'
+import { subtract, sum } from '@inglorious/utils/math/linear-algebra/vectors'
 
 import flee from './flee'
 

@@ -1,6 +1,9 @@
-import move from '@ezpz/engine/ai/movement/kinematic/move'
-import { keyboardInstance, keyboardType } from '@ezpz/engine/input/keyboard'
-import { merge } from '@ezpz/utils/data-structures/objects'
+import move from '@inglorious/engine/ai/movement/kinematic/move'
+import {
+  keyboardInstance,
+  keyboardType,
+} from '@inglorious/engine/input/keyboard'
+import { merge } from '@inglorious/utils/data-structures/objects'
 
 export default {
   types: {

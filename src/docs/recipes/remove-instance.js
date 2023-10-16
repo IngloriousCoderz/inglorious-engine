@@ -1,6 +1,6 @@
-import { mouseInstance, mouseType } from '@ezpz/engine/input/mouse'
-import { randomRange } from '@ezpz/utils/math/random'
-import { pi } from '@ezpz/utils/math/trigonometry'
+import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
+import { randomRange } from '@inglorious/utils/math/random'
+import { pi } from '@inglorious/utils/math/trigonometry'
 
 export default {
   types: {

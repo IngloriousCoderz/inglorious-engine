@@ -13,8 +13,8 @@ The game configuration is pure JavaScript, so there's not much difference betwee
 
 Here we are using a couple of utility functions from the [random](/?path=/docs/utils-math-random--docs) and [trigonometry](/?path=/docs/utils-math-trigonometry--docs) packages.
 
-<Source code={`import { randomRange } from '@ezpz/utils/math/random'
-import { pi } from '@ezpz/utils/math/trigonometry'
+<Source code={`import { randomRange } from '@inglorious/utils/math/random'
+import { pi } from '@inglorious/utils/math/trigonometry'
 
 export default {
   types: {
@@ -49,10 +49,10 @@ Try clicking anywhere on the scene to create a new instance with random orientat
 
 Here, apart from some math functions, we are also using a predefined mouse [input](/?path=/docs/games-input--docs) package that allows us to position a cursor and handle its events.
 
-<Source code={`import { mouseInstance, mouseType } from '@ezpz/engine/input/mouse'
-import { subtract } from '@ezpz/utils/math/linear-algebra/vectors'
-import { randomRange } from '@ezpz/utils/math/random'
-import { pi } from '@ezpz/utils/math/trigonometry'
+<Source code={`import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
+import { subtract } from '@inglorious/utils/math/linear-algebra/vectors'
+import { randomRange } from '@inglorious/utils/math/random'
+import { pi } from '@inglorious/utils/math/trigonometry'
 
 export default {
   types: {
@@ -91,9 +91,9 @@ Removing an instance is pretty much the same: we notify the engine of our intent
 
 Try clicking on any instance do remove it from the scene.
 
-<Source code={`import { mouseInstance, mouseType } from '@ezpz/engine/input/mouse'
-import { randomRange } from '@ezpz/utils/math/random'
-import { pi } from '@ezpz/utils/math/trigonometry'
+<Source code={`import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
+import { randomRange } from '@inglorious/utils/math/random'
+import { pi } from '@inglorious/utils/math/trigonometry'
 
 export default {
   types: {
@@ -134,10 +134,10 @@ Clicking on a character will prevent the event from bubbling on the scene, so it
 
 The most complex part of this code is generating new incremental ids, which is not even mandatory. You know best what's good for your game!
 
-<Source code={`import { mouseInstance, mouseType } from '@ezpz/engine/input/mouse'
-import { subtract } from '@ezpz/utils/math/linear-algebra/vectors'
-import { randomRange } from '@ezpz/utils/math/random'
-import { pi } from '@ezpz/utils/math/trigonometry'
+<Source code={`import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
+import { subtract } from '@inglorious/utils/math/linear-algebra/vectors'
+import { randomRange } from '@inglorious/utils/math/random'
+import { pi } from '@inglorious/utils/math/trigonometry'
 
 export default {
   types: {
@@ -189,14 +189,14 @@ Try moving the cursor near the character to make it hunt you, and then moving it
 
 This code may seem a lot, but it's just a merge of the *Arrive* and *Wander* [Kinematic AI Movement](/?path=/docs/games-ai-movement-kinematic--docs) examples so feel free to take a look at them before approaching this one.
 
-<Source code={`import arrive from '@ezpz/engine/ai/movement/kinematic/arrive'
-import wander from '@ezpz/engine/ai/movement/kinematic/wander'
-import { mouseInstance, mouseType } from '@ezpz/engine/input/mouse'
-import { clampToBounds, flip } from '@ezpz/utils/character'
-import { merge } from '@ezpz/utils/data-structures/objects'
-import { length } from '@ezpz/utils/math/linear-algebra/vector'
-import { subtract } from '@ezpz/utils/math/linear-algebra/vectors'
-import { pi } from '@ezpz/utils/math/trigonometry'
+<Source code={`import arrive from '@inglorious/engine/ai/movement/kinematic/arrive'
+import wander from '@inglorious/engine/ai/movement/kinematic/wander'
+import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
+import { clampToBounds, flip } from '@inglorious/utils/character'
+import { merge } from '@inglorious/utils/data-structures/objects'
+import { length } from '@inglorious/utils/math/linear-algebra/vector'
+import { subtract } from '@inglorious/utils/math/linear-algebra/vectors'
+import { pi } from '@inglorious/utils/math/trigonometry'
 
 export default {
   types: {

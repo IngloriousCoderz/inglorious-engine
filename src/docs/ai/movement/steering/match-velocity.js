@@ -1,9 +1,12 @@
 import matchVelocity, {
   DEFAULT_TIME_TO_TARGET,
-} from '@ezpz/engine/ai/movement/steering/match-velocity'
-import { keyboardInstance, keyboardType } from '@ezpz/engine/input/keyboard'
-import { clampToBounds } from '@ezpz/utils/character'
-import { merge } from '@ezpz/utils/data-structures/objects'
+} from '@inglorious/engine/ai/movement/steering/match-velocity'
+import {
+  keyboardInstance,
+  keyboardType,
+} from '@inglorious/engine/input/keyboard'
+import { clampToBounds } from '@inglorious/utils/character'
+import { merge } from '@inglorious/utils/data-structures/objects'
 
 export default {
   types: {

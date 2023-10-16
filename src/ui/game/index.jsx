@@ -1,4 +1,4 @@
-import Engine from '@ezpz/engine'
+import Engine from '@inglorious/engine'
 import { useEffect, useMemo, useState } from 'react'
 import { Provider } from 'react-redux'
 

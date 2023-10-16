@@ -1,4 +1,4 @@
-import { mod } from '@ezpz/utils/math/numbers'
+import { mod } from '@inglorious/utils/math/numbers'
 import { expect, test } from 'vitest'
 
 import {

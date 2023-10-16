@@ -1,4 +1,4 @@
-import { bounce } from '@ezpz/utils/character'
+import { bounce } from '@inglorious/utils/character'
 
 export default {
   types: {

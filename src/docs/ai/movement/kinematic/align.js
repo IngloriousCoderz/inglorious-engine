@@ -1,13 +1,16 @@
 import align, {
   DEFAULT_TARGET_RADIUS,
   DEFAULT_TIME_TO_TARGET,
-} from '@ezpz/engine/ai/movement/kinematic/align'
-import { keyboardInstance, keyboardType } from '@ezpz/engine/input/keyboard'
-import { mouseInstance, mouseType } from '@ezpz/engine/input/mouse'
-import { clampToBounds } from '@ezpz/utils/character'
-import { merge } from '@ezpz/utils/data-structures/objects'
-import { clamp } from '@ezpz/utils/math/numbers'
-import { pi } from '@ezpz/utils/math/trigonometry'
+} from '@inglorious/engine/ai/movement/kinematic/align'
+import {
+  keyboardInstance,
+  keyboardType,
+} from '@inglorious/engine/input/keyboard'
+import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
+import { clampToBounds } from '@inglorious/utils/character'
+import { merge } from '@inglorious/utils/data-structures/objects'
+import { clamp } from '@inglorious/utils/math/numbers'
+import { pi } from '@inglorious/utils/math/trigonometry'
 
 export default {
   types: {
