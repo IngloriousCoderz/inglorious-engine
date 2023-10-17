@@ -6,7 +6,6 @@ import {
 } from '@inglorious/utils/math/linear-algebra/vector'
 import { sum } from '@inglorious/utils/math/linear-algebra/vectors'
 
-export const DEFAULT_TIME_TO_TARGET = 1
 const MIN_SPEED = 0
 
 export default function move(instance, { dt }) {

@@ -5,12 +5,6 @@ import { pi } from '@inglorious/utils/math/trigonometry'
 
 export default {
   types: {
-    fps: {
-      'game:update'(instance, event, { dt }) {
-        instance.value = dt
-      },
-    },
-
     character: {
       'game:update'(instance, event, { dt, config }) {
         merge(instance, wander(instance, { dt }))
@@ -21,11 +15,6 @@ export default {
 
   state: {
     instances: {
-      debug: {
-        type: 'fps',
-        value: 0,
-      },
-
       character: {
         type: 'character',
         maxSpeed: 250,

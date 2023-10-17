@@ -53,12 +53,6 @@ export default {
       },
     },
 
-    fps: {
-      'game:update'(instance, event, { dt }) {
-        instance.value = dt
-      },
-    },
-
     character: {
       'game:update'(instance, event, { dt, config, instances }) {
         const target = instances.cursor
@@ -85,11 +79,6 @@ export default {
     instances: {
       cursor: mouseInstance(),
       keyboard: keyboardInstance(),
-
-      debug: {
-        type: 'fps',
-        value: 0,
-      },
 
       character: {
         type: 'character',

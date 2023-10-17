@@ -7,12 +7,6 @@ export default {
   types: {
     mouse: mouseType(),
 
-    fps: {
-      'game:update'(instance, event, { dt }) {
-        instance.value = dt
-      },
-    },
-
     character: {
       'game:update'(instance, event, { dt, config, instances }) {
         const target = instances.mouse
@@ -26,11 +20,6 @@ export default {
   state: {
     instances: {
       mouse: mouseInstance(),
-
-      debug: {
-        type: 'fps',
-        value: 0,
-      },
 
       character: {
         type: 'character',

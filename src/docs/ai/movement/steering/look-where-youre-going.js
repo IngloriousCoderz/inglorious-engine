@@ -32,12 +32,6 @@ export default {
       },
     },
 
-    fps: {
-      'game:update'(instance, event, { dt }) {
-        instance.value = dt
-      },
-    },
-
     character: {
       'game:update'(instance, event, { dt, config, instances }) {
         const { fields } = instances.parameters.groups.align
@@ -83,11 +77,6 @@ export default {
   state: {
     instances: {
       keyboard: keyboardInstance(),
-
-      debug: {
-        type: 'fps',
-        value: 0,
-      },
 
       character: {
         type: 'character',

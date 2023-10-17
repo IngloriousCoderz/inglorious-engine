@@ -10,12 +10,6 @@ export default {
   types: {
     keyboard: keyboardType(),
 
-    fps: {
-      'game:update'(instance, event, { dt }) {
-        instance.value = dt
-      },
-    },
-
     character: {
       'game:update'(instance, event, { dt, config, instances }) {
         const { keyboard } = instances
@@ -44,11 +38,6 @@ export default {
   state: {
     instances: {
       keyboard: keyboardInstance(),
-
-      debug: {
-        type: 'fps',
-        value: 0,
-      },
 
       character: {
         type: 'character',

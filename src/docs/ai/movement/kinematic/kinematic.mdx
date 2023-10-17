@@ -4,3 +4,45 @@ import * as Kinematic from './kinematic.stories'
 <Meta of={Kinematic} />
 
 # Kinematic Movement
+
+The algorithms described here make an NPC instance move by changing its velocity. The movement is a little snappy but it does the trick for simple games.
+
+Every algorithm returns some parameters, such as velocity, position, and orientation, which can be merged to the instance.
+
+Most examples here make use of user [input](/?path=/docs/games-input--docs), so check those out if you haven't already.
+
+## Seek
+
+The seek algorithm makes the instance chase a target. Speed is constant and it makes the character flick around the target once reached.
+
+<Source code={`import seek from '@inglorious/engine/ai/movement/kinematic/seek'
+import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
+import { merge } from '@inglorious/utils/data-structures/objects'
+
+export default {
+  types: {
+    mouse: mouseType(),
+
+    character: {
+      'game:update'(instance, event, { dt, instances }) {
+        const target = instances.mouse
+
+        merge(instance, seek(instance, target, { dt }))
+      }
+    }
+  },
+
+  state: {
+    instances: {
+      mouse: mouseInstance(),
+
+      character: {
+        type: 'character',
+        maxSpeed: 250,
+        position: [400, 0, 300],
+      }
+    }
+  }
+}`} />
+
+<Canvas of={Kinematic.Seek} />

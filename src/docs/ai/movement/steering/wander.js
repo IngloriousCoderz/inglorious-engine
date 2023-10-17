@@ -19,12 +19,6 @@ export default {
       },
     },
 
-    fps: {
-      'game:update'(instance, event, { dt }) {
-        instance.value = dt
-      },
-    },
-
     character: {
       'game:update'(instance, event, { dt, config, instances }) {
         const { fields } = instances.parameters.groups.wander
@@ -46,11 +40,6 @@ export default {
 
   state: {
     instances: {
-      debug: {
-        type: 'fps',
-        value: 0,
-      },
-
       character: {
         type: 'character',
         maxAcceleration: 10,
