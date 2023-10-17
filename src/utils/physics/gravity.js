@@ -48,7 +48,7 @@ export function applyGravity(
   options = DEFAULT_OPTIONS
 ) {
   if (!maxLeap) {
-    throw new Error('Please specify max leap distance (maxLeap)')
+    throw new Error(['maxLeap'])
   }
 
   const { dt } = options

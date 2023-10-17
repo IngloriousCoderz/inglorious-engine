@@ -14,7 +14,7 @@ Behaves similar to `Array.prototype.filter`, returning an object that contains o
 
 <code>const predicate = (key) =&gt; ['key2', 'key3'].includes(key)</code>&nbsp;
 
-<code>const obj = &#123; key1: 'value1', key2: 'value2', key3: 'value3' &#125;</code>&nbsp;
+<code>const obj =  \{ key1: 'value1', key2: 'value2', key3: 'value3' \}</code>&nbsp;
 
 <code>filter(obj, predicate) == {toString(filter({ key1: 'value1', key2: 'value2', key3: 'value3' }, (key) => ['key2', 'key3'].includes(key)))}</code>&nbsp;
 
@@ -24,7 +24,7 @@ Behaves similar to `Array.prototype.find`, returning an object that contains onl
 
 <code>const predicate = (key) =&gt; ['key2', 'key3'].includes(key)</code>&nbsp;
 
-<code>const obj = &#123; key1: 'value1', key2: 'value2', key3: 'value3' &#125;</code>&nbsp;
+<code>const obj = \{ key1: 'value1', key2: 'value2', key3: 'value3' \}</code>&nbsp;
 
 <code>find(obj, predicate) == {toString(find({ key1: 'value1', key2: 'value2', key3: 'value3' }, (key) => ['key2', 'key3'].includes(key)))}</code>&nbsp;
 
@@ -34,7 +34,7 @@ Behaves similar to `Array.prototype.map`, returning an object that has values tr
 
 <code>const callback = (key, value) =&gt; value.toUpperCase()</code>&nbsp;
 
-<code>const obj = &#123; key1: 'value1', key2: 'value2', key3: 'value3' &#125;</code>&nbsp;
+<code>const obj = \{ key1: 'value1', key2: 'value2', key3: 'value3' \}</code>&nbsp;
 
 <code>map(obj, callback) == {toString(map({ key1: 'value1', key2: 'value2', key3: 'value3' }, (key, value) => value.toUpperCase()))}</code>&nbsp;
 
@@ -42,6 +42,6 @@ Behaves similar to `Array.prototype.map`, returning an object that has values tr
 
 Returns a string representation of a given object.
 
-<code>const obj = &#123; key1: 'value1', key2: 'value2', key3: 'value3' &#125;</code>&nbsp;
+<code>const obj = \{ key1: 'value1', key2: 'value2', key3: 'value3' \}</code>&nbsp;
 
 <code>toString(obj) == "{toString({ key1: 'value1', key2: 'value2', key3: 'value3' })}"</code>&nbsp;
