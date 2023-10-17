@@ -1,5 +1,6 @@
 /** @type { import('@storybook/react').Preview } */
-import { themes } from '@storybook/theming'
+import './style.css'
+import theme from './theme'
 
 const preview = {
   parameters: {
@@ -11,7 +12,7 @@ const preview = {
       },
     },
     docs: {
-      // theme: themes.dark,
+      theme,
     },
   },
 }

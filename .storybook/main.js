@@ -1,7 +1,7 @@
 /** @type { import('@storybook/react-vite').StorybookConfig } */
 const config = {
   stories: [
-    '../src/docs/games.mdx',
+    '../src/docs/engine.mdx',
     '../src/**/*.mdx',
     '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)',
   ],

@@ -6,9 +6,11 @@ import eventHandlers from './event-handlers'
 import instances from './instances'
 
 export default {
-  title: 'Games',
+  title: 'Engine',
   component: Game,
-  parameters: { layout: 'centered' },
+  parameters: {
+    layout: 'centered',
+  },
 }
 
 export const Empty = {

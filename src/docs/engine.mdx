@@ -1,33 +1,35 @@
 import { Canvas, Meta, Source } from '@storybook/blocks'
-import * as Games from './games.stories'
+import * as Engine from './engine.stories'
 
-<Meta of={Games} />
+<Meta of={Engine} />
 
-# Games
+# Inglorious Engine
 
-Ezpz is a headless game engine that takes a configuration file in plain JavaScript and creates a scene. The UI can be implemented in any technology: canvas, HTML, ...here we are using React components.
+Welcome to the official Inglorious Engine's docz!
+
+Inglorious Engine is a headless game engine that takes a configuration file in plain JavaScript and creates a scene. The UI can be implemented in any technology: canvas, HTML, ...here we are using React components.
 
 But the best documentation is through examples, so here's a few games!
 
 ## Empty
 
-The most minimal configuration you can pass is an empty object. This will render an 800x600 scene with a light grey background.
+The most minimal configuration you can create is an empty object. This will render an 800x600 scene with a light grey background.
 
 Here's the code for this beauty:
 
-<Source code={`export default {}`} />
+<Source dark code={`export default {}`} />
 
-<Canvas of={Games.Empty} />
+<Canvas of={Engine.Empty} />
 
 ## Bounds
 
 We can customize the game's bounds by passing an array of four numbers: these will hold the upper and lower bounds in pixels.
 
-<Source code={`export default {
+<Source dark code={`export default {
   bounds: [0, 0, 600, 800]
 }`} />
 
-<Canvas of={Games.Bounds} />
+<Canvas of={Engine.Bounds} />
 
 ## Types And Instances
 
@@ -37,7 +39,7 @@ The static part includes the definition of each `type` of actors we want to show
 
 In the dynamic part we add an instance of this type. In this basic scenario the `character` instance needs to specify only its type and position. Something like this:
 
-<Source code={`export default {
+<Source dark code={`export default {
   types: {
     character: {}
   },
@@ -49,7 +51,7 @@ In the dynamic part we add an instance of this type. In this basic scenario the 
   }
 }`} />
 
-<Canvas of={Games.Instances} />
+<Canvas of={Engine.Instances} />
 
 ## Event Handlers
 
@@ -66,7 +68,7 @@ An event handler accepts the following arguments:
 
 The `fps` type shows FPS debug info on the top left of the scene; its value is updated based on the `dt` time at every `game:update` event.
 
-<Source code={`export default {
+<Source dark code={`export default {
   types: {
     fps: {
       'game:update'(instance, event, { dt, config, instances }) {
@@ -82,7 +84,7 @@ The `fps` type shows FPS debug info on the top left of the scene; its value is u
   }
 }`} />
 
-<Canvas of={Games.EventHandlers} />
+<Canvas of={Engine.EventHandlers} />
 
 ## Default Handlers
 
@@ -94,7 +96,7 @@ This time the `character` needs to specify not only its position but also its in
 
 By the way, did you know you can set the FPS update frequency?
 
-<Source code={`import { bounce } from '@inglorious/utils/character'
+<Source dark code={`import { bounce } from '@inglorious/utils/character'
 
 export default {
   types: {
@@ -122,6 +124,6 @@ export default {
   }
 }`} />
 
-<Canvas of={Games.Bounce} />
+<Canvas of={Engine.Bounce} />
 
 So far so good? Let's move on to some complex stuff then! See how we can trigger some more events, such as [input](/?path=/docs/games-input--docs) events, then take a look at some [recipes](/?path=/docs/games-recipes--docs) that give life to our game!
