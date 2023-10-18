@@ -8,9 +8,9 @@ import { subtract } from '@inglorious/utils/math/linear-algebra/vectors'
 
 import neko from './neko.png'
 
-const decisionTree = {
-  test: ({ instance }) => instance.state === 'idle',
-  true: () => ({
+const whichState = {
+  test: ({ instance }) => instance.state,
+  idle: () => ({
     test: ({ instance, target }) => {
       const distance = length(subtract(target.position, instance.position))
       return distance < 250
@@ -18,34 +18,36 @@ const decisionTree = {
     true: () => 'aware',
     false: ({ instance }) => instance.state,
   }),
-  false: () => ({
-    test: ({ instance }) => instance.state === 'chasing',
-    true: () => ({
+  chasing: () => ({
+    test: ({ instance, target }) => {
+      const distance = length(subtract(target.position, instance.position))
+      return distance >= 250
+    },
+    true: () => 'idle',
+    false: () => ({
       test: ({ instance, target }) => {
         const distance = length(subtract(target.position, instance.position))
-        return distance >= 250
+        return distance < 10
       },
-      true: () => 'idle',
-      false: () => ({
-        test: ({ instance, target }) => {
-          const distance = length(subtract(target.position, instance.position))
-          return distance < 10
-        },
-        true: () => 'sleepy',
-        false: ({ instance }) => instance.state,
-      }),
+      true: () => 'sleepy',
+      false: ({ instance }) => instance.state,
     }),
-    false: () => ({
-      test: ({ instance }) => ['sleepy', 'sleeping'].includes(instance.state),
-      true: () => ({
-        test: ({ instance, target }) => {
-          const distance = length(subtract(target.position, instance.position))
-          return distance >= 10
-        },
-        true: () => 'aware',
-        false: ({ instance }) => instance.state,
-      }),
-    }),
+  }),
+  sleepy: () => ({
+    test: ({ instance, target }) => {
+      const distance = length(subtract(target.position, instance.position))
+      return distance >= 10
+    },
+    true: () => 'aware',
+    false: ({ instance }) => instance.state,
+  }),
+  sleeping: () => ({
+    test: ({ instance, target }) => {
+      const distance = length(subtract(target.position, instance.position))
+      return distance >= 10
+    },
+    true: () => 'aware',
+    false: ({ instance }) => instance.state,
   }),
 }
 
@@ -156,7 +158,7 @@ export default {
           'game:update'(instance, event, { instances }) {
             instance.sprite = 'idle'
 
-            instance.state = decide(decisionTree, {
+            instance.state = decide(whichState, {
               instance,
               target: instances.mouse,
             })
@@ -185,7 +187,7 @@ export default {
 
             merge(instance, arrive(instance, target, { dt }))
 
-            instance.state = decide(decisionTree, {
+            instance.state = decide(whichState, {
               instance,
               target: instances.mouse,
             })
@@ -196,7 +198,7 @@ export default {
           'game:update'(instance, event, { instances }) {
             instance.sprite = 'sleepy'
 
-            instance.state = decide(decisionTree, {
+            instance.state = decide(whichState, {
               instance,
               target: instances.mouse,
             })
@@ -215,7 +217,7 @@ export default {
           'game:update'(instance, event, { instances }) {
             instance.sprite = 'sleeping'
 
-            instance.state = decide(decisionTree, {
+            instance.state = decide(whichState, {
               instance,
               target: instances.mouse,
             })

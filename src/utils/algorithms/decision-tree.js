@@ -5,9 +5,5 @@ export function decide(tree, state) {
 
   const value = tree.test(state)
 
-  if (value && tree.true) {
-    return decide(tree.true(state), state)
-  } else if (!value && tree.false) {
-    return decide(tree.false(state), state)
-  }
+  return tree[value] && decide(tree[value](state), state)
 }

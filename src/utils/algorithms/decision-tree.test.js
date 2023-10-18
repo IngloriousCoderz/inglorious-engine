@@ -4,9 +4,9 @@ import { expect, test } from 'vitest'
 
 import { decide } from './decision-tree'
 
-test('it should make a decision based on the current state', () => {
+test('it should make a decision based on a binary decision tree', () => {
   const instance = { state: 'sleeping', position: [0, 0, 0] }
-  const mouse = { position: [10, 0, 0] }
+  const target = { position: [10, 0, 0] }
   const tree = {
     test: ({ instance }) => instance.state === 'idle',
     true: () => ({
@@ -45,7 +45,58 @@ test('it should make a decision based on the current state', () => {
     }),
   }
 
-  const state = decide(tree, { instance, mouse })
+  const state = decide(tree, { instance, mouse: target })
+
+  expect(state).toBe('aware')
+})
+
+test('it should make a decision on a multi-child tree', () => {
+  const instance = { state: 'sleeping', position: [0, 0, 0] }
+  const target = { position: [10, 0, 0] }
+  const tree = {
+    test: ({ instance }) => instance.state,
+    idle: () => ({
+      test: ({ instance, target }) => {
+        const distance = length(subtract(target.position, instance.position))
+        return distance < 250
+      },
+      true: () => 'aware',
+      false: ({ instance }) => instance.state,
+    }),
+    chasing: () => ({
+      test: ({ instance, target }) => {
+        const distance = length(subtract(target.position, instance.position))
+        return distance >= 250
+      },
+      true: () => 'idle',
+      false: () => ({
+        test: ({ instance, target }) => {
+          const distance = length(subtract(target.position, instance.position))
+          return distance < 10
+        },
+        true: () => 'sleepy',
+        false: ({ instance }) => instance.state,
+      }),
+    }),
+    sleepy: () => ({
+      test: ({ instance, target }) => {
+        const distance = length(subtract(target.position, instance.position))
+        return distance >= 10
+      },
+      true: () => 'aware',
+      false: ({ instance }) => instance.state,
+    }),
+    sleeping: () => ({
+      test: ({ instance, target }) => {
+        const distance = length(subtract(target.position, instance.position))
+        return distance >= 10
+      },
+      true: () => 'aware',
+      false: ({ instance }) => instance.state,
+    }),
+  }
+
+  const state = decide(tree, { instance, target })
 
   expect(state).toBe('aware')
 })
