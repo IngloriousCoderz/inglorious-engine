@@ -1,11 +1,53 @@
 import arrive from '@inglorious/engine/ai/movement/kinematic/arrive'
 import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
+import { decide } from '@inglorious/utils/algorithms/decision-tree'
 import { setEightSprite } from '@inglorious/utils/character/sprite'
 import { merge } from '@inglorious/utils/data-structures/objects'
 import { length } from '@inglorious/utils/math/linear-algebra/vector'
 import { subtract } from '@inglorious/utils/math/linear-algebra/vectors'
 
 import neko from './neko.png'
+
+const decisionTree = {
+  test: ({ instance }) => instance.state === 'idle',
+  true: () => ({
+    test: ({ instance, target }) => {
+      const distance = length(subtract(target.position, instance.position))
+      return distance < 250
+    },
+    true: () => 'aware',
+    false: ({ instance }) => instance.state,
+  }),
+  false: () => ({
+    test: ({ instance }) => instance.state === 'chasing',
+    true: () => ({
+      test: ({ instance, target }) => {
+        const distance = length(subtract(target.position, instance.position))
+        return distance >= 250
+      },
+      true: () => 'idle',
+      false: () => ({
+        test: ({ instance, target }) => {
+          const distance = length(subtract(target.position, instance.position))
+          return distance < 10
+        },
+        true: () => 'sleepy',
+        false: ({ instance }) => instance.state,
+      }),
+    }),
+    false: () => ({
+      test: ({ instance }) => ['sleepy', 'sleeping'].includes(instance.state),
+      true: () => ({
+        test: ({ instance, target }) => {
+          const distance = length(subtract(target.position, instance.position))
+          return distance >= 10
+        },
+        true: () => 'aware',
+        false: ({ instance }) => instance.state,
+      }),
+    }),
+  }),
+}
 
 export default {
   types: {
@@ -114,12 +156,10 @@ export default {
           'game:update'(instance, event, { instances }) {
             instance.sprite = 'idle'
 
-            const target = instances.mouse
-            const direction = subtract(target.position, instance.position)
-
-            if (length(direction) < 250) {
-              instance.state = 'aware'
-            }
+            instance.state = decide(decisionTree, {
+              instance,
+              target: instances.mouse,
+            })
           },
         },
 
@@ -145,13 +185,10 @@ export default {
 
             merge(instance, arrive(instance, target, { dt }))
 
-            const direction = subtract(target.position, instance.position)
-
-            if (length(direction) >= 250) {
-              instance.state = 'idle'
-            } else if (length(direction) < 10) {
-              instance.state = 'sleepy'
-            }
+            instance.state = decide(decisionTree, {
+              instance,
+              target: instances.mouse,
+            })
           },
         },
 
@@ -159,12 +196,10 @@ export default {
           'game:update'(instance, event, { instances }) {
             instance.sprite = 'sleepy'
 
-            const target = instances.mouse
-            const direction = subtract(target.position, instance.position)
-
-            if (length(direction) >= 10) {
-              instance.state = 'aware'
-            }
+            instance.state = decide(decisionTree, {
+              instance,
+              target: instances.mouse,
+            })
           },
 
           'sprite:animationEnd'(instance, event) {
@@ -180,12 +215,10 @@ export default {
           'game:update'(instance, event, { instances }) {
             instance.sprite = 'sleeping'
 
-            const target = instances.mouse
-            const direction = subtract(target.position, instance.position)
-
-            if (length(direction) >= 10) {
-              instance.state = 'aware'
-            }
+            instance.state = decide(decisionTree, {
+              instance,
+              target: instances.mouse,
+            })
           },
         },
       },

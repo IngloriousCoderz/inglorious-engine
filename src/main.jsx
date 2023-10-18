@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom/client'
 
-import game from './docs/chase-the-mouse'
+import game from './docs/recipes/decision-tree'
 import Game from './ui/game'
 
 ReactDOM.createRoot(document.getElementById('root')).render(

@@ -1,9 +1,10 @@
 import Game from '../../ui/game'
 import addAndRemove from './add-and-remove'
 import addInstance from './add-instance'
-import fsm from './fsm'
+import decisionTree from './decision-tree'
 import randomInstances from './random-instances'
 import removeInstance from './remove-instance'
+import states from './states'
 
 export default {
   title: 'Games/Recipes',
@@ -27,6 +28,10 @@ export const AddAndRemove = {
   args: { config: addAndRemove },
 }
 
-export const FSM = {
-  args: { config: fsm },
+export const States = {
+  args: { config: states },
+}
+
+export const DecisionTree = {
+  args: { config: decisionTree },
 }
