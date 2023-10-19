@@ -12,6 +12,7 @@ import matchVelocity from './match-velocity'
 import move from './move'
 import pursue from './pursue'
 import seek from './seek'
+import tankControls from './tank-controls'
 import wander from './wander'
 
 export default {
@@ -62,6 +63,10 @@ export const Wander = {
 
 export const Move = {
   args: { config: move },
+}
+
+export const TankControls = {
+  args: { config: tankControls },
 }
 
 export const Jump = {

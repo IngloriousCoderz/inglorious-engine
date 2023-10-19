@@ -17,5 +17,5 @@ export default function move(instance, { dt }) {
     ? angle(instance.velocity)
     : instance.orientation
 
-  return { position, orientation }
+  return { velocity, position, orientation }
 }

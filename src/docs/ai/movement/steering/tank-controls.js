@@ -1,4 +1,4 @@
-import move from '@inglorious/engine/ai/movement/kinematic/move'
+import tank from '@inglorious/engine/ai/movement/steering/tank'
 import { inputInstance, inputType } from '@inglorious/engine/input'
 import { merge } from '@inglorious/utils/data-structures/objects'
 
@@ -25,21 +25,21 @@ export default {
       'game:update'(instance, event, { dt, instances }) {
         const { input } = instances
 
-        instance.velocity = [0, 0, 0]
+        instance.acceleration = [0, 0, 0]
         if (input.left) {
-          instance.velocity[0] = -instance.maxSpeed
+          instance.orientation += 0.1
         }
         if (input.down) {
-          instance.velocity[2] = -instance.maxSpeed
+          instance.acceleration = [-instance.maxAcceleration, 0, 0]
         }
         if (input.right) {
-          instance.velocity[0] = instance.maxSpeed
+          instance.orientation -= 0.1
         }
         if (input.up) {
-          instance.velocity[2] = instance.maxSpeed
+          instance.acceleration = [instance.maxAcceleration, 0, 0]
         }
 
-        merge(instance, move(instance, { dt }))
+        merge(instance, tank(instance, { dt }))
       },
     },
   },
@@ -57,8 +57,10 @@ export default {
         type: 'character',
         maxAcceleration: 10,
         maxSpeed: 250,
+        friction: 250,
         velocity: [0, 0, 0],
         position: [400, 0, 300],
+        orientation: 0,
       },
     },
   },

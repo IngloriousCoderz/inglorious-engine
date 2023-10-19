@@ -7,6 +7,7 @@ import flee from './flee'
 import jump from './jump'
 import move from './move'
 import seek from './seek'
+import tankControls from './tank-controls'
 import wander from './wander'
 import wanderAsSeek from './wander-as-seek'
 
@@ -41,6 +42,10 @@ export const Align = {
 
 export const Move = {
   args: { config: move },
+}
+
+export const TankControls = {
+  args: { config: tankControls },
 }
 
 export const Jump = {

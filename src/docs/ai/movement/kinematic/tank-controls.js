@@ -1,4 +1,4 @@
-import move from '@inglorious/engine/ai/movement/kinematic/move'
+import tank from '@inglorious/engine/ai/movement/kinematic/tank'
 import { inputInstance, inputType } from '@inglorious/engine/input'
 import { merge } from '@inglorious/utils/data-structures/objects'
 
@@ -27,19 +27,19 @@ export default {
 
         instance.velocity = [0, 0, 0]
         if (input.left) {
-          instance.velocity[0] = -instance.maxSpeed
+          instance.orientation += 0.1
         }
         if (input.down) {
-          instance.velocity[2] = -instance.maxSpeed
+          instance.velocity = [-instance.maxSpeed, 0, 0]
         }
         if (input.right) {
-          instance.velocity[0] = instance.maxSpeed
+          instance.orientation -= 0.1
         }
         if (input.up) {
-          instance.velocity[2] = instance.maxSpeed
+          instance.velocity = [instance.maxSpeed, 0, 0]
         }
 
-        merge(instance, move(instance, { dt }))
+        merge(instance, tank(instance, { dt }))
       },
     },
   },
@@ -55,10 +55,10 @@ export default {
 
       character: {
         type: 'character',
-        maxAcceleration: 10,
         maxSpeed: 250,
         velocity: [0, 0, 0],
         position: [400, 0, 300],
+        orientation: 0,
       },
     },
   },

@@ -1,4 +1,5 @@
 import Game from '../../ui/game'
+import tankControls from '../ai/movement/kinematic/tank-controls'
 import input from './input'
 import keyboard from './keyboard'
 import mouse from './mouse'
