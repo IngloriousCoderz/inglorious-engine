@@ -1,5 +1,5 @@
-import move from '@inglorious/engine/ai/movement/kinematic/move'
 import jump from '@inglorious/engine/ai/movement/steering/jump'
+import move from '@inglorious/engine/ai/movement/steering/move'
 import {
   keyboardInstance,
   keyboardType,
@@ -19,18 +19,18 @@ export default {
           'game:update'(instance, event, { dt, instances }) {
             const { keyboard } = instances
 
-            instance.velocity = [0, 0, 0]
+            instance.acceleration = [0, 0, 0]
             if (keyboard.ArrowLeft) {
-              instance.velocity[0] = -instance.maxSpeed
-            }
-            if (keyboard.ArrowDown) {
-              instance.velocity[2] = -instance.maxSpeed
+              instance.acceleration[0] = -instance.maxAcceleration
             }
             if (keyboard.ArrowRight) {
-              instance.velocity[0] = instance.maxSpeed
+              instance.acceleration[0] = instance.maxAcceleration
+            }
+            if (keyboard.ArrowDown) {
+              instance.acceleration[2] = -instance.maxAcceleration
             }
             if (keyboard.ArrowUp) {
-              instance.velocity[2] = instance.maxSpeed
+              instance.acceleration[2] = instance.maxAcceleration
             }
 
             act(instance, event, { dt, instances })
@@ -45,6 +45,19 @@ export default {
         },
 
         jumping: {
+          'game:update'(instance, event, { dt, instances }) {
+            act(instance, event, { dt, instances })
+          },
+
+          'keyboard:keyDown'(instance, event, { dt }) {
+            if (event.payload === 'Space' && instance.py >= 30) {
+              instance.state = 'doubleJumping'
+              jump(instance, { dt })
+            }
+          },
+        },
+
+        doubleJumping: {
           'game:update'(instance, event, { dt, instances }) {
             act(instance, event, { dt, instances })
           },
@@ -65,7 +78,10 @@ export default {
 
       character: {
         type: 'character',
+        maxAcceleration: 500,
         maxSpeed: 250,
+        friction: 250,
+        acceleration: [0, 0, 0],
         velocity: [0, 0, 0],
         position: [400, 0, 300],
         maxJump: 100,

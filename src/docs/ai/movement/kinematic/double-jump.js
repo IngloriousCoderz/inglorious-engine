@@ -48,6 +48,19 @@ export default {
           'game:update'(instance, event, { dt, instances }) {
             act(instance, event, { dt, instances })
           },
+
+          'keyboard:keyDown'(instance, event, { dt }) {
+            if (event.payload === 'Space') {
+              instance.state = 'doubleJumping'
+              jump(instance, { dt })
+            }
+          },
+        },
+
+        doubleJumping: {
+          'game:update'(instance, event, { dt, instances }) {
+            act(instance, event, { dt, instances })
+          },
         },
       },
     },

@@ -13,7 +13,7 @@ export default function Stats({ instance, instances }) {
       {position && <div>Position: {toString(position)}</div>}
 
       {ay != null && <div>ay: {ay.toFixed(DECIMALS)}</div>}
-      {vy != null && <div>max vy: {vy.toFixed(DECIMALS)}</div>}
+      {vy != null && <div>vy: {vy.toFixed(DECIMALS)}</div>}
       {py != null && <div>py: {py.toFixed(DECIMALS)}</div>}
     </>
   )

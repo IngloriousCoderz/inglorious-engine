@@ -15,12 +15,6 @@ export default {
 
     character: {
       states: {
-        jumping: {
-          'game:update'(instance, event, { dt, instances }) {
-            act(instance, event, { dt, instances })
-          },
-        },
-
         notJumping: {
           'game:update'(instance, event, { dt, instances }) {
             const { keyboard } = instances
@@ -40,11 +34,19 @@ export default {
             }
 
             act(instance, event, { dt, instances })
+          },
 
-            if (keyboard.Space) {
+          'keyboard:keyDown'(instance, event, { dt }) {
+            if (event.payload === 'Space') {
               instance.state = 'jumping'
               jump(instance, { dt })
             }
+          },
+        },
+
+        jumping: {
+          'game:update'(instance, event, { dt, instances }) {
+            act(instance, event, { dt, instances })
           },
         },
       },

@@ -2,6 +2,7 @@ import Game from '@inglorious/ui/game'
 
 import align from './align'
 import arrive from './arrive'
+import doubleJump from './double-jump'
 import evade from './evade'
 import face from './face'
 import flee from './flee'
@@ -65,4 +66,8 @@ export const Move = {
 
 export const Jump = {
   args: { config: jump },
+}
+
+export const DoubleJump = {
+  args: { config: doubleJump },
 }
