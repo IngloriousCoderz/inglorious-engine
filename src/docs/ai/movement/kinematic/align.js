@@ -2,10 +2,7 @@ import align, {
   DEFAULT_TARGET_RADIUS,
   DEFAULT_TIME_TO_TARGET,
 } from '@inglorious/engine/ai/movement/kinematic/align'
-import {
-  keyboardInstance,
-  keyboardType,
-} from '@inglorious/engine/input/keyboard'
+import { inputInstance, inputType } from '@inglorious/engine/input'
 import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
 import { clampToBounds } from '@inglorious/utils/character'
 import { merge } from '@inglorious/utils/data-structures/objects'
@@ -14,24 +11,29 @@ import { pi } from '@inglorious/utils/math/trigonometry'
 
 export default {
   types: {
-    mouse: mouseType({
+    ...mouseType({
       'targetOrientation:change'(instance, event) {
         instance.orientation = -event.payload * pi()
       },
 
       'game:update'(instance, event, { instances }) {
-        const { keyboard } = instances
+        const { input } = instances
 
-        if (keyboard.ArrowLeft || keyboard.ArrowUp) {
+        if (input.left || input.up) {
           instance.orientation += 0.1
-        } else if (keyboard.ArrowRight || keyboard.ArrowDown) {
+        } else if (input.right || input.down) {
           instance.orientation -= 0.1
         }
         instance.orientation = clamp(instance.orientation, -pi(), pi())
       },
     }),
 
-    keyboard: keyboardType(),
+    ...inputType({
+      ArrowLeft: 'left',
+      ArrowRight: 'right',
+      ArrowDown: 'down',
+      ArrowUp: 'up',
+    }),
 
     game: {
       'targetRadius:change'(instance, event, { instances }) {
@@ -71,8 +73,8 @@ export default {
 
   state: {
     instances: {
-      mouse: mouseInstance(),
-      keyboard: keyboardInstance(),
+      ...mouseInstance(),
+      ...inputInstance(),
 
       character: {
         type: 'character',

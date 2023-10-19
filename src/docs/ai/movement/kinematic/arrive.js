@@ -8,7 +8,7 @@ import { merge } from '@inglorious/utils/data-structures/objects'
 
 export default {
   types: {
-    mouse: mouseType(),
+    ...mouseType(),
 
     game: {
       'targetRadius:change'(instance, event, { instances }) {
@@ -44,7 +44,7 @@ export default {
 
   state: {
     instances: {
-      mouse: mouseInstance(),
+      ...mouseInstance(),
 
       character: {
         type: 'character',

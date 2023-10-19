@@ -4,7 +4,7 @@ import { merge } from '@inglorious/utils/data-structures/objects'
 
 export default {
   types: {
-    mouse: mouseType(),
+    ...mouseType(),
 
     character: {
       'game:update'(instance, event, { dt, instances }) {
@@ -17,7 +17,7 @@ export default {
 
   state: {
     instances: {
-      mouse: mouseInstance(),
+      ...mouseInstance(),
 
       character: {
         type: 'character',

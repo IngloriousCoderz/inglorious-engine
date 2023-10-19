@@ -7,6 +7,8 @@ export function useMouse({ parent }) {
   const notify = useDispatch()
 
   const onMouseMove = (event) => {
+    event.stopPropagation()
+
     if (parent == null) {
       return
     }
@@ -20,6 +22,8 @@ export function useMouse({ parent }) {
   }
 
   const onClick = (event) => {
+    event.stopPropagation()
+
     if (parent == null) {
       return
     }

@@ -9,7 +9,7 @@ import { pi } from '@inglorious/utils/math/trigonometry'
 
 export default {
   types: {
-    mouse: mouseType(),
+    ...mouseType(),
 
     character: {
       states: {
@@ -44,7 +44,7 @@ export default {
 
   state: {
     instances: {
-      mouse: mouseInstance(),
+      ...mouseInstance(),
 
       character: {
         type: 'character',

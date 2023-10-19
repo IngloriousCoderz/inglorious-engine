@@ -1,4 +1,5 @@
 import Game from '../../ui/game'
+import input from './input'
 import keyboard from './keyboard'
 import mouse from './mouse'
 
@@ -9,6 +10,10 @@ export default {
 
 export const Keyboard = {
   args: { config: keyboard },
+}
+
+export const Input = {
+  args: { config: input },
 }
 
 export const Mouse = {

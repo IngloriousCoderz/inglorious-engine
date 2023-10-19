@@ -5,7 +5,7 @@ import { pi } from '@inglorious/utils/math/trigonometry'
 
 export default {
   types: {
-    mouse: mouseType({
+    ...mouseType({
       'mouse:click'(instance, event, { instances, notify }) {
         const characters = Object.keys(instances)
 
@@ -26,7 +26,7 @@ export default {
 
   state: {
     instances: {
-      mouse: mouseInstance(),
+      ...mouseInstance(),
     },
   },
 }

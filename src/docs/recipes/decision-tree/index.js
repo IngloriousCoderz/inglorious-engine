@@ -50,7 +50,7 @@ const whichState = {
 
 export default {
   types: {
-    mouse: mouseType(),
+    ...mouseType(),
 
     cat: {
       sprite: {
@@ -227,7 +227,7 @@ export default {
 
   state: {
     instances: {
-      mouse: mouseInstance(),
+      ...mouseInstance(),
 
       neko: {
         type: 'cat',

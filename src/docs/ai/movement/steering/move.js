@@ -1,30 +1,32 @@
 import move from '@inglorious/engine/ai/movement/steering/move'
-import {
-  keyboardInstance,
-  keyboardType,
-} from '@inglorious/engine/input/keyboard'
+import { inputInstance, inputType } from '@inglorious/engine/input'
 import { clampToBounds } from '@inglorious/utils/character'
 import { merge } from '@inglorious/utils/data-structures/objects'
 
 export default {
   types: {
-    keyboard: keyboardType(),
+    ...inputType({
+      ArrowLeft: 'left',
+      ArrowRight: 'right',
+      ArrowDown: 'down',
+      ArrowUp: 'up',
+    }),
 
     character: {
       'game:update'(instance, event, { dt, config, instances }) {
-        const { keyboard } = instances
+        const { input } = instances
 
         instance.acceleration = [0, 0, 0]
-        if (keyboard.ArrowLeft) {
+        if (input.left) {
           instance.acceleration[0] = -instance.maxAcceleration
         }
-        if (keyboard.ArrowDown) {
+        if (input.down) {
           instance.acceleration[2] = -instance.maxAcceleration
         }
-        if (keyboard.ArrowRight) {
+        if (input.right) {
           instance.acceleration[0] = instance.maxAcceleration
         }
-        if (keyboard.ArrowUp) {
+        if (input.up) {
           instance.acceleration[2] = instance.maxAcceleration
         }
 
@@ -37,7 +39,7 @@ export default {
 
   state: {
     instances: {
-      keyboard: keyboardInstance(),
+      ...inputInstance(),
 
       character: {
         type: 'character',

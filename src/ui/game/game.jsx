@@ -5,7 +5,7 @@ import Character from './character'
 import Button from './controls/button'
 import Field from './controls/field'
 import Form from './controls/form'
-import Input from './controls/input'
+// import Input from './controls/input'
 import Label from './controls/label'
 import Cursor from './cursor'
 import Fps from './fps'
@@ -19,7 +19,7 @@ const Components = {
   field: withAbsolutePosition(Field),
   form: withAbsolutePosition(Form),
   fps: withAbsolutePosition(Fps),
-  input: withAbsolutePosition(Input),
+  // input: withAbsolutePosition(Input),
   label: withAbsolutePosition(Label),
   mouse: withAbsolutePosition(Cursor),
   sprite: withAbsolutePosition(Sprite),

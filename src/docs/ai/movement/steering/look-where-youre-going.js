@@ -4,10 +4,7 @@ import {
   DEFAULT_TIME_TO_TARGET,
 } from '@inglorious/engine/ai/movement/steering/align'
 import lookWhereYoureGoing from '@inglorious/engine/ai/movement/steering/look-where-youre-going'
-import {
-  keyboardInstance,
-  keyboardType,
-} from '@inglorious/engine/input/keyboard'
+import { inputInstance, inputType } from '@inglorious/engine/input'
 import { clampToBounds } from '@inglorious/utils/character'
 import { merge } from '@inglorious/utils/data-structures/objects'
 import { sum } from '@inglorious/utils/math/linear-algebra/vectors'
@@ -15,7 +12,12 @@ import { pi } from '@inglorious/utils/math/trigonometry'
 
 export default {
   types: {
-    keyboard: keyboardType(),
+    ...inputType({
+      ArrowLeft: 'left',
+      ArrowRight: 'right',
+      ArrowDown: 'down',
+      ArrowUp: 'up',
+    }),
 
     game: {
       'targetRadius:change'(instance, event, { instances }) {
@@ -36,19 +38,19 @@ export default {
       'game:update'(instance, event, { dt, config, instances }) {
         const { fields } = instances.parameters.groups.align
 
-        const { keyboard = {} } = instances
+        const { input } = instances
 
         const target = { velocity: [0, 0, 0] }
-        if (keyboard.ArrowLeft) {
+        if (input.left) {
           target.velocity[0] = -1
         }
-        if (keyboard.ArrowDown) {
+        if (input.down) {
           target.velocity[2] = -1
         }
-        if (keyboard.ArrowRight) {
+        if (input.right) {
           target.velocity[0] = 1
         }
-        if (keyboard.ArrowUp) {
+        if (input.up) {
           target.velocity[2] = 1
         }
 
@@ -76,7 +78,7 @@ export default {
 
   state: {
     instances: {
-      keyboard: keyboardInstance(),
+      ...inputInstance(),
 
       character: {
         type: 'character',

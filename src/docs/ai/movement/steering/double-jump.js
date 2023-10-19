@@ -1,15 +1,18 @@
 import jump from '@inglorious/engine/ai/movement/steering/jump'
 import move from '@inglorious/engine/ai/movement/steering/move'
-import {
-  keyboardInstance,
-  keyboardType,
-} from '@inglorious/engine/input/keyboard'
+import { inputInstance, inputType } from '@inglorious/engine/input'
 import { merge } from '@inglorious/utils/data-structures/objects'
 import { applyGravity } from '@inglorious/utils/physics/gravity'
 
 export default {
   types: {
-    keyboard: keyboardType(),
+    ...inputType({
+      ArrowLeft: 'left',
+      ArrowRight: 'right',
+      ArrowDown: 'down',
+      ArrowUp: 'up',
+      Space: 'jump',
+    }),
 
     stats: {},
 
@@ -17,27 +20,27 @@ export default {
       states: {
         notJumping: {
           'game:update'(instance, event, { dt, instances }) {
-            const { keyboard } = instances
+            const { input } = instances
 
             instance.acceleration = [0, 0, 0]
-            if (keyboard.ArrowLeft) {
+            if (input.left) {
               instance.acceleration[0] = -instance.maxAcceleration
             }
-            if (keyboard.ArrowRight) {
+            if (input.right) {
               instance.acceleration[0] = instance.maxAcceleration
             }
-            if (keyboard.ArrowDown) {
+            if (input.down) {
               instance.acceleration[2] = -instance.maxAcceleration
             }
-            if (keyboard.ArrowUp) {
+            if (input.up) {
               instance.acceleration[2] = instance.maxAcceleration
             }
 
             act(instance, event, { dt, instances })
           },
 
-          'keyboard:keyDown'(instance, event, { dt }) {
-            if (event.payload === 'Space') {
+          'input:press'(instance, event, { dt }) {
+            if (event.payload === 'jump') {
               instance.state = 'jumping'
               jump(instance, { dt })
             }
@@ -49,8 +52,8 @@ export default {
             act(instance, event, { dt, instances })
           },
 
-          'keyboard:keyDown'(instance, event, { dt }) {
-            if (event.payload === 'Space' && instance.py >= 30) {
+          'input:press'(instance, event, { dt }) {
+            if (event.payload === 'jump') {
               instance.state = 'doubleJumping'
               jump(instance, { dt })
             }
@@ -68,7 +71,7 @@ export default {
 
   state: {
     instances: {
-      keyboard: keyboardInstance(),
+      ...inputInstance(),
 
       stats: {
         type: 'stats',

@@ -11,7 +11,7 @@ import { pi } from '@inglorious/utils/math/trigonometry'
 
 export default {
   types: {
-    mouse: mouseType(),
+    ...mouseType(),
 
     game: {
       'targetRadius:change'(instance, event, { instances }) {
@@ -51,7 +51,7 @@ export default {
 
   state: {
     instances: {
-      mouse: mouseInstance(),
+      ...mouseInstance(),
 
       character: {
         type: 'character',

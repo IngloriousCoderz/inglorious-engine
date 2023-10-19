@@ -7,25 +7,29 @@ const NO_Y = 0
 
 export function mouseType(events = {}) {
   return {
-    'mouse:move'(instance, event, { config }) {
-      instance.position = subtract(event.payload, [
-        CURSOR_SIZE,
-        NO_Y,
-        CURSOR_SIZE,
-      ])
+    mouse: {
+      'mouse:move'(instance, event, { config }) {
+        instance.position = subtract(event.payload, [
+          CURSOR_SIZE,
+          NO_Y,
+          CURSOR_SIZE,
+        ])
 
-      clampToBounds(instance, config.bounds)
+        clampToBounds(instance, config.bounds)
+      },
+
+      ...events,
     },
-
-    ...events,
   }
 }
 
 export function mouseInstance() {
   return {
-    type: 'mouse',
-    velocity: ZERO_VECTOR,
-    position: ZERO_VECTOR,
-    orientation: 0,
+    mouse: {
+      type: 'mouse',
+      velocity: ZERO_VECTOR,
+      position: ZERO_VECTOR,
+      orientation: 0,
+    },
   }
 }

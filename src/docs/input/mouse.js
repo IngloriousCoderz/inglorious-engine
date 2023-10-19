@@ -2,7 +2,7 @@ import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
 
 export default {
   types: {
-    mouse: mouseType(),
+    ...mouseType(),
 
     fps: {
       'game:update'(instance, event, { dt }) {
@@ -20,7 +20,7 @@ export default {
 
   state: {
     instances: {
-      mouse: mouseInstance(),
+      ...mouseInstance(),
 
       debug: {
         type: 'fps',

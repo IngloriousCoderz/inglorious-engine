@@ -5,11 +5,15 @@ export function useKeyboard() {
   const notify = useDispatch()
 
   useEffect(() => {
-    const handleKeyDown = ({ code }) =>
-      notify({ id: 'keyboard:keyDown', payload: code })
+    const handleKeyDown = (event) => {
+      event.stopPropagation()
+      notify({ id: 'keyboard:keyDown', payload: event.code })
+    }
 
-    const handleKeyUp = ({ code }) =>
-      notify({ id: 'keyboard:keyUp', payload: code })
+    const handleKeyUp = (event) => {
+      event.stopPropagation()
+      notify({ id: 'keyboard:keyUp', payload: event.code })
+    }
 
     document.addEventListener('keydown', handleKeyDown)
     document.addEventListener('keyup', handleKeyUp)
