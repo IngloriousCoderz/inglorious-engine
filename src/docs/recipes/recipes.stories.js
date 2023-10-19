@@ -7,7 +7,7 @@ import removeInstance from './remove-instance'
 import states from './states'
 
 export default {
-  title: 'Games/Recipes',
+  title: 'Engine/Recipes',
   component: Game,
   parameters: { layout: 'centered' },
 }

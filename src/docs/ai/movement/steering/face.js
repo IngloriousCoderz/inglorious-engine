@@ -13,20 +13,6 @@ export default {
   types: {
     ...mouseType(),
 
-    game: {
-      'targetRadius:change'(instance, event, { instances }) {
-        instances.parameters.groups.face.fields.targetRadius.value =
-          event.payload
-      },
-      'slowRadius:change'(instance, event, { instances }) {
-        instances.parameters.groups.face.fields.slowRadius.value = event.payload
-      },
-      'timeToTarget:change'(instance, event, { instances }) {
-        instances.parameters.groups.face.fields.timeToTarget.value =
-          event.payload
-      },
-    },
-
     character: {
       'game:update'(instance, event, { dt, config, instances }) {
         const target = instances.mouse
@@ -46,7 +32,12 @@ export default {
       },
     },
 
-    form: {},
+    form: {
+      'field:change'(instance, event) {
+        const { id, value } = event.payload
+        instance.groups.face.fields[id].value = value
+      },
+    },
   },
 
   state: {

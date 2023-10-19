@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 
-import Field from '../field'
+import Fields from './fields'
 import classes from './form.module.scss'
 
 export default function Form({ instance }) {
@@ -8,25 +8,15 @@ export default function Form({ instance }) {
 
   return (
     <div className={classes.form}>
-      {fields && renderFields(fields)}
+      {fields && <Fields fields={fields} />}
 
       {groups &&
         Object.entries(groups).map(([id, { title, fields }]) => (
           <Fragment key={id}>
             <div className={classes.group}>{title}</div>
-            {fields && renderFields(fields)}
+            {fields && <Fields fields={fields} />}
           </Fragment>
         ))}
-    </div>
-  )
-}
-
-function renderFields(fields) {
-  return (
-    <div className={classes.fields}>
-      {Object.entries(fields).map(([id, field]) => (
-        <Field key={id} id={id} instance={field} />
-      ))}
     </div>
   )
 }

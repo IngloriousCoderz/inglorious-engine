@@ -13,8 +13,11 @@ import { pi } from '@inglorious/utils/math/trigonometry'
 export default {
   types: {
     ...mouseType({
-      'targetOrientation:change'(instance, event) {
-        instance.orientation = -event.payload * pi()
+      'field:change'(instance, event) {
+        const { id, value } = event.payload
+        if (id === 'targetOrientation') {
+          instance.orientation = -value * pi()
+        }
       },
 
       'game:update'(instance, event, { instances }) {
@@ -36,25 +39,6 @@ export default {
       ArrowUp: 'up',
     }),
 
-    game: {
-      'targetRadius:change'(instance, event, { instances }) {
-        instances.parameters.groups.align.fields.targetRadius.value =
-          event.payload
-      },
-      'slowRadius:change'(instance, event, { instances }) {
-        instances.parameters.groups.align.fields.slowRadius.value =
-          event.payload
-      },
-      'timeToTarget:change'(instance, event, { instances }) {
-        instances.parameters.groups.align.fields.timeToTarget.value =
-          event.payload
-      },
-      'targetOrientation:change'(instance, event, { instances }) {
-        instances.parameters.groups.align.fields.targetOrientation.value =
-          event.payload
-      },
-    },
-
     character: {
       'game:update'(instance, event, { dt, config, instances }) {
         const target = instances.mouse
@@ -74,7 +58,12 @@ export default {
       },
     },
 
-    form: {},
+    form: {
+      'field:change'(instance, event) {
+        const { id, value } = event.payload
+        instance.groups.align.fields[id].value = value
+      },
+    },
   },
 
   state: {

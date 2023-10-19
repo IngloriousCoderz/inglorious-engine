@@ -14,13 +14,6 @@ export default {
       ArrowUp: 'up',
     }),
 
-    game: {
-      'timeToTarget:change'(instance, event, { instances }) {
-        instances.parameters.groups.matchVelocity.fields.timeToTarget.value =
-          event.payload
-      },
-    },
-
     character: {
       'game:update'(instance, event, { dt, config, instances }) {
         const { fields } = instances.parameters.groups.matchVelocity
@@ -55,7 +48,12 @@ export default {
       },
     },
 
-    form: {},
+    form: {
+      'field:change'(instance, event) {
+        const { id, value } = event.payload
+        instance.groups.matchVelocity.fields[id].value = value
+      },
+    },
   },
 
   state: {

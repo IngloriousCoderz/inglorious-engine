@@ -11,7 +11,7 @@ import wander from './wander'
 import wanderAsSeek from './wander-as-seek'
 
 export default {
-  title: 'Games/AI/Movement/Kinematic',
+  title: 'Engine/AI/Movement/Kinematic',
   component: Game,
 }
 

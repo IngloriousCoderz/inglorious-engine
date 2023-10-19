@@ -4,7 +4,7 @@ import keyboard from './keyboard'
 import mouse from './mouse'
 
 export default {
-  title: 'Games/Input',
+  title: 'Engine/Input',
   component: Game,
 }
 

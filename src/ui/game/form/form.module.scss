@@ -1,0 +1,18 @@
+$black: #282c34;
+$dark-grey: #32363e;
+$middle-grey: #5c6370;
+$light-grey: #abb2bf;
+$highlight: #c678dd;
+
+.form {
+  font-family: system-ui;
+  background-color: $dark-grey;
+  cursor: initial;
+
+  > .group {
+    color: $light-grey;
+    background-color: $middle-grey;
+    padding: 0.5rem;
+    border-top: 1px solid $light-grey;
+  }
+}

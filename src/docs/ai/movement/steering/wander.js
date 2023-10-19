@@ -8,17 +8,6 @@ import { pi } from '@inglorious/utils/math/trigonometry'
 
 export default {
   types: {
-    game: {
-      'wanderOffset:change'(instance, event, { instances }) {
-        instances.parameters.groups.wander.fields.wanderOffset.value =
-          event.payload
-      },
-      'wanderRadius:change'(instance, event, { instances }) {
-        instances.parameters.groups.wander.fields.wanderRadius.value =
-          event.payload
-      },
-    },
-
     character: {
       'game:update'(instance, event, { dt, config, instances }) {
         const { fields } = instances.parameters.groups.wander
@@ -35,7 +24,12 @@ export default {
       },
     },
 
-    form: {},
+    form: {
+      'field:change'(instance, event) {
+        const { id, value } = event.payload
+        instance.groups.wander.fields[id].value = value
+      },
+    },
   },
 
   state: {

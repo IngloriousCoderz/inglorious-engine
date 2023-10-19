@@ -19,24 +19,9 @@ export default {
       ArrowUp: 'up',
     }),
 
-    game: {
-      'targetRadius:change'(instance, event, { instances }) {
-        instances.parameters.groups.align.fields.targetRadius.value =
-          event.payload
-      },
-      'slowRadius:change'(instance, event, { instances }) {
-        instances.parameters.groups.align.fields.slowRadius.value =
-          event.payload
-      },
-      'timeToTarget:change'(instance, event, { instances }) {
-        instances.parameters.groups.align.fields.timeToTarget.value =
-          event.payload
-      },
-    },
-
     character: {
       'game:update'(instance, event, { dt, config, instances }) {
-        const { fields } = instances.parameters.groups.align
+        const { fields } = instances.parameters.groups.lookWhereYoureGoing
 
         const { input } = instances
 
@@ -73,7 +58,12 @@ export default {
       },
     },
 
-    form: {},
+    form: {
+      'field:change'(instance, event) {
+        const { id, value } = event.payload
+        instance.groups.lookWhereYoureGoing.fields[id].value = value
+      },
+    },
   },
 
   state: {
@@ -94,8 +84,8 @@ export default {
         type: 'form',
         position: [800 - 328, 0, 600],
         groups: {
-          align: {
-            title: 'Steering Align',
+          lookWhereYoureGoing: {
+            title: "Look Where You're Going",
             fields: {
               targetRadius: {
                 label: 'Target Radius',
