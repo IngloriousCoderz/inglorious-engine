@@ -1,5 +1,5 @@
 import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
-import { randomRange } from '@inglorious/utils/math/random'
+import { random } from '@inglorious/utils/math/rng'
 import { pi } from '@inglorious/utils/math/trigonometry'
 
 export default {
@@ -24,8 +24,8 @@ export default {
             `character${index + 1}`,
             {
               type: 'character',
-              position: [randomRange(0, 800), 0, randomRange(0, 600)],
-              orientation: randomRange(0, 2 * pi(), 0.01),
+              position: [random(0, 800), 0, random(0, 600)],
+              orientation: random(0, 2 * pi(), 0.01),
             },
           ])
       ),

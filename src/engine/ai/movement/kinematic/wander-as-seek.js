@@ -3,7 +3,7 @@ import {
   multiply,
 } from '@inglorious/utils/math/linear-algebra/vector'
 import { sum } from '@inglorious/utils/math/linear-algebra/vectors'
-import { randomBinomial } from '@inglorious/utils/math/random'
+import { randomBinomial } from '@inglorious/utils/math/rng'
 
 import seek from './seek'
 

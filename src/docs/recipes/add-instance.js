@@ -1,6 +1,6 @@
 import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
 import { subtract } from '@inglorious/utils/math/linear-algebra/vectors'
-import { randomRange } from '@inglorious/utils/math/random'
+import { random } from '@inglorious/utils/math/rng'
 import { pi } from '@inglorious/utils/math/trigonometry'
 
 export default {
@@ -15,7 +15,7 @@ export default {
             id: `character${characters.length + 1}`,
             type: 'character',
             position: subtract(event.payload, [15, 0, 15]),
-            orientation: randomRange(0, 2 * pi(), 0.01),
+            orientation: random(0, 2 * pi(), 0.01),
           },
         })
       },

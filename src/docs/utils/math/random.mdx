@@ -1,42 +1,35 @@
 import { Meta } from '@storybook/blocks'
 
-import { random, randomBinomial, randomRange } from '@inglorious/utils/math/random'
+import { random, randomBinomial } from '@inglorious/utils/math/rng'
 
-<Meta title="Utils/Math/Random" />
+<Meta title="Utils/Math/Rng" />
 
-# Random
+# Rng
 
 Random number generators.
 
 ## Random
 
-Generates a random number in the range `[0, 1)` (zero included, one excluded).
+Generates a random number with optional parameters that specify range and step.
 
+No parameters will generate a random number in the range `[0, 1)` (zero included, one excluded).
 
 <code>random() == {random()}</code>&nbsp;
+
+A parameter `n` means the random number will be an integer in the range `[0, n]` (zero and `n` included).
+
+<code>random(6) == {random(6)}</code>&nbsp;
+
+Two parameters `n` and `m` means the random number will be an integer in the range `[n, m]` (both numbers included).
+
+<code>random(1, 6) == {random(1, 6)}</code>&nbsp;
+
+A third parameter allows to specify the step.
+
+<code>random(2, 6, 2) == {random(2, 6, 2)}</code>&nbsp;
 
 ## Random Binomial
 
 Generates a random number in the range `(-1, 1)` (minus one excluded, one excluded), with probability following the [Binomial Distribution](https://en.wikipedia.org/wiki/Binomial_distribution).
 
-
 <code>randomBinomial() == {randomBinomial()}</code>&nbsp;
-
-## Random Range
-
-Generates a random number with optional parameters that specify range and step.
-
-One parameter means the random number will be an integer between zero and that number included.
-
-
-<code>randomRange(6) == {randomRange(6)}</code>&nbsp;
-
-Two parameters means the random number will be an integer between the first parameter and the second included.
-
-
-<code>randomRange(1, 6) == {randomRange(1, 6)}</code>&nbsp;
-
-A third parameter allows to specify the step.
-
-
-<code>randomRange(2, 6, 2) == {randomRange(2, 6, 2)}</code>&nbsp;

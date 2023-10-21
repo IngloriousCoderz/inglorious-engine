@@ -1,14 +1,11 @@
 /* eslint-disable no-magic-numbers */
-export function random() {
-  return Math.random()
-}
 
-export function randomBinomial() {
-  return random() - random()
-}
-
-export function randomRange(...args) {
+export function random(...args) {
   let step, from, to
+
+  if (!args.length) {
+    return Math.random()
+  }
 
   if (args.length === 1) {
     step = 1
@@ -22,5 +19,9 @@ export function randomRange(...args) {
     to = (args[1] + 1) / step
   }
 
-  return Math.floor(random() * (to - from) + from) * step
+  return Math.floor(Math.random() * (to - from) + from) * step
+}
+
+export function randomBinomial() {
+  return random() - random()
 }
