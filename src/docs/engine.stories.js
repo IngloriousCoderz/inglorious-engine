@@ -1,4 +1,5 @@
-import Game from '../ui/game'
+import Game from '@inglorious/ui/game'
+
 import bounce from './bounce'
 import bounds from './bounds'
 import empty from './empty'

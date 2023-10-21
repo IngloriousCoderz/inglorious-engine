@@ -1,6 +1,13 @@
 import { Canvas, Meta, Source } from '@storybook/blocks'
 import * as Recipes from './recipes.stories'
 
+import addAndRemove from './add-and-remove?raw'
+import addInstance from './add-instance?raw'
+import decisionTree from './decision-tree?raw'
+import randomInstances from './random-instances?raw'
+import removeInstance from './remove-instance?raw'
+import states from './states?raw'
+
 <Meta of={Recipes} />
 
 # Recipes
@@ -13,31 +20,7 @@ The game configuration is pure JavaScript, so there's not much difference betwee
 
 Here we are using a couple of utility functions from the [rng](/?path=/docs/utils-math-rng--docs) and [trigonometry](/?path=/docs/utils-math-trigonometry--docs) packages.
 
-<Source dark code={`import { random } from '@inglorious/utils/math/rng'
-import { pi } from '@inglorious/utils/math/trigonometry'
-
-export default {
-  types: {
-    character: {}
-  },
-
-  state: {
-    instances: {
-      ...Object.fromEntries(
-        Array(100)
-          .fill(null)
-          .map((_, index) => [
-            \`character\${index + 1}\`,
-            {
-              type: 'character',
-              position: [random(0, 800), 0, random(0, 600)],
-              orientation: random(0, 2 * pi(), 0.01),
-            }
-          ])
-      )
-    }
-  }
-}`} />
+<Source dark code={randomInstances} />
 
 <Canvas of={Recipes.RandomInstances} />
 
@@ -49,39 +32,7 @@ Try clicking anywhere on the scene to create a new instance with random orientat
 
 Here, apart from some math functions, we are also using a predefined mouse [input](/?path=/docs/games-input--docs) package that allows us to position a cursor and handle its events.
 
-<Source dark code={`import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
-import { subtract } from '@inglorious/utils/math/linear-algebra/vectors'
-import { random } from '@inglorious/utils/math/rng'
-import { pi } from '@inglorious/utils/math/trigonometry'
-
-export default {
-  types: {
-    ...mouseType({
-      'mouse:click'(instance, event, { instances, notify }) {
-        const characters = Object.keys(instances)
-
-        notify({
-          id: 'instance:add',
-          payload: {
-            id: \`character\${characters.length + 1}\`,
-            type: 'character',
-            position: subtract(event.payload, [15, 0, 15]),
-            orientation: random(0, 2 * pi(), 0.01)
-          }
-        })
-      }
-    }),
-
-    character: {},
-  },
-
-  state: {
-    instances: {
-      ...mouseInstance()
-    }
-  }
-}
-`} />
+<Source dark code={addInstance} />
 
 <Canvas of={Recipes.AddInstance} />
 
@@ -91,40 +42,7 @@ Removing an instance is pretty much the same: we notify the engine of our intent
 
 Try clicking on any instance do remove it from the scene.
 
-<Source dark code={`import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
-import { random } from '@inglorious/utils/math/rng'
-import { pi } from '@inglorious/utils/math/trigonometry'
-
-export default {
-  types: {
-    ...mouseType(),
-
-    character: {
-      'character:click'(instance, event, { notify }) {
-        notify({ id: 'instance:remove', payload: event.payload })
-      }
-    }
-  },
-
-  state: {
-    instances: {
-      ...mouseInstance(),
-
-      ...Object.fromEntries(
-        Array(5)
-          .fill(null)
-          .map((_, index) => [
-            \`character\${index + 1}\`,
-            {
-              type: 'character',
-              position: [random(0, 800), 0, random(0, 600)],
-              orientation: random(0, 2 * pi(), 0.01),
-            }
-          ])
-      )
-    }
-  }
-}`} />
+<Source dark code={removeInstance} />
 
 <Canvas of={Recipes.RemoveInstance} />
 
@@ -134,48 +52,7 @@ Clicking on a character will prevent the event from bubbling on the scene, so it
 
 The most complex part of this code is generating new incremental ids, which is not even mandatory. You know best what's good for your game!
 
-<Source dark code={`import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
-import { subtract } from '@inglorious/utils/math/linear-algebra/vectors'
-import { random } from '@inglorious/utils/math/rng'
-import { pi } from '@inglorious/utils/math/trigonometry'
-
-export default {
-  types: {
-    ...mouseType({
-      'mouse:click'(instance, event, { instances, notify }) {
-        const ids = Object.keys(instances).filter((id) =>
-          id.startsWith('character')
-        )
-        const maxId = ids.length
-          ? Number(ids[ids.length - 1].replace('character', ''))
-          : 0
-
-        notify({
-          id: 'instance:add',
-          payload: {
-            id: \`character\${maxId + 1}\`,
-            type: 'character',
-            position: subtract(event.payload, [15, 0, 15]),
-            orientation: random(0, 2 * pi(), 0.01)
-          }
-        })
-      }
-    }),
-
-    character: {
-      'character:click'(instance, event, { notify }) {
-        notify({ id: 'instance:remove', payload: event.payload })
-      }
-    }
-  },
-
-  state: {
-    instances: {
-      ...mouseInstance(),
-    }
-  }
-}
-`} />
+<Source dark code={addAndRemove} />
 
 <Canvas of={Recipes.AddAndRemove} />
 
@@ -189,66 +66,7 @@ Try moving the cursor near the character to make it hunt you, and then moving it
 
 This code may seem a lot, but it's just a merge of the *Arrive* and *Wander* [Kinematic AI Movement](/?path=/docs/games-ai-movement-kinematic--docs) examples so feel free to take a look at them before approaching this one.
 
-<Source dark code={`import arrive from '@inglorious/engine/ai/movement/kinematic/arrive'
-import wander from '@inglorious/engine/ai/movement/kinematic/wander'
-import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
-import { clampToBounds, flip } from '@inglorious/utils/character'
-import { merge } from '@inglorious/utils/data-structures/objects'
-import { length } from '@inglorious/utils/math/linear-algebra/vector'
-import { subtract } from '@inglorious/utils/math/linear-algebra/vectors'
-import { pi } from '@inglorious/utils/math/trigonometry'
-
-export default {
-  types: {
-    ...mouseType(),
-
-    character: {
-      states: {
-        meandering: {
-          'game:update'(instance, event, { dt, config, instances }) {
-            const target = instances.mouse
-
-            merge(instance, wander(instance, { dt }))
-            flip(instance, config.bounds)
-
-            if (length(subtract(instance.position, target.position)) < 200) {
-              instance.state = 'hunting'
-            }
-          }
-        },
-
-        hunting: {
-          'game:update'(instance, event, { dt, config, instances }) {
-            const target = instances.mouse
-
-            merge(instance, arrive(instance, target, { dt }))
-            clampToBounds(instance, config.bounds)
-
-            if (length(subtract(instance.position, target.position)) >= 200) {
-              instance.state = 'meandering'
-            }
-          }
-        }
-      }
-    }
-  },
-
-  state: {
-    instances: {
-      ...mouseInstance(),
-
-      character: {
-        type: 'character',
-        state: 'meandering',
-        maxSpeed: 250,
-        maxRotation: pi() / 4,
-        orientation: 0,
-        position: [400, 0, 300]
-      }
-    }
-  }
-}
-`} />
+<Source dark code={states} />
 
 <Canvas of={Recipes.States} />
 
@@ -258,247 +76,6 @@ Decision trees are another sweet feature built-in inside of Inglorious Engine. T
 
 This game also showcases sprites!
 
-<Source dark code={`import arrive from '@inglorious/engine/ai/movement/kinematic/arrive'
-import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
-import { decide } from '@inglorious/utils/algorithms/decision-tree'
-import { setEightSprite } from '@inglorious/utils/character/sprite'
-import { merge } from '@inglorious/utils/data-structures/objects'
-import { length } from '@inglorious/utils/math/linear-algebra/vector'
-import { subtract } from '@inglorious/utils/math/linear-algebra/vectors'
-
-import neko from './neko.png'
-
-// A reusable decision tree node
-const wakeUp = () => ({
-  test: ({ instance, target }) => {
-    const distance = length(subtract(target.position, instance.position))
-    return distance >= 10
-  },
-  true: () => 'aware',
-  false: ({ instance }) => instance.state
-})
-
-// Our decision tree
-const whichState = {
-  test: ({ instance }) => instance.state,
-  idle: () => ({
-    test: ({ instance, target }) => {
-      const distance = length(subtract(target.position, instance.position))
-      return distance < 250
-    },
-    true: () => 'aware',
-    false: ({ instance }) => instance.state
-  }),
-  chasing: () => ({
-    test: ({ instance, target }) => {
-      const distance = length(subtract(target.position, instance.position))
-      return distance >= 250
-    },
-    true: () => 'idle',
-    false: () => ({
-      test: ({ instance, target }) => {
-        const distance = length(subtract(target.position, instance.position))
-        return distance < 10
-      },
-      true: () => 'sleepy',
-      false: ({ instance }) => instance.state
-    })
-  }),
-  sleepy: wakeUp,
-  sleeping: wakeUp
-}
-
-export default {
-  types: {
-    ...mouseType(),
-
-    cat: {
-      sprite: {
-        src: neko,
-        width: 192,
-        height: 192,
-        rows: 6,
-        cols: 6,
-        scale: 2,
-        speed: 0.2,
-        states: {
-          idle: {
-            frames: [[4, 0]]
-          },
-
-          aware: {
-            frames: [
-              [0, 0],
-              [4, 0]
-            ]
-          },
-
-          leftUp: {
-            frames: [
-              [5, 3],
-              [5, 4]
-            ],
-            flip: 'h'
-          },
-          up: {
-            frames: [
-              [4, 4],
-              [0, 5]
-            ]
-          },
-          rightUp: {
-            frames: [
-              [5, 3],
-              [5, 4]
-            ]
-          },
-          right: {
-            frames: [
-              [4, 2],
-              [4, 3]
-            ]
-          },
-          rightDown: {
-            frames: [
-              [1, 2],
-              [2, 2]
-            ]
-          },
-          down: {
-            frames: [
-              [1, 0],
-              [0, 1]
-            ]
-          },
-          leftDown: {
-            frames: [
-              [1, 2],
-              [2, 2]
-            ],
-            flip: 'h'
-          },
-          left: {
-            frames: [
-              [4, 2],
-              [4, 3]
-            ],
-            flip: 'h',
-          },
-
-          sleepy: {
-            frames: [
-              [4, 0],
-              [4, 1],
-              [4, 1],
-              [3, 0],
-              [3, 1],
-              [3, 2],
-              [3, 1],
-              [3, 2],
-              [3, 2],
-            ]
-          },
-
-          sleeping: {
-            frames: [
-              [2, 4],
-              [2, 4],
-              [3, 4],
-              [3, 4],
-            ]
-          }
-        }
-      },
-
-      states: {
-        idle: {
-          'game:update'(instance, event, { instances }) {
-            instance.sprite = 'idle'
-
-            instance.state = decide(whichState, {
-              instance,
-              target: instances.mouse,
-            })
-          }
-        },
-
-        aware: {
-          'game:update'(instance) {
-            instance.sprite = 'aware'
-          },
-
-          'sprite:animationEnd'(instance, event) {
-            const { id, sprite } = event.payload
-
-            // always check who originated the event and which sprite is running!
-            if (id === 'neko' && sprite === 'aware') {
-              instance.state = 'chasing'
-            }
-          }
-        },
-
-        chasing: {
-          'game:update'(instance, event, { dt, instances }) {
-            const target = instances.mouse
-
-            setEightSprite(instance, target)
-
-            merge(instance, arrive(instance, target, { dt }))
-
-            instance.state = decide(decisionTree, {
-              instance,
-              target: instances.mouse,
-            })
-          }
-        },
-
-        sleepy: {
-          'game:update'(instance, event, { instances }) {
-            instance.sprite = 'sleepy'
-
-            instance.state = decide(decisionTree, {
-              instance,
-              target: instances.mouse,
-            })
-          },
-
-          'sprite:animationEnd'(instance, event) {
-            const { id, sprite } = event.payload
-
-            if (id === 'neko' && sprite === 'sleepy') {
-              instance.state = 'sleeping'
-            }
-          }
-        },
-
-        sleeping: {
-          'game:update'(instance, event, { instances }) {
-            instance.sprite = 'sleeping'
-
-            instance.state = decide(decisionTree, {
-              instance,
-              target: instances.mouse,
-            })
-          }
-        }
-      }
-    }
-  },
-
-  state: {
-    instances: {
-      ...mouseInstance(),
-
-      neko: {
-        type: 'cat',
-        state: 'idle',
-        maxSpeed: 250,
-        orientation: 0,
-        position: [400, 0, 300]
-      }
-    }
-  }
-}
-`} />
+<Source dark code={decisionTree} />
 
 <Canvas of={Recipes.DecisionTree} />

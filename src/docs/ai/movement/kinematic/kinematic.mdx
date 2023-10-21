@@ -1,6 +1,17 @@
 import { Canvas, Meta, Source } from '@storybook/blocks'
 import * as Kinematic from './kinematic.stories'
 
+import align from './align?raw'
+import arrive from './arrive?raw'
+import doubleJump from './double-jump?raw'
+import flee from './flee?raw'
+import jump from './jump?raw'
+import move from './move?raw'
+import seek from './seek?raw'
+import tankControls from './tank-controls?raw'
+import wander from './wander?raw'
+import wanderAsSeek from './wander-as-seek?raw'
+
 <Meta of={Kinematic} />
 
 # Kinematic Movement
@@ -15,34 +26,6 @@ Most examples here make use of user [input](/?path=/docs/games-input--docs), so 
 
 The seek algorithm makes the instance chase a target. Speed is constant and it makes the character flick around the target once reached.
 
-<Source dark code={`import seek from '@inglorious/engine/ai/movement/kinematic/seek'
-import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
-import { merge } from '@inglorious/utils/data-structures/objects'
-
-export default {
-  types: {
-    ...mouseType(),
-
-    character: {
-      'game:update'(instance, event, { dt, instances }) {
-        const target = instances.mouse
-
-        merge(instance, seek(instance, target, { dt }))
-      }
-    }
-  },
-
-  state: {
-    instances: {
-      ...mouseInstance(),
-
-      character: {
-        type: 'character',
-        maxSpeed: 250,
-        position: [400, 0, 300],
-      }
-    }
-  }
-}`} />
+<Source dark code={seek} />
 
 <Canvas of={Kinematic.Seek} />

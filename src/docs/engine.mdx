@@ -1,6 +1,13 @@
 import { Canvas, Meta, Source } from '@storybook/blocks'
 import * as Engine from './engine.stories'
 
+import bounce from './bounce?raw'
+import bounds from './bounds?raw'
+import empty from './empty?raw'
+import eventHandlers from './event-handlers?raw'
+import framerate from './framerate?raw'
+import instances from './instances?raw'
+
 <Meta of={Engine} />
 
 # Inglorious Engine
@@ -17,7 +24,7 @@ The most minimal configuration you can create is an empty object. This will rend
 
 Here's the code for this beauty:
 
-<Source dark code={`export default {}`} />
+<Source dark code={empty} />
 
 <Canvas of={Engine.Empty} />
 
@@ -25,9 +32,7 @@ Here's the code for this beauty:
 
 We can customize the game's bounds by passing an array of four numbers: these will hold the upper and lower bounds in pixels.
 
-<Source dark code={`export default {
-  bounds: [0, 0, 600, 800]
-}`} />
+<Source dark code={bounds} />
 
 <Canvas of={Engine.Bounds} />
 
@@ -39,17 +44,7 @@ The static part includes the definition of each `type` of actors we want to show
 
 In the dynamic part we add an instance of this type. In this basic scenario the `character` instance needs to specify only its type and position. Something like this:
 
-<Source dark code={`export default {
-  types: {
-    character: {}
-  },
-
-  state: {
-    instances: {
-      instance1: { type: 'character', position: [400, 0, 300] }
-    }
-  }
-}`} />
+<Source dark code={instances} />
 
 <Canvas of={Engine.Instances} />
 
@@ -68,21 +63,7 @@ An event handler accepts the following arguments:
 
 The `fps` type shows FPS debug info on the top left of the scene; its value is updated based on the `dt` time at every `game:update` event.
 
-<Source dark code={`export default {
-  types: {
-    fps: {
-      'game:update'(instance, event, { dt, config, instances }) {
-        instance.value = dt
-      }
-    }
-  },
-
-  state: {
-    instances: {
-      instance1: { type: 'fps', value: 0 }
-    }
-  }
-}`} />
+<Source dark code={eventHandlers} />
 
 <Canvas of={Engine.EventHandlers} />
 
@@ -96,33 +77,7 @@ This time the `character` needs to specify not only its position but also its in
 
 By the way, did you know you can set the FPS update frequency?
 
-<Source dark code={`import { bounce } from '@inglorious/utils/character'
-
-export default {
-  types: {
-    fps: {
-      frequency: 0.1,
-      'game:update'(instance, event, { dt }) {
-        instance.value = dt
-      }
-    },
-
-    character: {
-      'game:update'(instance, event, { config }) {
-        bounce(instance, config.bounds)
-      }
-    }
-  },
-
-  state: {
-    instances: {
-      instance1: { type: 'fps', value: 0 },
-
-      instance2: {
-        type: 'character', position: [0, 0, 0], velocity: [10, 0, 5] }
-    }
-  }
-}`} />
+<Source dark code={bounce} />
 
 <Canvas of={Engine.Bounce} />
 
@@ -130,6 +85,8 @@ export default {
 
 What if you want to provide a more retro feel to your game? You can use a fixed framerate and make your animations more jerky.
 
+<Source dark code={framerate} />
 
+<Canvas of={Engine.Framerate} />
 
 So far so good? Let's move on to some complex stuff then! See how we can trigger some more events, such as [input](/?path=/docs/games-input--docs) events, then take a look at some [recipes](/?path=/docs/games-recipes--docs) that give life to our game!

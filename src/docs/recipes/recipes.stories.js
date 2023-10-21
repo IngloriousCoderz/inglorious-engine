@@ -1,4 +1,5 @@
-import Game from '../../ui/game'
+import Game from '@inglorious/ui/game'
+
 import addAndRemove from './add-and-remove'
 import addInstance from './add-instance'
 import decisionTree from './decision-tree'
