@@ -1,14 +1,15 @@
-import {
-  fromAngle,
-  multiply,
-} from '@inglorious/utils/math/linear-algebra/vector'
+import { createVector } from '@inglorious/utils/math/linear-algebra/vector'
 import { sum } from '@inglorious/utils/math/linear-algebra/vectors'
 import { randomBinomial } from '@inglorious/utils/math/rng'
 
 import seek from './seek'
 
-export const DEFAULT_WANDER_OFFSET = 10
-export const DEFAULT_WANDER_RADIUS = 10
+export const DEFAULT_WANDER_OFFSET = 100
+export const DEFAULT_WANDER_RADIUS = 100
+
+const DEFAULT_MAX_ANGULAR_SPEED = 0
+
+const DEFAULT_ORIENTATION = 0
 
 export default function wander(
   instance,
@@ -18,17 +19,14 @@ export default function wander(
     ...options
   }
 ) {
-  const targetOrientation =
-    instance.orientation + randomBinomial() * instance.maxRotation
+  const maxAngularSpeed = instance.maxAngularSpeed ?? DEFAULT_MAX_ANGULAR_SPEED
 
-  let targetPosition = sum(
-    instance.position,
-    multiply(fromAngle(instance.orientation), wanderOffset)
-  )
-  targetPosition = sum(
-    targetPosition,
-    multiply(fromAngle(targetOrientation), wanderRadius)
-  )
+  let orientation = instance.orientation ?? DEFAULT_ORIENTATION
 
-  return seek(instance, { position: targetPosition }, options)
+  let position = sum(instance.position, createVector(wanderOffset, orientation))
+
+  orientation += randomBinomial() * maxAngularSpeed
+  position = sum(position, createVector(wanderRadius, orientation))
+
+  return seek(instance, { position }, options)
 }

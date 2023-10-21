@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 
+export const DEFAULT_ACCURACY = 0
+
 const ONE_SECOND = 1
 const MILLISECONDS = 1000
-const DECIMALS = 0
 
 export default function Fps({ type, instance }) {
-  const { frequency = ONE_SECOND } = type
+  const { frequency = ONE_SECOND, accuracy = DEFAULT_ACCURACY } = type
 
   const value = useRef(instance.value)
   useEffect(() => {
@@ -21,5 +22,5 @@ export default function Fps({ type, instance }) {
     return () => clearInterval(id)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  return <div>FPS: {fps.toFixed(DECIMALS)}</div>
+  return <div>FPS: {fps.toFixed(accuracy)}</div>
 }

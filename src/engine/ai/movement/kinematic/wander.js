@@ -1,22 +1,27 @@
 import {
   angle,
-  fromAngle,
+  createVector,
   multiply,
 } from '@inglorious/utils/math/linear-algebra/vector'
 import { sum } from '@inglorious/utils/math/linear-algebra/vectors'
 import { randomBinomial } from '@inglorious/utils/math/rng'
 
+const DEFAULT_MAX_SPEED = 0
+const DEFAULT_MAX_ANGULAR_SPEED = 0
+
+const DEFAULT_ORIENTATION = 0
+
 export default function wander(instance, { dt }) {
-  const targetOrientation =
-    instance.orientation + randomBinomial() * instance.maxRotation
+  const maxSpeed = instance.maxSpeed ?? DEFAULT_MAX_SPEED
+  const maxAngularSpeed = instance.maxAngularSpeed ?? DEFAULT_MAX_ANGULAR_SPEED
 
-  const velocity = multiply(
-    fromAngle(targetOrientation),
-    instance.maxSpeed * dt
-  )
+  let orientation = instance.orientation ?? DEFAULT_ORIENTATION
+  orientation += randomBinomial() * maxAngularSpeed
 
-  const position = sum(instance.position, velocity)
-  const orientation = angle(velocity)
+  const velocity = createVector(maxSpeed, orientation)
+
+  const position = sum(instance.position, multiply(velocity, dt))
+  orientation = angle(velocity)
 
   return { velocity, position, orientation }
 }

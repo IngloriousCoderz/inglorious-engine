@@ -9,17 +9,23 @@ import seek from './seek'
 
 export const DEFAULT_WANDER_RADIUS = 10
 
+const DEFAULT_MAX_ANGULAR_SPEED = 0
+
+const DEFAULT_ORIENTATION = 0
+
 export default function wander(
   instance,
   { wanderRadius = DEFAULT_WANDER_RADIUS, ...options }
 ) {
-  const targetOrientation =
-    instance.orientation + randomBinomial() * instance.maxRotation
+  const maxAngularSpeed = instance.maxAngularSpeed ?? DEFAULT_MAX_ANGULAR_SPEED
 
-  const targetPosition = sum(
+  let orientation = instance.orientation ?? DEFAULT_ORIENTATION
+  orientation += randomBinomial() * maxAngularSpeed
+
+  const position = sum(
     instance.position,
-    multiply(fromAngle(targetOrientation), wanderRadius)
+    multiply(fromAngle(orientation), wanderRadius)
   )
 
-  return seek(instance, { position: targetPosition }, options)
+  return seek(instance, { position }, options)
 }

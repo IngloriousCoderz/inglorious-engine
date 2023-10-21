@@ -6,6 +6,7 @@ import {
   angle,
   clamp,
   conjugate,
+  createVector,
   divide,
   fromAngle,
   magnitude,
@@ -78,6 +79,14 @@ test('it should conjugate a vector', () => {
   expect(conjugate(vector)).toStrictEqual(expectedResult)
 })
 
+test('it should create a 3D vector given its magnitude and angle', () => {
+  const magnitude = 2 ** 0.5
+  const angle = pi() / 4
+  const expectedResult = [1, -0, 1.0000000000000002] // close to [1, 0, 1]
+
+  expect(createVector(magnitude, angle)).toStrictEqual(expectedResult)
+})
+
 test('it should divide a vector by a scalar', () => {
   const vector = [4, 8, 12]
   const scalar = 4
@@ -141,7 +150,7 @@ test('it should rotate a 2D vector by a certain angle', () => {
 test('it should not rotate a vector when the angle is zero', () => {
   const vector = [1, 0, 0]
   const angle = 0
-  const expectedResult = [1, -0, -0]
+  const expectedResult = [1, 0, 0]
 
   expect(rotate(vector, angle)).toStrictEqual(expectedResult)
 })

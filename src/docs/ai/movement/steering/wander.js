@@ -38,7 +38,7 @@ export default {
         type: 'character',
         maxAcceleration: 1000,
         maxSpeed: 250,
-        maxRotation: pi() / 4,
+        maxAngularSpeed: pi() / 4,
         position: [400, 0, 300],
       },
 

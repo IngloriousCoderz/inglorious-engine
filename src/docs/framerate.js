@@ -3,7 +3,7 @@ import { merge } from '@inglorious/utils/data-structures/objects'
 import { pi } from '@inglorious/utils/math/trigonometry'
 
 export default {
-  loop: { type: 'fixed', fps: 2 },
+  loop: { type: 'fixed', fps: 10 },
 
   types: {
     fps: {

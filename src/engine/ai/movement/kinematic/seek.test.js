@@ -21,7 +21,7 @@ test('it should eventually reach the target', () => {
   const options = { dt: 2 }
   const expectedResult = {
     position: [2, 0, 0],
-    velocity: [2, 0, 0],
+    velocity: [1, 0, 0],
     orientation: 0,
   }
 

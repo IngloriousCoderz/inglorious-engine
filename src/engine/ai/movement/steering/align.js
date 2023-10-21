@@ -1,15 +1,17 @@
 import { abs, clamp } from '@inglorious/utils/math/numbers'
 import { toRange } from '@inglorious/utils/math/trigonometry'
 
-export const DEFAULT_TARGET_RADIUS = 1
+export const DEFAULT_TARGET_RADIUS = 0.1
 export const DEFAULT_SLOW_RADIUS = 0.1
 export const DEFAULT_TIME_TO_TARGET = 0.1
 
-const DEFAULT_MAX_ROTATION = 0
 const DEFAULT_MAX_ANGULAR_ACCELERATION = 0
+const DEFAULT_MAX_ANGULAR_SPEED = 0
 
 const DEFAULT_ANGULAR_SPEED = 0
 const DEFAULT_ORIENTATION = 0
+
+const HALF_ANGULAR_ACCELERATION = 0.5
 
 export default function align(
   instance,
@@ -23,7 +25,7 @@ export default function align(
 ) {
   const maxAngularAcceleration =
     instance.maxAngularAcceleration ?? DEFAULT_MAX_ANGULAR_ACCELERATION
-  const maxRotation = instance.maxRotation ?? DEFAULT_MAX_ROTATION
+  const maxAngularSpeed = instance.maxAngularSpeed ?? DEFAULT_MAX_ANGULAR_SPEED
 
   let angularSpeed = instance.angularSpeed ?? DEFAULT_ANGULAR_SPEED
   let orientation = instance.orientation ?? DEFAULT_ORIENTATION
@@ -37,9 +39,9 @@ export default function align(
 
   let targetAngularSpeed
   if (distance > slowRadius) {
-    targetAngularSpeed = maxRotation
+    targetAngularSpeed = maxAngularSpeed
   } else {
-    targetAngularSpeed = (distance * maxRotation) / slowRadius
+    targetAngularSpeed = (distance * maxAngularSpeed) / slowRadius
   }
   targetAngularSpeed *= direction / distance // restore rotation sign
 
@@ -53,7 +55,9 @@ export default function align(
   )
 
   angularSpeed += angularAcceleration * dt
-  orientation += angularSpeed * dt
+  orientation +=
+    angularSpeed * dt +
+    angularAcceleration * HALF_ANGULAR_ACCELERATION * dt * dt
 
   return { angularSpeed, orientation }
 }

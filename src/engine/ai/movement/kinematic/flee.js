@@ -1,11 +1,16 @@
 import {
   angle,
   magnitude,
+  multiply,
   setMagnitude,
 } from '@inglorious/utils/math/linear-algebra/vector'
 import { subtract, sum } from '@inglorious/utils/math/linear-algebra/vectors'
 
+const DEFAULT_MAX_SPEED = 0
+
 export default function flee(instance, target, { dt }) {
+  const maxSpeed = instance.maxSpeed ?? DEFAULT_MAX_SPEED
+
   const direction = subtract(instance.position, target.position)
   const distance = magnitude(direction)
 
@@ -13,9 +18,8 @@ export default function flee(instance, target, { dt }) {
     return instance
   }
 
-  const velocity = setMagnitude(direction, instance.maxSpeed * dt)
-
-  const position = sum(instance.position, velocity)
+  const velocity = setMagnitude(direction, maxSpeed)
+  const position = sum(instance.position, multiply(velocity, dt))
   const orientation = angle(velocity)
 
   return { velocity, position, orientation }

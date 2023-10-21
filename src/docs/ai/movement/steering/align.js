@@ -73,7 +73,7 @@ export default {
 
       character: {
         type: 'character',
-        maxRotation: pi() / 4,
+        maxAngularSpeed: pi() / 4,
         maxAngularAcceleration: 10,
         position: [400, 0, 300],
       },

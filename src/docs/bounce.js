@@ -6,6 +6,7 @@ export default {
   types: {
     fps: {
       frequency: 0.1,
+      accuracy: 1,
       'game:update'(instance, event, { dt }) {
         instance.value = dt
       },

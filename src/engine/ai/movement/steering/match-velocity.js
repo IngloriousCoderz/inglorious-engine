@@ -17,6 +17,8 @@ const DEFAULT_ORIENTATION = 0
 const MIN_ACCELERATION = 0
 const MIN_SPEED = 0
 
+const HALF_ACCELERATION = 0.5
+
 export default function matchVelocity(
   instance,
   target,
@@ -36,7 +38,11 @@ export default function matchVelocity(
   velocity = sum(velocity, multiply(acceleration, dt))
   velocity = clamp(velocity, MIN_SPEED, maxSpeed)
 
-  const position = sum(instance.position, multiply(velocity, dt))
+  const position = sum(
+    instance.position,
+    multiply(velocity, dt),
+    multiply(acceleration, HALF_ACCELERATION * dt * dt)
+  )
 
   orientation = magnitude(velocity) ? angle(velocity) : orientation
 

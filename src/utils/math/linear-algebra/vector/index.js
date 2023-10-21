@@ -53,7 +53,7 @@ export function conjugate(vector) {
 }
 
 export function createVector(magnitude, angle) {
-  return rotate(multiply(UNIT_VECTOR, magnitude), angle)
+  return multiply(fromAngle(angle), magnitude)
 }
 
 export function divide(vector, scalar) {
