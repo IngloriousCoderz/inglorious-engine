@@ -233,7 +233,6 @@ export default {
         type: 'cat',
         state: 'idle',
         maxSpeed: 250,
-        orientation: 0,
         position: [400, 0, 300],
       },
     },

@@ -46,8 +46,6 @@ export default {
         maxAcceleration: 500,
         maxSpeed: 250,
         friction: 250,
-        acceleration: [0, 0, 0],
-        velocity: [0, 0, 0],
         position: [400, 0, 300],
       },
     },

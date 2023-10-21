@@ -1,7 +1,9 @@
 import {
   angle,
   clamp,
+  createVector,
   fromAngle,
+  multiply,
   ZERO_VECTOR,
 } from '@inglorious/utils/math/linear-algebra/vector'
 import { sum } from '@inglorious/utils/math/linear-algebra/vectors'
@@ -11,19 +13,23 @@ const X = 0
 const Z = 2
 const NO_Y = 0
 
-export function bounce(instance, [minX, minZ, maxX, maxZ]) {
+export function bounce(instance, { dt, config }) {
+  const [minX, minZ, maxX, maxZ] = config.bounds
   const [x, , z] = instance.position
 
+  const velocity = createVector(instance.maxSpeed, instance.orientation)
   if (x < minX || x >= maxX) {
-    instance.velocity[X] = -instance.velocity[X]
+    velocity[X] = -velocity[X]
   }
 
   if (z < minZ || z >= maxZ) {
-    instance.velocity[Z] = -instance.velocity[Z]
+    velocity[Z] = -velocity[Z]
   }
 
-  instance.position = sum(instance.position, instance.velocity)
-  instance.orientation = angle(instance.velocity)
+  const position = sum(instance.position, multiply(velocity, dt))
+  const orientation = angle(velocity)
+
+  return { velocity, position, orientation }
 }
 
 export function clampToBounds(instance, [minX, minZ, maxX, maxZ]) {

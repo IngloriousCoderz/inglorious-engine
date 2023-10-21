@@ -3,6 +3,7 @@ import bounce from './bounce'
 import bounds from './bounds'
 import empty from './empty'
 import eventHandlers from './event-handlers'
+import framerate from './framerate'
 import instances from './instances'
 
 export default {
@@ -31,4 +32,8 @@ export const EventHandlers = {
 
 export const Bounce = {
   args: { config: bounce },
+}
+
+export const Framerate = {
+  args: { config: framerate },
 }

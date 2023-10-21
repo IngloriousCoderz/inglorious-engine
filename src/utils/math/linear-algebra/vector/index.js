@@ -52,6 +52,10 @@ export function conjugate(vector) {
   return vector.map((coordinate, index) => (index ? -coordinate : coordinate))
 }
 
+export function createVector(magnitude, angle) {
+  return rotate(multiply(UNIT_VECTOR, magnitude), angle)
+}
+
 export function divide(vector, scalar) {
   return vector.map((coordinate) => coordinate / scalar)
 }
@@ -141,6 +145,10 @@ export function unit(angle) {
 }
 
 function rotateWithQuaternion(v, angle) {
+  if (!angle) {
+    return v
+  }
+
   // @see https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation#Performance_comparisons
   const [w, ...r] = quaternion(angle)
   const result = sum(

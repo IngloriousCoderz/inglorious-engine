@@ -51,7 +51,6 @@ export default {
         state: 'meandering',
         maxSpeed: 250,
         maxRotation: pi() / 4,
-        orientation: 0,
         position: [400, 0, 300],
       },
     },

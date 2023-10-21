@@ -36,8 +36,7 @@ export default {
         type: 'character',
         maxSpeed: 250,
         maxRotation: pi() / 4,
-        orientation: 0,
-        position: [0, 0, 300],
+        position: [400, 0, 300],
       },
 
       parameters: {

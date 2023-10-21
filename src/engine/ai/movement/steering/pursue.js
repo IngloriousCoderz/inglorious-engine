@@ -1,6 +1,7 @@
 import {
   magnitude,
   multiply,
+  ZERO_VECTOR,
 } from '@inglorious/utils/math/linear-algebra/vector'
 import { subtract, sum } from '@inglorious/utils/math/linear-algebra/vectors'
 
@@ -13,6 +14,8 @@ export default function pursue(
   target,
   { dt, maxPrediction = DEFAULT_MAX_PREDICTION }
 ) {
+  const velocity = instance.velocity ?? ZERO_VECTOR
+
   const direction = subtract(target.position, instance.position)
   const distance = magnitude(direction)
 
@@ -20,7 +23,7 @@ export default function pursue(
     return instance
   }
 
-  const speed = magnitude(instance.velocity)
+  const speed = magnitude(velocity)
 
   let prediction
   if (speed <= distance / maxPrediction) {
@@ -29,10 +32,7 @@ export default function pursue(
     prediction = distance / speed
   }
 
-  const targetPosition = sum(
-    target.position,
-    multiply(target.velocity, prediction)
-  )
+  const position = sum(target.position, multiply(target.velocity, prediction))
 
-  return seek(instance, { ...target, position: targetPosition }, { dt })
+  return seek(instance, { ...target, position }, { dt })
 }

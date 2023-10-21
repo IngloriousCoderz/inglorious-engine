@@ -40,8 +40,8 @@ export default {
 
       character: {
         type: 'character',
-        maxAcceleration: 10,
-        velocity: [0, 0, 0],
+        maxAcceleration: 1000,
+        maxSpeed: 250,
         position: [400, 0, 300],
       },
 

@@ -8,7 +8,9 @@ import matchVelocity from './match-velocity'
 
 export const DEFAULT_TARGET_RADIUS = 1
 export const DEFAULT_SLOW_RADIUS = 100
-export const DEFAULT_TIME_TO_TARGET = 1
+export const DEFAULT_TIME_TO_TARGET = 0.1
+
+const DEFAULT_MAX_SPEED = 0
 
 export default function arrive(
   instance,
@@ -20,6 +22,8 @@ export default function arrive(
     timeToTarget = DEFAULT_TIME_TO_TARGET,
   }
 ) {
+  const maxSpeed = instance.maxSpeed ?? DEFAULT_MAX_SPEED
+
   const direction = subtract(target.position, instance.position)
   const distance = magnitude(direction)
 
@@ -27,17 +31,13 @@ export default function arrive(
     return instance
   }
 
-  let targetSpeed
+  let speed
   if (distance > slowRadius) {
-    targetSpeed = instance.maxSpeed
+    speed = maxSpeed
   } else {
-    targetSpeed = (distance * instance.maxSpeed) / slowRadius
+    speed = (distance * maxSpeed) / slowRadius
   }
-  const targetVelocity = setMagnitude(direction, targetSpeed * dt)
+  const velocity = setMagnitude(direction, speed)
 
-  return matchVelocity(
-    instance,
-    { velocity: targetVelocity },
-    { dt, timeToTarget }
-  )
+  return matchVelocity(instance, { velocity }, { dt, timeToTarget })
 }

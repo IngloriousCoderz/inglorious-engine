@@ -11,7 +11,6 @@ export default {
     instances: {
       instance1: {
         type: 'fps',
-        value: 0,
       },
     },
   },

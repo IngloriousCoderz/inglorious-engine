@@ -1,9 +1,15 @@
 import { abs, clamp } from '@inglorious/utils/math/numbers'
 import { toRange } from '@inglorious/utils/math/trigonometry'
 
-export const DEFAULT_TARGET_RADIUS = 0.1
+export const DEFAULT_TARGET_RADIUS = 1
 export const DEFAULT_SLOW_RADIUS = 0.1
-export const DEFAULT_TIME_TO_TARGET = 1
+export const DEFAULT_TIME_TO_TARGET = 0.1
+
+const DEFAULT_MAX_ROTATION = 0
+const DEFAULT_MAX_ANGULAR_ACCELERATION = 0
+
+const DEFAULT_ANGULAR_SPEED = 0
+const DEFAULT_ORIENTATION = 0
 
 export default function align(
   instance,
@@ -15,33 +21,39 @@ export default function align(
     timeToTarget = DEFAULT_TIME_TO_TARGET,
   }
 ) {
-  const direction = toRange(target.orientation - instance.orientation)
+  const maxAngularAcceleration =
+    instance.maxAngularAcceleration ?? DEFAULT_MAX_ANGULAR_ACCELERATION
+  const maxRotation = instance.maxRotation ?? DEFAULT_MAX_ROTATION
+
+  let angularSpeed = instance.angularSpeed ?? DEFAULT_ANGULAR_SPEED
+  let orientation = instance.orientation ?? DEFAULT_ORIENTATION
+
+  const direction = toRange(target.orientation - orientation)
   const distance = abs(direction)
 
   if (distance < targetRadius) {
     return instance
   }
 
-  let targetRotationSpeed
+  let targetAngularSpeed
   if (distance > slowRadius) {
-    targetRotationSpeed = instance.maxRotation
+    targetAngularSpeed = maxRotation
   } else {
-    targetRotationSpeed = (distance * instance.maxRotation) / slowRadius
+    targetAngularSpeed = (distance * maxRotation) / slowRadius
   }
-  targetRotationSpeed *= direction / distance // restore rotation sign
-  const targetAngularVelocity = targetRotationSpeed * dt
+  targetAngularSpeed *= direction / distance // restore rotation sign
 
-  const angularVelocityDelta = targetAngularVelocity - instance.angularVelocity
+  const angularSpeedDelta = targetAngularSpeed - angularSpeed
 
-  let angularAcceleration = angularVelocityDelta / timeToTarget
+  let angularAcceleration = angularSpeedDelta / timeToTarget
   angularAcceleration = clamp(
     angularAcceleration,
-    -instance.maxAngularAcceleration * dt,
-    instance.maxAngularAcceleration * dt
+    -maxAngularAcceleration,
+    maxAngularAcceleration
   )
 
-  const angularVelocity = instance.angularVelocity + angularAcceleration
-  const orientation = instance.orientation + angularVelocity
+  angularSpeed += angularAcceleration * dt
+  orientation += angularSpeed * dt
 
-  return { angularVelocity, orientation }
+  return { angularSpeed, orientation }
 }

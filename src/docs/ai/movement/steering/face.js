@@ -47,10 +47,8 @@ export default {
       character: {
         type: 'character',
         maxRotation: pi() / 4,
-        maxAngularAcceleration: 10,
+        maxAngularAcceleration: 1000,
         position: [400, 0, 300],
-        angularVelocity: 0,
-        orientation: 0,
       },
 
       parameters: {

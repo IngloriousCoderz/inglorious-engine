@@ -49,9 +49,7 @@ export default {
 
       character: {
         type: 'character',
-        maxAcceleration: 10,
         maxSpeed: 250,
-        velocity: [0, 0, 0],
         position: [400, 0, 300],
       },
     },

@@ -3,6 +3,7 @@ import {
   clamp,
   magnitude,
   multiply,
+  ZERO_VECTOR,
 } from '@inglorious/utils/math/linear-algebra/vector'
 import { sum } from '@inglorious/utils/math/linear-algebra/vectors'
 import { applyFriction } from '@inglorious/utils/physics/friction'
@@ -13,14 +14,12 @@ const HALF_ACCELERATION = 0.5
 const ORIENTATION_CHANGE_THRESHOLD = 4
 
 export default function move(instance, { dt }) {
-  const acceleration = clamp(
-    instance.acceleration,
-    MIN_ACCELERATION,
-    instance.maxAcceleration
-  )
+  let acceleration = instance.acceleration ?? ZERO_VECTOR
+  acceleration = clamp(acceleration, MIN_ACCELERATION, instance.maxAcceleration)
 
-  let velocity = clamp(
-    sum(instance.velocity, multiply(acceleration, dt)),
+  let velocity = instance.velocity ?? ZERO_VECTOR
+  velocity = clamp(
+    sum(velocity, multiply(acceleration, dt)),
     MIN_SPEED,
     instance.maxSpeed
   )

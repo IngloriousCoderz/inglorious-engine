@@ -74,7 +74,6 @@ export default {
         maxRotation: pi() / 4,
         maxAngularSpeed: 10,
         position: [400, 0, 300],
-        orientation: 0,
       },
 
       parameters: {

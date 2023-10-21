@@ -3,9 +3,10 @@ import { merge } from '@inglorious/utils/data-structures/objects'
 import { pi } from '@inglorious/utils/math/trigonometry'
 
 export default {
+  loop: { type: 'fixed', fps: 2 },
+
   types: {
     fps: {
-      frequency: 0.1,
       'game:update'(instance, event, { dt }) {
         instance.value = dt
       },
@@ -13,7 +14,7 @@ export default {
 
     character: {
       'game:update'(instance, event, options) {
-        instance = merge(instance, bounce(instance, options))
+        merge(instance, bounce(instance, options))
       },
     },
   },
