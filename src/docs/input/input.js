@@ -1,18 +1,24 @@
 import move from '@inglorious/engine/ai/movement/kinematic/move'
-import { inputInstance, inputType } from '@inglorious/engine/input'
+import { inputInstances, inputType } from '@inglorious/engine/input'
 import { merge } from '@inglorious/utils/data-structures/objects'
 
 export default {
   types: {
     ...inputType({
+      ArrowUp: 'up',
+      ArrowDown: 'down',
       ArrowLeft: 'left',
       ArrowRight: 'right',
-      ArrowDown: 'down',
-      ArrowUp: 'up',
+      KeyW: 'up',
+      KeyS: 'down',
       KeyA: 'left',
       KeyD: 'right',
-      KeyS: 'down',
-      KeyW: 'up',
+      Btn12: 'up',
+      Btn13: 'down',
+      Btn14: 'left',
+      Btn15: 'right',
+      Axis0: 'leftRight',
+      Axis1: 'upDown',
     }),
 
     fps: {
@@ -23,20 +29,28 @@ export default {
 
     character: {
       'game:update'(instance, event, { dt, instances }) {
-        const { input } = instances
+        const { input1 } = instances
 
         instance.velocity = [0, 0, 0]
-        if (input.left) {
+
+        if (input1.left) {
           instance.velocity[0] = -instance.maxSpeed
         }
-        if (input.down) {
+        if (input1.down) {
           instance.velocity[2] = -instance.maxSpeed
         }
-        if (input.right) {
+        if (input1.right) {
           instance.velocity[0] = instance.maxSpeed
         }
-        if (input.up) {
+        if (input1.up) {
           instance.velocity[2] = instance.maxSpeed
+        }
+
+        if (input1.leftRight != null) {
+          instance.velocity[0] += input1.leftRight * instance.maxSpeed
+        }
+        if (input1.upDown != null) {
+          instance.velocity[2] += -input1.upDown * instance.maxSpeed
         }
 
         merge(instance, move(instance, { dt }))
@@ -46,7 +60,7 @@ export default {
 
   state: {
     instances: {
-      ...inputInstance(),
+      ...inputInstances(),
 
       debug: {
         type: 'fps',

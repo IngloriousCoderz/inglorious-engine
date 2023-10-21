@@ -1,16 +1,54 @@
 export function inputType(mapping = {}, events = {}) {
   return {
     input: {
+      mapping,
+
+      'game:update'(instance, event, { instances, notify }) {
+        navigator.getGamepads().forEach((gamepad, index) => {
+          if (gamepad == null) {
+            return
+          }
+
+          const input = instances[`input${index}`]
+          if (input == null) {
+            return null
+          }
+
+          gamepad.axes.forEach((axis, index) => {
+            notify({
+              id: 'input:axis',
+              payload: { id: `Axis${index}`, value: axis },
+            })
+          })
+
+          gamepad.buttons.forEach((button, index) => {
+            const id = button.pressed ? 'input:press' : 'input:release'
+            notify({ id, payload: `Btn${index}` })
+          })
+        })
+      },
+
+      'input:axis'(instance, event) {
+        const id = mapping[event.payload.id]
+        instance[id] = event.payload.value
+      },
+
+      'input:press'(instance, event) {
+        const id = mapping[event.payload]
+        instance[id] = true
+      },
+
+      'input:release'(instance, event) {
+        const id = mapping[event.payload]
+        instance[id] = false
+      },
+
       'keyboard:keyDown'(instance, event, { notify }) {
-        const action = mapping[event.payload]
-        instance[action] = true
-        notify({ id: 'input:press', payload: action })
+        notify({ id: 'input:press', payload: event.payload })
       },
 
       'keyboard:keyUp'(instance, event, { notify }) {
-        const action = mapping[event.payload]
-        instance[action] = false
-        notify({ id: 'input:release', payload: action })
+        notify({ id: 'input:release', payload: event.payload })
       },
 
       ...events,
@@ -18,10 +56,11 @@ export function inputType(mapping = {}, events = {}) {
   }
 }
 
-export function inputInstance() {
+export function inputInstances() {
   return {
-    input: {
-      type: 'input',
-    },
+    input0: { type: 'input' },
+    input1: { type: 'input' },
+    input2: { type: 'input' },
+    input3: { type: 'input' },
   }
 }

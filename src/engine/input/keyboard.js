@@ -1,19 +1,23 @@
 export function keyboardType(events = {}) {
   return {
-    'keyboard:keyDown'(instance, event) {
-      instance[event.payload] = true
-    },
+    keyboard: {
+      'keyboard:keyDown'(instance, event) {
+        instance[event.payload] = true
+      },
 
-    'keyboard:keyUp'(instance, event) {
-      instance[event.payload] = false
-    },
+      'keyboard:keyUp'(instance, event) {
+        instance[event.payload] = false
+      },
 
-    ...events,
+      ...events,
+    },
   }
 }
 
 export function keyboardInstance() {
   return {
-    type: 'keyboard',
+    keyboard: {
+      type: 'keyboard',
+    },
   }
 }
