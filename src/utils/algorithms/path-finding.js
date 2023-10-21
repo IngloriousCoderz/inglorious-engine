@@ -1,5 +1,3 @@
-/* eslint-disable no-magic-numbers */
-
 import {
   contains,
   min,
@@ -9,7 +7,9 @@ import {
 import { abs, magnitude } from '@inglorious/utils/math/linear-algebra/vector'
 import { subtract } from '@inglorious/utils/math/linear-algebra/vectors'
 
-export const dijkstra = () => 0
+const NO_COST = 0
+
+export const dijkstra = () => NO_COST
 export const eucledianDistance = (a, b) =>
   magnitude(subtract(a.position, b.position))
 export const manhattanDistance = (a, b) => abs(subtract(a.position, b.position))
@@ -77,13 +77,13 @@ function adaptGraph(graph) {
   return {
     ...graph,
     nodes: Array.isArray(graph.nodes)
-      ? graph.nodes.map((node) => ({ ...node, cost: node.cost ?? 0 }))
+      ? graph.nodes.map((node) => ({ ...node, cost: node.cost ?? NO_COST }))
       : Object.entries(graph.nodes).map(([key, value]) => ({
           id: key,
           position: value,
           cost: 0,
         })),
-    arcs: graph.arcs.map((arc) => ({ ...arc, cost: arc.cost ?? 0 })),
+    arcs: graph.arcs.map((arc) => ({ ...arc, cost: arc.cost ?? NO_COST })),
   }
 }
 

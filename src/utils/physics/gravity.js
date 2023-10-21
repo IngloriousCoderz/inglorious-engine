@@ -48,7 +48,7 @@ export function applyGravity(
   options = DEFAULT_OPTIONS
 ) {
   if (!maxLeap) {
-    throw new Error(['maxLeap'])
+    throw new Error('Missing maxLeap')
   }
 
   const { dt } = options
