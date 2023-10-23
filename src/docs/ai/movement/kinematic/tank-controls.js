@@ -1,5 +1,5 @@
 import tank from '@inglorious/engine/ai/movement/kinematic/tank'
-import { inputInstances, inputType } from '@inglorious/engine/input'
+import { inputInstance, inputType } from '@inglorious/engine/input'
 import { merge } from '@inglorious/utils/data-structures/objects'
 
 export default {
@@ -46,7 +46,7 @@ export default {
 
   state: {
     instances: {
-      ...inputInstances(),
+      ...inputInstance(),
 
       debug: {
         type: 'fps',

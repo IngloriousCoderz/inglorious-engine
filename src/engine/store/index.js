@@ -125,7 +125,7 @@ function turnStateIntoFsm(state) {
   return {
     ...state,
     instances: map(state.instances, (id, instance) =>
-      instance.state == null ? { ...instance, state: 'default' } : instance
+      instance.state == null ? { ...instance, id, state: 'default' } : instance
     ),
   }
 }

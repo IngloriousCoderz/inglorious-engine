@@ -3,11 +3,9 @@ import { merge } from '@inglorious/utils/data-structures/objects'
 import Loop from './loop'
 import { createStore } from './store'
 
-const DEFAULT_FPS = 60
-
 const DEFAULT_CONFIG = {
   bounds: [0, 0, 800, 600], // eslint-disable-line no-magic-numbers
-  loop: { type: 'animationFrame', fps: DEFAULT_FPS },
+  loop: { type: 'animationFrame' },
 }
 
 const ONE_SECOND = 1000

@@ -1,5 +1,7 @@
-import { gamepadInstances, gamepadType } from './gamepad'
+import { gamepadInstance, gamepadType } from './gamepad'
 import { keyboardInstance, keyboardType } from './keyboard'
+
+const DEFAULT_ID = 0
 
 export function inputType(mapping = {}) {
   return {
@@ -11,32 +13,43 @@ export function inputType(mapping = {}) {
       mapping,
 
       'input:axis'(instance, event) {
-        const id = mapping[event.payload.id]
-        instance[id] = event.payload.value
+        const { id, axis, value } = event.payload
+
+        if (instance.id !== `input${id}`) {
+          return
+        }
+
+        instance[mapping[axis]] = value
       },
 
       'input:press'(instance, event) {
-        const id = mapping[event.payload]
-        instance[id] = true
+        const { id, button } = event.payload
+
+        if (instance.id !== `input${id}`) {
+          return
+        }
+
+        instance[mapping[button]] = true
       },
 
       'input:release'(instance, event) {
-        const id = mapping[event.payload]
-        instance[id] = false
+        const { id, button } = event.payload
+
+        if (instance.id !== `input${id}`) {
+          return
+        }
+
+        instance[mapping[button]] = false
       },
     },
   }
 }
 
-export function inputInstances() {
+export function inputInstance(id = DEFAULT_ID) {
   return {
-    ...keyboardInstance(),
+    ...keyboardInstance(id),
+    ...gamepadInstance(id),
 
-    ...gamepadInstances(),
-
-    input0: { type: 'input' },
-    input1: { type: 'input' },
-    input2: { type: 'input' },
-    input3: { type: 'input' },
+    [`input${id}`]: { type: 'input' },
   }
 }

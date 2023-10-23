@@ -1,5 +1,5 @@
 import move from '@inglorious/engine/ai/movement/kinematic/move'
-import { inputInstances, inputType } from '@inglorious/engine/input'
+import { inputInstance, inputType } from '@inglorious/engine/input'
 import { merge } from '@inglorious/utils/data-structures/objects'
 
 export default {
@@ -29,28 +29,28 @@ export default {
 
     character: {
       'game:update'(instance, event, { dt, instances }) {
-        const { input1 } = instances
+        const { input0 } = instances
 
         instance.velocity = [0, 0, 0]
 
-        if (input1.left) {
+        if (input0.left) {
           instance.velocity[0] = -instance.maxSpeed
         }
-        if (input1.down) {
+        if (input0.down) {
           instance.velocity[2] = -instance.maxSpeed
         }
-        if (input1.right) {
+        if (input0.right) {
           instance.velocity[0] = instance.maxSpeed
         }
-        if (input1.up) {
+        if (input0.up) {
           instance.velocity[2] = instance.maxSpeed
         }
 
-        if (input1.leftRight != null) {
-          instance.velocity[0] += input1.leftRight * instance.maxSpeed
+        if (input0.leftRight != null) {
+          instance.velocity[0] += input0.leftRight * instance.maxSpeed
         }
-        if (input1.upDown != null) {
-          instance.velocity[2] += -input1.upDown * instance.maxSpeed
+        if (input0.upDown != null) {
+          instance.velocity[2] += -input0.upDown * instance.maxSpeed
         }
 
         merge(instance, move(instance, { dt }))
@@ -60,7 +60,7 @@ export default {
 
   state: {
     instances: {
-      ...inputInstances(),
+      ...inputInstance(),
 
       debug: {
         type: 'fps',

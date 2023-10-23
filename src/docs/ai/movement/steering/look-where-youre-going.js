@@ -4,7 +4,7 @@ import {
   DEFAULT_TIME_TO_TARGET,
 } from '@inglorious/engine/ai/movement/steering/align'
 import lookWhereYoureGoing from '@inglorious/engine/ai/movement/steering/look-where-youre-going'
-import { inputInstances, inputType } from '@inglorious/engine/input'
+import { inputInstance, inputType } from '@inglorious/engine/input'
 import { clampToBounds } from '@inglorious/utils/character'
 import { merge } from '@inglorious/utils/data-structures/objects'
 import { sum } from '@inglorious/utils/math/linear-algebra/vectors'
@@ -68,7 +68,7 @@ export default {
 
   state: {
     instances: {
-      ...inputInstances(),
+      ...inputInstance(),
 
       character: {
         type: 'character',

@@ -3,7 +3,7 @@ import align, {
   DEFAULT_TARGET_RADIUS,
   DEFAULT_TIME_TO_TARGET,
 } from '@inglorious/engine/ai/movement/steering/align'
-import { inputInstances, inputType } from '@inglorious/engine/input'
+import { inputInstance, inputType } from '@inglorious/engine/input'
 import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
 import { clampToBounds } from '@inglorious/utils/character'
 import { merge } from '@inglorious/utils/data-structures/objects'
@@ -69,7 +69,7 @@ export default {
   state: {
     instances: {
       ...mouseInstance(),
-      ...inputInstances(),
+      ...inputInstance(),
 
       character: {
         type: 'character',

@@ -1,6 +1,6 @@
 import jump from '@inglorious/engine/ai/movement/steering/jump'
 import move from '@inglorious/engine/ai/movement/steering/move'
-import { inputInstances, inputType } from '@inglorious/engine/input'
+import { inputInstance, inputType } from '@inglorious/engine/input'
 import { merge } from '@inglorious/utils/data-structures/objects'
 import { applyGravity } from '@inglorious/utils/physics/gravity'
 
@@ -71,7 +71,7 @@ export default {
 
   state: {
     instances: {
-      ...inputInstances(),
+      ...inputInstance(),
 
       stats: {
         type: 'stats',

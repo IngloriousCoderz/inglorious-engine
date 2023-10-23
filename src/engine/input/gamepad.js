@@ -1,46 +1,64 @@
+const DEFAULT_ID = 0
+
 export function gamepadType() {
   return {
     gamepad: {
-      'game:update'(instance, event, { instances, notify }) {
-        navigator.getGamepads().forEach((gamepad, index) => {
+      'game:update'(instance, event, { notify }) {
+        navigator.getGamepads().forEach((gamepad) => {
           if (gamepad == null) {
             return
-          }
-
-          const input = instances[`input${index}`]
-          if (input == null) {
-            return null
           }
 
           gamepad.axes.forEach((axis, index) => {
             notify({
               id: 'gamepad:axis',
-              payload: { id: `Axis${index}`, value: axis },
+              payload: { id: gamepad.index, axis: `Axis${index}`, value: axis },
             })
           })
 
           gamepad.buttons.forEach((button, index) => {
             const id = button.pressed ? 'gamepad:press' : 'gamepad:release'
-            notify({ id, payload: `Btn${index}` })
+            notify({
+              id,
+              payload: { id: gamepad.index, button: `Btn${index}` },
+            })
           })
         })
       },
 
       'gamepad:axis'(instance, event, { notify }) {
-        instance[event.payload.id] = event.payload.value
+        const { id, axis, value } = event.payload
+
+        if (instance.id !== `gamepad${id}`) {
+          return
+        }
+
+        instance[axis] = value
         notify({ id: 'input:axis', payload: event.payload })
       },
 
       'gamepad:press'(instance, event, { notify }) {
-        if (!instance[event.payload]) {
-          instance[event.payload] = true
+        const { id, button } = event.payload
+
+        if (instance.id !== `gamepad${id}`) {
+          return
+        }
+
+        if (!instance[button]) {
+          instance[button] = true
           notify({ id: 'input:press', payload: event.payload })
         }
       },
 
       'gamepad:release'(instance, event, { notify }) {
-        if (instance[event.payload]) {
-          instance[event.payload] = false
+        const { id, button } = event.payload
+
+        if (instance.id !== `gamepad${id}`) {
+          return
+        }
+
+        if (instance[button]) {
+          instance[button] = false
           notify({ id: 'input:release', payload: event.payload })
         }
       },
@@ -48,11 +66,8 @@ export function gamepadType() {
   }
 }
 
-export function gamepadInstances() {
+export function gamepadInstance(id = DEFAULT_ID) {
   return {
-    gamepad0: { type: 'gamepad' },
-    gamepad1: { type: 'gamepad' },
-    gamepad2: { type: 'gamepad' },
-    gamepad3: { type: 'gamepad' },
+    [`gamepad${id}`]: { type: 'gamepad' },
   }
 }

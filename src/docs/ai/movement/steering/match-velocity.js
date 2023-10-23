@@ -1,7 +1,7 @@
 import matchVelocity, {
   DEFAULT_TIME_TO_TARGET,
 } from '@inglorious/engine/ai/movement/steering/match-velocity'
-import { inputInstances, inputType } from '@inglorious/engine/input'
+import { inputInstance, inputType } from '@inglorious/engine/input'
 import { clampToBounds } from '@inglorious/utils/character'
 import { merge } from '@inglorious/utils/data-structures/objects'
 
@@ -58,7 +58,7 @@ export default {
 
   state: {
     instances: {
-      ...inputInstances(),
+      ...inputInstance(),
 
       character: {
         type: 'character',
