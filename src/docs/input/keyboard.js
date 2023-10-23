@@ -7,7 +7,7 @@ import { merge } from '@inglorious/utils/data-structures/objects'
 
 export default {
   types: {
-    keyboard: keyboardType(),
+    ...keyboardType(),
 
     fps: {
       'game:update'(instance, event, { dt }) {
@@ -40,7 +40,7 @@ export default {
 
   state: {
     instances: {
-      keyboard: keyboardInstance(),
+      ...keyboardInstance(),
 
       debug: {
         type: 'fps',

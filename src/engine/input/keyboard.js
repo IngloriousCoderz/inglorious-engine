@@ -1,15 +1,15 @@
-export function keyboardType(events = {}) {
+export function keyboardType() {
   return {
     keyboard: {
-      'keyboard:keyDown'(instance, event) {
+      'keyboard:keyDown'(instance, event, { notify }) {
         instance[event.payload] = true
+        notify({ id: 'input:press', payload: event.payload })
       },
 
-      'keyboard:keyUp'(instance, event) {
+      'keyboard:keyUp'(instance, event, { notify }) {
         instance[event.payload] = false
+        notify({ id: 'input:release', payload: event.payload })
       },
-
-      ...events,
     },
   }
 }
