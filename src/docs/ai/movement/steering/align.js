@@ -3,7 +3,7 @@ import align, {
   DEFAULT_TARGET_RADIUS,
   DEFAULT_TIME_TO_TARGET,
 } from '@inglorious/engine/ai/movement/steering/align'
-import { inputInstance, inputType } from '@inglorious/engine/input'
+import { inputInstances, inputType } from '@inglorious/engine/input'
 import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
 import { clampToBounds } from '@inglorious/utils/character'
 import { merge } from '@inglorious/utils/data-structures/objects'
@@ -21,11 +21,11 @@ export default {
       },
 
       'game:update'(instance, event, { instances }) {
-        const { input } = instances
+        const { input0 } = instances
 
-        if (input.left || input.up) {
+        if (input0.left || input0.up) {
           instance.orientation += 0.1
-        } else if (input.right || input.down) {
+        } else if (input0.right || input0.down) {
           instance.orientation -= 0.1
         }
         instance.orientation = clamp(instance.orientation, -pi(), pi())
@@ -69,7 +69,7 @@ export default {
   state: {
     instances: {
       ...mouseInstance(),
-      ...inputInstance(),
+      ...inputInstances(),
 
       character: {
         type: 'character',

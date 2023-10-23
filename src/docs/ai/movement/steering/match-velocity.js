@@ -1,7 +1,7 @@
 import matchVelocity, {
   DEFAULT_TIME_TO_TARGET,
 } from '@inglorious/engine/ai/movement/steering/match-velocity'
-import { inputInstance, inputType } from '@inglorious/engine/input'
+import { inputInstances, inputType } from '@inglorious/engine/input'
 import { clampToBounds } from '@inglorious/utils/character'
 import { merge } from '@inglorious/utils/data-structures/objects'
 
@@ -18,21 +18,21 @@ export default {
       'game:update'(instance, event, { dt, config, instances }) {
         const { fields } = instances.parameters.groups.matchVelocity
 
-        const { input } = instances
+        const { input0 } = instances
 
         const SPEED = instance.maxSpeed
 
         const target = { velocity: [0, 0, 0] }
-        if (input.left) {
+        if (input0.left) {
           target.velocity[0] = -SPEED
         }
-        if (input.down) {
+        if (input0.down) {
           target.velocity[2] = -SPEED
         }
-        if (input.right) {
+        if (input0.right) {
           target.velocity[0] = SPEED
         }
-        if (input.up) {
+        if (input0.up) {
           target.velocity[2] = SPEED
         }
 
@@ -58,7 +58,7 @@ export default {
 
   state: {
     instances: {
-      ...inputInstance(),
+      ...inputInstances(),
 
       character: {
         type: 'character',

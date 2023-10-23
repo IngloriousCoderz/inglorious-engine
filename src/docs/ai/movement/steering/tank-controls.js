@@ -1,5 +1,5 @@
 import tank from '@inglorious/engine/ai/movement/steering/tank'
-import { inputInstance, inputType } from '@inglorious/engine/input'
+import { inputInstances, inputType } from '@inglorious/engine/input'
 import { merge } from '@inglorious/utils/data-structures/objects'
 
 export default {
@@ -23,19 +23,19 @@ export default {
 
     character: {
       'game:update'(instance, event, { dt, instances }) {
-        const { input } = instances
+        const { input0 } = instances
 
         instance.acceleration = [0, 0, 0]
-        if (input.left) {
+        if (input0.left) {
           instance.orientation += 0.1
         }
-        if (input.down) {
+        if (input0.down) {
           instance.acceleration = [-instance.maxAcceleration, 0, 0]
         }
-        if (input.right) {
+        if (input0.right) {
           instance.orientation -= 0.1
         }
-        if (input.up) {
+        if (input0.up) {
           instance.acceleration = [instance.maxAcceleration, 0, 0]
         }
 
@@ -46,7 +46,7 @@ export default {
 
   state: {
     instances: {
-      ...inputInstance(),
+      ...inputInstances(),
 
       debug: {
         type: 'fps',

@@ -38,6 +38,9 @@ export function createStore({ state: initialState, ...config }) {
 
     state.events.push({ id: 'game:update' })
 
+    state.events.push(...incomingEvents)
+    incomingEvents = []
+
     while (state.events.length) {
       const event = state.events.shift()
 
@@ -63,9 +66,6 @@ export function createStore({ state: initialState, ...config }) {
         remove(event.payload)
       }
     }
-
-    state.events.push(...incomingEvents)
-    incomingEvents = []
 
     listeners.forEach((onUpdate) => onUpdate())
   }

@@ -4,7 +4,7 @@ import {
   DEFAULT_TIME_TO_TARGET,
 } from '@inglorious/engine/ai/movement/steering/align'
 import lookWhereYoureGoing from '@inglorious/engine/ai/movement/steering/look-where-youre-going'
-import { inputInstance, inputType } from '@inglorious/engine/input'
+import { inputInstances, inputType } from '@inglorious/engine/input'
 import { clampToBounds } from '@inglorious/utils/character'
 import { merge } from '@inglorious/utils/data-structures/objects'
 import { sum } from '@inglorious/utils/math/linear-algebra/vectors'
@@ -23,19 +23,19 @@ export default {
       'game:update'(instance, event, { dt, config, instances }) {
         const { fields } = instances.parameters.groups.lookWhereYoureGoing
 
-        const { input } = instances
+        const { input0 } = instances
 
         const target = { velocity: [0, 0, 0] }
-        if (input.left) {
+        if (input0.left) {
           target.velocity[0] = -1
         }
-        if (input.down) {
+        if (input0.down) {
           target.velocity[2] = -1
         }
-        if (input.right) {
+        if (input0.right) {
           target.velocity[0] = 1
         }
-        if (input.up) {
+        if (input0.up) {
           target.velocity[2] = 1
         }
 
@@ -68,7 +68,7 @@ export default {
 
   state: {
     instances: {
-      ...inputInstance(),
+      ...inputInstances(),
 
       character: {
         type: 'character',

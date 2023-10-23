@@ -1,6 +1,6 @@
 import move from '@inglorious/engine/ai/movement/kinematic/move'
 import jump from '@inglorious/engine/ai/movement/steering/jump'
-import { inputInstance, inputType } from '@inglorious/engine/input'
+import { inputInstances, inputType } from '@inglorious/engine/input'
 import { merge } from '@inglorious/utils/data-structures/objects'
 import { applyGravity } from '@inglorious/utils/physics/gravity'
 
@@ -20,19 +20,19 @@ export default {
       states: {
         notJumping: {
           'game:update'(instance, event, { dt, instances }) {
-            const { input } = instances
+            const { input0 } = instances
 
             instance.velocity = [0, 0, 0]
-            if (input.left) {
+            if (input0.left) {
               instance.velocity[0] = -instance.maxSpeed
             }
-            if (input.down) {
+            if (input0.down) {
               instance.velocity[2] = -instance.maxSpeed
             }
-            if (input.right) {
+            if (input0.right) {
               instance.velocity[0] = instance.maxSpeed
             }
-            if (input.up) {
+            if (input0.up) {
               instance.velocity[2] = instance.maxSpeed
             }
 
@@ -58,7 +58,7 @@ export default {
 
   state: {
     instances: {
-      ...inputInstance(),
+      ...inputInstances(),
 
       stats: {
         type: 'stats',

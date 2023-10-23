@@ -1,7 +1,6 @@
 import { useRef } from 'react'
 
 import classes from './scene.module.scss'
-import { useKeyboard } from './use-keyboard'
 import { useMouse } from './use-mouse'
 
 export default function Scene({ config, children }) {
@@ -9,7 +8,6 @@ export default function Scene({ config, children }) {
 
   const ref = useRef()
   const mouseEventHandlers = useMouse({ parent: ref.current, height })
-  useKeyboard()
 
   return (
     <div

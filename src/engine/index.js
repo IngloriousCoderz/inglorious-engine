@@ -38,6 +38,8 @@ export default class Engine {
   }
 
   stop() {
+    this._store.notify({ id: 'game:stop' })
+    this._store.update()
     this._loop.stop()
   }
 }

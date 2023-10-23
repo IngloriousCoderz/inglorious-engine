@@ -1,5 +1,5 @@
 import move from '@inglorious/engine/ai/movement/steering/move'
-import { inputInstance, inputType } from '@inglorious/engine/input'
+import { inputInstances, inputType } from '@inglorious/engine/input'
 import { clampToBounds } from '@inglorious/utils/character'
 import { merge } from '@inglorious/utils/data-structures/objects'
 
@@ -14,19 +14,19 @@ export default {
 
     character: {
       'game:update'(instance, event, { dt, config, instances }) {
-        const { input } = instances
+        const { input0 } = instances
 
         instance.acceleration = [0, 0, 0]
-        if (input.left) {
+        if (input0.left) {
           instance.acceleration[0] = -instance.maxAcceleration
         }
-        if (input.down) {
+        if (input0.down) {
           instance.acceleration[2] = -instance.maxAcceleration
         }
-        if (input.right) {
+        if (input0.right) {
           instance.acceleration[0] = instance.maxAcceleration
         }
-        if (input.up) {
+        if (input0.up) {
           instance.acceleration[2] = instance.maxAcceleration
         }
 
@@ -39,7 +39,7 @@ export default {
 
   state: {
     instances: {
-      ...inputInstance(),
+      ...inputInstances(),
 
       character: {
         type: 'character',
