@@ -3,15 +3,13 @@ import { keyboardInstance, keyboardType } from './keyboard'
 
 const DEFAULT_ID = 0
 
-export function inputType(mapping = {}) {
+export function inputType() {
   return {
     ...keyboardType(),
 
     ...gamepadType(),
 
     input: {
-      mapping,
-
       'input:axis'(instance, event) {
         const { id, axis, value } = event.payload
 
@@ -19,7 +17,7 @@ export function inputType(mapping = {}) {
           return
         }
 
-        instance[mapping[axis]] = value
+        instance[instance.mapping[axis]] = value
       },
 
       'input:press'(instance, event) {
@@ -29,7 +27,7 @@ export function inputType(mapping = {}) {
           return
         }
 
-        instance[mapping[button]] = true
+        instance[instance.mapping[button]] = true
       },
 
       'input:release'(instance, event) {
@@ -39,17 +37,17 @@ export function inputType(mapping = {}) {
           return
         }
 
-        instance[mapping[button]] = false
+        instance[instance.mapping[button]] = false
       },
     },
   }
 }
 
-export function inputInstance(id = DEFAULT_ID) {
+export function inputInstance(id = DEFAULT_ID, mapping = {}) {
   return {
-    ...keyboardInstance(id),
-    ...gamepadInstance(id),
+    ...keyboardInstance(mapping),
+    ...gamepadInstance(id, mapping),
 
-    [`input${id}`]: { type: 'input' },
+    [`input${id}`]: { type: 'input', mapping },
   }
 }

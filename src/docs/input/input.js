@@ -4,22 +4,7 @@ import { merge } from '@inglorious/utils/data-structures/objects'
 
 export default {
   types: {
-    ...inputType({
-      ArrowUp: 'up',
-      ArrowDown: 'down',
-      ArrowLeft: 'left',
-      ArrowRight: 'right',
-      KeyW: 'up',
-      KeyS: 'down',
-      KeyA: 'left',
-      KeyD: 'right',
-      Btn12: 'up',
-      Btn13: 'down',
-      Btn14: 'left',
-      Btn15: 'right',
-      Axis0: 'leftRight',
-      Axis1: 'upDown',
-    }),
+    ...inputType(),
 
     fps: {
       'game:update'(instance, event, { dt }) {
@@ -60,7 +45,22 @@ export default {
 
   state: {
     instances: {
-      ...inputInstance(),
+      ...inputInstance(0, {
+        ArrowUp: 'up',
+        ArrowDown: 'down',
+        ArrowLeft: 'left',
+        ArrowRight: 'right',
+        KeyW: 'up',
+        KeyS: 'down',
+        KeyA: 'left',
+        KeyD: 'right',
+        Btn12: 'up',
+        Btn13: 'down',
+        Btn14: 'left',
+        Btn15: 'right',
+        Axis0: 'leftRight',
+        Axis1: 'upDown',
+      }),
 
       debug: {
         type: 'fps',

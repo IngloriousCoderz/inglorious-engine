@@ -33,7 +33,7 @@ export function gamepadType() {
           return
         }
 
-        instance[axis] = value
+        instance[instance.mapping[axis]] = value
         notify({ id: 'input:axis', payload: event.payload })
       },
 
@@ -44,8 +44,8 @@ export function gamepadType() {
           return
         }
 
-        if (!instance[button]) {
-          instance[button] = true
+        if (!instance[instance.mapping[button]]) {
+          instance[instance.mapping[button]] = true
           notify({ id: 'input:press', payload: event.payload })
         }
       },
@@ -57,8 +57,8 @@ export function gamepadType() {
           return
         }
 
-        if (instance[button]) {
-          instance[button] = false
+        if (instance[instance.mapping[button]]) {
+          instance[instance.mapping[button]] = false
           notify({ id: 'input:release', payload: event.payload })
         }
       },
@@ -66,8 +66,8 @@ export function gamepadType() {
   }
 }
 
-export function gamepadInstance(id = DEFAULT_ID) {
+export function gamepadInstance(id = DEFAULT_ID, mapping = {}) {
   return {
-    [`gamepad${id}`]: { type: 'gamepad' },
+    [`gamepad${id}`]: { type: 'gamepad', mapping },
   }
 }

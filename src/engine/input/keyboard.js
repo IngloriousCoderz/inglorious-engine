@@ -17,17 +17,12 @@ export function keyboardType() {
       },
 
       'keyboard:keyDown'(instance, event, { notify }) {
-        instance[event.payload] = true
-
-        notify({
-          id: 'input:press',
-          payload: { id: 0, button: event.payload },
-        })
+        instance[instance.mapping[event.payload]] = true
+        notify({ id: 'input:press', payload: { id: 0, button: event.payload } })
       },
 
       'keyboard:keyUp'(instance, event, { notify }) {
-        instance[event.payload] = false
-
+        instance[instance.mapping[event.payload]] = false
         notify({
           id: 'input:release',
           payload: { id: 0, button: event.payload },
@@ -37,9 +32,9 @@ export function keyboardType() {
   }
 }
 
-export function keyboardInstance() {
+export function keyboardInstance(mapping = {}) {
   return {
-    keyboard: { type: 'keyboard' },
+    keyboard: { type: 'keyboard', mapping },
   }
 }
 
