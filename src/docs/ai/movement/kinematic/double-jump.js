@@ -6,13 +6,7 @@ import { applyGravity } from '@inglorious/utils/physics/gravity'
 
 export default {
   types: {
-    ...inputType({
-      ArrowLeft: 'left',
-      ArrowRight: 'right',
-      ArrowDown: 'down',
-      ArrowUp: 'up',
-      Space: 'jump',
-    }),
+    ...inputType(),
 
     stats: {},
 
@@ -71,7 +65,13 @@ export default {
 
   state: {
     instances: {
-      ...inputInstance(),
+      ...inputInstance(0, {
+        ArrowLeft: 'left',
+        ArrowRight: 'right',
+        ArrowDown: 'down',
+        ArrowUp: 'up',
+        Space: 'jump',
+      }),
 
       stats: {
         type: 'stats',

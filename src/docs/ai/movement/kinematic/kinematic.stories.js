@@ -3,10 +3,12 @@ import Game from '@inglorious/ui/game'
 import align from './align'
 import arrive from './arrive'
 import doubleJump from './double-jump'
+import face from './face'
 import flee from './flee'
 import jump from './jump'
 import move from './move'
 import seek from './seek'
+import shooterControls from './shooter-controls'
 import tankControls from './tank-controls'
 import wander from './wander'
 import wanderAsSeek from './wander-as-seek'
@@ -40,12 +42,20 @@ export const Align = {
   args: { config: align },
 }
 
+export const Face = {
+  args: { config: face },
+}
+
 export const Move = {
   args: { config: move },
 }
 
 export const TankControls = {
   args: { config: tankControls },
+}
+
+export const ShooterControls = {
+  args: { config: shooterControls },
 }
 
 export const Jump = {

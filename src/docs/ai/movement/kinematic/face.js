@@ -1,40 +1,27 @@
-import matchVelocity, {
+import {
+  DEFAULT_TARGET_RADIUS,
   DEFAULT_TIME_TO_TARGET,
-} from '@inglorious/engine/ai/movement/steering/match-velocity'
-import { inputInstance, inputType } from '@inglorious/engine/input'
+} from '@inglorious/engine/ai/movement/kinematic/align'
+import face from '@inglorious/engine/ai/movement/kinematic/face'
+import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
 import { clampToBounds } from '@inglorious/utils/character'
 import { merge } from '@inglorious/utils/data-structures/objects'
+import { pi } from '@inglorious/utils/math/trigonometry'
 
 export default {
   types: {
-    ...inputType(),
+    ...mouseType(),
 
     character: {
       'game:update'(instance, event, { dt, config, instances }) {
-        const { fields } = instances.parameters.groups.matchVelocity
-
-        const { input0 } = instances
-
-        const SPEED = instance.maxSpeed
-
-        const target = { velocity: [0, 0, 0] }
-        if (input0.left) {
-          target.velocity[0] = -SPEED
-        }
-        if (input0.down) {
-          target.velocity[2] = -SPEED
-        }
-        if (input0.right) {
-          target.velocity[0] = SPEED
-        }
-        if (input0.up) {
-          target.velocity[2] = SPEED
-        }
+        const target = instances.mouse
+        const { fields } = instances.parameters.groups.face
 
         merge(
           instance,
-          matchVelocity(instance, target, {
+          face(instance, target, {
             dt,
+            targetRadius: fields.targetRadius.value,
             timeToTarget: fields.timeToTarget.value,
           })
         )
@@ -46,24 +33,19 @@ export default {
     form: {
       'field:change'(instance, event) {
         const { id, value } = event.payload
-        instance.groups.matchVelocity.fields[id].value = value
+        instance.groups.face.fields[id].value = value
       },
     },
   },
 
   state: {
     instances: {
-      ...inputInstance(0, {
-        ArrowLeft: 'left',
-        ArrowRight: 'right',
-        ArrowDown: 'down',
-        ArrowUp: 'up',
-      }),
+      ...mouseInstance(),
 
       character: {
         type: 'character',
-        maxAcceleration: 1000,
-        maxSpeed: 250,
+        maxAngularSpeed: pi() / 4,
+        maxAngularAcceleration: 1000,
         position: [400, 0, 300],
       },
 
@@ -71,9 +53,15 @@ export default {
         type: 'form',
         position: [800 - 328, 0, 600],
         groups: {
-          matchVelocity: {
-            title: 'Match Velocity',
+          face: {
+            title: 'Face',
             fields: {
+              targetRadius: {
+                label: 'Target Radius',
+                inputType: 'number',
+                step: 0.1,
+                defaultValue: DEFAULT_TARGET_RADIUS,
+              },
               timeToTarget: {
                 label: 'Time To Target',
                 inputType: 'number',

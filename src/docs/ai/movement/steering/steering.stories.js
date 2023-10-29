@@ -12,6 +12,7 @@ import matchVelocity from './match-velocity'
 import move from './move'
 import pursue from './pursue'
 import seek from './seek'
+import shooterControls from './shooter-controls'
 import tankControls from './tank-controls'
 import wander from './wander'
 
@@ -67,6 +68,10 @@ export const Move = {
 
 export const TankControls = {
   args: { config: tankControls },
+}
+
+export const ShooterControls = {
+  args: { config: shooterControls },
 }
 
 export const Jump = {

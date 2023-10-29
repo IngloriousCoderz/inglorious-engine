@@ -12,12 +12,7 @@ import { pi } from '@inglorious/utils/math/trigonometry'
 
 export default {
   types: {
-    ...inputType({
-      ArrowLeft: 'left',
-      ArrowRight: 'right',
-      ArrowDown: 'down',
-      ArrowUp: 'up',
-    }),
+    ...inputType(),
 
     character: {
       'game:update'(instance, event, { dt, config, instances }) {
@@ -68,7 +63,12 @@ export default {
 
   state: {
     instances: {
-      ...inputInstance(),
+      ...inputInstance(0, {
+        ArrowLeft: 'left',
+        ArrowRight: 'right',
+        ArrowDown: 'down',
+        ArrowUp: 'up',
+      }),
 
       character: {
         type: 'character',
