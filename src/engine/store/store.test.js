@@ -21,15 +21,18 @@ test('it should add an event to the event queue', () => {
   }
   const store = createStore(config)
   const afterState = {
-    events: [event],
+    events: [],
     instances: {
       game: {
+        id: 'game',
         type: 'game',
         state: 'default',
       },
       instance1: {
+        id: 'instance1',
         type: 'kitty',
         state: 'default',
+        wasNotified: true,
       },
     },
   }
@@ -67,10 +70,12 @@ test('it should process the event queue', () => {
     events: [],
     instances: {
       game: {
+        id: 'game',
         type: 'game',
         state: 'default',
       },
       instance1: {
+        id: 'instance1',
         type: 'kitty',
         state: 'default',
         wasNotified: true,
@@ -121,17 +126,20 @@ test('it should send an event from an instance', () => {
   }
   const store = createStore(config)
   const afterState = {
-    events: [{ id: 'game:update' }],
+    events: [],
     instances: {
       game: {
+        id: 'game',
         type: 'game',
         state: 'default',
       },
       instance1: {
+        id: 'instance1',
         type: 'doge',
         state: 'default',
       },
       instance2: {
+        id: 'instance2',
         type: 'kitty',
         state: 'default',
         position: 'near', // should do nothing at first
@@ -185,14 +193,17 @@ test('it should receive an event from an instance', () => {
     events: [],
     instances: {
       game: {
+        id: 'game',
         type: 'game',
         state: 'default',
       },
       instance1: {
+        id: 'instance1',
         type: 'doge',
         state: 'default',
       },
       instance2: {
+        id: 'instance2',
         type: 'kitty',
         state: 'default',
         position: 'far', // position changed
@@ -228,10 +239,12 @@ test('it should mutate state in an immutable way', () => {
     events: [],
     instances: {
       game: {
+        id: 'game',
         type: 'game',
         state: 'default',
       },
       instance1: {
+        id: 'instance1',
         type: 'kitty',
         state: 'default',
         wasUpdated: true,
