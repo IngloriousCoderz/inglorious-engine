@@ -11,33 +11,33 @@ export function inputType() {
 
     input: {
       'input:axis'(instance, event) {
-        const { id, axis, value } = event.payload
+        const { id, action, value } = event.payload
 
         if (instance.id !== `input${id}`) {
           return
         }
 
-        instance[instance.mapping[axis]] = value
+        instance[action] = value
       },
 
       'input:press'(instance, event) {
-        const { id, button } = event.payload
+        const { id, action } = event.payload
 
         if (instance.id !== `input${id}`) {
           return
         }
 
-        instance[instance.mapping[button]] = true
+        instance[action] = true
       },
 
       'input:release'(instance, event) {
-        const { id, button } = event.payload
+        const { id, action } = event.payload
 
         if (instance.id !== `input${id}`) {
           return
         }
 
-        instance[instance.mapping[button]] = false
+        instance[action] = false
       },
     },
   }

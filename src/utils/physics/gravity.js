@@ -24,24 +24,25 @@ t_h = x_h/v_x
 */
 
 /*
-Integration:
-v_y += a_y*dt
-y += v_y*dt + 1/2*a_y*dt*dt
+Euler's Integration:
+v += a * dt
+p += v * dt + 1/2 * a * dt * dt
 */
+
+const DEFAULT_JUMP = 0
+const DEFAULT_LEAP = 0
+const DEFAULT_SPEED = 0
 
 const NO_VELOCITY = 0
 const NO_POSITION = 0
 
-const NO_JUMP = 0
-const NO_LEAP = 0
-const NO_SPEED = 0
 const DEFAULT_OPTIONS = { dt: 0 }
 
 export function applyGravity(
   {
-    maxJump = NO_JUMP,
-    maxLeap = NO_LEAP,
-    maxSpeed = NO_SPEED,
+    maxJump = DEFAULT_JUMP,
+    maxLeap = DEFAULT_LEAP,
+    maxSpeed = DEFAULT_SPEED,
     vy = NO_VELOCITY,
     py = NO_POSITION,
   },

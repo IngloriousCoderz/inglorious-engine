@@ -1,8 +1,8 @@
-import jump from '@inglorious/engine/ai/movement/steering/jump'
 import move from '@inglorious/engine/ai/movement/steering/move'
 import { inputInstance, inputType } from '@inglorious/engine/input'
 import { merge } from '@inglorious/utils/data-structures/objects'
 import { applyGravity } from '@inglorious/utils/physics/gravity'
+import { jump } from '@inglorious/utils/physics/jump'
 
 export default {
   types: {
@@ -34,9 +34,10 @@ export default {
           },
 
           'input:press'(instance, event, { dt }) {
-            if (event.payload === 'jump') {
+            const { id, action } = event.payload
+            if (id === 0 && action === 'jump') {
               instance.state = 'jumping'
-              jump(instance, { dt })
+              merge(instance, jump(instance, { dt }))
             }
           },
         },
@@ -71,8 +72,6 @@ export default {
         maxAcceleration: 500,
         maxSpeed: 250,
         friction: 250,
-        acceleration: [0, 0, 0],
-        velocity: [0, 0, 0],
         position: [400, 0, 300],
         maxJump: 100,
         maxLeap: 100,

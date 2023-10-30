@@ -17,16 +17,19 @@ export function keyboardType() {
       },
 
       'keyboard:keyDown'(instance, event, { notify }) {
-        instance[instance.mapping[event.payload]] = true
-        notify({ id: 'input:press', payload: { id: 0, button: event.payload } })
+        const action = instance.mapping[event.payload]
+        if (!instance[action]) {
+          instance[action] = true
+          notify({ id: 'input:press', payload: { id: 0, action } })
+        }
       },
 
       'keyboard:keyUp'(instance, event, { notify }) {
-        instance[instance.mapping[event.payload]] = false
-        notify({
-          id: 'input:release',
-          payload: { id: 0, button: event.payload },
-        })
+        const action = instance.mapping[event.payload]
+        if (instance[action]) {
+          instance[action] = false
+          notify({ id: 'input:release', payload: { id: 0, action } })
+        }
       },
     },
   }

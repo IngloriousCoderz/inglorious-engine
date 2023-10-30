@@ -21,13 +21,13 @@ export default {
           instance.orientation += 0.1
         }
         if (input0.down) {
-          instance.acceleration = [-instance.maxAcceleration, 0, 0]
+          instance.acceleration[0] = -instance.maxAcceleration
         }
         if (input0.right) {
           instance.orientation -= 0.1
         }
         if (input0.up) {
-          instance.acceleration = [instance.maxAcceleration, 0, 0]
+          instance.acceleration[0] = instance.maxAcceleration
         }
 
         merge(instance, tank(instance, { dt }))

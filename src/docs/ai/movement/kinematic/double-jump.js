@@ -1,8 +1,8 @@
 import move from '@inglorious/engine/ai/movement/kinematic/move'
-import jump from '@inglorious/engine/ai/movement/steering/jump'
 import { inputInstance, inputType } from '@inglorious/engine/input'
 import { merge } from '@inglorious/utils/data-structures/objects'
 import { applyGravity } from '@inglorious/utils/physics/gravity'
+import { jump } from '@inglorious/utils/physics/jump'
 
 export default {
   types: {
@@ -34,9 +34,10 @@ export default {
           },
 
           'input:press'(instance, event, { dt }) {
-            if (event.payload === 'jump') {
+            const { id, action } = event.payload
+            if (id === 0 && action === 'jump') {
               instance.state = 'jumping'
-              jump(instance, { dt })
+              merge(instance, jump(instance, { dt }))
             }
           },
         },
@@ -47,9 +48,10 @@ export default {
           },
 
           'input:press'(instance, event, { dt }) {
-            if (event.payload === 'jump') {
+            const { id, action } = event.payload
+            if (id === 0 && action === 'jump') {
               instance.state = 'doubleJumping'
-              jump(instance, { dt })
+              merge(instance, jump(instance, { dt }))
             }
           },
         },

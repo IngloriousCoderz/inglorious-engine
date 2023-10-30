@@ -22,16 +22,16 @@ export default {
 
         instance.velocity = [0, 0, 0]
         if (input0.left) {
-          instance.velocity = [0, 0, -instance.maxSpeed]
+          instance.velocity[2] = -instance.maxSpeed
         }
         if (input0.down) {
-          instance.velocity = [-instance.maxSpeed, 0, 0]
+          instance.velocity[0] = -instance.maxSpeed
         }
         if (input0.right) {
-          instance.velocity = [0, 0, instance.maxSpeed]
+          instance.velocity[2] = instance.maxSpeed
         }
         if (input0.up) {
-          instance.velocity = [instance.maxSpeed, 0, 0]
+          instance.velocity[0] = instance.maxSpeed
         }
 
         merge(instance, face(instance, mouse, { dt }))

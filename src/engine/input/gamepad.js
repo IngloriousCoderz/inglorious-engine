@@ -33,8 +33,9 @@ export function gamepadType() {
           return
         }
 
-        instance[instance.mapping[axis]] = value
-        notify({ id: 'input:axis', payload: event.payload })
+        const action = instance.mapping[axis]
+        instance[action] = value
+        notify({ id: 'input:axis', payload: { id, action, value } })
       },
 
       'gamepad:press'(instance, event, { notify }) {
@@ -44,9 +45,10 @@ export function gamepadType() {
           return
         }
 
-        if (!instance[instance.mapping[button]]) {
-          instance[instance.mapping[button]] = true
-          notify({ id: 'input:press', payload: event.payload })
+        const action = instance.mapping[button]
+        if (!instance[action]) {
+          instance[action] = true
+          notify({ id: 'input:press', payload: { id, action } })
         }
       },
 
@@ -57,9 +59,10 @@ export function gamepadType() {
           return
         }
 
-        if (instance[instance.mapping[button]]) {
-          instance[instance.mapping[button]] = false
-          notify({ id: 'input:release', payload: event.payload })
+        const action = instance.mapping[button]
+        if (instance[action]) {
+          instance[action] = false
+          notify({ id: 'input:release', payload: { id, action } })
         }
       },
     },
