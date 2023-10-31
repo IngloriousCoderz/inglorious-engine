@@ -2,18 +2,13 @@ import Game from '@inglorious/ui/game'
 
 import align from './align'
 import arrive from './arrive'
-import doubleJump from './double-jump'
 import evade from './evade'
 import face from './face'
 import flee from './flee'
-import jump from './jump'
 import lookWhereYoureGoing from './look-where-youre-going'
 import matchVelocity from './match-velocity'
-import move from './move'
 import pursue from './pursue'
 import seek from './seek'
-import shooterControls from './shooter-controls'
-import tankControls from './tank-controls'
 import wander from './wander'
 
 export default {
@@ -60,24 +55,4 @@ export const LookWhereYoureGoing = {
 
 export const Wander = {
   args: { config: wander },
-}
-
-export const Move = {
-  args: { config: move },
-}
-
-export const TankControls = {
-  args: { config: tankControls },
-}
-
-export const ShooterControls = {
-  args: { config: shooterControls },
-}
-
-export const Jump = {
-  args: { config: jump },
-}
-
-export const DoubleJump = {
-  args: { config: doubleJump },
 }

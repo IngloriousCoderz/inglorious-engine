@@ -1,36 +1,33 @@
-import tank from '@inglorious/engine/ai/movement/kinematic/tank'
 import { inputInstance, inputType } from '@inglorious/engine/input'
+import move from '@inglorious/engine/player/steering/move'
+import { clampToBounds } from '@inglorious/utils/character'
 import { merge } from '@inglorious/utils/data-structures/objects'
 
 export default {
   types: {
     ...inputType(),
 
-    fps: {
-      'game:update'(instance, event, { dt }) {
-        instance.value = dt
-      },
-    },
-
     character: {
-      'game:update'(instance, event, { dt, instances }) {
+      'game:update'(instance, event, { dt, config, instances }) {
         const { input0 } = instances
 
-        instance.velocity = [0, 0, 0]
+        instance.acceleration = [0, 0, 0]
         if (input0.left) {
-          instance.orientation += 0.1
+          instance.acceleration[0] = -instance.maxAcceleration
         }
         if (input0.down) {
-          instance.velocity[0] = -instance.maxSpeed
+          instance.acceleration[2] = -instance.maxAcceleration
         }
         if (input0.right) {
-          instance.orientation -= 0.1
+          instance.acceleration[0] = instance.maxAcceleration
         }
         if (input0.up) {
-          instance.velocity[0] = instance.maxSpeed
+          instance.acceleration[2] = instance.maxAcceleration
         }
 
-        merge(instance, tank(instance, { dt }))
+        merge(instance, move(instance, { dt }))
+
+        clampToBounds(instance, config.bounds)
       },
     },
   },
@@ -42,20 +39,13 @@ export default {
         ArrowRight: 'right',
         ArrowDown: 'down',
         ArrowUp: 'up',
-        KeyA: 'left',
-        KeyD: 'right',
-        KeyS: 'down',
-        KeyW: 'up',
       }),
-
-      debug: {
-        type: 'fps',
-        value: 0,
-      },
 
       character: {
         type: 'character',
+        maxAcceleration: 500,
         maxSpeed: 250,
+        friction: 250,
         position: [400, 0, 300],
       },
     },

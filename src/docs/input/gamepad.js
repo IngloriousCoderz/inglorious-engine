@@ -1,5 +1,5 @@
-import move from '@inglorious/engine/ai/movement/kinematic/move'
 import { gamepadInstance, gamepadType } from '@inglorious/engine/input/gamepad'
+import move from '@inglorious/engine/player/kinematic/move'
 import { merge } from '@inglorious/utils/data-structures/objects'
 
 export default {

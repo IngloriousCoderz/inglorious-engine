@@ -1,5 +1,5 @@
-import move from '@inglorious/engine/ai/movement/steering/move'
 import { inputInstance, inputType } from '@inglorious/engine/input'
+import move from '@inglorious/engine/player/kinematic/move'
 import { merge } from '@inglorious/utils/data-structures/objects'
 import { applyGravity } from '@inglorious/utils/physics/gravity'
 import { jump } from '@inglorious/utils/physics/jump'
@@ -16,18 +16,18 @@ export default {
           'game:update'(instance, event, { dt, instances }) {
             const { input0 } = instances
 
-            instance.acceleration = [0, 0, 0]
+            instance.velocity = [0, 0, 0]
             if (input0.left) {
-              instance.acceleration[0] = -instance.maxAcceleration
-            }
-            if (input0.right) {
-              instance.acceleration[0] = instance.maxAcceleration
+              instance.velocity[0] = -instance.maxSpeed
             }
             if (input0.down) {
-              instance.acceleration[2] = -instance.maxAcceleration
+              instance.velocity[2] = -instance.maxSpeed
+            }
+            if (input0.right) {
+              instance.velocity[0] = instance.maxSpeed
             }
             if (input0.up) {
-              instance.acceleration[2] = instance.maxAcceleration
+              instance.velocity[2] = instance.maxSpeed
             }
 
             act(instance, event, { dt, instances })
@@ -43,20 +43,6 @@ export default {
         },
 
         jumping: {
-          'game:update'(instance, event, { dt, instances }) {
-            act(instance, event, { dt, instances })
-          },
-
-          'input:press'(instance, event, { dt }) {
-            const { id, action } = event.payload
-            if (id === 0 && action === 'jump') {
-              instance.state = 'doubleJumping'
-              merge(instance, jump(instance, { dt }))
-            }
-          },
-        },
-
-        doubleJumping: {
           'game:update'(instance, event, { dt, instances }) {
             act(instance, event, { dt, instances })
           },
@@ -83,9 +69,7 @@ export default {
 
       character: {
         type: 'character',
-        maxAcceleration: 500,
         maxSpeed: 250,
-        friction: 250,
         position: [400, 0, 300],
         maxJump: 100,
         maxLeap: 100,

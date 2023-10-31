@@ -1,5 +1,5 @@
-import move from '@inglorious/engine/ai/movement/kinematic/move'
 import { inputInstance, inputType } from '@inglorious/engine/input'
+import move from '@inglorious/engine/player/kinematic/move'
 import { merge } from '@inglorious/utils/data-structures/objects'
 import { applyGravity } from '@inglorious/utils/physics/gravity'
 import { jump } from '@inglorious/utils/physics/jump'

@@ -1,5 +1,5 @@
-import move from '@inglorious/engine/ai/movement/kinematic/move'
 import { inputInstance, inputType } from '@inglorious/engine/input'
+import move from '@inglorious/engine/player/steering/move'
 import { merge } from '@inglorious/utils/data-structures/objects'
 import { applyGravity } from '@inglorious/utils/physics/gravity'
 import { jump } from '@inglorious/utils/physics/jump'
@@ -16,18 +16,18 @@ export default {
           'game:update'(instance, event, { dt, instances }) {
             const { input0 } = instances
 
-            instance.velocity = [0, 0, 0]
+            instance.acceleration = [0, 0, 0]
             if (input0.left) {
-              instance.velocity[0] = -instance.maxSpeed
-            }
-            if (input0.down) {
-              instance.velocity[2] = -instance.maxSpeed
+              instance.acceleration[0] = -instance.maxAcceleration
             }
             if (input0.right) {
-              instance.velocity[0] = instance.maxSpeed
+              instance.acceleration[0] = instance.maxAcceleration
+            }
+            if (input0.down) {
+              instance.acceleration[2] = -instance.maxAcceleration
             }
             if (input0.up) {
-              instance.velocity[2] = instance.maxSpeed
+              instance.acceleration[2] = instance.maxAcceleration
             }
 
             act(instance, event, { dt, instances })
@@ -69,7 +69,9 @@ export default {
 
       character: {
         type: 'character',
+        maxAcceleration: 500,
         maxSpeed: 250,
+        friction: 250,
         position: [400, 0, 300],
         maxJump: 100,
         maxLeap: 100,

@@ -1,8 +1,8 @@
-import move from '@inglorious/engine/ai/movement/kinematic/move'
 import {
   keyboardInstance,
   keyboardType,
 } from '@inglorious/engine/input/keyboard'
+import move from '@inglorious/engine/player/kinematic/move'
 import { merge } from '@inglorious/utils/data-structures/objects'
 
 export default {

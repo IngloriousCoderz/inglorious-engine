@@ -1,13 +1,9 @@
-import face from '@inglorious/engine/ai/movement/kinematic/face'
-import tank from '@inglorious/engine/ai/movement/kinematic/tank'
 import { inputInstance, inputType } from '@inglorious/engine/input'
-import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
+import tank from '@inglorious/engine/player/steering/tank'
 import { merge } from '@inglorious/utils/data-structures/objects'
-import { pi } from '@inglorious/utils/math/trigonometry'
 
 export default {
   types: {
-    ...mouseType(),
     ...inputType(),
 
     fps: {
@@ -18,23 +14,22 @@ export default {
 
     character: {
       'game:update'(instance, event, { dt, instances }) {
-        const { input0, mouse } = instances
+        const { input0 } = instances
 
-        instance.velocity = [0, 0, 0]
+        instance.acceleration = [0, 0, 0]
         if (input0.left) {
-          instance.velocity[2] = -instance.maxSpeed
+          instance.orientation += 0.1
         }
         if (input0.down) {
-          instance.velocity[0] = -instance.maxSpeed
+          instance.acceleration[0] = -instance.maxAcceleration
         }
         if (input0.right) {
-          instance.velocity[2] = instance.maxSpeed
+          instance.orientation -= 0.1
         }
         if (input0.up) {
-          instance.velocity[0] = instance.maxSpeed
+          instance.acceleration[0] = instance.maxAcceleration
         }
 
-        merge(instance, face(instance, mouse, { dt }))
         merge(instance, tank(instance, { dt }))
       },
     },
@@ -42,7 +37,6 @@ export default {
 
   state: {
     instances: {
-      ...mouseInstance(),
       ...inputInstance(0, {
         ArrowLeft: 'left',
         ArrowRight: 'right',
@@ -61,8 +55,9 @@ export default {
 
       character: {
         type: 'character',
-        maxAngularSpeed: 2 * pi(),
+        maxAcceleration: 1000,
         maxSpeed: 250,
+        friction: 250,
         position: [400, 0, 300],
       },
     },
