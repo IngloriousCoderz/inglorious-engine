@@ -1,19 +1,14 @@
 import { inputInstance, inputType } from '@inglorious/engine/input'
 import tank from '@inglorious/engine/player/kinematic/tank'
+import { clampToBounds } from '@inglorious/utils/character'
 import { merge } from '@inglorious/utils/data-structures/objects'
 
 export default {
   types: {
     ...inputType(),
 
-    fps: {
-      'game:update'(instance, event, { dt }) {
-        instance.value = dt
-      },
-    },
-
     character: {
-      'game:update'(instance, event, { dt, instances }) {
+      'game:update'(instance, event, { dt, config, instances }) {
         const { input0 } = instances
 
         instance.velocity = [0, 0, 0]
@@ -30,7 +25,19 @@ export default {
           instance.velocity[0] = instance.maxSpeed
         }
 
+        if (input0.leftRight != null) {
+          instance.orientation +=
+            -input0.leftRight * instance.maxAngularSpeed * dt
+        }
+        if (input0.upDown != null) {
+          instance.velocity[0] += -input0.upDown * instance.maxSpeed
+        }
+        if (input0.strafe != null) {
+          instance.velocity[2] += input0.strafe * instance.maxSpeed
+        }
+
         merge(instance, tank(instance, { dt }))
+        clampToBounds(instance, config.bounds)
       },
     },
   },
@@ -38,23 +45,26 @@ export default {
   state: {
     instances: {
       ...inputInstance(0, {
+        ArrowUp: 'up',
+        ArrowDown: 'down',
         ArrowLeft: 'left',
         ArrowRight: 'right',
-        ArrowDown: 'down',
-        ArrowUp: 'up',
+        KeyW: 'up',
+        KeyS: 'down',
         KeyA: 'left',
         KeyD: 'right',
-        KeyS: 'down',
-        KeyW: 'up',
+        Btn12: 'up',
+        Btn13: 'down',
+        Btn14: 'left',
+        Btn15: 'right',
+        Axis0: 'strafe',
+        Axis1: 'upDown',
+        Axis2: 'leftRight',
       }),
-
-      debug: {
-        type: 'fps',
-        value: 0,
-      },
 
       character: {
         type: 'character',
+        maxAngularSpeed: 10,
         maxSpeed: 250,
         position: [400, 0, 300],
       },

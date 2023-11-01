@@ -2,6 +2,7 @@ import face from '@inglorious/engine/ai/movement/kinematic/face'
 import { inputInstance, inputType } from '@inglorious/engine/input'
 import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
 import tank from '@inglorious/engine/player/kinematic/tank'
+import { clampToBounds } from '@inglorious/utils/character'
 import { merge } from '@inglorious/utils/data-structures/objects'
 import { pi } from '@inglorious/utils/math/trigonometry'
 
@@ -10,14 +11,8 @@ export default {
     ...mouseType(),
     ...inputType(),
 
-    fps: {
-      'game:update'(instance, event, { dt }) {
-        instance.value = dt
-      },
-    },
-
     character: {
-      'game:update'(instance, event, { dt, instances }) {
+      'game:update'(instance, event, { dt, config, instances }) {
         const { input0, mouse } = instances
 
         instance.velocity = [0, 0, 0]
@@ -36,6 +31,7 @@ export default {
 
         merge(instance, face(instance, mouse, { dt }))
         merge(instance, tank(instance, { dt }))
+        clampToBounds(instance, config.bounds)
       },
     },
   },
@@ -53,11 +49,6 @@ export default {
         KeyS: 'down',
         KeyW: 'up',
       }),
-
-      debug: {
-        type: 'fps',
-        value: 0,
-      },
 
       character: {
         type: 'character',

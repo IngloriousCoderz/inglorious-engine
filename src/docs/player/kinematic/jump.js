@@ -1,5 +1,6 @@
 import { inputInstance, inputType } from '@inglorious/engine/input'
 import move from '@inglorious/engine/player/kinematic/move'
+import { clampToBounds } from '@inglorious/utils/character'
 import { merge } from '@inglorious/utils/data-structures/objects'
 import { applyGravity } from '@inglorious/utils/physics/gravity'
 import { jump } from '@inglorious/utils/physics/jump'
@@ -13,8 +14,8 @@ export default {
     character: {
       states: {
         notJumping: {
-          'game:update'(instance, event, { dt, instances }) {
-            const { input0 } = instances
+          'game:update'(instance, event, options) {
+            const { input0 } = options.instances
 
             instance.velocity = [0, 0, 0]
             if (input0.left) {
@@ -30,7 +31,14 @@ export default {
               instance.velocity[2] = instance.maxSpeed
             }
 
-            act(instance, event, { dt, instances })
+            if (input0.leftRight != null) {
+              instance.velocity[0] += input0.leftRight * instance.maxSpeed
+            }
+            if (input0.upDown != null) {
+              instance.velocity[2] += -input0.upDown * instance.maxSpeed
+            }
+
+            act(instance, event, options)
           },
 
           'input:press'(instance, event, { dt }) {
@@ -43,8 +51,8 @@ export default {
         },
 
         jumping: {
-          'game:update'(instance, event, { dt, instances }) {
-            act(instance, event, { dt, instances })
+          'game:update'(instance, event, options) {
+            act(instance, event, options)
           },
         },
       },
@@ -54,11 +62,21 @@ export default {
   state: {
     instances: {
       ...inputInstance(0, {
+        ArrowUp: 'up',
+        ArrowDown: 'down',
         ArrowLeft: 'left',
         ArrowRight: 'right',
-        ArrowDown: 'down',
-        ArrowUp: 'up',
-        Space: 'jump',
+        KeyW: 'up',
+        KeyS: 'down',
+        KeyA: 'left',
+        KeyD: 'right',
+        Btn12: 'up',
+        Btn13: 'down',
+        Btn14: 'left',
+        Btn15: 'right',
+        Btn0: 'jump',
+        Axis0: 'leftRight',
+        Axis1: 'upDown',
       }),
 
       stats: {
@@ -81,6 +99,7 @@ export default {
 
 function act(instance, event, options) {
   merge(instance, move(instance, options))
+  clampToBounds(instance, options.config.bounds)
 
   merge(instance, applyGravity(instance, options))
 

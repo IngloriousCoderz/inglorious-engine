@@ -1,19 +1,14 @@
 import { inputInstance, inputType } from '@inglorious/engine/input'
 import tank from '@inglorious/engine/player/steering/tank'
+import { clampToBounds } from '@inglorious/utils/character'
 import { merge } from '@inglorious/utils/data-structures/objects'
 
 export default {
   types: {
     ...inputType(),
 
-    fps: {
-      'game:update'(instance, event, { dt }) {
-        instance.value = dt
-      },
-    },
-
     character: {
-      'game:update'(instance, event, { dt, instances }) {
+      'game:update'(instance, event, { dt, config, instances }) {
         const { input0 } = instances
 
         instance.acceleration = [0, 0, 0]
@@ -30,7 +25,19 @@ export default {
           instance.acceleration[0] = instance.maxAcceleration
         }
 
+        if (input0.leftRight != null) {
+          instance.orientation +=
+            -input0.leftRight * instance.maxAngularSpeed * dt
+        }
+        if (input0.upDown != null) {
+          instance.acceleration[0] += -input0.upDown * instance.maxAcceleration
+        }
+        if (input0.strafe != null) {
+          instance.acceleration[2] += input0.strafe * instance.maxAcceleration
+        }
+
         merge(instance, tank(instance, { dt }))
+        clampToBounds(instance, config.bounds)
       },
     },
   },
@@ -38,24 +45,27 @@ export default {
   state: {
     instances: {
       ...inputInstance(0, {
+        ArrowUp: 'up',
+        ArrowDown: 'down',
         ArrowLeft: 'left',
         ArrowRight: 'right',
-        ArrowDown: 'down',
-        ArrowUp: 'up',
+        KeyW: 'up',
+        KeyS: 'down',
         KeyA: 'left',
         KeyD: 'right',
-        KeyS: 'down',
-        KeyW: 'up',
+        Btn12: 'up',
+        Btn13: 'down',
+        Btn14: 'left',
+        Btn15: 'right',
+        Axis0: 'strafe',
+        Axis1: 'upDown',
+        Axis2: 'leftRight',
       }),
-
-      debug: {
-        type: 'fps',
-        value: 0,
-      },
 
       character: {
         type: 'character',
-        maxAcceleration: 1000,
+        maxAngularSpeed: 10,
+        maxAcceleration: 500,
         maxSpeed: 250,
         friction: 250,
         position: [400, 0, 300],

@@ -25,8 +25,14 @@ export default {
           instance.velocity[2] = instance.maxSpeed
         }
 
-        merge(instance, move(instance, { dt }))
+        if (input0.leftRight != null) {
+          instance.velocity[0] += input0.leftRight * instance.maxSpeed
+        }
+        if (input0.upDown != null) {
+          instance.velocity[2] += -input0.upDown * instance.maxSpeed
+        }
 
+        merge(instance, move(instance, { dt }))
         clampToBounds(instance, config.bounds)
       },
     },
@@ -35,10 +41,20 @@ export default {
   state: {
     instances: {
       ...inputInstance(0, {
+        ArrowUp: 'up',
+        ArrowDown: 'down',
         ArrowLeft: 'left',
         ArrowRight: 'right',
-        ArrowDown: 'down',
-        ArrowUp: 'up',
+        KeyW: 'up',
+        KeyS: 'down',
+        KeyA: 'left',
+        KeyD: 'right',
+        Btn12: 'up',
+        Btn13: 'down',
+        Btn14: 'left',
+        Btn15: 'right',
+        Axis0: 'leftRight',
+        Axis1: 'upDown',
       }),
 
       character: {
