@@ -1,6 +1,6 @@
 import pursue, {
   DEFAULT_MAX_PREDICTION,
-} from '@inglorious/engine/ai/movement/steering/pursue'
+} from '@inglorious/engine/ai/movement/dynamic/pursue'
 import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
 import { clampToBounds } from '@inglorious/utils/character'
 import { merge } from '@inglorious/utils/data-structures/objects'

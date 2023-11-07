@@ -1,7 +1,7 @@
 import wander, {
   DEFAULT_WANDER_OFFSET,
   DEFAULT_WANDER_RADIUS,
-} from '@inglorious/engine/ai/movement/steering/wander'
+} from '@inglorious/engine/ai/movement/dynamic/wander'
 import { flip } from '@inglorious/utils/character'
 import { merge } from '@inglorious/utils/data-structures/objects'
 import { pi } from '@inglorious/utils/math/trigonometry'
@@ -47,7 +47,7 @@ export default {
         position: [800 - 352, 0, 600],
         groups: {
           wander: {
-            title: 'Steering Wander',
+            title: 'Dynamic Wander',
             fields: {
               wanderOffset: {
                 label: 'Wander Offset',

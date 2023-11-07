@@ -1,41 +1,35 @@
+import face from '@inglorious/engine/ai/movement/kinematic/face'
 import { inputInstance, inputType } from '@inglorious/engine/input'
-import tank from '@inglorious/engine/player/steering/tank'
+import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
+import tank from '@inglorious/engine/player/dynamic/tank'
 import { clampToBounds } from '@inglorious/utils/character'
 import { merge } from '@inglorious/utils/data-structures/objects'
+import { pi } from '@inglorious/utils/math/trigonometry'
 
 export default {
   types: {
+    ...mouseType(),
     ...inputType(),
 
     character: {
       'game:update'(instance, event, { dt, config, instances }) {
-        const { input0 } = instances
+        const { input0, mouse } = instances
 
         instance.acceleration = [0, 0, 0]
         if (input0.left) {
-          instance.orientation += 0.1
+          instance.acceleration[2] = -instance.maxAcceleration
         }
         if (input0.down) {
           instance.acceleration[0] = -instance.maxAcceleration
         }
         if (input0.right) {
-          instance.orientation -= 0.1
+          instance.acceleration[2] = instance.maxAcceleration
         }
         if (input0.up) {
           instance.acceleration[0] = instance.maxAcceleration
         }
 
-        if (input0.leftRight != null) {
-          instance.orientation +=
-            -input0.leftRight * instance.maxAngularSpeed * dt
-        }
-        if (input0.upDown != null) {
-          instance.acceleration[0] += -input0.upDown * instance.maxAcceleration
-        }
-        if (input0.strafe != null) {
-          instance.acceleration[2] += input0.strafe * instance.maxAcceleration
-        }
-
+        merge(instance, face(instance, mouse, { dt }))
         merge(instance, tank(instance, { dt }))
         clampToBounds(instance, config.bounds)
       },
@@ -44,6 +38,7 @@ export default {
 
   state: {
     instances: {
+      ...mouseInstance(),
       ...inputInstance(0, {
         ArrowUp: 'up',
         ArrowDown: 'down',
@@ -53,18 +48,12 @@ export default {
         KeyS: 'down',
         KeyA: 'left',
         KeyD: 'right',
-        Btn12: 'up',
-        Btn13: 'down',
-        Btn14: 'left',
-        Btn15: 'right',
-        Axis0: 'strafe',
-        Axis1: 'upDown',
-        Axis2: 'leftRight',
       }),
 
       character: {
         type: 'character',
-        maxAngularSpeed: 10,
+        maxAngularAcceleration: 1000,
+        maxAngularSpeed: 2 * pi(),
         maxAcceleration: 500,
         maxSpeed: 250,
         friction: 250,

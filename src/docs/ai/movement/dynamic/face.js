@@ -2,8 +2,8 @@ import {
   DEFAULT_SLOW_RADIUS,
   DEFAULT_TARGET_RADIUS,
   DEFAULT_TIME_TO_TARGET,
-} from '@inglorious/engine/ai/movement/steering/align'
-import face from '@inglorious/engine/ai/movement/steering/face'
+} from '@inglorious/engine/ai/movement/dynamic/align'
+import face from '@inglorious/engine/ai/movement/dynamic/face'
 import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
 import { clampToBounds } from '@inglorious/utils/character'
 import { merge } from '@inglorious/utils/data-structures/objects'

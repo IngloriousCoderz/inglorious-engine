@@ -1,5 +1,5 @@
 import { inputInstance, inputType } from '@inglorious/engine/input'
-import move from '@inglorious/engine/player/steering/move'
+import move from '@inglorious/engine/player/dynamic/move'
 import { clampToBounds } from '@inglorious/utils/character'
 import { merge } from '@inglorious/utils/data-structures/objects'
 import { applyGravity } from '@inglorious/utils/physics/gravity'
@@ -53,20 +53,6 @@ export default {
         },
 
         jumping: {
-          'game:update'(instance, event, options) {
-            act(instance, event, options)
-          },
-
-          'input:press'(instance, event, { dt }) {
-            const { id, action } = event.payload
-            if (id === 0 && action === 'jump') {
-              instance.state = 'doubleJumping'
-              merge(instance, jump(instance, { dt }))
-            }
-          },
-        },
-
-        doubleJumping: {
           'game:update'(instance, event, options) {
             act(instance, event, options)
           },

@@ -12,7 +12,7 @@ import seek from './seek'
 import wander from './wander'
 
 export default {
-  title: 'Engine/AI/Movement/Steering',
+  title: 'Engine/AI/Movement/Dynamic',
   component: Game,
 }
 

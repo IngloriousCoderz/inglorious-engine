@@ -1,5 +1,5 @@
 import { inputInstance, inputType } from '@inglorious/engine/input'
-import move from '@inglorious/engine/player/steering/move'
+import move from '@inglorious/engine/player/dynamic/move'
 import { clampToBounds } from '@inglorious/utils/character'
 import { merge } from '@inglorious/utils/data-structures/objects'
 

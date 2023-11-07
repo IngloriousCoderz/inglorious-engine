@@ -1,47 +1,47 @@
-import {
+import align, {
   DEFAULT_SLOW_RADIUS,
   DEFAULT_TARGET_RADIUS,
   DEFAULT_TIME_TO_TARGET,
-} from '@inglorious/engine/ai/movement/steering/align'
-import lookWhereYoureGoing from '@inglorious/engine/ai/movement/steering/look-where-youre-going'
+} from '@inglorious/engine/ai/movement/dynamic/align'
 import { inputInstance, inputType } from '@inglorious/engine/input'
+import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
 import { clampToBounds } from '@inglorious/utils/character'
 import { merge } from '@inglorious/utils/data-structures/objects'
-import { sum } from '@inglorious/utils/math/linear-algebra/vectors'
+import { clamp } from '@inglorious/utils/math/numbers'
 import { pi } from '@inglorious/utils/math/trigonometry'
 
 export default {
   types: {
+    ...mouseType({
+      'field:change'(instance, event) {
+        const { id, value } = event.payload
+        if (id === 'targetOrientation') {
+          instance.orientation = -value * pi()
+        }
+      },
+
+      'game:update'(instance, event, { instances }) {
+        const { input0 } = instances
+
+        if (input0.left || input0.up) {
+          instance.orientation += 0.1
+        } else if (input0.right || input0.down) {
+          instance.orientation -= 0.1
+        }
+        instance.orientation = clamp(instance.orientation, -pi(), pi())
+      },
+    }),
+
     ...inputType(),
 
     character: {
       'game:update'(instance, event, { dt, config, instances }) {
-        const { fields } = instances.parameters.groups.lookWhereYoureGoing
-
-        const { input0 } = instances
-
-        const target = { velocity: [0, 0, 0] }
-        if (input0.left) {
-          target.velocity[0] = -1
-        }
-        if (input0.down) {
-          target.velocity[2] = -1
-        }
-        if (input0.right) {
-          target.velocity[0] = 1
-        }
-        if (input0.up) {
-          target.velocity[2] = 1
-        }
-
-        merge(instance, {
-          velocity: target.velocity,
-          position: sum(instance.position, target.velocity),
-        })
+        const target = instances.mouse
+        const { fields } = instances.parameters.groups.align
 
         merge(
           instance,
-          lookWhereYoureGoing(instance, {
+          align(instance, target, {
             dt,
             targetRadius: fields.targetRadius.value,
             slowRadius: fields.slowRadius.value,
@@ -56,13 +56,14 @@ export default {
     form: {
       'field:change'(instance, event) {
         const { id, value } = event.payload
-        instance.groups.lookWhereYoureGoing.fields[id].value = value
+        instance.groups.align.fields[id].value = value
       },
     },
   },
 
   state: {
     instances: {
+      ...mouseInstance(),
       ...inputInstance(0, {
         ArrowLeft: 'left',
         ArrowRight: 'right',
@@ -72,8 +73,8 @@ export default {
 
       character: {
         type: 'character',
-        maxAngularAcceleration: 1000,
         maxAngularSpeed: pi() / 4,
+        maxAngularAcceleration: 10,
         position: [400, 0, 300],
       },
 
@@ -81,8 +82,8 @@ export default {
         type: 'form',
         position: [800 - 328, 0, 600],
         groups: {
-          lookWhereYoureGoing: {
-            title: "Look Where You're Going",
+          align: {
+            title: 'Dynamic Align',
             fields: {
               targetRadius: {
                 label: 'Target Radius',
@@ -99,6 +100,14 @@ export default {
                 inputType: 'number',
                 step: 0.1,
                 defaultValue: DEFAULT_TIME_TO_TARGET,
+              },
+              targetOrientation: {
+                label: 'Target Orientation',
+                inputType: 'number',
+                step: 0.25,
+                min: -1,
+                max: 1,
+                defaultValue: 0,
               },
             },
           },

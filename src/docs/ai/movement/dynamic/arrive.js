@@ -1,40 +1,27 @@
-import matchVelocity, {
+import arrive, {
+  DEFAULT_SLOW_RADIUS,
+  DEFAULT_TARGET_RADIUS,
   DEFAULT_TIME_TO_TARGET,
-} from '@inglorious/engine/ai/movement/steering/match-velocity'
-import { inputInstance, inputType } from '@inglorious/engine/input'
+} from '@inglorious/engine/ai/movement/dynamic/arrive'
+import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
 import { clampToBounds } from '@inglorious/utils/character'
 import { merge } from '@inglorious/utils/data-structures/objects'
 
 export default {
   types: {
-    ...inputType(),
+    ...mouseType(),
 
     character: {
       'game:update'(instance, event, { dt, config, instances }) {
-        const { fields } = instances.parameters.groups.matchVelocity
-
-        const { input0 } = instances
-
-        const SPEED = instance.maxSpeed
-
-        const target = { velocity: [0, 0, 0] }
-        if (input0.left) {
-          target.velocity[0] = -SPEED
-        }
-        if (input0.down) {
-          target.velocity[2] = -SPEED
-        }
-        if (input0.right) {
-          target.velocity[0] = SPEED
-        }
-        if (input0.up) {
-          target.velocity[2] = SPEED
-        }
+        const target = instances.mouse
+        const { fields } = instances.parameters.groups.arrive
 
         merge(
           instance,
-          matchVelocity(instance, target, {
+          arrive(instance, target, {
             dt,
+            targetRadius: fields.targetRadius.value,
+            slowRadius: fields.slowRadius.value,
             timeToTarget: fields.timeToTarget.value,
           })
         )
@@ -46,19 +33,14 @@ export default {
     form: {
       'field:change'(instance, event) {
         const { id, value } = event.payload
-        instance.groups.matchVelocity.fields[id].value = value
+        instance.groups.arrive.fields[id].value = value
       },
     },
   },
 
   state: {
     instances: {
-      ...inputInstance(0, {
-        ArrowLeft: 'left',
-        ArrowRight: 'right',
-        ArrowDown: 'down',
-        ArrowUp: 'up',
-      }),
+      ...mouseInstance(),
 
       character: {
         type: 'character',
@@ -71,9 +53,21 @@ export default {
         type: 'form',
         position: [800 - 328, 0, 600],
         groups: {
-          matchVelocity: {
-            title: 'Match Velocity',
+          arrive: {
+            title: 'Dynamic Arrive',
             fields: {
+              targetRadius: {
+                label: 'Target Radius',
+                inputType: 'number',
+                step: 0.1,
+                defaultValue: DEFAULT_TARGET_RADIUS,
+              },
+              slowRadius: {
+                label: 'Slow Radius',
+                inputType: 'number',
+                step: 0.1,
+                defaultValue: DEFAULT_SLOW_RADIUS,
+              },
               timeToTarget: {
                 label: 'Time To Target',
                 inputType: 'number',

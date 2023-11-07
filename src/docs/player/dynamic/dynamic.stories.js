@@ -7,7 +7,7 @@ import shooterControls from './shooter-controls'
 import tankControls from './tank-controls'
 
 export default {
-  title: 'Engine/Player/Steering',
+  title: 'Engine/Player/Dynamic',
   component: Game,
 }
 
