@@ -1,17 +1,13 @@
-import { filter, map } from '@inglorious/utils/data-structures/object'
+import { map } from '@inglorious/utils/data-structures/object'
 import { merge } from '@inglorious/utils/data-structures/objects'
 import produce from 'immer'
 
-const DEFAULT_TYPES = { game: {} }
 const DEFAULT_STATE = { events: [], instances: { game: { type: 'game' } } }
 
 export function createStore({ state: initialState, ...config }) {
   const listeners = new Set()
   let incomingEvents = []
 
-  const initialTypes = config.types
-  config.types = merge({}, DEFAULT_TYPES, initialTypes)
-  config.types = turnTypesIntoFsm(config.types)
   config.types = enableMutability(config.types)
 
   let state = merge({}, DEFAULT_STATE, initialState)
@@ -90,28 +86,6 @@ export function createStore({ state: initialState, ...config }) {
   }
 }
 
-function turnTypesIntoFsm(types) {
-  return map(types, (id, type) => {
-    const isFsm = Object.keys(type).some((key) => key === 'states')
-    if (isFsm) {
-      return type
-    }
-
-    const eventHandlers = filter(
-      type,
-      (_, value) => typeof value === 'function'
-    )
-    const typeWithoutEventHandlers = filter(
-      type,
-      (_, value) => typeof value !== 'function'
-    )
-
-    return merge(typeWithoutEventHandlers, {
-      states: { default: eventHandlers },
-    })
-  })
-}
-
 function enableMutability(types) {
   return map(types, (typeId, { states, ...rest }) => ({
     ...rest,
@@ -124,8 +98,10 @@ function enableMutability(types) {
 function turnStateIntoFsm(state) {
   return {
     ...state,
-    instances: map(state.instances, (id, instance) =>
-      instance.state == null ? { ...instance, id, state: 'default' } : instance
-    ),
+    instances: map(state.instances, (id, instance) => ({
+      ...instance,
+      id,
+      state: instance.state || 'default',
+    })),
   }
 }

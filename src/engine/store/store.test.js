@@ -6,9 +6,14 @@ test('it should add an event to the event queue', () => {
   const event = { id: 'something:happened' }
   const config = {
     types: {
+      game: { states: { default: {} } },
       kitty: {
-        [event.id](instance) {
-          return { ...instance, wasNotified: true }
+        states: {
+          default: {
+            [event.id](instance) {
+              return { ...instance, wasNotified: true }
+            },
+          },
         },
       },
     },
@@ -48,16 +53,22 @@ test('it should process the event queue', () => {
   const event = { id: 'something:happened' }
   const config = {
     types: {
+      game: { states: { default: {} } },
       kitty: {
-        'game:update'(instance) {
-          return { ...instance, wasUpdated: true }
-        },
+        states: {
+          default: {
+            'game:update'(instance) {
+              return { ...instance, wasUpdated: true }
+            },
 
-        [event.id](instance) {
-          return { ...instance, wasNotified: true }
+            [event.id](instance) {
+              return { ...instance, wasNotified: true }
+            },
+          },
         },
       },
     },
+
     state: {
       events: [event],
       instances: {
@@ -97,21 +108,34 @@ test('it should send an event from an instance', () => {
   }
   const config = {
     types: {
+      game: { states: { default: {} } },
       doge: {
-        'game:update'(instance, event, { instances, notify }) {
-          if (instances.instance2.position === 'near') {
-            notify(event)
-          }
+        states: {
+          default: {
+            'game:update'(instance, event, { instances, notify }) {
+              if (instances.instance2.position === 'near') {
+                notify(event)
+              }
+            },
+          },
         },
       },
       kitty: {
-        [event.id](instance) {
-          if (event.payload.id === 'inu' && event.payload.message === 'Woof!') {
-            instance.position = 'far'
-          }
+        states: {
+          default: {
+            [event.id](instance) {
+              if (
+                event.payload.id === 'inu' &&
+                event.payload.message === 'Woof!'
+              ) {
+                instance.position = 'far'
+              }
+            },
+          },
         },
       },
     },
+
     state: {
       instances: {
         instance1: {
@@ -160,21 +184,34 @@ test('it should receive an event from an instance', () => {
   }
   const config = {
     types: {
+      game: { states: { default: {} } },
       doge: {
-        'game:update'(instance, event, { instances, notify }) {
-          if (instances.instance2.position === 'near') {
-            notify(event)
-          }
+        states: {
+          default: {
+            'game:update'(instance, event, { instances, notify }) {
+              if (instances.instance2.position === 'near') {
+                notify(event)
+              }
+            },
+          },
         },
       },
       kitty: {
-        [event.id](instance, event) {
-          if (event.payload.id === 'inu' && event.payload.message === 'Woof!') {
-            instance.position = 'far'
-          }
+        states: {
+          default: {
+            [event.id](instance, event) {
+              if (
+                event.payload.id === 'inu' &&
+                event.payload.message === 'Woof!'
+              ) {
+                instance.position = 'far'
+              }
+            },
+          },
         },
       },
     },
+
     state: {
       events: [event],
       instances: {
@@ -220,12 +257,18 @@ test('it should receive an event from an instance', () => {
 test('it should mutate state in an immutable way', () => {
   const config = {
     types: {
+      game: { states: { default: {} } },
       kitty: {
-        'game:update'(instance) {
-          instance.wasUpdated = true
+        states: {
+          default: {
+            'game:update'(instance) {
+              instance.wasUpdated = true
+            },
+          },
         },
       },
     },
+
     state: {
       instances: {
         instance1: {

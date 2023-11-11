@@ -1,3 +1,4 @@
+import { filter, map } from '@inglorious/utils/data-structures/object'
 import { merge } from '@inglorious/utils/data-structures/objects'
 
 import Loop from './loop'
@@ -6,15 +7,18 @@ import { createStore } from './store'
 const DEFAULT_CONFIG = {
   bounds: [0, 0, 800, 600], // eslint-disable-line no-magic-numbers
   loop: { type: 'animationFrame' },
+  types: { game: {} },
 }
 
 const ONE_SECOND = 1000
 
 export default class Engine {
-  constructor(game) {
+  constructor(game, ui) {
     this._config = merge({}, DEFAULT_CONFIG, game)
+    this._config.types = turnTypesIntoFsm(this._config.types)
     this._store = createStore(this._config)
     this._loop = new Loop[this._config.loop.type]()
+    this._ui = ui
   }
 
   get config() {
@@ -25,13 +29,22 @@ export default class Engine {
     const { fps } = this._config.loop
     const msPerFrame = ONE_SECOND / fps
     this._loop.start(this, msPerFrame)
+    this.isRunning = true
   }
 
   update(dt) {
     this._store.update(dt)
   }
 
-  notify(event) {
+  render(dt) {
+    this._ui?.render({
+      dt,
+      config: this._config,
+      instances: this._store.getState().instances,
+    })
+  }
+
+  notify = (event) => {
     this._store.notify(event)
   }
 
@@ -39,5 +52,28 @@ export default class Engine {
     this._store.notify({ id: 'game:stop' })
     this._store.update()
     this._loop.stop()
+    this.isRunning = false
   }
+}
+
+function turnTypesIntoFsm(types) {
+  return map(types, (id, type) => {
+    const isFsm = Object.keys(type).some((key) => key === 'states')
+    if (isFsm) {
+      return type
+    }
+
+    const eventHandlers = filter(
+      type,
+      (_, value) => typeof value === 'function'
+    )
+    const typeWithoutEventHandlers = filter(
+      type,
+      (_, value) => typeof value !== 'function'
+    )
+
+    return merge(typeWithoutEventHandlers, {
+      states: { default: eventHandlers },
+    })
+  })
 }

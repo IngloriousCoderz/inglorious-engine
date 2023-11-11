@@ -1,4 +1,5 @@
-import Game from '../../ui/game'
+import Game from '@inglorious/ui/react/game'
+
 import gamepad from './gamepad'
 import input from './input'
 import keyboard from './keyboard'

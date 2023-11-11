@@ -1,4 +1,4 @@
-import Game from '@inglorious/ui/game'
+import Game from '@inglorious/ui/react/game'
 
 export default {
   title: 'UI/Form',

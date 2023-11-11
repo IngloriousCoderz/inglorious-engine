@@ -1,4 +1,4 @@
-import Game from '@inglorious/ui/game'
+import Game from '@inglorious/ui/react/game'
 
 import doubleJump from './double-jump'
 import jump from './jump'

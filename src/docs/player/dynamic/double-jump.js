@@ -82,6 +82,7 @@ export default {
         ArrowDown: 'down',
         ArrowLeft: 'left',
         ArrowRight: 'right',
+        Space: 'jump',
         KeyW: 'up',
         KeyS: 'down',
         KeyA: 'left',
@@ -90,9 +91,9 @@ export default {
         Btn13: 'down',
         Btn14: 'left',
         Btn15: 'right',
+        Btn0: 'jump',
         Axis0: 'leftRight',
         Axis1: 'upDown',
-        Btn0: 'jump',
       }),
 
       stats: {

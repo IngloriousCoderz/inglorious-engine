@@ -1,7 +1,8 @@
 import arrive from '@inglorious/engine/ai/movement/kinematic/arrive'
 import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
+import * as sprite from '@inglorious/ui/canvas/sprite'
 import { decide } from '@inglorious/utils/algorithms/decision-tree'
-import * as Sprite from '@inglorious/utils/character/sprite'
+import { setEightSprite } from '@inglorious/utils/character/sprite'
 import { merge } from '@inglorious/utils/data-structures/objects'
 import { length } from '@inglorious/utils/math/linear-algebra/vector'
 import { subtract } from '@inglorious/utils/math/linear-algebra/vectors'
@@ -12,8 +13,8 @@ const wakeUp = () => ({
     const distance = length(subtract(target.position, instance.position))
     return distance >= 10
   },
-  true: () => ({ state: 'aware', animation: Sprite.resetAnimation() }),
-  false: () => ({}),
+  true: () => 'aware',
+  false: ({ instance }) => instance.state,
 })
 
 // Our decision tree
@@ -24,22 +25,22 @@ const whichState = {
       const distance = length(subtract(target.position, instance.position))
       return distance < 250
     },
-    true: () => ({ state: 'aware', animation: Sprite.resetAnimation() }),
-    false: () => ({}),
+    true: () => 'aware',
+    false: ({ instance }) => instance.state,
   }),
   chasing: () => ({
     test: ({ instance, target }) => {
       const distance = length(subtract(target.position, instance.position))
       return distance >= 250
     },
-    true: () => ({ state: 'idle', animation: Sprite.resetAnimation() }),
+    true: () => 'idle',
     false: () => ({
       test: ({ instance, target }) => {
         const distance = length(subtract(target.position, instance.position))
         return distance < 10
       },
-      true: () => ({ state: 'sleepy', animation: Sprite.resetAnimation() }),
-      false: () => ({}),
+      true: () => 'sleepy',
+      false: ({ instance }) => instance.state,
     }),
   }),
   sleepy: wakeUp,
@@ -52,7 +53,7 @@ export default {
 
     cat: {
       sprite: {
-        src: 'neko',
+        src: '/public/games/decision-tree/neko.png',
         width: 192,
         height: 192,
         rows: 6,
@@ -150,26 +151,19 @@ export default {
 
       states: {
         idle: {
-          'game:update'(instance, event, options) {
-            const { instances } = options
-
+          'game:update'(instance, event, { instances }) {
             instance.sprite = 'idle'
 
-            merge(
+            instance.state = decide(whichState, {
               instance,
-              decide(whichState, {
-                instance,
-                target: instances.mouse,
-              })
-            )
-            Sprite.animate(instance, options)
+              target: instances.mouse,
+            })
           },
         },
 
         aware: {
-          'game:update'(instance, event, options) {
+          'game:update'(instance) {
             instance.sprite = 'aware'
-            Sprite.animate(instance, options)
           },
 
           'sprite:animationEnd'(instance, event) {
@@ -183,40 +177,28 @@ export default {
         },
 
         chasing: {
-          'game:update'(instance, event, options) {
-            const { instances } = options
-
+          'game:update'(instance, event, { dt, instances }) {
             const target = instances.mouse
 
-            merge(instance, arrive(instance, target, options))
+            setEightSprite(instance, target)
 
-            Sprite.set8(instance, target)
+            merge(instance, arrive(instance, target, { dt }))
 
-            merge(
+            instance.state = decide(whichState, {
               instance,
-              decide(whichState, {
-                instance,
-                target: instances.mouse,
-              })
-            )
-            Sprite.animate(instance, options)
+              target: instances.mouse,
+            })
           },
         },
 
         sleepy: {
-          'game:update'(instance, event, options) {
-            const { instances } = options
-
+          'game:update'(instance, event, { instances }) {
             instance.sprite = 'sleepy'
 
-            merge(
+            instance.state = decide(whichState, {
               instance,
-              decide(whichState, {
-                instance,
-                target: instances.mouse,
-              })
-            )
-            Sprite.animate(instance, options)
+              target: instances.mouse,
+            })
           },
 
           'sprite:animationEnd'(instance, event) {
@@ -229,24 +211,20 @@ export default {
         },
 
         sleeping: {
-          'game:update'(instance, event, options) {
-            const { instances } = options
-
+          'game:update'(instance, event, { instances }) {
             instance.sprite = 'sleeping'
 
-            merge(
+            instance.state = decide(whichState, {
               instance,
-              decide(whichState, {
-                instance,
-                target: instances.mouse,
-              })
-            )
-            Sprite.animate(instance, options)
+              target: instances.mouse,
+            })
           },
         },
       },
 
-      draw: Sprite.draw,
+      draw(...args) {
+        sprite.draw(...args)
+      },
     },
   },
 

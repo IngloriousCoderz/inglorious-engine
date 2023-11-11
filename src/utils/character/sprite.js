@@ -6,7 +6,7 @@ import { pi, toRange } from '@inglorious/utils/math/trigonometry'
 const BEFORE = -1
 const AFTER = 1
 
-export function setTwoSprite(instance, target) {
+export function setTwo(instance, target) {
   const direction = subtract(target.position, instance.position)
 
   const directions = 2
@@ -20,7 +20,7 @@ export function setTwoSprite(instance, target) {
   }
 }
 
-export function setFourSprite(instance, target) {
+export function set4(instance, target) {
   const direction = subtract(target.position, instance.position)
 
   const directions = 4
@@ -38,7 +38,7 @@ export function setFourSprite(instance, target) {
   }
 }
 
-export function setSixSprite(instance, target) {
+export function set6(instance, target) {
   const direction = subtract(target.position, instance.position)
 
   const directions = 6
@@ -64,7 +64,7 @@ export function setSixSprite(instance, target) {
   }
 }
 
-export function setEightSprite(instance, target) {
+export function set8(instance, target) {
   const direction = subtract(target.position, instance.position)
 
   const directions = 8
@@ -88,4 +88,66 @@ export function setEightSprite(instance, target) {
   } else {
     instance.sprite = 'left'
   }
+}
+
+export function resetAnimation() {
+  return { counter: 0, frame: 0 }
+}
+
+export function animate(instance, { dt, config, notify }) {
+  const { speed, states } = config.types[instance.type].sprite
+  const { frames } = states[instance.sprite]
+
+  instance.animation = instance.animation ?? { counter: 0, frame: 0 }
+
+  instance.animation.counter += dt
+  if (instance.animation.counter >= speed) {
+    instance.animation.counter = 0
+    instance.animation.frame += 1
+
+    if (instance.animation.frame === frames.length) {
+      instance.animation = resetAnimation()
+
+      notify({
+        id: `sprite:animationEnd`,
+        payload: { id: instance.id, sprite: instance.sprite },
+      })
+    }
+  }
+}
+
+export function draw(instance, { ctx, config }) {
+  const [, , , screenHeight] = config.bounds
+  const { src, width, height, rows, cols, scale, states } =
+    config.types[instance.type].sprite
+
+  const img = document.getElementById(src)
+
+  const { frames, flip } = states[instance.sprite]
+  const [sx, sy] = frames[instance.animation.frame]
+
+  const [x, , z] = instance.position
+
+  const cellWidth = width / cols
+  const cellHeight = height / rows
+
+  ctx.translate(x, screenHeight - z)
+  ctx.scale(flip === 'h' ? -1 : 1, flip === 'v' ? -1 : 1)
+  ctx.scale(scale, scale)
+  ctx.translate(-cellWidth / 2, -cellHeight / 2)
+
+  ctx.imageSmoothingEnabled = false
+  ctx.drawImage(
+    img,
+    sx * cellWidth,
+    sy * cellHeight,
+    cellWidth,
+    cellHeight,
+    0,
+    0,
+    cellWidth,
+    cellHeight
+  )
+
+  ctx.resetTransform()
 }

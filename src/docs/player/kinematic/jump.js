@@ -66,6 +66,7 @@ export default {
         ArrowDown: 'down',
         ArrowLeft: 'left',
         ArrowRight: 'right',
+        Space: 'jump',
         KeyW: 'up',
         KeyS: 'down',
         KeyA: 'left',
