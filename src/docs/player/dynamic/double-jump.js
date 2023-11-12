@@ -1,6 +1,6 @@
 import { inputInstance, inputType } from '@inglorious/engine/input.js'
 import move from '@inglorious/engine/player/dynamic/move.js'
-import character from '@inglorious/utils/canvas/character.js'
+import * as Character from '@inglorious/ui/canvas/character.js'
 import { clampToBounds } from '@inglorious/utils/character/bounds.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 import { applyGravity } from '@inglorious/utils/physics/gravity.js'
@@ -74,7 +74,7 @@ export default {
         },
       },
 
-      draw: character,
+      draw: Character.draw,
     },
   },
 

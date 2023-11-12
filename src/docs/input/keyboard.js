@@ -3,7 +3,7 @@ import {
   keyboardType,
 } from '@inglorious/engine/input/keyboard.js'
 import move from '@inglorious/engine/player/kinematic/move.js'
-import character from '@inglorious/utils/canvas/character.js'
+import * as Character from '@inglorious/ui/canvas/character.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 
 export default {
@@ -37,7 +37,7 @@ export default {
         merge(instance, move(instance, { dt }))
       },
 
-      draw: character,
+      draw: Character.draw,
     },
   },
 

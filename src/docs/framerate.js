@@ -1,5 +1,5 @@
-import character from '@inglorious/utils/canvas/character.js'
-import fps, { animate } from '@inglorious/utils/canvas/fps.js'
+import * as Character from '@inglorious/ui/canvas/character.js'
+import * as Fps from '@inglorious/ui/canvas/fps.js'
 import { bounce } from '@inglorious/utils/character/bounds.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 import { pi } from '@inglorious/utils/math/trigonometry.js'
@@ -11,10 +11,10 @@ export default {
     fps: {
       'game:update'(instance, event, options) {
         instance.value = options.dt
-        animate(instance, options)
+        Fps.animate(instance, options)
       },
 
-      draw: fps,
+      draw: Fps.draw,
     },
 
     character: {
@@ -22,7 +22,7 @@ export default {
         merge(instance, bounce(instance, options))
       },
 
-      draw: character,
+      draw: Character.draw,
     },
   },
 

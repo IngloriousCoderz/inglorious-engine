@@ -1,7 +1,7 @@
 import arrive from '@inglorious/engine/ai/movement/kinematic/arrive.js'
 import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse.js'
+import * as Sprite from '@inglorious/ui/canvas/sprite.js'
 import { decide } from '@inglorious/utils/algorithms/decision-tree.js'
-import * as Sprite from '@inglorious/utils/canvas/sprite.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 import { length } from '@inglorious/utils/math/linear-algebra/vector.js'
 import { subtract } from '@inglorious/utils/math/linear-algebra/vectors.js'

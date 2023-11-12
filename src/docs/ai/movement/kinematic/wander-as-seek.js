@@ -1,7 +1,7 @@
 import wanderAsSeek, {
   DEFAULT_WANDER_RADIUS,
 } from '@inglorious/engine/ai/movement/kinematic/wander-as-seek.js'
-import character from '@inglorious/utils/canvas/character.js'
+import * as Character from '@inglorious/ui/canvas/character.js'
 import { flip } from '@inglorious/utils/character/bounds.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 import { pi } from '@inglorious/utils/math/trigonometry.js'
@@ -22,7 +22,7 @@ export default {
         flip(instance, config.bounds)
       },
 
-      draw: character,
+      draw: Character.draw,
     },
 
     form: {

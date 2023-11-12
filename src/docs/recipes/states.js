@@ -1,7 +1,7 @@
 import arrive from '@inglorious/engine/ai/movement/kinematic/arrive.js'
 import wander from '@inglorious/engine/ai/movement/kinematic/wander.js'
 import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse.js'
-import character from '@inglorious/utils/canvas/character.js'
+import * as Character from '@inglorious/ui/canvas/character.js'
 import { clampToBounds, flip } from '@inglorious/utils/character/bounds.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 import { length } from '@inglorious/utils/math/linear-algebra/vector.js'
@@ -41,7 +41,7 @@ export default {
         },
       },
 
-      draw: character,
+      draw: Character.draw,
     },
   },
 

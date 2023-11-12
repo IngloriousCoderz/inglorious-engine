@@ -2,7 +2,7 @@ import pursue, {
   DEFAULT_MAX_PREDICTION,
 } from '@inglorious/engine/ai/movement/dynamic/pursue.js'
 import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse.js'
-import character from '@inglorious/utils/canvas/character.js'
+import * as Character from '@inglorious/ui/canvas/character.js'
 import { clampToBounds } from '@inglorious/utils/character/bounds.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 
@@ -26,7 +26,7 @@ export default {
         clampToBounds(instance, config.bounds)
       },
 
-      draw: character,
+      draw: Character.draw,
     },
 
     form: {

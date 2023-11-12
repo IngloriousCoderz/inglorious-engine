@@ -1,9 +1,9 @@
-import character from '@inglorious/utils/canvas/character.js'
+import * as Character from '@inglorious/ui/canvas/character.js'
 
 export default {
   types: {
     character: {
-      draw: character,
+      draw: Character.draw,
     },
   },
 

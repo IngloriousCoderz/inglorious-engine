@@ -1,6 +1,6 @@
 import { inputInstance, inputType } from '@inglorious/engine/input.js'
 import move from '@inglorious/engine/player/dynamic/move.js'
-import character from '@inglorious/utils/canvas/character.js'
+import * as Character from '@inglorious/ui/canvas/character.js'
 import { clampToBounds } from '@inglorious/utils/character/bounds.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 
@@ -38,7 +38,7 @@ export default {
         clampToBounds(instance, config.bounds)
       },
 
-      draw: character,
+      draw: Character.draw,
     },
   },
 

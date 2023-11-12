@@ -5,7 +5,7 @@ import {
 } from '@inglorious/engine/ai/movement/dynamic/align.js'
 import lookWhereYoureGoing from '@inglorious/engine/ai/movement/dynamic/look-where-youre-going.js'
 import { inputInstance, inputType } from '@inglorious/engine/input.js'
-import character from '@inglorious/utils/canvas/character.js'
+import * as Character from '@inglorious/ui/canvas/character.js'
 import { clampToBounds } from '@inglorious/utils/character/bounds.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 import { sum } from '@inglorious/utils/math/linear-algebra/vectors.js'
@@ -53,7 +53,7 @@ export default {
         clampToBounds(instance, config.bounds)
       },
 
-      draw: character,
+      draw: Character.draw,
     },
 
     form: {

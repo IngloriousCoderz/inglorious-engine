@@ -10,7 +10,7 @@ const AFTER = 1
 
 export function init(sprite, instance) {
   instance.sprite = sprite
-  instance.animation = DEFAULT_ANIMATION
+  instance._animation = DEFAULT_ANIMATION
 }
 
 export function move2(instance, target) {
@@ -101,14 +101,17 @@ export function animate(instance, { dt, config, notify }) {
   const { speed, states } = config.types[instance.type].sprite
   const { frames } = states[instance.sprite]
 
-  instance.animation = instance.animation ?? DEFAULT_ANIMATION
+  instance._animation = instance._animation ?? DEFAULT_ANIMATION
 
-  instance.animation.counter += dt
-  if (instance.animation.counter >= speed) {
-    instance.animation.counter = 0
-    instance.animation.frame = mod(instance.animation.frame + 1, frames.length)
+  instance._animation.counter += dt
+  if (instance._animation.counter >= speed) {
+    instance._animation.counter = 0
+    instance._animation.frame = mod(
+      instance._animation.frame + 1,
+      frames.length
+    )
 
-    if (instance.animation.frame === frames.length - 1) {
+    if (instance._animation.frame === frames.length - 1) {
       notify({
         id: `sprite:animationEnd`,
         payload: { id: instance.id, sprite: instance.sprite },
@@ -121,14 +124,14 @@ const DEFAULT_OPTIONS = {}
 
 export function draw(ctx, options = DEFAULT_OPTIONS) {
   const { config, instance } = options
-  const { type, sprite, animation } = instance
+  const { type, sprite, _animation } = instance
   const { src, width, height, rows, cols, scale, states } =
     config.types[type].sprite
 
   const img = document.getElementById(src)
 
   const { frames, flip } = states[sprite]
-  const [sx, sy] = frames[animation.frame]
+  const [sx, sy] = frames[_animation.frame]
 
   const cellWidth = width / cols
   const cellHeight = height / rows

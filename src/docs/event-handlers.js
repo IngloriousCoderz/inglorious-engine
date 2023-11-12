@@ -1,14 +1,14 @@
-import fps, { animate } from '@inglorious/utils/canvas/fps.js'
+import * as Fps from '@inglorious/ui/canvas/fps.js'
 
 export default {
   types: {
     fps: {
       'game:update'(instance, event, options) {
         instance.value = options.dt
-        animate(instance, options)
+        Fps.animate(instance, options)
       },
 
-      draw: fps,
+      draw: Fps.draw,
     },
   },
 

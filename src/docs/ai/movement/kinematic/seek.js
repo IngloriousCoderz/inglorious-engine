@@ -1,6 +1,6 @@
 import seek from '@inglorious/engine/ai/movement/kinematic/seek.js'
 import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse.js'
-import character from '@inglorious/utils/canvas/character.js'
+import * as Character from '@inglorious/ui/canvas/character.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 
 export default {
@@ -14,7 +14,7 @@ export default {
         merge(instance, seek(instance, target, { dt }))
       },
 
-      draw: character,
+      draw: Character.draw,
     },
   },
 

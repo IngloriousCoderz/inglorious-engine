@@ -1,4 +1,4 @@
-import character from '@inglorious/utils/canvas/character.js'
+import * as Character from '@inglorious/ui/canvas/character.js'
 import { bounce } from '@inglorious/utils/character/bounds.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 import { pi } from '@inglorious/utils/math/trigonometry.js'
@@ -18,7 +18,7 @@ export default {
         instance = merge(instance, bounce(instance, options))
       },
 
-      draw: character,
+      draw: Character.draw,
     },
   },
 
