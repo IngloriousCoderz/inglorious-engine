@@ -12,34 +12,47 @@ const wakeUp = () => ({
     const distance = length(subtract(target.position, instance.position))
     return distance >= 10
   },
-  true: () => ({ state: 'aware', animation: Sprite.resetAnimation() }),
-  false: () => ({}),
+  true: ({ instance }) => {
+    instance.state = 'aware'
+    Sprite.init('aware', instance)
+    return instance
+  },
 })
 
 // Our decision tree
-const whichState = {
+const nextState = {
   test: ({ instance }) => instance.state,
   idle: () => ({
     test: ({ instance, target }) => {
       const distance = length(subtract(target.position, instance.position))
       return distance < 250
     },
-    true: () => ({ state: 'aware', animation: Sprite.resetAnimation() }),
-    false: () => ({}),
+    true: ({ instance }) => {
+      instance.state = 'aware'
+      Sprite.init('aware', instance)
+      return instance
+    },
   }),
   chasing: () => ({
     test: ({ instance, target }) => {
       const distance = length(subtract(target.position, instance.position))
       return distance >= 250
     },
-    true: () => ({ state: 'idle', animation: Sprite.resetAnimation() }),
+    true: ({ instance }) => {
+      instance.state = 'idle'
+      Sprite.init('idle', instance)
+      return instance
+    },
     false: () => ({
       test: ({ instance, target }) => {
         const distance = length(subtract(target.position, instance.position))
         return distance < 10
       },
-      true: () => ({ state: 'sleepy', animation: Sprite.resetAnimation() }),
-      false: () => ({}),
+      true: ({ instance }) => {
+        instance.state = 'sleepy'
+        Sprite.init('sleepy', instance)
+        return instance
+      },
     }),
   }),
   sleepy: wakeUp,
@@ -151,24 +164,16 @@ export default {
       states: {
         idle: {
           'game:update'(instance, event, options) {
-            const { instances } = options
+            const { mouse } = options.instances
 
-            instance.sprite = 'idle'
-
-            merge(
-              instance,
-              decide(whichState, {
-                instance,
-                target: instances.mouse,
-              })
-            )
             Sprite.animate(instance, options)
+
+            decide(nextState, { instance, target: mouse })
           },
         },
 
         aware: {
           'game:update'(instance, event, options) {
-            instance.sprite = 'aware'
             Sprite.animate(instance, options)
           },
 
@@ -178,46 +183,30 @@ export default {
             // always check who originated the event and which sprite is running!
             if (id === 'neko' && sprite === 'aware') {
               instance.state = 'chasing'
-              instance.animation = Sprite.resetAnimation()
             }
           },
         },
 
         chasing: {
           'game:update'(instance, event, options) {
-            const { instances } = options
+            const { mouse } = options.instances
 
-            const target = instances.mouse
+            merge(instance, arrive(instance, mouse, options))
 
-            merge(instance, arrive(instance, target, options))
-
-            Sprite.move8(instance, target)
-
-            merge(
-              instance,
-              decide(whichState, {
-                instance,
-                target: instances.mouse,
-              })
-            )
+            instance.sprite = Sprite.move8(instance, mouse)
             Sprite.animate(instance, options)
+
+            decide(nextState, { instance, target: mouse })
           },
         },
 
         sleepy: {
           'game:update'(instance, event, options) {
-            const { instances } = options
+            const { mouse } = options.instances
 
-            instance.sprite = 'sleepy'
-
-            merge(
-              instance,
-              decide(whichState, {
-                instance,
-                target: instances.mouse,
-              })
-            )
             Sprite.animate(instance, options)
+
+            decide(nextState, { instance, target: mouse })
           },
 
           'sprite:animationEnd'(instance, event) {
@@ -225,25 +214,18 @@ export default {
 
             if (id === 'neko' && sprite === 'sleepy') {
               instance.state = 'sleeping'
-              instance.animation = Sprite.resetAnimation()
+              Sprite.init('sleeping', instance)
             }
           },
         },
 
         sleeping: {
           'game:update'(instance, event, options) {
-            const { instances } = options
+            const { mouse } = options.instances
 
-            instance.sprite = 'sleeping'
-
-            merge(
-              instance,
-              decide(whichState, {
-                instance,
-                target: instances.mouse,
-              })
-            )
             Sprite.animate(instance, options)
+
+            decide(nextState, { instance, target: mouse })
           },
         },
       },
@@ -259,6 +241,7 @@ export default {
       neko: {
         type: 'cat',
         state: 'idle',
+        sprite: 'idle',
         maxSpeed: 250,
         position: [400, 0, 300],
       },

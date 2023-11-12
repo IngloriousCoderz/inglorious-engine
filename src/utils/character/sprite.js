@@ -7,6 +7,11 @@ import { pi, toRange } from '@inglorious/utils/math/trigonometry'
 const BEFORE = -1
 const AFTER = 1
 
+export function init(sprite, instance) {
+  instance.sprite = sprite
+  instance.animation = resetAnimation()
+}
+
 export function move2(instance, target) {
   const direction = subtract(target.position, instance.position)
 
@@ -15,9 +20,9 @@ export function move2(instance, target) {
   const theta = toRange(angle(direction)) / multiple
 
   if (theta >= 0 + BEFORE && theta < 0 + AFTER) {
-    instance.sprite = 'right'
+    return 'right'
   } else {
-    instance.sprite = 'left'
+    return 'left'
   }
 }
 
@@ -29,13 +34,13 @@ export function move4(instance, target) {
   const theta = toRange(angle(direction)) / multiple
 
   if (theta >= -2 + BEFORE && theta < -2 + AFTER) {
-    instance.sprite = 'down'
+    return 'down'
   } else if (theta >= 0 + BEFORE && theta < 0 + AFTER) {
-    instance.sprite = 'right'
+    return 'right'
   } else if (theta >= 2 + BEFORE && theta < 2 + AFTER) {
-    instance.sprite = 'up'
+    return 'up'
   } else {
-    instance.sprite = 'left'
+    return 'left'
   }
 }
 
@@ -47,21 +52,21 @@ export function move6(instance, target) {
   const theta = toRange(angle(direction)) / multiple
 
   if (theta >= -6 + BEFORE && theta < -6 + AFTER) {
-    instance.sprite = 'leftDown'
+    return 'leftDown'
   } else if (theta >= -4 + BEFORE && theta < -4 + AFTER) {
-    instance.sprite = 'down'
+    return 'down'
   } else if (theta >= -2 + BEFORE && theta < -2 + AFTER) {
-    instance.sprite = 'rightDown'
+    return 'rightDown'
   } else if (theta >= 0 + BEFORE && theta < 0 + AFTER) {
-    instance.sprite = 'right'
+    return 'right'
   } else if (theta >= 2 + BEFORE && theta < 2 + AFTER) {
-    instance.sprite = 'rightUp'
+    return 'rightUp'
   } else if (theta >= 4 + BEFORE && theta < 4 + AFTER) {
-    instance.sprite = 'up'
+    return 'up'
   } else if (theta >= 6 + BEFORE && theta < 6 + AFTER) {
-    instance.sprite = 'leftUp'
+    return 'leftUp'
   } else {
-    instance.sprite = 'left'
+    return 'left'
   }
 }
 
@@ -73,33 +78,29 @@ export function move8(instance, target) {
   const theta = toRange(angle(direction)) / multiple
 
   if (theta >= -6 + BEFORE && theta < -6 + AFTER) {
-    instance.sprite = 'leftDown'
+    return 'leftDown'
   } else if (theta >= -4 + BEFORE && theta < -4 + AFTER) {
-    instance.sprite = 'down'
+    return 'down'
   } else if (theta >= -2 + BEFORE && theta < -2 + AFTER) {
-    instance.sprite = 'rightDown'
+    return 'rightDown'
   } else if (theta >= 0 + BEFORE && theta < 0 + AFTER) {
-    instance.sprite = 'right'
+    return 'right'
   } else if (theta >= 2 + BEFORE && theta < 2 + AFTER) {
-    instance.sprite = 'rightUp'
+    return 'rightUp'
   } else if (theta >= 4 + BEFORE && theta < 4 + AFTER) {
-    instance.sprite = 'up'
+    return 'up'
   } else if (theta >= 6 + BEFORE && theta < 6 + AFTER) {
-    instance.sprite = 'leftUp'
+    return 'leftUp'
   } else {
-    instance.sprite = 'left'
+    return 'left'
   }
-}
-
-export function resetAnimation() {
-  return { counter: 0, frame: 0 }
 }
 
 export function animate(instance, { dt, config, notify }) {
   const { speed, states } = config.types[instance.type].sprite
   const { frames } = states[instance.sprite]
 
-  instance.animation = instance.animation ?? { counter: 0, frame: 0 }
+  instance.animation = instance.animation ?? resetAnimation()
 
   instance.animation.counter += dt
   if (instance.animation.counter >= speed) {
@@ -149,4 +150,8 @@ export function draw(instance, { ctx, config }) {
   )
 
   ctx.resetTransform()
+}
+
+function resetAnimation() {
+  return { counter: 0, frame: 0 }
 }
