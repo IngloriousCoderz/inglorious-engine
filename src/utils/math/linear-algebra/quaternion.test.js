@@ -1,7 +1,7 @@
-import { cos, pi, sin } from '@inglorious/utils/math/trigonometry'
+import { cos, pi, sin } from '@inglorious/utils/math/trigonometry.js'
 import { expect, test } from 'vitest'
 
-import { quaternion } from '.'
+import { quaternion } from './quaternion'
 
 test('it should return the quaternion for no rotation', () => {
   const angle = 0

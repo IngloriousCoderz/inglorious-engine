@@ -1,8 +1,8 @@
-import { length } from '@inglorious/utils/math/linear-algebra/vector'
-import { subtract } from '@inglorious/utils/math/linear-algebra/vectors'
+import { length } from '@inglorious/utils/math/linear-algebra/vector.js'
+import { subtract } from '@inglorious/utils/math/linear-algebra/vectors.js'
 import { expect, test } from 'vitest'
 
-import { decide } from './decision-tree'
+import { decide } from './decision-tree.js'
 
 test('it should make a decision based on a binary decision tree', () => {
   const instance = { state: 'sleeping', position: [0, 0, 0] }

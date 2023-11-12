@@ -1,5 +1,5 @@
-import { map } from '@inglorious/utils/data-structures/object'
-import { merge } from '@inglorious/utils/data-structures/objects'
+import { map } from '@inglorious/utils/data-structures/object.js'
+import { merge } from '@inglorious/utils/data-structures/objects.js'
 import produce from 'immer'
 
 const DEFAULT_STATE = { events: [], instances: { game: { type: 'game' } } }

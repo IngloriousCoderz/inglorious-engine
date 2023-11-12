@@ -1,6 +1,10 @@
 const INITIAL_LEVEL = 0
 const NEXT_LEVEL = 2
 
+export function clone(obj) {
+  return JSON.parse(JSON.stringify(obj))
+}
+
 export function filter(obj, callback) {
   return Object.fromEntries(
     Object.entries(obj).filter(([key, value], obj) => callback(key, value, obj))
@@ -11,6 +15,10 @@ export function find(obj, callback) {
   return Object.fromEntries([
     Object.entries(obj).find(([key, value], obj) => callback(key, value, obj)),
   ])
+}
+
+export function isObject(obj) {
+  return obj != null && obj.constructor === Object
 }
 
 export function map(obj, callback) {

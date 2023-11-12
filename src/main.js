@@ -1,5 +1,6 @@
-import game from './docs/recipes/decision-tree'
-// import { start } from './ui/react'
-import { start } from './ui/canvas'
+// import { start } from '@inglorious/ui/react'
+import { start } from '@inglorious/ui/canvas.js'
+
+import game from './docs/recipes/decision-tree.js'
 
 window.addEventListener('load', () => start(game))

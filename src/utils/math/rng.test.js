@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 
-import { random, randomBinomial } from '.'
+import { random, randomBinomial } from './rng.js'
 
 test('it should create a random number in the range [0, 1)', () => {
   const randomNumber = random()

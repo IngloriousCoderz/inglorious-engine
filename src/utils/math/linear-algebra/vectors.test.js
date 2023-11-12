@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 
-import { cross, dot, subtract, sum } from '.'
+import { cross, dot, subtract, sum } from './vectors'
 
 test('it should compute the cross product between two vectors (aka vectorProduct)', () => {
   const vector1 = [1, 2, 3]

@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 
-import { applyGravity } from './gravity'
+import { applyGravity } from './gravity.js'
 
 test('it should compute no gravity when max jump height is not set', () => {
   const params = {

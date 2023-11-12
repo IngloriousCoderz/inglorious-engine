@@ -1,14 +1,14 @@
-import { hypothenuse } from '@inglorious/utils/math/geometry'
+import { hypothenuse } from '@inglorious/utils/math/geometry.js'
 import {
   abs as nAbs,
   clamp as nClamp,
   mod as nMod,
-} from '@inglorious/utils/math/numbers'
-import { atan2, cos, sin } from '@inglorious/utils/math/trigonometry'
+} from '@inglorious/utils/math/numbers.js'
+import { atan2, cos, sin } from '@inglorious/utils/math/trigonometry.js'
 
-import { from2D, to2D } from '../2d'
-import { quaternion } from '../quaternion'
-import { cross, sum } from '../vectors'
+import { from2D, to2D } from './2d.js'
+import { quaternion } from './quaternion.js'
+import { cross, sum } from './vectors.js'
 
 export const ZERO_VECTOR = [0, 0, 0] // eslint-disable-line no-magic-numbers
 const UNIT_VECTOR = [1, 0, 0] // eslint-disable-line no-magic-numbers

@@ -1,8 +1,8 @@
-import { createVector } from '@inglorious/utils/math/linear-algebra/vector'
-import { sum } from '@inglorious/utils/math/linear-algebra/vectors'
-import { randomBinomial } from '@inglorious/utils/math/rng'
+import { createVector } from '@inglorious/utils/math/linear-algebra/vector.js'
+import { sum } from '@inglorious/utils/math/linear-algebra/vectors.js'
+import { randomBinomial } from '@inglorious/utils/math/rng.js'
 
-import seek from './seek'
+import seek from './seek.js'
 
 export const DEFAULT_WANDER_OFFSET = 100
 export const DEFAULT_WANDER_RADIUS = 100

@@ -1,10 +1,10 @@
 import {
   magnitude,
   setMagnitude,
-} from '@inglorious/utils/math/linear-algebra/vector'
-import { subtract } from '@inglorious/utils/math/linear-algebra/vectors'
+} from '@inglorious/utils/math/linear-algebra/vector.js'
+import { subtract } from '@inglorious/utils/math/linear-algebra/vectors.js'
 
-import matchVelocity from './match-velocity'
+import matchVelocity from './match-velocity.js'
 
 export const DEFAULT_TARGET_RADIUS = 1
 export const DEFAULT_SLOW_RADIUS = 100

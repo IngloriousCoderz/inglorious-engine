@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 
-import { compose, pipe } from './functions'
+import { compose, pipe } from './functions.js'
 
 test('it should compose functions', () => {
   const shout = (x) => x.toUpperCase()

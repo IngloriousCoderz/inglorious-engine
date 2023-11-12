@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 
-import { abs, clamp, mod, sign } from '.'
+import { abs, clamp, mod, sign } from './numbers.js'
 
 test('it should return the same number if already positive', () => {
   const num = 42

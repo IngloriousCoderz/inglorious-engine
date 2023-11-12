@@ -5,9 +5,9 @@ import {
   fromAngle,
   multiply,
   ZERO_VECTOR,
-} from '@inglorious/utils/math/linear-algebra/vector'
-import { sum } from '@inglorious/utils/math/linear-algebra/vectors'
-import { abs } from '@inglorious/utils/math/numbers'
+} from '@inglorious/utils/math/linear-algebra/vector.js'
+import { sum } from '@inglorious/utils/math/linear-algebra/vectors.js'
+import { abs } from '@inglorious/utils/math/numbers.js'
 
 const X = 0
 const Z = 2

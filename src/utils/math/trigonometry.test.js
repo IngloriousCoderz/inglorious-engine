@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 
-import { pi, toDegrees, toRadians, toRange } from '.'
+import { pi, toDegrees, toRadians, toRange } from './trigonometry.js'
 
 test('it should convert radians to degrees', () => {
   const radians = pi() / 4

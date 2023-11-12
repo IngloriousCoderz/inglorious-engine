@@ -1,8 +1,8 @@
+import { inputInstance, inputType } from '@inglorious/engine'
 import face from '@inglorious/engine/ai/movement/kinematic/face'
-import { inputInstance, inputType } from '@inglorious/engine/input'
 import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
 import tank from '@inglorious/engine/player/dynamic/tank'
-import { clampToBounds } from '@inglorious/utils/character'
+import { clampToBounds } from '@inglorious/utils/character/bounds'
 import { merge } from '@inglorious/utils/data-structures/objects'
 import { pi } from '@inglorious/utils/math/trigonometry'
 

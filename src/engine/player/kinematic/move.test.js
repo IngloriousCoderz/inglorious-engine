@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 
-import move from './move'
+import move from './move.js'
 
 test('it should move following its velocity', () => {
   const instance = { maxSpeed: 1, velocity: [1, 0, 0], position: [0, 0, 0] }

@@ -3,8 +3,8 @@ import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
 import { decide } from '@inglorious/utils/algorithms/decision-tree'
 import * as Sprite from '@inglorious/utils/character/sprite'
 import { merge } from '@inglorious/utils/data-structures/objects'
-import { length } from '@inglorious/utils/math/linear-algebra/vector'
 import { subtract } from '@inglorious/utils/math/linear-algebra/vectors'
+import { length } from '@inglorious/utils/math/linear-algebra/vectors/vector'
 
 // A reusable decision tree node
 const wakeUp = () => ({

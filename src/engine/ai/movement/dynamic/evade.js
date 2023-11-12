@@ -2,10 +2,10 @@ import {
   magnitude,
   multiply,
   ZERO_VECTOR,
-} from '@inglorious/utils/math/linear-algebra/vector'
-import { subtract, sum } from '@inglorious/utils/math/linear-algebra/vectors'
+} from '@inglorious/utils/math/linear-algebra/vector.js'
+import { subtract, sum } from '@inglorious/utils/math/linear-algebra/vectors.js'
 
-import flee from './flee'
+import flee from './flee.js'
 
 export const DEFAULT_MAX_PREDICTION = 10
 

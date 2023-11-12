@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest'
 
-import { ZERO_VECTOR } from '../math/linear-algebra/vector'
-import { applyFriction } from './friction'
+import { ZERO_VECTOR } from '../math/linear-algebra/vector.js'
+import { applyFriction } from './friction.js'
 
 test('it should apply no friction on no velocity', () => {
   const friction = 250

@@ -1,5 +1,5 @@
 import wander from '@inglorious/engine/ai/movement/kinematic/wander'
-import { flip } from '@inglorious/utils/character'
+import { flip } from '@inglorious/utils/character/bounds'
 import { merge } from '@inglorious/utils/data-structures/objects'
 import { pi } from '@inglorious/utils/math/trigonometry'
 

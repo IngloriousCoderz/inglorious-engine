@@ -1,6 +1,6 @@
-import Engine from '@inglorious/engine'
+import Engine from '@inglorious/engine.js'
 
-import { trackMouse } from './mouse'
+import { trackMouse } from './canvas/mouse.js'
 
 export function start(game) {
   const engine = new Engine(game, { render })

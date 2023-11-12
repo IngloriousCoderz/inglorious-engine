@@ -1,5 +1,5 @@
-import { clampToBounds } from '@inglorious/utils/character'
-import { ZERO_VECTOR } from '@inglorious/utils/math/linear-algebra/vector'
+import { clampToBounds } from '@inglorious/utils/character/bounds.js'
+import { ZERO_VECTOR } from '@inglorious/utils/math/linear-algebra/vector.js'
 
 export function mouseType(events = {}) {
   return {

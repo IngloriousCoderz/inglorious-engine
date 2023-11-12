@@ -2,8 +2,8 @@ import {
   clamp,
   multiply,
   ZERO_VECTOR,
-} from '@inglorious/utils/math/linear-algebra/vector'
-import { sum } from '@inglorious/utils/math/linear-algebra/vectors'
+} from '@inglorious/utils/math/linear-algebra/vector.js'
+import { sum } from '@inglorious/utils/math/linear-algebra/vectors.js'
 
 import { applyFriction } from './friction'
 

@@ -1,4 +1,4 @@
-import { toString } from '@inglorious/utils/math/linear-algebra/vector'
+import { toString } from '@inglorious/utils/math/linear-algebra/quaternion
 
 const DECIMALS = 1
 

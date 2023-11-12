@@ -2,9 +2,9 @@ import {
   angle,
   magnitude,
   ZERO_VECTOR,
-} from '@inglorious/utils/math/linear-algebra/vector'
+} from '@inglorious/utils/math/linear-algebra/vector.js'
 
-import align from './align'
+import align from './align.js'
 
 export default function lookWhereYoureGoing(instance, options) {
   const velocity = instance.velocity ?? ZERO_VECTOR

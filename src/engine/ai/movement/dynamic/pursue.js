@@ -2,10 +2,10 @@ import {
   magnitude,
   multiply,
   ZERO_VECTOR,
-} from '@inglorious/utils/math/linear-algebra/vector'
-import { subtract, sum } from '@inglorious/utils/math/linear-algebra/vectors'
+} from '@inglorious/utils/math/linear-algebra/vector.js'
+import { subtract, sum } from '@inglorious/utils/math/linear-algebra/vectors.js'
 
-import seek from './seek'
+import seek from './seek.js'
 
 export const DEFAULT_MAX_PREDICTION = 10
 

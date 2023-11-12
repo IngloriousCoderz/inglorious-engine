@@ -1,8 +1,8 @@
-import { filter, map } from '@inglorious/utils/data-structures/object'
-import { merge } from '@inglorious/utils/data-structures/objects'
+import { filter, map } from '@inglorious/utils/data-structures/object.js'
+import { merge } from '@inglorious/utils/data-structures/objects.js'
 
-import Loop from './loop'
-import { createStore } from './store'
+import Loop from './engine/loop.js'
+import { createStore } from './engine/store.js'
 
 const DEFAULT_CONFIG = {
   bounds: [0, 0, 800, 600], // eslint-disable-line no-magic-numbers

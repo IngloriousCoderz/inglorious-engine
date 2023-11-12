@@ -1,4 +1,4 @@
-import { shift } from '@inglorious/utils/math/linear-algebra/vector'
+import { shift } from './vector.js'
 
 export const add = sum
 

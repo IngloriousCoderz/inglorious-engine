@@ -2,7 +2,7 @@ import {
   magnitude,
   setMagnitude,
   ZERO_VECTOR,
-} from '@inglorious/utils/math/linear-algebra/vector'
+} from '@inglorious/utils/math/linear-algebra/vector.js'
 
 const NO_FRICTION = 0
 const DEFAULT_OPTIONS = { dt: 0 }

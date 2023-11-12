@@ -1,4 +1,4 @@
-import { inputInstance, inputType } from '@inglorious/engine/input'
+import { inputInstance, inputType } from '@inglorious/engine'
 import move from '@inglorious/engine/player/kinematic/move'
 import { merge } from '@inglorious/utils/data-structures/objects'
 

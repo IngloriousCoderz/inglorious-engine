@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 
-import { curry } from './function'
+import { curry } from './function.js'
 
 test('it should allow to invoke a non-curried version of the curried function', () => {
   const sum = (a, b) => a + b

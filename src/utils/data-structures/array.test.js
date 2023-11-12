@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 
-import { contains, max, min, pop, push, remove } from './array'
+import { contains, max, min, pop, push, remove } from './array.js'
 
 test('it should check if an array contains a value', () => {
   const arr = [3, 2, 6, 1, 7, 4, 5]

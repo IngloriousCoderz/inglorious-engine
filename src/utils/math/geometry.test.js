@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 
-import { hypothenuse } from '.'
+import { hypothenuse } from './geometry.js'
 
 test('it should compute the hypothenuse of two catheti (aka pythagoras)', () => {
   const cat1 = 3

@@ -5,7 +5,7 @@ import {
 } from '@inglorious/engine/ai/movement/dynamic/align'
 import face from '@inglorious/engine/ai/movement/dynamic/face'
 import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
-import { clampToBounds } from '@inglorious/utils/character'
+import { clampToBounds } from '@inglorious/utils/character/bounds'
 import { merge } from '@inglorious/utils/data-structures/objects'
 import { pi } from '@inglorious/utils/math/trigonometry'
 

@@ -1,4 +1,4 @@
-import { mod } from '@inglorious/utils/math/numbers'
+import { mod } from '@inglorious/utils/math/numbers.js'
 import { expect, test } from 'vitest'
 
 import {

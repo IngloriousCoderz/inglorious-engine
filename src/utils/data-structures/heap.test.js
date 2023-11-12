@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 
-import { contains, heapify, min, pop, push, remove } from './heap'
+import { contains, heapify, min, pop, push, remove } from './heap.js'
 
 test('it should check if a heap contains a value', () => {
   const heap = [3, 2, 6, 1, 7, 4, 5]

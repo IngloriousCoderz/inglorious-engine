@@ -1,8 +1,8 @@
+import { inputInstance, inputType } from '@inglorious/engine'
 import matchVelocity, {
   DEFAULT_TIME_TO_TARGET,
 } from '@inglorious/engine/ai/movement/dynamic/match-velocity'
-import { inputInstance, inputType } from '@inglorious/engine/input'
-import { clampToBounds } from '@inglorious/utils/character'
+import { clampToBounds } from '@inglorious/utils/character/bounds'
 import { merge } from '@inglorious/utils/data-structures/objects'
 
 export default {

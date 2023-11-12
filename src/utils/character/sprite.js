@@ -1,8 +1,8 @@
 /* eslint-disable no-magic-numbers */
-import { angle } from '@inglorious/utils/math/linear-algebra/vector'
-import { subtract } from '@inglorious/utils/math/linear-algebra/vectors'
-import { mod } from '@inglorious/utils/math/numbers'
-import { pi, toRange } from '@inglorious/utils/math/trigonometry'
+import { angle } from '@inglorious/utils/math/linear-algebra/vector.js'
+import { subtract } from '@inglorious/utils/math/linear-algebra/vectors.js'
+import { mod } from '@inglorious/utils/math/numbers.js'
+import { pi, toRange } from '@inglorious/utils/math/trigonometry.js'
 
 const BEFORE = -1
 const AFTER = 1

@@ -1,7 +1,7 @@
 import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
 import { subtract } from '@inglorious/utils/math/linear-algebra/vectors'
-import { random } from '@inglorious/utils/math/rng'
 import { pi } from '@inglorious/utils/math/trigonometry'
+import { random } from '@inglorious/utils/math/trigonometry/rng'
 
 export default {
   types: {

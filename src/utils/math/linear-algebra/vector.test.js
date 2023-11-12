@@ -1,4 +1,4 @@
-import { cos, pi, sin } from '@inglorious/utils/math/trigonometry'
+import { cos, pi, sin } from '@inglorious/utils/math/trigonometry.js'
 import { expect, test } from 'vitest'
 
 import {
@@ -22,7 +22,7 @@ import {
   toPolar,
   toString,
   unit,
-} from '.'
+} from './vector.js'
 
 test("it should compute the absolute value of a vector's coordinates", () => {
   const vector = [-2, 0, 3]

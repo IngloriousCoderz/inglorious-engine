@@ -1,4 +1,4 @@
-import { mod } from '@inglorious/utils/math/numbers'
+import { mod } from './numbers.js'
 
 const HALF_CIRCLE_IN_DEGRESS = 180
 const FULL_CIRCLE = 2

@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 
-import { createStore } from '.'
+import { createStore } from './store.js'
 
 test('it should add an event to the event queue', () => {
   const event = { id: 'something:happened' }

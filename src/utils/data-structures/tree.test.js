@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 
-import { bfs, dfs } from './tree'
+import { bfs, dfs } from './tree.js'
 
 test('it should perform Breadth-First Search on a tree', () => {
   const tree = {

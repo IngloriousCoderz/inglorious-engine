@@ -2,15 +2,27 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/logo.png" />
-    <link rel="stylesheet" href="/style.css" />
+    <link rel="icon" type="image/svg+xml" href="/public/logo.png" />
+    <link rel="stylesheet" href="/public/style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Inglorious Engine</title>
   </head>
   <body>
     <div id="root"></div>
     <canvas id="canvas"></canvas>
-    <img id="neko" src="/games/decision-tree/neko.png" />
+    <img id="neko" src="/src/docs/recipes/decision-tree/neko.png" />
+
+    <script type="text/javascript">
+      window.process = { env: 'development' }
+    </script>
+    <script type="importmap">
+      {
+        "imports": {
+          "immer": "/node_modules/immer/dist/immer.esm.js",
+          "@inglorious/": "/src/"
+        }
+      }
+    </script>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

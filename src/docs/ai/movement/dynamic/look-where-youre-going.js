@@ -1,11 +1,11 @@
+import { inputInstance, inputType } from '@inglorious/engine'
 import {
   DEFAULT_SLOW_RADIUS,
   DEFAULT_TARGET_RADIUS,
   DEFAULT_TIME_TO_TARGET,
 } from '@inglorious/engine/ai/movement/dynamic/align'
 import lookWhereYoureGoing from '@inglorious/engine/ai/movement/dynamic/look-where-youre-going'
-import { inputInstance, inputType } from '@inglorious/engine/input'
-import { clampToBounds } from '@inglorious/utils/character'
+import { clampToBounds } from '@inglorious/utils/character/bounds'
 import { merge } from '@inglorious/utils/data-structures/objects'
 import { sum } from '@inglorious/utils/math/linear-algebra/vectors'
 import { pi } from '@inglorious/utils/math/trigonometry'

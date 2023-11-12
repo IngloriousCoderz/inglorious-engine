@@ -1,6 +1,6 @@
 import seek from '@inglorious/engine/ai/movement/dynamic/seek'
 import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
-import { clampToBounds } from '@inglorious/utils/character'
+import { clampToBounds } from '@inglorious/utils/character/bounds'
 import { merge } from '@inglorious/utils/data-structures/objects'
 
 export default {

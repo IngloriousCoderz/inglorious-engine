@@ -1,5 +1,5 @@
-import { gamepadInstance, gamepadType } from './gamepad'
-import { keyboardInstance, keyboardType } from './keyboard'
+import { gamepadInstance, gamepadType } from './input/gamepad.js'
+import { keyboardInstance, keyboardType } from './input/keyboard.js'
 
 const DEFAULT_ID = 0
 

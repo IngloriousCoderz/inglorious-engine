@@ -1,8 +1,8 @@
-import { cos, pi, sin } from '@inglorious/utils/math/trigonometry'
+import { cos, pi, sin } from '@inglorious/utils/math/trigonometry.js'
 import { expect, test } from 'vitest'
 
-import { quaternion } from '../quaternion'
-import { combine } from '.'
+import { quaternion } from './quaternion'
+import { combine } from './quaternions'
 
 test('it should combine two zero-angle quaternions by giving the same 0-angle quaternion', () => {
   const q1 = quaternion(0)

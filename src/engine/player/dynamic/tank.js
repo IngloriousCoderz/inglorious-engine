@@ -3,10 +3,10 @@ import {
   multiply,
   rotate,
   ZERO_VECTOR,
-} from '@inglorious/utils/math/linear-algebra/vector'
-import { sum } from '@inglorious/utils/math/linear-algebra/vectors'
-import { toRange } from '@inglorious/utils/math/trigonometry'
-import { applyFriction } from '@inglorious/utils/physics/friction'
+} from '@inglorious/utils/math/linear-algebra/vector.js'
+import { sum } from '@inglorious/utils/math/linear-algebra/vectors.js'
+import { toRange } from '@inglorious/utils/math/trigonometry.js'
+import { applyFriction } from '@inglorious/utils/physics/friction.js'
 
 const DEFAULT_MAX_ACCELERATION = 0
 const DEFAULT_MAX_SPEED = 0

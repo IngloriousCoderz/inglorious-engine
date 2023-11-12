@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 
-import { from2D, to2D } from '.'
+import { from2D, to2D } from './2d.js'
 
 test('build a 3D vector from a 2D one', () => {
   const vector = [3, 4]

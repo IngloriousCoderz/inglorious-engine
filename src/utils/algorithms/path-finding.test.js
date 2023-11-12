@@ -1,7 +1,12 @@
+import {
+  createBoard,
+  down,
+  downRight,
+  right,
+} from '@inglorious/utils/data-structures/board.js'
 import { expect, test } from 'vitest'
 
-import { createBoard, down, downRight, right } from '../data-structures/board'
-import { findPath } from './path-finding'
+import { findPath } from './path-finding.js'
 
 test('it should find the shortest path in a trivial example', () => {
   const graph = {

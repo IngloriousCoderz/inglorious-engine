@@ -1,6 +1,6 @@
-import { inputInstance, inputType } from '@inglorious/engine/input'
+import { inputInstance, inputType } from '@inglorious/engine'
 import tank from '@inglorious/engine/player/kinematic/tank'
-import { clampToBounds } from '@inglorious/utils/character'
+import { clampToBounds } from '@inglorious/utils/character/bounds'
 import { merge } from '@inglorious/utils/data-structures/objects'
 
 export default {
