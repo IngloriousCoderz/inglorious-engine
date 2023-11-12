@@ -1,12 +1,13 @@
 /* eslint-disable no-magic-numbers */
 import { angle } from '@inglorious/utils/math/linear-algebra/vector'
 import { subtract } from '@inglorious/utils/math/linear-algebra/vectors'
+import { mod } from '@inglorious/utils/math/numbers'
 import { pi, toRange } from '@inglorious/utils/math/trigonometry'
 
 const BEFORE = -1
 const AFTER = 1
 
-export function setTwo(instance, target) {
+export function move2(instance, target) {
   const direction = subtract(target.position, instance.position)
 
   const directions = 2
@@ -20,7 +21,7 @@ export function setTwo(instance, target) {
   }
 }
 
-export function set4(instance, target) {
+export function move4(instance, target) {
   const direction = subtract(target.position, instance.position)
 
   const directions = 4
@@ -38,7 +39,7 @@ export function set4(instance, target) {
   }
 }
 
-export function set6(instance, target) {
+export function move6(instance, target) {
   const direction = subtract(target.position, instance.position)
 
   const directions = 6
@@ -64,7 +65,7 @@ export function set6(instance, target) {
   }
 }
 
-export function set8(instance, target) {
+export function move8(instance, target) {
   const direction = subtract(target.position, instance.position)
 
   const directions = 8
@@ -103,11 +104,9 @@ export function animate(instance, { dt, config, notify }) {
   instance.animation.counter += dt
   if (instance.animation.counter >= speed) {
     instance.animation.counter = 0
-    instance.animation.frame += 1
+    instance.animation.frame = mod(instance.animation.frame + 1, frames.length)
 
-    if (instance.animation.frame === frames.length) {
-      instance.animation = resetAnimation()
-
+    if (instance.animation.frame === frames.length - 1) {
       notify({
         id: `sprite:animationEnd`,
         payload: { id: instance.id, sprite: instance.sprite },

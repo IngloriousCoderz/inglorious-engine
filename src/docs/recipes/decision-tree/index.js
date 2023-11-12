@@ -178,6 +178,7 @@ export default {
             // always check who originated the event and which sprite is running!
             if (id === 'neko' && sprite === 'aware') {
               instance.state = 'chasing'
+              instance.animation = Sprite.resetAnimation()
             }
           },
         },
@@ -190,7 +191,7 @@ export default {
 
             merge(instance, arrive(instance, target, options))
 
-            Sprite.set8(instance, target)
+            Sprite.move8(instance, target)
 
             merge(
               instance,
@@ -224,6 +225,7 @@ export default {
 
             if (id === 'neko' && sprite === 'sleepy') {
               instance.state = 'sleeping'
+              instance.animation = Sprite.resetAnimation()
             }
           },
         },
