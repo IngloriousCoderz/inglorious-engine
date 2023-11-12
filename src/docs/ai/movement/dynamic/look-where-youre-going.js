@@ -1,14 +1,15 @@
-import { inputInstance, inputType } from '@inglorious/engine'
 import {
   DEFAULT_SLOW_RADIUS,
   DEFAULT_TARGET_RADIUS,
   DEFAULT_TIME_TO_TARGET,
-} from '@inglorious/engine/ai/movement/dynamic/align'
-import lookWhereYoureGoing from '@inglorious/engine/ai/movement/dynamic/look-where-youre-going'
-import { clampToBounds } from '@inglorious/utils/character/bounds'
-import { merge } from '@inglorious/utils/data-structures/objects'
-import { sum } from '@inglorious/utils/math/linear-algebra/vectors'
-import { pi } from '@inglorious/utils/math/trigonometry'
+} from '@inglorious/engine/ai/movement/dynamic/align.js'
+import lookWhereYoureGoing from '@inglorious/engine/ai/movement/dynamic/look-where-youre-going.js'
+import { inputInstance, inputType } from '@inglorious/engine/input.js'
+import character from '@inglorious/utils/canvas/character.js'
+import { clampToBounds } from '@inglorious/utils/character/bounds.js'
+import { merge } from '@inglorious/utils/data-structures/objects.js'
+import { sum } from '@inglorious/utils/math/linear-algebra/vectors.js'
+import { pi } from '@inglorious/utils/math/trigonometry.js'
 
 export default {
   types: {
@@ -51,6 +52,8 @@ export default {
 
         clampToBounds(instance, config.bounds)
       },
+
+      draw: character,
     },
 
     form: {

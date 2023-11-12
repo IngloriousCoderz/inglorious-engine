@@ -1,9 +1,10 @@
 import {
   keyboardInstance,
   keyboardType,
-} from '@inglorious/engine/input/keyboard'
-import move from '@inglorious/engine/player/kinematic/move'
-import { merge } from '@inglorious/utils/data-structures/objects'
+} from '@inglorious/engine/input/keyboard.js'
+import move from '@inglorious/engine/player/kinematic/move.js'
+import character from '@inglorious/utils/canvas/character.js'
+import { merge } from '@inglorious/utils/data-structures/objects.js'
 
 export default {
   types: {
@@ -35,6 +36,8 @@ export default {
 
         merge(instance, move(instance, { dt }))
       },
+
+      draw: character,
     },
   },
 

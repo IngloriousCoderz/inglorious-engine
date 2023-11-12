@@ -1,6 +1,7 @@
-import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
-import { pi } from '@inglorious/utils/math/trigonometry'
-import { random } from '@inglorious/utils/math/trigonometry/rng'
+import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse.js'
+import character from '@inglorious/utils/canvas/character.js'
+import { random } from '@inglorious/utils/math/rng.js'
+import { pi } from '@inglorious/utils/math/trigonometry.js'
 
 export default {
   types: {
@@ -10,6 +11,8 @@ export default {
       'character:click'(instance, event, { notify }) {
         notify({ id: 'instance:remove', payload: event.payload })
       },
+
+      draw: character,
     },
   },
 

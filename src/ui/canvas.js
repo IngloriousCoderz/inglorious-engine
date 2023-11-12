@@ -2,6 +2,8 @@ import Engine from '@inglorious/engine.js'
 
 import { trackMouse } from './canvas/mouse.js'
 
+const Z = 2
+
 export function start(game) {
   const engine = new Engine(game, { render })
   engine.start()
@@ -25,13 +27,17 @@ export function start(game) {
 
     const ctx = canvas.getContext('2d')
 
+    ctx.imageSmoothingEnabled = false
     ctx.fillStyle = 'lightgrey'
     ctx.fillRect(x, y, width, height)
 
-    Object.values(instances).map((instance) => {
-      const type = config.types[instance.type]
-      type?.draw?.(instance, { ...options, ctx })
-      type?.states[instance.state]?.draw?.(instance, { ...options, ctx })
-    })
+    Object.values(instances)
+      .toSorted((a, b) => b.position?.[Z] - a.position?.[Z])
+      .map((instance) => {
+        const type = config.types[instance.type]
+
+        const draw = type?.states[instance.state]?.draw || type?.draw
+        draw?.(ctx, { ...instance, ...options })
+      })
   }
 }

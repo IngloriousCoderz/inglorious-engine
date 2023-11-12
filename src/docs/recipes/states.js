@@ -1,11 +1,12 @@
-import arrive from '@inglorious/engine/ai/movement/kinematic/arrive'
-import wander from '@inglorious/engine/ai/movement/kinematic/wander'
-import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
-import { clampToBounds, flip } from '@inglorious/utils/character/bounds'
-import { merge } from '@inglorious/utils/data-structures/objects'
-import { subtract } from '@inglorious/utils/math/linear-algebra/vectors'
-import { length } from '@inglorious/utils/math/linear-algebra/vectors/vector'
-import { pi } from '@inglorious/utils/math/trigonometry'
+import arrive from '@inglorious/engine/ai/movement/kinematic/arrive.js'
+import wander from '@inglorious/engine/ai/movement/kinematic/wander.js'
+import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse.js'
+import character from '@inglorious/utils/canvas/character.js'
+import { clampToBounds, flip } from '@inglorious/utils/character/bounds.js'
+import { merge } from '@inglorious/utils/data-structures/objects.js'
+import { length } from '@inglorious/utils/math/linear-algebra/vector.js'
+import { subtract } from '@inglorious/utils/math/linear-algebra/vectors.js'
+import { pi } from '@inglorious/utils/math/trigonometry.js'
 
 export default {
   types: {
@@ -39,6 +40,8 @@ export default {
           },
         },
       },
+
+      draw: character,
     },
   },
 

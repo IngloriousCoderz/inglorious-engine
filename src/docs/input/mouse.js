@@ -1,4 +1,5 @@
-import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
+import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse.js'
+import character from '@inglorious/utils/canvas/character.js'
 
 export default {
   types: {
@@ -15,6 +16,8 @@ export default {
         const { mouse } = instances
         instance.position = mouse.position
       },
+
+      draw: character,
     },
   },
 

@@ -5,7 +5,7 @@ import {
 import { sum } from '@inglorious/utils/math/linear-algebra/vectors.js'
 import { randomBinomial } from '@inglorious/utils/math/rng.js'
 
-import seek from './seek'
+import seek from './seek.js'
 
 export const DEFAULT_WANDER_RADIUS = 10
 

@@ -1,7 +1,9 @@
 import { isObject } from './object.js'
 
 export function merge(dest, ...sources) {
-  return sources.reduce((acc, source) => deepMerge(acc, source), dest)
+  return sources
+    .filter((source) => source != null)
+    .reduce((acc, source) => deepMerge(acc, source), dest)
 }
 
 function deepMerge(dest, source) {

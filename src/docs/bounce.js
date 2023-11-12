@@ -1,6 +1,7 @@
-import { bounce } from '@inglorious/utils/character/bounds'
-import { merge } from '@inglorious/utils/data-structures/objects'
-import { pi } from '@inglorious/utils/math/trigonometry'
+import character from '@inglorious/utils/canvas/character.js'
+import { bounce } from '@inglorious/utils/character/bounds.js'
+import { merge } from '@inglorious/utils/data-structures/objects.js'
+import { pi } from '@inglorious/utils/math/trigonometry.js'
 
 export default {
   types: {
@@ -16,6 +17,8 @@ export default {
       'game:update'(instance, event, options) {
         instance = merge(instance, bounce(instance, options))
       },
+
+      draw: character,
     },
   },
 

@@ -1,10 +1,11 @@
-import { inputInstance, inputType } from '@inglorious/engine'
-import face from '@inglorious/engine/ai/movement/kinematic/face'
-import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
-import tank from '@inglorious/engine/player/dynamic/tank'
-import { clampToBounds } from '@inglorious/utils/character/bounds'
-import { merge } from '@inglorious/utils/data-structures/objects'
-import { pi } from '@inglorious/utils/math/trigonometry'
+import face from '@inglorious/engine/ai/movement/kinematic/face.js'
+import { inputInstance, inputType } from '@inglorious/engine/input.js'
+import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse.js'
+import tank from '@inglorious/engine/player/dynamic/tank.js'
+import character from '@inglorious/utils/canvas/character.js'
+import { clampToBounds } from '@inglorious/utils/character/bounds.js'
+import { merge } from '@inglorious/utils/data-structures/objects.js'
+import { pi } from '@inglorious/utils/math/trigonometry.js'
 
 export default {
   types: {
@@ -33,6 +34,8 @@ export default {
         merge(instance, tank(instance, { dt }))
         clampToBounds(instance, config.bounds)
       },
+
+      draw: character,
     },
   },
 

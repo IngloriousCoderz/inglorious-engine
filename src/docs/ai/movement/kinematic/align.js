@@ -1,13 +1,14 @@
-import { inputInstance, inputType } from '@inglorious/engine'
 import align, {
   DEFAULT_TARGET_RADIUS,
   DEFAULT_TIME_TO_TARGET,
-} from '@inglorious/engine/ai/movement/kinematic/align'
-import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
-import { clampToBounds } from '@inglorious/utils/character/bounds'
-import { merge } from '@inglorious/utils/data-structures/objects'
-import { pi } from '@inglorious/utils/math/trigonometry'
-import { clamp } from '@inglorious/utils/math/trigonometry/rng/numbers'
+} from '@inglorious/engine/ai/movement/kinematic/align.js'
+import { inputInstance, inputType } from '@inglorious/engine/input.js'
+import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse.js'
+import character from '@inglorious/utils/canvas/character.js'
+import { clampToBounds } from '@inglorious/utils/character/bounds.js'
+import { merge } from '@inglorious/utils/data-structures/objects.js'
+import { clamp } from '@inglorious/utils/math/numbers.js'
+import { pi } from '@inglorious/utils/math/trigonometry.js'
 
 export default {
   types: {
@@ -49,6 +50,8 @@ export default {
 
         clampToBounds(instance, config.bounds)
       },
+
+      draw: character,
     },
 
     form: {

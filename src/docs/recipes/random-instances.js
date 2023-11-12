@@ -1,9 +1,12 @@
-import { pi } from '@inglorious/utils/math/trigonometry'
-import { random } from '@inglorious/utils/math/trigonometry/rng'
+import character from '@inglorious/utils/canvas/character.js'
+import { random } from '@inglorious/utils/math/rng.js'
+import { pi } from '@inglorious/utils/math/trigonometry.js'
 
 export default {
   types: {
-    character: {},
+    character: {
+      draw: character,
+    },
   },
 
   state: {

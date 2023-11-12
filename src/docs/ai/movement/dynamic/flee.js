@@ -1,7 +1,8 @@
-import flee from '@inglorious/engine/ai/movement/dynamic/flee'
-import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
-import { clampToBounds } from '@inglorious/utils/character/bounds'
-import { merge } from '@inglorious/utils/data-structures/objects'
+import flee from '@inglorious/engine/ai/movement/dynamic/flee.js'
+import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse.js'
+import character from '@inglorious/utils/canvas/character.js'
+import { clampToBounds } from '@inglorious/utils/character/bounds.js'
+import { merge } from '@inglorious/utils/data-structures/objects.js'
 
 export default {
   types: {
@@ -15,6 +16,8 @@ export default {
 
         clampToBounds(instance, config.bounds)
       },
+
+      draw: character,
     },
   },
 

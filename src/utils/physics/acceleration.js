@@ -5,7 +5,7 @@ import {
 } from '@inglorious/utils/math/linear-algebra/vector.js'
 import { sum } from '@inglorious/utils/math/linear-algebra/vectors.js'
 
-import { applyFriction } from './friction'
+import { applyFriction } from './friction.js'
 
 const DEFAULT_OPTIONS = { dt: 0 }
 

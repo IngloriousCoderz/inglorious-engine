@@ -1,6 +1,10 @@
+import character from '@inglorious/utils/canvas/character.js'
+
 export default {
   types: {
-    character: {},
+    character: {
+      draw: character,
+    },
   },
 
   state: {

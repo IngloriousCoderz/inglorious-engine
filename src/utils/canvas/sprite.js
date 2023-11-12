@@ -116,27 +116,26 @@ export function animate(instance, { dt, config, notify }) {
   }
 }
 
-export function draw(instance, { ctx, config }) {
+export function draw(ctx, { config, type, position, sprite, animation }) {
   const [, , , screenHeight] = config.bounds
   const { src, width, height, rows, cols, scale, states } =
-    config.types[instance.type].sprite
+    config.types[type].sprite
+  const [x, , z] = position
 
   const img = document.getElementById(src)
 
-  const { frames, flip } = states[instance.sprite]
-  const [sx, sy] = frames[instance.animation.frame]
-
-  const [x, , z] = instance.position
+  const { frames, flip } = states[sprite]
+  const [sx, sy] = frames[animation.frame]
 
   const cellWidth = width / cols
   const cellHeight = height / rows
 
+  ctx.resetTransform()
   ctx.translate(x, screenHeight - z)
   ctx.scale(flip === 'h' ? -1 : 1, flip === 'v' ? -1 : 1)
   ctx.scale(scale, scale)
   ctx.translate(-cellWidth / 2, -cellHeight / 2)
 
-  ctx.imageSmoothingEnabled = false
   ctx.drawImage(
     img,
     sx * cellWidth,
@@ -148,8 +147,6 @@ export function draw(instance, { ctx, config }) {
     cellWidth,
     cellHeight
   )
-
-  ctx.resetTransform()
 }
 
 function resetAnimation() {

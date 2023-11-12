@@ -1,7 +1,8 @@
-import wander from '@inglorious/engine/ai/movement/kinematic/wander'
-import { flip } from '@inglorious/utils/character/bounds'
-import { merge } from '@inglorious/utils/data-structures/objects'
-import { pi } from '@inglorious/utils/math/trigonometry'
+import wander from '@inglorious/engine/ai/movement/kinematic/wander.js'
+import character from '@inglorious/utils/canvas/character.js'
+import { flip } from '@inglorious/utils/character/bounds.js'
+import { merge } from '@inglorious/utils/data-structures/objects.js'
+import { pi } from '@inglorious/utils/math/trigonometry.js'
 
 export default {
   types: {
@@ -10,6 +11,8 @@ export default {
         merge(instance, wander(instance, { dt }))
         flip(instance, config.bounds)
       },
+
+      draw: character,
     },
   },
 

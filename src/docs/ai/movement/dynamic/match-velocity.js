@@ -1,9 +1,10 @@
-import { inputInstance, inputType } from '@inglorious/engine'
 import matchVelocity, {
   DEFAULT_TIME_TO_TARGET,
-} from '@inglorious/engine/ai/movement/dynamic/match-velocity'
-import { clampToBounds } from '@inglorious/utils/character/bounds'
-import { merge } from '@inglorious/utils/data-structures/objects'
+} from '@inglorious/engine/ai/movement/dynamic/match-velocity.js'
+import { inputInstance, inputType } from '@inglorious/engine/input.js'
+import character from '@inglorious/utils/canvas/character.js'
+import { clampToBounds } from '@inglorious/utils/character/bounds.js'
+import { merge } from '@inglorious/utils/data-structures/objects.js'
 
 export default {
   types: {
@@ -41,6 +42,8 @@ export default {
 
         clampToBounds(instance, config.bounds)
       },
+
+      draw: character,
     },
 
     form: {

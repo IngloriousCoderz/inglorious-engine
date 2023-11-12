@@ -1,9 +1,10 @@
-import { inputInstance, inputType } from '@inglorious/engine'
-import move from '@inglorious/engine/player/kinematic/move'
-import { clampToBounds } from '@inglorious/utils/character/bounds'
-import { merge } from '@inglorious/utils/data-structures/objects'
-import { applyGravity } from '@inglorious/utils/physics/gravity'
-import { jump } from '@inglorious/utils/physics/jump'
+import { inputInstance, inputType } from '@inglorious/engine/input.js'
+import move from '@inglorious/engine/player/kinematic/move.js'
+import character from '@inglorious/utils/canvas/character.js'
+import { clampToBounds } from '@inglorious/utils/character/bounds.js'
+import { merge } from '@inglorious/utils/data-structures/objects.js'
+import { applyGravity } from '@inglorious/utils/physics/gravity.js'
+import { jump } from '@inglorious/utils/physics/jump.js'
 
 export default {
   types: {
@@ -70,6 +71,8 @@ export default {
           },
         },
       },
+
+      draw: character,
     },
   },
 

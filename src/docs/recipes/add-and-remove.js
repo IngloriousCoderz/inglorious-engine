@@ -1,7 +1,7 @@
-import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse'
-import { subtract } from '@inglorious/utils/math/linear-algebra/vectors'
-import { pi } from '@inglorious/utils/math/trigonometry'
-import { random } from '@inglorious/utils/math/trigonometry/rng'
+import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse.js'
+import character from '@inglorious/utils/canvas/character.js'
+import { random } from '@inglorious/utils/math/rng.js'
+import { pi } from '@inglorious/utils/math/trigonometry.js'
 
 export default {
   types: {
@@ -19,7 +19,7 @@ export default {
           payload: {
             id: `character${maxId + 1}`,
             type: 'character',
-            position: subtract(event.payload, [15, 0, 15]),
+            position: event.payload,
             orientation: random(0, 2 * pi(), 0.01),
           },
         })
@@ -30,6 +30,8 @@ export default {
       'character:click'(instance, event, { notify }) {
         notify({ id: 'instance:remove', payload: event.payload })
       },
+
+      draw: character,
     },
   },
 

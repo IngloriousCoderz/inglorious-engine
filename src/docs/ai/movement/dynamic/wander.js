@@ -1,10 +1,11 @@
 import wander, {
   DEFAULT_WANDER_OFFSET,
   DEFAULT_WANDER_RADIUS,
-} from '@inglorious/engine/ai/movement/dynamic/wander'
-import { flip } from '@inglorious/utils/character/bounds'
-import { merge } from '@inglorious/utils/data-structures/objects'
-import { pi } from '@inglorious/utils/math/trigonometry'
+} from '@inglorious/engine/ai/movement/dynamic/wander.js'
+import character from '@inglorious/utils/canvas/character.js'
+import { flip } from '@inglorious/utils/character/bounds.js'
+import { merge } from '@inglorious/utils/data-structures/objects.js'
+import { pi } from '@inglorious/utils/math/trigonometry.js'
 
 export default {
   types: {
@@ -22,6 +23,8 @@ export default {
         )
         flip(instance, config.bounds)
       },
+
+      draw: character,
     },
 
     form: {
