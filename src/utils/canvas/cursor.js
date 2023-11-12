@@ -1,15 +1,6 @@
 /* eslint-disable no-magic-numbers */
 
-const DEFAULT_OPTIONS = {}
-
-export default function draw(ctx, options = DEFAULT_OPTIONS) {
-  const { config, position } = options
-  const [, , , screenHeight] = config.bounds
-  const [x, , z] = position
-
-  ctx.resetTransform()
-  ctx.translate(x, screenHeight - z)
-
+export function draw(ctx) {
   ctx.strokeStyle = 'black'
   ctx.fillStyle = 'black'
   ctx.lineWidth = 1

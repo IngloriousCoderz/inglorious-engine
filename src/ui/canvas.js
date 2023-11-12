@@ -1,4 +1,5 @@
 import Engine from '@inglorious/engine.js'
+import { absolutePosition } from '@inglorious/utils/canvas/absolute-position.js'
 
 import { trackMouse } from './canvas/mouse.js'
 
@@ -32,12 +33,14 @@ export function start(game) {
     ctx.fillRect(x, y, width, height)
 
     Object.values(instances)
-      .toSorted((a, b) => b.position?.[Z] - a.position?.[Z])
-      .map((instance) => {
+      .toSorted((a, b) => a.py - b.py || b.position?.[Z] - a.position?.[Z])
+      .forEach((instance) => {
         const type = config.types[instance.type]
-
         const draw = type?.states[instance.state]?.draw || type?.draw
-        draw?.(ctx, { ...instance, ...options })
+
+        if (draw) {
+          absolutePosition(draw)(ctx, { ...options, instance })
+        }
       })
   }
 }

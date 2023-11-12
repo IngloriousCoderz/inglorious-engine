@@ -4,12 +4,13 @@ import { subtract } from '@inglorious/utils/math/linear-algebra/vectors.js'
 import { mod } from '@inglorious/utils/math/numbers.js'
 import { pi, toRange } from '@inglorious/utils/math/trigonometry.js'
 
+const DEFAULT_ANIMATION = { counter: 0, frame: 0 }
 const BEFORE = -1
 const AFTER = 1
 
 export function init(sprite, instance) {
   instance.sprite = sprite
-  instance.animation = resetAnimation()
+  instance.animation = DEFAULT_ANIMATION
 }
 
 export function move2(instance, target) {
@@ -100,7 +101,7 @@ export function animate(instance, { dt, config, notify }) {
   const { speed, states } = config.types[instance.type].sprite
   const { frames } = states[instance.sprite]
 
-  instance.animation = instance.animation ?? resetAnimation()
+  instance.animation = instance.animation ?? DEFAULT_ANIMATION
 
   instance.animation.counter += dt
   if (instance.animation.counter >= speed) {
@@ -116,11 +117,13 @@ export function animate(instance, { dt, config, notify }) {
   }
 }
 
-export function draw(ctx, { config, type, position, sprite, animation }) {
-  const [, , , screenHeight] = config.bounds
+const DEFAULT_OPTIONS = {}
+
+export function draw(ctx, options = DEFAULT_OPTIONS) {
+  const { config, instance } = options
+  const { type, sprite, animation } = instance
   const { src, width, height, rows, cols, scale, states } =
     config.types[type].sprite
-  const [x, , z] = position
 
   const img = document.getElementById(src)
 
@@ -130,8 +133,6 @@ export function draw(ctx, { config, type, position, sprite, animation }) {
   const cellWidth = width / cols
   const cellHeight = height / rows
 
-  ctx.resetTransform()
-  ctx.translate(x, screenHeight - z)
   ctx.scale(flip === 'h' ? -1 : 1, flip === 'v' ? -1 : 1)
   ctx.scale(scale, scale)
   ctx.translate(-cellWidth / 2, -cellHeight / 2)
@@ -147,8 +148,4 @@ export function draw(ctx, { config, type, position, sprite, animation }) {
     cellWidth,
     cellHeight
   )
-}
-
-function resetAnimation() {
-  return { counter: 0, frame: 0 }
 }

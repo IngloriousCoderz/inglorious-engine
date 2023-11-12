@@ -1,4 +1,4 @@
-import cursor from '@inglorious/utils/canvas/cursor.js'
+import * as Cursor from '@inglorious/utils/canvas/cursor.js'
 import { clampToBounds } from '@inglorious/utils/character/bounds.js'
 import { ZERO_VECTOR } from '@inglorious/utils/math/linear-algebra/vector.js'
 
@@ -11,7 +11,7 @@ export function mouseType(events = {}) {
         clampToBounds(instance, config.bounds)
       },
 
-      draw: cursor,
+      draw: Cursor.draw,
 
       ...events,
     },

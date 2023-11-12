@@ -5,14 +5,11 @@ import circle from './circle.js'
 const DEFAULT_OPTIONS = {}
 
 export default function draw(ctx, options = DEFAULT_OPTIONS) {
-  const { size = 24, orientation = 0 } = options
+  const { size = 24, orientation = 0 } = options.instance
 
   const radius = size * 0.5
 
-  ctx.resetTransform()
-
-  circle(ctx, { ...options, radius, fill: 'lightgrey' })
-
+  ctx.save()
   ctx.rotate(-orientation)
   ctx.translate(radius - 1, 0)
 
@@ -24,4 +21,9 @@ export default function draw(ctx, options = DEFAULT_OPTIONS) {
   ctx.lineTo(6, 0)
   ctx.fill()
   ctx.closePath()
+  ctx.restore()
+
+  ctx.save()
+  circle(ctx, { ...options, radius, fill: 'lightgrey' })
+  ctx.restore()
 }
