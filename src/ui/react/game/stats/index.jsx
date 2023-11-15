@@ -1,4 +1,4 @@
-import { toString } from '@inglorious/utils/math/linear-algebra/quaternion.js'
+import { toString } from '@inglorious/utils/math/linear-algebra/vector.js'
 
 const DECIMALS = 1
 
