@@ -13,39 +13,49 @@ const Components = {
   character: withAbsolutePosition(Character),
   form: withAbsolutePosition(Form),
   fps: withAbsolutePosition(Fps),
-  // input: withAbsolutePosition(Input),
   mouse: withAbsolutePosition(Cursor),
   sprite: withAbsolutePosition(Sprite),
   stats: withAbsolutePosition(Stats),
 }
 
+const Z = 2
+
 export default function Game({ engine }) {
   // NOTE: don't use simply engine.instances here: need to subscribe to animate scene!
   const instances = useSelector((state) => state.instances)
 
+  const { mouse, ...rest } = instances
+
   return (
     <Scene config={engine.config}>
-      {Object.entries(instances).map(([id, instance]) => {
-        const type = engine.config.types?.[instance.type]
-        const Component = type?.sprite
-          ? Components.sprite
-          : Components[instance.type]
-
-        if (!Component) {
-          return null
-        }
-
-        return (
-          <Component
-            key={id}
-            id={id}
-            config={engine.config}
-            type={type}
-            instance={instance}
-            instances={instances}
-          />
-        )
-      })}
+      {Object.values(rest)
+        .toSorted((a, b) => a.py - b.py || b.position?.[Z] - a.position?.[Z])
+        .map(draw(engine, instances))}
+      {mouse && draw(engine, instances)(mouse)}
     </Scene>
   )
+}
+
+function draw(engine, instances) {
+  return function Draw(instance) {
+    const type = engine.config.types?.[instance.type]
+    const Component = type?.sprite
+      ? Components.sprite
+      : Components[instance.type]
+
+    if (!Component) {
+      return null
+    }
+
+    return (
+      <Component
+        key={instance.id}
+        id={instance.id}
+        config={engine.config}
+        type={type}
+        instance={instance}
+        instances={instances}
+      />
+    )
+  }
 }

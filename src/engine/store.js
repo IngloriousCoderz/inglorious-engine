@@ -41,8 +41,7 @@ export function createStore({ state: initialState, ...config }) {
       const event = state.events.shift()
 
       if (event.id === 'instance:add') {
-        const { id, ...rest } = event.payload
-        add(id, rest)
+        add(event.payload)
       }
 
       state.instances = map(state.instances, (id, instance) => {
@@ -66,9 +65,9 @@ export function createStore({ state: initialState, ...config }) {
     listeners.forEach((onUpdate) => onUpdate())
   }
 
-  function add(id, instance) {
+  function add(instance) {
     state = { ...state }
-    state.instances[id] = instance
+    state.instances[instance.id] = instance
     instance.state = instance.state ?? 'default'
   }
 

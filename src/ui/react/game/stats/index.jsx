@@ -2,12 +2,12 @@ import { toString } from '@inglorious/utils/math/linear-algebra/vector.js'
 
 const DECIMALS = 1
 
-export default function Stats({ instance, instances }) {
+export default function Stats({ instance, instances, className, style }) {
   const { acceleration, velocity, position, orientation, ay, vy, py } =
     instances[instance.target]
 
   return (
-    <>
+    <div className={className} style={style}>
       {acceleration && <div>Acceleration: {toString(acceleration)}</div>}
       {velocity && <div>Velocity: {toString(velocity)}</div>}
       {position && <div>Position: {toString(position)}</div>}
@@ -18,6 +18,6 @@ export default function Stats({ instance, instances }) {
       {ay != null && <div>ay: {ay.toFixed(DECIMALS)}</div>}
       {vy != null && <div>vy: {vy.toFixed(DECIMALS)}</div>}
       {py != null && <div>py: {py.toFixed(DECIMALS)}</div>}
-    </>
+    </div>
   )
 }

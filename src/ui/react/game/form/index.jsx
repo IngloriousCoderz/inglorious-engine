@@ -3,11 +3,11 @@ import { Fragment } from 'react'
 import Fields from './fields'
 import classes from './form.module.scss'
 
-export default function Form({ instance }) {
+export default function Form({ instance, className, style }) {
   const { fields, groups } = instance
 
   return (
-    <div className={classes.form}>
+    <div className={`${classes.form} ${className}`} style={style}>
       {fields && <Fields fields={fields} />}
 
       {groups &&

@@ -65,7 +65,8 @@ export default {
 
     cat: {
       sprite: {
-        src: 'neko',
+        id: 'neko',
+        src: './src/docs/recipes/decision-tree/neko.png',
         width: 192,
         height: 192,
         rows: 6,

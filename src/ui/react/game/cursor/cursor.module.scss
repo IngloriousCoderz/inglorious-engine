@@ -3,6 +3,7 @@
   height: 1px;
   background-color: black;
   transform: rotate(var(--angle));
+  pointer-events: none;
 
   .top,
   .bottom,

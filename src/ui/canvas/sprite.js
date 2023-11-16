@@ -101,7 +101,7 @@ export function animate(instance, { dt, config, notify }) {
   const { speed, states } = config.types[instance.type].sprite
   const { frames } = states[instance.sprite]
 
-  instance._animation = instance._animation ?? DEFAULT_ANIMATION
+  instance._animation = instance._animation ?? { ...DEFAULT_ANIMATION }
 
   instance._animation.counter += dt
   if (instance._animation.counter >= speed) {
@@ -125,10 +125,10 @@ const DEFAULT_OPTIONS = {}
 export function draw(ctx, options = DEFAULT_OPTIONS) {
   const { config, instance } = options
   const { type, sprite, _animation } = instance
-  const { src, width, height, rows, cols, scale, states } =
+  const { id, width, height, rows, cols, scale, states } =
     config.types[type].sprite
 
-  const img = document.getElementById(src)
+  const img = document.getElementById(id)
 
   const { frames, flip } = states[sprite]
   const [sx, sy] = frames[_animation.frame]

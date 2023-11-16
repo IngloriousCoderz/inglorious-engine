@@ -2,11 +2,12 @@
   width: var(--size);
   height: var(--size);
   box-sizing: border-box;
+  background-color: lightgrey;
   border: 1px solid grey;
   border-radius: 50%;
   transform: translate(-50%, -50%) rotate(var(--angle));
 
-  &::before {
+  &::after {
     content: '🞁';
     position: absolute;
     top: 50%;

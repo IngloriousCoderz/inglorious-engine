@@ -15,7 +15,7 @@ export default {
 
     character: {
       'game:update'(instance, event, options) {
-        instance = merge(instance, bounce(instance, options))
+        merge(instance, bounce(instance, options))
       },
 
       draw: Character.draw,

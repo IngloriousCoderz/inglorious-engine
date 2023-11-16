@@ -16,7 +16,10 @@ export function start(game) {
   })
 
   const canvas = document.getElementById('canvas')
-  trackMouse(canvas, { notify: engine.notify })
+  const { onMouseMove, onClick } = trackMouse(canvas, { notify: engine.notify })
+
+  canvas.addEventListener('mousemove', onMouseMove)
+  canvas.addEventListener('click', onClick)
 
   function render(options) {
     const { config, instances } = options

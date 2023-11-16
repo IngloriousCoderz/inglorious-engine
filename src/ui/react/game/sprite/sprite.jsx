@@ -9,6 +9,8 @@ export default function Sprite({
   scale,
   flip,
   frame,
+  className,
+  style: customStyle,
   children,
 }) {
   const cellWidth = width / cols
@@ -24,6 +26,7 @@ export default function Sprite({
 
   const [x, y] = frame
   const style = {
+    ...customStyle,
     width: `${cellWidth}px`,
     height: `${cellHeight}px`,
     backgroundImage: `url(${src})`,
@@ -32,7 +35,11 @@ export default function Sprite({
     transform,
   }
 
-  return <div style={style}>{children}</div>
+  return (
+    <div className={className} style={style}>
+      {children}
+    </div>
+  )
 }
 
 Sprite.defaultProps = {
