@@ -8,11 +8,6 @@ const DEFAULT_ANIMATION = { counter: 0, frame: 0 }
 const BEFORE = -1
 const AFTER = 1
 
-export function init(sprite, instance) {
-  instance.sprite = sprite
-  instance._animation = DEFAULT_ANIMATION
-}
-
 export function move2(instance, target) {
   const direction = subtract(target.position, instance.position)
 
@@ -97,11 +92,14 @@ export function move8(instance, target) {
   }
 }
 
-export function animate(instance, { dt, config, notify }) {
+export function play(sprite, instance, { dt, config, notify }) {
   const { speed, states } = config.types[instance.type].sprite
-  const { frames } = states[instance.sprite]
+  const { frames } = states[sprite]
 
-  instance._animation = instance._animation ?? { ...DEFAULT_ANIMATION }
+  if (sprite !== instance.sprite) {
+    instance.sprite = sprite
+    instance._animation = { ...DEFAULT_ANIMATION }
+  }
 
   instance._animation.counter += dt
   if (instance._animation.counter >= speed) {

@@ -12,11 +12,8 @@ const wakeUp = () => ({
     const distance = length(subtract(target.position, instance.position))
     return distance >= 10
   },
-  true: ({ instance }) => {
-    instance.state = 'aware'
-    Sprite.init('aware', instance)
-    return instance
-  },
+  true: () => 'aware',
+  false: ({ instance }) => instance.state,
 })
 
 // Our decision tree
@@ -27,32 +24,22 @@ const nextState = {
       const distance = length(subtract(target.position, instance.position))
       return distance < 250
     },
-    true: ({ instance }) => {
-      instance.state = 'aware'
-      Sprite.init('aware', instance)
-      return instance
-    },
+    true: () => 'aware',
+    false: ({ instance }) => instance.state,
   }),
   chasing: () => ({
     test: ({ instance, target }) => {
       const distance = length(subtract(target.position, instance.position))
       return distance >= 250
     },
-    true: ({ instance }) => {
-      instance.state = 'idle'
-      Sprite.init('idle', instance)
-      return instance
-    },
+    true: () => 'idle',
     false: () => ({
       test: ({ instance, target }) => {
         const distance = length(subtract(target.position, instance.position))
         return distance < 10
       },
-      true: ({ instance }) => {
-        instance.state = 'sleepy'
-        Sprite.init('sleepy', instance)
-        return instance
-      },
+      true: () => 'sleepy',
+      false: ({ instance }) => instance.state,
     }),
   }),
   sleepy: wakeUp,
@@ -167,15 +154,15 @@ export default {
           'game:update'(instance, event, options) {
             const { mouse } = options.instances
 
-            Sprite.animate(instance, options)
+            Sprite.play('idle', instance, options)
 
-            decide(nextState, { instance, target: mouse })
+            instance.state = decide(nextState, { instance, target: mouse })
           },
         },
 
         aware: {
           'game:update'(instance, event, options) {
-            Sprite.animate(instance, options)
+            Sprite.play('aware', instance, options)
           },
 
           'sprite:animationEnd'(instance, event) {
@@ -194,10 +181,10 @@ export default {
 
             merge(instance, arrive(instance, mouse, options))
 
-            instance.sprite = Sprite.move8(instance, mouse)
-            Sprite.animate(instance, options)
+            const sprite = Sprite.move8(instance, mouse)
+            Sprite.play(sprite, instance, options)
 
-            decide(nextState, { instance, target: mouse })
+            instance.state = decide(nextState, { instance, target: mouse })
           },
         },
 
@@ -205,17 +192,17 @@ export default {
           'game:update'(instance, event, options) {
             const { mouse } = options.instances
 
-            Sprite.animate(instance, options)
+            Sprite.play('sleepy', instance, options)
 
-            decide(nextState, { instance, target: mouse })
+            instance.state = decide(nextState, { instance, target: mouse })
           },
 
           'sprite:animationEnd'(instance, event) {
             const { id, sprite } = event.payload
 
+            // always check who originated the event and which sprite is running!
             if (id === 'neko' && sprite === 'sleepy') {
               instance.state = 'sleeping'
-              Sprite.init('sleeping', instance)
             }
           },
         },
@@ -224,9 +211,9 @@ export default {
           'game:update'(instance, event, options) {
             const { mouse } = options.instances
 
-            Sprite.animate(instance, options)
+            Sprite.play('sleeping', instance, options)
 
-            decide(nextState, { instance, target: mouse })
+            instance.state = decide(nextState, { instance, target: mouse })
           },
         },
       },
@@ -242,7 +229,6 @@ export default {
       neko: {
         type: 'cat',
         state: 'idle',
-        sprite: 'idle',
         maxSpeed: 250,
         position: [400, 0, 300],
       },

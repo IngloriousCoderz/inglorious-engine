@@ -10,8 +10,7 @@ export default {
   types: {
     fps: {
       'game:update'(instance, event, options) {
-        instance.value = options.dt
-        Fps.animate(instance, options)
+        Fps.play(instance, options)
       },
 
       draw: Fps.draw,

@@ -9,7 +9,7 @@ const ONE_SECOND = 1
 
 const DEFAULT_ANIMATION = { counter: 0, value: 0.016 }
 
-export function animate(instance, { dt, config }) {
+export function play(instance, { dt, config }) {
   const { frequency = DEFAULT_FREQUENCY } = config.types[instance.type]
 
   instance._animation = instance._animation ?? { ...DEFAULT_ANIMATION }
@@ -17,7 +17,7 @@ export function animate(instance, { dt, config }) {
   instance._animation.counter += dt
   if (instance._animation.counter >= frequency) {
     instance._animation.counter = 0
-    instance._animation.value = instance.value
+    instance._animation.value = dt
   }
 }
 
