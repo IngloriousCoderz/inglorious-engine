@@ -1,7 +1,7 @@
 /* eslint-disable no-magic-numbers */
 const NO_Y = 0
 
-export function trackMouse(parent, options) {
+export function track(parent, options) {
   const handleMouseMove = createHandler('mouse:move', parent, options)
   const handleClick = createHandler('mouse:click', parent, options)
 

@@ -1,7 +1,7 @@
 import Engine from '@inglorious/engine.js'
 
 import { absolutePosition } from './canvas/absolute-position.js'
-import { trackMouse } from './canvas/mouse.js'
+import * as Mouse from './canvas/mouse.js'
 
 const Z = 2
 
@@ -16,7 +16,9 @@ export function start(game) {
   })
 
   const canvas = document.getElementById('canvas')
-  const { onMouseMove, onClick } = trackMouse(canvas, { notify: engine.notify })
+  const { onMouseMove, onClick } = Mouse.track(canvas, {
+    notify: engine.notify,
+  })
 
   canvas.addEventListener('mousemove', onMouseMove)
   canvas.addEventListener('click', onClick)

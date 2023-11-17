@@ -1,4 +1,4 @@
-import { trackMouse } from '@inglorious/ui/canvas/mouse'
+import * as Mouse from '@inglorious/ui/canvas/mouse'
 import { useRef } from 'react'
 import { useDispatch } from 'react-redux'
 
@@ -10,7 +10,7 @@ export default function Scene({ config, children }) {
   const [, , width, height] = config.bounds
 
   const ref = useRef()
-  const mouseHandlers = trackMouse(ref.current, { notify })
+  const mouseHandlers = Mouse.track(ref.current, { notify })
 
   return (
     <div
