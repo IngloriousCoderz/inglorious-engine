@@ -73,7 +73,6 @@ export default {
 
       character: Character.instance({
         id: 'character',
-        type: 'character',
         maxAngularAcceleration: 1000,
         maxAngularSpeed: pi() / 4,
         position: [400, 0, 300],

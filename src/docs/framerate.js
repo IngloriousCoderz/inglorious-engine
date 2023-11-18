@@ -22,8 +22,7 @@ export default {
       fps: Fps.instance(),
 
       character: Character.instance({
-        id: 'character1',
-        type: 'character',
+        id: 'character',
         maxSpeed: 250,
         orientation: pi() / 6,
         position: [0, 0, 0],

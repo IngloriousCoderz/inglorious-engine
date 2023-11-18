@@ -8,8 +8,7 @@ export default {
   state: {
     instances: {
       character: Character.instance({
-        id: 'character1',
-        type: 'character',
+        id: 'character',
         position: [400, 0, 300],
       }),
     },

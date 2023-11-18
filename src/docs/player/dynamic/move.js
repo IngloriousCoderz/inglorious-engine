@@ -61,7 +61,6 @@ export default {
 
       character: Character.instance({
         id: 'character',
-        type: 'character',
         maxAcceleration: 500,
         maxSpeed: 250,
         friction: 250,

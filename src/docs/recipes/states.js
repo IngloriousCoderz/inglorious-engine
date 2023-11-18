@@ -49,7 +49,6 @@ export default {
 
       character: Character.instance({
         id: 'character',
-        type: 'character',
         state: 'meandering',
         maxSpeed: 250,
         maxAngularSpeed: pi() / 4,

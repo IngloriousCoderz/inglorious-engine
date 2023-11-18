@@ -24,7 +24,6 @@ export default {
 
       character: Character.instance({
         id: 'character',
-        type: 'character',
         velocity: [0, 0, 0],
         position: [400, 0, 300],
       }),

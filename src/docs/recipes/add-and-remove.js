@@ -31,12 +31,11 @@ export default {
 
         notify({
           id: 'instance:add',
-          payload: {
+          payload: Character.instance({
             id: `character${maxId + 1}`,
-            type: 'character',
             position: event.payload,
             orientation: random(0, 2 * pi(), 0.01),
-          },
+          }),
         })
       },
     }),
