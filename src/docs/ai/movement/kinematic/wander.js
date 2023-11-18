@@ -6,7 +6,7 @@ import { pi } from '@inglorious/utils/math/trigonometry.js'
 
 export default {
   types: {
-    ...Character.type({
+    character: Character.type({
       'game:update'(instance, event, { dt, config }) {
         merge(instance, wander(instance, { dt }))
         flip(instance, config.bounds)
@@ -16,7 +16,7 @@ export default {
 
   state: {
     instances: {
-      ...Character.instance({
+      character: Character.instance({
         id: 'character',
         type: 'character',
         maxSpeed: 250,

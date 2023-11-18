@@ -4,7 +4,7 @@ import {
   DEFAULT_TIME_TO_TARGET,
 } from '@inglorious/engine/ai/movement/dynamic/align.js'
 import face from '@inglorious/engine/ai/movement/dynamic/face.js'
-import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse.js'
+import * as Mouse from '@inglorious/engine/input/mouse.js'
 import * as Character from '@inglorious/ui/canvas/character.js'
 import { clampToBounds } from '@inglorious/utils/character/bounds.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
@@ -12,9 +12,9 @@ import { pi } from '@inglorious/utils/math/trigonometry.js'
 
 export default {
   types: {
-    ...mouseType(),
+    mouse: Mouse.type(),
 
-    ...Character.type({
+    character: Character.type({
       'game:update'(instance, event, { dt, config, instances }) {
         const target = instances.mouse
         const { fields } = instances.parameters.groups.face
@@ -43,9 +43,9 @@ export default {
 
   state: {
     instances: {
-      ...mouseInstance(),
+      mouse: Mouse.instance(),
 
-      ...Character.instance({
+      character: Character.instance({
         id: 'character',
         type: 'character',
         maxAngularSpeed: pi() / 4,

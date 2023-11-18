@@ -1,13 +1,13 @@
-import { gamepadInstance, gamepadType } from './input/gamepad.js'
-import { keyboardInstance, keyboardType } from './input/keyboard.js'
+import * as Gamepad from './input/gamepad.js'
+import * as Keyboard from './input/keyboard.js'
 
 const DEFAULT_ID = 0
 
-export function inputType() {
+export function type() {
   return {
-    ...keyboardType(),
+    keyboard: Keyboard.type(),
 
-    ...gamepadType(),
+    gamepad: Gamepad.type(),
 
     input: {
       'input:axis'(instance, event) {
@@ -43,11 +43,10 @@ export function inputType() {
   }
 }
 
-export function inputInstance(id = DEFAULT_ID, mapping = {}) {
+export function instance(id = DEFAULT_ID, mapping = {}) {
   return {
-    ...keyboardInstance(mapping),
-    ...gamepadInstance(id, mapping),
-
-    [`input${id}`]: { type: 'input', mapping },
+    [`keyboard${id}`]: Keyboard.instance(id, mapping),
+    [`gamepad${id}`]: Gamepad.instance(id, mapping),
+    [`input${id}`]: { id: `input${id}`, type: 'input', mapping },
   }
 }

@@ -4,7 +4,7 @@ import { pi } from '@inglorious/utils/math/trigonometry.js'
 
 export default {
   types: {
-    ...Character.type(),
+    character: Character.type(),
   },
 
   state: {

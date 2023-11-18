@@ -1,19 +1,16 @@
-import {
-  gamepadInstance,
-  gamepadType,
-} from '@inglorious/engine/input/gamepad.js'
+import * as Gamepad from '@inglorious/engine/input/gamepad.js'
 import move from '@inglorious/engine/player/kinematic/move.js'
 import * as Character from '@inglorious/ui/canvas/character.js'
-import { fpsInstance, fpsType } from '@inglorious/ui/canvas/fps.js'
+import * as Fps from '@inglorious/ui/canvas/fps.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 
 export default {
   types: {
-    ...gamepadType(),
+    gamepad: Gamepad.type(),
 
-    ...fpsType(),
+    fps: Fps.type(),
 
-    ...Character.type({
+    character: Character.type({
       'game:update'(instance, event, { dt, instances }) {
         const { gamepad0 } = instances
 
@@ -46,7 +43,7 @@ export default {
 
   state: {
     instances: {
-      ...gamepadInstance(0, {
+      gamepad0: Gamepad.instance(0, {
         Btn12: 'up',
         Btn13: 'down',
         Btn14: 'left',
@@ -55,9 +52,9 @@ export default {
         Axis1: 'upDown',
       }),
 
-      ...fpsInstance(),
+      fps: Fps.instance(),
 
-      ...Character.instance({
+      character: Character.instance({
         id: 'character',
         type: 'character',
         maxSpeed: 250,

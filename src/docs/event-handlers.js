@@ -5,7 +5,7 @@ const X = 0
 
 export default {
   types: {
-    ...Character.type({
+    character: Character.type({
       'game:update'(instance, event, { dt, config }) {
         const [left, , right] = config.bounds
 
@@ -24,7 +24,7 @@ export default {
 
   state: {
     instances: {
-      ...Character.instance({
+      character: Character.instance({
         id: 'character1',
         maxSpeed: 250,
         position: [400, 0, 300],

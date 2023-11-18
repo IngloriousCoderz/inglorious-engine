@@ -1,14 +1,14 @@
 import * as Character from '@inglorious/ui/canvas/character.js'
-import { fpsInstance, fpsType } from '@inglorious/ui/canvas/fps.js'
+import * as Fps from '@inglorious/ui/canvas/fps.js'
 import { bounce } from '@inglorious/utils/character/bounds.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 import { pi } from '@inglorious/utils/math/trigonometry.js'
 
 export default {
   types: {
-    ...fpsType(),
+    fps: Fps.type(),
 
-    ...Character.type({
+    character: Character.type({
       'game:update'(instance, event, options) {
         merge(instance, bounce(instance, options))
       },
@@ -17,9 +17,9 @@ export default {
 
   state: {
     instances: {
-      ...fpsInstance(),
+      fps: Fps.instance(),
 
-      ...Character.instance({
+      character: Character.instance({
         id: 'character1',
         type: 'character',
         maxSpeed: 250,

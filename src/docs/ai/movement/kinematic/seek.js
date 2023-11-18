@@ -1,13 +1,13 @@
 import seek from '@inglorious/engine/ai/movement/kinematic/seek.js'
-import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse.js'
+import * as Mouse from '@inglorious/engine/input/mouse.js'
 import * as Character from '@inglorious/ui/canvas/character.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 
 export default {
   types: {
-    ...mouseType(),
+    mouse: Mouse.type(),
 
-    ...Character.type({
+    character: Character.type({
       'game:update'(instance, event, { dt, instances }) {
         const target = instances.mouse
 
@@ -18,9 +18,9 @@ export default {
 
   state: {
     instances: {
-      ...mouseInstance(),
+      mouse: Mouse.instance(),
 
-      ...Character.instance({
+      character: Character.instance({
         id: 'character',
         type: 'character',
         maxSpeed: 250,

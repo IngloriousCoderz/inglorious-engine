@@ -5,36 +5,32 @@ const DEFAULT_SIZE = 16
 const DEFAULT_PADDING = 10
 const ONE_SECOND = 1
 
-export function fpsType(type) {
+export function type(type) {
   return {
-    fps: {
-      accuracy: 1,
+    accuracy: 1,
 
-      dt: {
-        speed: 1,
-        value: 60,
-      },
-
-      'game:update'(instance, event, options) {
-        Animation.play('dt', 'default', instance, { ...options, onTick })
-      },
-
-      draw,
-
-      ...type,
+    dt: {
+      speed: 1,
+      value: 60,
     },
+
+    'game:update'(instance, event, options) {
+      Animation.play('dt', 'default', instance, { ...options, onTick })
+    },
+
+    draw,
+
+    ...type,
   }
 }
 
-export function fpsInstance(instance) {
+export function instance(instance) {
   return {
-    fps: {
-      id: 'fps',
-      type: 'fps',
-      size: DEFAULT_SIZE,
-      position: [0, 0, 600],
-      ...instance,
-    },
+    id: 'fps',
+    type: 'fps',
+    size: DEFAULT_SIZE,
+    position: [0, 0, 600],
+    ...instance,
   }
 }
 

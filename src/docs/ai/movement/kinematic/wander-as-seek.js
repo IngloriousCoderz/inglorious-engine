@@ -8,7 +8,7 @@ import { pi } from '@inglorious/utils/math/trigonometry.js'
 
 export default {
   types: {
-    ...Character.type({
+    character: Character.type({
       'game:update'(instance, event, { dt, config, instances }) {
         const { fields } = instances.parameters.groups.wanderAsSeek
 
@@ -33,7 +33,7 @@ export default {
 
   state: {
     instances: {
-      ...Character.instance({
+      character: Character.instance({
         id: 'character',
         type: 'character',
         maxSpeed: 250,

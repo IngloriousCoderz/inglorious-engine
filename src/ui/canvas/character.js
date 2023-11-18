@@ -6,20 +6,15 @@ const DEFAULT_OPTIONS = {}
 
 export function type(type) {
   return {
-    character: {
-      ...type,
-
-      draw,
-    },
+    ...type,
+    draw,
   }
 }
 
 export function instance(instance) {
   return {
-    [instance.id]: {
-      type: 'character',
-      ...instance,
-    },
+    type: 'character',
+    ...instance,
   }
 }
 

@@ -2,29 +2,25 @@ import * as Mouse from '@inglorious/ui/canvas/mouse.js'
 import { clampToBounds } from '@inglorious/utils/character/bounds.js'
 import { ZERO_VECTOR } from '@inglorious/utils/math/linear-algebra/vector.js'
 
-export function mouseType(events = {}) {
+export function type(events = {}) {
   return {
-    mouse: {
-      'mouse:move'(instance, event, { config }) {
-        instance.position = event.payload
+    'mouse:move'(instance, event, { config }) {
+      instance.position = event.payload
 
-        clampToBounds(instance, config.bounds)
-      },
-
-      draw: Mouse.draw,
-
-      ...events,
+      clampToBounds(instance, config.bounds)
     },
+
+    draw: Mouse.draw,
+
+    ...events,
   }
 }
 
-export function mouseInstance() {
+export function instance() {
   return {
-    mouse: {
-      type: 'mouse',
-      velocity: ZERO_VECTOR,
-      position: ZERO_VECTOR,
-      orientation: 0,
-    },
+    type: 'mouse',
+    velocity: ZERO_VECTOR,
+    position: ZERO_VECTOR,
+    orientation: 0,
   }
 }

@@ -1,4 +1,4 @@
-import { inputInstance, inputType } from '@inglorious/engine/input.js'
+import * as Input from '@inglorious/engine/input.js'
 import tank from '@inglorious/engine/player/dynamic/tank.js'
 import * as Character from '@inglorious/ui/canvas/character.js'
 import { clampToBounds } from '@inglorious/utils/character/bounds.js'
@@ -6,9 +6,9 @@ import { merge } from '@inglorious/utils/data-structures/objects.js'
 
 export default {
   types: {
-    ...inputType(),
+    ...Input.type(),
 
-    ...Character.type({
+    character: Character.type({
       'game:update'(instance, event, { dt, config, instances }) {
         const { input0 } = instances
 
@@ -45,7 +45,7 @@ export default {
 
   state: {
     instances: {
-      ...inputInstance(0, {
+      ...Input.instance(0, {
         ArrowUp: 'up',
         ArrowDown: 'down',
         ArrowLeft: 'left',
@@ -63,7 +63,7 @@ export default {
         Axis2: 'leftRight',
       }),
 
-      ...Character.instance({
+      character: Character.instance({
         id: 'character',
         type: 'character',
         maxAngularSpeed: 10,

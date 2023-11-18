@@ -1,4 +1,4 @@
-import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse.js'
+import * as Mouse from '@inglorious/engine/input/mouse.js'
 import * as Character from '@inglorious/ui/canvas/character.js'
 import { random } from '@inglorious/utils/math/rng.js'
 import { pi } from '@inglorious/utils/math/trigonometry.js'
@@ -6,7 +6,7 @@ import * as Point from '@inglorious/utils/physics/collisions/point.js'
 
 export default {
   types: {
-    ...mouseType({
+    mouse: Mouse.type({
       'mouse:click'(instance, event, options) {
         const { instances, notify } = options
 
@@ -41,7 +41,7 @@ export default {
       },
     }),
 
-    ...Character.type({
+    character: Character.type({
       collision: {
         type: 'circle',
         radius: 12,
@@ -56,7 +56,7 @@ export default {
 
   state: {
     instances: {
-      ...mouseInstance(),
+      mouse: Mouse.instance(),
     },
   },
 }

@@ -1,6 +1,6 @@
 import arrive from '@inglorious/engine/ai/movement/kinematic/arrive.js'
-import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse.js'
-import { fpsInstance, fpsType } from '@inglorious/ui/canvas/fps.js'
+import * as Mouse from '@inglorious/engine/input/mouse.js'
+import * as Fps from '@inglorious/ui/canvas/fps.js'
 import * as Sprite from '@inglorious/ui/canvas/sprite.js'
 import { decide } from '@inglorious/utils/algorithms/decision-tree.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
@@ -49,9 +49,9 @@ const nextState = {
 
 export default {
   types: {
-    ...mouseType(),
+    mouse: Mouse.type(),
 
-    ...fpsType(),
+    fps: Fps.type(),
 
     cat: {
       sprite: {
@@ -227,9 +227,9 @@ export default {
 
   state: {
     instances: {
-      ...mouseInstance(),
+      mouse: Mouse.instance(),
 
-      ...fpsInstance(),
+      fps: Fps.instance(),
 
       neko: {
         type: 'cat',

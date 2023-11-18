@@ -1,14 +1,14 @@
-import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse.js'
+import * as Mouse from '@inglorious/engine/input/mouse.js'
 import * as Character from '@inglorious/ui/canvas/character.js'
-import { fpsInstance, fpsType } from '@inglorious/ui/canvas/fps.js'
+import * as Fps from '@inglorious/ui/canvas/fps.js'
 
 export default {
   types: {
-    ...mouseType(),
+    mouse: Mouse.type(),
 
-    ...fpsType(),
+    fps: Fps.type(),
 
-    ...Character.type({
+    character: Character.type({
       'game:update'(instance, event, { instances }) {
         const { mouse } = instances
         instance.position = mouse.position
@@ -18,11 +18,11 @@ export default {
 
   state: {
     instances: {
-      ...mouseInstance(),
+      mouse: Mouse.instance(),
 
-      ...fpsInstance(),
+      fps: Fps.instance(),
 
-      ...Character.instance({
+      character: Character.instance({
         id: 'character',
         type: 'character',
         velocity: [0, 0, 0],

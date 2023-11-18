@@ -1,6 +1,6 @@
 import arrive from '@inglorious/engine/ai/movement/kinematic/arrive.js'
 import wander from '@inglorious/engine/ai/movement/kinematic/wander.js'
-import { mouseInstance, mouseType } from '@inglorious/engine/input/mouse.js'
+import * as Mouse from '@inglorious/engine/input/mouse.js'
 import * as Character from '@inglorious/ui/canvas/character.js'
 import { clampToBounds, flip } from '@inglorious/utils/character/bounds.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
@@ -10,9 +10,9 @@ import { pi } from '@inglorious/utils/math/trigonometry.js'
 
 export default {
   types: {
-    ...mouseType(),
+    mouse: Mouse.type(),
 
-    ...Character.type({
+    character: Character.type({
       states: {
         meandering: {
           'game:update'(instance, event, { dt, config, instances }) {
@@ -45,9 +45,9 @@ export default {
 
   state: {
     instances: {
-      ...mouseInstance(),
+      mouse: Mouse.instance(),
 
-      ...Character.instance({
+      character: Character.instance({
         id: 'character',
         type: 'character',
         state: 'meandering',
