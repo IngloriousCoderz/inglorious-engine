@@ -10,7 +10,7 @@ export default {
   types: {
     ...mouseType(),
 
-    character: {
+    ...Character.type({
       'game:update'(instance, event, { dt, config, instances }) {
         const target = instances.mouse
         const { fields } = instances.parameters.groups.pursue
@@ -25,9 +25,7 @@ export default {
 
         clampToBounds(instance, config.bounds)
       },
-
-      draw: Character.draw,
-    },
+    }),
 
     form: {
       'field:change'(instance, event) {
@@ -41,12 +39,13 @@ export default {
     instances: {
       ...mouseInstance(),
 
-      character: {
+      ...Character.instance({
+        id: 'character',
         type: 'character',
         maxAcceleration: 1000,
         maxSpeed: 250,
         position: [400, 0, 300],
-      },
+      }),
 
       parameters: {
         type: 'form',

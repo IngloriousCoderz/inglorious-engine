@@ -8,7 +8,7 @@ import { pi } from '@inglorious/utils/math/trigonometry.js'
 
 export default {
   types: {
-    character: {
+    ...Character.type({
       'game:update'(instance, event, { dt, config, instances }) {
         const { fields } = instances.parameters.groups.wanderAsSeek
 
@@ -21,9 +21,7 @@ export default {
         )
         flip(instance, config.bounds)
       },
-
-      draw: Character.draw,
-    },
+    }),
 
     form: {
       'field:change'(instance, event) {
@@ -35,12 +33,13 @@ export default {
 
   state: {
     instances: {
-      character: {
+      ...Character.instance({
+        id: 'character',
         type: 'character',
         maxSpeed: 250,
         maxAngularSpeed: pi() / 4,
         position: [400, 0, 300],
-      },
+      }),
 
       parameters: {
         type: 'form',

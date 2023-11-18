@@ -12,7 +12,7 @@ export default {
     ...mouseType(),
     ...inputType(),
 
-    character: {
+    ...Character.type({
       'game:update'(instance, event, { dt, config, instances }) {
         const { input0, mouse } = instances
 
@@ -34,9 +34,7 @@ export default {
         merge(instance, tank(instance, { dt }))
         clampToBounds(instance, config.bounds)
       },
-
-      draw: Character.draw,
-    },
+    }),
   },
 
   state: {
@@ -53,7 +51,8 @@ export default {
         KeyD: 'right',
       }),
 
-      character: {
+      ...Character.instance({
+        id: 'character',
         type: 'character',
         maxAngularAcceleration: 1000,
         maxAngularSpeed: 2 * pi(),
@@ -61,7 +60,7 @@ export default {
         maxSpeed: 250,
         friction: 250,
         position: [400, 0, 300],
-      },
+      }),
     },
   },
 }

@@ -41,7 +41,7 @@ export default {
       },
     }),
 
-    character: {
+    ...Character.type({
       collision: {
         type: 'circle',
         radius: 12,
@@ -51,9 +51,7 @@ export default {
       'character:click'(instance, event, { notify }) {
         notify({ id: 'instance:remove', payload: event.payload })
       },
-
-      draw: Character.draw,
-    },
+    }),
   },
 
   state: {

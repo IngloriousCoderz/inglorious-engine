@@ -4,7 +4,26 @@ import circle from './circle.js'
 
 const DEFAULT_OPTIONS = {}
 
-export function draw(ctx, options = DEFAULT_OPTIONS) {
+export function type(type) {
+  return {
+    character: {
+      ...type,
+
+      draw,
+    },
+  }
+}
+
+export function instance(instance) {
+  return {
+    [instance.id]: {
+      type: 'character',
+      ...instance,
+    },
+  }
+}
+
+function draw(ctx, options = DEFAULT_OPTIONS) {
   const { size = 24, orientation = 0 } = options.instance
 
   const radius = size * 0.5

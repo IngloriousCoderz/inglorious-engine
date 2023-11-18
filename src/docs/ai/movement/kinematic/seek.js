@@ -7,26 +7,25 @@ export default {
   types: {
     ...mouseType(),
 
-    character: {
+    ...Character.type({
       'game:update'(instance, event, { dt, instances }) {
         const target = instances.mouse
 
         merge(instance, seek(instance, target, { dt }))
       },
-
-      draw: Character.draw,
-    },
+    }),
   },
 
   state: {
     instances: {
       ...mouseInstance(),
 
-      character: {
+      ...Character.instance({
+        id: 'character',
         type: 'character',
         maxSpeed: 250,
         position: [400, 0, 300],
-      },
+      }),
     },
   },
 }

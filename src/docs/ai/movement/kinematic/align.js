@@ -34,7 +34,7 @@ export default {
 
     ...inputType(),
 
-    character: {
+    ...Character.type({
       'game:update'(instance, event, { dt, config, instances }) {
         const target = instances.mouse
         const { fields } = instances.parameters.groups.align
@@ -50,9 +50,7 @@ export default {
 
         clampToBounds(instance, config.bounds)
       },
-
-      draw: Character.draw,
-    },
+    }),
 
     form: {
       'field:change'(instance, event) {
@@ -72,11 +70,12 @@ export default {
         ArrowUp: 'up',
       }),
 
-      character: {
+      ...Character.instance({
+        id: 'character',
         type: 'character',
         maxAngularSpeed: pi() / 4,
         position: [400, 0, 300],
-      },
+      }),
 
       parameters: {
         type: 'form',

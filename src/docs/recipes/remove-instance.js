@@ -24,7 +24,7 @@ export default {
       },
     }),
 
-    character: {
+    ...Character.type({
       collision: {
         type: 'circle',
         radius: 12,
@@ -34,9 +34,7 @@ export default {
       'character:click'(instance, event, { notify }) {
         notify({ id: 'instance:remove', payload: event.payload })
       },
-
-      draw: Character.draw,
-    },
+    }),
   },
 
   state: {
@@ -49,6 +47,7 @@ export default {
           .map((_, index) => [
             `character${index + 1}`,
             {
+              id: `character${index + 1}`,
               type: 'character',
               position: [random(0, 800), 0, random(0, 600)],
               orientation: random(0, 2 * pi(), 0.01),

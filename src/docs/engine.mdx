@@ -1,8 +1,8 @@
 import { Canvas, Meta, Source } from '@storybook/blocks'
 import * as Engine from './engine.stories'
 
-import bounce from './bounce?raw'
 import bounds from './bounds?raw'
+import codeReuse from './code-reuse?raw'
 import empty from './empty?raw'
 import eventHandlers from './event-handlers?raw'
 import framerate from './framerate?raw'
@@ -61,25 +61,25 @@ An event handler accepts the following arguments:
   - The game's current `config` object (here you can find the scene's `bounds`, for example);
   - All `instances` present in the scene; note that they are read-only, so look but don't touch!
 
+The character shown here updates its velocity and position at every frame, going back and forth like it's patroling the scene!
+
 The `fps` type shows FPS debug info on the top left of the scene; its value is updated based on the `dt` time at every `game:update` event.
 
 <Source dark code={eventHandlers} />
 
 <Canvas of={Engine.EventHandlers} />
 
-## Default Handlers
+## Code Reuse
 
 Coding is beautiful, but reusing code without reinventing the wheel is even better!
 
 The event handler for this character is using a predefined `bounce()` function which makes it look like one of those old DVD logo screensavers.
 
-This time the `character` needs to specify not only its position but also its initial velocity, so the `bounce()` function can update both. 
+Also, the `fpsType` and `fpsInstance` functions create a predefined FPS counter on the top left corner of the screen. How neat is that?
 
-By the way, did you know you can set the FPS update frequency and accuracy in decimals?
+<Source dark code={codeReuse} />
 
-<Source dark code={bounce} />
-
-<Canvas of={Engine.Bounce} />
+<Canvas of={Engine.CodeReuse} />
 
 ## Fixed Framerate
 

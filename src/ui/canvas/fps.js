@@ -1,36 +1,57 @@
 /* eslint-disable no-magic-numbers */
-const DEFAULT_OPTIONS = {}
+import * as Animation from '@inglorious/utils/character/animation.js'
 
-const DEFAULT_FREQUENCY = 1
-const DEFAULT_ACCURACY = 1
-
-const PADDING = 10
+const DEFAULT_SIZE = 16
+const DEFAULT_PADDING = 10
 const ONE_SECOND = 1
 
-const DEFAULT_ANIMATION = { counter: 0, value: 0.016 }
+export function fpsType(type) {
+  return {
+    fps: {
+      accuracy: 1,
 
-export function play(instance, { dt, config }) {
-  const { frequency = DEFAULT_FREQUENCY } = config.types[instance.type]
+      dt: {
+        speed: 1,
+        value: 60,
+      },
 
-  instance._animation = instance._animation ?? { ...DEFAULT_ANIMATION }
+      'game:update'(instance, event, options) {
+        Animation.play('dt', 'default', instance, { ...options, onTick })
+      },
 
-  instance._animation.counter += dt
-  if (instance._animation.counter >= frequency) {
-    instance._animation.counter = 0
-    instance._animation.value = dt
+      draw,
+
+      ...type,
+    },
   }
 }
 
-export function draw(ctx, options = DEFAULT_OPTIONS) {
+export function fpsInstance(instance) {
+  return {
+    fps: {
+      id: 'fps',
+      type: 'fps',
+      size: DEFAULT_SIZE,
+      position: [0, 0, 600],
+      ...instance,
+    },
+  }
+}
+
+function onTick(instance, options) {
+  instance.dt.value = options.dt
+}
+
+function draw(ctx, options) {
   const { config, instance } = options
-  const { accuracy = DEFAULT_ACCURACY } = config.types[instance.type]
-  const { size = 16, _animation } = instance
+  const { accuracy } = config.types[instance.type]
+  const { size = DEFAULT_SIZE, dt } = instance
 
   ctx.font = `${size}px sans serif`
   ctx.fillStyle = 'black'
   ctx.fillText(
-    (ONE_SECOND / _animation.value).toFixed(accuracy),
-    PADDING,
-    PADDING + size
+    (ONE_SECOND / dt.value).toFixed(accuracy),
+    DEFAULT_PADDING,
+    DEFAULT_PADDING + size
   )
 }

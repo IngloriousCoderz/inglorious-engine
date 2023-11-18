@@ -1,5 +1,5 @@
 import * as Character from '@inglorious/ui/canvas/character.js'
-import * as Fps from '@inglorious/ui/canvas/fps.js'
+import { fpsInstance, fpsType } from '@inglorious/ui/canvas/fps.js'
 import { bounce } from '@inglorious/utils/character/bounds.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 import { pi } from '@inglorious/utils/math/trigonometry.js'
@@ -8,36 +8,26 @@ export default {
   loop: { type: 'fixed', fps: 10 },
 
   types: {
-    fps: {
-      'game:update'(instance, event, options) {
-        Fps.play(instance, options)
-      },
+    ...fpsType(),
 
-      draw: Fps.draw,
-    },
-
-    character: {
+    ...Character.type({
       'game:update'(instance, event, options) {
         merge(instance, bounce(instance, options))
       },
-
-      draw: Character.draw,
-    },
+    }),
   },
 
   state: {
     instances: {
-      instance1: {
-        type: 'fps',
-        position: [0, 0, 600],
-      },
+      ...fpsInstance(),
 
-      instance2: {
+      ...Character.instance({
+        id: 'character1',
         type: 'character',
         maxSpeed: 250,
         orientation: pi() / 6,
         position: [0, 0, 0],
-      },
+      }),
     },
   },
 }

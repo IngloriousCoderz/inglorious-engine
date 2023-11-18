@@ -4,7 +4,7 @@ const ONE_SECOND = 1
 
 export default function Fps({ type, instance, className, style }) {
   const { accuracy = DEFAULT_ACCURACY } = type
-  const { value } = instance._animation
+  const { value } = instance.dt
 
   const fps = ONE_SECOND / value
 

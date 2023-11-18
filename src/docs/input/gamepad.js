@@ -4,19 +4,16 @@ import {
 } from '@inglorious/engine/input/gamepad.js'
 import move from '@inglorious/engine/player/kinematic/move.js'
 import * as Character from '@inglorious/ui/canvas/character.js'
+import { fpsInstance, fpsType } from '@inglorious/ui/canvas/fps.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 
 export default {
   types: {
     ...gamepadType(),
 
-    fps: {
-      'game:update'(instance, event, { dt }) {
-        instance.value = dt
-      },
-    },
+    ...fpsType(),
 
-    character: {
+    ...Character.type({
       'game:update'(instance, event, { dt, instances }) {
         const { gamepad0 } = instances
 
@@ -44,9 +41,7 @@ export default {
 
         merge(instance, move(instance, { dt }))
       },
-
-      draw: Character.draw,
-    },
+    }),
   },
 
   state: {
@@ -60,16 +55,14 @@ export default {
         Axis1: 'upDown',
       }),
 
-      debug: {
-        type: 'fps',
-        value: 0,
-      },
+      ...fpsInstance(),
 
-      character: {
+      ...Character.instance({
+        id: 'character',
         type: 'character',
         maxSpeed: 250,
         position: [400, 0, 300],
-      },
+      }),
     },
   },
 }

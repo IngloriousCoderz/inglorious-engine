@@ -8,28 +8,27 @@ export default {
   types: {
     ...mouseType(),
 
-    character: {
+    ...Character.type({
       'game:update'(instance, event, { dt, config, instances }) {
         const target = instances.mouse
 
         merge(instance, seek(instance, target, { dt }))
         clampToBounds(instance, config.bounds)
       },
-
-      draw: Character.draw,
-    },
+    }),
   },
 
   state: {
     instances: {
       ...mouseInstance(),
 
-      character: {
+      ...Character.instance({
+        id: 'character',
         type: 'character',
         maxAcceleration: 1000,
         maxSpeed: 250,
         position: [400, 0, 300],
-      },
+      }),
     },
   },
 }

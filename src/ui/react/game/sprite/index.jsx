@@ -2,15 +2,14 @@ import SpriteComponent from './sprite'
 
 export default function Sprite({ type, instance, className, style }) {
   const { states, ...rest } = type.sprite
-  const { frames, flip } = states[instance.sprite]
-
-  const { frame } = instance._animation
+  const { state, value } = instance.sprite
+  const { frames, flip } = states[state]
 
   return (
     <SpriteComponent
       {...rest}
       flip={flip}
-      frame={frames[frame]}
+      frame={frames[value]}
       className={className}
       style={style}
     />

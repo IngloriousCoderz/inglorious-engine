@@ -1,7 +1,7 @@
 import Game from '@inglorious/ui/react/game'
 
-import bounce from './bounce'
 import bounds from './bounds'
+import codeReuse from './code-reuse'
 import empty from './empty'
 import eventHandlers from './event-handlers'
 import framerate from './framerate'
@@ -31,8 +31,8 @@ export const EventHandlers = {
   args: { config: eventHandlers },
 }
 
-export const Bounce = {
-  args: { config: bounce },
+export const CodeReuse = {
+  args: { config: codeReuse },
 }
 
 export const Framerate = {

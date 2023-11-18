@@ -1,10 +1,10 @@
 /* eslint-disable no-magic-numbers */
+import * as Animation from '@inglorious/utils/character/animation.js'
 import { angle } from '@inglorious/utils/math/linear-algebra/vector.js'
 import { subtract } from '@inglorious/utils/math/linear-algebra/vectors.js'
 import { mod } from '@inglorious/utils/math/numbers.js'
 import { pi, toRange } from '@inglorious/utils/math/trigonometry.js'
 
-const DEFAULT_ANIMATION = { counter: 0, frame: 0 }
 const BEFORE = -1
 const AFTER = 1
 
@@ -92,44 +92,36 @@ export function move8(instance, target) {
   }
 }
 
-export function play(sprite, instance, { dt, config, notify }) {
-  const { speed, states } = config.types[instance.type].sprite
-  const { frames } = states[sprite]
+export function play(spriteState, instance, options) {
+  Animation.play('sprite', spriteState, instance, { ...options, onTick })
+}
 
-  if (sprite !== instance.sprite) {
-    instance.sprite = sprite
-    instance._animation = { ...DEFAULT_ANIMATION }
-  }
+function onTick(instance, options) {
+  const { config, notify } = options
+  const { type, sprite } = instance
 
-  instance._animation.counter += dt
-  if (instance._animation.counter >= speed) {
-    instance._animation.counter = 0
-    instance._animation.frame = mod(
-      instance._animation.frame + 1,
-      frames.length
-    )
+  const { states } = config.types[type].sprite
+  const { frames } = states[sprite.state]
 
-    if (instance._animation.frame === frames.length - 1) {
-      notify({
-        id: `sprite:animationEnd`,
-        payload: { id: instance.id, sprite: instance.sprite },
-      })
-    }
+  instance.sprite.value = mod(instance.sprite.value + 1, frames.length)
+  if (instance.sprite.value === frames.length - 1) {
+    notify({
+      id: `sprite:animationEnd`,
+      payload: { id: instance.id, sprite: instance.sprite.state },
+    })
   }
 }
 
-const DEFAULT_OPTIONS = {}
-
-export function draw(ctx, options = DEFAULT_OPTIONS) {
+export function draw(ctx, options) {
   const { config, instance } = options
-  const { type, sprite, _animation } = instance
+  const { type, sprite } = instance
   const { id, width, height, rows, cols, scale, states } =
     config.types[type].sprite
 
   const img = document.getElementById(id)
 
-  const { frames, flip } = states[sprite]
-  const [sx, sy] = frames[_animation.frame]
+  const { frames, flip } = states[sprite.state]
+  const [sx, sy] = frames[sprite.value]
 
   const cellWidth = width / cols
   const cellHeight = height / rows

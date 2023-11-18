@@ -8,7 +8,7 @@ export default {
   types: {
     ...inputType(),
 
-    character: {
+    ...Character.type({
       'game:update'(instance, event, { dt, config, instances }) {
         const { input0 } = instances
 
@@ -40,9 +40,7 @@ export default {
         merge(instance, tank(instance, { dt }))
         clampToBounds(instance, config.bounds)
       },
-
-      draw: Character.draw,
-    },
+    }),
   },
 
   state: {
@@ -65,12 +63,13 @@ export default {
         Axis2: 'leftRight',
       }),
 
-      character: {
+      ...Character.instance({
+        id: 'character',
         type: 'character',
         maxAngularSpeed: 10,
         maxSpeed: 250,
         position: [400, 0, 300],
-      },
+      }),
     },
   },
 }

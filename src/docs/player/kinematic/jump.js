@@ -12,7 +12,7 @@ export default {
 
     stats: {},
 
-    character: {
+    ...Character.type({
       states: {
         notJumping: {
           'game:update'(instance, event, options) {
@@ -57,9 +57,7 @@ export default {
           },
         },
       },
-
-      draw: Character.draw,
-    },
+    }),
   },
 
   state: {
@@ -89,14 +87,15 @@ export default {
         target: 'character',
       },
 
-      character: {
+      ...Character.instance({
+        id: 'character',
         type: 'character',
         maxSpeed: 250,
         position: [400, 0, 300],
         maxJump: 100,
         maxLeap: 100,
         state: 'notJumping',
-      },
+      }),
     },
   },
 }

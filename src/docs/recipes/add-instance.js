@@ -21,9 +21,7 @@ export default {
       },
     }),
 
-    character: {
-      draw: Character.draw,
-    },
+    ...Character.type(),
   },
 
   state: {

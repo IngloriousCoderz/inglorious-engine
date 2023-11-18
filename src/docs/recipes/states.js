@@ -12,7 +12,7 @@ export default {
   types: {
     ...mouseType(),
 
-    character: {
+    ...Character.type({
       states: {
         meandering: {
           'game:update'(instance, event, { dt, config, instances }) {
@@ -40,22 +40,21 @@ export default {
           },
         },
       },
-
-      draw: Character.draw,
-    },
+    }),
   },
 
   state: {
     instances: {
       ...mouseInstance(),
 
-      character: {
+      ...Character.instance({
+        id: 'character',
         type: 'character',
         state: 'meandering',
         maxSpeed: 250,
         maxAngularSpeed: pi() / 4,
         position: [400, 0, 300],
-      },
+      }),
     },
   },
 }
