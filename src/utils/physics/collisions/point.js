@@ -1,23 +1,22 @@
-/* eslint-disable no-magic-numbers */
+import {
+  isPointInCircle,
+  isPointInRectangle,
+} from '@inglorious/utils/math/geometry.js'
+
+const Z = 2
 
 const Target = {
-  circle: isWithinCircle,
+  circle: isPointInCircle,
+  boundingBox: isPointInRectangle,
 }
 
 export function findCollision(point, options) {
   return Object.values(options.instances)
-    .toSorted((a, b) => a.position[2] - b.position[2])
+    .toSorted((a, b) => a.position[Z] - b.position[Z])
     .find((instance) => collides(point, instance, options))
 }
 
 function collides(point, instance, { config }) {
-  const { collision } = config.types[instance.type]
-  return Target[collision.type](point, instance.position, collision)
-}
-
-function isWithinCircle(point, position, { radius }) {
-  const [cx, , cz] = position
-  const [x, , z] = point
-
-  return (x - cx) ** 2 + (z - cz) ** 2 <= radius ** 2
+  const { hitbox } = config.types[instance.type]
+  return Target[hitbox.type](point, { ...hitbox, position: instance.position })
 }

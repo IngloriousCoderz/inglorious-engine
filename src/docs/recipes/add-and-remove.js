@@ -41,7 +41,7 @@ export default {
     }),
 
     character: Character.type({
-      collision: {
+      hitbox: {
         type: 'circle',
         radius: 12,
       },
