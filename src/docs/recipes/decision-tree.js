@@ -48,6 +48,7 @@ const nextState = {
 }
 
 export default {
+  pixelated: true,
   types: {
     mouse: Mouse.type(),
 
