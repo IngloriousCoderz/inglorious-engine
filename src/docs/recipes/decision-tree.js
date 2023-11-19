@@ -1,7 +1,8 @@
 import arrive from '@inglorious/engine/ai/movement/kinematic/arrive.js'
-import * as Mouse from '@inglorious/engine/input/mouse.js'
-import * as Fps from '@inglorious/ui/canvas/fps.js'
-import * as Sprite from '@inglorious/ui/canvas/sprite.js'
+import * as Sprite from '@inglorious/game/sprite.js'
+import * as Fps from '@inglorious/game/types/fps.js'
+import * as Mouse from '@inglorious/game/types/mouse.js'
+import draw from '@inglorious/ui/canvas/sprite.js'
 import { decide } from '@inglorious/utils/algorithms/decision-tree.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 import { length } from '@inglorious/utils/math/linear-algebra/vector.js'
@@ -222,15 +223,19 @@ export default {
         },
       },
 
-      draw: Sprite.draw,
+      draw,
     },
   },
 
   state: {
     instances: {
-      mouse: Mouse.instance(),
+      mouse: { id: 'mouse', type: 'mouse', position: [400, 0, 300] },
 
-      fps: Fps.instance(),
+      fps: {
+        id: 'fps',
+        type: 'fps',
+        position: [0, 0, 600],
+      },
 
       neko: {
         type: 'cat',

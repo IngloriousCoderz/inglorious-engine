@@ -4,9 +4,9 @@ import {
   DEFAULT_TIME_TO_TARGET,
 } from '@inglorious/engine/ai/movement/dynamic/align.js'
 import lookWhereYoureGoing from '@inglorious/engine/ai/movement/dynamic/look-where-youre-going.js'
-import * as Input from '@inglorious/engine/input.js'
-import * as Character from '@inglorious/ui/canvas/character.js'
-import { clampToBounds } from '@inglorious/utils/character/bounds.js'
+import { clampToBounds } from '@inglorious/game/bounds.js'
+import * as Character from '@inglorious/game/types/character.js'
+import * as Input from '@inglorious/game/types/input.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 import { sum } from '@inglorious/utils/math/linear-algebra/vectors.js'
 import { pi } from '@inglorious/utils/math/trigonometry.js'
@@ -71,12 +71,13 @@ export default {
         ArrowUp: 'up',
       }),
 
-      character: Character.instance({
+      character: {
         id: 'character',
+        type: 'character',
         maxAngularAcceleration: 1000,
         maxAngularSpeed: pi() / 4,
         position: [400, 0, 300],
-      }),
+      },
 
       parameters: {
         type: 'form',

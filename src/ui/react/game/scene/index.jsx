@@ -1,4 +1,4 @@
-import * as Mouse from '@inglorious/ui/canvas/mouse'
+import * as Mouse from '@inglorious/game/types/mouse'
 import { useRef } from 'react'
 import { useDispatch } from 'react-redux'
 

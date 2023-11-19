@@ -1,7 +1,7 @@
-import * as Input from '@inglorious/engine/input.js'
 import tank from '@inglorious/engine/player/kinematic/tank.js'
-import * as Character from '@inglorious/ui/canvas/character.js'
-import { clampToBounds } from '@inglorious/utils/character/bounds.js'
+import { clampToBounds } from '@inglorious/game/bounds.js'
+import * as Character from '@inglorious/game/types/character.js'
+import * as Input from '@inglorious/game/types/input.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 
 export default {
@@ -63,12 +63,13 @@ export default {
         Axis2: 'leftRight',
       }),
 
-      character: Character.instance({
+      character: {
         id: 'character',
+        type: 'character',
         maxAngularSpeed: 10,
         maxSpeed: 250,
         position: [400, 0, 300],
-      }),
+      },
     },
   },
 }

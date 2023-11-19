@@ -1,4 +1,4 @@
-import * as Character from '@inglorious/ui/canvas/character.js'
+import * as Character from '@inglorious/game/types/character.js'
 
 export default {
   types: {
@@ -7,10 +7,11 @@ export default {
 
   state: {
     instances: {
-      character: Character.instance({
+      character: {
         id: 'character',
+        type: 'character',
         position: [400, 0, 300],
-      }),
+      },
     },
   },
 }

@@ -1,7 +1,7 @@
 import Engine from '@inglorious/engine.js'
+import * as Mouse from '@inglorious/game/types/mouse.js'
 
 import { absolutePosition } from './canvas/absolute-position.js'
-import * as Mouse from './canvas/mouse.js'
 
 const Z = 2
 

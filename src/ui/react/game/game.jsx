@@ -28,33 +28,37 @@ export default function Game({ engine }) {
   const { mouse, ...rest } = instances
   const options = { config, instances }
 
+  const draw = createDraw(options)
+
   return (
     <Scene config={engine.config}>
       {Object.values(rest)
         .filter(({ position }) => position)
         .toSorted((a, b) => a.py - b.py || b.position[Z] - a.position[Z])
-        .map((instance) => draw(instance, options))}
-      {mouse && draw(mouse, options)}
+        .map(draw)}
+      {mouse && draw(mouse)}
     </Scene>
   )
 }
 
-function draw(instance, options) {
-  const { config } = options
-  const type = config.types?.[instance.type]
-  const Component = type?.sprite ? Components.sprite : Components[instance.type]
+function createDraw(options) {
+  return function Draw(instance) {
+    const { config, instances } = options
+    const type = config.types[instance.type]
 
-  if (!Component) {
-    return null
+    const Component = type.sprite
+      ? Components.sprite
+      : Components[instance.type]
+
+    return (
+      <Component
+        key={instance.id}
+        id={instance.id}
+        config={config}
+        instances={instances}
+        type={type}
+        instance={instance}
+      />
+    )
   }
-
-  return (
-    <Component
-      key={instance.id}
-      id={instance.id}
-      config={config}
-      type={type}
-      instance={instance}
-    />
-  )
 }

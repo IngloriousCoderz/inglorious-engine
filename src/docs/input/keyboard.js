@@ -1,7 +1,7 @@
-import * as Keyboard from '@inglorious/engine/input/keyboard.js'
 import move from '@inglorious/engine/player/kinematic/move.js'
-import * as Character from '@inglorious/ui/canvas/character.js'
-import * as Fps from '@inglorious/ui/canvas/fps.js'
+import * as Character from '@inglorious/game/types/character.js'
+import * as Fps from '@inglorious/game/types/fps.js'
+import * as Keyboard from '@inglorious/game/types/keyboard.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 
 const X = 0
@@ -45,13 +45,18 @@ export default {
         ArrowUp: 'up',
       }),
 
-      fps: Fps.instance(),
+      fps: {
+        id: 'fps',
+        type: 'fps',
+        position: [0, 0, 600],
+      },
 
-      character: Character.instance({
+      character: {
         id: 'character',
+        type: 'character',
         maxSpeed: 250,
         position: [400, 0, 300],
-      }),
+      },
     },
   },
 }

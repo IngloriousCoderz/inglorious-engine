@@ -1,7 +1,7 @@
 import flee from '@inglorious/engine/ai/movement/kinematic/flee.js'
-import * as Mouse from '@inglorious/engine/input/mouse.js'
-import * as Character from '@inglorious/ui/canvas/character.js'
-import { clampToBounds } from '@inglorious/utils/character/bounds.js'
+import { clampToBounds } from '@inglorious/game/bounds.js'
+import * as Character from '@inglorious/game/types/character.js'
+import * as Mouse from '@inglorious/game/types/mouse.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 
 export default {
@@ -20,13 +20,14 @@ export default {
 
   state: {
     instances: {
-      mouse: Mouse.instance(),
+      mouse: { id: 'mouse', type: 'mouse', position: [400, 0, 300] },
 
-      character: Character.instance({
+      character: {
         id: 'character',
+        type: 'character',
         maxSpeed: 250,
         position: [400, 0, 300],
-      }),
+      },
     },
   },
 }

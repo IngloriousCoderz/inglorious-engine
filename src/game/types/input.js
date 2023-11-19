@@ -1,5 +1,5 @@
-import * as Gamepad from './input/gamepad.js'
-import * as Keyboard from './input/keyboard.js'
+import * as Gamepad from './gamepad.js'
+import * as Keyboard from './keyboard.js'
 
 const DEFAULT_ID = 0
 

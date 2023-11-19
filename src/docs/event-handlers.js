@@ -1,4 +1,4 @@
-import * as Character from '@inglorious/ui/canvas/character.js'
+import * as Character from '@inglorious/game/types/character.js'
 import { pi } from '@inglorious/utils/math/trigonometry.js'
 
 const X = 0
@@ -24,13 +24,14 @@ export default {
 
   state: {
     instances: {
-      character: Character.instance({
-        id: 'character1',
+      character: {
+        id: 'character',
+        type: 'character',
         maxSpeed: 250,
         position: [400, 0, 300],
         velocity: [250, 0, 0],
         orientation: 0,
-      }),
+      },
     },
   },
 }

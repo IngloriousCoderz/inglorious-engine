@@ -1,7 +1,7 @@
-import * as Input from '@inglorious/engine/input.js'
 import move from '@inglorious/engine/player/dynamic/move.js'
-import * as Character from '@inglorious/ui/canvas/character.js'
-import { clampToBounds } from '@inglorious/utils/character/bounds.js'
+import { clampToBounds } from '@inglorious/game/bounds.js'
+import * as Character from '@inglorious/game/types/character.js'
+import * as Input from '@inglorious/game/types/input.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 
 export default {
@@ -59,13 +59,14 @@ export default {
         Axis1: 'upDown',
       }),
 
-      character: Character.instance({
+      character: {
         id: 'character',
+        type: 'character',
         maxAcceleration: 500,
         maxSpeed: 250,
         friction: 250,
         position: [400, 0, 300],
-      }),
+      },
     },
   },
 }

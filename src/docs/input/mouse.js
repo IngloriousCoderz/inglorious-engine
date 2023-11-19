@@ -1,6 +1,6 @@
-import * as Mouse from '@inglorious/engine/input/mouse.js'
-import * as Character from '@inglorious/ui/canvas/character.js'
-import * as Fps from '@inglorious/ui/canvas/fps.js'
+import * as Character from '@inglorious/game/types/character.js'
+import * as Fps from '@inglorious/game/types/fps.js'
+import * as Mouse from '@inglorious/game/types/mouse.js'
 
 export default {
   types: {
@@ -18,15 +18,20 @@ export default {
 
   state: {
     instances: {
-      mouse: Mouse.instance(),
+      mouse: { id: 'mouse', type: 'mouse', position: [400, 0, 300] },
 
-      fps: Fps.instance(),
+      fps: {
+        id: 'fps',
+        type: 'fps',
+        position: [0, 0, 600],
+      },
 
-      character: Character.instance({
+      character: {
         id: 'character',
+        type: 'character',
         velocity: [0, 0, 0],
         position: [400, 0, 300],
-      }),
+      },
     },
   },
 }

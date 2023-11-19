@@ -1,9 +1,9 @@
 import face from '@inglorious/engine/ai/movement/kinematic/face.js'
-import * as Input from '@inglorious/engine/input.js'
-import * as Mouse from '@inglorious/engine/input/mouse.js'
 import tank from '@inglorious/engine/player/dynamic/tank.js'
-import * as Character from '@inglorious/ui/canvas/character.js'
-import { clampToBounds } from '@inglorious/utils/character/bounds.js'
+import { clampToBounds } from '@inglorious/game/bounds.js'
+import * as Character from '@inglorious/game/types/character.js'
+import * as Input from '@inglorious/game/types/input.js'
+import * as Mouse from '@inglorious/game/types/mouse.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 import { pi } from '@inglorious/utils/math/trigonometry.js'
 
@@ -39,7 +39,7 @@ export default {
 
   state: {
     instances: {
-      mouse: Mouse.instance(),
+      mouse: { id: 'mouse', type: 'mouse', position: [400, 0, 300] },
       ...Input.instance(0, {
         ArrowUp: 'up',
         ArrowDown: 'down',
@@ -51,15 +51,16 @@ export default {
         KeyD: 'right',
       }),
 
-      character: Character.instance({
+      character: {
         id: 'character',
+        type: 'character',
         maxAngularAcceleration: 1000,
         maxAngularSpeed: 2 * pi(),
         maxAcceleration: 500,
         maxSpeed: 250,
         friction: 250,
         position: [400, 0, 300],
-      }),
+      },
     },
   },
 }

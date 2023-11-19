@@ -16,7 +16,6 @@ body {
 canvas {
   max-width: 100%;
   max-height: 100%;
-  border: 1px solid black;
   cursor: none;
 }
 

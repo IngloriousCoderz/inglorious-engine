@@ -1,8 +1,8 @@
 import arrive from '@inglorious/engine/ai/movement/kinematic/arrive.js'
 import wander from '@inglorious/engine/ai/movement/kinematic/wander.js'
-import * as Mouse from '@inglorious/engine/input/mouse.js'
-import * as Character from '@inglorious/ui/canvas/character.js'
-import { clampToBounds, flip } from '@inglorious/utils/character/bounds.js'
+import { clampToBounds, flip } from '@inglorious/game/bounds.js'
+import * as Character from '@inglorious/game/types/character.js'
+import * as Mouse from '@inglorious/game/types/mouse.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 import { length } from '@inglorious/utils/math/linear-algebra/vector.js'
 import { subtract } from '@inglorious/utils/math/linear-algebra/vectors.js'
@@ -45,15 +45,16 @@ export default {
 
   state: {
     instances: {
-      mouse: Mouse.instance(),
+      mouse: { id: 'mouse', type: 'mouse', position: [400, 0, 300] },
 
-      character: Character.instance({
+      character: {
         id: 'character',
+        type: 'character',
         state: 'meandering',
         maxSpeed: 250,
         maxAngularSpeed: pi() / 4,
         position: [400, 0, 300],
-      }),
+      },
     },
   },
 }
