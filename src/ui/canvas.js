@@ -7,7 +7,8 @@ const Z = 2
 
 export function start(game) {
   const canvas = document.getElementById('canvas')
-  const engine = new Engine(game, { render: render(canvas.getContext('2d')) })
+  const ctx = canvas.getContext('2d')
+  const engine = new Engine(game, { render: render(ctx) })
 
   const { bounds, pixelated } = engine._config
   const [, , width, height] = bounds
@@ -15,6 +16,7 @@ export function start(game) {
   canvas.height = height
   if (pixelated) {
     canvas.style.imageRendering = 'pixelated'
+    ctx.textRendering = 'geometricPrecision'
   }
 
   document.addEventListener('keypress', (event) => {
