@@ -24,38 +24,37 @@ export default function Game({ engine }) {
   // NOTE: don't use simply engine.instances here: need to subscribe to animate scene!
   const instances = useSelector((state) => state.instances)
 
+  const { config } = engine
   const { mouse, ...rest } = instances
+  const options = { config, instances }
 
   return (
     <Scene config={engine.config}>
       {Object.values(rest)
-        .toSorted((a, b) => a.py - b.py || b.position?.[Z] - a.position?.[Z])
-        .map(draw(engine, instances))}
-      {mouse && draw(engine, instances)(mouse)}
+        .filter(({ position }) => position)
+        .toSorted((a, b) => a.py - b.py || b.position[Z] - a.position[Z])
+        .map((instance) => draw(instance, options))}
+      {mouse && draw(mouse, options)}
     </Scene>
   )
 }
 
-function draw(engine, instances) {
-  return function Draw(instance) {
-    const type = engine.config.types?.[instance.type]
-    const Component = type?.sprite
-      ? Components.sprite
-      : Components[instance.type]
+function draw(instance, options) {
+  const { config } = options
+  const type = config.types?.[instance.type]
+  const Component = type?.sprite ? Components.sprite : Components[instance.type]
 
-    if (!Component) {
-      return null
-    }
-
-    return (
-      <Component
-        key={instance.id}
-        id={instance.id}
-        config={engine.config}
-        type={type}
-        instance={instance}
-        instances={instances}
-      />
-    )
+  if (!Component) {
+    return null
   }
+
+  return (
+    <Component
+      key={instance.id}
+      id={instance.id}
+      config={config}
+      type={type}
+      instance={instance}
+    />
+  )
 }

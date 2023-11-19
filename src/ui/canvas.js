@@ -10,7 +10,7 @@ export function start(game) {
   const ctx = canvas.getContext('2d')
   const engine = new Engine(game, { render: render(ctx) })
 
-  const { bounds, pixelated } = engine._config
+  const { bounds, pixelated } = engine.config
   const [, , width, height] = bounds
   canvas.width = width
   canvas.height = height
