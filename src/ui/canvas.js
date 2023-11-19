@@ -13,7 +13,6 @@ export function start(game) {
 
   if (engine._config.pixelated) {
     canvas.style.imageRendering = 'pixelated'
-    ctx.imageSmoothingEnabled = false
   }
 
   document.addEventListener('keypress', (event) => {
@@ -41,6 +40,9 @@ function render(ctx) {
     canvas.width = width
     canvas.height = height
 
+    if (config.pixelated) {
+      ctx.imageSmoothingEnabled = false
+    }
     ctx.fillStyle = 'lightgrey'
     ctx.fillRect(x, y, width, height)
 
