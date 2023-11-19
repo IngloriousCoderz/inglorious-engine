@@ -29,7 +29,7 @@ export default {
 
     character: Character.type({
       hitbox: {
-        type: 'circle',
+        shape: 'circle',
         radius: 12,
       },
 

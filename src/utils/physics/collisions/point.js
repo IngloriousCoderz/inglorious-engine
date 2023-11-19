@@ -7,7 +7,7 @@ const Z = 2
 
 const Target = {
   circle: isPointInCircle,
-  boundingBox: isPointInRectangle,
+  rectangle: isPointInRectangle,
 }
 
 export function findCollision(point, options) {
@@ -20,5 +20,5 @@ export function findCollision(point, options) {
 
 function collides(point, instance, { config }) {
   const { hitbox } = config.types[instance.type]
-  return Target[hitbox.type](point, { ...hitbox, position: instance.position })
+  return Target[hitbox.shape](point, { ...hitbox, position: instance.position })
 }
