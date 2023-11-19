@@ -7,11 +7,13 @@ const Z = 2
 
 export function start(game) {
   const canvas = document.getElementById('canvas')
-  const ctx = canvas.getContext('2d')
+  const engine = new Engine(game, { render: render(canvas.getContext('2d')) })
 
-  const engine = new Engine(game, { render: render(ctx) })
-
-  if (engine._config.pixelated) {
+  const { bounds, pixelated } = engine._config
+  const [, , width, height] = bounds
+  canvas.width = width
+  canvas.height = height
+  if (pixelated) {
     canvas.style.imageRendering = 'pixelated'
   }
 
@@ -35,14 +37,11 @@ function render(ctx) {
   return (options) => {
     const { config, instances } = options
 
-    const [x, y, width, height] = config.bounds
-    const canvas = document.getElementById('canvas')
-    canvas.width = width
-    canvas.height = height
-
     if (config.pixelated) {
       ctx.imageSmoothingEnabled = false
     }
+
+    const [x, y, width, height] = config.bounds
     ctx.fillStyle = 'lightgrey'
     ctx.fillRect(x, y, width, height)
 
