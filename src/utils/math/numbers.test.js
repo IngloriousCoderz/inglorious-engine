@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 
-import { abs, clamp, mod, sign } from './numbers.js'
+import { abs, clamp, mod, sign, snap } from './numbers.js'
 
 test('it should return the same number if already positive', () => {
   const num = 42
@@ -110,4 +110,12 @@ test('it should return the number itself if the sign is zero', () => {
   const expectedResult = 0
 
   expect(sign(num)).toBe(expectedResult)
+})
+
+test('it should snap the number to the given precision', () => {
+  const num = 42
+  const precision = 10
+  const expectedResult = 40
+
+  expect(snap(num, precision)).toBe(expectedResult)
 })

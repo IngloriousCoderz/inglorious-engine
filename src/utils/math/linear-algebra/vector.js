@@ -3,6 +3,7 @@ import {
   abs as nAbs,
   clamp as nClamp,
   mod as nMod,
+  snap as nSnap,
 } from '@inglorious/utils/math/numbers.js'
 import { atan2, cos, sin } from '@inglorious/utils/math/trigonometry.js'
 
@@ -18,6 +19,7 @@ const Z = 2
 const LAST_COORDINATE = 1
 const TWO_COORDINATES = 2
 const NO_Y = 0
+const DEFAULT_PRECISION = 1
 const DEFAULT_DECIMALS = 0
 
 export function abs(vector) {
@@ -110,6 +112,10 @@ export function setMagnitude(vector, length) {
 
 export function shift(vector, index) {
   return [...vector.slice(index), ...vector.slice(X, index)]
+}
+
+export function snap(vector, precision = DEFAULT_PRECISION) {
+  return vector.map((coordinate) => nSnap(coordinate, -precision, precision))
 }
 
 export const times = multiply

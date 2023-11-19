@@ -17,6 +17,7 @@ import {
   setAngle,
   setMagnitude,
   shift,
+  snap,
   toCartesian,
   toCylindrical,
   toPolar,
@@ -200,6 +201,14 @@ test('it should shift a vector at a certain index', () => {
   const expectedResult = [3, 4, 5, 1, 2]
 
   expect(shift(vector, index)).toStrictEqual(expectedResult)
+})
+
+test('it should snap a floating vector to a certain precision', () => {
+  const vector = [1, 1.5, 1.7]
+  const precision = 1
+  const expectedResult = [1, 1, 2]
+
+  expect(snap(vector, precision)).toStrictEqual(expectedResult)
 })
 
 test('it should convert a 2D polar vector to cartesian coordinates', () => {

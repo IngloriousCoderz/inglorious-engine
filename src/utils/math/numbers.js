@@ -1,3 +1,5 @@
+const DEFAULT_PRECISION = 1
+
 export function abs(num) {
   return Math.abs(num)
 }
@@ -16,6 +18,10 @@ export function clamp(num, min, max) {
 
 export function mod(dividend, divisor) {
   return ((dividend % divisor) + divisor) % divisor
+}
+
+export function snap(num, precision = DEFAULT_PRECISION) {
+  return Math.round(num / precision) * precision
 }
 
 export const remainder = mod
