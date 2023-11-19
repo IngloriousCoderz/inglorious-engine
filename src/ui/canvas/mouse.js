@@ -43,6 +43,7 @@ export function draw(ctx) {
   ctx.fillStyle = 'black'
   ctx.lineWidth = 1
 
+  ctx.beginPath()
   ctx.moveTo(-6, 0)
   ctx.lineTo(-3, 0)
   ctx.stroke()
@@ -58,6 +59,7 @@ export function draw(ctx) {
   ctx.moveTo(0, 4)
   ctx.lineTo(0, 7)
   ctx.stroke()
+  ctx.closePath()
 
   ctx.beginPath()
   ctx.fillRect(0, 0, 1, 1)
