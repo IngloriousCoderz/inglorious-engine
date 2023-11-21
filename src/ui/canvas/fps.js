@@ -4,9 +4,8 @@ const DEFAULT_PADDING = 10
 const ONE_SECOND = 1
 
 export default function draw(ctx, options) {
-  const { config, instance } = options
-  const { accuracy, size } = config.types[instance.type]
-  const { dt } = instance
+  const { config, type, dt } = options
+  const { accuracy, size } = config.types[type]
 
   ctx.font = `${size}px sans serif`
   ctx.fillStyle = 'black'

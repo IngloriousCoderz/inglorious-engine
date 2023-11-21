@@ -63,6 +63,6 @@ function draw(ctx, instance, options) {
   const draw = type?.states[instance.state]?.draw || type?.draw
 
   if (draw) {
-    absolutePosition(draw)(ctx, { ...options, instance })
+    absolutePosition(draw)(ctx, { ...options, ...type, ...instance })
   }
 }

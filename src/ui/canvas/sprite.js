@@ -1,8 +1,7 @@
 /* eslint-disable no-magic-numbers */
 
 export default function draw(ctx, options) {
-  const { config, instance } = options
-  const { type, sprite } = instance
+  const { config, type, sprite } = options
   const { id, width, height, rows, cols, scale, states } =
     config.types[type].sprite
 

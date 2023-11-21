@@ -8,9 +8,8 @@ const DEFAULT_OPTIONS = {}
 
 export function absolutePosition(draw) {
   return (ctx, options = DEFAULT_OPTIONS) => {
-    const { config } = options
+    const { config, position = ZERO_VECTOR, py = 0 } = options
     const [, , , screenHeight] = config.bounds
-    const { position = ZERO_VECTOR, py = 0 } = options.instance
     const [x, , z] = snap(position)
 
     ctx.save()
