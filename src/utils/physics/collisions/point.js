@@ -1,13 +1,13 @@
 import {
-  isPointInCircle,
-  isPointInRectangle,
-} from '@inglorious/utils/math/geometry.js'
+  overlapsCircle,
+  overlapsRectangle,
+} from '@inglorious/utils/math/geometry/point.js'
 
 const Z = 2
 
 const Target = {
-  circle: isPointInCircle,
-  rectangle: isPointInRectangle,
+  circle: overlapsCircle,
+  rectangle: overlapsRectangle,
 }
 
 export function findCollision(point, options) {

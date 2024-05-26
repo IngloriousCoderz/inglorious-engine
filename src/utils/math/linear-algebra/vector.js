@@ -1,4 +1,4 @@
-import { hypothenuse } from '@inglorious/utils/math/geometry.js'
+import { hypothenuse } from '@inglorious/utils/math/geometry/triangle.js'
 import {
   abs as nAbs,
   clamp as nClamp,

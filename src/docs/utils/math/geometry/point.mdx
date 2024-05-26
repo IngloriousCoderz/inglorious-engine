@@ -1,0 +1,34 @@
+import { Meta } from '@storybook/blocks'
+
+import { toString } from '@inglorious/utils/data-structures/boolean.js'
+import { overlapsPoint, overlapsCircle, overlapsRectangle } from '@inglorious/utils/math/geometry/point.js'
+
+<Meta title="Utils/Math/Geometry/Point" />
+
+# Point
+
+Intersection functions for a point.
+
+## Overlaps Point
+
+Checks if a point is in the same place as another.
+
+<code>overlapsPoint([1.5, 0, 1.5], [1.5, 0, 1.5]) == {toString(overlapsPoint([1.5, 0, 1.5], [1.5, 0, 1.5]))}</code>&nbsp;
+
+<code>overlapsPoint([1.5, 0, 1.5], [2, 0, 1]) == {toString(overlapsPoint([1.5, 0, 1.5], [2, 0, 1]))}</code>&nbsp;
+
+## Overlaps Circle
+
+Checks if a point is inside of a circle.
+
+<code>overlapsCircle([1.5, 0, 1.5], \{ position: [1, 0, 1], radius: 1 \}) == {toString(overlapsCircle([1.5, 0, 1.5], { position: [1, 0, 1], radius: 1 }))}</code>&nbsp;
+
+<code>overlapsCircle([2, 0, 2], \{ position: [1, 0, 1], radius: 1 \}) == {toString(overlapsCircle([2, 0, 2], { position: [1, 0, 1], radius: 1 }))}</code>&nbsp;
+
+## Overlaps Rectangle
+
+Checks if a point is inside of a rectangle.
+
+<code>overlapsRectangle([1.5, 0, 1.5], \{ position: [1, 0, 1], size: [2, 2] \}) == {toString(overlapsRectangle([1.5, 0, 1.5], { position: [1, 0, 1], size: [2, 2] }))}</code>&nbsp;
+
+<code>overlapsRectangle([2.5, 0, 2.5], \{ position: [1, 0, 1], size: [2, 2] \}) == {toString(overlapsRectangle([2.5, 0, 2.5], { position: [1, 0, 1], size: [2, 2] }))}</code>&nbsp;
