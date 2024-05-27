@@ -1,10 +1,10 @@
 import { subtract } from '@inglorious/utils/math/linear-algebra/vectors.js'
 
-import { intersectsCircle as lineIntersectsCircle } from './line.js'
 import {
   intersectsCircle as pointIntersectsCircle,
   intersectsRectangle as pointIntersectsRectangle,
 } from './point.js'
+import { intersectsCircle as segmentIntersectsCircle } from './segment.js'
 import { hypothenuse } from './triangle.js'
 
 export function intersectsPoint(circle, point) {
@@ -29,9 +29,9 @@ export function intersectsRectangle(circle, rectangle) {
 
   return (
     pointIntersectsRectangle(circle.position, rectangle) ||
-    lineIntersectsCircle({ from: topLeft, to: topRight }, circle) ||
-    lineIntersectsCircle({ from: topRight, to: bottomRight }, circle) ||
-    lineIntersectsCircle({ from: bottomRight, to: bottomLeft }, circle) ||
-    lineIntersectsCircle({ from: bottomLeft, to: topLeft }, circle)
+    segmentIntersectsCircle({ from: topLeft, to: topRight }, circle) ||
+    segmentIntersectsCircle({ from: topRight, to: bottomRight }, circle) ||
+    segmentIntersectsCircle({ from: bottomRight, to: bottomLeft }, circle) ||
+    segmentIntersectsCircle({ from: bottomLeft, to: topLeft }, circle)
   )
 }

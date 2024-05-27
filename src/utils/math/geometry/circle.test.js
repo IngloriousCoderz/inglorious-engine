@@ -70,12 +70,28 @@ test('it should prove that a circle on the border of a rectangle intersects with
   expect(intersectsRectangle(circle, rectangle)).toBe(true)
 })
 
-test.skip('it should prove that a point outside of a rectangle does not intersect with it', () => {
-  const point = [2.5, 0, 2.5]
-  const rectangle = {
+test('it should prove that a circle crossing a rectangle intersects with it', () => {
+  const circle = {
     position: [1, 0, 1],
+    radius: 1,
+  }
+  const rectangle = {
+    position: [-1, 0, -1],
     size: [2, 2],
   }
 
-  expect(intersectsRectangle(point, rectangle)).toBe(false)
+  expect(intersectsRectangle(circle, rectangle)).toBe(true)
+})
+
+test('it should prove that a circle outside of a rectangle does not intersect with it', () => {
+  const circle = {
+    position: [1, 0, 1],
+    radius: 1,
+  }
+  const rectangle = {
+    position: [-3, 0, 0],
+    size: [2, 2],
+  }
+
+  expect(intersectsRectangle(circle, rectangle)).toBe(false)
 })

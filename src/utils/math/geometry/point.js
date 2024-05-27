@@ -1,5 +1,11 @@
 /* eslint-disable no-magic-numbers */
 
+import { distanceFromPoint } from './line.js'
+
+export function getDistanceFromLine(point, line) {
+  return distanceFromPoint(line, point)
+}
+
 export function intersectsPoint(point1, point2) {
   const [x1, y1, z1] = point1
   const [x2, y2, z2] = point2

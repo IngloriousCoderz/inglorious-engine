@@ -1,10 +1,14 @@
-import { shift } from './vector.js'
+import { magnitude, shift } from './vector.js'
 
 export const add = sum
 
 /* NOTE: only valid in 3 and 7 dimensions! */
 export function cross(...vectors) {
   return vectors.reduce(crossMultiplyCoordinates)
+}
+
+export function distance(...vectors) {
+  return magnitude(subtract(...vectors))
 }
 
 export function dot(...vectors) {

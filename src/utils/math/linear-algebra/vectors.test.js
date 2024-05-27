@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 
-import { cross, dot, subtract, sum } from './vectors'
+import { cross, distance, dot, subtract, sum } from './vectors'
 
 test('it should compute the cross product between two vectors (aka vectorProduct)', () => {
   const vector1 = [1, 2, 3]
@@ -21,12 +21,14 @@ test('it should compute the cross product of multiple vectors (aka vectorProduct
   expect(cross(...vectors)).toStrictEqual(expectedResult)
 })
 
-test('it should compute the dot product between two vectors (aka scalarProduct)', () => {
-  const vector1 = [1, 2, 3]
-  const vector2 = [4, 5, 6]
-  const expectedResult = 32
+test('it should compute the distance between multiple vectors', () => {
+  const vectors = [
+    [0, 0, 0],
+    [4, 0, 3],
+  ]
+  const expectedResult = 5
 
-  expect(dot(vector1, vector2)).toStrictEqual(expectedResult)
+  expect(distance(...vectors)).toStrictEqual(expectedResult)
 })
 
 test('it should compute the dot product of multiple vectors (aka scalarProduct)', () => {
@@ -40,14 +42,6 @@ test('it should compute the dot product of multiple vectors (aka scalarProduct)'
   expect(dot(...vectors)).toStrictEqual(expectedResult)
 })
 
-test('it should subtract two vectors', () => {
-  const vector1 = [1, 2, 3]
-  const vector2 = [4, 5, 6]
-  const expectedResult = [-3, -3, -3]
-
-  expect(subtract(vector1, vector2)).toStrictEqual(expectedResult)
-})
-
 test('it should subtract multiple vectors', () => {
   const vectors = [
     [1, 2, 3],
@@ -57,14 +51,6 @@ test('it should subtract multiple vectors', () => {
   const expectedResult = [-10, -11, -12]
 
   expect(subtract(...vectors)).toStrictEqual(expectedResult)
-})
-
-test('it should sum two vectors (aka add)', () => {
-  const vector1 = [1, 2, 3]
-  const vector2 = [4, 5, 6]
-  const expectedResult = [5, 7, 9]
-
-  expect(sum(vector1, vector2)).toStrictEqual(expectedResult)
 })
 
 test('it should sum multiple vectors (aka add)', () => {
