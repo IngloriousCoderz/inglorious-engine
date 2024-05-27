@@ -1,3 +1,4 @@
+import { sqrt } from '@inglorious/utils/math/numbers.js'
 import { cos, pi, sin } from '@inglorious/utils/math/trigonometry.js'
 import { expect, test } from 'vitest'
 
@@ -81,7 +82,7 @@ test('it should conjugate a vector', () => {
 })
 
 test('it should create a 3D vector given its magnitude and angle', () => {
-  const magnitude = 2 ** 0.5
+  const magnitude = sqrt(2)
   const angle = pi() / 4
   const expectedResult = [1, -0, 1.0000000000000002] // close to [1, 0, 1]
 
@@ -212,7 +213,7 @@ test('it should snap a floating vector to a certain precision', () => {
 })
 
 test('it should convert a 2D polar vector to cartesian coordinates', () => {
-  const vector = [2 ** 0.5, pi() / 4]
+  const vector = [sqrt(2), pi() / 4]
   const expectedResult = [1.0000000000000002, 1]
 
   expect(toCartesian(vector)).toStrictEqual(expectedResult)
@@ -227,7 +228,7 @@ test('it should convert a 3D cartesian vector to cylindrical coordinates', () =>
 
 test('it should convert a 2D cartesian vector to polar coordinates', () => {
   const vector = [1, 1]
-  const expectedResult = [2 ** 0.5, pi() / 4]
+  const expectedResult = [sqrt(2), pi() / 4]
 
   expect(toPolar(vector)).toStrictEqual(expectedResult)
 })

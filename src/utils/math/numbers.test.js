@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 
-import { abs, clamp, mod, sign, snap } from './numbers.js'
+import { abs, clamp, mod, sign, snap, sqrt } from './numbers.js'
 
 test('it should return the same number if already positive', () => {
   const num = 42
@@ -118,4 +118,11 @@ test('it should snap the number to the given precision', () => {
   const expectedResult = 40
 
   expect(snap(num, precision)).toBe(expectedResult)
+})
+
+test('it should compute the square root of the number', () => {
+  const num = 9
+  const expectedResult = 3
+
+  expect(sqrt(num)).toBe(expectedResult)
 })

@@ -1,4 +1,5 @@
 const DEFAULT_PRECISION = 1
+const SQUARE_ROOT = 0.5
 
 export function abs(num) {
   return Math.abs(num)
@@ -32,4 +33,8 @@ export function sign(num) {
   }
 
   return num / abs(num)
+}
+
+export function sqrt(num) {
+  return num ** SQUARE_ROOT
 }
