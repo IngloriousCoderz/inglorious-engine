@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 
-import { abs, clamp, mod, sign, snap, sqrt } from './numbers.js'
+import { abs, clamp, isClose, mod, sign, snap, sqrt } from './numbers.js'
 
 test('it should return the same number if already positive', () => {
   const num = 42
@@ -41,6 +41,15 @@ test('it should clamp a number too big', () => {
   const expectedResult = 100
 
   expect(clamp(num, min, max)).toBe(expectedResult)
+})
+
+test('it should check if two numbers are close given some tolerance', () => {
+  const num1 = 42
+  const num2 = 42.1
+  const tolerance = 0.2
+  const expectedResult = true
+
+  expect(isClose(num1, num2, tolerance)).toBe(expectedResult)
 })
 
 test('it should return zero if dividend equals divisor', () => {

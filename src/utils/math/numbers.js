@@ -1,4 +1,5 @@
 const DEFAULT_PRECISION = 1
+const DEFAULT_TOLERANCE = 0.1
 const SQUARE_ROOT = 0.5
 
 export function abs(num) {
@@ -15,6 +16,10 @@ export function clamp(num, min, max) {
   }
 
   return num
+}
+
+export function isClose(num1, num2, tolerance = DEFAULT_TOLERANCE) {
+  return abs(num1 - num2) <= tolerance
 }
 
 export function mod(dividend, divisor) {

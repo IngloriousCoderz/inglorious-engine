@@ -1,6 +1,7 @@
 import { Meta } from '@storybook/blocks'
 
-import { abs, clamp, mod, sign } from '@inglorious/utils/math/numbers'
+import { toString } from '@inglorious/utils/data-structures/boolean.js'
+import { abs, clamp, isClose, mod, sign, sqrt } from '@inglorious/utils/math/numbers.js'
 
 <Meta title="Utils/Math/Numbers" />
 
@@ -25,6 +26,16 @@ Limits the given number to the specified bounds.
 <code>clamp(-42, 0, 100) == {clamp(-42, 0, 100)}</code>&nbsp;
 
 <code>clamp(142, 0, 100) == {clamp(142, 0, 100)}</code>&nbsp;
+
+## Is Close
+
+Checks if two numbers are close to each other, given some tolerance (which is *0.1* by default).
+
+<code>isClose(42, 42.1, 0.2) == {toString(isClose(42, 42.1, 0.2))}</code>&nbsp;
+
+<code>isClose(42, 43, 0.2) == {toString(isClose(42, 43, 0.2))}</code>&nbsp;
+
+<code>isClose(42, 42.1) == {toString(isClose(42, 42.1))}</code>&nbsp;
 
 ## Mod
 

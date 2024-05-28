@@ -1,12 +1,12 @@
 import {
   magnitude,
-  multiply,
-  normalize,
+  setMagnitude,
 } from '@inglorious/utils/math/linear-algebra/vector.js'
 import {
   distance,
   dot,
   subtract,
+  sum,
 } from '@inglorious/utils/math/linear-algebra/vectors.js'
 
 const BEFORE_SEGMENT = 0
@@ -17,27 +17,28 @@ export function coefficients(segment) {
   return [z1 - z2, x2 - x1, (x1 - x2) * z1 + x1 * (z2 - z1)]
 }
 
-export function distanceFromPoint(segment, point) {
+export function closestPoint(segment, point) {
   const shiftedSegment = subtract(segment.to, segment.from)
   const shiftedPoint = subtract(point, segment.from)
 
   const projectionLength =
     dot(shiftedSegment, shiftedPoint) / magnitude(shiftedSegment)
 
-  // if (point[0] === 1 && point[2] === 1) {
-  //   console.log(segment, point, projectionLength, magnitude(shiftedSegment))
-  // }
-
   if (projectionLength < BEFORE_SEGMENT) {
-    return distance(point, segment.from)
+    return segment.from
   }
 
   if (projectionLength > magnitude(shiftedSegment)) {
-    return distance(point, segment.to)
+    return segment.to
   }
 
-  const projectedPoint = multiply(normalize(shiftedSegment), projectionLength)
-  return distance(shiftedPoint, projectedPoint)
+  const projectedPoint = setMagnitude(shiftedSegment, projectionLength)
+  return sum(segment.from, projectedPoint)
+}
+
+export function distanceFromPoint(segment, point) {
+  const closest = closestPoint(segment, point)
+  return distance(point, closest)
 }
 
 // @see https://math.stackexchange.com/questions/275529/check-if-line-intersects-with-circles-perimeter
