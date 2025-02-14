@@ -47,14 +47,14 @@ export function createStore({ state: initialState, ...config }) {
       state.instances = map(state.instances, (id, instance) => {
         const handle =
           config.types[instance.type].states[instance.state][event.id]
-        return handle
-          ? handle(instance, event, {
-              dt,
-              config: config,
-              instances: state.instances,
-              notify,
-            })
-          : instance
+        return (
+          handle?.(instance, event, {
+            dt,
+            config,
+            instances: state.instances,
+            notify,
+          }) || instance
+        )
       })
 
       if (event.id === 'instance:remove') {
@@ -89,7 +89,7 @@ function enableMutability(types) {
   return map(types, (typeId, { states, ...rest }) => ({
     ...rest,
     states: map(states, (stateId, events) =>
-      map(events, (eventId, event) => produce(event))
+      map(events, (eventId, event) => produce(event)),
     ),
   }))
 }

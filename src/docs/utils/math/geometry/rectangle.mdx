@@ -1,0 +1,22 @@
+import { Meta } from '@storybook/blocks'
+
+import { toString } from '@inglorious/utils/data-structures/boolean.js'
+import { intersectsPlatform } from '@inglorious/utils/math/geometry/rectangle.js'
+
+<Meta title="Utils/Math/Geometry/Rectangle" />
+
+# Rectangle
+
+Intersection functions for a rectangle.
+
+## Intersects Platform
+
+Checks if a rectnagle intersects with a platform.
+
+<code>intersectsPlatform(\{ position: [0, 0, 0], size: [2, 2] }, \{ position: [0, 0, -1], size: [2, 1] \}) == {toString(intersectsPlatform({ position: [0, 0, 0], size: [2, 2] }, { position: [0, 0, -1], size: [2, 1] }))}</code>&nbsp;
+
+<code>intersectsPlatform(\{ position: [0, 0, 0], size: [2, 2] }, \{ position: [-1, 0, -1], size: [2, 2] \}) == {toString(intersectsPlatform({ position: [0, 0, 0], size: [2, 2] }, { position: [-1, 0, -1], size: [2, 2] }))}</code>&nbsp;
+
+<code>intersectsPlatform(\{ position: [0, 0, 0], size: [2, 2] }, \{ position: [0, 0, 2], size: [2, 1] \}) == {toString(intersectsPlatform({ position: [0, 0, 0], size: [2, 2] }, { position: [0, 0, 2], size: [2, 1] }))}</code>&nbsp;
+
+<code>intersectsPlatform(\{ position: [0, 0, 0], size: [2, 2] }, \{ position: [-3, 0, -1], size: [2, 1] \}) == {toString(intersectsPlatform({ position: [0, 0, 0], size: [2, 2] }, { position: [-3, 0, -1], size: [2, 1] }))}</code>&nbsp;

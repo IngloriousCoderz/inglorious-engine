@@ -35,3 +35,17 @@ export function intersectsRectangle(circle, rectangle) {
     segmentIntersectsCircle({ from: bottomLeft, to: topLeft }, circle)
   )
 }
+
+export function intersectsPlatform(circle, platform) {
+  const [x, , z] = circle.position
+
+  const [left, , top] = platform.position
+  const [extension] = platform.size
+
+  const isAbove = z - circle.radius >= top
+
+  const isOverlappingX =
+    x - circle.radius >= left && x + circle.radius <= left + extension
+
+  return isAbove && isOverlappingX
+}
