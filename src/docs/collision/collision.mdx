@@ -1,8 +1,18 @@
 import { Canvas, Meta, Source } from '@storybook/blocks'
 import * as Collision from './collision.stories'
 
+import circles from './circles?raw'
+
 <Meta of={Collision} />
 
 # Collision Detection
 
 Examples on how to use the built-in collision detection functions.
+
+## Circles
+
+Two shapes with a circular hitbox bounce against each other when colliding.
+
+<Source dark code={circles} />
+
+<Canvas of={Collision.Circles} />
