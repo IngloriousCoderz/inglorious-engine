@@ -2,6 +2,7 @@ import { Canvas, Meta, Source } from '@storybook/blocks'
 import * as Collision from './collision.stories'
 
 import circles from './circles?raw'
+import platform from './platform?raw'
 
 <Meta of={Collision} />
 
@@ -16,3 +17,11 @@ Two shapes with a circular hitbox bounce against each other when colliding.
 <Source dark code={circles} />
 
 <Canvas of={Collision.Circles} />
+
+## Platform
+
+A character is able to jump on top of a platform and keep its `y` position.
+
+<Source dar code={platform} />
+
+<Canvas of={Collision.Platform} />

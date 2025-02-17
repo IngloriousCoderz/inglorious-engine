@@ -5,15 +5,17 @@ import Character from './character'
 import Cursor from './cursor'
 import Form from './form'
 import Fps from './fps'
+import Platform from './platform'
 import Scene from './scene'
 import Sprite from './sprite'
 import Stats from './stats'
 
 const Components = {
   character: withAbsolutePosition(Character),
+  mouse: withAbsolutePosition(Cursor),
   form: withAbsolutePosition(Form),
   fps: withAbsolutePosition(Fps),
-  mouse: withAbsolutePosition(Cursor),
+  platform: withAbsolutePosition(Platform),
   sprite: withAbsolutePosition(Sprite),
   stats: withAbsolutePosition(Stats),
 }

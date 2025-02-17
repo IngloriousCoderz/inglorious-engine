@@ -1,6 +1,7 @@
 import Game from '@inglorious/ui/react/game'
 
 import circles from './circles'
+import platform from './platform'
 
 export default {
   title: 'Engine/Collision Detection',
@@ -10,4 +11,8 @@ export default {
 
 export const Circles = {
   args: { config: circles },
+}
+
+export const Platform = {
+  args: { config: platform },
 }

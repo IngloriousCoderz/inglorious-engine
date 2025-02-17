@@ -3,11 +3,11 @@ export function intersectsPlatform(rectangle, platform) {
   const [width] = rectangle.size
 
   const [left, , top] = platform.position
-  const [extension] = platform.size
+  const [extension, thickness] = platform.size
 
-  const isAbove = z >= top
+  const isAbove = z <= top && z >= top - thickness
 
-  const isOverlappingX = x >= left && x + width <= left + extension
+  const isOverlappingX = x + width >= left && x <= left + extension
 
   return isAbove && isOverlappingX
 }

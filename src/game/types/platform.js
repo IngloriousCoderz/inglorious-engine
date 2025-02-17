@@ -1,4 +1,4 @@
-import draw from '@inglorious/ui/canvas/character.js'
+import draw from '@inglorious/ui/canvas/shapes/rectangle.js'
 
 export function type(type) {
   return {

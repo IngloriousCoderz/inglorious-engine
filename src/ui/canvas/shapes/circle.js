@@ -1,4 +1,5 @@
 /* eslint-disable no-magic-numbers */
+
 import { pi } from '@inglorious/utils/math/trigonometry.js'
 
 const DEFAULT_OPTIONS = {}

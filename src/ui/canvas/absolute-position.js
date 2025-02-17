@@ -1,4 +1,5 @@
 /* eslint-disable no-magic-numbers */
+
 import {
   snap,
   ZERO_VECTOR,

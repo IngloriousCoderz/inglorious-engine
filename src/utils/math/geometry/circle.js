@@ -40,12 +40,12 @@ export function intersectsPlatform(circle, platform) {
   const [x, , z] = circle.position
 
   const [left, , top] = platform.position
-  const [extension] = platform.size
+  const [extension, thickness] = platform.size
 
-  const isAbove = z - circle.radius >= top
+  const lowestPoint = z - circle.radius
+  const isAbove = lowestPoint <= top && lowestPoint >= top - thickness
 
-  const isOverlappingX =
-    x - circle.radius >= left && x + circle.radius <= left + extension
+  const isOverlappingX = x >= left && x <= left + extension
 
   return isAbove && isOverlappingX
 }
