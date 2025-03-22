@@ -1,13 +1,12 @@
-import move from '@inglorious/engine/player/kinematic/move.js'
-import { clampToBounds } from '@inglorious/game/bounds.js'
 import { enableCharacter } from '@inglorious/game/decorators/character.js'
+import { enableClampToBounds } from '@inglorious/game/decorators/clamp-to-bounds'
+import { enableDoubleJump } from '@inglorious/game/decorators/double-jump'
 import {
   createControls,
   enableControls,
 } from '@inglorious/game/decorators/input/controls.js'
-import { merge } from '@inglorious/utils/data-structures/objects.js'
-import { applyGravity } from '@inglorious/utils/physics/gravity.js'
-import { jump } from '@inglorious/utils/physics/jump.js'
+import { enableJump } from '@inglorious/game/decorators/jump.js'
+import { enableMove } from '@inglorious/game/decorators/movement/kinematic/modern.js'
 
 export default {
   types: {
@@ -17,66 +16,51 @@ export default {
 
     character: [
       enableCharacter(),
-      {
+      enableMove(),
+      enableClampToBounds(),
+      enableJump(),
+      enableDoubleJump(),
+      (type) => ({
+        ...type,
+
         states: {
-          notJumping: {
+          ...type.states,
+
+          default: {
+            ...type.states?.default,
+
             'game:update'(instance, event, options) {
-              const { input0 } = options.instances
+              type.states?.default['game:update']?.(instance, event, options)
 
-              instance.velocity = [0, 0, 0]
-              if (input0.left) {
-                instance.velocity[0] = -instance.maxSpeed
-              }
-              if (input0.down) {
-                instance.velocity[2] = -instance.maxSpeed
-              }
-              if (input0.right) {
-                instance.velocity[0] = instance.maxSpeed
-              }
-              if (input0.up) {
-                instance.velocity[2] = instance.maxSpeed
-              }
-
-              if (input0.leftRight != null) {
-                instance.velocity[0] += input0.leftRight * instance.maxSpeed
-              }
-              if (input0.upDown != null) {
-                instance.velocity[2] += -input0.upDown * instance.maxSpeed
-              }
-
-              act(instance, event, options)
-            },
-
-            'input:press'(instance, event, { dt }) {
-              const { id, action } = event.payload
-              if (id === 0 && action === 'jump') {
-                instance.state = 'jumping'
-                merge(instance, jump(instance, { dt }))
-              }
+              stopFreeFalling(instance)
             },
           },
 
           jumping: {
-            'game:update'(instance, event, options) {
-              act(instance, event, options)
-            },
+            ...type.states?.jumping,
 
-            'input:press'(instance, event, { dt }) {
-              const { id, action } = event.payload
-              if (id === 0 && action === 'jump') {
-                instance.state = 'doubleJumping'
-                merge(instance, jump(instance, { dt }))
-              }
+            'game:update'(instance, event, options) {
+              type.states?.jumping['game:update']?.(instance, event, options)
+
+              stopFreeFalling(instance)
             },
           },
 
           doubleJumping: {
+            ...type.states?.doubleJumping,
+
             'game:update'(instance, event, options) {
-              act(instance, event, options)
+              type.states?.doubleJumping['game:update']?.(
+                instance,
+                event,
+                options
+              )
+
+              stopFreeFalling(instance)
             },
           },
         },
-      },
+      }),
     ],
   },
 
@@ -114,21 +98,16 @@ export default {
         position: [400, 0, 300],
         maxJump: 100,
         maxLeap: 100,
-        state: 'notJumping',
+        state: 'default',
       },
     },
   },
 }
 
-function act(instance, event, options) {
-  merge(instance, move(instance, options))
-  clampToBounds(instance, options.config.bounds)
-
-  merge(instance, applyGravity(instance, options))
-
+function stopFreeFalling(instance) {
   if (instance.py <= 0) {
     instance.vy = 0
     instance.py = 0
-    instance.state = 'notJumping'
+    instance.state = 'default'
   }
 }

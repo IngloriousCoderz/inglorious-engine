@@ -5,7 +5,7 @@ import {
   enableControls,
 } from '@inglorious/game/decorators/input/controls.js'
 import { enableJump } from '@inglorious/game/decorators/jump.js'
-import { enableMove } from '@inglorious/game/decorators/move/kinematic.js'
+import { enableMove } from '@inglorious/game/decorators/movement/kinematic/modern.js'
 import { enablePlatform } from '@inglorious/game/decorators/platform.js'
 
 export default {

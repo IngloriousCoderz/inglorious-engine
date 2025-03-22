@@ -1,13 +1,11 @@
-import face from '@inglorious/engine/ai/movement/kinematic/face.js'
-import tank from '@inglorious/engine/player/dynamic/tank.js'
-import { clampToBounds } from '@inglorious/game/bounds.js'
 import { enableCharacter } from '@inglorious/game/decorators/character.js'
+import { enableClampToBounds } from '@inglorious/game/decorators/clamp-to-bounds.js'
 import {
   createControls,
   enableControls,
 } from '@inglorious/game/decorators/input/controls.js'
 import { enableMouse } from '@inglorious/game/decorators/input/mouse.js'
-import { merge } from '@inglorious/utils/data-structures/objects.js'
+import { enableShooter } from '@inglorious/game/decorators/movement/dynamic/shooter.js'
 import { pi } from '@inglorious/utils/math/trigonometry.js'
 
 export default {
@@ -16,32 +14,7 @@ export default {
 
     ...enableControls(),
 
-    character: [
-      enableCharacter(),
-      {
-        'game:update'(instance, event, { dt, config, instances }) {
-          const { input0, mouse } = instances
-
-          instance.acceleration = [0, 0, 0]
-          if (input0.left) {
-            instance.acceleration[2] = -instance.maxAcceleration
-          }
-          if (input0.down) {
-            instance.acceleration[0] = -instance.maxAcceleration
-          }
-          if (input0.right) {
-            instance.acceleration[2] = instance.maxAcceleration
-          }
-          if (input0.up) {
-            instance.acceleration[0] = instance.maxAcceleration
-          }
-
-          merge(instance, face(instance, mouse, { dt }))
-          merge(instance, tank(instance, { dt }))
-          clampToBounds(instance, config.bounds)
-        },
-      },
-    ],
+    character: [enableCharacter(), enableShooter(), enableClampToBounds()],
   },
 
   state: {

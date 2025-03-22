@@ -5,7 +5,6 @@ import { jump } from '@inglorious/utils/physics/jump.js'
 
 const DEFAULT_PARAMS = {
   onState: 'default',
-  movementStrategy: 'kinematic',
   maxSpeed: 250,
   maxJump: 100,
   maxLeap: 100,
@@ -16,6 +15,8 @@ const Z = 2
 
 export function enableJump(params) {
   params = merge({}, DEFAULT_PARAMS, params)
+
+  const freeFall = createFreeFall(params)
 
   return (type) => ({
     ...type,
@@ -43,9 +44,9 @@ export function enableJump(params) {
             options
           )
 
-          instance.maxSpeed = instance.maxSpeed ?? params.maxSpeed
           instance.maxJump = instance.maxJump ?? params.maxJump
           instance.maxLeap = instance.maxLeap ?? params.maxLeap
+          instance.maxSpeed = instance.maxSpeed ?? params.maxSpeed
 
           const { id, action } = event.payload
           if (id === INPUT_0 && action === 'jump' && !instance.vy) {
@@ -68,11 +69,11 @@ export function enableJump(params) {
       },
     },
   })
+}
 
-  function freeFall(instance, event, options) {
+function createFreeFall(params) {
+  return (instance, event, options) => {
     instance.maxLeap = instance.maxLeap ?? params.maxLeap
-    instance.movementStrategy =
-      instance.movementStrategy ?? params.movementStrategy
 
     merge(instance, applyGravity(instance, options))
 

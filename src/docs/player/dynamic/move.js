@@ -4,7 +4,7 @@ import {
   createControls,
   enableControls,
 } from '@inglorious/game/decorators/input/controls.js'
-import { enableMove } from '@inglorious/game/decorators/move/dynamic.js'
+import { enableMove } from '@inglorious/game/decorators/movement/dynamic/modern.js'
 
 export default {
   types: {
