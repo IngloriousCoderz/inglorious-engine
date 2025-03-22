@@ -3,9 +3,9 @@ import {
   multiply,
   rotate,
   zero,
-} from '@inglorious/utils/math/linear-algebra/vector.js'
-import { sum } from '@inglorious/utils/math/linear-algebra/vectors.js'
-import { toRange } from '@inglorious/utils/math/trigonometry.js'
+} from "@inglorious/utils/math/linear-algebra/vector.js"
+import { sum } from "@inglorious/utils/math/linear-algebra/vectors.js"
+import { toRange } from "@inglorious/utils/math/trigonometry.js"
 
 const DEFAULT_MAX_SPEED = 0
 

@@ -1,9 +1,9 @@
-import { expect, test } from 'vitest'
+import { expect, test } from "vitest"
 
-import { createStore } from './store.js'
+import { createStore } from "./store.js"
 
-test('it should add an event to the event queue', () => {
-  const event = { id: 'something:happened' }
+test("it should add an event to the event queue", () => {
+  const event = { id: "something:happened" }
   const config = {
     types: {
       game: { states: { default: {} } },
@@ -20,7 +20,7 @@ test('it should add an event to the event queue', () => {
 
     state: {
       instances: {
-        instance1: { type: 'kitty' },
+        instance1: { type: "kitty" },
       },
     },
   }
@@ -29,14 +29,14 @@ test('it should add an event to the event queue', () => {
     events: [],
     instances: {
       game: {
-        id: 'game',
-        type: 'game',
-        state: 'default',
+        id: "game",
+        type: "game",
+        state: "default",
       },
       instance1: {
-        id: 'instance1',
-        type: 'kitty',
-        state: 'default',
+        id: "instance1",
+        type: "kitty",
+        state: "default",
         wasNotified: true,
       },
     },
@@ -49,15 +49,15 @@ test('it should add an event to the event queue', () => {
   expect(state).toStrictEqual(afterState)
 })
 
-test('it should process the event queue', () => {
-  const event = { id: 'something:happened' }
+test("it should process the event queue", () => {
+  const event = { id: "something:happened" }
   const config = {
     types: {
       game: { states: { default: {} } },
       kitty: {
         states: {
           default: {
-            'game:update'(instance) {
+            "game:update"(instance) {
               return { ...instance, wasUpdated: true }
             },
 
@@ -72,7 +72,7 @@ test('it should process the event queue', () => {
     state: {
       events: [event],
       instances: {
-        instance1: { type: 'kitty' },
+        instance1: { type: "kitty" },
       },
     },
   }
@@ -81,14 +81,14 @@ test('it should process the event queue', () => {
     events: [],
     instances: {
       game: {
-        id: 'game',
-        type: 'game',
-        state: 'default',
+        id: "game",
+        type: "game",
+        state: "default",
       },
       instance1: {
-        id: 'instance1',
-        type: 'kitty',
-        state: 'default',
+        id: "instance1",
+        type: "kitty",
+        state: "default",
         wasNotified: true,
         wasUpdated: true,
       },
@@ -101,10 +101,10 @@ test('it should process the event queue', () => {
   expect(state).toStrictEqual(afterState)
 })
 
-test('it should send an event from an instance', () => {
+test("it should send an event from an instance", () => {
   const event = {
-    id: 'doge:message',
-    payload: { id: 'inu', message: 'Woof!' },
+    id: "doge:message",
+    payload: { id: "inu", message: "Woof!" },
   }
   const config = {
     types: {
@@ -112,8 +112,8 @@ test('it should send an event from an instance', () => {
       doge: {
         states: {
           default: {
-            'game:update'(instance, event, { instances, notify }) {
-              if (instances.instance2.position === 'near') {
+            "game:update"(instance, event, { instances, notify }) {
+              if (instances.instance2.position === "near") {
                 notify(event)
               }
             },
@@ -125,10 +125,10 @@ test('it should send an event from an instance', () => {
           default: {
             [event.id](instance) {
               if (
-                event.payload.id === 'inu' &&
-                event.payload.message === 'Woof!'
+                event.payload.id === "inu" &&
+                event.payload.message === "Woof!"
               ) {
-                instance.position = 'far'
+                instance.position = "far"
               }
             },
           },
@@ -139,11 +139,11 @@ test('it should send an event from an instance', () => {
     state: {
       instances: {
         instance1: {
-          type: 'doge',
+          type: "doge",
         },
         instance2: {
-          type: 'kitty',
-          position: 'near',
+          type: "kitty",
+          position: "near",
         },
       },
     },
@@ -153,20 +153,20 @@ test('it should send an event from an instance', () => {
     events: [],
     instances: {
       game: {
-        id: 'game',
-        type: 'game',
-        state: 'default',
+        id: "game",
+        type: "game",
+        state: "default",
       },
       instance1: {
-        id: 'instance1',
-        type: 'doge',
-        state: 'default',
+        id: "instance1",
+        type: "doge",
+        state: "default",
       },
       instance2: {
-        id: 'instance2',
-        type: 'kitty',
-        state: 'default',
-        position: 'near', // should do nothing at first
+        id: "instance2",
+        type: "kitty",
+        state: "default",
+        position: "near", // should do nothing at first
       },
     },
   }
@@ -177,10 +177,10 @@ test('it should send an event from an instance', () => {
   expect(state).toStrictEqual(afterState)
 })
 
-test('it should receive an event from an instance', () => {
+test("it should receive an event from an instance", () => {
   const event = {
-    id: 'doge:message',
-    payload: { id: 'inu', message: 'Woof!' },
+    id: "doge:message",
+    payload: { id: "inu", message: "Woof!" },
   }
   const config = {
     types: {
@@ -188,8 +188,8 @@ test('it should receive an event from an instance', () => {
       doge: {
         states: {
           default: {
-            'game:update'(instance, event, { instances, notify }) {
-              if (instances.instance2.position === 'near') {
+            "game:update"(instance, event, { instances, notify }) {
+              if (instances.instance2.position === "near") {
                 notify(event)
               }
             },
@@ -201,10 +201,10 @@ test('it should receive an event from an instance', () => {
           default: {
             [event.id](instance, event) {
               if (
-                event.payload.id === 'inu' &&
-                event.payload.message === 'Woof!'
+                event.payload.id === "inu" &&
+                event.payload.message === "Woof!"
               ) {
-                instance.position = 'far'
+                instance.position = "far"
               }
             },
           },
@@ -216,11 +216,11 @@ test('it should receive an event from an instance', () => {
       events: [event],
       instances: {
         instance1: {
-          type: 'doge',
+          type: "doge",
         },
         instance2: {
-          type: 'kitty',
-          position: 'near',
+          type: "kitty",
+          position: "near",
         },
       },
     },
@@ -230,20 +230,20 @@ test('it should receive an event from an instance', () => {
     events: [],
     instances: {
       game: {
-        id: 'game',
-        type: 'game',
-        state: 'default',
+        id: "game",
+        type: "game",
+        state: "default",
       },
       instance1: {
-        id: 'instance1',
-        type: 'doge',
-        state: 'default',
+        id: "instance1",
+        type: "doge",
+        state: "default",
       },
       instance2: {
-        id: 'instance2',
-        type: 'kitty',
-        state: 'default',
-        position: 'far', // position changed
+        id: "instance2",
+        type: "kitty",
+        state: "default",
+        position: "far", // position changed
       },
     },
   }
@@ -254,14 +254,14 @@ test('it should receive an event from an instance', () => {
   expect(state).toStrictEqual(afterState)
 })
 
-test('it should mutate state in an immutable way', () => {
+test("it should mutate state in an immutable way", () => {
   const config = {
     types: {
       game: { states: { default: {} } },
       kitty: {
         states: {
           default: {
-            'game:update'(instance) {
+            "game:update"(instance) {
               instance.wasUpdated = true
             },
           },
@@ -272,7 +272,7 @@ test('it should mutate state in an immutable way', () => {
     state: {
       instances: {
         instance1: {
-          type: 'kitty',
+          type: "kitty",
         },
       },
     },
@@ -282,14 +282,14 @@ test('it should mutate state in an immutable way', () => {
     events: [],
     instances: {
       game: {
-        id: 'game',
-        type: 'game',
-        state: 'default',
+        id: "game",
+        type: "game",
+        state: "default",
       },
       instance1: {
-        id: 'instance1',
-        type: 'kitty',
-        state: 'default',
+        id: "instance1",
+        type: "kitty",
+        state: "default",
         wasUpdated: true,
       },
     },

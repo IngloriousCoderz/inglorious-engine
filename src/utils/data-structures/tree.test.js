@@ -1,8 +1,8 @@
-import { expect, test } from 'vitest'
+import { expect, test } from "vitest"
 
-import { bfs, dfs } from './tree.js'
+import { bfs, dfs } from "./tree.js"
 
-test('it should perform Breadth-First Search on a tree', () => {
+test("it should perform Breadth-First Search on a tree", () => {
   const tree = {
     value: 1,
     children: [
@@ -17,7 +17,7 @@ test('it should perform Breadth-First Search on a tree', () => {
   expect(result).toStrictEqual(expectedResult)
 })
 
-test('it should perform Depth-First Search on a tree', () => {
+test("it should perform Depth-First Search on a tree", () => {
   const tree = {
     value: 1,
     children: [

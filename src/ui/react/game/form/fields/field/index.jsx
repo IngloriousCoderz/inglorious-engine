@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useEffect, useState } from "react"
+import { useDispatch } from "react-redux"
 
-import classes from './field.module.scss'
+import classes from "./field.module.scss"
 
 export default function Field({ id, instance }) {
-  const { label, inputType, defaultValue = '', ...rest } = instance
+  const { label, inputType, defaultValue = "", ...rest } = instance
 
   const [value, setValue] = useState(defaultValue)
   useEffect(() => {
@@ -16,13 +16,13 @@ export default function Field({ id, instance }) {
   const handleChange = (event) => {
     const newValue = parse(event.target, inputType)
     setValue(newValue)
-    notify({ id: 'field:change', payload: { id, value: newValue } })
+    notify({ id: "field:change", payload: { id, value: newValue } })
   }
 
   const handleClick = () => {
     const newValue = defaultValue
     setValue(newValue)
-    notify({ id: 'field:change', payload: { id, value: newValue } })
+    notify({ id: "field:change", payload: { id, value: newValue } })
   }
 
   return (
@@ -43,11 +43,11 @@ export default function Field({ id, instance }) {
 
 function parse(target, inputType) {
   switch (inputType) {
-    case 'checkbox':
-    case 'radio':
+    case "checkbox":
+    case "radio":
       return target.checked
 
-    case 'number':
+    case "number":
       return Number(target.value)
 
     default:

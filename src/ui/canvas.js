@@ -1,13 +1,13 @@
-import Engine from '@inglorious/engine.js'
-import { track } from '@inglorious/game/decorators/input/mouse.js'
+import Engine from "@inglorious/engine.js"
+import { track } from "@inglorious/game/decorators/input/mouse.js"
 
-import { absolutePosition } from './canvas/absolute-position.js'
+import { absolutePosition } from "./canvas/absolute-position.js"
 
 const Z = 2
 
 export function start(game) {
-  const canvas = document.getElementById('canvas')
-  const ctx = canvas.getContext('2d')
+  const canvas = document.getElementById("canvas")
+  const ctx = canvas.getContext("2d")
   const engine = new Engine(game, { render: render(ctx) })
 
   const { bounds, pixelated } = engine.config
@@ -15,12 +15,12 @@ export function start(game) {
   canvas.width = width
   canvas.height = height
   if (pixelated) {
-    canvas.style.imageRendering = 'pixelated'
-    ctx.textRendering = 'geometricPrecision'
+    canvas.style.imageRendering = "pixelated"
+    ctx.textRendering = "geometricPrecision"
   }
 
-  document.addEventListener('keypress', (event) => {
-    if (event.key === 'p') {
+  document.addEventListener("keypress", (event) => {
+    if (event.key === "p") {
       engine.isRunning ? engine.stop() : engine.start()
     }
   })
@@ -29,8 +29,8 @@ export function start(game) {
     notify: engine.notify,
   })
 
-  canvas.addEventListener('mousemove', onMouseMove)
-  canvas.addEventListener('click', onClick)
+  canvas.addEventListener("mousemove", onMouseMove)
+  canvas.addEventListener("click", onClick)
 
   engine.start()
 }
@@ -44,7 +44,7 @@ function render(ctx) {
     }
 
     const [x, y, width, height] = config.bounds
-    ctx.fillStyle = 'lightgrey'
+    ctx.fillStyle = "lightgrey"
     ctx.fillRect(x, y, width, height)
 
     const { mouse, ...rest } = instances

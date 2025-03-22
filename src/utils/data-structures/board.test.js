@@ -1,5 +1,5 @@
-import { mod } from '@inglorious/utils/math/numbers.js'
-import { expect, test } from 'vitest'
+import { mod } from "@inglorious/utils/math/numbers.js"
+import { expect, test } from "vitest"
 
 import {
   createBoard,
@@ -12,9 +12,9 @@ import {
   up,
   upLeft,
   upRight,
-} from './board.js'
+} from "./board.js"
 
-test('it should create an empty board', () => {
+test("it should create an empty board", () => {
   const size = [8, 8]
   const expectedResult = [
     [null, null, null, null, null, null, null, null],
@@ -30,7 +30,7 @@ test('it should create an empty board', () => {
   expect(createBoard(size)).toStrictEqual(expectedResult)
 })
 
-test('it should create a checkerboard', () => {
+test("it should create a checkerboard", () => {
   const size = [8, 8]
   const filler = (i, j) => (!mod(i + j, 2) ? 1 : 0)
   const expectedResult = [
@@ -47,7 +47,7 @@ test('it should create a checkerboard', () => {
   expect(createBoard(size, filler)).toStrictEqual(expectedResult)
 })
 
-test('it should return the coordinates of the cell downward', () => {
+test("it should return the coordinates of the cell downward", () => {
   const size = [8, 8]
   const coordinates = [3, 4]
   const expectedResult = [4, 4]
@@ -55,14 +55,14 @@ test('it should return the coordinates of the cell downward', () => {
   expect(down(coordinates, size)).toStrictEqual(expectedResult)
 })
 
-test('it should throw going down if cell is downmost', () => {
+test("it should throw going down if cell is downmost", () => {
   const size = [8, 8]
   const coordinates = [7, 4]
 
   expect(() => down(coordinates, size)).toThrow()
 })
 
-test('it should return the coordinates of the cell down left', () => {
+test("it should return the coordinates of the cell down left", () => {
   const size = [8, 8]
   const coordinates = [3, 4]
   const expectedResult = [4, 3]
@@ -70,28 +70,28 @@ test('it should return the coordinates of the cell down left', () => {
   expect(downLeft(coordinates, size)).toStrictEqual(expectedResult)
 })
 
-test('it should throw going down left if cell is downmost', () => {
+test("it should throw going down left if cell is downmost", () => {
   const size = [8, 8]
   const coordinates = [7, 4]
 
   expect(() => downLeft(coordinates, size)).toThrow()
 })
 
-test('it should throw going down left if cell is downmost', () => {
+test("it should throw going down left if cell is downmost", () => {
   const size = [8, 8]
   const coordinates = [3, 0]
 
   expect(() => downLeft(coordinates, size)).toThrow()
 })
 
-test('it should throw going down left if cell is on the angle', () => {
+test("it should throw going down left if cell is on the angle", () => {
   const size = [8, 8]
   const coordinates = [7, 0]
 
   expect(() => downLeft(coordinates, size)).toThrow()
 })
 
-test('it should return the coordinates of the cell down right', () => {
+test("it should return the coordinates of the cell down right", () => {
   const size = [8, 8]
   const coordinates = [3, 4]
   const expectedResult = [4, 5]
@@ -99,28 +99,28 @@ test('it should return the coordinates of the cell down right', () => {
   expect(downRight(coordinates, size)).toStrictEqual(expectedResult)
 })
 
-test('it should throw going down right if cell is downmost', () => {
+test("it should throw going down right if cell is downmost", () => {
   const size = [8, 8]
   const coordinates = [7, 4]
 
   expect(() => downRight(coordinates, size)).toThrow()
 })
 
-test('it should throw going down right if cell is downmost', () => {
+test("it should throw going down right if cell is downmost", () => {
   const size = [8, 8]
   const coordinates = [3, 7]
 
   expect(() => downRight(coordinates, size)).toThrow()
 })
 
-test('it should throw going down right if cell is on the angle', () => {
+test("it should throw going down right if cell is on the angle", () => {
   const size = [8, 8]
   const coordinates = [7, 7]
 
   expect(() => downRight(coordinates, size)).toThrow()
 })
 
-test('it should return the coordinates of the cell to the left', () => {
+test("it should return the coordinates of the cell to the left", () => {
   const size = [8, 8]
   const coordinates = [3, 4]
   const expectedResult = [3, 3]
@@ -128,14 +128,14 @@ test('it should return the coordinates of the cell to the left', () => {
   expect(left(coordinates, size)).toStrictEqual(expectedResult)
 })
 
-test('it should not return coordinates to the left if cell is leftmost', () => {
+test("it should not return coordinates to the left if cell is leftmost", () => {
   const size = [8, 8]
   const coordinates = [3, 0]
 
   expect(() => left(coordinates, size)).toThrow()
 })
 
-test('it should return the coordinates of the cell to the right', () => {
+test("it should return the coordinates of the cell to the right", () => {
   const size = [8, 8]
   const coordinates = [3, 4]
   const expectedResult = [3, 5]
@@ -143,14 +143,14 @@ test('it should return the coordinates of the cell to the right', () => {
   expect(right(coordinates, size)).toStrictEqual(expectedResult)
 })
 
-test('it should not return coordinates to the right if cell is rightmost', () => {
+test("it should not return coordinates to the right if cell is rightmost", () => {
   const size = [8, 8]
   const coordinates = [3, 7]
 
   expect(() => right(coordinates, size)).toThrow()
 })
 
-test('it should return a string representation of the given board', () => {
+test("it should return a string representation of the given board", () => {
   const board = [
     [1, 0, 1, 0],
     [0, 1, 0, 1],
@@ -164,7 +164,7 @@ test('it should return a string representation of the given board', () => {
 0 1 0 1`)
 })
 
-test('it should return a custom string representation of the given board', () => {
+test("it should return a custom string representation of the given board", () => {
   const board = [
     [1, 0, 1, 0],
     [0, 1, 0, 1],
@@ -179,7 +179,7 @@ test('it should return a custom string representation of the given board', () =>
 0.0 1.0 0.0 1.0`)
 })
 
-test('it should return the coordinates of the cell upward', () => {
+test("it should return the coordinates of the cell upward", () => {
   const size = [8, 8]
   const coordinates = [3, 4]
   const expectedResult = [2, 4]
@@ -187,14 +187,14 @@ test('it should return the coordinates of the cell upward', () => {
   expect(up(coordinates, size)).toStrictEqual(expectedResult)
 })
 
-test('it should throw going upward if cell is topmost', () => {
+test("it should throw going upward if cell is topmost", () => {
   const size = [8, 8]
   const coordinates = [0, 4]
 
   expect(() => up(coordinates, size)).toThrow()
 })
 
-test('it should return the coordinates of the cell up left', () => {
+test("it should return the coordinates of the cell up left", () => {
   const size = [8, 8]
   const coordinates = [3, 4]
   const expectedResult = [2, 3]
@@ -202,28 +202,28 @@ test('it should return the coordinates of the cell up left', () => {
   expect(upLeft(coordinates, size)).toStrictEqual(expectedResult)
 })
 
-test('it should throw going up left if cell is upmost', () => {
+test("it should throw going up left if cell is upmost", () => {
   const size = [8, 8]
   const coordinates = [0, 4]
 
   expect(() => upLeft(coordinates, size)).toThrow()
 })
 
-test('it should throw going up left if cell is leftmost', () => {
+test("it should throw going up left if cell is leftmost", () => {
   const size = [8, 8]
   const coordinates = [3, 0]
 
   expect(() => upLeft(coordinates, size)).toThrow()
 })
 
-test('it should throw going up left if cell is on the angle', () => {
+test("it should throw going up left if cell is on the angle", () => {
   const size = [8, 8]
   const coordinates = [0, 0]
 
   expect(() => upLeft(coordinates, size)).toThrow()
 })
 
-test('it should return the coordinates of the cell up right', () => {
+test("it should return the coordinates of the cell up right", () => {
   const size = [8, 8]
   const coordinates = [3, 4]
   const expectedResult = [2, 5]
@@ -231,21 +231,21 @@ test('it should return the coordinates of the cell up right', () => {
   expect(upRight(coordinates, size)).toStrictEqual(expectedResult)
 })
 
-test('it should throw going up right if cell is upmost', () => {
+test("it should throw going up right if cell is upmost", () => {
   const size = [8, 8]
   const coordinates = [0, 4]
 
   expect(() => upRight(coordinates, size)).toThrow()
 })
 
-test('it should throw going down right if cell is rightmost', () => {
+test("it should throw going down right if cell is rightmost", () => {
   const size = [8, 8]
   const coordinates = [3, 7]
 
   expect(() => upRight(coordinates, size)).toThrow()
 })
 
-test('it should throw going down right if cell is on the angle', () => {
+test("it should throw going down right if cell is on the angle", () => {
   const size = [8, 8]
   const coordinates = [0, 7]
 

@@ -1,4 +1,4 @@
-import draw from '@inglorious/ui/canvas/form/button.js'
+import draw from "@inglorious/ui/canvas/form/button.js"
 
 export function enableButton() {
   return (type) => ({
@@ -8,14 +8,14 @@ export function enableButton() {
 
     states: {
       default: {
-        'instance:click'(instance) {
-          instance.state = 'pressed'
+        "instance:click"(instance) {
+          instance.state = "pressed"
         },
       },
 
       pressed: {
-        'instance:release'(instance) {
-          instance.state = 'default'
+        "instance:release"(instance) {
+          instance.state = "default"
         },
       },
     },

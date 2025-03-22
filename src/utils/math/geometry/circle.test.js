@@ -1,13 +1,13 @@
-import { expect, test } from 'vitest'
+import { expect, test } from "vitest"
 
 import {
   intersectsCircle,
   intersectsPlatform,
   intersectsPoint,
   intersectsRectangle,
-} from './circle.js'
+} from "./circle.js"
 
-test('it should prove that a circle around a point intersects with it', () => {
+test("it should prove that a circle around a point intersects with it", () => {
   const circle = {
     position: [1, 0, 1],
     radius: 1,
@@ -17,35 +17,35 @@ test('it should prove that a circle around a point intersects with it', () => {
   expect(intersectsPoint(circle, point)).toBe(true)
 })
 
-test('it should prove that two equal circles intersect', () => {
+test("it should prove that two equal circles intersect", () => {
   const circle1 = { position: [1, 0, 1], radius: 1 }
   const circle2 = { position: [1, 0, 1], radius: 1 }
 
   expect(intersectsCircle(circle1, circle2)).toBe(true)
 })
 
-test('it should prove that two circles shifted by a small x intersect', () => {
+test("it should prove that two circles shifted by a small x intersect", () => {
   const circle1 = { position: [1, 0, 1], radius: 1 }
   const circle2 = { position: [2, 0, 1], radius: 1 }
 
   expect(intersectsCircle(circle1, circle2)).toBe(true)
 })
 
-test('it should prove that two touching circles intersect', () => {
+test("it should prove that two touching circles intersect", () => {
   const circle1 = { position: [1, 0, 1], radius: 1 }
   const circle2 = { position: [3, 0, 1], radius: 1 }
 
   expect(intersectsCircle(circle1, circle2)).toBe(true)
 })
 
-test('it should prove that two non-touching circles do not intersect', () => {
+test("it should prove that two non-touching circles do not intersect", () => {
   const circle1 = { position: [1, 0, 1], radius: 1 }
   const circle2 = { position: [4, 0, 1], radius: 1 }
 
   expect(intersectsCircle(circle1, circle2)).toBe(false)
 })
 
-test('it should prove that a circle inside of a rectangle intersects with it', () => {
+test("it should prove that a circle inside of a rectangle intersects with it", () => {
   const circle = {
     position: [1, 0, 1],
     radius: 1,
@@ -58,7 +58,7 @@ test('it should prove that a circle inside of a rectangle intersects with it', (
   expect(intersectsRectangle(circle, rectangle)).toBe(true)
 })
 
-test('it should prove that a circle on the border of a rectangle intersects with it', () => {
+test("it should prove that a circle on the border of a rectangle intersects with it", () => {
   const circle = {
     position: [1, 0, 1],
     radius: 1,
@@ -71,7 +71,7 @@ test('it should prove that a circle on the border of a rectangle intersects with
   expect(intersectsRectangle(circle, rectangle)).toBe(true)
 })
 
-test('it should prove that a circle crossing a rectangle intersects with it', () => {
+test("it should prove that a circle crossing a rectangle intersects with it", () => {
   const circle = {
     position: [1, 0, 1],
     radius: 1,
@@ -84,7 +84,7 @@ test('it should prove that a circle crossing a rectangle intersects with it', ()
   expect(intersectsRectangle(circle, rectangle)).toBe(true)
 })
 
-test('it should prove that a circle outside of a rectangle does not intersect with it', () => {
+test("it should prove that a circle outside of a rectangle does not intersect with it", () => {
   const circle = {
     position: [1, 0, 1],
     radius: 1,
@@ -97,7 +97,7 @@ test('it should prove that a circle outside of a rectangle does not intersect wi
   expect(intersectsRectangle(circle, rectangle)).toBe(false)
 })
 
-test('it should prove that a circle right above a platform intersects with it', () => {
+test("it should prove that a circle right above a platform intersects with it", () => {
   const circle = {
     position: [1, 0, 1],
     radius: 1,
@@ -110,7 +110,7 @@ test('it should prove that a circle right above a platform intersects with it', 
   expect(intersectsPlatform(circle, platform)).toBe(true)
 })
 
-test('it should prove that a circle way above a platform intersects with it', () => {
+test("it should prove that a circle way above a platform intersects with it", () => {
   const circle = {
     position: [1, 0, 1],
     radius: 1,
@@ -123,7 +123,7 @@ test('it should prove that a circle way above a platform intersects with it', ()
   expect(intersectsPlatform(circle, platform)).toBe(false)
 })
 
-test('it should prove that a circle crossing a platform does not intersect with it', () => {
+test("it should prove that a circle crossing a platform does not intersect with it", () => {
   const circle = {
     position: [1, 0, 1],
     radius: 1,
@@ -136,7 +136,7 @@ test('it should prove that a circle crossing a platform does not intersect with 
   expect(intersectsPlatform(circle, platform)).toBe(false)
 })
 
-test('it should prove that a circle below a platform does not intersect with it', () => {
+test("it should prove that a circle below a platform does not intersect with it", () => {
   const circle = {
     position: [1, 0, 1],
     radius: 1,
@@ -149,7 +149,7 @@ test('it should prove that a circle below a platform does not intersect with it'
   expect(intersectsPlatform(circle, platform)).toBe(false)
 })
 
-test('it should prove that a circle not crossing a platform horizontally does not intersect with it', () => {
+test("it should prove that a circle not crossing a platform horizontally does not intersect with it", () => {
   const circle = {
     position: [1, 0, 1],
     radius: 1,

@@ -1,10 +1,10 @@
-import * as circle from '@inglorious/utils/math/geometry/circle.js'
-import * as line from '@inglorious/utils/math/geometry/line.js'
-import * as point from '@inglorious/utils/math/geometry/point.js'
-import * as rectangle from '@inglorious/utils/math/geometry/rectangle.js'
-import * as segment from '@inglorious/utils/math/geometry/segment.js'
-import { zero } from '@inglorious/utils/math/linear-algebra/vector.js'
-import { add } from '@inglorious/utils/math/linear-algebra/vectors.js'
+import * as circle from "@inglorious/utils/math/geometry/circle.js"
+import * as line from "@inglorious/utils/math/geometry/line.js"
+import * as point from "@inglorious/utils/math/geometry/point.js"
+import * as rectangle from "@inglorious/utils/math/geometry/rectangle.js"
+import * as segment from "@inglorious/utils/math/geometry/segment.js"
+import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
+import { add } from "@inglorious/utils/math/linear-algebra/vectors.js"
 
 const Z = 2
 const NO_JUMP = 0
@@ -17,7 +17,7 @@ const Shape = {
   segment,
 }
 
-export function collidesWith(instance, target, type = 'hitbox') {
+export function collidesWith(instance, target, type = "hitbox") {
   const instanceCollision = instance.collisions[type]
   const instanceShape = {
     ...instanceCollision,
@@ -43,16 +43,16 @@ function shapeCollidesWith(instance, target) {
   const shapeFns = Shape[instance.shape]
 
   switch (target.shape) {
-    case 'point':
+    case "point":
       return shapeFns.intersectsPoint(instance, target)
 
-    case 'circle':
+    case "circle":
       return shapeFns.intersectsCircle(instance, target)
 
-    case 'rectangle':
+    case "rectangle":
       return shapeFns.intersectsRectangle(instance, target)
 
-    case 'platform':
+    case "platform":
       return shapeFns.intersectsPlatform(instance, target)
   }
 }

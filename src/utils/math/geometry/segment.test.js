@@ -1,12 +1,12 @@
-import { expect, test } from 'vitest'
+import { expect, test } from "vitest"
 
-import { isClose } from '../numbers.js'
+import { isClose } from "../numbers.js"
 import {
   closestPoint,
   coefficients,
   distanceFromPoint,
   intersectsCircle,
-} from './segment.js'
+} from "./segment.js"
 
 expect.extend({
   toEqualVector(received, expected) {
@@ -14,12 +14,12 @@ expect.extend({
     return {
       pass: received.every((coord, index) => isClose(coord, expected[index])),
       message: () =>
-        `${received} is ${isNot ? '' : 'not'} close to ${expected}`,
+        `${received} is ${isNot ? "" : "not"} close to ${expected}`,
     }
   },
 })
 
-test('it should retrieve values of *a*, *b*, and *c* from a segment, so it looks like a line in the form *ax + by + c = 0*', () => {
+test("it should retrieve values of *a*, *b*, and *c* from a segment, so it looks like a line in the form *ax + by + c = 0*", () => {
   const segment = {
     from: [0, 0, 0],
     to: [1, 0, 2],
@@ -29,7 +29,7 @@ test('it should retrieve values of *a*, *b*, and *c* from a segment, so it looks
   expect(coefficients(segment)).toEqual(expectedResult)
 })
 
-test('it should find the closest point in a segment to a point projectable on it', () => {
+test("it should find the closest point in a segment to a point projectable on it", () => {
   const segment = {
     from: [0, 0, 0],
     to: [2, 0, 2],
@@ -40,7 +40,7 @@ test('it should find the closest point in a segment to a point projectable on it
   expect(closestPoint(segment, point)).toEqualVector(expectedResult)
 })
 
-test('it should find the closest point as the point itself when resting on the segment', () => {
+test("it should find the closest point as the point itself when resting on the segment", () => {
   const segment = {
     from: [0, 0, 0],
     to: [2, 0, 2],
@@ -51,7 +51,7 @@ test('it should find the closest point as the point itself when resting on the s
   expect(closestPoint(segment, point)).toEqualVector(expectedResult)
 })
 
-test('it return the start of a segment when the point is close to its start', () => {
+test("it return the start of a segment when the point is close to its start", () => {
   const segment = {
     from: [0, 0, 0],
     to: [3, 0, 4],
@@ -62,7 +62,7 @@ test('it return the start of a segment when the point is close to its start', ()
   expect(closestPoint(segment, point)).toEqualVector(expectedResult)
 })
 
-test('it should return the end of a segment when the point is close to its end', () => {
+test("it should return the end of a segment when the point is close to its end", () => {
   const segment = {
     from: [0, 0, 0],
     to: [3, 0, 4],
@@ -73,7 +73,7 @@ test('it should return the end of a segment when the point is close to its end',
   expect(closestPoint(segment, point)).toEqualVector(expectedResult)
 })
 
-test('it should compute the distance between a segment and a point projectable on it', () => {
+test("it should compute the distance between a segment and a point projectable on it", () => {
   const segment = {
     from: [0, 0, 0],
     to: [3, 0, 4],
@@ -84,7 +84,7 @@ test('it should compute the distance between a segment and a point projectable o
   expect(distanceFromPoint(segment, point)).toBe(expectedResult)
 })
 
-test('it should compute the distance between a segment and a point resting on it', () => {
+test("it should compute the distance between a segment and a point resting on it", () => {
   const segment = {
     from: [0, 0, 0],
     to: [2, 0, 2],
@@ -95,7 +95,7 @@ test('it should compute the distance between a segment and a point resting on it
   expect(distanceFromPoint(segment, point)).toBeCloseTo(expectedResult)
 })
 
-test('it should compute the distance between a segment and a point close to the start', () => {
+test("it should compute the distance between a segment and a point close to the start", () => {
   const segment = {
     from: [0, 0, 0],
     to: [3, 0, 4],
@@ -106,7 +106,7 @@ test('it should compute the distance between a segment and a point close to the 
   expect(distanceFromPoint(segment, point)).toBe(expectedResult)
 })
 
-test('it should compute the distance between a segment and a point close to the end', () => {
+test("it should compute the distance between a segment and a point close to the end", () => {
   const segment = {
     from: [0, 0, 0],
     to: [3, 0, 4],
@@ -117,7 +117,7 @@ test('it should compute the distance between a segment and a point close to the 
   expect(distanceFromPoint(segment, point)).toBeCloseTo(expectedResult)
 })
 
-test('it should prove that a segment that crosses a circle intersects with it', () => {
+test("it should prove that a segment that crosses a circle intersects with it", () => {
   const segment = {
     from: [0, 0, 0],
     to: [2, 0, 2],
@@ -130,7 +130,7 @@ test('it should prove that a segment that crosses a circle intersects with it', 
   expect(intersectsCircle(segment, circle)).toBe(true)
 })
 
-test('it should prove that a segment tangent to a circle intersects with it', () => {
+test("it should prove that a segment tangent to a circle intersects with it", () => {
   const segment = {
     from: [0, 0, 0],
     to: [0, 0, 2],
@@ -143,7 +143,7 @@ test('it should prove that a segment tangent to a circle intersects with it', ()
   expect(intersectsCircle(segment, circle)).toBe(true)
 })
 
-test('it should prove that a segment inside of a circle intersects with it', () => {
+test("it should prove that a segment inside of a circle intersects with it", () => {
   const segment = {
     from: [0.5, 0, 0.5],
     to: [1.5, 0, 1.5],
@@ -156,7 +156,7 @@ test('it should prove that a segment inside of a circle intersects with it', () 
   expect(intersectsCircle(segment, circle)).toBe(true)
 })
 
-test('it should prove that a segment that does not cross a circle does not intersect with it', () => {
+test("it should prove that a segment that does not cross a circle does not intersect with it", () => {
   const segment = {
     from: [0, 0, 0],
     to: [-2, 0, 2],
@@ -169,7 +169,7 @@ test('it should prove that a segment that does not cross a circle does not inter
   expect(intersectsCircle(segment, circle)).toBe(false)
 })
 
-test('it should prove that a segment that reaches outside of a circle does not intersect with it', () => {
+test("it should prove that a segment that reaches outside of a circle does not intersect with it", () => {
   const segment = {
     from: [0, 0, 0],
     to: [-1, 0, -2],

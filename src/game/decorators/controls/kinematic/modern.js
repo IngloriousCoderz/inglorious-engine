@@ -1,10 +1,10 @@
-import move from '@inglorious/engine/player/kinematic/move.js'
-import { merge } from '@inglorious/utils/data-structures/objects.js'
-import { zero } from '@inglorious/utils/math/linear-algebra/vector.js'
+import move from "@inglorious/engine/player/kinematic/move.js"
+import { merge } from "@inglorious/utils/data-structures/objects.js"
+import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 
 const DEFAULT_PARAMS = {
-  onState: 'default',
-  movementStrategy: 'kinematic',
+  onState: "default",
+  movementStrategy: "kinematic",
   maxSpeed: 250,
 }
 const X = 0
@@ -22,11 +22,11 @@ export function enableModernControls(params) {
       [params.onState]: {
         ...type.states?.[params.onState],
 
-        'game:update'(instance, event, options) {
-          type.states?.[params.onState]['game:update']?.(
+        "game:update"(instance, event, options) {
+          type.states?.[params.onState]["game:update"]?.(
             instance,
             event,
-            options
+            options,
           )
 
           const maxSpeed = instance.maxSpeed ?? params.maxSpeed

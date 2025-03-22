@@ -1,13 +1,13 @@
 import {
   magnitude,
   setMagnitude,
-} from '@inglorious/utils/math/linear-algebra/vector.js'
+} from "@inglorious/utils/math/linear-algebra/vector.js"
 import {
   distance,
   dot,
   subtract,
   sum,
-} from '@inglorious/utils/math/linear-algebra/vectors.js'
+} from "@inglorious/utils/math/linear-algebra/vectors.js"
 
 const BEFORE_SEGMENT = 0
 

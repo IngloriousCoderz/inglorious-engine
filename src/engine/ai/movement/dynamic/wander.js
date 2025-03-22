@@ -1,8 +1,8 @@
-import { createVector } from '@inglorious/utils/math/linear-algebra/vector.js'
-import { sum } from '@inglorious/utils/math/linear-algebra/vectors.js'
-import { randomBinomial } from '@inglorious/utils/math/rng.js'
+import { createVector } from "@inglorious/utils/math/linear-algebra/vector.js"
+import { sum } from "@inglorious/utils/math/linear-algebra/vectors.js"
+import { randomBinomial } from "@inglorious/utils/math/rng.js"
 
-import seek from './seek.js'
+import seek from "./seek.js"
 
 export const DEFAULT_WANDER_OFFSET = 100
 export const DEFAULT_WANDER_RADIUS = 100
@@ -17,7 +17,7 @@ export default function wander(
     wanderOffset = DEFAULT_WANDER_OFFSET,
     wanderRadius = DEFAULT_WANDER_RADIUS,
     ...options
-  }
+  },
 ) {
   const maxAngularSpeed = instance.maxAngularSpeed ?? DEFAULT_MAX_ANGULAR_SPEED
 

@@ -1,6 +1,6 @@
 /* eslint-disable no-magic-numbers */
 
-import { distanceFromPoint } from './line.js'
+import { distanceFromPoint } from "./line.js"
 
 export function getDistanceFromLine(point, line) {
   return distanceFromPoint(line, point)

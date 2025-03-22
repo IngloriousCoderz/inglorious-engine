@@ -1,8 +1,8 @@
-import { expect, test } from 'vitest'
+import { expect, test } from "vitest"
 
-import { clone, filter, find, isObject, map, toString } from './object.js'
+import { clone, filter, find, isObject, map, toString } from "./object.js"
 
-test('it should deep clone an object', () => {
+test("it should deep clone an object", () => {
   const obj = {
     primitive: 1,
     array: [2, 3],
@@ -23,65 +23,65 @@ test('it should deep clone an object', () => {
   expect(result.object).not.toBe(expectedResult.object)
 })
 
-test('it should behave like Array.prototype.filter, but on an object', () => {
+test("it should behave like Array.prototype.filter, but on an object", () => {
   const obj = {
-    key1: 'value1',
-    key2: 'value2',
-    key3: 'value3',
+    key1: "value1",
+    key2: "value2",
+    key3: "value3",
   }
-  const callback = (key) => ['key2', 'key3'].includes(key)
+  const callback = (key) => ["key2", "key3"].includes(key)
   const expectedResult = {
-    key2: 'value2',
-    key3: 'value3',
+    key2: "value2",
+    key3: "value3",
   }
 
   expect(filter(obj, callback)).toStrictEqual(expectedResult)
 })
 
-test('it should behave like Array.prototype.find, but on an object', () => {
+test("it should behave like Array.prototype.find, but on an object", () => {
   const obj = {
-    key1: 'value1',
-    key2: 'value2',
-    key3: 'value3',
+    key1: "value1",
+    key2: "value2",
+    key3: "value3",
   }
-  const callback = (key) => ['key2', 'key3'].includes(key)
+  const callback = (key) => ["key2", "key3"].includes(key)
   const expectedResult = {
-    key2: 'value2',
+    key2: "value2",
   }
 
   expect(find(obj, callback)).toStrictEqual(expectedResult)
 })
 
-test('it correctly should check if a value is an object', () => {
+test("it correctly should check if a value is an object", () => {
   expect(isObject(1)).toBe(false)
-  expect(isObject('a')).toBe(false)
+  expect(isObject("a")).toBe(false)
   expect(isObject([])).toBe(false)
   expect(isObject(null)).toBe(false)
   expect(isObject(new Date())).toBe(false)
   expect(isObject({})).toBe(true)
 })
 
-test('it should behave like Array.prototype.map, but on an object', () => {
+test("it should behave like Array.prototype.map, but on an object", () => {
   const obj = {
-    key1: 'value1',
-    key2: 'value2',
-    key3: 'value3',
+    key1: "value1",
+    key2: "value2",
+    key3: "value3",
   }
   const callback = (key, value) => value.toUpperCase()
   const expectedResult = {
-    key1: 'VALUE1',
-    key2: 'VALUE2',
-    key3: 'VALUE3',
+    key1: "VALUE1",
+    key2: "VALUE2",
+    key3: "VALUE3",
   }
 
   expect(map(obj, callback)).toStrictEqual(expectedResult)
 })
 
-test('it should return a string representation of a shallow object', () => {
+test("it should return a string representation of a shallow object", () => {
   const obj = {
-    key1: 'value1',
-    key2: 'value2',
-    key3: 'value3',
+    key1: "value1",
+    key2: "value2",
+    key3: "value3",
   }
 
   expect(toString(obj)).toBe(`{
@@ -91,7 +91,7 @@ test('it should return a string representation of a shallow object', () => {
 }`)
 })
 
-test('it should return a string representation of a nested object', () => {
+test("it should return a string representation of a nested object", () => {
   const obj = {
     a: 1,
     b: [7, 3],

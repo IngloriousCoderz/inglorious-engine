@@ -1,4 +1,4 @@
-import { isObject } from './object.js'
+import { isObject } from "./object.js"
 
 export function merge(dest, ...sources) {
   return sources

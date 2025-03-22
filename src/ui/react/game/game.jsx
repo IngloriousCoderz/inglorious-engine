@@ -1,14 +1,14 @@
-import { withAbsolutePosition } from '@inglorious/ui/react/hocs/with-absolute-position'
-import { useSelector } from 'react-redux'
+import { withAbsolutePosition } from "@inglorious/ui/react/hocs/with-absolute-position"
+import { useSelector } from "react-redux"
 
-import Character from './character/index.jsx'
-import Cursor from './cursor/index.jsx'
-import Form from './form/index.jsx'
-import Fps from './fps/index.jsx'
-import Platform from './platform/index.jsx'
-import Scene from './scene/index.jsx'
-import Sprite from './sprite/index.jsx'
-import Stats from './stats/index.jsx'
+import Character from "./character/index.jsx"
+import Cursor from "./cursor/index.jsx"
+import Form from "./form/index.jsx"
+import Fps from "./fps/index.jsx"
+import Platform from "./platform/index.jsx"
+import Scene from "./scene/index.jsx"
+import Sprite from "./sprite/index.jsx"
+import Stats from "./stats/index.jsx"
 
 const Components = {
   character: withAbsolutePosition(Character),

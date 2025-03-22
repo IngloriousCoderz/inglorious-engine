@@ -1,13 +1,13 @@
 import matchVelocity, {
   DEFAULT_TIME_TO_TARGET,
-} from '@inglorious/engine/ai/movement/dynamic/match-velocity.js'
-import { clampToBounds } from '@inglorious/game/bounds.js'
-import { enableCharacter } from '@inglorious/game/decorators/character.js'
+} from "@inglorious/engine/ai/movement/dynamic/match-velocity.js"
+import { clampToBounds } from "@inglorious/game/bounds.js"
+import { enableCharacter } from "@inglorious/game/decorators/character.js"
 import {
   createControls,
   enableControls,
-} from '@inglorious/game/decorators/input/controls.js'
-import { merge } from '@inglorious/utils/data-structures/objects.js'
+} from "@inglorious/game/decorators/input/controls.js"
+import { merge } from "@inglorious/utils/data-structures/objects.js"
 
 export default {
   types: {
@@ -16,7 +16,7 @@ export default {
     character: [
       enableCharacter(),
       {
-        'game:update'(instance, event, { dt, config, instances }) {
+        "game:update"(instance, event, { dt, config, instances }) {
           const { fields } = instances.parameters.groups.matchVelocity
 
           const { input0 } = instances
@@ -42,7 +42,7 @@ export default {
             matchVelocity(instance, target, {
               dt,
               timeToTarget: fields.timeToTarget.value,
-            })
+            }),
           )
 
           clampToBounds(instance, config.bounds)
@@ -51,7 +51,7 @@ export default {
     ],
 
     form: {
-      'field:change'(instance, event) {
+      "field:change"(instance, event) {
         const { id, value } = event.payload
         instance.groups.matchVelocity.fields[id].value = value
       },
@@ -61,30 +61,30 @@ export default {
   state: {
     instances: {
       ...createControls(0, {
-        ArrowLeft: 'left',
-        ArrowRight: 'right',
-        ArrowDown: 'down',
-        ArrowUp: 'up',
+        ArrowLeft: "left",
+        ArrowRight: "right",
+        ArrowDown: "down",
+        ArrowUp: "up",
       }),
 
       character: {
-        id: 'character',
-        type: 'character',
+        id: "character",
+        type: "character",
         maxAcceleration: 1000,
         maxSpeed: 250,
         position: [400, 0, 300],
       },
 
       parameters: {
-        type: 'form',
+        type: "form",
         position: [800 - 328, 0, 600],
         groups: {
           matchVelocity: {
-            title: 'Match Velocity',
+            title: "Match Velocity",
             fields: {
               timeToTarget: {
-                label: 'Time To Target',
-                inputType: 'number',
+                label: "Time To Target",
+                inputType: "number",
                 step: 0.1,
                 defaultValue: DEFAULT_TIME_TO_TARGET,
               },

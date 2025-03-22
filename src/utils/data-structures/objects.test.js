@@ -1,8 +1,8 @@
-import { expect, test } from 'vitest'
+import { expect, test } from "vitest"
 
-import { merge } from './objects.js'
+import { merge } from "./objects.js"
 
-test('it should deep merge two objects', () => {
+test("it should deep merge two objects", () => {
   const obj1 = {
     primitiveKept: 1,
     primitiveMerged: 2,

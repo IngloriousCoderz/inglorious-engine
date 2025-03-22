@@ -1,3 +1,3 @@
 export function toString(bool) {
-  return bool ? 'true' : 'false'
+  return bool ? "true" : "false"
 }

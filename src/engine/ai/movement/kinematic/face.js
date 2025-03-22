@@ -1,10 +1,10 @@
 import {
   angle,
   magnitude,
-} from '@inglorious/utils/math/linear-algebra/vector.js'
-import { subtract } from '@inglorious/utils/math/linear-algebra/vectors.js'
+} from "@inglorious/utils/math/linear-algebra/vector.js"
+import { subtract } from "@inglorious/utils/math/linear-algebra/vectors.js"
 
-import align from './align.js'
+import align from "./align.js"
 
 export default function face(instance, target, options) {
   const direction = subtract(target.position, instance.position)

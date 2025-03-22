@@ -1,5 +1,5 @@
-import { enableCharacter } from '@inglorious/game/decorators/character.js'
-import { enableMouse } from '@inglorious/game/decorators/input/mouse.js'
+import { enableCharacter } from "@inglorious/game/decorators/character.js"
+import { enableMouse } from "@inglorious/game/decorators/input/mouse.js"
 
 export default {
   types: {
@@ -8,7 +8,7 @@ export default {
     character: [
       enableCharacter(),
       {
-        'game:update'(instance, event, { instances }) {
+        "game:update"(instance, event, { instances }) {
           const { mouse } = instances
           instance.position = mouse.position
         },
@@ -19,14 +19,14 @@ export default {
   state: {
     instances: {
       mouse: {
-        id: 'mouse',
-        type: 'mouse',
+        id: "mouse",
+        type: "mouse",
         position: [400, 0, 300],
       },
 
       character: {
-        id: 'character',
-        type: 'character',
+        id: "character",
+        type: "character",
         velocity: [0, 0, 0],
         position: [400, 0, 300],
       },

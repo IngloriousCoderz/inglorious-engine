@@ -1,7 +1,7 @@
 import {
   intersectsCircle,
   intersectsRectangle,
-} from '@inglorious/utils/math/geometry/point.js'
+} from "@inglorious/utils/math/geometry/point.js"
 
 const Z = 2
 
@@ -20,5 +20,8 @@ export function findCollision(point, options) {
 
 function collides(point, instance, { config }) {
   const { hitbox } = config.types[instance.type]
-  return Target[hitbox.shape](point, { ...hitbox, position: instance.position })
+  return Target[hitbox.shape](point, {
+    ...hitbox,
+    position: instance.position,
+  })
 }

@@ -4,8 +4,8 @@ import {
   divide,
   magnitude,
   multiply,
-} from '@inglorious/utils/math/linear-algebra/vector.js'
-import { subtract, sum } from '@inglorious/utils/math/linear-algebra/vectors.js'
+} from "@inglorious/utils/math/linear-algebra/vector.js"
+import { subtract, sum } from "@inglorious/utils/math/linear-algebra/vectors.js"
 
 export const DEFAULT_TARGET_RADIUS = 1
 export const DEFAULT_TIME_TO_TARGET = 0.1
@@ -21,7 +21,7 @@ export default function arrive(
     dt,
     targetRadius = DEFAULT_TARGET_RADIUS,
     timeToTarget = DEFAULT_TIME_TO_TARGET,
-  }
+  },
 ) {
   const maxSpeed = instance.maxSpeed ?? DEFAULT_MAX_SPEED
 

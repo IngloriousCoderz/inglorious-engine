@@ -5,8 +5,8 @@ import {
   magnitude,
   multiply,
   zero,
-} from '@inglorious/utils/math/linear-algebra/vector.js'
-import { subtract, sum } from '@inglorious/utils/math/linear-algebra/vectors.js'
+} from "@inglorious/utils/math/linear-algebra/vector.js"
+import { subtract, sum } from "@inglorious/utils/math/linear-algebra/vectors.js"
 
 export const DEFAULT_TIME_TO_TARGET = 0.1
 
@@ -22,7 +22,7 @@ const HALF_ACCELERATION = 0.5
 export default function matchVelocity(
   instance,
   target,
-  { dt, timeToTarget = DEFAULT_TIME_TO_TARGET }
+  { dt, timeToTarget = DEFAULT_TIME_TO_TARGET },
 ) {
   const maxAcceleration = instance.maxAcceleration ?? DEFAULT_MAX_ACCELERATION
   const maxSpeed = instance.maxSpeed ?? DEFAULT_MAX_SPEED
@@ -41,7 +41,7 @@ export default function matchVelocity(
   const position = sum(
     instance.position,
     multiply(velocity, dt),
-    multiply(acceleration, HALF_ACCELERATION * dt * dt)
+    multiply(acceleration, HALF_ACCELERATION * dt * dt),
   )
 
   orientation = magnitude(velocity) ? angle(velocity) : orientation

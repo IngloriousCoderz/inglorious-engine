@@ -1,9 +1,9 @@
-import './sprite.module.css'
+import "./sprite.module.css"
 
 const DEFAULT_ROWS = 1
 const DEFAULT_COLS = 1
 const DEFAULT_SCALE = 1
-const DEFAULT_FLIP = ''
+const DEFAULT_FLIP = ""
 const DEFAULT_FRAME = [0, 0] // eslint-disable-line no-magic-numbers
 
 export default function Sprite({
@@ -23,11 +23,11 @@ export default function Sprite({
   const cellHeight = height / rows
 
   let transform = `scale(${scale})`
-  if (flip.includes('h')) {
-    transform += ' scaleX(-1)'
+  if (flip.includes("h")) {
+    transform += " scaleX(-1)"
   }
-  if (flip.includes('v')) {
-    transform += ' scaleY(-1)'
+  if (flip.includes("v")) {
+    transform += " scaleY(-1)"
   }
 
   const [x, y] = frame

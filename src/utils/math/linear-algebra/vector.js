@@ -1,15 +1,15 @@
-import { hypothenuse } from '@inglorious/utils/math/geometry/triangle.js'
+import { hypothenuse } from "@inglorious/utils/math/geometry/triangle.js"
 import {
   abs as nAbs,
   clamp as nClamp,
   mod as nMod,
   snap as nSnap,
-} from '@inglorious/utils/math/numbers.js'
-import { atan2, cos, sin } from '@inglorious/utils/math/trigonometry.js'
+} from "@inglorious/utils/math/numbers.js"
+import { atan2, cos, sin } from "@inglorious/utils/math/trigonometry.js"
 
-import { from2D, to2D } from './2d.js'
-import { quaternion } from './quaternion.js'
-import { cross, sum } from './vectors.js'
+import { from2D, to2D } from "./2d.js"
+import { quaternion } from "./quaternion.js"
+import { cross, sum } from "./vectors.js"
 
 const ZERO_VECTOR = [0, 0, 0] // eslint-disable-line no-magic-numbers
 const UNIT_VECTOR = [1, 0, 0] // eslint-disable-line no-magic-numbers
@@ -33,17 +33,17 @@ export function angle(vector) {
 export function clamp(vector, min, max) {
   const length = magnitude(vector)
 
-  if (typeof min === 'number' && length < min) {
+  if (typeof min === "number" && length < min) {
     return setMagnitude(vector, min)
   }
 
-  if (typeof max === 'number' && length > max) {
+  if (typeof max === "number" && length > max) {
     return setMagnitude(vector, max)
   }
 
-  if (typeof min !== 'number' && typeof max !== 'number') {
+  if (typeof min !== "number" && typeof max !== "number") {
     return vector.map((coordinate, index) =>
-      nClamp(coordinate, min[index], max[index])
+      nClamp(coordinate, min[index], max[index]),
     )
   }
 
@@ -137,7 +137,7 @@ export function toPolar(vector) {
 export function toString(vector, decimals = DEFAULT_DECIMALS) {
   return `[${vector
     .map((coordinate) => coordinate.toFixed(decimals))
-    .join(', ')}]`
+    .join(", ")}]`
 }
 
 // TODO: add toSpherical(vector), as described in https://www.cs.mcgill.ca/~rwest/wikispeedia/wpcd/wp/p/Polar_coordinate_system.htm#:~:text=Polar%20coordinates%20can%20also%20be,as%20in%20the%20polar%20coordinates).
@@ -163,7 +163,7 @@ function rotateWithQuaternion(v, angle) {
   const [w, ...r] = quaternion(angle)
   const result = sum(
     v,
-    cross(multiply(r, 2), sum(cross(r, v), multiply(v, w))) // eslint-disable-line no-magic-numbers
+    cross(multiply(r, 2), sum(cross(r, v), multiply(v, w))), // eslint-disable-line no-magic-numbers
   )
 
   return conjugate(result) // HACK: not really sure why I should invert the result, it just works this way

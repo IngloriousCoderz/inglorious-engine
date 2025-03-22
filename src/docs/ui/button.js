@@ -1,12 +1,12 @@
-import draw from '@inglorious/ui/canvas/shapes/rectangle.js'
+import draw from "@inglorious/ui/canvas/shapes/rectangle.js"
 
 export default {
   types: {
     rectangle: {
       width: 100,
       height: 50,
-      color: 'black',
-      backgroundColor: 'darkgrey',
+      color: "black",
+      backgroundColor: "darkgrey",
       draw,
     },
   },
@@ -14,8 +14,8 @@ export default {
   state: {
     instances: {
       rect1: {
-        id: 'rect1',
-        type: 'rectangle',
+        id: "rect1",
+        type: "rectangle",
         position: [400, 0, 300],
       },
     },

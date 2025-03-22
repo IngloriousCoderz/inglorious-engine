@@ -1,4 +1,4 @@
-import { snap, zero } from '@inglorious/utils/math/linear-algebra/vector.js'
+import { snap, zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 
 const DEFAULT_OPTIONS = {}
 const NO_JUMP = 0

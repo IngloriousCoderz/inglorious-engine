@@ -1,22 +1,22 @@
-import { expect, test } from 'vitest'
+import { expect, test } from "vitest"
 
-import { abs, clamp, isClose, mod, sign, snap, sqrt } from './numbers.js'
+import { abs, clamp, isClose, mod, sign, snap, sqrt } from "./numbers.js"
 
-test('it should return the same number if already positive', () => {
+test("it should return the same number if already positive", () => {
   const num = 42
   const expectedResult = 42
 
   expect(abs(num)).toBe(expectedResult)
 })
 
-test('it should return the absolute value of a number', () => {
+test("it should return the absolute value of a number", () => {
   const num = -42
   const expectedResult = 42
 
   expect(abs(num)).toBe(expectedResult)
 })
 
-test('it should not clamp a number in the range', () => {
+test("it should not clamp a number in the range", () => {
   const num = 42
   const min = 0
   const max = 100
@@ -25,7 +25,7 @@ test('it should not clamp a number in the range', () => {
   expect(clamp(num, min, max)).toBe(expectedResult)
 })
 
-test('it should clamp a number too small', () => {
+test("it should clamp a number too small", () => {
   const num = -42
   const min = 0
   const max = 100
@@ -34,7 +34,7 @@ test('it should clamp a number too small', () => {
   expect(clamp(num, min, max)).toBe(expectedResult)
 })
 
-test('it should clamp a number too big', () => {
+test("it should clamp a number too big", () => {
   const num = 142
   const min = 0
   const max = 100
@@ -43,7 +43,7 @@ test('it should clamp a number too big', () => {
   expect(clamp(num, min, max)).toBe(expectedResult)
 })
 
-test('it should check if two numbers are close given some tolerance', () => {
+test("it should check if two numbers are close given some tolerance", () => {
   const num1 = 42
   const num2 = 42.1
   const tolerance = 0.2
@@ -52,7 +52,7 @@ test('it should check if two numbers are close given some tolerance', () => {
   expect(isClose(num1, num2, tolerance)).toBe(expectedResult)
 })
 
-test('it should return zero if dividend equals divisor', () => {
+test("it should return zero if dividend equals divisor", () => {
   const num = 2
   const divisor = 2
   const expectedResult = 0
@@ -60,7 +60,7 @@ test('it should return zero if dividend equals divisor', () => {
   expect(mod(num, divisor)).toBe(expectedResult)
 })
 
-test('it should return one if number is odd', () => {
+test("it should return one if number is odd", () => {
   const num = 3
   const divisor = 2
   const expectedResult = 1
@@ -68,7 +68,7 @@ test('it should return one if number is odd', () => {
   expect(mod(num, divisor)).toBe(expectedResult)
 })
 
-test('it should return one if negative number turns to positive one', () => {
+test("it should return one if negative number turns to positive one", () => {
   const num = -3
   const divisor = 2
   const expectedResult = 1
@@ -76,7 +76,7 @@ test('it should return one if negative number turns to positive one', () => {
   expect(mod(num, divisor)).toBe(expectedResult)
 })
 
-test('it should convert a float number greater than 1 to a range between -1 and 1', () => {
+test("it should convert a float number greater than 1 to a range between -1 and 1", () => {
   const num = 5 / 4
   const divisor = 1
   const expectedResult = 1 / 4
@@ -84,7 +84,7 @@ test('it should convert a float number greater than 1 to a range between -1 and 
   expect(mod(num, divisor)).toBe(expectedResult)
 })
 
-test('it should convert a float number greater than 2 to a range between -1 and 1', () => {
+test("it should convert a float number greater than 2 to a range between -1 and 1", () => {
   const num = 13 / 4
   const divisor = 1
   const expectedResult = 1 / 4
@@ -92,7 +92,7 @@ test('it should convert a float number greater than 2 to a range between -1 and 
   expect(mod(num, divisor)).toBe(expectedResult)
 })
 
-test('it should convert a negative float number to a range between -1 and 1', () => {
+test("it should convert a negative float number to a range between -1 and 1", () => {
   const num = -5 / 4
   const divisor = 1
   const expectedResult = 3 / 4
@@ -100,28 +100,28 @@ test('it should convert a negative float number to a range between -1 and 1', ()
   expect(mod(num, divisor)).toBe(expectedResult)
 })
 
-test('it should return one if number is positive', () => {
+test("it should return one if number is positive", () => {
   const num = 42
   const expectedResult = 1
 
   expect(sign(num)).toBe(expectedResult)
 })
 
-test('it should return minus one if number is negative', () => {
+test("it should return minus one if number is negative", () => {
   const num = -42
   const expectedResult = -1
 
   expect(sign(num)).toBe(expectedResult)
 })
 
-test('it should return the number itself if the sign is zero', () => {
+test("it should return the number itself if the sign is zero", () => {
   const num = 0
   const expectedResult = 0
 
   expect(sign(num)).toBe(expectedResult)
 })
 
-test('it should snap the number to the given precision', () => {
+test("it should snap the number to the given precision", () => {
   const num = 42
   const precision = 10
   const expectedResult = 40
@@ -129,7 +129,7 @@ test('it should snap the number to the given precision', () => {
   expect(snap(num, precision)).toBe(expectedResult)
 })
 
-test('it should compute the square root of the number', () => {
+test("it should compute the square root of the number", () => {
   const num = 9
   const expectedResult = 3
 

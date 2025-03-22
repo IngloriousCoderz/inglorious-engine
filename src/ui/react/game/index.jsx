@@ -1,8 +1,8 @@
-import Engine from '@inglorious/engine'
-import { useEffect, useMemo, useState } from 'react'
-import { Provider } from 'react-redux'
+import Engine from "@inglorious/engine"
+import { useEffect, useMemo, useState } from "react"
+import { Provider } from "react-redux"
 
-import GameComponent from './game.jsx'
+import GameComponent from "./game.jsx"
 
 export default function Game({ config }) {
   const [isReady, setReady] = useState(false)

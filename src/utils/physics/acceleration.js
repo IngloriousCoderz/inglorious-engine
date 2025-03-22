@@ -2,10 +2,10 @@ import {
   clamp,
   multiply,
   zero,
-} from '@inglorious/utils/math/linear-algebra/vector.js'
-import { sum } from '@inglorious/utils/math/linear-algebra/vectors.js'
+} from "@inglorious/utils/math/linear-algebra/vector.js"
+import { sum } from "@inglorious/utils/math/linear-algebra/vectors.js"
 
-import { applyFriction } from './friction.js'
+import { applyFriction } from "./friction.js"
 
 const DEFAULT_OPTIONS = { dt: 0 }
 
@@ -26,7 +26,7 @@ export function applyAcceleration(
     position = zero(),
     friction,
   },
-  options = DEFAULT_OPTIONS
+  options = DEFAULT_OPTIONS,
 ) {
   const { dt } = options
 
@@ -39,7 +39,7 @@ export function applyAcceleration(
   position = sum(
     position,
     multiply(velocity, dt),
-    multiply(acceleration, HALF_ACCELERATION * dt * dt)
+    multiply(acceleration, HALF_ACCELERATION * dt * dt),
   )
 
   return { acceleration, velocity, position }

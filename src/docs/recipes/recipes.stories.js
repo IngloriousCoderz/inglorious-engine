@@ -1,16 +1,16 @@
-import Game from '@inglorious/ui/react/game/index.jsx'
+import Game from "@inglorious/ui/react/game/index.jsx"
 
-import addAndRemove from './add-and-remove.js'
-import addInstance from './add-instance.js'
-import decisionTree from './decision-tree.js'
-import randomInstances from './random-instances.js'
-import removeInstance from './remove-instance.js'
-import states from './states.js'
+import addAndRemove from "./add-and-remove.js"
+import addInstance from "./add-instance.js"
+import decisionTree from "./decision-tree.js"
+import randomInstances from "./random-instances.js"
+import removeInstance from "./remove-instance.js"
+import states from "./states.js"
 
 export default {
-  title: 'Engine/Recipes',
+  title: "Engine/Recipes",
   component: Game,
-  parameters: { layout: 'centered' },
+  parameters: { layout: "centered" },
 }
 
 export const RandomInstances = {

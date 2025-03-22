@@ -1,9 +1,9 @@
 /* eslint-disable no-magic-numbers */
-import * as Animation from '@inglorious/game/animation.js'
-import { angle } from '@inglorious/utils/math/linear-algebra/vector.js'
-import { subtract } from '@inglorious/utils/math/linear-algebra/vectors.js'
-import { mod } from '@inglorious/utils/math/numbers.js'
-import { pi, toRange } from '@inglorious/utils/math/trigonometry.js'
+import * as Animation from "@inglorious/game/animation.js"
+import { angle } from "@inglorious/utils/math/linear-algebra/vector.js"
+import { subtract } from "@inglorious/utils/math/linear-algebra/vectors.js"
+import { mod } from "@inglorious/utils/math/numbers.js"
+import { pi, toRange } from "@inglorious/utils/math/trigonometry.js"
 
 const BEFORE = -1
 const AFTER = 1
@@ -16,9 +16,9 @@ export function move2(instance, target) {
   const theta = toRange(angle(direction)) / multiple
 
   if (theta >= 0 + BEFORE && theta < 0 + AFTER) {
-    return 'right'
+    return "right"
   } else {
-    return 'left'
+    return "left"
   }
 }
 
@@ -30,13 +30,13 @@ export function move4(instance, target) {
   const theta = toRange(angle(direction)) / multiple
 
   if (theta >= -2 + BEFORE && theta < -2 + AFTER) {
-    return 'down'
+    return "down"
   } else if (theta >= 0 + BEFORE && theta < 0 + AFTER) {
-    return 'right'
+    return "right"
   } else if (theta >= 2 + BEFORE && theta < 2 + AFTER) {
-    return 'up'
+    return "up"
   } else {
-    return 'left'
+    return "left"
   }
 }
 
@@ -48,21 +48,21 @@ export function move6(instance, target) {
   const theta = toRange(angle(direction)) / multiple
 
   if (theta >= -6 + BEFORE && theta < -6 + AFTER) {
-    return 'leftDown'
+    return "leftDown"
   } else if (theta >= -4 + BEFORE && theta < -4 + AFTER) {
-    return 'down'
+    return "down"
   } else if (theta >= -2 + BEFORE && theta < -2 + AFTER) {
-    return 'rightDown'
+    return "rightDown"
   } else if (theta >= 0 + BEFORE && theta < 0 + AFTER) {
-    return 'right'
+    return "right"
   } else if (theta >= 2 + BEFORE && theta < 2 + AFTER) {
-    return 'rightUp'
+    return "rightUp"
   } else if (theta >= 4 + BEFORE && theta < 4 + AFTER) {
-    return 'up'
+    return "up"
   } else if (theta >= 6 + BEFORE && theta < 6 + AFTER) {
-    return 'leftUp'
+    return "leftUp"
   } else {
-    return 'left'
+    return "left"
   }
 }
 
@@ -74,26 +74,26 @@ export function move8(instance, target) {
   const theta = toRange(angle(direction)) / multiple
 
   if (theta >= -6 + BEFORE && theta < -6 + AFTER) {
-    return 'leftDown'
+    return "leftDown"
   } else if (theta >= -4 + BEFORE && theta < -4 + AFTER) {
-    return 'down'
+    return "down"
   } else if (theta >= -2 + BEFORE && theta < -2 + AFTER) {
-    return 'rightDown'
+    return "rightDown"
   } else if (theta >= 0 + BEFORE && theta < 0 + AFTER) {
-    return 'right'
+    return "right"
   } else if (theta >= 2 + BEFORE && theta < 2 + AFTER) {
-    return 'rightUp'
+    return "rightUp"
   } else if (theta >= 4 + BEFORE && theta < 4 + AFTER) {
-    return 'up'
+    return "up"
   } else if (theta >= 6 + BEFORE && theta < 6 + AFTER) {
-    return 'leftUp'
+    return "leftUp"
   } else {
-    return 'left'
+    return "left"
   }
 }
 
 export function play(spriteState, instance, options) {
-  Animation.play('sprite', spriteState, instance, { ...options, onTick })
+  Animation.play("sprite", spriteState, instance, { ...options, onTick })
 }
 
 function onTick(instance, options) {

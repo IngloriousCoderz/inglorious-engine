@@ -1,7 +1,7 @@
-import { Fragment } from 'react'
+import { Fragment } from "react"
 
-import Fields from './fields/index.jsx'
-import classes from './form.module.scss'
+import Fields from "./fields/index.jsx"
+import classes from "./form.module.scss"
 
 export default function Form({ instance, className, style }) {
   const { fields, groups } = instance

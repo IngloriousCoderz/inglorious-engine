@@ -1,8 +1,8 @@
-import { track } from '@inglorious/game/decorators/input/mouse.js'
-import { useRef } from 'react'
-import { useDispatch } from 'react-redux'
+import { track } from "@inglorious/game/decorators/input/mouse.js"
+import { useRef } from "react"
+import { useDispatch } from "react-redux"
 
-import classes from './scene.module.scss'
+import classes from "./scene.module.scss"
 
 export default function Scene({ config, children }) {
   const notify = useDispatch()
@@ -15,7 +15,7 @@ export default function Scene({ config, children }) {
   return (
     <div
       className={classes.scene}
-      style={{ '--width': `${width}px`, '--height': `${height}px` }}
+      style={{ "--width": `${width}px`, "--height": `${height}px` }}
       ref={ref}
       {...mouseHandlers}
     >

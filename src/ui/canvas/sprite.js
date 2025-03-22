@@ -13,7 +13,7 @@ export default function draw(ctx, options) {
   const cellWidth = width / cols
   const cellHeight = height / rows
 
-  ctx.scale(flip === 'h' ? -1 : 1, flip === 'v' ? -1 : 1)
+  ctx.scale(flip === "h" ? -1 : 1, flip === "v" ? -1 : 1)
   ctx.scale(scale, scale)
   ctx.translate(-cellWidth / 2, -cellHeight / 2)
 
@@ -26,6 +26,6 @@ export default function draw(ctx, options) {
     0,
     0,
     cellWidth,
-    cellHeight
+    cellHeight,
   )
 }

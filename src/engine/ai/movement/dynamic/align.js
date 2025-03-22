@@ -1,5 +1,5 @@
-import { abs, clamp } from '@inglorious/utils/math/numbers.js'
-import { toRange } from '@inglorious/utils/math/trigonometry.js'
+import { abs, clamp } from "@inglorious/utils/math/numbers.js"
+import { toRange } from "@inglorious/utils/math/trigonometry.js"
 
 export const DEFAULT_TARGET_RADIUS = 0.1
 export const DEFAULT_SLOW_RADIUS = 0.1
@@ -21,7 +21,7 @@ export default function align(
     targetRadius = DEFAULT_TARGET_RADIUS,
     slowRadius = DEFAULT_SLOW_RADIUS,
     timeToTarget = DEFAULT_TIME_TO_TARGET,
-  }
+  },
 ) {
   const maxAngularAcceleration =
     instance.maxAngularAcceleration ?? DEFAULT_MAX_ANGULAR_ACCELERATION
@@ -51,7 +51,7 @@ export default function align(
   angularAcceleration = clamp(
     angularAcceleration,
     -maxAngularAcceleration,
-    maxAngularAcceleration
+    maxAngularAcceleration,
   )
 
   angularSpeed += angularAcceleration * dt

@@ -7,7 +7,9 @@ export function clone(obj) {
 
 export function filter(obj, callback) {
   return Object.fromEntries(
-    Object.entries(obj).filter(([key, value], obj) => callback(key, value, obj))
+    Object.entries(obj).filter(([key, value], obj) =>
+      callback(key, value, obj),
+    ),
   )
 }
 
@@ -34,27 +36,27 @@ export function toString(obj, level = INITIAL_LEVEL) {
 ${obj
   .map(
     (item) =>
-      ' '.repeat(level + NEXT_LEVEL) + toString(item, level + NEXT_LEVEL)
+      " ".repeat(level + NEXT_LEVEL) + toString(item, level + NEXT_LEVEL),
   )
-  .join(',\n')}
-${' '.repeat(level)}]`
+  .join(",\n")}
+${" ".repeat(level)}]`
   }
 
-  if (typeof obj === 'object' && obj != null) {
+  if (typeof obj === "object" && obj != null) {
     return `{
 ${Object.entries(obj)
   .map(
     ([key, value]) =>
-      `${' '.repeat(level + NEXT_LEVEL)}${key}: ${toString(
+      `${" ".repeat(level + NEXT_LEVEL)}${key}: ${toString(
         value,
-        level + NEXT_LEVEL
-      )}`
+        level + NEXT_LEVEL,
+      )}`,
   )
-  .join(',\n')}
-${' '.repeat(level)}}`
+  .join(",\n")}
+${" ".repeat(level)}}`
   }
 
-  if (typeof obj === 'string') {
+  if (typeof obj === "string") {
     return `'${obj}'`
   }
 

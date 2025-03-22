@@ -1,8 +1,8 @@
 /* eslint-disable no-magic-numbers */
 
 export default function draw(ctx) {
-  ctx.strokeStyle = 'black'
-  ctx.fillStyle = 'black'
+  ctx.strokeStyle = "black"
+  ctx.fillStyle = "black"
   ctx.lineWidth = 1
 
   ctx.beginPath()

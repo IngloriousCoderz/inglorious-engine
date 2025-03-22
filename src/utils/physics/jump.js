@@ -15,7 +15,7 @@ export function jump(
     maxSpeed = DEFAULT_MAX_SPEED,
     py = DEFAULT_PY,
   },
-  options = DEFAULT_OPTIONS
+  options = DEFAULT_OPTIONS,
 ) {
   const { dt } = options
 

@@ -3,9 +3,9 @@ import {
   min,
   push,
   remove,
-} from '@inglorious/utils/data-structures/heap.js'
-import { abs, magnitude } from '@inglorious/utils/math/linear-algebra/vector.js'
-import { subtract } from '@inglorious/utils/math/linear-algebra/vectors.js'
+} from "@inglorious/utils/data-structures/heap.js"
+import { abs, magnitude } from "@inglorious/utils/math/linear-algebra/vector.js"
+import { subtract } from "@inglorious/utils/math/linear-algebra/vectors.js"
 
 const NO_COST = 0
 

@@ -1,12 +1,12 @@
-import arrive from '@inglorious/engine/ai/movement/kinematic/arrive.js'
-import { enableFps } from '@inglorious/game/decorators/fps.js'
-import { enableMouse } from '@inglorious/game/decorators/input/mouse.js'
-import * as Sprite from '@inglorious/game/sprite.js'
-import draw from '@inglorious/ui/canvas/sprite.js'
-import { decide } from '@inglorious/utils/algorithms/decision-tree.js'
-import { merge } from '@inglorious/utils/data-structures/objects.js'
-import { length } from '@inglorious/utils/math/linear-algebra/vector.js'
-import { subtract } from '@inglorious/utils/math/linear-algebra/vectors.js'
+import arrive from "@inglorious/engine/ai/movement/kinematic/arrive.js"
+import { enableFps } from "@inglorious/game/decorators/fps.js"
+import { enableMouse } from "@inglorious/game/decorators/input/mouse.js"
+import * as Sprite from "@inglorious/game/sprite.js"
+import draw from "@inglorious/ui/canvas/sprite.js"
+import { decide } from "@inglorious/utils/algorithms/decision-tree.js"
+import { merge } from "@inglorious/utils/data-structures/objects.js"
+import { length } from "@inglorious/utils/math/linear-algebra/vector.js"
+import { subtract } from "@inglorious/utils/math/linear-algebra/vectors.js"
 
 // A reusable decision tree node
 const wakeUp = () => ({
@@ -14,7 +14,7 @@ const wakeUp = () => ({
     const distance = length(subtract(target.position, instance.position))
     return distance >= 10
   },
-  true: () => 'aware',
+  true: () => "aware",
   false: ({ instance }) => instance.state,
 })
 
@@ -26,7 +26,7 @@ const nextState = {
       const distance = length(subtract(target.position, instance.position))
       return distance < 250
     },
-    true: () => 'aware',
+    true: () => "aware",
     false: ({ instance }) => instance.state,
   }),
   chasing: () => ({
@@ -34,13 +34,13 @@ const nextState = {
       const distance = length(subtract(target.position, instance.position))
       return distance >= 250
     },
-    true: () => 'idle',
+    true: () => "idle",
     false: () => ({
       test: ({ instance, target }) => {
         const distance = length(subtract(target.position, instance.position))
         return distance < 10
       },
-      true: () => 'sleepy',
+      true: () => "sleepy",
       false: ({ instance }) => instance.state,
     }),
   }),
@@ -57,8 +57,8 @@ export default {
 
     cat: {
       sprite: {
-        id: 'neko',
-        src: './src/docs/recipes/decision-tree/neko.png',
+        id: "neko",
+        src: "./src/docs/recipes/decision-tree/neko.png",
         width: 192,
         height: 192,
         rows: 6,
@@ -82,7 +82,7 @@ export default {
               [5, 3],
               [5, 4],
             ],
-            flip: 'h',
+            flip: "h",
           },
           up: {
             frames: [
@@ -119,14 +119,14 @@ export default {
               [1, 2],
               [2, 2],
             ],
-            flip: 'h',
+            flip: "h",
           },
           left: {
             frames: [
               [4, 2],
               [4, 3],
             ],
-            flip: 'h',
+            flip: "h",
           },
 
           sleepy: {
@@ -156,32 +156,32 @@ export default {
 
       states: {
         idle: {
-          'game:update'(instance, event, options) {
+          "game:update"(instance, event, options) {
             const { mouse } = options.instances
 
-            Sprite.play('idle', instance, options)
+            Sprite.play("idle", instance, options)
 
             instance.state = decide(nextState, { instance, target: mouse })
           },
         },
 
         aware: {
-          'game:update'(instance, event, options) {
-            Sprite.play('aware', instance, options)
+          "game:update"(instance, event, options) {
+            Sprite.play("aware", instance, options)
           },
 
-          'sprite:animationEnd'(instance, event) {
+          "sprite:animationEnd"(instance, event) {
             const { id, sprite } = event.payload
 
             // always check who originated the event and which sprite is running!
-            if (id === 'neko' && sprite === 'aware') {
-              instance.state = 'chasing'
+            if (id === "neko" && sprite === "aware") {
+              instance.state = "chasing"
             }
           },
         },
 
         chasing: {
-          'game:update'(instance, event, options) {
+          "game:update"(instance, event, options) {
             const { mouse } = options.instances
 
             merge(instance, arrive(instance, mouse, options))
@@ -194,29 +194,29 @@ export default {
         },
 
         sleepy: {
-          'game:update'(instance, event, options) {
+          "game:update"(instance, event, options) {
             const { mouse } = options.instances
 
-            Sprite.play('sleepy', instance, options)
+            Sprite.play("sleepy", instance, options)
 
             instance.state = decide(nextState, { instance, target: mouse })
           },
 
-          'sprite:animationEnd'(instance, event) {
+          "sprite:animationEnd"(instance, event) {
             const { id, sprite } = event.payload
 
             // always check who originated the event and which sprite is running!
-            if (id === 'neko' && sprite === 'sleepy') {
-              instance.state = 'sleeping'
+            if (id === "neko" && sprite === "sleepy") {
+              instance.state = "sleeping"
             }
           },
         },
 
         sleeping: {
-          'game:update'(instance, event, options) {
+          "game:update"(instance, event, options) {
             const { mouse } = options.instances
 
-            Sprite.play('sleeping', instance, options)
+            Sprite.play("sleeping", instance, options)
 
             instance.state = decide(nextState, { instance, target: mouse })
           },
@@ -229,18 +229,18 @@ export default {
 
   state: {
     instances: {
-      mouse: { id: 'mouse', type: 'mouse', position: [400, 0, 300] },
+      mouse: { id: "mouse", type: "mouse", position: [400, 0, 300] },
 
       fps: {
-        id: 'fps',
-        type: 'fps',
+        id: "fps",
+        type: "fps",
         position: [0, 0, 600],
       },
 
       neko: {
-        id: 'neko',
-        type: 'cat',
-        state: 'idle',
+        id: "neko",
+        type: "cat",
+        state: "idle",
         maxSpeed: 250,
         position: [400, 0, 300],
       },

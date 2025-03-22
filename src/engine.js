@@ -1,13 +1,13 @@
-import { merge } from '@inglorious/utils/data-structures/objects.js'
+import { merge } from "@inglorious/utils/data-structures/objects.js"
 
-import Loop from './engine/loop.js'
-import { createStore } from './engine/store.js'
-import { filter, map } from './utils/data-structures/object.js'
-import { pipe } from './utils/functions/functions.js'
+import Loop from "./engine/loop.js"
+import { createStore } from "./engine/store.js"
+import { filter, map } from "./utils/data-structures/object.js"
+import { pipe } from "./utils/functions/functions.js"
 
 const DEFAULT_CONFIG = {
   bounds: [0, 0, 800, 600], // eslint-disable-line no-magic-numbers
-  loop: { type: 'animationFrame' },
+  loop: { type: "animationFrame" },
   types: { game: {} },
 }
 
@@ -51,7 +51,7 @@ export default class Engine {
   }
 
   stop() {
-    this._store.notify({ id: 'game:stop' })
+    this._store.notify({ id: "game:stop" })
     this._store.update()
     this._loop.stop()
     this.isRunning = false
@@ -65,7 +65,7 @@ function applyDecorators(types) {
     }
 
     const decorators = type.map((fn) =>
-      typeof fn !== 'function' ? () => fn : fn
+      typeof fn !== "function" ? () => fn : fn,
     )
     return pipe(...decorators)({})
   })
@@ -75,11 +75,11 @@ function turnTypesIntoFsm(types) {
   return map(types, (_, type) => {
     const topLevelEventHandlers = filter(
       type,
-      (_, value) => typeof value === 'function'
+      (_, value) => typeof value === "function",
     )
     const typeWithoutTopLevelEventHandlers = filter(
       type,
-      (_, value) => typeof value !== 'function'
+      (_, value) => typeof value !== "function",
     )
 
     return merge(typeWithoutTopLevelEventHandlers, {

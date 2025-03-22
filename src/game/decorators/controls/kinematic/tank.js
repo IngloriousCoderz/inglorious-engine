@@ -1,9 +1,9 @@
-import tank from '@inglorious/engine/player/kinematic/tank.js'
-import { merge } from '@inglorious/utils/data-structures/objects.js'
-import { zero } from '@inglorious/utils/math/linear-algebra/vector.js'
+import tank from "@inglorious/engine/player/kinematic/tank.js"
+import { merge } from "@inglorious/utils/data-structures/objects.js"
+import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 
 const DEFAULT_PARAMS = {
-  onState: 'default',
+  onState: "default",
   maxAngularSpeed: 10,
   maxSpeed: 250,
 }
@@ -22,7 +22,7 @@ export function enableTankControls(params) {
       [params.onState]: {
         ...type.states?.[params.onState],
 
-        'game:update'(instance, event, options) {
+        "game:update"(instance, event, options) {
           instance.maxAngularSpeed =
             instance.maxAngularSpeed ?? params.maxAngularSpeed
           instance.maxSpeed = instance.maxSpeed ?? params.maxSpeed

@@ -1,4 +1,4 @@
-import { merge } from '@inglorious/utils/data-structures/objects.js'
+import { merge } from "@inglorious/utils/data-structures/objects.js"
 
 const DEFAULT_PARAMS = {
   id: 0,
@@ -12,39 +12,39 @@ export function enableKeyboard(params) {
   return (type) => ({
     ...type,
 
-    'game:update'(instance, event, options) {
-      handleKeyDown = createKeyboardHandler('keyboard:keyDown', options)
-      handleKeyUp = createKeyboardHandler('keyboard:keyUp', options)
+    "game:update"(instance, event, options) {
+      handleKeyDown = createKeyboardHandler("keyboard:keyDown", options)
+      handleKeyUp = createKeyboardHandler("keyboard:keyUp", options)
 
-      document.addEventListener('keydown', handleKeyDown)
-      document.addEventListener('keyup', handleKeyUp)
+      document.addEventListener("keydown", handleKeyDown)
+      document.addEventListener("keyup", handleKeyUp)
     },
 
-    'game:stop'() {
-      document.removeEventListener('keydown', handleKeyDown)
-      document.removeEventListener('keyup', handleKeyUp)
+    "game:stop"() {
+      document.removeEventListener("keydown", handleKeyDown)
+      document.removeEventListener("keyup", handleKeyUp)
     },
 
-    'keyboard:keyDown'(instance, event, { notify }) {
+    "keyboard:keyDown"(instance, event, { notify }) {
       const action = instance.mapping[event.payload]
       if (!instance[action]) {
         instance[action] = true
-        notify({ id: 'input:press', payload: { id: params.id, action } })
+        notify({ id: "input:press", payload: { id: params.id, action } })
       }
     },
 
-    'keyboard:keyUp'(instance, event, { notify }) {
+    "keyboard:keyUp"(instance, event, { notify }) {
       const action = instance.mapping[event.payload]
       if (instance[action]) {
         instance[action] = false
-        notify({ id: 'input:release', payload: { id: params.id, action } })
+        notify({ id: "input:release", payload: { id: params.id, action } })
       }
     },
   })
 }
 
 export function createKeyboard(id = DEFAULT_PARAMS.id, mapping = {}) {
-  return { id: `keyboard${id}`, type: 'keyboard', mapping }
+  return { id: `keyboard${id}`, type: "keyboard", mapping }
 }
 
 function createKeyboardHandler(id, { notify }) {

@@ -1,6 +1,6 @@
-import { useDispatch } from 'react-redux'
+import { useDispatch } from "react-redux"
 
-import classes from './character.module.scss'
+import classes from "./character.module.scss"
 
 const DEFAULT_SIZE = 24
 const DEFAULT_ORIENTATION = 0
@@ -13,7 +13,7 @@ export default function Character({ id, config, instance, className, style }) {
 
   const handleClick = (event) => {
     event.stopPropagation()
-    notify({ id: 'instance:click', payload: id })
+    notify({ id: "instance:click", payload: id })
   }
 
   return (
@@ -21,8 +21,8 @@ export default function Character({ id, config, instance, className, style }) {
       className={`${classes.character} ${className}`}
       style={{
         ...style,
-        '--size': `${size}px`,
-        '--angle': `${-orientation}rad`,
+        "--size": `${size}px`,
+        "--angle": `${-orientation}rad`,
       }}
       onClick={handleClick}
     />

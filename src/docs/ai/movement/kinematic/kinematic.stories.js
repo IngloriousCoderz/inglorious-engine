@@ -1,15 +1,15 @@
-import Game from '@inglorious/ui/react/game/index.jsx'
+import Game from "@inglorious/ui/react/game/index.jsx"
 
-import align from './align.js'
-import arrive from './arrive.js'
-import face from './face.js'
-import flee from './flee.js'
-import seek from './seek.js'
-import wander from './wander.js'
-import wanderAsSeek from './wander-as-seek.js'
+import align from "./align.js"
+import arrive from "./arrive.js"
+import face from "./face.js"
+import flee from "./flee.js"
+import seek from "./seek.js"
+import wander from "./wander.js"
+import wanderAsSeek from "./wander-as-seek.js"
 
 export default {
-  title: 'Engine/AI/Movement/Kinematic',
+  title: "Engine/AI/Movement/Kinematic",
   component: Game,
 }
 

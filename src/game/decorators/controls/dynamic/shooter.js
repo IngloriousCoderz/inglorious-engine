@@ -1,12 +1,12 @@
-import face from '@inglorious/engine/ai/movement/dynamic/face.js'
-import tank from '@inglorious/engine/player/dynamic/tank.js'
-import { merge } from '@inglorious/utils/data-structures/objects.js'
-import { zero } from '@inglorious/utils/math/linear-algebra/vector.js'
-import { pi } from '@inglorious/utils/math/trigonometry.js'
+import face from "@inglorious/engine/ai/movement/dynamic/face.js"
+import tank from "@inglorious/engine/player/dynamic/tank.js"
+import { merge } from "@inglorious/utils/data-structures/objects.js"
+import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
+import { pi } from "@inglorious/utils/math/trigonometry.js"
 
 const FULL_CIRCLE = 2
 const DEFAULT_PARAMS = {
-  onState: 'default',
+  onState: "default",
   maxAngularSpeed: FULL_CIRCLE * pi(),
   maxSpeed: 250,
 }
@@ -25,7 +25,7 @@ export function enableShooterControls(params) {
       [params.onState]: {
         ...type.states?.[params.onState],
 
-        'game:update'(instance, event, options) {
+        "game:update"(instance, event, options) {
           instance.maxAngularSpeed =
             instance.maxAngularSpeed ?? params.maxAngularSpeed
           instance.maxAcceleration =

@@ -6,10 +6,10 @@ export default function draw(ctx, options) {
   const { accuracy, size } = config.types[type]
 
   ctx.font = `${size}px sans serif`
-  ctx.fillStyle = 'black'
+  ctx.fillStyle = "black"
   ctx.fillText(
     (ONE_SECOND / dt.value).toFixed(accuracy),
     DEFAULT_PADDING,
-    DEFAULT_PADDING + size
+    DEFAULT_PADDING + size,
   )
 }

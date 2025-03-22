@@ -1,8 +1,8 @@
-import { expect, test } from 'vitest'
+import { expect, test } from "vitest"
 
-import { intersectsPlatform } from './rectangle.js'
+import { intersectsPlatform } from "./rectangle.js"
 
-test('it should prove that a rectangle right above a platform intersects with it', () => {
+test("it should prove that a rectangle right above a platform intersects with it", () => {
   const rectangle = {
     position: [0, 0, 0],
     size: [2, 2],
@@ -15,7 +15,7 @@ test('it should prove that a rectangle right above a platform intersects with it
   expect(intersectsPlatform(rectangle, platform)).toBe(true)
 })
 
-test('it should prove that a rectangle way above a platform intersects with it', () => {
+test("it should prove that a rectangle way above a platform intersects with it", () => {
   const rectangle = {
     position: [0, 0, 0],
     size: [2, 2],
@@ -28,7 +28,7 @@ test('it should prove that a rectangle way above a platform intersects with it',
   expect(intersectsPlatform(rectangle, platform)).toBe(false)
 })
 
-test('it should prove that a rectangle crossing a platform does not intersect with it', () => {
+test("it should prove that a rectangle crossing a platform does not intersect with it", () => {
   const rectangle = {
     position: [0, 0, 0],
     size: [2, 2],
@@ -41,7 +41,7 @@ test('it should prove that a rectangle crossing a platform does not intersect wi
   expect(intersectsPlatform(rectangle, platform)).toBe(false)
 })
 
-test('it should prove that a rectangle below a platform does not intersect with it', () => {
+test("it should prove that a rectangle below a platform does not intersect with it", () => {
   const rectangle = {
     position: [0, 0, 0],
     size: [2, 2],
@@ -54,7 +54,7 @@ test('it should prove that a rectangle below a platform does not intersect with 
   expect(intersectsPlatform(rectangle, platform)).toBe(false)
 })
 
-test('it should prove that a rectangle not crossing a platform horizontally does not intersect with it', () => {
+test("it should prove that a rectangle not crossing a platform horizontally does not intersect with it", () => {
   const rectangle = {
     position: [0, 0, 0],
     size: [2, 2],

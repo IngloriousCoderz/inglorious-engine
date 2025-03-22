@@ -4,10 +4,10 @@ export function draw(ctx, options) {
 
   ctx.save()
 
-  if (state === 'pressed') {
-    ctx.fillStyle = 'white'
+  if (state === "pressed") {
+    ctx.fillStyle = "white"
   } else {
-    ctx.fillStyle = 'black'
+    ctx.fillStyle = "black"
   }
 
   ctx.restore()

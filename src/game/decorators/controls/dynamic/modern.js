@@ -1,9 +1,9 @@
-import move from '@inglorious/engine/player/dynamic/move.js'
-import { merge } from '@inglorious/utils/data-structures/objects.js'
-import { zero } from '@inglorious/utils/math/linear-algebra/vector.js'
+import move from "@inglorious/engine/player/dynamic/move.js"
+import { merge } from "@inglorious/utils/data-structures/objects.js"
+import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 
 const DEFAULT_PARAMS = {
-  onState: 'default',
+  onState: "default",
   maxAcceleration: 500,
 }
 const X = 0
@@ -21,11 +21,11 @@ export function enableModernControls(params) {
       [params.onState]: {
         ...type.states?.[params.onState],
 
-        'game:update'(instance, event, options) {
-          type.states?.[params.onState]['game:update']?.(
+        "game:update"(instance, event, options) {
+          type.states?.[params.onState]["game:update"]?.(
             instance,
             event,
-            options
+            options,
           )
 
           const maxAcceleration =

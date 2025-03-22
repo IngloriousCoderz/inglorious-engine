@@ -1,12 +1,12 @@
-import Game from '@inglorious/ui/react/game/index.jsx'
+import Game from "@inglorious/ui/react/game/index.jsx"
 
-import controls from './controls.js'
-import gamepad from './gamepad.js'
-import keyboard from './keyboard.js'
-import mouse from './mouse.js'
+import controls from "./controls.js"
+import gamepad from "./gamepad.js"
+import keyboard from "./keyboard.js"
+import mouse from "./mouse.js"
 
 export default {
-  title: 'Engine/Input',
+  title: "Engine/Input",
   component: Game,
 }
 

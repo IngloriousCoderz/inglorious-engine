@@ -1,18 +1,18 @@
 import wander, {
   DEFAULT_WANDER_OFFSET,
   DEFAULT_WANDER_RADIUS,
-} from '@inglorious/engine/ai/movement/dynamic/wander.js'
-import { flip } from '@inglorious/game/bounds.js'
-import { enableCharacter } from '@inglorious/game/decorators/character.js'
-import { merge } from '@inglorious/utils/data-structures/objects.js'
-import { pi } from '@inglorious/utils/math/trigonometry.js'
+} from "@inglorious/engine/ai/movement/dynamic/wander.js"
+import { flip } from "@inglorious/game/bounds.js"
+import { enableCharacter } from "@inglorious/game/decorators/character.js"
+import { merge } from "@inglorious/utils/data-structures/objects.js"
+import { pi } from "@inglorious/utils/math/trigonometry.js"
 
 export default {
   types: {
     character: [
       enableCharacter(),
       {
-        'game:update'(instance, event, { dt, config, instances }) {
+        "game:update"(instance, event, { dt, config, instances }) {
           const { fields } = instances.parameters.groups.wander
 
           merge(
@@ -21,7 +21,7 @@ export default {
               dt,
               wanderOffset: fields.wanderOffset.value,
               wanderRadius: fields.wanderRadius.value,
-            })
+            }),
           )
           flip(instance, config.bounds)
         },
@@ -29,7 +29,7 @@ export default {
     ],
 
     form: {
-      'field:change'(instance, event) {
+      "field:change"(instance, event) {
         const { id, value } = event.payload
         instance.groups.wander.fields[id].value = value
       },
@@ -39,8 +39,8 @@ export default {
   state: {
     instances: {
       character: {
-        id: 'character',
-        type: 'character',
+        id: "character",
+        type: "character",
         maxAcceleration: 1000,
         maxSpeed: 250,
         maxAngularSpeed: pi() / 4,
@@ -48,20 +48,20 @@ export default {
       },
 
       parameters: {
-        type: 'form',
+        type: "form",
         position: [800 - 352, 0, 600],
         groups: {
           wander: {
-            title: 'Dynamic Wander',
+            title: "Dynamic Wander",
             fields: {
               wanderOffset: {
-                label: 'Wander Offset',
-                inputType: 'number',
+                label: "Wander Offset",
+                inputType: "number",
                 defaultValue: DEFAULT_WANDER_OFFSET,
               },
               wanderRadius: {
-                label: 'Wander Radius',
-                inputType: 'number',
+                label: "Wander Radius",
+                inputType: "number",
                 step: 0.1,
                 defaultValue: DEFAULT_WANDER_RADIUS,
               },

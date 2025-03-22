@@ -1,11 +1,11 @@
-import { subtract } from '@inglorious/utils/math/linear-algebra/vectors.js'
+import { subtract } from "@inglorious/utils/math/linear-algebra/vectors.js"
 
 import {
   intersectsCircle as pointIntersectsCircle,
   intersectsRectangle as pointIntersectsRectangle,
-} from './point.js'
-import { intersectsCircle as segmentIntersectsCircle } from './segment.js'
-import { hypothenuse } from './triangle.js'
+} from "./point.js"
+import { intersectsCircle as segmentIntersectsCircle } from "./segment.js"
+import { hypothenuse } from "./triangle.js"
 
 export function intersectsPoint(circle, point) {
   return pointIntersectsCircle(point, circle)

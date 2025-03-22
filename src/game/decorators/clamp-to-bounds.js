@@ -1,9 +1,9 @@
-import { merge } from '@inglorious/utils/data-structures/objects.js'
+import { merge } from "@inglorious/utils/data-structures/objects.js"
 
-import { clampToBounds } from '../bounds.js'
+import { clampToBounds } from "../bounds.js"
 
 const DEFAULT_PARAMS = {
-  onState: 'default',
+  onState: "default",
 }
 
 export function enableClampToBounds(params) {
@@ -16,11 +16,11 @@ export function enableClampToBounds(params) {
       [params.onState]: {
         ...type.states?.[params.onState],
 
-        'game:update'(instance, event, options) {
-          type.states?.[params.onState]['game:update']?.(
+        "game:update"(instance, event, options) {
+          type.states?.[params.onState]["game:update"]?.(
             instance,
             event,
-            options
+            options,
           )
 
           clampToBounds(instance, options.config.bounds)

@@ -2,17 +2,17 @@ import {
   magnitude,
   multiply,
   zero,
-} from '@inglorious/utils/math/linear-algebra/vector.js'
-import { subtract, sum } from '@inglorious/utils/math/linear-algebra/vectors.js'
+} from "@inglorious/utils/math/linear-algebra/vector.js"
+import { subtract, sum } from "@inglorious/utils/math/linear-algebra/vectors.js"
 
-import seek from './seek.js'
+import seek from "./seek.js"
 
 export const DEFAULT_MAX_PREDICTION = 10
 
 export default function pursue(
   instance,
   target,
-  { dt, maxPrediction = DEFAULT_MAX_PREDICTION }
+  { dt, maxPrediction = DEFAULT_MAX_PREDICTION },
 ) {
   const velocity = instance.velocity ?? zero()
 

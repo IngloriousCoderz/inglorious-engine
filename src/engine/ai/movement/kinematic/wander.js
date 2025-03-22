@@ -2,9 +2,9 @@ import {
   angle,
   createVector,
   multiply,
-} from '@inglorious/utils/math/linear-algebra/vector.js'
-import { sum } from '@inglorious/utils/math/linear-algebra/vectors.js'
-import { randomBinomial } from '@inglorious/utils/math/rng.js'
+} from "@inglorious/utils/math/linear-algebra/vector.js"
+import { sum } from "@inglorious/utils/math/linear-algebra/vectors.js"
+import { randomBinomial } from "@inglorious/utils/math/rng.js"
 
 const DEFAULT_MAX_SPEED = 0
 const DEFAULT_MAX_ANGULAR_SPEED = 0

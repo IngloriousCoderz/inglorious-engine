@@ -1,5 +1,5 @@
-import Field from './field/index.jsx'
-import classes from './fields.module.scss'
+import Field from "./field/index.jsx"
+import classes from "./fields.module.scss"
 
 export default function Fields({ fields }) {
   return (

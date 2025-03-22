@@ -2,17 +2,17 @@ import {
   magnitude,
   multiply,
   zero,
-} from '@inglorious/utils/math/linear-algebra/vector.js'
-import { subtract, sum } from '@inglorious/utils/math/linear-algebra/vectors.js'
+} from "@inglorious/utils/math/linear-algebra/vector.js"
+import { subtract, sum } from "@inglorious/utils/math/linear-algebra/vectors.js"
 
-import flee from './flee.js'
+import flee from "./flee.js"
 
 export const DEFAULT_MAX_PREDICTION = 10
 
 export default function evade(
   instance,
   target,
-  { dt, maxPrediction = DEFAULT_MAX_PREDICTION }
+  { dt, maxPrediction = DEFAULT_MAX_PREDICTION },
 ) {
   let velocity = instance.velocity ?? zero()
 

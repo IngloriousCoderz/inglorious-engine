@@ -1,15 +1,15 @@
-import { create } from '@storybook/theming/create'
+import { create } from "@storybook/theming/create"
 
 export default create({
-  base: 'dark',
+  base: "dark",
 
   fontBase: "'Roboto', 'Ubuntu', sans-serif",
   fontCode: "'Fira Code', monospace",
 
-  brandTitle: 'Inglorious Engine',
-  brandUrl: '/',
-  brandImage: '/logo.png',
-  brandTarget: '_self',
+  brandTitle: "Inglorious Engine",
+  brandUrl: "/",
+  brandImage: "/logo.png",
+  brandTarget: "_self",
 
   // colorPrimary: '#98c379',
   // colorSecondary: '#429aef',
@@ -20,8 +20,8 @@ export default create({
   // appBorderColor: '#429aef',
   appBorderRadius: 0,
 
-  textColor: '#bbb',
-  textInverseColor: '#98c379',
+  textColor: "#bbb",
+  textInverseColor: "#98c379",
 
   // barTextColor: '#9E9E9E',
   // barSelectedColor: '#585C6D',

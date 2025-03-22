@@ -1,10 +1,10 @@
 import {
   magnitude,
   setMagnitude,
-} from '@inglorious/utils/math/linear-algebra/vector.js'
-import { subtract } from '@inglorious/utils/math/linear-algebra/vectors.js'
+} from "@inglorious/utils/math/linear-algebra/vector.js"
+import { subtract } from "@inglorious/utils/math/linear-algebra/vectors.js"
 
-import matchVelocity from './match-velocity.js'
+import matchVelocity from "./match-velocity.js"
 
 export const DEFAULT_TARGET_RADIUS = 1
 export const DEFAULT_SLOW_RADIUS = 100
@@ -20,7 +20,7 @@ export default function arrive(
     targetRadius = DEFAULT_TARGET_RADIUS,
     slowRadius = DEFAULT_SLOW_RADIUS,
     timeToTarget = DEFAULT_TIME_TO_TARGET,
-  }
+  },
 ) {
   const maxSpeed = instance.maxSpeed ?? DEFAULT_MAX_SPEED
 

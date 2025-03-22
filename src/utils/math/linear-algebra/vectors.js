@@ -1,4 +1,4 @@
-import { magnitude, shift } from './vector.js'
+import { magnitude, shift } from "./vector.js"
 
 export const add = sum
 
@@ -45,7 +45,7 @@ function crossMultiplyCoordinates(vector1, vector2) {
   return indexes.map((_, index) => {
     const [index1, index2] = shift(
       indexes.filter((_, i) => i !== index),
-      index
+      index,
     )
     return vector1[index1] * vector2[index2] - vector1[index2] * vector2[index1]
   })

@@ -1,8 +1,8 @@
-import { map } from '@inglorious/utils/data-structures/object.js'
-import { merge } from '@inglorious/utils/data-structures/objects.js'
-import { produce } from 'immer'
+import { map } from "@inglorious/utils/data-structures/object.js"
+import { merge } from "@inglorious/utils/data-structures/objects.js"
+import { produce } from "immer"
 
-const DEFAULT_STATE = { events: [], instances: { game: { type: 'game' } } }
+const DEFAULT_STATE = { events: [], instances: { game: { type: "game" } } }
 
 export function createStore({ state: initialState, ...config }) {
   const listeners = new Set()
@@ -32,7 +32,7 @@ export function createStore({ state: initialState, ...config }) {
   function update(dt) {
     state = { ...state }
 
-    state.events.push({ id: 'game:update' })
+    state.events.push({ id: "game:update" })
 
     state.events.push(...incomingEvents)
     incomingEvents = []
@@ -40,7 +40,7 @@ export function createStore({ state: initialState, ...config }) {
     while (state.events.length) {
       const event = state.events.shift()
 
-      if (event.id === 'instance:add') {
+      if (event.id === "instance:add") {
         add(event.payload.id, event.payload)
       }
 
@@ -57,7 +57,7 @@ export function createStore({ state: initialState, ...config }) {
         )
       })
 
-      if (event.id === 'instance:remove') {
+      if (event.id === "instance:remove") {
         remove(event.payload)
       }
     }
@@ -68,7 +68,7 @@ export function createStore({ state: initialState, ...config }) {
   function add(id, instance) {
     state = { ...state }
     state.instances[id] = instance
-    instance.state = instance.state ?? 'default'
+    instance.state = instance.state ?? "default"
   }
 
   function remove(id) {
@@ -89,7 +89,7 @@ function enableMutability(types) {
   return map(types, (_, { states, ...rest }) => ({
     ...rest,
     states: map(states, (_, events) =>
-      map(events, (_, event) => produce(event))
+      map(events, (_, event) => produce(event)),
     ),
   }))
 }
@@ -100,7 +100,7 @@ function turnStateIntoFsm(state) {
     instances: map(state.instances, (id, instance) => ({
       ...instance,
       id,
-      state: instance.state ?? 'default',
+      state: instance.state ?? "default",
     })),
   }
 }

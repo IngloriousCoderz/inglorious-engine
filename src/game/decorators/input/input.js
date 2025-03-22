@@ -6,7 +6,7 @@ export function enableInput() {
   return (type) => ({
     ...type,
 
-    'input:axis'(instance, event) {
+    "input:axis"(instance, event) {
       const { id, action, value } = event.payload
 
       if (instance.id !== `input${id}`) {
@@ -16,7 +16,7 @@ export function enableInput() {
       instance[action] = value
     },
 
-    'input:press'(instance, event) {
+    "input:press"(instance, event) {
       const { id, action } = event.payload
 
       if (instance.id !== `input${id}`) {
@@ -26,7 +26,7 @@ export function enableInput() {
       instance[action] = true
     },
 
-    'input:release'(instance, event) {
+    "input:release"(instance, event) {
       const { id, action } = event.payload
 
       if (instance.id !== `input${id}`) {
@@ -39,5 +39,5 @@ export function enableInput() {
 }
 
 export function createInput(id = DEFAULT_PARAMS.id, mapping = {}) {
-  return { id: `input${id}`, type: 'input', mapping }
+  return { id: `input${id}`, type: "input", mapping }
 }

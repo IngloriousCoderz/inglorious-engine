@@ -5,8 +5,8 @@ import {
   multiply,
   setMagnitude,
   zero,
-} from '@inglorious/utils/math/linear-algebra/vector.js'
-import { subtract, sum } from '@inglorious/utils/math/linear-algebra/vectors.js'
+} from "@inglorious/utils/math/linear-algebra/vector.js"
+import { subtract, sum } from "@inglorious/utils/math/linear-algebra/vectors.js"
 
 const DEFAULT_MAX_ACCELERATION = 0
 const DEFAULT_MAX_SPEED = 0
@@ -35,7 +35,7 @@ export default function seek(instance, target, { dt }) {
   const position = sum(
     instance.position,
     multiply(velocity, dt),
-    multiply(acceleration, HALF_ACCELERATION * dt * dt)
+    multiply(acceleration, HALF_ACCELERATION * dt * dt),
   )
 
   const orientation = angle(velocity)

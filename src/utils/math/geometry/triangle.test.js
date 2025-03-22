@@ -1,8 +1,8 @@
-import { expect, test } from 'vitest'
+import { expect, test } from "vitest"
 
-import { hypothenuse } from './triangle.js'
+import { hypothenuse } from "./triangle.js"
 
-test('it should compute the hypothenuse of two catheti (aka pythagoras)', () => {
+test("it should compute the hypothenuse of two catheti (aka pythagoras)", () => {
   const cat1 = 3
   const cat2 = 4
   const expectedResult = 5

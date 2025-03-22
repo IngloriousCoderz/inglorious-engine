@@ -1,4 +1,4 @@
-import classes from './with-absolute-position.module.scss'
+import classes from "./with-absolute-position.module.scss"
 
 const NO_JUMP = 0
 
@@ -17,7 +17,7 @@ export function withAbsolutePosition(Component) {
       <Component
         {...props}
         className={classes.withAbsolutePosition}
-        style={{ '--x': `${x}px`, '--y': `${height - py - z}px` }}
+        style={{ "--x": `${x}px`, "--y": `${height - py - z}px` }}
       />
     )
   }

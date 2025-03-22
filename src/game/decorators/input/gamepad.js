@@ -6,7 +6,7 @@ export function enableGamepad() {
   return (type) => ({
     ...type,
 
-    'game:update'(instance, event, { notify }) {
+    "game:update"(instance, event, { notify }) {
       navigator.getGamepads().forEach((gamepad) => {
         if (gamepad == null) {
           return
@@ -14,13 +14,13 @@ export function enableGamepad() {
 
         gamepad.axes.forEach((axis, index) => {
           notify({
-            id: 'gamepad:axis',
+            id: "gamepad:axis",
             payload: { id: gamepad.index, axis: `Axis${index}`, value: axis },
           })
         })
 
         gamepad.buttons.forEach((button, index) => {
-          const id = button.pressed ? 'gamepad:press' : 'gamepad:release'
+          const id = button.pressed ? "gamepad:press" : "gamepad:release"
           notify({
             id,
             payload: { id: gamepad.index, button: `Btn${index}` },
@@ -29,7 +29,7 @@ export function enableGamepad() {
       })
     },
 
-    'gamepad:axis'(instance, event, { notify }) {
+    "gamepad:axis"(instance, event, { notify }) {
       const { id, axis, value } = event.payload
 
       if (instance.id !== `gamepad${id}`) {
@@ -38,10 +38,10 @@ export function enableGamepad() {
 
       const action = instance.mapping[axis]
       instance[action] = value
-      notify({ id: 'input:axis', payload: { id, action, value } })
+      notify({ id: "input:axis", payload: { id, action, value } })
     },
 
-    'gamepad:press'(instance, event, { notify }) {
+    "gamepad:press"(instance, event, { notify }) {
       const { id, button } = event.payload
 
       if (instance.id !== `gamepad${id}`) {
@@ -51,11 +51,11 @@ export function enableGamepad() {
       const action = instance.mapping[button]
       if (!instance[action]) {
         instance[action] = true
-        notify({ id: 'input:press', payload: { id, action } })
+        notify({ id: "input:press", payload: { id, action } })
       }
     },
 
-    'gamepad:release'(instance, event, { notify }) {
+    "gamepad:release"(instance, event, { notify }) {
       const { id, button } = event.payload
 
       if (instance.id !== `gamepad${id}`) {
@@ -65,12 +65,12 @@ export function enableGamepad() {
       const action = instance.mapping[button]
       if (instance[action]) {
         instance[action] = false
-        notify({ id: 'input:release', payload: { id, action } })
+        notify({ id: "input:release", payload: { id, action } })
       }
     },
   })
 }
 
 export function createGamepad(id = DEFAULT_PARAMS.id, mapping = {}) {
-  return { id: `gamepad${id}`, type: 'gamepad', mapping }
+  return { id: `gamepad${id}`, type: "gamepad", mapping }
 }

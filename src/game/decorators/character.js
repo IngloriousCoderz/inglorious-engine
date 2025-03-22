@@ -1,8 +1,8 @@
-import draw from '@inglorious/ui/canvas/character.js'
-import { merge } from '@inglorious/utils/data-structures/objects.js'
+import draw from "@inglorious/ui/canvas/character.js"
+import { merge } from "@inglorious/utils/data-structures/objects.js"
 
 const DEFAULT_PARAMS = {
-  onState: 'default',
+  onState: "default",
 }
 
 export function enableCharacter(params) {

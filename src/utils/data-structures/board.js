@@ -43,8 +43,8 @@ export function right([i, j], [, columns]) {
 
 export function toString(board, cellToString = DEFAULT_CELL_TO_STRING) {
   return `${board
-    .map((row, i) => row.map((cell, j) => cellToString(cell, i, j)).join(' '))
-    .join('\n')}`
+    .map((row, i) => row.map((cell, j) => cellToString(cell, i, j)).join(" "))
+    .join("\n")}`
 }
 
 export function up([i, j]) {

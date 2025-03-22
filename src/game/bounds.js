@@ -5,9 +5,9 @@ import {
   fromAngle,
   multiply,
   zero,
-} from '@inglorious/utils/math/linear-algebra/vector.js'
-import { sum } from '@inglorious/utils/math/linear-algebra/vectors.js'
-import { abs } from '@inglorious/utils/math/numbers.js'
+} from "@inglorious/utils/math/linear-algebra/vector.js"
+import { sum } from "@inglorious/utils/math/linear-algebra/vectors.js"
+import { abs } from "@inglorious/utils/math/numbers.js"
 
 const X = 0
 const Z = 2
@@ -37,7 +37,7 @@ export function clampToBounds(instance, [minX, minZ, maxX, maxZ]) {
   instance.position = clamp(
     instance.position,
     [minX, NO_Y, minZ],
-    [maxX, NO_Y, maxZ]
+    [maxX, NO_Y, maxZ],
   )
 }
 

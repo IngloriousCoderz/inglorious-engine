@@ -1,8 +1,8 @@
 /* eslint-disable no-magic-numbers */
 
-import { useDispatch } from 'react-redux'
+import { useDispatch } from "react-redux"
 
-import classes from './platform.module.scss'
+import classes from "./platform.module.scss"
 
 const DEFAULT_SIZE = [80, 20]
 
@@ -13,7 +13,7 @@ export default function Platform({ id, instance, className, style }) {
 
   const handleClick = (event) => {
     event.stopPropagation()
-    notify({ id: 'instance:click', payload: id })
+    notify({ id: "instance:click", payload: id })
   }
 
   return (
@@ -21,8 +21,8 @@ export default function Platform({ id, instance, className, style }) {
       className={`${classes.platform} ${className}`}
       style={{
         ...style,
-        '--width': `${width}px`,
-        '--height': `${height}px`,
+        "--width": `${width}px`,
+        "--height": `${height}px`,
       }}
       onClick={handleClick}
     />

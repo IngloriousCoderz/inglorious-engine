@@ -1,7 +1,7 @@
-import Game from '@inglorious/ui/react/game/index.jsx'
+import Game from "@inglorious/ui/react/game/index.jsx"
 
 export default {
-  title: 'UI/Form',
+  title: "UI/Form",
   component: Game,
 }
 
@@ -14,33 +14,33 @@ export const Default = {
       state: {
         instances: {
           login: {
-            type: 'form',
+            type: "form",
             fields: {
               username: {
-                label: 'Username',
+                label: "Username",
               },
               password: {
-                label: 'Password',
-                inputType: 'password',
+                label: "Password",
+                inputType: "password",
               },
             },
             groups: {
               extraInfo: {
-                title: 'Extra Info',
+                title: "Extra Info",
                 fields: {
                   kids: {
-                    label: 'How many kids do you have?',
-                    inputType: 'number',
+                    label: "How many kids do you have?",
+                    inputType: "number",
                     defaultValue: 0,
                   },
                   dogs: {
-                    label: 'Do you like dogs?',
-                    inputType: 'checkbox',
+                    label: "Do you like dogs?",
+                    inputType: "checkbox",
                     defaultValue: true,
                   },
                   cats: {
-                    label: 'Do you like cats?',
-                    inputType: 'checkbox',
+                    label: "Do you like cats?",
+                    inputType: "checkbox",
                     defaultValue: true,
                   },
                 },

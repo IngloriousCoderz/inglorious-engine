@@ -3,10 +3,10 @@ import {
   multiply,
   rotate,
   zero,
-} from '@inglorious/utils/math/linear-algebra/vector.js'
-import { sum } from '@inglorious/utils/math/linear-algebra/vectors.js'
-import { toRange } from '@inglorious/utils/math/trigonometry.js'
-import { applyFriction } from '@inglorious/utils/physics/friction.js'
+} from "@inglorious/utils/math/linear-algebra/vector.js"
+import { sum } from "@inglorious/utils/math/linear-algebra/vectors.js"
+import { toRange } from "@inglorious/utils/math/trigonometry.js"
+import { applyFriction } from "@inglorious/utils/physics/friction.js"
 
 const DEFAULT_MAX_ACCELERATION = 0
 const DEFAULT_MAX_SPEED = 0
@@ -36,7 +36,7 @@ export default function tank(instance, { dt }) {
   const position = sum(
     instance.position,
     multiply(velocity, dt),
-    multiply(acceleration, HALF_ACCELERATION * dt * dt)
+    multiply(acceleration, HALF_ACCELERATION * dt * dt),
   )
 
   return { velocity, position, orientation }
