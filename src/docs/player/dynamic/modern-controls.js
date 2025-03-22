@@ -1,10 +1,10 @@
 import { enableCharacter } from '@inglorious/game/decorators/character.js'
 import { enableClampToBounds } from '@inglorious/game/decorators/clamp-to-bounds.js'
+import { enableModernControls } from '@inglorious/game/decorators/controls/dynamic/modern.js'
 import {
   createControls,
   enableControls,
 } from '@inglorious/game/decorators/input/controls.js'
-import { enableMove } from '@inglorious/game/decorators/movement/dynamic/modern.js'
 
 export default {
   types: {
@@ -12,7 +12,11 @@ export default {
 
     stats: {},
 
-    character: [enableCharacter(), enableMove(), enableClampToBounds()],
+    character: [
+      enableCharacter(),
+      enableModernControls(),
+      enableClampToBounds(),
+    ],
   },
 
   state: {

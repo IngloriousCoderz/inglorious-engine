@@ -1,4 +1,4 @@
-import Game from '@inglorious/ui/react/game'
+import Game from '@inglorious/ui/react/game/index.jsx'
 
 import addAndRemove from './add-and-remove.js'
 import addInstance from './add-instance.js'

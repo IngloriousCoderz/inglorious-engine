@@ -1,8 +1,8 @@
-import Game from '@inglorious/ui/react/game'
+import Game from '@inglorious/ui/react/game/index.jsx'
 
 import doubleJump from './double-jump.js'
 import jump from './jump.js'
-import move from './move.js'
+import move from './modern-controls.js'
 import shooterControls from './shooter-controls.js'
 import tankControls from './tank-controls.js'
 

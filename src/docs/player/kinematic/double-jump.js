@@ -1,12 +1,12 @@
 import { enableCharacter } from '@inglorious/game/decorators/character.js'
 import { enableClampToBounds } from '@inglorious/game/decorators/clamp-to-bounds'
+import { enableModernControls } from '@inglorious/game/decorators/controls/kinematic/modern.js'
 import { enableDoubleJump } from '@inglorious/game/decorators/double-jump'
 import {
   createControls,
   enableControls,
 } from '@inglorious/game/decorators/input/controls.js'
 import { enableJump } from '@inglorious/game/decorators/jump.js'
-import { enableMove } from '@inglorious/game/decorators/movement/kinematic/modern.js'
 
 export default {
   types: {
@@ -16,7 +16,7 @@ export default {
 
     character: [
       enableCharacter(),
-      enableMove(),
+      enableModernControls(),
       enableClampToBounds(),
       enableJump(),
       enableDoubleJump(),

@@ -1,11 +1,11 @@
 import { enableCharacter } from '@inglorious/game/decorators/character.js'
 import { enableClampToBounds } from '@inglorious/game/decorators/clamp-to-bounds.js'
+import { enableShooterControls } from '@inglorious/game/decorators/controls/dynamic/shooter.js'
 import {
   createControls,
   enableControls,
 } from '@inglorious/game/decorators/input/controls.js'
 import { enableMouse } from '@inglorious/game/decorators/input/mouse.js'
-import { enableShooter } from '@inglorious/game/decorators/movement/dynamic/shooter.js'
 import { pi } from '@inglorious/utils/math/trigonometry.js'
 
 export default {
@@ -14,7 +14,11 @@ export default {
 
     ...enableControls(),
 
-    character: [enableCharacter(), enableShooter(), enableClampToBounds()],
+    character: [
+      enableCharacter(),
+      enableShooterControls(),
+      enableClampToBounds(),
+    ],
   },
 
   state: {

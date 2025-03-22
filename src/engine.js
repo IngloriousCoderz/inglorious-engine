@@ -12,9 +12,6 @@ const DEFAULT_CONFIG = {
 }
 
 const ONE_SECOND = 1000
-const FIRST = 0
-const LAST = 1
-const SECOND_TO_LAST = -1
 
 export default class Engine {
   constructor(game, ui) {
@@ -67,14 +64,10 @@ function applyDecorators(types) {
       return type
     }
 
-    const customType = type[type.length - LAST]
-    const hasCustomType = typeof customType !== 'function'
-    const decorators = hasCustomType ? type.slice(FIRST, SECOND_TO_LAST) : type
-    let mergedType = pipe(...decorators)({})
-    if (hasCustomType) {
-      mergedType = merge(mergedType, customType)
-    }
-    return mergedType
+    const decorators = type.map((fn) =>
+      typeof fn !== 'function' ? () => fn : fn
+    )
+    return pipe(...decorators)({})
   })
 }
 

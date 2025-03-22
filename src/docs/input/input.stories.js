@@ -1,4 +1,4 @@
-import Game from '@inglorious/ui/react/game'
+import Game from '@inglorious/ui/react/game/index.jsx'
 
 import controls from './controls.js'
 import gamepad from './gamepad.js'

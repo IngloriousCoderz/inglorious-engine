@@ -1,5 +1,5 @@
-import face from '@inglorious/engine/ai/movement/dynamic/face.js'
-import tank from '@inglorious/engine/player/dynamic/tank.js'
+import face from '@inglorious/engine/ai/movement/kinematic/face.js'
+import tank from '@inglorious/engine/player/kinematic/tank.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 import { zero } from '@inglorious/utils/math/linear-algebra/vector.js'
 import { pi } from '@inglorious/utils/math/trigonometry.js'
@@ -13,7 +13,7 @@ const DEFAULT_PARAMS = {
 const X = 0
 const Z = 2
 
-export function enableShooter(params) {
+export function enableShooterControls(params) {
   params = merge({}, DEFAULT_PARAMS, params)
 
   return (type) => ({
@@ -28,24 +28,22 @@ export function enableShooter(params) {
         'game:update'(instance, event, options) {
           instance.maxAngularSpeed =
             instance.maxAngularSpeed ?? params.maxAngularSpeed
-          instance.maxAcceleration =
-            instance.maxAcceleration ?? params.maxAcceleration
           instance.maxSpeed = instance.maxSpeed ?? params.maxSpeed
 
           const { input0, mouse } = options.instances
-          instance.acceleration = zero()
+          instance.velocity = zero()
 
           if (input0.left) {
-            instance.acceleration[Z] = -instance.maxAcceleration
+            instance.velocity[Z] = -instance.maxSpeed
           }
           if (input0.down) {
-            instance.acceleration[X] = -instance.maxAcceleration
+            instance.velocity[X] = -instance.maxSpeed
           }
           if (input0.right) {
-            instance.acceleration[Z] = instance.maxAcceleration
+            instance.velocity[Z] = instance.maxSpeed
           }
           if (input0.up) {
-            instance.acceleration[X] = instance.maxAcceleration
+            instance.velocity[X] = instance.maxSpeed
           }
 
           merge(instance, face(instance, mouse, options))

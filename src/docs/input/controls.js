@@ -1,15 +1,15 @@
 import { enableCharacter } from '@inglorious/game/decorators/character.js'
+import { enableModernControls } from '@inglorious/game/decorators/controls/kinematic/modern.js'
 import {
   createControls,
   enableControls,
 } from '@inglorious/game/decorators/input/controls.js'
-import { enableMove } from '@inglorious/game/decorators/movement/kinematic/modern.js'
 
 export default {
   types: {
     ...enableControls(),
 
-    character: [enableCharacter(), enableMove()],
+    character: [enableCharacter(), enableModernControls()],
   },
 
   state: {

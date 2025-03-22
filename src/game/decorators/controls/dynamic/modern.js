@@ -9,7 +9,7 @@ const DEFAULT_PARAMS = {
 const X = 0
 const Z = 2
 
-export function enableMove(params) {
+export function enableModernControls(params) {
   params = merge({}, DEFAULT_PARAMS, params)
 
   return (type) => ({

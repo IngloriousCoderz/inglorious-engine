@@ -1,16 +1,16 @@
 import { enableCharacter } from '@inglorious/game/decorators/character.js'
 import { enableClampToBounds } from '@inglorious/game/decorators/clamp-to-bounds.js'
+import { enableTankControls } from '@inglorious/game/decorators/controls/dynamic/tank.js'
 import {
   createControls,
   enableControls,
 } from '@inglorious/game/decorators/input/controls.js'
-import { enableTank } from '@inglorious/game/decorators/movement/dynamic/tank.js'
 
 export default {
   types: {
     ...enableControls(),
 
-    character: [enableCharacter(), enableTank(), enableClampToBounds()],
+    character: [enableCharacter(), enableTankControls(), enableClampToBounds()],
   },
 
   state: {

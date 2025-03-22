@@ -1,4 +1,4 @@
-import Game from '@inglorious/ui/react/game'
+import Game from '@inglorious/ui/react/game/index.jsx'
 
 import align from './align.js'
 import arrive from './arrive.js'
