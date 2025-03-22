@@ -1,5 +1,3 @@
-/* eslint-disable no-magic-numbers */
-
 const DEFAULT_PADDING = 10
 const ONE_SECOND = 1
 

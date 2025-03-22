@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 
-import { intersectsPlatform } from './rectangle'
+import { intersectsPlatform } from './rectangle.js'
 
 test('it should prove that a rectangle right above a platform intersects with it', () => {
   const rectangle = {

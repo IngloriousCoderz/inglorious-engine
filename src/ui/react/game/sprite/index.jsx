@@ -1,4 +1,4 @@
-import SpriteComponent from './sprite'
+import SpriteComponent from './sprite.jsx'
 
 export default function Sprite({ type, instance, className, style }) {
   const { states, ...rest } = type.sprite

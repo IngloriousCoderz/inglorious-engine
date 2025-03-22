@@ -32,6 +32,7 @@ export function bounce(instance, { dt, config }) {
   return { velocity, position, orientation }
 }
 
+// TODO: make the following functions pure
 export function clampToBounds(instance, [minX, minZ, maxX, maxZ]) {
   instance.position = clamp(
     instance.position,

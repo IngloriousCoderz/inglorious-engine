@@ -15,6 +15,8 @@ export function enableCharacter(params) {
       ...type.states,
 
       [params.onState]: {
+        ...type.states?.[params.onState],
+
         draw,
       },
     },

@@ -1,6 +1,5 @@
 import move from '@inglorious/engine/player/kinematic/move.js'
 import { enableCharacter } from '@inglorious/game/decorators/character.js'
-import { enableFps } from '@inglorious/game/decorators/fps.js'
 import {
   createKeyboard,
   enableKeyboard,
@@ -13,8 +12,6 @@ const Z = 2
 export default {
   types: {
     keyboard: [enableKeyboard()],
-
-    fps: [enableFps()],
 
     character: [
       enableCharacter(),
@@ -50,12 +47,6 @@ export default {
         ArrowRight: 'right',
         ArrowUp: 'up',
       }),
-
-      fps: {
-        id: 'fps',
-        type: 'fps',
-        position: [0, 0, 600],
-      },
 
       character: {
         id: 'character',

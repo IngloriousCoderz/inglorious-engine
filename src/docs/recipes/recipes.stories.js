@@ -1,11 +1,11 @@
 import Game from '@inglorious/ui/react/game'
 
-import addAndRemove from './add-and-remove'
-import addInstance from './add-instance'
-import decisionTree from './decision-tree'
-import randomInstances from './random-instances'
-import removeInstance from './remove-instance'
-import states from './states'
+import addAndRemove from './add-and-remove.js'
+import addInstance from './add-instance.js'
+import decisionTree from './decision-tree.js'
+import randomInstances from './random-instances.js'
+import removeInstance from './remove-instance.js'
+import states from './states.js'
 
 export default {
   title: 'Engine/Recipes',

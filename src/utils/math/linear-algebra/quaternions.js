@@ -1,5 +1,5 @@
-import { times } from './vector'
-import { cross, dot, sum } from './vectors'
+import { times } from './vector.js'
+import { cross, dot, sum } from './vectors.js'
 
 export function combine(q1, q2) {
   const [s, ...v] = q1

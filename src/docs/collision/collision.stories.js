@@ -1,7 +1,7 @@
 import Game from '@inglorious/ui/react/game'
 
-import circles from './circles'
-import platform from './platform'
+import circles from './circles.js'
+import platform from './platform.js'
 
 export default {
   title: 'Engine/Collision Detection',

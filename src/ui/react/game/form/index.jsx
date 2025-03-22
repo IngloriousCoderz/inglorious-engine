@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 
-import Fields from './fields'
+import Fields from './fields/index.jsx'
 import classes from './form.module.scss'
 
 export default function Form({ instance, className, style }) {

@@ -1,10 +1,10 @@
 import Game from '@inglorious/ui/react/game'
 
-import doubleJump from './double-jump'
-import jump from './jump'
-import move from './move'
-import shooterControls from './shooter-controls'
-import tankControls from './tank-controls'
+import doubleJump from './double-jump.js'
+import jump from './jump.js'
+import move from './move.js'
+import shooterControls from './shooter-controls.js'
+import tankControls from './tank-controls.js'
 
 export default {
   title: 'Engine/Player/Kinematic',

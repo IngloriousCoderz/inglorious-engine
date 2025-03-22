@@ -1,15 +1,15 @@
 import Game from '@inglorious/ui/react/game'
 
-import align from './align'
-import arrive from './arrive'
-import evade from './evade'
-import face from './face'
-import flee from './flee'
-import lookWhereYoureGoing from './look-where-youre-going'
-import matchVelocity from './match-velocity'
-import pursue from './pursue'
-import seek from './seek'
-import wander from './wander'
+import align from './align.js'
+import arrive from './arrive.js'
+import evade from './evade.js'
+import face from './face.js'
+import flee from './flee.js'
+import lookWhereYoureGoing from './look-where-youre-going.js'
+import matchVelocity from './match-velocity.js'
+import pursue from './pursue.js'
+import seek from './seek.js'
+import wander from './wander.js'
 
 export default {
   title: 'Engine/AI/Movement/Dynamic',

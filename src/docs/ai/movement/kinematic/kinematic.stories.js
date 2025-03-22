@@ -1,12 +1,12 @@
 import Game from '@inglorious/ui/react/game'
 
-import align from './align'
-import arrive from './arrive'
-import face from './face'
-import flee from './flee'
-import seek from './seek'
-import wander from './wander'
-import wanderAsSeek from './wander-as-seek'
+import align from './align.js'
+import arrive from './arrive.js'
+import face from './face.js'
+import flee from './flee.js'
+import seek from './seek.js'
+import wander from './wander.js'
+import wanderAsSeek from './wander-as-seek.js'
 
 export default {
   title: 'Engine/AI/Movement/Kinematic',

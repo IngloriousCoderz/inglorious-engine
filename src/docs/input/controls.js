@@ -1,16 +1,13 @@
 import { enableCharacter } from '@inglorious/game/decorators/character.js'
-import { enableFps } from '@inglorious/game/decorators/fps.js'
 import {
   createControls,
   enableControls,
 } from '@inglorious/game/decorators/input/controls.js'
-import { enableMove } from '@inglorious/game/decorators/move.js'
+import { enableMove } from '@inglorious/game/decorators/move/kinematic.js'
 
 export default {
   types: {
     ...enableControls(),
-
-    fps: [enableFps()],
 
     character: [enableCharacter(), enableMove()],
   },
@@ -33,12 +30,6 @@ export default {
         Axis0: 'leftRight',
         Axis1: 'upDown',
       }),
-
-      fps: {
-        id: 'fps',
-        type: 'fps',
-        position: [0, 0, 600],
-      },
 
       character: {
         id: 'character',

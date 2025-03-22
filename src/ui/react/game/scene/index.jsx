@@ -1,4 +1,4 @@
-import { track } from '@inglorious/game/decorators/input/mouse'
+import { track } from '@inglorious/game/decorators/input/mouse.js'
 import { useRef } from 'react'
 import { useDispatch } from 'react-redux'
 

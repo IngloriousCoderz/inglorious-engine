@@ -12,7 +12,7 @@ import {
   up,
   upLeft,
   upRight,
-} from './board'
+} from './board.js'
 
 test('it should create an empty board', () => {
   const size = [8, 8]

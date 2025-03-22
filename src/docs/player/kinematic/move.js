@@ -1,48 +1,18 @@
-import move from '@inglorious/engine/player/kinematic/move.js'
-import { clampToBounds } from '@inglorious/game/bounds.js'
 import { enableCharacter } from '@inglorious/game/decorators/character.js'
+import { enableClampToBounds } from '@inglorious/game/decorators/clamp-to-bounds.js'
 import {
   createControls,
   enableControls,
 } from '@inglorious/game/decorators/input/controls.js'
-import { merge } from '@inglorious/utils/data-structures/objects.js'
+import { enableMove } from '@inglorious/game/decorators/move/kinematic.js'
 
 export default {
   types: {
     ...enableControls(),
 
-    character: [
-      enableCharacter(),
-      {
-        'game:update'(instance, event, { dt, config, instances }) {
-          const { input0 } = instances
+    stats: {},
 
-          instance.velocity = [0, 0, 0]
-          if (input0.left) {
-            instance.velocity[0] = -instance.maxSpeed
-          }
-          if (input0.down) {
-            instance.velocity[2] = -instance.maxSpeed
-          }
-          if (input0.right) {
-            instance.velocity[0] = instance.maxSpeed
-          }
-          if (input0.up) {
-            instance.velocity[2] = instance.maxSpeed
-          }
-
-          if (input0.leftRight != null) {
-            instance.velocity[0] += input0.leftRight * instance.maxSpeed
-          }
-          if (input0.upDown != null) {
-            instance.velocity[2] += -input0.upDown * instance.maxSpeed
-          }
-
-          merge(instance, move(instance, { dt }))
-          clampToBounds(instance, config.bounds)
-        },
-      },
-    ],
+    character: [enableCharacter(), enableMove(), enableClampToBounds()],
   },
 
   state: {
@@ -52,6 +22,7 @@ export default {
         ArrowDown: 'down',
         ArrowLeft: 'left',
         ArrowRight: 'right',
+        Space: 'jump',
         KeyW: 'up',
         KeyS: 'down',
         KeyA: 'left',
@@ -60,15 +31,24 @@ export default {
         Btn13: 'down',
         Btn14: 'left',
         Btn15: 'right',
+        Btn0: 'jump',
         Axis0: 'leftRight',
         Axis1: 'upDown',
       }),
+
+      stats: {
+        type: 'stats',
+        position: [600, 0, 600],
+        target: 'character',
+      },
 
       character: {
         id: 'character',
         type: 'character',
         maxSpeed: 250,
         position: [400, 0, 300],
+        maxJump: 100,
+        maxLeap: 100,
       },
     },
   },

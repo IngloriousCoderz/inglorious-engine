@@ -1,5 +1,4 @@
-import dynamic from '@inglorious/engine/player/dynamic/move.js'
-import kinematic from '@inglorious/engine/player/kinematic/move.js'
+import move from '@inglorious/engine/player/kinematic/move.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 import { zero } from '@inglorious/utils/math/linear-algebra/vector.js'
 
@@ -13,7 +12,6 @@ const Z = 2
 
 export function enableMove(params) {
   params = merge({}, DEFAULT_PARAMS, params)
-  const Move = { kinematic, dynamic }
 
   return (type) => ({
     ...type,
@@ -22,13 +20,15 @@ export function enableMove(params) {
       ...type.states,
 
       [params.onState]: {
-        ...type.states[params.onState],
+        ...type.states?.[params.onState],
 
         'game:update'(instance, event, options) {
-          type['game:update']?.[instance.state](instance, event, options)
+          type.states?.[params.onState]['game:update']?.(
+            instance,
+            event,
+            options
+          )
 
-          const movementStrategy =
-            instance.movementStrategy ?? params.movementStrategy
           const maxSpeed = instance.maxSpeed ?? params.maxSpeed
 
           const { input0 } = options.instances
@@ -54,7 +54,6 @@ export function enableMove(params) {
             instance.velocity[Z] += -input0.upDown * maxSpeed
           }
 
-          const move = Move[movementStrategy]
           merge(instance, move(instance, options))
         },
       },

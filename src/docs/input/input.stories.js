@@ -1,9 +1,9 @@
 import Game from '@inglorious/ui/react/game'
 
-import controls from './controls'
-import gamepad from './gamepad'
-import keyboard from './keyboard'
-import mouse from './mouse'
+import controls from './controls.js'
+import gamepad from './gamepad.js'
+import keyboard from './keyboard.js'
+import mouse from './mouse.js'
 
 export default {
   title: 'Engine/Input',

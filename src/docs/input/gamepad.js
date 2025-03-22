@@ -1,6 +1,5 @@
 import move from '@inglorious/engine/player/kinematic/move.js'
 import { enableCharacter } from '@inglorious/game/decorators/character.js'
-import { enableFps } from '@inglorious/game/decorators/fps.js'
 import {
   createGamepad,
   enableGamepad,
@@ -10,8 +9,6 @@ import { merge } from '@inglorious/utils/data-structures/objects.js'
 export default {
   types: {
     gamepad: [enableGamepad()],
-
-    fps: [enableFps()],
 
     character: [
       enableCharacter(),
@@ -57,12 +54,6 @@ export default {
         Axis0: 'leftRight',
         Axis1: 'upDown',
       }),
-
-      fps: {
-        id: 'fps',
-        type: 'fps',
-        position: [0, 0, 600],
-      },
 
       character: {
         id: 'character',

@@ -8,13 +8,13 @@ export function enableButton() {
 
     states: {
       default: {
-        'instance:click'(instance, event, options) {
+        'instance:click'(instance) {
           instance.state = 'pressed'
         },
       },
 
       pressed: {
-        'instance:release'(instance, event, options) {
+        'instance:release'(instance) {
           instance.state = 'default'
         },
       },

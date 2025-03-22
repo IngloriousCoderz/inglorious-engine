@@ -42,6 +42,7 @@ export default {
           },
         },
       },
+
       right: {
         id: 'right',
         type: 'character',

@@ -63,20 +63,18 @@ export default class Engine {
 
 function applyDecorators(types) {
   return map(types, (_, type) => {
-    if (Array.isArray(type)) {
-      const customType = type[type.length - LAST]
-      const hasCustomType = typeof customType !== 'function'
-      const decorators = hasCustomType
-        ? type.slice(FIRST, SECOND_TO_LAST)
-        : type
-      let mergedType = pipe(...decorators)({})
-      if (hasCustomType) {
-        mergedType = merge(mergedType, customType)
-      }
-      return mergedType
+    if (!Array.isArray(type)) {
+      return type
     }
 
-    return type
+    const customType = type[type.length - LAST]
+    const hasCustomType = typeof customType !== 'function'
+    const decorators = hasCustomType ? type.slice(FIRST, SECOND_TO_LAST) : type
+    let mergedType = pipe(...decorators)({})
+    if (hasCustomType) {
+      mergedType = merge(mergedType, customType)
+    }
+    return mergedType
   })
 }
 

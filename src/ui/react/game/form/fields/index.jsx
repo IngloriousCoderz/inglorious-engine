@@ -1,4 +1,4 @@
-import Field from './field'
+import Field from './field/index.jsx'
 import classes from './fields.module.scss'
 
 export default function Fields({ fields }) {
