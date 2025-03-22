@@ -4,7 +4,7 @@ import {
   magnitude,
   multiply,
   setMagnitude,
-  ZERO_VECTOR,
+  zero,
 } from '@inglorious/utils/math/linear-algebra/vector.js'
 import { subtract, sum } from '@inglorious/utils/math/linear-algebra/vectors.js'
 
@@ -19,7 +19,7 @@ export default function flee(instance, target, { dt }) {
   const maxAcceleration = instance.maxAcceleration ?? DEFAULT_MAX_ACCELERATION
   const maxSpeed = instance.maxSpeed ?? DEFAULT_MAX_SPEED
 
-  let velocity = instance.velocity ?? ZERO_VECTOR
+  let velocity = instance.velocity ?? zero()
 
   const direction = subtract(instance.position, target.position)
   const distance = magnitude(direction)

@@ -1,7 +1,7 @@
 import {
   clamp,
   multiply,
-  ZERO_VECTOR,
+  zero,
 } from '@inglorious/utils/math/linear-algebra/vector.js'
 import { sum } from '@inglorious/utils/math/linear-algebra/vectors.js'
 
@@ -21,9 +21,9 @@ export function applyAcceleration(
   {
     maxAcceleration,
     maxSpeed,
-    acceleration = ZERO_VECTOR,
-    velocity = ZERO_VECTOR,
-    position = ZERO_VECTOR,
+    acceleration = zero(),
+    velocity = zero(),
+    position = zero(),
     friction,
   },
   options = DEFAULT_OPTIONS

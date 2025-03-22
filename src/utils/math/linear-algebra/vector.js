@@ -11,7 +11,7 @@ import { from2D, to2D } from './2d.js'
 import { quaternion } from './quaternion.js'
 import { cross, sum } from './vectors.js'
 
-export const ZERO_VECTOR = [0, 0, 0] // eslint-disable-line no-magic-numbers
+const ZERO_VECTOR = [0, 0, 0] // eslint-disable-line no-magic-numbers
 const UNIT_VECTOR = [1, 0, 0] // eslint-disable-line no-magic-numbers
 
 const X = 0
@@ -144,10 +144,14 @@ export function toString(vector, decimals = DEFAULT_DECIMALS) {
 
 export function unit(angle) {
   if (!angle) {
-    return UNIT_VECTOR
+    return [...UNIT_VECTOR]
   }
 
   return setAngle(UNIT_VECTOR, angle)
+}
+
+export function zero() {
+  return [...ZERO_VECTOR]
 }
 
 function rotateWithQuaternion(v, angle) {

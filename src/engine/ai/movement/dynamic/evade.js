@@ -1,7 +1,7 @@
 import {
   magnitude,
   multiply,
-  ZERO_VECTOR,
+  zero,
 } from '@inglorious/utils/math/linear-algebra/vector.js'
 import { subtract, sum } from '@inglorious/utils/math/linear-algebra/vectors.js'
 
@@ -14,7 +14,7 @@ export default function evade(
   target,
   { dt, maxPrediction = DEFAULT_MAX_PREDICTION }
 ) {
-  let velocity = instance.velocity ?? ZERO_VECTOR
+  let velocity = instance.velocity ?? zero()
 
   const direction = subtract(target.position, instance.position)
   const distance = magnitude(direction)

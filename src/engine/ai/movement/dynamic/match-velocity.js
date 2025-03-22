@@ -4,7 +4,7 @@ import {
   divide,
   magnitude,
   multiply,
-  ZERO_VECTOR,
+  zero,
 } from '@inglorious/utils/math/linear-algebra/vector.js'
 import { subtract, sum } from '@inglorious/utils/math/linear-algebra/vectors.js'
 
@@ -29,7 +29,7 @@ export default function matchVelocity(
 
   let orientation = instance.orientation ?? DEFAULT_ORIENTATION
 
-  let velocity = instance.velocity ?? ZERO_VECTOR
+  let velocity = instance.velocity ?? zero()
   const velocityDelta = subtract(target.velocity, velocity)
 
   let acceleration = divide(velocityDelta, timeToTarget)

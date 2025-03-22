@@ -1,7 +1,7 @@
 import {
   magnitude,
   multiply,
-  ZERO_VECTOR,
+  zero,
 } from '@inglorious/utils/math/linear-algebra/vector.js'
 import { subtract, sum } from '@inglorious/utils/math/linear-algebra/vectors.js'
 
@@ -14,7 +14,7 @@ export default function pursue(
   target,
   { dt, maxPrediction = DEFAULT_MAX_PREDICTION }
 ) {
-  const velocity = instance.velocity ?? ZERO_VECTOR
+  const velocity = instance.velocity ?? zero()
 
   const direction = subtract(target.position, instance.position)
   const distance = magnitude(direction)

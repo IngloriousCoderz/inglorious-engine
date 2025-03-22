@@ -3,7 +3,7 @@ import * as line from '@inglorious/utils/math/geometry/line.js'
 import * as point from '@inglorious/utils/math/geometry/point.js'
 import * as rectangle from '@inglorious/utils/math/geometry/rectangle.js'
 import * as segment from '@inglorious/utils/math/geometry/segment.js'
-import { ZERO_VECTOR } from '@inglorious/utils/math/linear-algebra/vector.js'
+import { zero } from '@inglorious/utils/math/linear-algebra/vector.js'
 import { add } from '@inglorious/utils/math/linear-algebra/vectors.js'
 
 const Z = 2
@@ -21,7 +21,7 @@ export function collidesWith(instance, target, type = 'hitbox') {
   const instanceCollision = instance.collisions[type]
   const instanceShape = {
     ...instanceCollision,
-    position: add(instance.position, instanceCollision.position || ZERO_VECTOR),
+    position: add(instance.position, instanceCollision.position || zero()),
     size: instanceCollision.size || instance.size,
     radius: instanceCollision.radius || instance.radius,
   }
@@ -30,7 +30,7 @@ export function collidesWith(instance, target, type = 'hitbox') {
   const targetCollision = target.collisions[type]
   const targetShape = {
     ...targetCollision,
-    position: add(target.position, targetCollision.position || ZERO_VECTOR),
+    position: add(target.position, targetCollision.position || zero()),
     size: targetCollision.size || target.size,
     radius: targetCollision.radius || target.radius,
   }

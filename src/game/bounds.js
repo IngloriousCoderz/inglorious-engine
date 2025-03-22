@@ -4,7 +4,7 @@ import {
   createVector,
   fromAngle,
   multiply,
-  ZERO_VECTOR,
+  zero,
 } from '@inglorious/utils/math/linear-algebra/vector.js'
 import { sum } from '@inglorious/utils/math/linear-algebra/vectors.js'
 import { abs } from '@inglorious/utils/math/numbers.js'
@@ -58,8 +58,8 @@ export function flip(instance, [minX, minZ, maxX, maxZ]) {
       direction[Z] = -abs(direction[Z])
     }
 
-    instance.acceleration = ZERO_VECTOR
-    instance.velocity = ZERO_VECTOR
+    instance.acceleration = zero()
+    instance.velocity = zero()
   }
 
   instance.orientation = angle(direction)

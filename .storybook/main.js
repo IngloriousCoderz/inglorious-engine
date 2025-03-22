@@ -10,8 +10,8 @@ const config = {
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
-    '@storybook/addon-mdx-gfm',
-    '@chromatic-com/storybook'
+    '@storybook/test',
+    '@chromatic-com/storybook',
   ],
 
   framework: {
@@ -22,7 +22,7 @@ const config = {
   docs: {},
 
   typescript: {
-    reactDocgen: 'react-docgen-typescript'
-  }
+    reactDocgen: 'react-docgen-typescript',
+  },
 }
 export default config

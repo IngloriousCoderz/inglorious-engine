@@ -1,14 +1,14 @@
 import {
   magnitude,
   setMagnitude,
-  ZERO_VECTOR,
+  zero,
 } from '@inglorious/utils/math/linear-algebra/vector.js'
 
 const NO_FRICTION = 0
 const DEFAULT_OPTIONS = { dt: 0 }
 
 export function applyFriction(
-  { velocity = ZERO_VECTOR, friction = NO_FRICTION },
+  { velocity = zero(), friction = NO_FRICTION },
   options = DEFAULT_OPTIONS
 ) {
   const { dt } = options

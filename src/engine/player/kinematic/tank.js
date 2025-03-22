@@ -2,7 +2,7 @@ import {
   clamp,
   multiply,
   rotate,
-  ZERO_VECTOR,
+  zero,
 } from '@inglorious/utils/math/linear-algebra/vector.js'
 import { sum } from '@inglorious/utils/math/linear-algebra/vectors.js'
 import { toRange } from '@inglorious/utils/math/trigonometry.js'
@@ -17,7 +17,7 @@ export default function tank(instance, { dt }) {
   let orientation = instance.orientation ?? DEFAULT_ORIENTATION
   orientation = toRange(orientation)
 
-  let velocity = instance.velocity ?? ZERO_VECTOR
+  let velocity = instance.velocity ?? zero()
   velocity = rotate(velocity, orientation)
   velocity = clamp(velocity, -maxSpeed, maxSpeed)
 

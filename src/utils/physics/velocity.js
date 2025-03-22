@@ -1,14 +1,14 @@
 import {
   clamp,
   multiply,
-  ZERO_VECTOR,
+  zero,
 } from '@inglorious/utils/math/linear-algebra/vector.js'
 import { sum } from '@inglorious/utils/math/linear-algebra/vectors.js'
 
 const DEFAULT_OPTIONS = { dt: 0 }
 
 export function applyVelocity(
-  { maxSpeed, velocity = ZERO_VECTOR, position = ZERO_VECTOR },
+  { maxSpeed, velocity = zero(), position = zero() },
   options = DEFAULT_OPTIONS
 ) {
   const { dt } = options

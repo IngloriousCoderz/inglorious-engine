@@ -1,11 +1,11 @@
 import { collidesWith } from '@inglorious/engine/collision/detection.js'
-import move from '@inglorious/engine/player/kinematic/move'
-import { clampToBounds } from '@inglorious/game/bounds'
+import move from '@inglorious/engine/player/kinematic/move.js'
+import { clampToBounds } from '@inglorious/game/bounds.js'
 import * as Character from '@inglorious/game/types/character.js'
 import * as Input from '@inglorious/game/types/input.js'
 import * as Platform from '@inglorious/game/types/platform.js'
-import { merge } from '@inglorious/utils/data-structures/objects'
-import { applyGravity } from '@inglorious/utils/physics/gravity'
+import { merge } from '@inglorious/utils/data-structures/objects.js'
+import { applyGravity } from '@inglorious/utils/physics/gravity.js'
 import { jump } from '@inglorious/utils/physics/jump.js'
 
 export default {
@@ -60,9 +60,9 @@ export default {
         Space: 'jump',
         KeyA: 'left',
         KeyD: 'right',
+        Btn0: 'jump',
         Btn14: 'left',
         Btn15: 'right',
-        Btn0: 'jump',
         Axis0: 'leftRight',
       }),
 

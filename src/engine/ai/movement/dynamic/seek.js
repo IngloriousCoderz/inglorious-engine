@@ -4,7 +4,7 @@ import {
   magnitude,
   multiply,
   setMagnitude,
-  ZERO_VECTOR,
+  zero,
 } from '@inglorious/utils/math/linear-algebra/vector.js'
 import { subtract, sum } from '@inglorious/utils/math/linear-algebra/vectors.js'
 
@@ -28,7 +28,7 @@ export default function seek(instance, target, { dt }) {
 
   const acceleration = setMagnitude(direction, maxAcceleration)
 
-  let velocity = instance.velocity ?? ZERO_VECTOR
+  let velocity = instance.velocity ?? zero()
   velocity = sum(velocity, multiply(acceleration, dt))
   velocity = clamp(velocity, MIN_SPEED, maxSpeed)
 
