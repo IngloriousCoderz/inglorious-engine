@@ -1,6 +1,6 @@
 import { abs } from '@inglorious/utils/math/numbers.js'
 
-import { hypothenuse } from './triangle'
+import { hypothenuse } from './triangle.js'
 
 export function distanceFromPoint(line, point) {
   const [a, b, c] = line

@@ -1,8 +1,8 @@
-import { filter, map } from '@inglorious/utils/data-structures/object.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 
 import Loop from './engine/loop.js'
 import { createStore } from './engine/store.js'
+import { filter, map } from './utils/data-structures/object.js'
 
 const DEFAULT_CONFIG = {
   bounds: [0, 0, 800, 600], // eslint-disable-line no-magic-numbers
@@ -57,7 +57,7 @@ export default class Engine {
 }
 
 function turnTypesIntoFsm(types) {
-  return map(types, (id, type) => {
+  return map(types, (_, type) => {
     const isFsm = Object.keys(type).some((key) => key === 'states')
     if (isFsm) {
       return type

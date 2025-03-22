@@ -1,6 +1,6 @@
 import { map } from '@inglorious/utils/data-structures/object.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
-import produce from 'immer'
+import { produce } from 'immer'
 
 const DEFAULT_STATE = { events: [], instances: { game: { type: 'game' } } }
 
@@ -44,7 +44,7 @@ export function createStore({ state: initialState, ...config }) {
         add(event.payload.id, event.payload)
       }
 
-      state.instances = map(state.instances, (id, instance) => {
+      state.instances = map(state.instances, (_, instance) => {
         const handle =
           config.types[instance.type].states[instance.state][event.id]
         return (
@@ -86,10 +86,10 @@ export function createStore({ state: initialState, ...config }) {
 }
 
 function enableMutability(types) {
-  return map(types, (typeId, { states, ...rest }) => ({
+  return map(types, (_, { states, ...rest }) => ({
     ...rest,
-    states: map(states, (stateId, events) =>
-      map(events, (eventId, event) => produce(event)),
+    states: map(states, (_, events) =>
+      map(events, (_, event) => produce(event))
     ),
   }))
 }
@@ -100,7 +100,7 @@ function turnStateIntoFsm(state) {
     instances: map(state.instances, (id, instance) => ({
       ...instance,
       id,
-      state: instance.state || 'default',
+      state: instance.state ?? 'default',
     })),
   }
 }
