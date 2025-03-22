@@ -1,16 +1,18 @@
 import { enableCharacter } from '@inglorious/game/decorators/character.js'
+import { enableFps } from '@inglorious/game/decorators/fps.js'
 import {
   createControls,
   enableControls,
 } from '@inglorious/game/decorators/input/controls.js'
-import { enableJump } from '@inglorious/game/decorators/jump.js'
 import { enableMove } from '@inglorious/game/decorators/move.js'
 
 export default {
   types: {
     ...enableControls(),
 
-    character: [enableCharacter(), enableMove(), enableJump()],
+    fps: [enableFps()],
+
+    character: [enableCharacter(), enableMove()],
   },
 
   state: {
@@ -20,12 +22,10 @@ export default {
         ArrowDown: 'down',
         ArrowLeft: 'left',
         ArrowRight: 'right',
-        Space: 'jump',
         KeyW: 'up',
         KeyS: 'down',
         KeyA: 'left',
         KeyD: 'right',
-        Btn0: 'jump',
         Btn12: 'up',
         Btn13: 'down',
         Btn14: 'left',
@@ -34,9 +34,16 @@ export default {
         Axis1: 'upDown',
       }),
 
+      fps: {
+        id: 'fps',
+        type: 'fps',
+        position: [0, 0, 600],
+      },
+
       character: {
         id: 'character',
         type: 'character',
+        maxSpeed: 250,
         position: [400, 0, 300],
       },
     },

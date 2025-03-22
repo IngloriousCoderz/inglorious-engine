@@ -5,12 +5,12 @@ import arrive, {
 } from '@inglorious/engine/ai/movement/dynamic/arrive.js'
 import { clampToBounds } from '@inglorious/game/bounds.js'
 import { enableCharacter } from '@inglorious/game/decorators/character.js'
-import * as Mouse from '@inglorious/game/types/mouse.js'
+import { enableMouse } from '@inglorious/game/decorators/input/mouse.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 
 export default {
   types: {
-    mouse: Mouse.type(),
+    mouse: [enableMouse()],
 
     character: [
       enableCharacter(),

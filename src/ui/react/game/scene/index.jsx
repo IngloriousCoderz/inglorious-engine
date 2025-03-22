@@ -1,4 +1,4 @@
-import * as Mouse from '@inglorious/game/types/mouse'
+import { track } from '@inglorious/game/decorators/input/mouse'
 import { useRef } from 'react'
 import { useDispatch } from 'react-redux'
 
@@ -10,7 +10,7 @@ export default function Scene({ config, children }) {
   const [, , width, height] = config.bounds
 
   const ref = useRef()
-  const mouseHandlers = Mouse.track(ref.current, { notify })
+  const mouseHandlers = track(ref.current, { notify })
 
   return (
     <div

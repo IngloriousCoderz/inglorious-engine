@@ -4,8 +4,12 @@ import * as Point from '@inglorious/utils/physics/collisions/point.js'
 
 const NO_Y = 0
 
-export function type(events = {}) {
-  return {
+export function enableMouse() {
+  return (type) => ({
+    ...type,
+
+    draw,
+
     'mouse:move'(instance, event, { config }) {
       instance.position = event.payload
 
@@ -22,10 +26,7 @@ export function type(events = {}) {
         notify({ id: 'scene:click', payload: event.payload })
       }
     },
-
-    draw,
-    ...events,
-  }
+  })
 }
 
 export function track(parent, options) {

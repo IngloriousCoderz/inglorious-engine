@@ -4,35 +4,41 @@ import align, {
 } from '@inglorious/engine/ai/movement/kinematic/align.js'
 import { clampToBounds } from '@inglorious/game/bounds.js'
 import { enableCharacter } from '@inglorious/game/decorators/character.js'
-import * as Input from '@inglorious/game/types/input.js'
-import * as Mouse from '@inglorious/game/types/mouse.js'
+import {
+  createControls,
+  enableControls,
+} from '@inglorious/game/decorators/input/controls.js'
+import { enableMouse } from '@inglorious/game/decorators/input/mouse.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 import { clamp } from '@inglorious/utils/math/numbers.js'
 import { pi } from '@inglorious/utils/math/trigonometry.js'
 
 export default {
   types: {
-    mouse: Mouse.type({
-      'field:change'(instance, event) {
-        const { id, value } = event.payload
-        if (id === 'targetOrientation') {
-          instance.orientation = -value * pi()
-        }
+    mouse: [
+      enableMouse(),
+      {
+        'field:change'(instance, event) {
+          const { id, value } = event.payload
+          if (id === 'targetOrientation') {
+            instance.orientation = -value * pi()
+          }
+        },
+
+        'game:update'(instance, event, { instances }) {
+          const { input0 } = instances
+
+          if (input0.left || input0.up) {
+            instance.orientation += 0.1
+          } else if (input0.right || input0.down) {
+            instance.orientation -= 0.1
+          }
+          instance.orientation = clamp(instance.orientation, -pi(), pi())
+        },
       },
+    ],
 
-      'game:update'(instance, event, { instances }) {
-        const { input0 } = instances
-
-        if (input0.left || input0.up) {
-          instance.orientation += 0.1
-        } else if (input0.right || input0.down) {
-          instance.orientation -= 0.1
-        }
-        instance.orientation = clamp(instance.orientation, -pi(), pi())
-      },
-    }),
-
-    ...Input.type(),
+    ...enableControls(),
 
     character: [
       enableCharacter(),
@@ -71,7 +77,7 @@ export default {
         position: [400, 0, 300],
         orientation: 0,
       },
-      ...Input.instance(0, {
+      ...createControls(0, {
         ArrowLeft: 'left',
         ArrowRight: 'right',
         ArrowDown: 'down',

@@ -2,7 +2,7 @@ import arrive from '@inglorious/engine/ai/movement/kinematic/arrive.js'
 import wander from '@inglorious/engine/ai/movement/kinematic/wander.js'
 import { clampToBounds, flip } from '@inglorious/game/bounds.js'
 import { enableCharacter } from '@inglorious/game/decorators/character.js'
-import * as Mouse from '@inglorious/game/types/mouse.js'
+import { enableMouse } from '@inglorious/game/decorators/input/mouse.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 import { length } from '@inglorious/utils/math/linear-algebra/vector.js'
 import { subtract } from '@inglorious/utils/math/linear-algebra/vectors.js'
@@ -10,7 +10,7 @@ import { pi } from '@inglorious/utils/math/trigonometry.js'
 
 export default {
   types: {
-    mouse: Mouse.type(),
+    mouse: [enableMouse()],
 
     character: [
       enableCharacter(),

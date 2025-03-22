@@ -1,11 +1,11 @@
 import { enableCharacter } from '@inglorious/game/decorators/character.js'
-import * as Mouse from '@inglorious/game/types/mouse.js'
+import { enableMouse } from '@inglorious/game/decorators/input/mouse.js'
 import { random } from '@inglorious/utils/math/rng.js'
 import { pi } from '@inglorious/utils/math/trigonometry.js'
 
 export default {
   types: {
-    mouse: Mouse.type(),
+    mouse: [enableMouse()],
 
     character: [
       enableCharacter(),

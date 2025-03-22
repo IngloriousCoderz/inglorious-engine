@@ -2,15 +2,18 @@ import { collidesWith } from '@inglorious/engine/collision/detection.js'
 import move from '@inglorious/engine/player/kinematic/move.js'
 import { clampToBounds } from '@inglorious/game/bounds.js'
 import { enableCharacter } from '@inglorious/game/decorators/character.js'
-import * as Input from '@inglorious/game/types/input.js'
-import * as Platform from '@inglorious/game/types/platform.js'
+import {
+  createControls,
+  enableControls,
+} from '@inglorious/game/decorators/input/controls.js'
+import { enablePlatform } from '@inglorious/game/decorators/platform.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 import { applyGravity } from '@inglorious/utils/physics/gravity.js'
 import { jump } from '@inglorious/utils/physics/jump.js'
 
 export default {
   types: {
-    ...Input.type(),
+    ...enableControls(),
 
     character: [
       enableCharacter(),
@@ -53,12 +56,12 @@ export default {
       },
     ],
 
-    platform: Platform.type(),
+    platform: [enablePlatform()],
   },
 
   state: {
     instances: {
-      ...Input.instance(0, {
+      ...createControls(0, {
         ArrowLeft: 'left',
         ArrowRight: 'right',
         Space: 'jump',

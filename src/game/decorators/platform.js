@@ -1,8 +1,9 @@
 import draw from '@inglorious/ui/canvas/shapes/rectangle.js'
 
-export function type(type) {
-  return {
-    draw,
+export function enablePlatform() {
+  return (type) => ({
     ...type,
-  }
+
+    draw,
+  })
 }

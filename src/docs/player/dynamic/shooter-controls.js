@@ -2,15 +2,19 @@ import face from '@inglorious/engine/ai/movement/kinematic/face.js'
 import tank from '@inglorious/engine/player/dynamic/tank.js'
 import { clampToBounds } from '@inglorious/game/bounds.js'
 import { enableCharacter } from '@inglorious/game/decorators/character.js'
-import * as Input from '@inglorious/game/types/input.js'
-import * as Mouse from '@inglorious/game/types/mouse.js'
+import {
+  createControls,
+  enableControls,
+} from '@inglorious/game/decorators/input/controls.js'
+import { enableMouse } from '@inglorious/game/decorators/input/mouse.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 import { pi } from '@inglorious/utils/math/trigonometry.js'
 
 export default {
   types: {
-    mouse: Mouse.type(),
-    ...Input.type(),
+    mouse: [enableMouse()],
+
+    ...enableControls(),
 
     character: [
       enableCharacter(),
@@ -43,7 +47,8 @@ export default {
   state: {
     instances: {
       mouse: { id: 'mouse', type: 'mouse', position: [400, 0, 300] },
-      ...Input.instance(0, {
+
+      ...createControls(0, {
         ArrowUp: 'up',
         ArrowDown: 'down',
         ArrowLeft: 'left',

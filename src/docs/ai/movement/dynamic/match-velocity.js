@@ -3,12 +3,15 @@ import matchVelocity, {
 } from '@inglorious/engine/ai/movement/dynamic/match-velocity.js'
 import { clampToBounds } from '@inglorious/game/bounds.js'
 import { enableCharacter } from '@inglorious/game/decorators/character.js'
-import * as Input from '@inglorious/game/types/input.js'
+import {
+  createControls,
+  enableControls,
+} from '@inglorious/game/decorators/input/controls.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 
 export default {
   types: {
-    ...Input.type(),
+    ...enableControls(),
 
     character: [
       enableCharacter(),
@@ -57,7 +60,7 @@ export default {
 
   state: {
     instances: {
-      ...Input.instance(0, {
+      ...createControls(0, {
         ArrowLeft: 'left',
         ArrowRight: 'right',
         ArrowDown: 'down',

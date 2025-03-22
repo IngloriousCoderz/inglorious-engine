@@ -9,9 +9,9 @@ const DEFAULT_PARAMS = {
   maxSpeed: 250,
 }
 const X = 0
-const Z = 0
+const Z = 2
 
-export function enableInput(params) {
+export function enableMove(params) {
   params = merge({}, DEFAULT_PARAMS, params)
   const Move = { kinematic, dynamic }
 

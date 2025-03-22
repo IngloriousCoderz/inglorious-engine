@@ -1,7 +1,10 @@
 import move from '@inglorious/engine/player/kinematic/move.js'
 import { enableCharacter } from '@inglorious/game/decorators/character.js'
-import * as Fps from '@inglorious/game/types/fps.js'
-import * as Keyboard from '@inglorious/game/types/keyboard.js'
+import { enableFps } from '@inglorious/game/decorators/fps.js'
+import {
+  createKeyboard,
+  enableKeyboard,
+} from '@inglorious/game/decorators/input/keyboard.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 
 const X = 0
@@ -9,9 +12,9 @@ const Z = 2
 
 export default {
   types: {
-    keyboard: Keyboard.type(),
+    keyboard: [enableKeyboard()],
 
-    fps: Fps.type(),
+    fps: [enableFps()],
 
     character: [
       enableCharacter(),
@@ -41,7 +44,7 @@ export default {
 
   state: {
     instances: {
-      keyboard0: Keyboard.instance(0, {
+      keyboard0: createKeyboard(0, {
         ArrowLeft: 'left',
         ArrowDown: 'down',
         ArrowRight: 'right',

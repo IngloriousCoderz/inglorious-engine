@@ -1,14 +1,17 @@
 import move from '@inglorious/engine/player/dynamic/move.js'
 import { clampToBounds } from '@inglorious/game/bounds.js'
 import { enableCharacter } from '@inglorious/game/decorators/character.js'
-import * as Input from '@inglorious/game/types/input.js'
+import {
+  createControls,
+  enableControls,
+} from '@inglorious/game/decorators/input/controls.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 import { applyGravity } from '@inglorious/utils/physics/gravity.js'
 import { jump } from '@inglorious/utils/physics/jump.js'
 
 export default {
   types: {
-    ...Input.type(),
+    ...enableControls(),
 
     stats: {},
 
@@ -81,7 +84,7 @@ export default {
 
   state: {
     instances: {
-      ...Input.instance(0, {
+      ...createControls(0, {
         ArrowUp: 'up',
         ArrowDown: 'down',
         ArrowLeft: 'left',

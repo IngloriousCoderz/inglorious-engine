@@ -1,11 +1,11 @@
 import seek from '@inglorious/engine/ai/movement/kinematic/seek.js'
 import { enableCharacter } from '@inglorious/game/decorators/character.js'
-import * as Mouse from '@inglorious/game/types/mouse.js'
+import { enableMouse } from '@inglorious/game/decorators/input/mouse.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 
 export default {
   types: {
-    mouse: Mouse.type(),
+    mouse: [enableMouse()],
 
     character: [
       enableCharacter(),

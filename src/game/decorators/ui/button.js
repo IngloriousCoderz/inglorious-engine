@@ -1,7 +1,11 @@
 import draw from '@inglorious/ui/canvas/form/button.js'
 
-export function type(type) {
-  return {
+export function enableButton() {
+  return (type) => ({
+    ...type,
+
+    draw,
+
     states: {
       default: {
         'instance:click'(instance, event, options) {
@@ -15,8 +19,5 @@ export function type(type) {
         },
       },
     },
-
-    draw,
-    ...type,
-  }
+  })
 }

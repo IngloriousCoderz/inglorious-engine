@@ -1,12 +1,12 @@
 import { enableCharacter } from '@inglorious/game/decorators/character.js'
-import * as Fps from '@inglorious/game/types/fps.js'
-import * as Mouse from '@inglorious/game/types/mouse.js'
+import { enableFps } from '@inglorious/game/decorators/fps.js'
+import { enableMouse } from '@inglorious/game/decorators/input/mouse.js'
 
 export default {
   types: {
-    mouse: Mouse.type(),
+    mouse: [enableMouse()],
 
-    fps: Fps.type(),
+    fps: [enableFps()],
 
     character: [
       enableCharacter(),

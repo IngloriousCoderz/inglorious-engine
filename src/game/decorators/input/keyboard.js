@@ -1,9 +1,17 @@
-const DEFAULT_ID = 0
+import { merge } from '@inglorious/utils/data-structures/objects.js'
 
-export function type() {
+const DEFAULT_PARAMS = {
+  id: 0,
+}
+
+export function enableKeyboard(params) {
+  params = merge({}, DEFAULT_PARAMS, params)
+
   let handleKeyDown, handleKeyUp
 
-  return {
+  return (type) => ({
+    ...type,
+
     'game:update'(instance, event, options) {
       handleKeyDown = createKeyboardHandler('keyboard:keyDown', options)
       handleKeyUp = createKeyboardHandler('keyboard:keyUp', options)
@@ -21,7 +29,7 @@ export function type() {
       const action = instance.mapping[event.payload]
       if (!instance[action]) {
         instance[action] = true
-        notify({ id: 'input:press', payload: { id: 0, action } })
+        notify({ id: 'input:press', payload: { id: params.id, action } })
       }
     },
 
@@ -29,13 +37,13 @@ export function type() {
       const action = instance.mapping[event.payload]
       if (instance[action]) {
         instance[action] = false
-        notify({ id: 'input:release', payload: { id: 0, action } })
+        notify({ id: 'input:release', payload: { id: params.id, action } })
       }
     },
-  }
+  })
 }
 
-export function instance(id = DEFAULT_ID, mapping = {}) {
+export function createKeyboard(id = DEFAULT_PARAMS.id, mapping = {}) {
   return { id: `keyboard${id}`, type: 'keyboard', mapping }
 }
 

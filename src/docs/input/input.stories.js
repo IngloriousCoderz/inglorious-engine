@@ -1,7 +1,7 @@
 import Game from '@inglorious/ui/react/game'
 
+import controls from './controls'
 import gamepad from './gamepad'
-import input from './input'
 import keyboard from './keyboard'
 import mouse from './mouse'
 
@@ -22,6 +22,6 @@ export const Gamepad = {
   args: { config: gamepad },
 }
 
-export const Input = {
-  args: { config: input },
+export const Controls = {
+  args: { config: controls },
 }

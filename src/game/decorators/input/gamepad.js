@@ -1,7 +1,11 @@
-const DEFAULT_ID = 0
+const DEFAULT_PARAMS = {
+  id: 0,
+}
 
-export function type() {
-  return {
+export function enableGamepad() {
+  return (type) => ({
+    ...type,
+
     'game:update'(instance, event, { notify }) {
       navigator.getGamepads().forEach((gamepad) => {
         if (gamepad == null) {
@@ -64,9 +68,9 @@ export function type() {
         notify({ id: 'input:release', payload: { id, action } })
       }
     },
-  }
+  })
 }
 
-export function instance(id = DEFAULT_ID, mapping = {}) {
+export function createGamepad(id = DEFAULT_PARAMS.id, mapping = {}) {
   return { id: `gamepad${id}`, type: 'gamepad', mapping }
 }

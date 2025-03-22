@@ -1,7 +1,7 @@
 import arrive from '@inglorious/engine/ai/movement/kinematic/arrive.js'
+import { enableFps } from '@inglorious/game/decorators/fps.js'
+import { enableMouse } from '@inglorious/game/decorators/input/mouse.js'
 import * as Sprite from '@inglorious/game/sprite.js'
-import * as Fps from '@inglorious/game/types/fps.js'
-import * as Mouse from '@inglorious/game/types/mouse.js'
 import draw from '@inglorious/ui/canvas/sprite.js'
 import { decide } from '@inglorious/utils/algorithms/decision-tree.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
@@ -51,9 +51,9 @@ const nextState = {
 export default {
   pixelated: true,
   types: {
-    mouse: Mouse.type(),
+    mouse: [enableMouse()],
 
-    fps: Fps.type(),
+    fps: [enableFps()],
 
     cat: {
       sprite: {
@@ -238,6 +238,7 @@ export default {
       },
 
       neko: {
+        id: 'neko',
         type: 'cat',
         state: 'idle',
         maxSpeed: 250,
