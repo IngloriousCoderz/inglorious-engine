@@ -1,0 +1,34 @@
+import { Meta } from '@storybook/blocks'
+
+import { compose, pipe } from '@inglorious/utils/functions/functions'
+import { toString } from '@inglorious/utils/data-structures/object'
+
+<Meta title="Utils/Functions/Functions" />
+
+# Functions
+
+Basic functions that deal with ...functions.
+
+## Compose
+
+Implements function composition, which expects functions to wrap each other.
+
+<code>const shout = (x) => x.toUpperCase()</code>&nbsp;
+
+<code>const punctuate = (mark) => (x) => \`$\{x\}$\{mark\}\`</code>&nbsp;
+
+<code>const html = (tag) => (x) => \`\<$\{tag\}>$\{x\}\</$\{tag\}>\`</code>&nbsp;
+
+<code>compose(html('p'), punctuate('!'), shout)("Hello world") == {toString(compose((x) => `<${"p"}>${x}</${"p"}>`, (x) => `${x}${"!"}`, (x) => x.toUpperCase())("Hello world"))}</code>&nbsp;
+
+## Pipe
+
+Implements function piping, which functions to be processed one after the other in order.
+
+<code>const shout = (x) => x.toUpperCase()</code>&nbsp;
+
+<code>const punctuate = (mark) => (x) => \`$\{x\}$\{mark\}\`</code>&nbsp;
+
+<code>const html = (tag) => (x) => \`\<$\{tag\}>$\{x\}\</$\{tag\}>\`</code>&nbsp;
+
+<code>pipe(shout, punctuate('!'), html('p'))("Hello world") == {toString(pipe((x) => x.toUpperCase(), ((mark) => (x) => `${x}${mark}`)("!"), ((tag) => (x) => `<${tag}>${x}</${tag}>`)("p"))("Hello world"))}</code>&nbsp;
