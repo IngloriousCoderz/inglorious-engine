@@ -1,4 +1,4 @@
-import move from "@inglorious/engine/player/dynamic/move.js"
+import modernMove from "@inglorious/engine/movement/dynamic/modern.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 
@@ -54,7 +54,7 @@ export function enableModernControls(params) {
             instance.acceleration[Z] += -input0.upDown * maxAcceleration
           }
 
-          merge(instance, move(instance, options))
+          merge(instance, modernMove(instance, options))
         },
       },
     },

@@ -24,7 +24,7 @@ export default {
   state: {
     instances: {
       mouse: { id: "mouse", type: "mouse", position: [400, 0, 300] },
-      ...createControls(0, {
+      ...createControls("input0", {
         ArrowLeft: "left",
         ArrowRight: "right",
         ArrowDown: "down",

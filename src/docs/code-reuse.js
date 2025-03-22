@@ -6,32 +6,32 @@ import { pi } from "@inglorious/utils/math/trigonometry.js"
 
 export default {
   types: {
-    fps: [enableFps()],
-
     character: [
       enableCharacter(),
-      {
+      () => ({
         "game:update"(instance, event, options) {
           merge(instance, bounce(instance, options))
         },
-      },
+      }),
     ],
+
+    fps: [enableFps()],
   },
 
   state: {
     instances: {
-      fps: {
-        id: "fps",
-        type: "fps",
-        position: [0, 0, 600],
-      },
-
       character: {
         id: "character",
         type: "character",
         maxSpeed: 250,
         orientation: pi() / 6,
         position: [0, 0, 0],
+      },
+
+      fps: {
+        id: "fps",
+        type: "fps",
+        position: [0, 0, 600],
       },
     },
   },

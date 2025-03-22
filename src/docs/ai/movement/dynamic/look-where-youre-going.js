@@ -70,7 +70,7 @@ export default {
 
   state: {
     instances: {
-      ...createControls(0, {
+      ...createControls("input0", {
         ArrowLeft: "left",
         ArrowRight: "right",
         ArrowDown: "down",

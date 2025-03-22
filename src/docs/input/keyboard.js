@@ -1,10 +1,11 @@
-import move from "@inglorious/engine/player/kinematic/move.js"
+import move from "@inglorious/engine/movement/kinematic/modern.js"
 import { enableCharacter } from "@inglorious/game/decorators/character.js"
 import {
   createKeyboard,
   enableKeyboard,
 } from "@inglorious/game/decorators/input/keyboard.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
+import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 
 const X = 0
 const Z = 2
@@ -16,10 +17,11 @@ export default {
     character: [
       enableCharacter(),
       {
-        "game:update"(instance, event, { dt, instances }) {
-          const { keyboard0 } = instances
+        "game:update"(instance, event, options) {
+          const { keyboard0 } = options.instances
 
-          instance.velocity = [0, 0, 0]
+          instance.velocity = zero()
+
           if (keyboard0.left) {
             instance.velocity[X] = -instance.maxSpeed
           }
@@ -33,7 +35,7 @@ export default {
             instance.velocity[Z] = instance.maxSpeed
           }
 
-          merge(instance, move(instance, { dt }))
+          merge(instance, move(instance, options))
         },
       },
     ],
@@ -41,7 +43,7 @@ export default {
 
   state: {
     instances: {
-      keyboard0: createKeyboard(0, {
+      keyboard0: createKeyboard("keyboard0", {
         ArrowLeft: "left",
         ArrowDown: "down",
         ArrowRight: "right",

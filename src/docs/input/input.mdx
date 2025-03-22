@@ -1,6 +1,55 @@
-import {Canvas, Meta, Source} from '@storybook/blocks'
+import { Canvas, Meta, Source } from '@storybook/blocks'
 import * as Input from './input.stories'
+
+import mouse from "./mouse?raw"
+import keyboard from "./keyboard?raw"
+import gamepad from "./gamepad?raw"
+import controls from "./controls?raw"
 
 <Meta of={Input} />
 
 # Input
+
+It's pretty easy to add input controls to your game. Let's have a look.
+
+## Mouse
+
+If you need mouse support, it's as easy as using the `enableMouse()` decorator. It automatically detects movement and clicks on any instance in the scene.
+
+You can get a reference to any instance in the scene by inspecting the `options.instances` property.
+
+<Source dark code={mouse} />
+
+<Canvas of={Input.Mouse} />
+
+## Keyboard
+
+Using the keyboard is very similar, but we also need to specify an id for the input and some mapping configuration. This way we can create multiple mappings that can work at the same time!
+
+Also, please note how we are using some predefined functions to achieve our goal:
+
+- `zero()` returns a vector with the three coordinates set to zero;
+- `move()` calculates orientation, position, and velocity;
+- `merge()` applies those calculations to the instance.
+
+<Source dark code={keyboard} />
+
+<Canvas of={Input.Keyboard} />
+
+## Gamepad
+
+If you plug a gamepad, there's a high chance that the engine will recognize it and you will be able to control your character with the D-pad or the left axis.
+
+<Source dark code={gamepad} />
+
+<Canvas of={Input.Gamepad} />
+
+## Controls
+
+Want to make both keyboard and gamepad work? Use the `enableControls()` and `createControls()` functions then!
+
+You'll probably always want to use these two instead of dealing with keyboards and gamepads separately, but who am I to judge?
+
+<Source dark code={controls} />
+
+<Canvas of={Input.Controls} />

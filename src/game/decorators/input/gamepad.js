@@ -1,5 +1,5 @@
 const DEFAULT_PARAMS = {
-  id: 0,
+  name: "gamepad0",
 }
 
 export function enableGamepad() {
@@ -71,6 +71,6 @@ export function enableGamepad() {
   })
 }
 
-export function createGamepad(id = DEFAULT_PARAMS.id, mapping = {}) {
-  return { id: `gamepad${id}`, type: "gamepad", mapping }
+export function createGamepad(name = DEFAULT_PARAMS.name, mapping = {}) {
+  return { id: name, type: "gamepad", mapping }
 }

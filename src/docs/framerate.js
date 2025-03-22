@@ -8,8 +8,6 @@ export default {
   loop: { type: "fixed", fps: 10 },
 
   types: {
-    fps: [enableFps()],
-
     character: [
       enableCharacter(),
       {
@@ -18,22 +16,24 @@ export default {
         },
       },
     ],
+
+    fps: [enableFps()],
   },
 
   state: {
     instances: {
-      fps: {
-        id: "fps",
-        type: "fps",
-        position: [0, 0, 600],
-      },
-
       character: {
         id: "character",
         type: "character",
         maxSpeed: 250,
         orientation: pi() / 6,
         position: [0, 0, 0],
+      },
+
+      fps: {
+        id: "fps",
+        type: "fps",
+        position: [0, 0, 600],
       },
     },
   },

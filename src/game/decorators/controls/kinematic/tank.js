@@ -1,4 +1,4 @@
-import tank from "@inglorious/engine/player/kinematic/tank.js"
+import tankMove from "@inglorious/engine/movement/kinematic/tank.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 
@@ -54,7 +54,7 @@ export function enableTankControls(params) {
             instance.velocity[Z] += input0.strafe * instance.maxSpeed
           }
 
-          merge(instance, tank(instance, options))
+          merge(instance, tankMove(instance, options))
         },
       },
     },

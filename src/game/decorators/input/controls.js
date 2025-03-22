@@ -5,7 +5,7 @@ import { createInput, enableInput } from "./input.js"
 import { createKeyboard, enableKeyboard } from "./keyboard.js"
 
 const DEFAULT_PARAMS = {
-  id: 0,
+  name: "input0",
 }
 
 export function enableControls(params) {
@@ -18,10 +18,10 @@ export function enableControls(params) {
   }
 }
 
-export function createControls(id = DEFAULT_PARAMS.id, mapping = {}) {
+export function createControls(name = DEFAULT_PARAMS.name, mapping = {}) {
   return {
-    [`keyboard${id}`]: createKeyboard(id, mapping),
-    [`gamepad${id}`]: createGamepad(id, mapping),
-    [`input${id}`]: createInput(id, mapping),
+    [`keyboard_${name}`]: createKeyboard(`keyboard_${name}`, mapping),
+    [`gamepad_${name}`]: createGamepad(`gamepad_${name}`, mapping),
+    [name]: createInput(name, mapping),
   }
 }

@@ -1,5 +1,5 @@
 const DEFAULT_PARAMS = {
-  id: 0,
+  name: "input0",
 }
 
 export function enableInput() {
@@ -9,7 +9,7 @@ export function enableInput() {
     "input:axis"(instance, event) {
       const { id, action, value } = event.payload
 
-      if (instance.id !== `input${id}`) {
+      if (!id.endsWith(instance.id)) {
         return
       }
 
@@ -19,7 +19,7 @@ export function enableInput() {
     "input:press"(instance, event) {
       const { id, action } = event.payload
 
-      if (instance.id !== `input${id}`) {
+      if (!id.endsWith(instance.id)) {
         return
       }
 
@@ -29,7 +29,7 @@ export function enableInput() {
     "input:release"(instance, event) {
       const { id, action } = event.payload
 
-      if (instance.id !== `input${id}`) {
+      if (!id.endsWith(instance.id)) {
         return
       }
 
@@ -38,6 +38,6 @@ export function enableInput() {
   })
 }
 
-export function createInput(id = DEFAULT_PARAMS.id, mapping = {}) {
-  return { id: `input${id}`, type: "input", mapping }
+export function createInput(name = DEFAULT_PARAMS.name, mapping = {}) {
+  return { id: name, type: "input", mapping }
 }

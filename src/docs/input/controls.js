@@ -1,20 +1,49 @@
+import move from "@inglorious/engine/movement/kinematic/modern.js"
 import { enableCharacter } from "@inglorious/game/decorators/character.js"
-import { enableModernControls } from "@inglorious/game/decorators/controls/kinematic/modern.js"
 import {
   createControls,
   enableControls,
 } from "@inglorious/game/decorators/input/controls.js"
+import { merge } from "@inglorious/utils/data-structures/objects.js"
+import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
+
+const X = 0
+const Z = 2
 
 export default {
   types: {
     ...enableControls(),
 
-    character: [enableCharacter(), enableModernControls()],
+    character: [
+      enableCharacter(),
+      {
+        "game:update"(instance, event, options) {
+          const { input0 } = options.instances
+
+          instance.velocity = zero()
+
+          if (input0.left) {
+            instance.velocity[X] = -instance.maxSpeed
+          }
+          if (input0.down) {
+            instance.velocity[Z] = -instance.maxSpeed
+          }
+          if (input0.right) {
+            instance.velocity[X] = instance.maxSpeed
+          }
+          if (input0.up) {
+            instance.velocity[Z] = instance.maxSpeed
+          }
+
+          merge(instance, move(instance, options))
+        },
+      },
+    ],
   },
 
   state: {
     instances: {
-      ...createControls(0, {
+      ...createControls("input0", {
         ArrowUp: "up",
         ArrowDown: "down",
         ArrowLeft: "left",

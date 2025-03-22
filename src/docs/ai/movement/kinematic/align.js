@@ -77,7 +77,7 @@ export default {
         position: [400, 0, 300],
         orientation: 0,
       },
-      ...createControls(0, {
+      ...createControls("input0", {
         ArrowLeft: "left",
         ArrowRight: "right",
         ArrowDown: "down",

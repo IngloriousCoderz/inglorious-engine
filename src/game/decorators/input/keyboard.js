@@ -1,12 +1,8 @@
-import { merge } from "@inglorious/utils/data-structures/objects.js"
-
 const DEFAULT_PARAMS = {
-  id: 0,
+  name: "keyboard0",
 }
 
-export function enableKeyboard(params) {
-  params = merge({}, DEFAULT_PARAMS, params)
-
+export function enableKeyboard() {
   let handleKeyDown, handleKeyUp
 
   return (type) => ({
@@ -29,7 +25,7 @@ export function enableKeyboard(params) {
       const action = instance.mapping[event.payload]
       if (!instance[action]) {
         instance[action] = true
-        notify({ id: "input:press", payload: { id: params.id, action } })
+        notify({ id: "input:press", payload: { id: instance.id, action } })
       }
     },
 
@@ -37,14 +33,14 @@ export function enableKeyboard(params) {
       const action = instance.mapping[event.payload]
       if (instance[action]) {
         instance[action] = false
-        notify({ id: "input:release", payload: { id: params.id, action } })
+        notify({ id: "input:release", payload: { id: instance.id, action } })
       }
     },
   })
 }
 
-export function createKeyboard(id = DEFAULT_PARAMS.id, mapping = {}) {
-  return { id: `keyboard${id}`, type: "keyboard", mapping }
+export function createKeyboard(name = DEFAULT_PARAMS.name, mapping = {}) {
+  return { id: name, type: "keyboard", mapping }
 }
 
 function createKeyboardHandler(id, { notify }) {

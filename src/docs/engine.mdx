@@ -73,9 +73,9 @@ The `fps` type shows FPS debug info on the top left of the scene; its value is u
 
 Coding is beautiful, but reusing code without reinventing the wheel is even better!
 
-The event handler for this character is using a predefined `bounce()` function which makes it look like one of those old DVD logo screensavers.
+All the code necessary to draw the character is now encapsulated in a `enableCharacter()` function. To be precise, this is a decorator. Note how the `character` type can now accept an array of decorators: you can combine as many decorators as you wish to give the character new features!
 
-Also, the `Fps` module creates a predefined FPS counter on the top left corner of the screen. How neat is that?
+The event handler for this character is using a predefined `bounce()` function which makes it look like one of those old DVD logo screensavers. There are many predefined functions out there at your disposal, just look into the docz to find the ones that suit you best.
 
 <Source dark code={codeReuse} />
 
@@ -89,4 +89,4 @@ What if you want to provide a more retro feel to your game? You can use a fixed 
 
 <Canvas of={Engine.Framerate} />
 
-So far so good? Let's move on to some complex stuff then! See how we can trigger some more events, such as [input](/?path=/docs/games-input--docs) events, then take a look at some [recipes](/?path=/docs/games-recipes--docs) that give life to our game!
+So far so good? Let's move on to some complex stuff then! See how we can trigger some more events, such as [input](/docs/engine-input--docs) events, then take a look at some [recipes](/docs/engine-recipes--docs) that give life to our game!

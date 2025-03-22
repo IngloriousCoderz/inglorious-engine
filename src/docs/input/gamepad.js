@@ -1,10 +1,14 @@
-import move from "@inglorious/engine/player/kinematic/move.js"
+import move from "@inglorious/engine/movement/kinematic/modern.js"
 import { enableCharacter } from "@inglorious/game/decorators/character.js"
 import {
   createGamepad,
   enableGamepad,
 } from "@inglorious/game/decorators/input/gamepad.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
+import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
+
+const X = 0
+const Z = 2
 
 export default {
   types: {
@@ -13,32 +17,32 @@ export default {
     character: [
       enableCharacter(),
       {
-        "game:update"(instance, event, { dt, instances }) {
-          const { gamepad0 } = instances
+        "game:update"(instance, event, options) {
+          const { gamepad0 } = options.instances
 
-          instance.velocity = [0, 0, 0]
+          instance.velocity = zero()
 
           if (gamepad0.left) {
-            instance.velocity[0] = -instance.maxSpeed
+            instance.velocity[X] = -instance.maxSpeed
           }
           if (gamepad0.down) {
-            instance.velocity[2] = -instance.maxSpeed
+            instance.velocity[Z] = -instance.maxSpeed
           }
           if (gamepad0.right) {
-            instance.velocity[0] = instance.maxSpeed
+            instance.velocity[X] = instance.maxSpeed
           }
           if (gamepad0.up) {
-            instance.velocity[2] = instance.maxSpeed
+            instance.velocity[Z] = instance.maxSpeed
           }
 
           if (gamepad0.leftRight != null) {
-            instance.velocity[0] += gamepad0.leftRight * instance.maxSpeed
+            instance.velocity[X] += gamepad0.leftRight * instance.maxSpeed
           }
           if (gamepad0.upDown != null) {
-            instance.velocity[2] += -gamepad0.upDown * instance.maxSpeed
+            instance.velocity[Z] += -gamepad0.upDown * instance.maxSpeed
           }
 
-          merge(instance, move(instance, { dt }))
+          merge(instance, move(instance, options))
         },
       },
     ],
@@ -46,7 +50,7 @@ export default {
 
   state: {
     instances: {
-      gamepad0: createGamepad(0, {
+      gamepad0: createGamepad("gamepad0", {
         Btn12: "up",
         Btn13: "down",
         Btn14: "left",

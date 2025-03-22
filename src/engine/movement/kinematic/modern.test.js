@@ -1,6 +1,6 @@
 import { expect, test } from "vitest"
 
-import move from "./move.js"
+import modernMove from "./modern.js"
 
 test("it should move following its velocity", () => {
   const instance = { maxSpeed: 1, velocity: [1, 0, 0], position: [0, 0, 0] }
@@ -11,7 +11,7 @@ test("it should move following its velocity", () => {
     orientation: 0,
   }
 
-  expect(move(instance, options)).toStrictEqual(expectedResult)
+  expect(modernMove(instance, options)).toStrictEqual(expectedResult)
 })
 
 test("it should limit the velocity to the max speed", () => {
@@ -23,5 +23,5 @@ test("it should limit the velocity to the max speed", () => {
     orientation: 0,
   }
 
-  expect(move(instance, options)).toStrictEqual(expectedResult)
+  expect(modernMove(instance, options)).toStrictEqual(expectedResult)
 })
