@@ -1,5 +1,5 @@
 import move from '@inglorious/engine/player/kinematic/move.js'
-import * as Character from '@inglorious/game/types/character.js'
+import { enableCharacter } from '@inglorious/game/decorators/character.js'
 import * as Fps from '@inglorious/game/types/fps.js'
 import * as Input from '@inglorious/game/types/input.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
@@ -10,35 +10,38 @@ export default {
 
     fps: Fps.type(),
 
-    character: Character.type({
-      'game:update'(instance, event, { dt, instances }) {
-        const { input0 } = instances
+    character: [
+      enableCharacter(),
+      {
+        'game:update'(instance, event, { dt, instances }) {
+          const { input0 } = instances
 
-        instance.velocity = [0, 0, 0]
+          instance.velocity = [0, 0, 0]
 
-        if (input0.left) {
-          instance.velocity[0] = -instance.maxSpeed
-        }
-        if (input0.down) {
-          instance.velocity[2] = -instance.maxSpeed
-        }
-        if (input0.right) {
-          instance.velocity[0] = instance.maxSpeed
-        }
-        if (input0.up) {
-          instance.velocity[2] = instance.maxSpeed
-        }
+          if (input0.left) {
+            instance.velocity[0] = -instance.maxSpeed
+          }
+          if (input0.down) {
+            instance.velocity[2] = -instance.maxSpeed
+          }
+          if (input0.right) {
+            instance.velocity[0] = instance.maxSpeed
+          }
+          if (input0.up) {
+            instance.velocity[2] = instance.maxSpeed
+          }
 
-        if (input0.leftRight != null) {
-          instance.velocity[0] += input0.leftRight * instance.maxSpeed
-        }
-        if (input0.upDown != null) {
-          instance.velocity[2] += -input0.upDown * instance.maxSpeed
-        }
+          if (input0.leftRight != null) {
+            instance.velocity[0] += input0.leftRight * instance.maxSpeed
+          }
+          if (input0.upDown != null) {
+            instance.velocity[2] += -input0.upDown * instance.maxSpeed
+          }
 
-        merge(instance, move(instance, { dt }))
+          merge(instance, move(instance, { dt }))
+        },
       },
-    }),
+    ],
   },
 
   state: {

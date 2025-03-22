@@ -3,27 +3,30 @@ import wander, {
   DEFAULT_WANDER_RADIUS,
 } from '@inglorious/engine/ai/movement/dynamic/wander.js'
 import { flip } from '@inglorious/game/bounds.js'
-import * as Character from '@inglorious/game/types/character.js'
+import { enableCharacter } from '@inglorious/game/decorators/character.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 import { pi } from '@inglorious/utils/math/trigonometry.js'
 
 export default {
   types: {
-    character: Character.type({
-      'game:update'(instance, event, { dt, config, instances }) {
-        const { fields } = instances.parameters.groups.wander
+    character: [
+      enableCharacter(),
+      {
+        'game:update'(instance, event, { dt, config, instances }) {
+          const { fields } = instances.parameters.groups.wander
 
-        merge(
-          instance,
-          wander(instance, {
-            dt,
-            wanderOffset: fields.wanderOffset.value,
-            wanderRadius: fields.wanderRadius.value,
-          })
-        )
-        flip(instance, config.bounds)
+          merge(
+            instance,
+            wander(instance, {
+              dt,
+              wanderOffset: fields.wanderOffset.value,
+              wanderRadius: fields.wanderRadius.value,
+            })
+          )
+          flip(instance, config.bounds)
+        },
       },
-    }),
+    ],
 
     form: {
       'field:change'(instance, event) {

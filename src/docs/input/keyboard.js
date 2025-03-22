@@ -1,5 +1,5 @@
 import move from '@inglorious/engine/player/kinematic/move.js'
-import * as Character from '@inglorious/game/types/character.js'
+import { enableCharacter } from '@inglorious/game/decorators/character.js'
 import * as Fps from '@inglorious/game/types/fps.js'
 import * as Keyboard from '@inglorious/game/types/keyboard.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
@@ -13,27 +13,30 @@ export default {
 
     fps: Fps.type(),
 
-    character: Character.type({
-      'game:update'(instance, event, { dt, instances }) {
-        const { keyboard0 } = instances
+    character: [
+      enableCharacter(),
+      {
+        'game:update'(instance, event, { dt, instances }) {
+          const { keyboard0 } = instances
 
-        instance.velocity = [0, 0, 0]
-        if (keyboard0.left) {
-          instance.velocity[X] = -instance.maxSpeed
-        }
-        if (keyboard0.down) {
-          instance.velocity[Z] = -instance.maxSpeed
-        }
-        if (keyboard0.right) {
-          instance.velocity[X] = instance.maxSpeed
-        }
-        if (keyboard0.up) {
-          instance.velocity[Z] = instance.maxSpeed
-        }
+          instance.velocity = [0, 0, 0]
+          if (keyboard0.left) {
+            instance.velocity[X] = -instance.maxSpeed
+          }
+          if (keyboard0.down) {
+            instance.velocity[Z] = -instance.maxSpeed
+          }
+          if (keyboard0.right) {
+            instance.velocity[X] = instance.maxSpeed
+          }
+          if (keyboard0.up) {
+            instance.velocity[Z] = instance.maxSpeed
+          }
 
-        merge(instance, move(instance, { dt }))
+          merge(instance, move(instance, { dt }))
+        },
       },
-    }),
+    ],
   },
 
   state: {

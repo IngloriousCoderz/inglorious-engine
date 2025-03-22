@@ -12,6 +12,9 @@ const DEFAULT_CONFIG = {
 }
 
 const ONE_SECOND = 1000
+const FIRST = 0
+const LAST = 1
+const SECOND_TO_LAST = -1
 
 export default class Engine {
   constructor(game, ui) {
@@ -61,7 +64,16 @@ export default class Engine {
 function applyDecorators(types) {
   return map(types, (_, type) => {
     if (Array.isArray(type)) {
-      return pipe(...type)({})
+      const customType = type[type.length - LAST]
+      const hasCustomType = typeof customType !== 'function'
+      const decorators = hasCustomType
+        ? type.slice(FIRST, SECOND_TO_LAST)
+        : type
+      let mergedType = pipe(...decorators)({})
+      if (hasCustomType) {
+        mergedType = merge(mergedType, customType)
+      }
+      return mergedType
     }
 
     return type
@@ -70,21 +82,16 @@ function applyDecorators(types) {
 
 function turnTypesIntoFsm(types) {
   return map(types, (_, type) => {
-    // const isFsm = Object.keys(type).some((key) => key === 'states')
-    // if (isFsm) {
-    //   return type
-    // }
-
     const topLevelEventHandlers = filter(
       type,
       (_, value) => typeof value === 'function'
     )
-    const typeWithoutEventHandlers = filter(
+    const typeWithoutTopLevelEventHandlers = filter(
       type,
       (_, value) => typeof value !== 'function'
     )
 
-    return merge(typeWithoutEventHandlers, {
+    return merge(typeWithoutTopLevelEventHandlers, {
       states: { default: topLevelEventHandlers },
     })
   })

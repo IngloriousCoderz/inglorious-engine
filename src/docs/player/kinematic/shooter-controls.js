@@ -1,7 +1,7 @@
 import face from '@inglorious/engine/ai/movement/kinematic/face.js'
 import tank from '@inglorious/engine/player/kinematic/tank.js'
 import { clampToBounds } from '@inglorious/game/bounds.js'
-import * as Character from '@inglorious/game/types/character.js'
+import { enableCharacter } from '@inglorious/game/decorators/character.js'
 import * as Input from '@inglorious/game/types/input.js'
 import * as Mouse from '@inglorious/game/types/mouse.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
@@ -12,29 +12,32 @@ export default {
     mouse: Mouse.type(),
     ...Input.type(),
 
-    character: Character.type({
-      'game:update'(instance, event, { dt, config, instances }) {
-        const { input0, mouse } = instances
+    character: [
+      enableCharacter(),
+      {
+        'game:update'(instance, event, { dt, config, instances }) {
+          const { input0, mouse } = instances
 
-        instance.velocity = [0, 0, 0]
-        if (input0.left) {
-          instance.velocity[2] = -instance.maxSpeed
-        }
-        if (input0.down) {
-          instance.velocity[0] = -instance.maxSpeed
-        }
-        if (input0.right) {
-          instance.velocity[2] = instance.maxSpeed
-        }
-        if (input0.up) {
-          instance.velocity[0] = instance.maxSpeed
-        }
+          instance.velocity = [0, 0, 0]
+          if (input0.left) {
+            instance.velocity[2] = -instance.maxSpeed
+          }
+          if (input0.down) {
+            instance.velocity[0] = -instance.maxSpeed
+          }
+          if (input0.right) {
+            instance.velocity[2] = instance.maxSpeed
+          }
+          if (input0.up) {
+            instance.velocity[0] = instance.maxSpeed
+          }
 
-        merge(instance, face(instance, mouse, { dt }))
-        merge(instance, tank(instance, { dt }))
-        clampToBounds(instance, config.bounds)
+          merge(instance, face(instance, mouse, { dt }))
+          merge(instance, tank(instance, { dt }))
+          clampToBounds(instance, config.bounds)
+        },
       },
-    }),
+    ],
   },
 
   state: {

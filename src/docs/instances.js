@@ -1,8 +1,8 @@
-import * as Character from '@inglorious/game/types/character.js'
+import { enableCharacter } from '@inglorious/game/decorators/character.js'
 
 export default {
   types: {
-    character: Character.type(),
+    character: [enableCharacter()],
   },
 
   state: {

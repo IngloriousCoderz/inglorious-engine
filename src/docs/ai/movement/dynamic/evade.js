@@ -2,7 +2,7 @@ import evade, {
   DEFAULT_MAX_PREDICTION,
 } from '@inglorious/engine/ai/movement/dynamic/evade.js'
 import { clampToBounds } from '@inglorious/game/bounds.js'
-import * as Character from '@inglorious/game/types/character.js'
+import { enableCharacter } from '@inglorious/game/decorators/character.js'
 import * as Mouse from '@inglorious/game/types/mouse.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 
@@ -10,22 +10,25 @@ export default {
   types: {
     mouse: Mouse.type(),
 
-    character: Character.type({
-      'game:update'(instance, event, { dt, config, instances }) {
-        const target = instances.mouse
-        const { fields } = instances.parameters.groups.evade
+    character: [
+      enableCharacter(),
+      {
+        'game:update'(instance, event, { dt, config, instances }) {
+          const target = instances.mouse
+          const { fields } = instances.parameters.groups.evade
 
-        merge(
-          instance,
-          evade(instance, target, {
-            dt,
-            maxPrediction: fields.maxPrediction.value,
-          })
-        )
+          merge(
+            instance,
+            evade(instance, target, {
+              dt,
+              maxPrediction: fields.maxPrediction.value,
+            })
+          )
 
-        clampToBounds(instance, config.bounds)
+          clampToBounds(instance, config.bounds)
+        },
       },
-    }),
+    ],
 
     form: {
       'field:change'(instance, event) {

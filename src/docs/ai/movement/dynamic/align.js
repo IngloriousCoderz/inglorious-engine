@@ -4,7 +4,7 @@ import align, {
   DEFAULT_TIME_TO_TARGET,
 } from '@inglorious/engine/ai/movement/dynamic/align.js'
 import { clampToBounds } from '@inglorious/game/bounds.js'
-import * as Character from '@inglorious/game/types/character.js'
+import { enableCharacter } from '@inglorious/game/decorators/character.js'
 import * as Input from '@inglorious/game/types/input.js'
 import * as Mouse from '@inglorious/game/types/mouse.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
@@ -35,24 +35,27 @@ export default {
 
     ...Input.type(),
 
-    character: Character.type({
-      'game:update'(instance, event, { dt, config, instances }) {
-        const target = instances.mouse
-        const { fields } = instances.parameters.groups.align
+    character: [
+      enableCharacter(),
+      {
+        'game:update'(instance, event, { dt, config, instances }) {
+          const target = instances.mouse
+          const { fields } = instances.parameters.groups.align
 
-        merge(
-          instance,
-          align(instance, target, {
-            dt,
-            targetRadius: fields.targetRadius.value,
-            slowRadius: fields.slowRadius.value,
-            timeToTarget: fields.timeToTarget.value,
-          })
-        )
+          merge(
+            instance,
+            align(instance, target, {
+              dt,
+              targetRadius: fields.targetRadius.value,
+              slowRadius: fields.slowRadius.value,
+              timeToTarget: fields.timeToTarget.value,
+            })
+          )
 
-        clampToBounds(instance, config.bounds)
+          clampToBounds(instance, config.bounds)
+        },
       },
-    }),
+    ],
 
     form: {
       'field:change'(instance, event) {

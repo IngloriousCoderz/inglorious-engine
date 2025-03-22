@@ -1,10 +1,10 @@
-import * as Character from '@inglorious/game/types/character.js'
+import { enableCharacter } from '@inglorious/game/decorators/character.js'
 import { random } from '@inglorious/utils/math/rng.js'
 import { pi } from '@inglorious/utils/math/trigonometry.js'
 
 export default {
   types: {
-    character: Character.type(),
+    character: [enableCharacter()],
   },
 
   state: {

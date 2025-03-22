@@ -5,7 +5,7 @@ import {
 } from '@inglorious/engine/ai/movement/dynamic/align.js'
 import face from '@inglorious/engine/ai/movement/dynamic/face.js'
 import { clampToBounds } from '@inglorious/game/bounds.js'
-import * as Character from '@inglorious/game/types/character.js'
+import { enableCharacter } from '@inglorious/game/decorators/character.js'
 import * as Mouse from '@inglorious/game/types/mouse.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 import { pi } from '@inglorious/utils/math/trigonometry.js'
@@ -14,24 +14,27 @@ export default {
   types: {
     mouse: Mouse.type(),
 
-    character: Character.type({
-      'game:update'(instance, event, { dt, config, instances }) {
-        const target = instances.mouse
-        const { fields } = instances.parameters.groups.face
+    character: [
+      enableCharacter(),
+      {
+        'game:update'(instance, event, { dt, config, instances }) {
+          const target = instances.mouse
+          const { fields } = instances.parameters.groups.face
 
-        merge(
-          instance,
-          face(instance, target, {
-            dt,
-            targetRadius: fields.targetRadius.value,
-            slowRadius: fields.slowRadius.value,
-            timeToTarget: fields.timeToTarget.value,
-          })
-        )
+          merge(
+            instance,
+            face(instance, target, {
+              dt,
+              targetRadius: fields.targetRadius.value,
+              slowRadius: fields.slowRadius.value,
+              timeToTarget: fields.timeToTarget.value,
+            })
+          )
 
-        clampToBounds(instance, config.bounds)
+          clampToBounds(instance, config.bounds)
+        },
       },
-    }),
+    ],
 
     form: {
       'field:change'(instance, event) {

@@ -1,7 +1,7 @@
 import face from '@inglorious/engine/ai/movement/kinematic/face.js'
 import tank from '@inglorious/engine/player/dynamic/tank.js'
 import { clampToBounds } from '@inglorious/game/bounds.js'
-import * as Character from '@inglorious/game/types/character.js'
+import { enableCharacter } from '@inglorious/game/decorators/character.js'
 import * as Input from '@inglorious/game/types/input.js'
 import * as Mouse from '@inglorious/game/types/mouse.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
@@ -12,29 +12,32 @@ export default {
     mouse: Mouse.type(),
     ...Input.type(),
 
-    character: Character.type({
-      'game:update'(instance, event, { dt, config, instances }) {
-        const { input0, mouse } = instances
+    character: [
+      enableCharacter(),
+      {
+        'game:update'(instance, event, { dt, config, instances }) {
+          const { input0, mouse } = instances
 
-        instance.acceleration = [0, 0, 0]
-        if (input0.left) {
-          instance.acceleration[2] = -instance.maxAcceleration
-        }
-        if (input0.down) {
-          instance.acceleration[0] = -instance.maxAcceleration
-        }
-        if (input0.right) {
-          instance.acceleration[2] = instance.maxAcceleration
-        }
-        if (input0.up) {
-          instance.acceleration[0] = instance.maxAcceleration
-        }
+          instance.acceleration = [0, 0, 0]
+          if (input0.left) {
+            instance.acceleration[2] = -instance.maxAcceleration
+          }
+          if (input0.down) {
+            instance.acceleration[0] = -instance.maxAcceleration
+          }
+          if (input0.right) {
+            instance.acceleration[2] = instance.maxAcceleration
+          }
+          if (input0.up) {
+            instance.acceleration[0] = instance.maxAcceleration
+          }
 
-        merge(instance, face(instance, mouse, { dt }))
-        merge(instance, tank(instance, { dt }))
-        clampToBounds(instance, config.bounds)
+          merge(instance, face(instance, mouse, { dt }))
+          merge(instance, tank(instance, { dt }))
+          clampToBounds(instance, config.bounds)
+        },
       },
-    }),
+    ],
   },
 
   state: {

@@ -1,6 +1,6 @@
 import tank from '@inglorious/engine/player/dynamic/tank.js'
 import { clampToBounds } from '@inglorious/game/bounds.js'
-import * as Character from '@inglorious/game/types/character.js'
+import { enableCharacter } from '@inglorious/game/decorators/character.js'
 import * as Input from '@inglorious/game/types/input.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 
@@ -8,39 +8,43 @@ export default {
   types: {
     ...Input.type(),
 
-    character: Character.type({
-      'game:update'(instance, event, { dt, config, instances }) {
-        const { input0 } = instances
+    character: [
+      enableCharacter(),
+      {
+        'game:update'(instance, event, { dt, config, instances }) {
+          const { input0 } = instances
 
-        instance.acceleration = [0, 0, 0]
-        if (input0.left) {
-          instance.orientation += 0.1
-        }
-        if (input0.down) {
-          instance.acceleration[0] = -instance.maxAcceleration
-        }
-        if (input0.right) {
-          instance.orientation -= 0.1
-        }
-        if (input0.up) {
-          instance.acceleration[0] = instance.maxAcceleration
-        }
+          instance.acceleration = [0, 0, 0]
+          if (input0.left) {
+            instance.orientation += 0.1
+          }
+          if (input0.down) {
+            instance.acceleration[0] = -instance.maxAcceleration
+          }
+          if (input0.right) {
+            instance.orientation -= 0.1
+          }
+          if (input0.up) {
+            instance.acceleration[0] = instance.maxAcceleration
+          }
 
-        if (input0.leftRight != null) {
-          instance.orientation +=
-            -input0.leftRight * instance.maxAngularSpeed * dt
-        }
-        if (input0.upDown != null) {
-          instance.acceleration[0] += -input0.upDown * instance.maxAcceleration
-        }
-        if (input0.strafe != null) {
-          instance.acceleration[2] += input0.strafe * instance.maxAcceleration
-        }
+          if (input0.leftRight != null) {
+            instance.orientation +=
+              -input0.leftRight * instance.maxAngularSpeed * dt
+          }
+          if (input0.upDown != null) {
+            instance.acceleration[0] +=
+              -input0.upDown * instance.maxAcceleration
+          }
+          if (input0.strafe != null) {
+            instance.acceleration[2] += input0.strafe * instance.maxAcceleration
+          }
 
-        merge(instance, tank(instance, { dt }))
-        clampToBounds(instance, config.bounds)
+          merge(instance, tank(instance, { dt }))
+          clampToBounds(instance, config.bounds)
+        },
       },
-    }),
+    ],
   },
 
   state: {

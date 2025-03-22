@@ -1,26 +1,29 @@
 import { collidesWith } from '@inglorious/engine/collision/detection.js'
 import { bounce } from '@inglorious/game/bounds.js'
-import * as Character from '@inglorious/game/types/character.js'
+import { enableCharacter } from '@inglorious/game/decorators/character.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 import { mod } from '@inglorious/utils/math/numbers.js'
 import { pi } from '@inglorious/utils/math/trigonometry.js'
 
 export default {
   types: {
-    character: Character.type({
-      'game:update'(instance, event, { dt, config, instances }) {
-        const characters = Object.values(instances).filter(
-          ({ type }) => type === 'character'
-        )
-        const target = characters.find(({ id }) => id !== instance.id)
+    character: [
+      enableCharacter(),
+      {
+        'game:update'(instance, event, { dt, config, instances }) {
+          const characters = Object.values(instances).filter(
+            ({ type }) => type === 'character'
+          )
+          const target = characters.find(({ id }) => id !== instance.id)
 
-        if (collidesWith(instance, target)) {
-          instance.orientation += pi()
-          instance.orientation = mod(instance.orientation, 2 * pi())
-        }
-        merge(instance, bounce(instance, { dt, config }))
+          if (collidesWith(instance, target)) {
+            instance.orientation += pi()
+            instance.orientation = mod(instance.orientation, 2 * pi())
+          }
+          merge(instance, bounce(instance, { dt, config }))
+        },
       },
-    }),
+    ],
   },
 
   state: {

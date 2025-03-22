@@ -1,7 +1,7 @@
 import arrive from '@inglorious/engine/ai/movement/kinematic/arrive.js'
 import wander from '@inglorious/engine/ai/movement/kinematic/wander.js'
 import { clampToBounds, flip } from '@inglorious/game/bounds.js'
-import * as Character from '@inglorious/game/types/character.js'
+import { enableCharacter } from '@inglorious/game/decorators/character.js'
 import * as Mouse from '@inglorious/game/types/mouse.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 import { length } from '@inglorious/utils/math/linear-algebra/vector.js'
@@ -12,35 +12,38 @@ export default {
   types: {
     mouse: Mouse.type(),
 
-    character: Character.type({
-      states: {
-        meandering: {
-          'game:update'(instance, event, { dt, config, instances }) {
-            const target = instances.mouse
+    character: [
+      enableCharacter(),
+      {
+        states: {
+          meandering: {
+            'game:update'(instance, event, { dt, config, instances }) {
+              const target = instances.mouse
 
-            merge(instance, wander(instance, { dt }))
-            flip(instance, config.bounds)
+              merge(instance, wander(instance, { dt }))
+              flip(instance, config.bounds)
 
-            if (length(subtract(instance.position, target.position)) < 200) {
-              instance.state = 'hunting'
-            }
+              if (length(subtract(instance.position, target.position)) < 200) {
+                instance.state = 'hunting'
+              }
+            },
           },
-        },
 
-        hunting: {
-          'game:update'(instance, event, { dt, config, instances }) {
-            const target = instances.mouse
+          hunting: {
+            'game:update'(instance, event, { dt, config, instances }) {
+              const target = instances.mouse
 
-            merge(instance, arrive(instance, target, { dt }))
-            clampToBounds(instance, config.bounds)
+              merge(instance, arrive(instance, target, { dt }))
+              clampToBounds(instance, config.bounds)
 
-            if (length(subtract(instance.position, target.position)) >= 200) {
-              instance.state = 'meandering'
-            }
+              if (length(subtract(instance.position, target.position)) >= 200) {
+                instance.state = 'meandering'
+              }
+            },
           },
         },
       },
-    }),
+    ],
   },
 
   state: {

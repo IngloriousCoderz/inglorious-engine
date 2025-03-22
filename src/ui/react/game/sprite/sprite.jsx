@@ -1,14 +1,20 @@
 import './sprite.module.css'
 
+const DEFAULT_ROWS = 1
+const DEFAULT_COLS = 1
+const DEFAULT_SCALE = 1
+const DEFAULT_FLIP = ''
+const DEFAULT_FRAME = [0, 0] // eslint-disable-line no-magic-numbers
+
 export default function Sprite({
   src,
   width,
   height,
-  rows,
-  cols,
-  scale,
-  flip,
-  frame,
+  rows = DEFAULT_ROWS,
+  cols = DEFAULT_COLS,
+  scale = DEFAULT_SCALE,
+  flip = DEFAULT_FLIP,
+  frame = DEFAULT_FRAME,
   className,
   style: customStyle,
   children,
@@ -40,12 +46,4 @@ export default function Sprite({
       {children}
     </div>
   )
-}
-
-Sprite.defaultProps = {
-  rows: 1,
-  cols: 1,
-  scale: 1,
-  frame: [0, 0], // eslint-disable-line no-magic-numbers
-  flip: '',
 }

@@ -5,7 +5,7 @@ import {
 } from '@inglorious/engine/ai/movement/dynamic/align.js'
 import lookWhereYoureGoing from '@inglorious/engine/ai/movement/dynamic/look-where-youre-going.js'
 import { clampToBounds } from '@inglorious/game/bounds.js'
-import * as Character from '@inglorious/game/types/character.js'
+import { enableCharacter } from '@inglorious/game/decorators/character.js'
 import * as Input from '@inglorious/game/types/input.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 import { sum } from '@inglorious/utils/math/linear-algebra/vectors.js'
@@ -15,44 +15,47 @@ export default {
   types: {
     ...Input.type(),
 
-    character: Character.type({
-      'game:update'(instance, event, { dt, config, instances }) {
-        const { fields } = instances.parameters.groups.lookWhereYoureGoing
+    character: [
+      enableCharacter(),
+      {
+        'game:update'(instance, event, { dt, config, instances }) {
+          const { fields } = instances.parameters.groups.lookWhereYoureGoing
 
-        const { input0 } = instances
+          const { input0 } = instances
 
-        const target = { velocity: [0, 0, 0] }
-        if (input0.left) {
-          target.velocity[0] = -1
-        }
-        if (input0.down) {
-          target.velocity[2] = -1
-        }
-        if (input0.right) {
-          target.velocity[0] = 1
-        }
-        if (input0.up) {
-          target.velocity[2] = 1
-        }
+          const target = { velocity: [0, 0, 0] }
+          if (input0.left) {
+            target.velocity[0] = -1
+          }
+          if (input0.down) {
+            target.velocity[2] = -1
+          }
+          if (input0.right) {
+            target.velocity[0] = 1
+          }
+          if (input0.up) {
+            target.velocity[2] = 1
+          }
 
-        merge(instance, {
-          velocity: target.velocity,
-          position: sum(instance.position, target.velocity),
-        })
-
-        merge(
-          instance,
-          lookWhereYoureGoing(instance, {
-            dt,
-            targetRadius: fields.targetRadius.value,
-            slowRadius: fields.slowRadius.value,
-            timeToTarget: fields.timeToTarget.value,
+          merge(instance, {
+            velocity: target.velocity,
+            position: sum(instance.position, target.velocity),
           })
-        )
 
-        clampToBounds(instance, config.bounds)
+          merge(
+            instance,
+            lookWhereYoureGoing(instance, {
+              dt,
+              targetRadius: fields.targetRadius.value,
+              slowRadius: fields.slowRadius.value,
+              timeToTarget: fields.timeToTarget.value,
+            })
+          )
+
+          clampToBounds(instance, config.bounds)
+        },
       },
-    }),
+    ],
 
     form: {
       'field:change'(instance, event) {

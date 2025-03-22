@@ -2,7 +2,7 @@ import matchVelocity, {
   DEFAULT_TIME_TO_TARGET,
 } from '@inglorious/engine/ai/movement/dynamic/match-velocity.js'
 import { clampToBounds } from '@inglorious/game/bounds.js'
-import * as Character from '@inglorious/game/types/character.js'
+import { enableCharacter } from '@inglorious/game/decorators/character.js'
 import * as Input from '@inglorious/game/types/input.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 
@@ -10,39 +10,42 @@ export default {
   types: {
     ...Input.type(),
 
-    character: Character.type({
-      'game:update'(instance, event, { dt, config, instances }) {
-        const { fields } = instances.parameters.groups.matchVelocity
+    character: [
+      enableCharacter(),
+      {
+        'game:update'(instance, event, { dt, config, instances }) {
+          const { fields } = instances.parameters.groups.matchVelocity
 
-        const { input0 } = instances
+          const { input0 } = instances
 
-        const SPEED = instance.maxSpeed
+          const SPEED = instance.maxSpeed
 
-        const target = { velocity: [0, 0, 0] }
-        if (input0.left) {
-          target.velocity[0] = -SPEED
-        }
-        if (input0.down) {
-          target.velocity[2] = -SPEED
-        }
-        if (input0.right) {
-          target.velocity[0] = SPEED
-        }
-        if (input0.up) {
-          target.velocity[2] = SPEED
-        }
+          const target = { velocity: [0, 0, 0] }
+          if (input0.left) {
+            target.velocity[0] = -SPEED
+          }
+          if (input0.down) {
+            target.velocity[2] = -SPEED
+          }
+          if (input0.right) {
+            target.velocity[0] = SPEED
+          }
+          if (input0.up) {
+            target.velocity[2] = SPEED
+          }
 
-        merge(
-          instance,
-          matchVelocity(instance, target, {
-            dt,
-            timeToTarget: fields.timeToTarget.value,
-          })
-        )
+          merge(
+            instance,
+            matchVelocity(instance, target, {
+              dt,
+              timeToTarget: fields.timeToTarget.value,
+            })
+          )
 
-        clampToBounds(instance, config.bounds)
+          clampToBounds(instance, config.bounds)
+        },
       },
-    }),
+    ],
 
     form: {
       'field:change'(instance, event) {

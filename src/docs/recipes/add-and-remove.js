@@ -1,4 +1,4 @@
-import * as Character from '@inglorious/game/types/character.js'
+import { enableCharacter } from '@inglorious/game/decorators/character.js'
 import * as Mouse from '@inglorious/game/types/mouse.js'
 import { random } from '@inglorious/utils/math/rng.js'
 import { pi } from '@inglorious/utils/math/trigonometry.js'
@@ -28,17 +28,20 @@ export default {
       },
     }),
 
-    character: Character.type({
-      hitbox: {
-        shape: 'circle',
-        radius: 12,
-      },
+    character: [
+      enableCharacter(),
+      {
+        hitbox: {
+          shape: 'circle',
+          radius: 12,
+        },
 
-      // this event handler is needed for React
-      'instance:click'(instance, event, { notify }) {
-        notify({ id: 'instance:remove', payload: event.payload })
+        // this event handler is needed for React
+        'instance:click'(instance, event, { notify }) {
+          notify({ id: 'instance:remove', payload: event.payload })
+        },
       },
-    }),
+    ],
   },
 
   state: {

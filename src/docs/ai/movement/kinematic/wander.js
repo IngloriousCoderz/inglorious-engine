@@ -1,17 +1,20 @@
 import wander from '@inglorious/engine/ai/movement/kinematic/wander.js'
 import { flip } from '@inglorious/game/bounds.js'
-import * as Character from '@inglorious/game/types/character.js'
+import { enableCharacter } from '@inglorious/game/decorators/character.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
 import { pi } from '@inglorious/utils/math/trigonometry.js'
 
 export default {
   types: {
-    character: Character.type({
-      'game:update'(instance, event, { dt, config }) {
-        merge(instance, wander(instance, { dt }))
-        flip(instance, config.bounds)
+    character: [
+      enableCharacter(),
+      {
+        'game:update'(instance, event, { dt, config }) {
+          merge(instance, wander(instance, { dt }))
+          flip(instance, config.bounds)
+        },
       },
-    }),
+    ],
   },
 
   state: {

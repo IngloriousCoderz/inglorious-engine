@@ -1,7 +1,7 @@
 import { collidesWith } from '@inglorious/engine/collision/detection.js'
 import move from '@inglorious/engine/player/kinematic/move.js'
 import { clampToBounds } from '@inglorious/game/bounds.js'
-import * as Character from '@inglorious/game/types/character.js'
+import { enableCharacter } from '@inglorious/game/decorators/character.js'
 import * as Input from '@inglorious/game/types/input.js'
 import * as Platform from '@inglorious/game/types/platform.js'
 import { merge } from '@inglorious/utils/data-structures/objects.js'
@@ -12,43 +12,47 @@ export default {
   types: {
     ...Input.type(),
 
-    character: Character.type({
-      states: {
-        notJumping: {
-          'game:update'(instance, event, options) {
-            const { input0 } = options.instances
+    character: [
+      enableCharacter(),
+      {
+        states: {
+          notJumping: {
+            'game:update'(instance, event, options) {
+              const { input0 } = options.instances
 
-            instance.velocity = [0, 0, 0]
-            if (input0.left) {
-              instance.velocity[0] = -instance.maxSpeed
-            }
-            if (input0.right) {
-              instance.velocity[0] = instance.maxSpeed
-            }
+              instance.velocity = [0, 0, 0]
+              if (input0.left) {
+                instance.velocity[0] = -instance.maxSpeed
+              }
+              if (input0.right) {
+                instance.velocity[0] = instance.maxSpeed
+              }
 
-            if (input0.leftRight != null) {
-              instance.velocity[0] += input0.leftRight * instance.maxSpeed
-            }
+              if (input0.leftRight != null) {
+                instance.velocity[0] += input0.leftRight * instance.maxSpeed
+              }
 
-            act(instance, event, options)
+              act(instance, event, options)
+            },
+
+            'input:press'(instance, event, { dt }) {
+              const { id, action } = event.payload
+              if (id === 0 && action === 'jump' && !instance.vy) {
+                instance.state = 'jumping'
+                merge(instance, jump(instance, { dt }))
+              }
+            },
           },
 
-          'input:press'(instance, event, { dt }) {
-            const { id, action } = event.payload
-            if (id === 0 && action === 'jump' && !instance.vy) {
-              instance.state = 'jumping'
-              merge(instance, jump(instance, { dt }))
-            }
-          },
-        },
-
-        jumping: {
-          'game:update'(instance, event, options) {
-            act(instance, event, options)
+          jumping: {
+            'game:update'(instance, event, options) {
+              act(instance, event, options)
+            },
           },
         },
       },
-    }),
+    ],
+
     platform: Platform.type(),
   },
 

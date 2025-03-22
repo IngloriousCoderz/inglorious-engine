@@ -1,4 +1,4 @@
-import * as Character from '@inglorious/game/types/character.js'
+import { enableCharacter } from '@inglorious/game/decorators/character.js'
 import * as Fps from '@inglorious/game/types/fps.js'
 import * as Mouse from '@inglorious/game/types/mouse.js'
 
@@ -8,12 +8,15 @@ export default {
 
     fps: Fps.type(),
 
-    character: Character.type({
-      'game:update'(instance, event, { instances }) {
-        const { mouse } = instances
-        instance.position = mouse.position
+    character: [
+      enableCharacter(),
+      {
+        'game:update'(instance, event, { instances }) {
+          const { mouse } = instances
+          instance.position = mouse.position
+        },
       },
-    }),
+    ],
   },
 
   state: {
