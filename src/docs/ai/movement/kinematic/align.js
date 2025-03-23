@@ -17,7 +17,9 @@ export default {
   types: {
     mouse: [
       enableMouse(),
-      {
+      (type) => ({
+        ...type,
+
         "field:change"(instance, event) {
           const { id, value } = event.payload
           if (id === "targetOrientation") {
@@ -35,14 +37,16 @@ export default {
           }
           instance.orientation = clamp(instance.orientation, -pi(), pi())
         },
-      },
+      }),
     ],
 
     ...enableControls(),
 
     character: [
       enableCharacter(),
-      {
+      (type) => ({
+        ...type,
+
         "game:update"(instance, event, { dt, config, instances }) {
           const target = instances.mouse
           const { fields } = instances.parameters.groups.align
@@ -58,7 +62,7 @@ export default {
 
           clampToBounds(instance, config.bounds)
         },
-      },
+      }),
     ],
 
     form: {

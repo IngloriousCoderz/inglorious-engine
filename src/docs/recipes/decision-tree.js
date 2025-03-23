@@ -55,7 +55,7 @@ export default {
     cat: [
       enableSprite({
         id: "neko",
-        src: "./src/docs/recipes/decision-tree/neko.png",
+        src: "/decision-tree/neko.png",
         width: 192,
         height: 192,
         rows: 6,

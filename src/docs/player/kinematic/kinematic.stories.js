@@ -1,4 +1,4 @@
-import Game from "@inglorious/ui/react/game/index.jsx"
+import Game from "@inglorious/docs/game.jsx"
 
 import doubleJump from "./double-jump.js"
 import jump from "./jump.js"

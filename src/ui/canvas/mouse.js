@@ -1,13 +1,15 @@
 /* eslint-disable no-magic-numbers */
 
 export default function draw(ctx, options = {}) {
-  const { color = "black", thickness = 1 } = options
+  const { color = "black", thickness = 1, orientation = 0 } = options
 
   ctx.save()
 
   ctx.strokeStyle = color
   ctx.fillStyle = color
   ctx.lineWidth = thickness
+
+  ctx.rotate(-orientation)
 
   ctx.beginPath()
   ctx.moveTo(-6, 0)

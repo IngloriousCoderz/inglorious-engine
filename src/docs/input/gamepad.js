@@ -16,7 +16,9 @@ export default {
 
     character: [
       enableCharacter(),
-      {
+      (type) => ({
+        ...type,
+
         "game:update"(instance, event, options) {
           const { gamepad0 } = options.instances
 
@@ -44,7 +46,7 @@ export default {
 
           merge(instance, move(instance, options))
         },
-      },
+      }),
     ],
   },
 

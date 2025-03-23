@@ -1,4 +1,4 @@
-import Game from "@inglorious/ui/react/game/index.jsx"
+import Game from "@inglorious/docs/game.jsx"
 
 import circles from "./circles.js"
 import platform from "./platform.js"

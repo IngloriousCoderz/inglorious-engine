@@ -9,16 +9,19 @@ export default {
 
     character: [
       enableCharacter(),
-      {
+      (type) => ({
+        ...type,
+
         hitbox: {
           shape: "circle",
           radius: 12,
         },
 
+        // this event handler is needed for React
         "instance:click"(instance, event, { notify }) {
           notify({ id: "instance:remove", payload: event.payload })
         },
-      },
+      }),
     ],
   },
 

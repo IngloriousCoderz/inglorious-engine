@@ -10,14 +10,13 @@ export function enableCharacter(params) {
 
   return (type) => ({
     ...type,
+    draw,
 
     states: {
       ...type.states,
 
       [params.onState]: {
         ...type.states?.[params.onState],
-
-        draw,
       },
     },
   })

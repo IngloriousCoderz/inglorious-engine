@@ -10,11 +10,13 @@ export default {
   types: {
     character: [
       enableCharacter(),
-      {
+      (type) => ({
+        ...type,
+
         "game:update"(instance, event, options) {
           merge(instance, bounce(instance, options))
         },
-      },
+      }),
     ],
 
     fps: [enableFps()],

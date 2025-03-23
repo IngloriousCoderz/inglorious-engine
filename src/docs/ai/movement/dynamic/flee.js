@@ -10,7 +10,9 @@ export default {
 
     character: [
       enableCharacter(),
-      {
+      (type) => ({
+        ...type,
+
         "game:update"(instance, event, { dt, config, instances }) {
           const target = instances.mouse
 
@@ -18,7 +20,7 @@ export default {
 
           clampToBounds(instance, config.bounds)
         },
-      },
+      }),
     ],
   },
 

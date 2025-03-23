@@ -9,7 +9,9 @@ export default {
   types: {
     character: [
       enableCharacter(),
-      {
+      (type) => ({
+        ...type,
+
         "game:update"(instance, event, { dt, config, instances }) {
           const characters = Object.values(instances).filter(
             ({ type }) => type === "character",
@@ -22,7 +24,7 @@ export default {
           }
           merge(instance, bounce(instance, { dt, config }))
         },
-      },
+      }),
     ],
   },
 

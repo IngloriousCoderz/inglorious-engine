@@ -1,10 +1,10 @@
 /** @type { import('@storybook/react-vite').StorybookConfig } */
+
 const config = {
-  stories: [
-    "../src/docs/engine.mdx",
-    "../src/**/*.mdx",
-    "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)",
-  ],
+  framework: {
+    name: "@storybook/react-vite",
+    options: {},
+  },
 
   addons: [
     "@storybook/addon-links",
@@ -14,15 +14,17 @@ const config = {
     "@chromatic-com/storybook",
   ],
 
-  framework: {
-    name: "@storybook/react-vite",
-    options: {},
+  typescript: {
+    reactDocgen: "react-docgen-typescript",
   },
 
   docs: {},
 
-  typescript: {
-    reactDocgen: "react-docgen-typescript",
-  },
+  stories: [
+    "../src/docs/engine.mdx",
+    "../src/**/*.mdx",
+    "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)",
+  ],
 }
+
 export default config

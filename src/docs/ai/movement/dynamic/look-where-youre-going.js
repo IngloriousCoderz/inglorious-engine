@@ -20,7 +20,9 @@ export default {
 
     character: [
       enableCharacter(),
-      {
+      (type) => ({
+        ...type,
+
         "game:update"(instance, event, { dt, config, instances }) {
           const { fields } = instances.parameters.groups.lookWhereYoureGoing
 
@@ -57,7 +59,7 @@ export default {
 
           clampToBounds(instance, config.bounds)
         },
-      },
+      }),
     ],
 
     form: {

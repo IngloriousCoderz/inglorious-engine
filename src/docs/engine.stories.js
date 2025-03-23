@@ -1,4 +1,4 @@
-import Game from "@inglorious/ui/react/game/index.jsx"
+import Game from "@inglorious/docs/game.jsx"
 
 import bounds from "./bounds.js"
 import codeReuse from "./code-reuse.js"

@@ -13,7 +13,9 @@ export default {
 
     character: [
       enableCharacter(),
-      {
+      (type) => ({
+        ...type,
+
         "game:update"(instance, event, { dt, config, instances }) {
           const target = instances.mouse
           const { fields } = instances.parameters.groups.arrive
@@ -29,7 +31,7 @@ export default {
 
           clampToBounds(instance, config.bounds)
         },
-      },
+      }),
     ],
 
     form: {

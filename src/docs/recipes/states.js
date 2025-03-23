@@ -14,13 +14,18 @@ export default {
 
     character: [
       enableCharacter(),
-      {
+      (type) => ({
+        ...type,
+
         states: {
+          ...type.states,
+
           meandering: {
-            "game:update"(instance, event, { dt, config, instances }) {
+            "game:update"(instance, event, options) {
+              const { config, instances } = options
               const target = instances.mouse
 
-              merge(instance, wander(instance, { dt }))
+              merge(instance, wander(instance, options))
               flip(instance, config.bounds)
 
               if (length(subtract(instance.position, target.position)) < 200) {
@@ -30,10 +35,11 @@ export default {
           },
 
           hunting: {
-            "game:update"(instance, event, { dt, config, instances }) {
+            "game:update"(instance, event, options) {
+              const { config, instances } = options
               const target = instances.mouse
 
-              merge(instance, arrive(instance, target, { dt }))
+              merge(instance, arrive(instance, target, options))
               clampToBounds(instance, config.bounds)
 
               if (length(subtract(instance.position, target.position)) >= 200) {
@@ -42,7 +48,7 @@ export default {
             },
           },
         },
-      },
+      }),
     ],
   },
 

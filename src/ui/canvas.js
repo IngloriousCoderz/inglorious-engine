@@ -5,8 +5,7 @@ import { absolutePosition } from "./canvas/absolute-position.js"
 
 const Z = 2
 
-export function start(game) {
-  const canvas = document.getElementById("canvas")
+export function start(game, canvas) {
   const ctx = canvas.getContext("2d")
   const engine = new Engine(game, { render: render(ctx) })
 

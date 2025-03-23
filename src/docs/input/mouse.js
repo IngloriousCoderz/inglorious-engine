@@ -7,13 +7,15 @@ export default {
 
     character: [
       enableCharacter(),
-      {
+      (type) => ({
+        ...type,
+
         "game:update"(instance, event, options) {
           const { mouse } = options.instances
 
           instance.position = mouse.position
         },
-      },
+      }),
     ],
   },
 

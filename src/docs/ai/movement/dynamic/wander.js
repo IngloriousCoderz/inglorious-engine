@@ -11,7 +11,9 @@ export default {
   types: {
     character: [
       enableCharacter(),
-      {
+      (type) => ({
+        ...type,
+
         "game:update"(instance, event, { dt, config, instances }) {
           const { fields } = instances.parameters.groups.wander
 
@@ -25,7 +27,7 @@ export default {
           )
           flip(instance, config.bounds)
         },
-      },
+      }),
     ],
 
     form: {

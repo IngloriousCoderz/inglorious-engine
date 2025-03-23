@@ -18,7 +18,9 @@ export default {
   types: {
     mouse: [
       enableMouse(),
-      {
+      (type) => ({
+        ...type,
+
         "field:change"(instance, event) {
           const { id, value } = event.payload
           if (id === "targetOrientation") {
@@ -26,8 +28,8 @@ export default {
           }
         },
 
-        "game:update"(instance, event, { instances }) {
-          const { input0 } = instances
+        "game:update"(instance, event, options) {
+          const { input0 } = options.instances
 
           if (input0.left || input0.up) {
             instance.orientation += 0.1
@@ -36,14 +38,16 @@ export default {
           }
           instance.orientation = clamp(instance.orientation, -pi(), pi())
         },
-      },
+      }),
     ],
 
     ...enableControls(),
 
     character: [
       enableCharacter(),
-      {
+      (type) => ({
+        ...type,
+
         "game:update"(instance, event, { dt, config, instances }) {
           const target = instances.mouse
           const { fields } = instances.parameters.groups.align
@@ -60,7 +64,7 @@ export default {
 
           clampToBounds(instance, config.bounds)
         },
-      },
+      }),
     ],
 
     form: {

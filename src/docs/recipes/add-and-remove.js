@@ -35,7 +35,9 @@ export default {
 
     character: [
       enableCharacter(),
-      {
+      (type) => ({
+        ...type,
+
         hitbox: {
           shape: "circle",
           radius: 12,
@@ -45,7 +47,7 @@ export default {
         "instance:click"(instance, event, { notify }) {
           notify({ id: "instance:remove", payload: event.payload })
         },
-      },
+      }),
     ],
   },
 

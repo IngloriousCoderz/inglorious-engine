@@ -8,12 +8,14 @@ export default {
   types: {
     character: [
       enableCharacter(),
-      {
+      (type) => ({
+        ...type,
+
         "game:update"(instance, event, { dt, config }) {
           merge(instance, wander(instance, { dt }))
           flip(instance, config.bounds)
         },
-      },
+      }),
     ],
   },
 

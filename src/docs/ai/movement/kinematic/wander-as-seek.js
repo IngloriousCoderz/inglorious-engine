@@ -10,7 +10,9 @@ export default {
   types: {
     character: [
       enableCharacter(),
-      {
+      (type) => ({
+        ...type,
+
         "game:update"(instance, event, { dt, config, instances }) {
           const { fields } = instances.parameters.groups.wanderAsSeek
 
@@ -23,7 +25,7 @@ export default {
           )
           flip(instance, config.bounds)
         },
-      },
+      }),
     ],
 
     form: {

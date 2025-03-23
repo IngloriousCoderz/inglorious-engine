@@ -10,14 +10,16 @@ export default {
 
     character: [
       enableCharacter(),
-      {
+      (type) => ({
+        ...type,
+
         "game:update"(instance, event, { dt, config, instances }) {
           const target = instances.mouse
 
           merge(instance, flee(instance, target, { dt }))
           clampToBounds(instance, config.bounds)
         },
-      },
+      }),
     ],
   },
 

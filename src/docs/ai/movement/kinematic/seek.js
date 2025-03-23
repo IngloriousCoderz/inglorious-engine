@@ -9,13 +9,15 @@ export default {
 
     character: [
       enableCharacter(),
-      {
+      (type) => ({
+        ...type,
+
         "game:update"(instance, event, { dt, instances }) {
           const target = instances.mouse
 
           merge(instance, seek(instance, target, { dt }))
         },
-      },
+      }),
     ],
   },
 
