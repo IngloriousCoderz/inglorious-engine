@@ -31,7 +31,7 @@ export function push(heap, item, comparator = DEFAULT_COMPARATOR) {
   let parentIndex = parent(index)
 
   while (index > 0 && comparator(h[index], h[parentIndex]) > 0) {
-    ;[h[index], h[parentIndex]] = [h[parentIndex], h[index]] // eslint-disable-line no-extra-semi
+    ;[h[index], h[parentIndex]] = [h[parentIndex], h[index]]
 
     index = parentIndex
     parentIndex = parent(index)
@@ -59,7 +59,7 @@ export function pop(heap, comparator = DEFAULT_COMPARATOR) {
     newMinFound = comparator(h[minIndex], h[index]) > 0
 
     if (newMinFound) {
-      ;[h[minIndex], h[index]] = [h[index], h[minIndex]] // eslint-disable-line no-extra-semi
+      ;[h[minIndex], h[index]] = [h[index], h[minIndex]]
 
       index = minIndex
       leftIndex = left(index)

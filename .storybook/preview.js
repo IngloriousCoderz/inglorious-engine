@@ -1,5 +1,6 @@
 /** @type { import('@storybook/react').Preview } */
 import "./style.css"
+
 import theme from "./theme"
 
 const preview = {
