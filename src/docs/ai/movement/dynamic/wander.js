@@ -21,7 +21,7 @@ export default {
               dt,
               wanderOffset: fields.wanderOffset.value,
               wanderRadius: fields.wanderRadius.value,
-            })
+            }),
           )
           flip(instance, config.bounds)
         },

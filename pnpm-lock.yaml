@@ -81,6 +81,9 @@ importers:
       eslint-plugin-storybook:
         specifier: ^0.11.6
         version: 0.11.6(eslint@8.48.0)(typescript@5.2.2)
+      husky:
+        specifier: ^9.1.7
+        version: 9.1.7
       prop-types:
         specifier: 15.8.1
         version: 15.8.1
@@ -1416,6 +1419,11 @@ packages:
   has@1.0.3:
     resolution: {integrity: sha512-f2dvO0VU6Oej7RkWJGrehjbzMAjFp5/VKPp5tTpWIV4JHHZK1/BxbFRtf/siA2SWTe09caDmVtYYzWEIbBS4zw==}
     engines: {node: '>= 0.4.0'}
+
+  husky@9.1.7:
+    resolution: {integrity: sha512-5gs5ytaNjBrh5Ow3zrvdUUY+0VxIuWVL4i9irt6friV+BqdCfmV11CQTWMiBYWHbXhco+J1kHfTOUkePhCDvMA==}
+    engines: {node: '>=18'}
+    hasBin: true
 
   ignore@5.2.4:
     resolution: {integrity: sha512-MAb38BcSbH0eHNBxn7ql2NH/kX33OkB3lZ1BNdh7ENeRChHTYsTvWrMubiIAMNS2llXEEgZ1MUOBtXChP3kaFQ==}
@@ -3894,6 +3902,8 @@ snapshots:
   has@1.0.3:
     dependencies:
       function-bind: 1.1.1
+
+  husky@9.1.7: {}
 
   ignore@5.2.4: {}
 

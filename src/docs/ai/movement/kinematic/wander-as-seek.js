@@ -19,7 +19,7 @@ export default {
             wanderAsSeek(instance, {
               dt,
               wanderRadius: fields.wanderRadius.value,
-            })
+            }),
           )
           flip(instance, config.bounds)
         },

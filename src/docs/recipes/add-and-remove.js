@@ -10,7 +10,7 @@ export default {
       {
         "scene:click"(instance, event, { instances, notify }) {
           const characters = Object.values(instances).filter(
-            ({ type }) => type === "character"
+            ({ type }) => type === "character",
           )
           const ids = characters.map(({ id }) => id)
 

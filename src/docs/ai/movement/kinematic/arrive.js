@@ -24,7 +24,7 @@ export default {
               dt,
               targetRadius: fields.targetRadius.value,
               timeToTarget: fields.timeToTarget.value,
-            })
+            }),
           )
 
           clampToBounds(instance, config.bounds)

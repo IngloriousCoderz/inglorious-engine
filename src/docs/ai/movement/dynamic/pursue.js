@@ -22,7 +22,7 @@ export default {
             pursue(instance, target, {
               dt,
               maxPrediction: fields.maxPrediction.value,
-            })
+            }),
           )
 
           clampToBounds(instance, config.bounds)

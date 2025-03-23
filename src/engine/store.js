@@ -89,7 +89,7 @@ function enableMutability(types) {
   return map(types, (_, { states, ...rest }) => ({
     ...rest,
     states: map(states, (_, events) =>
-      map(events, (_, event) => produce(event))
+      map(events, (_, event) => produce(event)),
     ),
   }))
 }

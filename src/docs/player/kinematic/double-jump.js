@@ -53,7 +53,7 @@ export default {
               type.states?.doubleJumping["game:update"]?.(
                 instance,
                 event,
-                options
+                options,
               )
 
               stopFreeFalling(instance)

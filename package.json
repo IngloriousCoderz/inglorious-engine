@@ -14,9 +14,11 @@
   "scripts": {
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "format": "prettier --write '**/*.{js,jsx}'",
-    "test": "vitest",
+    "test:watch": "vitest",
+    "test": "vitest run",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "prepare": "husky"
   },
   "dependencies": {
     "immer": "^10.1.1",
@@ -45,6 +47,7 @@
     "eslint-plugin-require-extensions": "^0.1.3",
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "eslint-plugin-storybook": "^0.11.6",
+    "husky": "^9.1.7",
     "prop-types": "15.8.1",
     "sass": "^1.66.1",
     "storybook": "^8.6.8",

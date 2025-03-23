@@ -12,7 +12,7 @@ export default {
       {
         "game:update"(instance, event, { dt, config, instances }) {
           const characters = Object.values(instances).filter(
-            ({ type }) => type === "character"
+            ({ type }) => type === "character",
           )
           const target = characters.find(({ id }) => id !== instance.id)
 

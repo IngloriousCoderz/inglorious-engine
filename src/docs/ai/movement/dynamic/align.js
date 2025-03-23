@@ -55,7 +55,7 @@ export default {
               targetRadius: fields.targetRadius.value,
               slowRadius: fields.slowRadius.value,
               timeToTarget: fields.timeToTarget.value,
-            })
+            }),
           )
 
           clampToBounds(instance, config.bounds)

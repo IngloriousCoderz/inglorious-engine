@@ -42,7 +42,7 @@ export default {
             matchVelocity(instance, target, {
               dt,
               timeToTarget: fields.timeToTarget.value,
-            })
+            }),
           )
 
           clampToBounds(instance, config.bounds)

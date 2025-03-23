@@ -19,7 +19,7 @@ export default {
             position: [random(0, 800), 0, random(0, 600)],
             orientation: random(0, 2 * pi(), 0.01),
           },
-        ])
+        ]),
     ),
   },
 }
