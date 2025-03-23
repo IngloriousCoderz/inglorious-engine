@@ -56,10 +56,10 @@ function createDraw(options) {
       <Component
         key={instance.id}
         id={instance.id}
-        config={config}
-        instances={instances}
         type={type}
+        config={config}
         instance={instance}
+        instances={instances}
       />
     )
   }

@@ -15,6 +15,7 @@ export const Default = {
       instances: {
         login: {
           type: "form",
+          position: [150, 0, 600 - 160],
           fields: {
             username: {
               label: "Username",
