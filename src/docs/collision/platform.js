@@ -46,6 +46,7 @@ export default {
         },
       },
     },
+
     ground: {
       id: "ground",
       type: "platform",
@@ -57,6 +58,7 @@ export default {
         },
       },
     },
+
     platform: {
       id: "platform",
       type: "platform",

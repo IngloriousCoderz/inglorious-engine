@@ -7,7 +7,9 @@ export default {
   types: {
     mouse: [
       enableMouse(),
-      {
+      (type) => ({
+        ...type,
+
         "scene:click"(instance, event, { instances, notify }) {
           const characters = Object.values(instances).filter(
             ({ type }) => type === "character",
@@ -28,7 +30,7 @@ export default {
             },
           })
         },
-      },
+      }),
     ],
 
     character: [
@@ -48,6 +50,10 @@ export default {
   },
 
   instances: {
-    mouse: { id: "mouse", type: "mouse", position: [400, 0, 300] },
+    mouse: {
+      id: "mouse",
+      type: "mouse",
+      position: [400, 0, 300],
+    },
   },
 }

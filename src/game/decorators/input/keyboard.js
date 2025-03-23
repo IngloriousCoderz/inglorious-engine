@@ -8,7 +8,7 @@ export function enableKeyboard() {
   return (type) => ({
     ...type,
 
-    "game:update"(instance, event, options) {
+    "game:start"(instance, event, options) {
       handleKeyDown = createKeyboardHandler("keyboard:keyDown", options)
       handleKeyUp = createKeyboardHandler("keyboard:keyUp", options)
 

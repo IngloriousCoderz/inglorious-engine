@@ -56,6 +56,8 @@ export default {
     fps: [enableFps()],
 
     cat: {
+      draw,
+
       sprite: {
         id: "neko",
         src: "./src/docs/recipes/decision-tree/neko.png",
@@ -222,13 +224,15 @@ export default {
           },
         },
       },
-
-      draw,
     },
   },
 
   instances: {
-    mouse: { id: "mouse", type: "mouse", position: [400, 0, 300] },
+    mouse: {
+      id: "mouse",
+      type: "mouse",
+      position: [400, 0, 300],
+    },
 
     fps: {
       id: "fps",

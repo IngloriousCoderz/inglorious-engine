@@ -17,7 +17,7 @@ export default class Engine {
   constructor(game, ui) {
     this._config = merge({}, DEFAULT_CONFIG, game)
     this._config.types = applyDecorators(this._config.types)
-    this._config.types = turnTypesIntoFsm(this._config.types)
+    this._config.types = turnIntoFsm(this._config.types)
     this._store = createStore(this._config)
     this._loop = new Loop[this._config.loop.type]()
     this._ui = ui
@@ -32,6 +32,7 @@ export default class Engine {
     const msPerFrame = ONE_SECOND / fps
     this._loop.start(this, msPerFrame)
     this.isRunning = true
+    this._store.notify({ id: "game:start" })
   }
 
   update(dt) {
@@ -41,7 +42,7 @@ export default class Engine {
   render(dt) {
     this._ui?.render({
       dt,
-      config: this._config,
+      config: this.config,
       instances: this._store.getState().instances,
     })
   }
@@ -71,7 +72,7 @@ function applyDecorators(types) {
   })
 }
 
-function turnTypesIntoFsm(types) {
+function turnIntoFsm(types) {
   return map(types, (_, type) => {
     const topLevelEventHandlers = filter(
       type,

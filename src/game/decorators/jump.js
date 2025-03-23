@@ -5,11 +5,11 @@ import { jump } from "@inglorious/utils/physics/jump.js"
 
 const DEFAULT_PARAMS = {
   onState: "default",
+  onInput: "input0",
   maxSpeed: 250,
   maxJump: 100,
   maxLeap: 100,
 }
-const INPUT_0 = 0
 const FALLING = 0
 const Z = 2
 
@@ -44,12 +44,17 @@ export function enableJump(params) {
             options,
           )
 
+          instance.onInput = instance.onInput ?? params.onInput
           instance.maxJump = instance.maxJump ?? params.maxJump
           instance.maxLeap = instance.maxLeap ?? params.maxLeap
           instance.maxSpeed = instance.maxSpeed ?? params.maxSpeed
 
           const { id, action } = event.payload
-          if (id === INPUT_0 && action === "jump" && !instance.vy) {
+          if (
+            id.endsWith(instance.onInput) &&
+            action === "jump" &&
+            !instance.vy
+          ) {
             instance.state = "jumping"
             merge(instance, jump(instance, options))
           }

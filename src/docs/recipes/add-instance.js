@@ -7,8 +7,11 @@ export default {
   types: {
     mouse: [
       enableMouse(),
-      {
-        "mouse:click"(instance, event, { instances, notify }) {
+      (type) => ({
+        ...type,
+
+        "mouse:click"(instance, event, options) {
+          const { instances, notify } = options
           const characters = Object.keys(instances)
 
           notify({
@@ -21,13 +24,17 @@ export default {
             },
           })
         },
-      },
+      }),
     ],
 
     character: [enableCharacter()],
   },
 
   instances: {
-    mouse: { id: "mouse", type: "mouse", position: [400, 0, 300] },
+    mouse: {
+      id: "mouse",
+      type: "mouse",
+      position: [400, 0, 300],
+    },
   },
 }

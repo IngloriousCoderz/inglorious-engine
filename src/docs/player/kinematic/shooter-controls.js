@@ -22,7 +22,12 @@ export default {
   },
 
   instances: {
-    mouse: { id: "mouse", type: "mouse", position: [400, 0, 300] },
+    mouse: {
+      id: "mouse",
+      type: "mouse",
+      position: [400, 0, 300],
+    },
+
     ...createControls("input0", {
       ArrowLeft: "left",
       ArrowRight: "right",
