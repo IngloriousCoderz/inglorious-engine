@@ -2,14 +2,13 @@
 
 import circle from "./shapes/circle.js"
 
-const DEFAULT_OPTIONS = {}
-
-export default function draw(ctx, options = DEFAULT_OPTIONS) {
+export default function draw(ctx, options = {}) {
   const { size = 24, orientation = 0 } = options
 
   const radius = size * 0.5
 
   ctx.save()
+
   ctx.rotate(-orientation)
   ctx.translate(radius - 1, 0)
 
@@ -25,5 +24,6 @@ export default function draw(ctx, options = DEFAULT_OPTIONS) {
 
   ctx.save()
   circle(ctx, { ...options, radius, fill: "lightgrey" })
+
   ctx.restore()
 }

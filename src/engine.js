@@ -74,17 +74,22 @@ function applyDecorators(types) {
 
 function turnIntoFsm(types) {
   return map(types, (_, type) => {
+    const { draw, ...rest } = type
     const topLevelEventHandlers = filter(
-      type,
+      rest,
       (_, value) => typeof value === "function",
     )
     const typeWithoutTopLevelEventHandlers = filter(
-      type,
+      rest,
       (_, value) => typeof value !== "function",
     )
 
-    return merge(typeWithoutTopLevelEventHandlers, {
-      states: { default: topLevelEventHandlers },
-    })
+    return merge(
+      typeWithoutTopLevelEventHandlers,
+      { draw },
+      {
+        states: { default: topLevelEventHandlers },
+      },
+    )
   })
 }

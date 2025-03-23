@@ -1,20 +1,28 @@
-import draw from "@inglorious/ui/canvas/shapes/rectangle.js"
+import { enableMouse } from "@inglorious/game/decorators/input/mouse.js"
+import { enableButton } from "@inglorious/game/decorators/ui/button.js"
 
 export default {
   types: {
-    rectangle: {
-      width: 100,
-      height: 50,
-      color: "black",
-      backgroundColor: "darkgrey",
-      draw,
-    },
+    mouse: [enableMouse()],
+
+    button: [
+      enableButton(),
+      {
+        size: [100, 50],
+        color: "black",
+        backgroundColor: "darkgrey",
+      },
+    ],
   },
 
   instances: {
+    mouse: {
+      type: "mouse",
+    },
+
     rect1: {
       id: "rect1",
-      type: "rectangle",
+      type: "button",
       position: [400, 0, 300],
     },
   },

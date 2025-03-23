@@ -1,14 +1,25 @@
-export function draw(ctx, options) {
-  const { instance } = options
-  const { state } = instance
+/* eslint-disable no-magic-numbers */
+
+export default function draw(ctx, options = {}) {
+  const { size, color = "black", thickness = 1, instance } = options
+  const [width = 100, height = 50] = size
 
   ctx.save()
 
-  if (state === "pressed") {
+  ctx.lineWidth = thickness
+  ctx.strokeStyle = color
+
+  if (instance.state === "pressed") {
     ctx.fillStyle = "white"
   } else {
     ctx.fillStyle = "black"
   }
+
+  ctx.beginPath()
+  ctx.fillRect(0, 0, width, height)
+  ctx.strokeRect(0, 0, width, height)
+  ctx.stroke()
+  ctx.closePath()
 
   ctx.restore()
 }

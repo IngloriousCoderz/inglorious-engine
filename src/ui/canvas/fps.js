@@ -1,9 +1,11 @@
 const DEFAULT_PADDING = 10
 const ONE_SECOND = 1
 
-export default function draw(ctx, options) {
+export default function draw(ctx, options = {}) {
   const { config, type, dt } = options
   const { accuracy, size } = config.types[type]
+
+  ctx.save()
 
   ctx.font = `${size}px sans serif`
   ctx.fillStyle = "black"
@@ -12,4 +14,6 @@ export default function draw(ctx, options) {
     DEFAULT_PADDING,
     DEFAULT_PADDING + size,
   )
+
+  ctx.restore()
 }

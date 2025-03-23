@@ -1,12 +1,17 @@
 /* eslint-disable no-magic-numbers */
 
-const DEFAULT_OPTIONS = {}
-
-export default function draw(ctx, options = DEFAULT_OPTIONS) {
-  const { size, color = "black", backgroundColor = "transparent" } = options
+export default function draw(ctx, options = {}) {
+  const {
+    size,
+    color = "black",
+    backgroundColor = "transparent",
+    thickness = 1,
+  } = options
   const [width = 100, height = 50] = size
 
-  ctx.lineWidth = 1
+  ctx.save()
+
+  ctx.lineWidth = thickness
   ctx.strokeStyle = color
   ctx.fillStyle = backgroundColor
 
@@ -15,4 +20,6 @@ export default function draw(ctx, options = DEFAULT_OPTIONS) {
   ctx.strokeRect(0, 0, width, height)
   ctx.stroke()
   ctx.closePath()
+
+  ctx.restore()
 }

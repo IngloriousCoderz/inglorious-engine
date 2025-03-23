@@ -59,8 +59,9 @@ function render(ctx) {
 }
 
 function draw(ctx, instance, options) {
-  const type = options.config.types[instance.type]
-  const draw = type?.states[instance.state]?.draw || type?.draw
+  const { config } = options
+  const type = config.types[instance.type]
+  const draw = type.states[instance.state]?.draw || type.draw
 
   if (draw) {
     absolutePosition(draw)(ctx, { ...options, ...type, ...instance })

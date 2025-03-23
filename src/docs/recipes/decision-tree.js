@@ -1,6 +1,6 @@
 import arrive from "@inglorious/engine/ai/movement/kinematic/arrive.js"
 import { enableMouse } from "@inglorious/game/decorators/input/mouse.js"
-import { enableSprite } from "@inglorious/game/decorators/sprite"
+import { enableSprite } from "@inglorious/game/decorators/sprite.js"
 import * as Sprite from "@inglorious/game/sprite.js"
 import { decide } from "@inglorious/utils/algorithms/decision-tree.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"

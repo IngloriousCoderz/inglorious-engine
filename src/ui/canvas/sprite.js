@@ -1,6 +1,6 @@
 /* eslint-disable no-magic-numbers */
 
-export default function draw(ctx, options) {
+export default function draw(ctx, options = {}) {
   const { config, type, sprite } = options
   const { id, width, height, rows, cols, scale, states } =
     config.types[type].sprite
@@ -12,6 +12,8 @@ export default function draw(ctx, options) {
 
   const cellWidth = width / cols
   const cellHeight = height / rows
+
+  ctx.save()
 
   ctx.scale(flip === "h" ? -1 : 1, flip === "v" ? -1 : 1)
   ctx.scale(scale, scale)
@@ -28,4 +30,6 @@ export default function draw(ctx, options) {
     cellWidth,
     cellHeight,
   )
+
+  ctx.restore()
 }
