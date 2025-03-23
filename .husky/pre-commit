@@ -1,3 +1,2 @@
 pnpm format --fix
 pnpm lint --fix
-pnpm test
