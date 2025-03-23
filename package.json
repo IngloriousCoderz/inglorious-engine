@@ -48,6 +48,7 @@
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "eslint-plugin-storybook": "^0.11.6",
     "husky": "^9.1.7",
+    "prettier": "^3.5.3",
     "prop-types": "15.8.1",
     "sass": "^1.66.1",
     "storybook": "^8.6.8",
