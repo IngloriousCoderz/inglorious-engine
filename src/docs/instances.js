@@ -40,13 +40,11 @@ export default {
     },
   },
 
-  state: {
-    instances: {
-      character: {
-        id: "character",
-        type: "character",
-        position: [400, 0, 300],
-      },
+  instances: {
+    character: {
+      id: "character",
+      type: "character",
+      position: [400, 0, 300],
     },
   },
 }

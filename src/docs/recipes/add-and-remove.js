@@ -10,7 +10,7 @@ export default {
       {
         "scene:click"(instance, event, { instances, notify }) {
           const characters = Object.values(instances).filter(
-            ({ type }) => type === "character",
+            ({ type }) => type === "character"
           )
           const ids = characters.map(({ id }) => id)
 
@@ -47,9 +47,7 @@ export default {
     ],
   },
 
-  state: {
-    instances: {
-      mouse: { id: "mouse", type: "mouse", position: [400, 0, 300] },
-    },
+  instances: {
+    mouse: { id: "mouse", type: "mouse", position: [400, 0, 300] },
   },
 }

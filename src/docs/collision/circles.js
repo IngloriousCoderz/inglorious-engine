@@ -12,7 +12,7 @@ export default {
       {
         "game:update"(instance, event, { dt, config, instances }) {
           const characters = Object.values(instances).filter(
-            ({ type }) => type === "character",
+            ({ type }) => type === "character"
           )
           const target = characters.find(({ id }) => id !== instance.id)
 
@@ -26,35 +26,33 @@ export default {
     ],
   },
 
-  state: {
-    instances: {
-      left: {
-        id: "left",
-        type: "character",
-        position: [200, 0, 300],
-        orientation: 0,
-        maxSpeed: 250,
-        collisions: {
-          hitbox: {
-            shape: "circle",
-            position: [-6, 0, -6],
-            radius: 12,
-          },
+  instances: {
+    left: {
+      id: "left",
+      type: "character",
+      position: [200, 0, 300],
+      orientation: 0,
+      maxSpeed: 250,
+      collisions: {
+        hitbox: {
+          shape: "circle",
+          position: [-6, 0, -6],
+          radius: 12,
         },
       },
+    },
 
-      right: {
-        id: "right",
-        type: "character",
-        position: [600, 0, 300],
-        orientation: pi(),
-        maxSpeed: 250,
-        collisions: {
-          hitbox: {
-            shape: "circle",
-            position: [-6, 0, -6],
-            radius: 12,
-          },
+    right: {
+      id: "right",
+      type: "character",
+      position: [600, 0, 300],
+      orientation: pi(),
+      maxSpeed: 250,
+      collisions: {
+        hitbox: {
+          shape: "circle",
+          position: [-6, 0, -6],
+          radius: 12,
         },
       },
     },

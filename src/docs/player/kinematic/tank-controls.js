@@ -13,33 +13,31 @@ export default {
     character: [enableCharacter(), enableTankControls(), enableClampToBounds()],
   },
 
-  state: {
-    instances: {
-      ...createControls("input0", {
-        ArrowUp: "up",
-        ArrowDown: "down",
-        ArrowLeft: "left",
-        ArrowRight: "right",
-        KeyW: "up",
-        KeyS: "down",
-        KeyA: "left",
-        KeyD: "right",
-        Btn12: "up",
-        Btn13: "down",
-        Btn14: "left",
-        Btn15: "right",
-        Axis0: "strafe",
-        Axis1: "upDown",
-        Axis2: "leftRight",
-      }),
+  instances: {
+    ...createControls("input0", {
+      ArrowUp: "up",
+      ArrowDown: "down",
+      ArrowLeft: "left",
+      ArrowRight: "right",
+      KeyW: "up",
+      KeyS: "down",
+      KeyA: "left",
+      KeyD: "right",
+      Btn12: "up",
+      Btn13: "down",
+      Btn14: "left",
+      Btn15: "right",
+      Axis0: "strafe",
+      Axis1: "upDown",
+      Axis2: "leftRight",
+    }),
 
-      character: {
-        id: "character",
-        type: "character",
-        maxAngularSpeed: 10,
-        maxSpeed: 250,
-        position: [400, 0, 300],
-      },
+    character: {
+      id: "character",
+      type: "character",
+      maxAngularSpeed: 10,
+      maxSpeed: 250,
+      position: [400, 0, 300],
     },
   },
 }

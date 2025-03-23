@@ -18,21 +18,19 @@ export default {
     fps: [enableFps()],
   },
 
-  state: {
-    instances: {
-      character: {
-        id: "character",
-        type: "character",
-        maxSpeed: 250,
-        orientation: pi() / 6,
-        position: [0, 0, 0],
-      },
+  instances: {
+    character: {
+      id: "character",
+      type: "character",
+      maxSpeed: 250,
+      orientation: pi() / 6,
+      position: [0, 0, 0],
+    },
 
-      fps: {
-        id: "fps",
-        type: "fps",
-        position: [0, 0, 600],
-      },
+    fps: {
+      id: "fps",
+      type: "fps",
+      position: [0, 0, 600],
     },
   },
 }

@@ -4,13 +4,13 @@ import { produce } from "immer"
 
 const DEFAULT_STATE = { events: [], instances: { game: { type: "game" } } }
 
-export function createStore({ state: initialState, ...config }) {
+export function createStore({ instances = {}, ...config }) {
   const listeners = new Set()
   let incomingEvents = []
 
   config.types = enableMutability(config.types)
 
-  let state = merge({}, DEFAULT_STATE, initialState)
+  let state = merge({}, DEFAULT_STATE, { instances })
   state = turnStateIntoFsm(state)
 
   return {
@@ -53,7 +53,7 @@ export function createStore({ state: initialState, ...config }) {
             config,
             instances: state.instances,
             notify,
-          }) || instance
+          }) ?? instance
         )
       })
 
@@ -89,7 +89,7 @@ function enableMutability(types) {
   return map(types, (_, { states, ...rest }) => ({
     ...rest,
     states: map(states, (_, events) =>
-      map(events, (_, event) => produce(event)),
+      map(events, (_, event) => produce(event))
     ),
   }))
 }

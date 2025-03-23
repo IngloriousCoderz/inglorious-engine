@@ -56,16 +56,14 @@ export default {
     },
   },
 
-  state: {
-    instances: {
-      character: {
-        id: "character",
-        type: "character",
-        maxSpeed: 250,
-        position: [400, 0, 300],
-        velocity: [250, 0, 0],
-        orientation: 0,
-      },
+  instances: {
+    character: {
+      id: "character",
+      type: "character",
+      maxSpeed: 250,
+      position: [400, 0, 300],
+      velocity: [250, 0, 0],
+      orientation: 0,
     },
   },
 }

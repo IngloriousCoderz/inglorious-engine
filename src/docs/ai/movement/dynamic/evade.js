@@ -22,7 +22,7 @@ export default {
             evade(instance, target, {
               dt,
               maxPrediction: fields.maxPrediction.value,
-            }),
+            })
           )
 
           clampToBounds(instance, config.bounds)
@@ -38,35 +38,33 @@ export default {
     },
   },
 
-  state: {
-    instances: {
-      mouse: {
-        id: "mouse",
-        type: "mouse",
-        position: [400, 0, 300],
-        velocity: [0, 0, 0],
-      },
+  instances: {
+    mouse: {
+      id: "mouse",
+      type: "mouse",
+      position: [400, 0, 300],
+      velocity: [0, 0, 0],
+    },
 
-      character: {
-        id: "character",
-        type: "character",
-        maxAcceleration: 1000,
-        maxSpeed: 250,
-        position: [400, 0, 300],
-      },
+    character: {
+      id: "character",
+      type: "character",
+      maxAcceleration: 1000,
+      maxSpeed: 250,
+      position: [400, 0, 300],
+    },
 
-      parameters: {
-        type: "form",
-        position: [800 - 343, 0, 600],
-        groups: {
-          evade: {
-            title: "Evade",
-            fields: {
-              maxPrediction: {
-                label: "Max Prediction",
-                inputType: "number",
-                defaultValue: DEFAULT_MAX_PREDICTION,
-              },
+    parameters: {
+      type: "form",
+      position: [800 - 343, 0, 600],
+      groups: {
+        evade: {
+          title: "Evade",
+          fields: {
+            maxPrediction: {
+              label: "Max Prediction",
+              inputType: "number",
+              defaultValue: DEFAULT_MAX_PREDICTION,
             },
           },
         },

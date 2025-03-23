@@ -52,7 +52,7 @@ export default {
               targetRadius: fields.targetRadius.value,
               slowRadius: fields.slowRadius.value,
               timeToTarget: fields.timeToTarget.value,
-            }),
+            })
           )
 
           clampToBounds(instance, config.bounds)
@@ -68,46 +68,44 @@ export default {
     },
   },
 
-  state: {
-    instances: {
-      ...createControls("input0", {
-        ArrowLeft: "left",
-        ArrowRight: "right",
-        ArrowDown: "down",
-        ArrowUp: "up",
-      }),
+  instances: {
+    ...createControls("input0", {
+      ArrowLeft: "left",
+      ArrowRight: "right",
+      ArrowDown: "down",
+      ArrowUp: "up",
+    }),
 
-      character: {
-        id: "character",
-        type: "character",
-        maxAngularAcceleration: 1000,
-        maxAngularSpeed: pi() / 4,
-        position: [400, 0, 300],
-      },
+    character: {
+      id: "character",
+      type: "character",
+      maxAngularAcceleration: 1000,
+      maxAngularSpeed: pi() / 4,
+      position: [400, 0, 300],
+    },
 
-      parameters: {
-        type: "form",
-        position: [800 - 328, 0, 600],
-        groups: {
-          lookWhereYoureGoing: {
-            title: "Look Where You're Going",
-            fields: {
-              targetRadius: {
-                label: "Target Radius",
-                inputType: "number",
-                defaultValue: DEFAULT_TARGET_RADIUS,
-              },
-              slowRadius: {
-                label: "Slow Radius",
-                inputType: "number",
-                defaultValue: DEFAULT_SLOW_RADIUS,
-              },
-              timeToTarget: {
-                label: "Time To Target",
-                inputType: "number",
-                step: 0.1,
-                defaultValue: DEFAULT_TIME_TO_TARGET,
-              },
+    parameters: {
+      type: "form",
+      position: [800 - 328, 0, 600],
+      groups: {
+        lookWhereYoureGoing: {
+          title: "Look Where You're Going",
+          fields: {
+            targetRadius: {
+              label: "Target Radius",
+              inputType: "number",
+              defaultValue: DEFAULT_TARGET_RADIUS,
+            },
+            slowRadius: {
+              label: "Slow Radius",
+              inputType: "number",
+              defaultValue: DEFAULT_SLOW_RADIUS,
+            },
+            timeToTarget: {
+              label: "Time To Target",
+              inputType: "number",
+              step: 0.1,
+              defaultValue: DEFAULT_TIME_TO_TARGET,
             },
           },
         },

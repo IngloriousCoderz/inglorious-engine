@@ -22,23 +22,21 @@ export default {
     ],
   },
 
-  state: {
-    instances: {
-      mouse: { id: "mouse", type: "mouse", position: [400, 0, 300] },
+  instances: {
+    mouse: { id: "mouse", type: "mouse", position: [400, 0, 300] },
 
-      ...Object.fromEntries(
-        Array(5)
-          .fill(null)
-          .map((_, index) => [
-            `character${index + 1}`,
-            {
-              id: `character${index + 1}`,
-              type: "character",
-              position: [random(0, 800), 0, random(0, 600)],
-              orientation: random(0, 2 * pi(), 0.01),
-            },
-          ]),
-      ),
-    },
+    ...Object.fromEntries(
+      Array(5)
+        .fill(null)
+        .map((_, index) => [
+          `character${index + 1}`,
+          {
+            id: `character${index + 1}`,
+            type: "character",
+            position: [random(0, 800), 0, random(0, 600)],
+            orientation: random(0, 2 * pi(), 0.01),
+          },
+        ])
+    ),
   },
 }

@@ -26,7 +26,7 @@ export default {
               dt,
               targetRadius: fields.targetRadius.value,
               timeToTarget: fields.timeToTarget.value,
-            }),
+            })
           )
 
           clampToBounds(instance, config.bounds)
@@ -42,37 +42,35 @@ export default {
     },
   },
 
-  state: {
-    instances: {
-      mouse: { id: "mouse", type: "mouse", position: [400, 0, 300] },
+  instances: {
+    mouse: { id: "mouse", type: "mouse", position: [400, 0, 300] },
 
-      character: {
-        id: "character",
-        type: "character",
-        maxAngularSpeed: pi() / 4,
-        maxAngularAcceleration: 1000,
-        position: [400, 0, 300],
-      },
+    character: {
+      id: "character",
+      type: "character",
+      maxAngularSpeed: pi() / 4,
+      maxAngularAcceleration: 1000,
+      position: [400, 0, 300],
+    },
 
-      parameters: {
-        type: "form",
-        position: [800 - 328, 0, 600],
-        groups: {
-          face: {
-            title: "Face",
-            fields: {
-              targetRadius: {
-                label: "Target Radius",
-                inputType: "number",
-                step: 0.1,
-                defaultValue: DEFAULT_TARGET_RADIUS,
-              },
-              timeToTarget: {
-                label: "Time To Target",
-                inputType: "number",
-                step: 0.1,
-                defaultValue: DEFAULT_TIME_TO_TARGET,
-              },
+    parameters: {
+      type: "form",
+      position: [800 - 328, 0, 600],
+      groups: {
+        face: {
+          title: "Face",
+          fields: {
+            targetRadius: {
+              label: "Target Radius",
+              inputType: "number",
+              step: 0.1,
+              defaultValue: DEFAULT_TARGET_RADIUS,
+            },
+            timeToTarget: {
+              label: "Time To Target",
+              inputType: "number",
+              step: 0.1,
+              defaultValue: DEFAULT_TIME_TO_TARGET,
             },
           },
         },

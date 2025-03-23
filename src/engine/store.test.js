@@ -17,11 +17,8 @@ test("it should add an event to the event queue", () => {
         },
       },
     },
-
-    state: {
-      instances: {
-        instance1: { type: "kitty" },
-      },
+    instances: {
+      instance1: { type: "kitty" },
     },
   }
   const store = createStore(config)
@@ -68,15 +65,12 @@ test("it should process the event queue", () => {
         },
       },
     },
-
-    state: {
-      events: [event],
-      instances: {
-        instance1: { type: "kitty" },
-      },
+    instances: {
+      instance1: { type: "kitty" },
     },
   }
   const store = createStore(config)
+  store.notify(event)
   const afterState = {
     events: [],
     instances: {
@@ -136,15 +130,13 @@ test("it should send an event from an instance", () => {
       },
     },
 
-    state: {
-      instances: {
-        instance1: {
-          type: "doge",
-        },
-        instance2: {
-          type: "kitty",
-          position: "near",
-        },
+    instances: {
+      instance1: {
+        type: "doge",
+      },
+      instance2: {
+        type: "kitty",
+        position: "near",
       },
     },
   }
@@ -212,20 +204,18 @@ test("it should receive an event from an instance", () => {
       },
     },
 
-    state: {
-      events: [event],
-      instances: {
-        instance1: {
-          type: "doge",
-        },
-        instance2: {
-          type: "kitty",
-          position: "near",
-        },
+    instances: {
+      instance1: {
+        type: "doge",
+      },
+      instance2: {
+        type: "kitty",
+        position: "near",
       },
     },
   }
   const store = createStore(config)
+  store.notify(event)
   const afterState = {
     events: [],
     instances: {
@@ -269,11 +259,9 @@ test("it should mutate state in an immutable way", () => {
       },
     },
 
-    state: {
-      instances: {
-        instance1: {
-          type: "kitty",
-        },
+    instances: {
+      instance1: {
+        type: "kitty",
       },
     },
   }

@@ -27,9 +27,7 @@ export default {
     character: [enableCharacter()],
   },
 
-  state: {
-    instances: {
-      mouse: { id: "mouse", type: "mouse", position: [400, 0, 300] },
-    },
+  instances: {
+    mouse: { id: "mouse", type: "mouse", position: [400, 0, 300] },
   },
 }

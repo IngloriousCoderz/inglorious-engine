@@ -42,7 +42,7 @@ export default {
             matchVelocity(instance, target, {
               dt,
               timeToTarget: fields.timeToTarget.value,
-            }),
+            })
           )
 
           clampToBounds(instance, config.bounds)
@@ -58,36 +58,34 @@ export default {
     },
   },
 
-  state: {
-    instances: {
-      ...createControls("input0", {
-        ArrowLeft: "left",
-        ArrowRight: "right",
-        ArrowDown: "down",
-        ArrowUp: "up",
-      }),
+  instances: {
+    ...createControls("input0", {
+      ArrowLeft: "left",
+      ArrowRight: "right",
+      ArrowDown: "down",
+      ArrowUp: "up",
+    }),
 
-      character: {
-        id: "character",
-        type: "character",
-        maxAcceleration: 1000,
-        maxSpeed: 250,
-        position: [400, 0, 300],
-      },
+    character: {
+      id: "character",
+      type: "character",
+      maxAcceleration: 1000,
+      maxSpeed: 250,
+      position: [400, 0, 300],
+    },
 
-      parameters: {
-        type: "form",
-        position: [800 - 328, 0, 600],
-        groups: {
-          matchVelocity: {
-            title: "Match Velocity",
-            fields: {
-              timeToTarget: {
-                label: "Time To Target",
-                inputType: "number",
-                step: 0.1,
-                defaultValue: DEFAULT_TIME_TO_TARGET,
-              },
+    parameters: {
+      type: "form",
+      position: [800 - 328, 0, 600],
+      groups: {
+        matchVelocity: {
+          title: "Match Velocity",
+          fields: {
+            timeToTarget: {
+              label: "Time To Target",
+              inputType: "number",
+              step: 0.1,
+              defaultValue: DEFAULT_TIME_TO_TARGET,
             },
           },
         },

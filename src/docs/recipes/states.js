@@ -46,18 +46,16 @@ export default {
     ],
   },
 
-  state: {
-    instances: {
-      mouse: { id: "mouse", type: "mouse", position: [400, 0, 300] },
+  instances: {
+    mouse: { id: "mouse", type: "mouse", position: [400, 0, 300] },
 
-      character: {
-        id: "character",
-        type: "character",
-        state: "meandering",
-        maxSpeed: 250,
-        maxAngularSpeed: pi() / 4,
-        position: [400, 0, 300],
-      },
+    character: {
+      id: "character",
+      type: "character",
+      state: "meandering",
+      maxSpeed: 250,
+      maxAngularSpeed: pi() / 4,
+      position: [400, 0, 300],
     },
   },
 }

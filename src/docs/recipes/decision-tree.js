@@ -227,23 +227,21 @@ export default {
     },
   },
 
-  state: {
-    instances: {
-      mouse: { id: "mouse", type: "mouse", position: [400, 0, 300] },
+  instances: {
+    mouse: { id: "mouse", type: "mouse", position: [400, 0, 300] },
 
-      fps: {
-        id: "fps",
-        type: "fps",
-        position: [0, 0, 600],
-      },
+    fps: {
+      id: "fps",
+      type: "fps",
+      position: [0, 0, 600],
+    },
 
-      neko: {
-        id: "neko",
-        type: "cat",
-        state: "idle",
-        maxSpeed: 250,
-        position: [400, 0, 300],
-      },
+    neko: {
+      id: "neko",
+      type: "cat",
+      state: "idle",
+      maxSpeed: 250,
+      position: [400, 0, 300],
     },
   },
 }

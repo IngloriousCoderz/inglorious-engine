@@ -19,7 +19,7 @@ export default {
             wanderAsSeek(instance, {
               dt,
               wanderRadius: fields.wanderRadius.value,
-            }),
+            })
           )
           flip(instance, config.bounds)
         },
@@ -34,28 +34,26 @@ export default {
     },
   },
 
-  state: {
-    instances: {
-      character: {
-        id: "character",
-        type: "character",
-        maxSpeed: 250,
-        maxAngularSpeed: pi() / 4,
-        position: [400, 0, 300],
-      },
+  instances: {
+    character: {
+      id: "character",
+      type: "character",
+      maxSpeed: 250,
+      maxAngularSpeed: pi() / 4,
+      position: [400, 0, 300],
+    },
 
-      parameters: {
-        type: "form",
-        position: [800 - 352, 0, 600],
-        groups: {
-          wanderAsSeek: {
-            title: "Wander As Seek",
-            fields: {
-              wanderRadius: {
-                label: "Wander Radius",
-                inputType: "number",
-                defaultValue: DEFAULT_WANDER_RADIUS,
-              },
+    parameters: {
+      type: "form",
+      position: [800 - 352, 0, 600],
+      groups: {
+        wanderAsSeek: {
+          title: "Wander As Seek",
+          fields: {
+            wanderRadius: {
+              label: "Wander Radius",
+              inputType: "number",
+              defaultValue: DEFAULT_WANDER_RADIUS,
             },
           },
         },

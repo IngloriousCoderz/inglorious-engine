@@ -21,17 +21,15 @@ export default {
     ],
   },
 
-  state: {
-    instances: {
-      mouse: { id: "mouse", type: "mouse", position: [400, 0, 300] },
+  instances: {
+    mouse: { id: "mouse", type: "mouse", position: [400, 0, 300] },
 
-      character: {
-        id: "character",
-        type: "character",
-        maxAcceleration: 1000,
-        maxSpeed: 250,
-        position: [400, 0, 300],
-      },
+    character: {
+      id: "character",
+      type: "character",
+      maxAcceleration: 1000,
+      maxSpeed: 250,
+      position: [400, 0, 300],
     },
   },
 }

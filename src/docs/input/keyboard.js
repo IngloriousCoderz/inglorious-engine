@@ -41,21 +41,19 @@ export default {
     ],
   },
 
-  state: {
-    instances: {
-      keyboard0: createKeyboard("keyboard0", {
-        ArrowLeft: "left",
-        ArrowDown: "down",
-        ArrowRight: "right",
-        ArrowUp: "up",
-      }),
+  instances: {
+    keyboard0: createKeyboard("keyboard0", {
+      ArrowLeft: "left",
+      ArrowDown: "down",
+      ArrowRight: "right",
+      ArrowUp: "up",
+    }),
 
-      character: {
-        id: "character",
-        type: "character",
-        maxSpeed: 250,
-        position: [400, 0, 300],
-      },
+    character: {
+      id: "character",
+      type: "character",
+      maxSpeed: 250,
+      position: [400, 0, 300],
     },
   },
 }

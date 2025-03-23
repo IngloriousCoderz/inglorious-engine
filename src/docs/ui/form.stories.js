@@ -11,38 +11,37 @@ export const Default = {
       types: {
         form: {},
       },
-      state: {
-        instances: {
-          login: {
-            type: "form",
-            fields: {
-              username: {
-                label: "Username",
-              },
-              password: {
-                label: "Password",
-                inputType: "password",
-              },
+
+      instances: {
+        login: {
+          type: "form",
+          fields: {
+            username: {
+              label: "Username",
             },
-            groups: {
-              extraInfo: {
-                title: "Extra Info",
-                fields: {
-                  kids: {
-                    label: "How many kids do you have?",
-                    inputType: "number",
-                    defaultValue: 0,
-                  },
-                  dogs: {
-                    label: "Do you like dogs?",
-                    inputType: "checkbox",
-                    defaultValue: true,
-                  },
-                  cats: {
-                    label: "Do you like cats?",
-                    inputType: "checkbox",
-                    defaultValue: true,
-                  },
+            password: {
+              label: "Password",
+              inputType: "password",
+            },
+          },
+          groups: {
+            extraInfo: {
+              title: "Extra Info",
+              fields: {
+                kids: {
+                  label: "How many kids do you have?",
+                  inputType: "number",
+                  defaultValue: 0,
+                },
+                dogs: {
+                  label: "Do you like dogs?",
+                  inputType: "checkbox",
+                  defaultValue: true,
+                },
+                cats: {
+                  label: "Do you like cats?",
+                  inputType: "checkbox",
+                  defaultValue: true,
                 },
               },
             },

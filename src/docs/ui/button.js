@@ -11,13 +11,11 @@ export default {
     },
   },
 
-  state: {
-    instances: {
-      rect1: {
-        id: "rect1",
-        type: "rectangle",
-        position: [400, 0, 300],
-      },
+  instances: {
+    rect1: {
+      id: "rect1",
+      type: "rectangle",
+      position: [400, 0, 300],
     },
   },
 }

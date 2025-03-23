@@ -22,51 +22,49 @@ export default {
     platform: [enablePlatform()],
   },
 
-  state: {
-    instances: {
-      ...createControls("input0", {
-        ArrowLeft: "left",
-        ArrowRight: "right",
-        Space: "jump",
-        KeyA: "left",
-        KeyD: "right",
-        Btn0: "jump",
-        Btn14: "left",
-        Btn15: "right",
-        Axis0: "leftRight",
-      }),
+  instances: {
+    ...createControls("input0", {
+      ArrowLeft: "left",
+      ArrowRight: "right",
+      Space: "jump",
+      KeyA: "left",
+      KeyD: "right",
+      Btn0: "jump",
+      Btn14: "left",
+      Btn15: "right",
+      Axis0: "leftRight",
+    }),
 
-      character: {
-        id: "character",
-        type: "character",
-        position: [200, 0, 62],
-        collisions: {
-          platform: {
-            shape: "circle",
-            radius: 12,
-          },
+    character: {
+      id: "character",
+      type: "character",
+      position: [200, 0, 62],
+      collisions: {
+        platform: {
+          shape: "circle",
+          radius: 12,
         },
       },
-      ground: {
-        id: "ground",
-        type: "platform",
-        position: [0, 0, 50],
-        size: [800, 50],
-        collisions: {
-          platform: {
-            shape: "platform",
-          },
+    },
+    ground: {
+      id: "ground",
+      type: "platform",
+      position: [0, 0, 50],
+      size: [800, 50],
+      collisions: {
+        platform: {
+          shape: "platform",
         },
       },
-      platform: {
-        id: "platform",
-        type: "platform",
-        position: [600, 0, 100],
-        size: [80, 20],
-        collisions: {
-          platform: {
-            shape: "platform",
-          },
+    },
+    platform: {
+      id: "platform",
+      type: "platform",
+      position: [600, 0, 100],
+      size: [80, 20],
+      collisions: {
+        platform: {
+          shape: "platform",
         },
       },
     },

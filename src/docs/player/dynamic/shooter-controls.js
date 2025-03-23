@@ -21,31 +21,29 @@ export default {
     ],
   },
 
-  state: {
-    instances: {
-      mouse: { id: "mouse", type: "mouse", position: [400, 0, 300] },
+  instances: {
+    mouse: { id: "mouse", type: "mouse", position: [400, 0, 300] },
 
-      ...createControls("input0", {
-        ArrowUp: "up",
-        ArrowDown: "down",
-        ArrowLeft: "left",
-        ArrowRight: "right",
-        KeyW: "up",
-        KeyS: "down",
-        KeyA: "left",
-        KeyD: "right",
-      }),
+    ...createControls("input0", {
+      ArrowUp: "up",
+      ArrowDown: "down",
+      ArrowLeft: "left",
+      ArrowRight: "right",
+      KeyW: "up",
+      KeyS: "down",
+      KeyA: "left",
+      KeyD: "right",
+    }),
 
-      character: {
-        id: "character",
-        type: "character",
-        maxAngularAcceleration: 1000,
-        maxAngularSpeed: 2 * pi(),
-        maxAcceleration: 500,
-        maxSpeed: 250,
-        friction: 250,
-        position: [400, 0, 300],
-      },
+    character: {
+      id: "character",
+      type: "character",
+      maxAngularAcceleration: 1000,
+      maxAngularSpeed: 2 * pi(),
+      maxAcceleration: 500,
+      maxSpeed: 250,
+      friction: 250,
+      position: [400, 0, 300],
     },
   },
 }

@@ -48,23 +48,21 @@ export default {
     ],
   },
 
-  state: {
-    instances: {
-      gamepad0: createGamepad("gamepad0", {
-        Btn12: "up",
-        Btn13: "down",
-        Btn14: "left",
-        Btn15: "right",
-        Axis0: "leftRight",
-        Axis1: "upDown",
-      }),
+  instances: {
+    gamepad0: createGamepad("gamepad0", {
+      Btn12: "up",
+      Btn13: "down",
+      Btn14: "left",
+      Btn15: "right",
+      Axis0: "leftRight",
+      Axis1: "upDown",
+    }),
 
-      character: {
-        id: "character",
-        type: "character",
-        maxSpeed: 250,
-        position: [400, 0, 300],
-      },
+    character: {
+      id: "character",
+      type: "character",
+      maxSpeed: 250,
+      position: [400, 0, 300],
     },
   },
 }
