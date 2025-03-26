@@ -13,22 +13,26 @@ Intersection functions for a point.
 
 Checks if a point is in the same place as another.
 
-<code>intersectsPoint([1.5, 0, 1.5], [1.5, 0, 1.5]) == {toString(intersectsPoint([1.5, 0, 1.5], [1.5, 0, 1.5]))}</code>&nbsp;
+<code>intersectsPoint([1.5, 1.5, 0], [1.5, 1.5, 0]) == {toString(intersectsPoint([1.5, 1.5, 0], [1.5, 1.5, 0]))}</code>&nbsp;
 
-<code>intersectsPoint([1.5, 0, 1.5], [2, 0, 1]) == {toString(intersectsPoint([1.5, 0, 1.5], [2, 0, 1]))}</code>&nbsp;
+<code>intersectsPoint([1.5, 1.5, 0], [2, 1, 0]) == {toString(intersectsPoint([1.5, 1.5, 0], [2, 1, 0]))}</code>&nbsp;
 
 ## Intersects Circle
 
 Checks if a point is inside of a circle.
 
-<code>intersectsCircle([1.5, 0, 1.5], \{ position: [1, 0, 1], radius: 1 \}) == {toString(intersectsCircle([1.5, 0, 1.5], { position: [1, 0, 1], radius: 1 }))}</code>&nbsp;
+<code>intersectsCircle([1.5, 1.5, 0], \{ position: [1, 1, 0], radius: 1 \}) == {toString(intersectsCircle([1.5, 1.5, 0], { position: [1, 1, 0], radius: 1 }))}</code>&nbsp;
 
-<code>intersectsCircle([2, 0, 2], \{ position: [1, 0, 1], radius: 1 \}) == {toString(intersectsCircle([2, 0, 2], { position: [1, 0, 1], radius: 1 }))}</code>&nbsp;
+<code>intersectsCircle([2, 1, 0], \{ position: [1, 1, 0], radius: 1 \}) == {toString(intersectsCircle([2, 1, 0], { position: [1, 1, 0], radius: 1 }))}</code>&nbsp;
+
+<code>intersectsCircle([2, 2, 0], \{ position: [1, 1, 0], radius: 1 \}) == {toString(intersectsCircle([2, 2, 0], { position: [1, 1, 0], radius: 1 }))}</code>&nbsp;
 
 ## Intersects Rectangle
 
 Checks if a point is inside of a rectangle.
 
-<code>intersectsRectangle([1.5, 0, 1.5], \{ position: [1, 0, 1], size: [2, 2] \}) == {toString(intersectsRectangle([1.5, 0, 1.5], { position: [1, 0, 1], size: [2, 2] }))}</code>&nbsp;
+<code>intersectsRectangle([1.5, 1.5, 0], \{ position: [1, 1, 0], size: [2, 2, 0] \}) == {toString(intersectsRectangle([1.5, 1.5, 0], { position: [1, 1, 0], size: [2, 2, 0] }))}</code>&nbsp;
 
-<code>intersectsRectangle([2.5, 0, 2.5], \{ position: [1, 0, 1], size: [2, 2] \}) == {toString(intersectsRectangle([2.5, 0, 2.5], { position: [1, 0, 1], size: [2, 2] }))}</code>&nbsp;
+<code>intersectsRectangle([2, 1, 0], \{ position: [1, 1, 0], size: [2, 2, 0] \}) == {toString(intersectsRectangle([2, 1, 0], { position: [1, 1, 0], size: [2, 2, 0] }))}</code>&nbsp;
+
+<code>intersectsRectangle([2.5, 2.5, 0], \{ position: [1, 1, 0], size: [2, 2, 0] \}) == {toString(intersectsRectangle([2.5, 2.5, 0], { position: [1, 1, 0], size: [2, 2, 0] }))}</code>&nbsp;

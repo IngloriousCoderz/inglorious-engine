@@ -13,22 +13,24 @@ export function intersectsPoint(point1, point2) {
 }
 
 export function intersectsCircle(point, circle) {
-  const [x, , z] = point
-  const [left, , top] = circle.position
+  const [x, y, z] = point
+  const [left, top, front] = circle.position
   const radius = circle.radius
 
-  return (x - left) ** 2 + (z - top) ** 2 <= radius ** 2
+  return (x - left) ** 2 + (y - top) ** 2 + (z - front) ** 2 <= radius ** 2
 }
 
 export function intersectsRectangle(point, rectangle) {
-  const [x, , z] = point
-  const [left, , top] = rectangle.position
-  const [width, height] = rectangle.size
+  const [x, y, z] = point
+  const [left, top, front] = rectangle.position
+  const [width, height, depth] = rectangle.size
 
   return (
     x >= left - width / 2 &&
     x <= left + width / 2 &&
-    z >= top - height / 2 &&
-    z <= top + height / 2
+    y >= top - height / 2 &&
+    y <= top + height / 2 &&
+    z >= front - depth / 2 &&
+    z <= front + depth / 2
   )
 }

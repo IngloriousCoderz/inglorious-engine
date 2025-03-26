@@ -1,6 +1,6 @@
 import { clampToBounds } from "@inglorious/game/bounds.js"
 import draw from "@inglorious/ui/canvas/mouse.js"
-import * as Point from "@inglorious/utils/physics/collisions/point.js"
+import { findCollision } from "@inglorious/utils/physics/collisions/point.js"
 
 const NO_Y = 0
 
@@ -19,7 +19,7 @@ export function enableMouse() {
     "mouse:click"(instance, event, options) {
       const { notify } = options
 
-      const clickedInstance = Point.findCollision(event.payload, options)
+      const clickedInstance = findCollision(event.payload, options)
       if (clickedInstance) {
         notify({ id: "instance:click", payload: clickedInstance.id })
       } else {

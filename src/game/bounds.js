@@ -11,7 +11,6 @@ import { abs } from "@inglorious/utils/math/numbers.js"
 
 const X = 0
 const Z = 2
-const NO_Y = 0
 
 export function bounce(instance, { dt, instances }) {
   const [minX, minZ, maxX, maxZ] = instances.game.bounds
@@ -36,8 +35,8 @@ export function bounce(instance, { dt, instances }) {
 export function clampToBounds(instance, [minX, minZ, maxX, maxZ]) {
   instance.position = clamp(
     instance.position,
-    [minX, NO_Y, minZ],
-    [maxX, NO_Y, maxZ],
+    [minX, minZ, minZ],
+    [maxX, maxZ, maxZ],
   )
 }
 

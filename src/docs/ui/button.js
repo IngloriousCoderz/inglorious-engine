@@ -8,7 +8,7 @@ export default {
     button: [
       enableButton(),
       {
-        size: [100, 50],
+        size: [100, 50, 0],
         color: "black",
         backgroundColor: "darkgrey",
       },

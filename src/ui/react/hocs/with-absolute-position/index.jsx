@@ -11,13 +11,13 @@ export function withAbsolutePosition(Component) {
       return <Component {...props} />
     }
 
-    const [x, , z] = position
+    const [x, y, z] = position
 
     return (
       <Component
         {...props}
         className={classes.withAbsolutePosition}
-        style={{ "--x": `${x}px`, "--y": `${height - py - z}px` }}
+        style={{ "--x": `${x}px`, "--y": `${height - y - py - z}px` }}
       />
     )
   }

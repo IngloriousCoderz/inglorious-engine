@@ -6,7 +6,7 @@ import * as segment from "@inglorious/utils/math/geometry/segment.js"
 import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 import { add } from "@inglorious/utils/math/linear-algebra/vectors.js"
 
-const Z = 2
+const Y = 1
 const NO_JUMP = 0
 
 const Shape = {
@@ -25,7 +25,7 @@ export function collidesWith(instance, target, type = "hitbox") {
     size: instanceCollision.size || instance.size,
     radius: instanceCollision.radius || instance.radius,
   }
-  instanceShape.position[Z] += instance.py || NO_JUMP
+  instanceShape.position[Y] += instance.py || NO_JUMP
 
   const targetCollision = target.collisions[type]
   const targetShape = {
@@ -34,7 +34,7 @@ export function collidesWith(instance, target, type = "hitbox") {
     size: targetCollision.size || target.size,
     radius: targetCollision.radius || target.radius,
   }
-  targetShape.position[Z] += target.py || NO_JUMP
+  targetShape.position[Y] += target.py || NO_JUMP
 
   return shapeCollidesWith(instanceShape, targetShape)
 }

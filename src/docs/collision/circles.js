@@ -12,8 +12,8 @@ export default {
       (type) => ({
         ...type,
 
-        "game:update"(instance, event, { dt, config, instances }) {
-          const characters = Object.values(instances).filter(
+        "game:update"(instance, event, options) {
+          const characters = Object.values(options.instances).filter(
             ({ type }) => type === "character",
           )
           const target = characters.find(({ id }) => id !== instance.id)
@@ -22,7 +22,7 @@ export default {
             instance.orientation += pi()
             instance.orientation = mod(instance.orientation, 2 * pi())
           }
-          merge(instance, bounce(instance, { dt, config }))
+          merge(instance, bounce(instance, options))
         },
       }),
     ],

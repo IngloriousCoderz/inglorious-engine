@@ -21,7 +21,7 @@ test("it should not compute the distance between a line and a point", () => {
 test("it should prove that a line that crosses a circle intersects with it", () => {
   const line = [-2, 2, 0]
   const circle = {
-    position: [1, 0, 1],
+    position: [1, 1, 0],
     radius: 1,
   }
 

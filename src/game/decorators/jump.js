@@ -11,7 +11,7 @@ const DEFAULT_PARAMS = {
   maxLeap: 100,
 }
 const FALLING = 0
-const Z = 2
+const Y = 1
 
 export function enableJump(params) {
   params = merge({}, DEFAULT_PARAMS, params)
@@ -91,8 +91,8 @@ function createFreeFall(params) {
       if (instance.vy < FALLING && collidesWith(instance, target, "platform")) {
         instance.vy = 0
         instance.py = 0
-        instance.position[Z] =
-          target.position[Z] + instance.collisions.platform.radius
+        instance.position[Y] =
+          target.position[Y] + instance.collisions.platform.radius
         instance.state = params.onState
       }
     })
