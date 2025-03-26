@@ -1,4 +1,5 @@
-/* eslint-disable no-magic-numbers */
+const SQUARED = 2
+const HALF = 2
 
 import { distanceFromPoint } from "./line.js"
 
@@ -17,7 +18,10 @@ export function intersectsCircle(point, circle) {
   const [left, top, front] = circle.position
   const radius = circle.radius
 
-  return (x - left) ** 2 + (y - top) ** 2 + (z - front) ** 2 <= radius ** 2
+  return (
+    (x - left) ** SQUARED + (y - top) ** SQUARED + (z - front) ** SQUARED <=
+    radius ** SQUARED
+  )
 }
 
 export function intersectsRectangle(point, rectangle) {
@@ -26,11 +30,11 @@ export function intersectsRectangle(point, rectangle) {
   const [width, height, depth] = rectangle.size
 
   return (
-    x >= left - width / 2 &&
-    x <= left + width / 2 &&
-    y >= top - height / 2 &&
-    y <= top + height / 2 &&
-    z >= front - depth / 2 &&
-    z <= front + depth / 2
+    x >= left - width / HALF &&
+    x <= left + width / HALF &&
+    y >= top - height / HALF &&
+    y <= top + height / HALF &&
+    z >= front - depth / HALF &&
+    z <= front + depth / HALF
   )
 }

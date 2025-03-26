@@ -3,6 +3,8 @@
     "baseUrl": ".",
     "paths": {
       "@inglorious/*": ["./src/*"]
-    }
-  }
+    },
+    "allowJs": true
+  },
+  "exclude": ["**/*.mdx"]
 }
