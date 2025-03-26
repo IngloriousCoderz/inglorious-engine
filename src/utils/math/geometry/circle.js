@@ -1,3 +1,10 @@
+/**
+ * @typedef {import("./types").Point} Point
+ * @typedef {import("./types").Circle} Circle
+ * @typedef {import("./types").Rectangle} Rectangle
+ * @typedef {import("./types").Platform} Platform
+ */
+
 import { subtract } from "@inglorious/utils/math/linear-algebra/vectors.js"
 
 import {
@@ -7,10 +14,22 @@ import {
 import { intersectsCircle as segmentIntersectsCircle } from "./segment.js"
 import { hypothenuse } from "./triangle.js"
 
+/**
+ * Checks if a circle intersects with a point.
+ * @param {Circle} circle - The circle to check.
+ * @param {Point} point - The point to check.
+ * @returns {boolean} True if the point intersects the circle, false otherwise.
+ */
 export function intersectsPoint(circle, point) {
   return pointIntersectsCircle(point, circle)
 }
 
+/**
+ * Checks if two circles intersect.
+ * @param {Circle} circle1 - The first circle.
+ * @param {Circle} circle2 - The second circle.
+ * @returns {boolean} True if the circles intersect, false otherwise.
+ */
 export function intersectsCircle(circle1, circle2) {
   return (
     hypothenuse(...subtract(circle1.position, circle2.position)) <=
@@ -18,6 +37,12 @@ export function intersectsCircle(circle1, circle2) {
   )
 }
 
+/**
+ * Checks if a circle intersects with a rectangle.
+ * @param {Circle} circle - The circle to check.
+ * @param {Rectangle} rectangle - The rectangle to check.
+ * @returns {boolean} True if the circle intersects the rectangle, false otherwise.
+ */
 export function intersectsRectangle(circle, rectangle) {
   const [left, top, front] = rectangle.position
   const [width, height, depth] = rectangle.size
@@ -52,6 +77,12 @@ export function intersectsRectangle(circle, rectangle) {
   )
 }
 
+/**
+ * Checks if a circle intersects with a platform.
+ * @param {Circle} circle - The circle to check.
+ * @param {Platform} platform - The platform to check.
+ * @returns {boolean} True if the circle intersects the platform, false otherwise.
+ */
 export function intersectsPlatform(circle, platform) {
   const [x, y, z] = circle.position
 
