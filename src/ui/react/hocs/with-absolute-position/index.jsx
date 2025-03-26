@@ -4,7 +4,7 @@ const NO_JUMP = 0
 
 export function withAbsolutePosition(Component) {
   return function AbsolutePosition(props) {
-    const [, , , height] = props.config.bounds
+    const [, , , height] = props.instances.game.bounds
     const { position, py = NO_JUMP } = props.instance
 
     if (!position) {

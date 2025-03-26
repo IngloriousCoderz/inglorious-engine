@@ -2,8 +2,8 @@ const DEFAULT_PADDING = 10
 const ONE_SECOND = 1
 
 export default function draw(ctx, options = {}) {
-  const { config, type, dt } = options
-  const { accuracy, size } = config.types[type]
+  const { types, type, dt } = options
+  const { accuracy, size } = types[type]
 
   ctx.save()
 

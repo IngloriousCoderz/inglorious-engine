@@ -13,12 +13,12 @@ export default {
       (type) => ({
         ...type,
 
-        "game:update"(instance, event, { dt, config, instances }) {
+        "game:update"(instance, event, { dt, instances }) {
           const target = instances.mouse
 
           merge(instance, flee(instance, target, { dt }))
 
-          clampToBounds(instance, config.bounds)
+          clampToBounds(instance, instances.game.bounds)
         },
       }),
     ],

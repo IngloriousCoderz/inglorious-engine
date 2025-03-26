@@ -11,9 +11,9 @@ export default {
       (type) => ({
         ...type,
 
-        "game:update"(instance, event, { dt, config }) {
+        "game:update"(instance, event, { dt, instances }) {
           merge(instance, wander(instance, { dt }))
-          flip(instance, config.bounds)
+          flip(instance, instances.game.bounds)
         },
       }),
     ],

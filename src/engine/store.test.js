@@ -6,14 +6,9 @@ test("it should add an event to the event queue", () => {
   const event = { id: "something:happened" }
   const config = {
     types: {
-      game: { states: { default: {} } },
       kitty: {
-        states: {
-          default: {
-            [event.id](instance) {
-              return { ...instance, wasNotified: true }
-            },
-          },
+        [event.id](instance) {
+          return { ...instance, wasNotified: true }
         },
       },
     },
@@ -28,6 +23,7 @@ test("it should add an event to the event queue", () => {
       game: {
         id: "game",
         type: "game",
+        bounds: [0, 0, 800, 600],
         state: "default",
       },
       instance1: {
@@ -50,18 +46,13 @@ test("it should process the event queue", () => {
   const event = { id: "something:happened" }
   const config = {
     types: {
-      game: { states: { default: {} } },
       kitty: {
-        states: {
-          default: {
-            "game:update"(instance) {
-              return { ...instance, wasUpdated: true }
-            },
+        "game:update"(instance) {
+          return { ...instance, wasUpdated: true }
+        },
 
-            [event.id](instance) {
-              return { ...instance, wasNotified: true }
-            },
-          },
+        [event.id](instance) {
+          return { ...instance, wasNotified: true }
         },
       },
     },
@@ -77,6 +68,7 @@ test("it should process the event queue", () => {
       game: {
         id: "game",
         type: "game",
+        bounds: [0, 0, 800, 600],
         state: "default",
       },
       instance1: {
@@ -102,30 +94,18 @@ test("it should send an event from an instance", () => {
   }
   const config = {
     types: {
-      game: { states: { default: {} } },
       doge: {
-        states: {
-          default: {
-            "game:update"(instance, event, { instances, notify }) {
-              if (instances.instance2.position === "near") {
-                notify(event)
-              }
-            },
-          },
+        "game:update"(instance, event, { instances, notify }) {
+          if (instances.instance2.position === "near") {
+            notify(event)
+          }
         },
       },
       kitty: {
-        states: {
-          default: {
-            [event.id](instance) {
-              if (
-                event.payload.id === "inu" &&
-                event.payload.message === "Woof!"
-              ) {
-                instance.position = "far"
-              }
-            },
-          },
+        [event.id](instance) {
+          if (event.payload.id === "inu" && event.payload.message === "Woof!") {
+            instance.position = "far"
+          }
         },
       },
     },
@@ -147,6 +127,7 @@ test("it should send an event from an instance", () => {
       game: {
         id: "game",
         type: "game",
+        bounds: [0, 0, 800, 600],
         state: "default",
       },
       instance1: {
@@ -176,30 +157,18 @@ test("it should receive an event from an instance", () => {
   }
   const config = {
     types: {
-      game: { states: { default: {} } },
       doge: {
-        states: {
-          default: {
-            "game:update"(instance, event, { instances, notify }) {
-              if (instances.instance2.position === "near") {
-                notify(event)
-              }
-            },
-          },
+        "game:update"(instance, event, { instances, notify }) {
+          if (instances.instance2.position === "near") {
+            notify(event)
+          }
         },
       },
       kitty: {
-        states: {
-          default: {
-            [event.id](instance, event) {
-              if (
-                event.payload.id === "inu" &&
-                event.payload.message === "Woof!"
-              ) {
-                instance.position = "far"
-              }
-            },
-          },
+        [event.id](instance, event) {
+          if (event.payload.id === "inu" && event.payload.message === "Woof!") {
+            instance.position = "far"
+          }
         },
       },
     },
@@ -222,6 +191,7 @@ test("it should receive an event from an instance", () => {
       game: {
         id: "game",
         type: "game",
+        bounds: [0, 0, 800, 600],
         state: "default",
       },
       instance1: {
@@ -247,14 +217,9 @@ test("it should receive an event from an instance", () => {
 test("it should mutate state in an immutable way", () => {
   const config = {
     types: {
-      game: { states: { default: {} } },
       kitty: {
-        states: {
-          default: {
-            "game:update"(instance) {
-              instance.wasUpdated = true
-            },
-          },
+        "game:update"(instance) {
+          instance.wasUpdated = true
         },
       },
     },
@@ -272,6 +237,7 @@ test("it should mutate state in an immutable way", () => {
       game: {
         id: "game",
         type: "game",
+        bounds: [0, 0, 800, 600],
         state: "default",
       },
       instance1: {
@@ -287,5 +253,57 @@ test("it should mutate state in an immutable way", () => {
 
   const state = store.getState()
   expect(state).toStrictEqual(afterState)
-  expect(state).not.toBe(config.state)
+})
+
+test("it should have a built-in finite state machine", () => {
+  const config = {
+    types: {
+      kitty: {
+        states: {
+          default: {
+            "cat:meow"(instance) {
+              instance.state = "meowing"
+            },
+          },
+          meowing: {
+            "game:update"(instance) {
+              instance.treats++
+            },
+          },
+        },
+      },
+    },
+    instances: {
+      instance1: {
+        type: "kitty",
+        state: "default",
+        treats: 0,
+      },
+    },
+  }
+  const store = createStore(config)
+  const afterState = {
+    events: [],
+    instances: {
+      game: {
+        id: "game",
+        type: "game",
+        bounds: [0, 0, 800, 600],
+        state: "default",
+      },
+      instance1: {
+        id: "instance1",
+        type: "kitty",
+        state: "meowing",
+        treats: 1,
+      },
+    },
+  }
+
+  store.notify({ id: "cat:meow" })
+  store.update()
+  store.update()
+
+  const state = store.getState()
+  expect(state).toStrictEqual(afterState)
 })

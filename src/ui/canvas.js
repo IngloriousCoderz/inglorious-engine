@@ -9,7 +9,7 @@ export function start(game, canvas) {
   const ctx = canvas.getContext("2d")
   const engine = new Engine(game, { render: render(ctx) })
 
-  const { bounds, pixelated } = engine.config
+  const { bounds, pixelated } = engine._store.getState().instances.game
   const [, , width, height] = bounds
   canvas.width = width
   canvas.height = height
@@ -36,13 +36,13 @@ export function start(game, canvas) {
 
 function render(ctx) {
   return (options) => {
-    const { config, instances } = options
+    const { types, instances } = options
 
-    if (config.pixelated) {
+    if (types.game.pixelated) {
       ctx.imageSmoothingEnabled = false
     }
 
-    const [x, y, width, height] = config.bounds
+    const [x, y, width, height] = instances.game.bounds
     ctx.fillStyle = "lightgrey"
     ctx.fillRect(x, y, width, height)
 
@@ -58,8 +58,8 @@ function render(ctx) {
 }
 
 function draw(ctx, instance, options) {
-  const { config } = options
-  const type = config.types[instance.type]
+  const { types } = options
+  const type = types[instance.type]
   const draw = type.states[instance.state]?.draw || type.draw
 
   if (draw) {

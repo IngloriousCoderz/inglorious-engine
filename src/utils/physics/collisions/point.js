@@ -11,15 +11,15 @@ const Target = {
 }
 
 export function findCollision(point, options) {
-  const { config, instances } = options
+  const { types, instances } = options
   return Object.values(instances)
-    .filter(({ type }) => config.types[type].hitbox)
+    .filter(({ type }) => types[type].hitbox)
     .toSorted((a, b) => a.position[Z] - b.position[Z])
     .find((instance) => collides(point, instance, options))
 }
 
-function collides(point, instance, { config }) {
-  const { hitbox } = config.types[instance.type]
+function collides(point, instance, { types }) {
+  const { hitbox } = types[instance.type]
   return Target[hitbox.shape](point, {
     ...hitbox,
     position: instance.position,

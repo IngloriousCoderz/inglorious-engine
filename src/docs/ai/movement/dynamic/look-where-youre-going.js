@@ -23,7 +23,7 @@ export default {
       (type) => ({
         ...type,
 
-        "game:update"(instance, event, { dt, config, instances }) {
+        "game:update"(instance, event, { dt, instances }) {
           const { fields } = instances.parameters.groups.lookWhereYoureGoing
 
           const { input0 } = instances
@@ -57,7 +57,7 @@ export default {
             }),
           )
 
-          clampToBounds(instance, config.bounds)
+          clampToBounds(instance, instances.game.bounds)
         },
       }),
     ],

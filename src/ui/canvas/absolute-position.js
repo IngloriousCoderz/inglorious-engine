@@ -4,8 +4,8 @@ const NO_JUMP = 0
 
 export function absolutePosition(draw) {
   return (ctx, options = {}) => {
-    const { config, position = zero(), py = NO_JUMP } = options
-    const [, , , screenHeight] = config.bounds
+    const { instances, position = zero(), py = NO_JUMP } = options
+    const [, , , screenHeight] = instances.game.bounds
     const [x, , z] = snap(position)
 
     ctx.save()

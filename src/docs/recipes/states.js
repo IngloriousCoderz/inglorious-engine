@@ -22,11 +22,11 @@ export default {
 
           meandering: {
             "game:update"(instance, event, options) {
-              const { config, instances } = options
+              const { instances } = options
               const target = instances.mouse
 
               merge(instance, wander(instance, options))
-              flip(instance, config.bounds)
+              flip(instance, instances.game.bounds)
 
               if (length(subtract(instance.position, target.position)) < 200) {
                 instance.state = "hunting"
@@ -36,11 +36,11 @@ export default {
 
           hunting: {
             "game:update"(instance, event, options) {
-              const { config, instances } = options
+              const { instances } = options
               const target = instances.mouse
 
               merge(instance, arrive(instance, target, options))
-              clampToBounds(instance, config.bounds)
+              clampToBounds(instance, instances.game.bounds)
 
               if (length(subtract(instance.position, target.position)) >= 200) {
                 instance.state = "meandering"

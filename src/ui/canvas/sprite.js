@@ -1,9 +1,9 @@
 /* eslint-disable no-magic-numbers */
 
 export default function draw(ctx, options = {}) {
-  const { config, type, sprite } = options
+  const { types, type, sprite } = options
   const { id, src, width, height, rows, cols, scale, states } =
-    config.types[type].sprite
+    types[type].sprite
 
   const { frames, flip } = states[sprite.state]
   const [sx, sy] = frames[sprite.value]

@@ -97,10 +97,10 @@ export function play(spriteState, instance, options) {
 }
 
 function onTick(instance, options) {
-  const { config, notify } = options
+  const { types, notify } = options
   const { type, sprite } = instance
 
-  const { states } = config.types[type].sprite
+  const { states } = types[type].sprite
   const { frames } = states[sprite.state]
 
   instance.sprite.value = mod(instance.sprite.value + 1, frames.length)

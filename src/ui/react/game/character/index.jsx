@@ -5,10 +5,10 @@ import classes from "./character.module.scss"
 const DEFAULT_SIZE = 24
 const DEFAULT_ORIENTATION = 0
 
-export default function Character({ id, config, instance, className, style }) {
+export default function Character({ id, types, instance, className, style }) {
   const notify = useDispatch()
 
-  const size = config.types[instance.type].size ?? DEFAULT_SIZE
+  const size = types[instance.type].size ?? DEFAULT_SIZE
   const { orientation = DEFAULT_ORIENTATION } = instance
 
   const handleClick = (event) => {

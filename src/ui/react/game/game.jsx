@@ -26,14 +26,14 @@ export default function Game({ engine }) {
   // NOTE: don't use simply engine.instances here: need to subscribe to animate scene!
   const instances = useSelector((state) => state.instances)
 
-  const { config } = engine
+  const types = engine._store.getTypes()
   const { mouse, ...rest } = instances
-  const options = { config, instances }
+  const options = { types, instances }
 
   const draw = createDraw(options)
 
   return (
-    <Scene config={engine.config}>
+    <Scene instances={instances}>
       {Object.values(rest)
         .filter(({ position }) => position)
         .toSorted((a, b) => a.py - b.py || b.position[Z] - a.position[Z])
@@ -45,8 +45,8 @@ export default function Game({ engine }) {
 
 function createDraw(options) {
   return function Draw(instance) {
-    const { config, instances } = options
-    const type = config.types[instance.type]
+    const { types, instances } = options
+    const type = types[instance.type]
 
     const Component = type.sprite
       ? Components.sprite
@@ -57,7 +57,7 @@ function createDraw(options) {
         key={instance.id}
         id={instance.id}
         type={type}
-        config={config}
+        types={types}
         instance={instance}
         instances={instances}
       />

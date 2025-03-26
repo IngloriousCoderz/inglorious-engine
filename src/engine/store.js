@@ -1,14 +1,20 @@
-import { map } from "@inglorious/utils/data-structures/object.js"
+import { filter, map } from "@inglorious/utils/data-structures/object.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
+import { pipe } from "@inglorious/utils/functions/functions.js"
 import { produce } from "immer"
 
-const DEFAULT_STATE = { events: [], instances: { game: { type: "game" } } }
+const DEFAULT_CONFIG = { types: { game: {} } }
+const DEFAULT_STATE = {
+  events: [],
+  instances: { game: { type: "game", bounds: [0, 0, 800, 600] } }, // eslint-disable-line no-magic-numbers
+}
 
-export function createStore({ instances = {}, ...config }) {
+export function createStore({ instances = {}, ...originalConfig }) {
   const listeners = new Set()
   let incomingEvents = []
 
-  config.types = enableMutability(config.types)
+  const config = merge({}, DEFAULT_CONFIG, originalConfig)
+  const types = augment(config.types)
 
   let state = merge({}, DEFAULT_STATE, { instances })
   state = turnStateIntoFsm(state)
@@ -18,6 +24,7 @@ export function createStore({ instances = {}, ...config }) {
     update,
     notify,
     dispatch: notify, // needed for react-redux
+    getTypes,
     getState,
   }
 
@@ -45,12 +52,11 @@ export function createStore({ instances = {}, ...config }) {
       }
 
       state.instances = map(state.instances, (_, instance) => {
-        const handle =
-          config.types[instance.type].states[instance.state][event.id]
+        const handle = types[instance.type].states[instance.state][event.id]
         return (
           handle?.(instance, event, {
             dt,
-            config,
+            types,
             instances: state.instances,
             notify,
           }) ?? instance
@@ -80,9 +86,52 @@ export function createStore({ instances = {}, ...config }) {
     incomingEvents.push(event)
   }
 
+  function getTypes() {
+    return types
+  }
+
   function getState() {
     return state
   }
+}
+
+function augment(types) {
+  return pipe(applyDecorators, turnIntoFsm, enableMutability)(types)
+}
+
+function applyDecorators(types) {
+  return map(types, (_, type) => {
+    if (!Array.isArray(type)) {
+      return type
+    }
+
+    const decorators = type.map((fn) =>
+      typeof fn !== "function" ? () => fn : fn,
+    )
+    return pipe(...decorators)({})
+  })
+}
+
+function turnIntoFsm(types) {
+  return map(types, (_, type) => {
+    const { draw, ...rest } = type
+    const topLevelEventHandlers = filter(
+      rest,
+      (_, value) => typeof value === "function",
+    )
+    const typeWithoutTopLevelEventHandlers = filter(
+      rest,
+      (_, value) => typeof value !== "function",
+    )
+
+    return merge(
+      typeWithoutTopLevelEventHandlers,
+      { draw },
+      {
+        states: { default: topLevelEventHandlers },
+      },
+    )
+  })
 }
 
 function enableMutability(types) {

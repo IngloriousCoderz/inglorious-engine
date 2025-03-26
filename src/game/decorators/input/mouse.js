@@ -10,10 +10,10 @@ export function enableMouse() {
 
     draw,
 
-    "mouse:move"(instance, event, { config }) {
+    "mouse:move"(instance, event, { instances }) {
       instance.position = event.payload
 
-      clampToBounds(instance, config.bounds)
+      clampToBounds(instance, instances.game.bounds)
     },
 
     "mouse:click"(instance, event, options) {

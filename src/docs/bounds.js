@@ -1,3 +1,7 @@
 export default {
-  bounds: [0, 0, 600, 800],
+  instances: {
+    game: {
+      bounds: [0, 0, 600, 800],
+    },
+  },
 }

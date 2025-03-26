@@ -3,8 +3,8 @@
 const DEFAULT_ANIMATION = { counter: 0, value: 0 }
 
 export function play(type, state, instance, options) {
-  const { dt, config, onTick } = options
-  const { speed, value = 0 } = config.types[instance.type][type]
+  const { dt, types, onTick } = options
+  const { speed, value = 0 } = types[instance.type][type]
 
   instance[type] = instance[type] ?? { ...DEFAULT_ANIMATION }
   if (state !== instance[type].state) {

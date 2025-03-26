@@ -23,7 +23,7 @@ export function enableClampToBounds(params) {
             options,
           )
 
-          clampToBounds(instance, options.config.bounds)
+          clampToBounds(instance, options.instances.game.bounds)
         },
       },
     },

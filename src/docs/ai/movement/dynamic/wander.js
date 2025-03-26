@@ -14,7 +14,7 @@ export default {
       (type) => ({
         ...type,
 
-        "game:update"(instance, event, { dt, config, instances }) {
+        "game:update"(instance, event, { dt, instances }) {
           const { fields } = instances.parameters.groups.wander
 
           merge(
@@ -25,7 +25,7 @@ export default {
               wanderRadius: fields.wanderRadius.value,
             }),
           )
-          flip(instance, config.bounds)
+          flip(instance, instances.game.bounds)
         },
       }),
     ],

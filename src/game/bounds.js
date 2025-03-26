@@ -13,8 +13,8 @@ const X = 0
 const Z = 2
 const NO_Y = 0
 
-export function bounce(instance, { dt, config }) {
-  const [minX, minZ, maxX, maxZ] = config.bounds
+export function bounce(instance, { dt, instances }) {
+  const [minX, minZ, maxX, maxZ] = instances.game.bounds
   const [x, , z] = instance.position
 
   const velocity = createVector(instance.maxSpeed, instance.orientation)

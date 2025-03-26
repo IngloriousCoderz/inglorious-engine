@@ -48,8 +48,11 @@ const nextState = {
 }
 
 export default {
-  pixelated: true,
   types: {
+    game: {
+      pixelated: true,
+    },
+
     mouse: [enableMouse()],
 
     cat: [

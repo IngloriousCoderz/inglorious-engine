@@ -19,7 +19,7 @@ export default {
       (type) => ({
         ...type,
 
-        "game:update"(instance, event, { dt, config, instances }) {
+        "game:update"(instance, event, { dt, instances }) {
           const target = instances.mouse
           const { fields } = instances.parameters.groups.face
 
@@ -33,7 +33,7 @@ export default {
             }),
           )
 
-          clampToBounds(instance, config.bounds)
+          clampToBounds(instance, instances.game.bounds)
         },
       }),
     ],
