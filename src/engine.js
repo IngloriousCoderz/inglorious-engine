@@ -3,13 +3,21 @@ import { merge } from "@inglorious/utils/data-structures/objects.js"
 import Loop from "./engine/loop.js"
 import { createStore } from "./engine/store.js"
 
+// Default configuration for the engine
+// loop.type specifies the type of loop to use (defaults to "animationFrame").
 const DEFAULT_CONFIG = {
   loop: { type: "animationFrame" },
 }
+const ONE_SECOND = 1000 // Number of milliseconds in one second.
 
-const ONE_SECOND = 1000
-
+/**
+ * Engine class responsible for managing the game loop, state, and rendering.
+ */
 export default class Engine {
+  /**
+   * @param {Object} game - Game-specific configuration.
+   * @param {Object} ui - UI instance responsible for rendering.
+   */
   constructor(game, ui) {
     this._config = merge({}, DEFAULT_CONFIG, game)
     this._store = createStore(this._config)
@@ -17,6 +25,9 @@ export default class Engine {
     this._ui = ui
   }
 
+  /**
+   * Starts the game engine, initializing the loop and notifying the store.
+   */
   start() {
     const { fps } = this._config.loop
     const msPerFrame = ONE_SECOND / fps
@@ -25,10 +36,18 @@ export default class Engine {
     this._store.notify({ id: "game:start" })
   }
 
+  /**
+   * Updates the game state.
+   * @param {number} dt - Delta time since the last update in milliseconds.
+   */
   update(dt) {
     this._store.update(dt)
   }
 
+  /**
+   * Renders the game state using the UI.
+   * @param {number} dt - Delta time since the last render in milliseconds.
+   */
   render(dt) {
     this._ui?.render({
       dt,
@@ -37,10 +56,17 @@ export default class Engine {
     })
   }
 
+  /**
+   * Notifies the store of an event.
+   * @param {Object} event - Event object to notify the store with.
+   */
   notify = (event) => {
     this._store.notify(event)
   }
 
+  /**
+   * Stops the game engine, halting the loop and notifying the store.
+   */
   stop() {
     this._store.notify({ id: "game:stop" })
     this._store.update()

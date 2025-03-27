@@ -6,8 +6,9 @@ import * as segment from "@inglorious/utils/math/geometry/segment.js"
 import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 import { add } from "@inglorious/utils/math/linear-algebra/vectors.js"
 
-const Y = 1
-const NO_JUMP = 0
+const Y = 1 // Y-axis index.
+const Z = 2 // Z-axis index.
+const NO_JUMP = 0 // No vertical height applied.
 
 const Shape = {
   circle,
@@ -15,6 +16,22 @@ const Shape = {
   point,
   rectangle,
   segment,
+}
+
+/**
+ * Finds the first collision between a point and a list of instances.
+ *
+ * @param {Point} instance - The point to check for collisions.
+ * @param {Options} options - Options for collision detection.
+ * @returns {Instance | undefined} The first instance that collides with the point, or undefined if none are found.
+ */
+export function findCollision(instance, options) {
+  const { instances, type = "hitbox" } = options
+  return Object.values(instances)
+    .filter(({ id }) => id !== instance.id)
+    .filter(({ collisions }) => collisions?.[type])
+    .toSorted((a, b) => a.position[Z] - b.position[Z])
+    .find((target) => collidesWith(instance, target, type))
 }
 
 export function collidesWith(instance, target, type = "hitbox") {
@@ -25,7 +42,7 @@ export function collidesWith(instance, target, type = "hitbox") {
     size: instanceCollision.size || instance.size,
     radius: instanceCollision.radius || instance.radius,
   }
-  instanceShape.position[Y] += instance.py || NO_JUMP
+  instanceShape.position[Y] += instance.py ?? NO_JUMP
 
   const targetCollision = target.collisions[type]
   const targetShape = {
@@ -34,7 +51,7 @@ export function collidesWith(instance, target, type = "hitbox") {
     size: targetCollision.size || target.size,
     radius: targetCollision.radius || target.radius,
   }
-  targetShape.position[Y] += target.py || NO_JUMP
+  targetShape.position[Y] += target.py ?? NO_JUMP
 
   return shapeCollidesWith(instanceShape, targetShape)
 }

@@ -42,7 +42,6 @@ export default {
 
   instances: {
     character: {
-      id: "character",
       type: "character",
       position: [400, 0, 300],
     },

@@ -3,12 +3,23 @@ import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { pipe } from "@inglorious/utils/functions/functions.js"
 import { produce } from "immer"
 
+// Default configuration for the store.
 const DEFAULT_CONFIG = { types: { game: {} } }
+
+// Default state of the store.
 const DEFAULT_STATE = {
   events: [],
-  instances: { game: { type: "game", bounds: [0, 0, 800, 600] } }, // eslint-disable-line no-magic-numbers
+  // eslint-disable-next-line no-magic-numbers
+  instances: { game: { type: "game", bounds: [0, 0, 800, 600] } }, // Default game instance with bounds.
 }
 
+/**
+ * Creates a store to manage state and events.
+ * @param {Object} options - Configuration options for the store.
+ * @param {Object} options.instances - Initial instances to include in the store.
+ * @param {Object} options.originalConfig - Additional configuration for the store.
+ * @returns {Object} The store with methods to interact with state and events.
+ */
 export function createStore({ instances = {}, ...originalConfig }) {
   const listeners = new Set()
   let incomingEvents = []
@@ -28,6 +39,11 @@ export function createStore({ instances = {}, ...originalConfig }) {
     getState,
   }
 
+  /**
+   * Subscribes a listener to state updates.
+   * @param {Function} listener - The listener function to call on updates.
+   * @returns {Function} A function to unsubscribe the listener.
+   */
   function subscribe(listener) {
     listeners.add(listener)
 
@@ -36,6 +52,10 @@ export function createStore({ instances = {}, ...originalConfig }) {
     }
   }
 
+  /**
+   * Updates the state based on elapsed time and processes events.
+   * @param {number} dt - The delta time since the last update.
+   */
   function update(dt) {
     state = { ...state }
 
@@ -71,34 +91,65 @@ export function createStore({ instances = {}, ...originalConfig }) {
     listeners.forEach((onUpdate) => onUpdate())
   }
 
+  /**
+   * Adds a new instance to the state.
+   * @param {string} id - The ID of the instance to add.
+   * @param {Object} instance - The instance object to add.
+   */
   function add(id, instance) {
     state = { ...state }
     state.instances[id] = instance
     instance.state = instance.state ?? "default"
   }
 
+  /**
+   * Removes an instance from the state.
+   * @param {string} id - The ID of the instance to remove.
+   */
   function remove(id) {
     state = { ...state }
     delete state.instances[id]
   }
 
+  /**
+   * Notifies the store of a new event.
+   * @param {Object} event - The event object to notify.
+   */
   function notify(event) {
     incomingEvents.push(event)
   }
 
+  /**
+   * Retrieves the types configuration.
+   * @returns {Object} The types configuration.
+   */
   function getTypes() {
     return types
   }
 
+  /**
+   * Retrieves the current state.
+   * @returns {Object} The current state.
+   */
   function getState() {
     return state
   }
 }
 
+/**
+ * Augments the types configuration with additional functionality.
+ * @param {Object} types - The types configuration.
+ * @returns {Object} The augmented types configuration.
+ */
 function augment(types) {
   return pipe(applyDecorators, turnIntoFsm, enableMutability)(types)
 }
 
+/**
+ * Applies decorators to the types configuration.
+ * @param {Object} types - The types configuration.
+ * @returns {Object} The decorated types configuration.
+ */
 function applyDecorators(types) {
   return map(types, (_, type) => {
     if (!Array.isArray(type)) {
@@ -112,6 +163,11 @@ function applyDecorators(types) {
   })
 }
 
+/**
+ * Converts the types configuration into a finite state machine (FSM).
+ * @param {Object} types - The types configuration.
+ * @returns {Object} The FSM-enabled types configuration.
+ */
 function turnIntoFsm(types) {
   return map(types, (_, type) => {
     const { draw, ...rest } = type
@@ -134,6 +190,11 @@ function turnIntoFsm(types) {
   })
 }
 
+/**
+ * Enables mutability for event handlers in the types configuration.
+ * @param {Object} types - The types configuration.
+ * @returns {Object} The mutability-enabled types configuration.
+ */
 function enableMutability(types) {
   return map(types, (_, { states, ...rest }) => ({
     ...rest,
@@ -143,6 +204,11 @@ function enableMutability(types) {
   }))
 }
 
+/**
+ * Converts the state into a finite state machine (FSM) structure.
+ * @param {Object} state - The current state.
+ * @returns {Object} The FSM-enabled state.
+ */
 function turnStateIntoFsm(state) {
   return {
     ...state,

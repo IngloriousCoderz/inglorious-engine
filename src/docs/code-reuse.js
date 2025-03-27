@@ -22,7 +22,6 @@ export default {
 
   instances: {
     character: {
-      id: "character",
       type: "character",
       maxSpeed: 250,
       orientation: pi() / 6,
@@ -30,7 +29,6 @@ export default {
     },
 
     fps: {
-      id: "fps",
       type: "fps",
       position: [0, 0, 600],
     },

@@ -27,8 +27,19 @@ export default {
               type: "character",
               position: event.payload,
               orientation: random(0, 2 * pi(), 0.01),
+              collisions: {
+                hitbox: {
+                  shape: "circle",
+                  radius: 12,
+                },
+              },
             },
           })
+        },
+
+        // this event handler is needed for React
+        "instance:click"(instance, event, { notify }) {
+          notify({ id: "instance:remove", payload: event.payload })
         },
       }),
     ],
@@ -37,11 +48,6 @@ export default {
       enableCharacter(),
       (type) => ({
         ...type,
-
-        hitbox: {
-          shape: "circle",
-          radius: 12,
-        },
 
         // this event handler is needed for React
         "instance:click"(instance, event, { notify }) {
@@ -56,6 +62,12 @@ export default {
       id: "mouse",
       type: "mouse",
       position: [400, 0, 300],
+      collisions: {
+        hitbox: {
+          shape: "circle",
+          radius: 1,
+        },
+      },
     },
   },
 }

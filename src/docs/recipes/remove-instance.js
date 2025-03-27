@@ -12,11 +12,6 @@ export default {
       (type) => ({
         ...type,
 
-        hitbox: {
-          shape: "circle",
-          radius: 12,
-        },
-
         // this event handler is needed for React
         "instance:click"(instance, event, { notify }) {
           notify({ id: "instance:remove", payload: event.payload })
@@ -30,6 +25,12 @@ export default {
       id: "mouse",
       type: "mouse",
       position: [400, 0, 300],
+      collisions: {
+        hitbox: {
+          shape: "circle",
+          radius: 1,
+        },
+      },
     },
 
     ...Object.fromEntries(
@@ -42,6 +43,12 @@ export default {
             type: "character",
             position: [random(0, 800), 0, random(0, 600)],
             orientation: random(0, 2 * pi(), 0.01),
+            collisions: {
+              hitbox: {
+                shape: "circle",
+                radius: 12,
+              },
+            },
           },
         ]),
     ),
