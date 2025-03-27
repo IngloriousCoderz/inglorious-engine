@@ -1,6 +1,6 @@
 import { expect, test } from "vitest"
 
-import { contains, heapify, min, pop, push, remove } from "./heap.js"
+import { contains, heapify, pop, push, remove, root } from "./heap.js"
 
 test("it should check if a heap contains a value", () => {
   const heap = [3, 2, 6, 1, 7, 4, 5]
@@ -52,7 +52,7 @@ test("it should find the minimum value in a min heap", () => {
   const heap = [1, 4, 2, 7, 5, 6, 3]
   const expectedResult = 1
 
-  expect(min(heap)).toBe(expectedResult)
+  expect(root(heap)).toBe(expectedResult)
 })
 
 test("it should push the first element of the heap", () => {

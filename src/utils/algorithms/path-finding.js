@@ -1,22 +1,73 @@
+/**
+ * @typedef {import("./types").Node} Node
+ * @typedef {import("./types").Graph} Graph
+ */
+
 import {
   contains,
-  min,
   push,
   remove,
+  root,
 } from "@inglorious/utils/data-structures/heap.js"
 import { abs, magnitude } from "@inglorious/utils/math/linear-algebra/vector.js"
 import { subtract } from "@inglorious/utils/math/linear-algebra/vectors.js"
 
 const NO_COST = 0
 
+/**
+ * Calculates the cost of a path using Dijkstra's algorithm.
+ * In this simplified form the cost is simply 0.
+ *
+ * @returns {number} - The cost of the path (which is 0).
+ */
 export const dijkstra = () => NO_COST
+
+/**
+ * Calculates the Euclidean distance between two nodes.
+ *
+ * @param {Node} a - The first node.
+ * @param {Node} b - The second node.
+ * @returns {number} - The Euclidean distance between the two nodes.
+ */
 export const eucledianDistance = (a, b) =>
   magnitude(subtract(a.position, b.position))
+
+/**
+ * Calculates the Manhattan distance between two nodes.
+ *
+ * @param {Node} a - The first node.
+ * @param {Node} b - The second node.
+ * @returns {number} - The Manhattan distance between the two nodes.
+ */
 export const manhattanDistance = (a, b) => abs(subtract(a.position, b.position))
 
+/**
+ * Compares the cost of two nodes.
+ *
+ * @param {Node} a - The first node.
+ * @param {Node} b - The second node.
+ * @returns {number} - The difference in cost between the two nodes.
+ */
 const compareCost = (a, b) => b.cost - a.cost
+
+/**
+ * Compares the total cost of two nodes.
+ *
+ * @param {Node} a - The first node.
+ * @param {Node} b - The second node.
+ * @returns {number} - The difference in total cost between the two nodes.
+ */
 const compareTotalCost = (a, b) => b.totalCost - a.totalCost
 
+/**
+ * Finds the shortest path in a graph from a start node to an end node using a heuristic.
+ *
+ * @param {Graph} graph - The graph containing nodes and arcs.
+ * @param {string} start - The ID of the start node.
+ * @param {string} end - The ID of the end node.
+ * @param {(a: Node, b: Node) => number} [heuristic=eucledianDistance] - The heuristic function to estimate the cost.
+ * @returns {string[]} - An array of node IDs representing the shortest path.
+ */
 export function findPath(graph, start, end, heuristic = eucledianDistance) {
   const { nodes, arcs } = adaptGraph(graph)
   const findNode = createFindNode(nodes)
@@ -28,7 +79,7 @@ export function findPath(graph, start, end, heuristic = eucledianDistance) {
   let path = []
 
   while (discoveredNodes.length) {
-    let current = min(discoveredNodes, compareTotalCost)
+    let current = root(discoveredNodes, compareTotalCost)
 
     if (current.id === end) {
       while (current != null) {
@@ -73,6 +124,12 @@ export function findPath(graph, start, end, heuristic = eucledianDistance) {
   }
 }
 
+/**
+ * Adapts a graph to ensure all nodes and arcs have a cost property.
+ *
+ * @param {Graph} graph - The graph to adapt.
+ * @returns {Graph} - The adapted graph with cost properties added.
+ */
 function adaptGraph(graph) {
   return {
     ...graph,
@@ -87,6 +144,12 @@ function adaptGraph(graph) {
   }
 }
 
+/**
+ * Creates a function that finds a node by its ID.
+ *
+ * @param {Node[]} nodes - The array of nodes.
+ * @returns {(id: string) => Node} - A function that finds a node by its ID.
+ */
 function createFindNode(nodes) {
   return (id) => nodes.find((node) => node.id === id)
 }

@@ -1,3 +1,10 @@
+/** @typedef {import('./types').Tree} Tree */
+
+/**
+ * Performs a breadth-first search (BFS) traversal on a tree structure.
+ * @param {Tree} tree - The root node of the tree.
+ * @returns {Array} An array of values in BFS order.
+ */
 export function bfs(tree) {
   const result = []
   const queue = [tree]
@@ -13,6 +20,11 @@ export function bfs(tree) {
   return result
 }
 
+/**
+ * Performs a depth-first search (DFS) traversal on a tree structure.
+ * @param {Tree} tree - The root node of the tree.
+ * @returns {Array} An array of values in DFS order.
+ */
 export function dfs(tree) {
   const result = [tree.value]
 
