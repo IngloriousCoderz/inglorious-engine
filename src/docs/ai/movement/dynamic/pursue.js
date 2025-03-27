@@ -4,7 +4,7 @@ import pursue, {
 import { clampToBounds } from "@inglorious/game/bounds.js"
 import { enableCharacter } from "@inglorious/game/decorators/character.js"
 import { enableMouse } from "@inglorious/game/decorators/input/mouse.js"
-import { merge } from "@inglorious/utils/data-structures/objects.js"
+import { extend, merge } from "@inglorious/utils/data-structures/objects.js"
 
 export default {
   types: {
@@ -12,24 +12,23 @@ export default {
 
     character: [
       enableCharacter(),
-      (type) => ({
-        ...type,
+      (type) =>
+        extend(type, {
+          "game:update"(instance, event, { dt, instances }) {
+            const target = instances.mouse
+            const { fields } = instances.parameters.groups.pursue
 
-        "game:update"(instance, event, { dt, instances }) {
-          const target = instances.mouse
-          const { fields } = instances.parameters.groups.pursue
+            merge(
+              instance,
+              pursue(instance, target, {
+                dt,
+                maxPrediction: fields.maxPrediction.value,
+              }),
+            )
 
-          merge(
-            instance,
-            pursue(instance, target, {
-              dt,
-              maxPrediction: fields.maxPrediction.value,
-            }),
-          )
-
-          clampToBounds(instance, instances.game.bounds)
-        },
-      }),
+            clampToBounds(instance, instances.game.bounds)
+          },
+        }),
     ],
 
     form: {

@@ -7,7 +7,7 @@ import face from "@inglorious/engine/ai/movement/dynamic/face.js"
 import { clampToBounds } from "@inglorious/game/bounds.js"
 import { enableCharacter } from "@inglorious/game/decorators/character.js"
 import { enableMouse } from "@inglorious/game/decorators/input/mouse.js"
-import { merge } from "@inglorious/utils/data-structures/objects.js"
+import { extend, merge } from "@inglorious/utils/data-structures/objects.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
 export default {
@@ -16,26 +16,25 @@ export default {
 
     character: [
       enableCharacter(),
-      (type) => ({
-        ...type,
+      (type) =>
+        extend(type, {
+          "game:update"(instance, event, { dt, instances }) {
+            const target = instances.mouse
+            const { fields } = instances.parameters.groups.face
 
-        "game:update"(instance, event, { dt, instances }) {
-          const target = instances.mouse
-          const { fields } = instances.parameters.groups.face
+            merge(
+              instance,
+              face(instance, target, {
+                dt,
+                targetRadius: fields.targetRadius.value,
+                slowRadius: fields.slowRadius.value,
+                timeToTarget: fields.timeToTarget.value,
+              }),
+            )
 
-          merge(
-            instance,
-            face(instance, target, {
-              dt,
-              targetRadius: fields.targetRadius.value,
-              slowRadius: fields.slowRadius.value,
-              timeToTarget: fields.timeToTarget.value,
-            }),
-          )
-
-          clampToBounds(instance, instances.game.bounds)
-        },
-      }),
+            clampToBounds(instance, instances.game.bounds)
+          },
+        }),
     ],
 
     form: {

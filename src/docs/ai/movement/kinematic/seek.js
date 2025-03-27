@@ -1,7 +1,7 @@
 import seek from "@inglorious/engine/ai/movement/kinematic/seek.js"
 import { enableCharacter } from "@inglorious/game/decorators/character.js"
 import { enableMouse } from "@inglorious/game/decorators/input/mouse.js"
-import { merge } from "@inglorious/utils/data-structures/objects.js"
+import { extend, merge } from "@inglorious/utils/data-structures/objects.js"
 
 export default {
   types: {
@@ -9,15 +9,14 @@ export default {
 
     character: [
       enableCharacter(),
-      (type) => ({
-        ...type,
+      (type) =>
+        extend(type, {
+          "game:update"(instance, event, { dt, instances }) {
+            const target = instances.mouse
 
-        "game:update"(instance, event, { dt, instances }) {
-          const target = instances.mouse
-
-          merge(instance, seek(instance, target, { dt }))
-        },
-      }),
+            merge(instance, seek(instance, target, { dt }))
+          },
+        }),
     ],
   },
 

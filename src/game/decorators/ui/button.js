@@ -1,23 +1,23 @@
 import draw from "@inglorious/ui/canvas/form/button.js"
+import { extend } from "@inglorious/utils/data-structures/objects.js"
 
 export function enableButton() {
-  return (type) => ({
-    ...type,
+  return (type) =>
+    extend(type, {
+      draw,
 
-    draw,
+      states: {
+        default: {
+          "instance:click"(instance) {
+            instance.state = "pressed"
+          },
+        },
 
-    states: {
-      default: {
-        "instance:click"(instance) {
-          instance.state = "pressed"
+        pressed: {
+          "instance:release"(instance) {
+            instance.state = "default"
+          },
         },
       },
-
-      pressed: {
-        "instance:release"(instance) {
-          instance.state = "default"
-        },
-      },
-    },
-  })
+    })
 }

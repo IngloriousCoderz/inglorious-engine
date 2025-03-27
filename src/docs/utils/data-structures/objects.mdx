@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/blocks'
 
-import { merge } from '@inglorious/utils/data-structures/objects'
+import { extend, merge } from '@inglorious/utils/data-structures/objects'
 import { toString } from '@inglorious/utils/data-structures/object'
 
 <Meta title="Utils/Data Structures/Objects" />
@@ -9,12 +9,22 @@ import { toString } from '@inglorious/utils/data-structures/object'
 
 Functions that deal with multiple object.
 
-## Merge
+## Extend
 
-Performs a deep merge between multiple objects.
+Extends an object with another, producing a new object as a result.
 
 <code>const obj1 = \{ a: 1, b: [2, 3], c: \{ d: 4 \}, e: [\{ f: 5 \}] \}</code>&nbsp;
 
 <code>const obj2 = \{ g: 6, b: [7], c: \{ h: 8 \}, e: [\{ i: 9 \}] \}</code>&nbsp;
 
-<code>merge(obj1, obj2) == {toString({ a: 1, b: [2, 3], c: { d: 4 }, e: [{ f: 5 }] }, { g: 6, b: [7], c: { h: 8 }, e: [{ i: 9 }] })}</code>&nbsp;
+<code>extend(obj1, obj2) == {toString(extend({ a: 1, b: [2, 3], c: { d: 4 }, e: [{ f: 5 }] }, { g: 6, b: [7], c: { h: 8 }, e: [{ i: 9 }] }))}</code>&nbsp;
+
+## Merge
+
+Performs a deep merge between multiple objects, changing the first object in place.
+
+<code>const obj1 = \{ a: 1, b: [2, 3], c: \{ d: 4 \}, e: [\{ f: 5 \}] \}</code>&nbsp;
+
+<code>const obj2 = \{ g: 6, b: [7], c: \{ h: 8 \}, e: [\{ i: 9 \}] \}</code>&nbsp;
+
+<code>merge(obj1, obj2) == {toString(merge({ a: 1, b: [2, 3], c: { d: 4 }, e: [{ f: 5 }] }, { g: 6, b: [7], c: { h: 8 }, e: [{ i: 9 }] }))}</code>&nbsp;

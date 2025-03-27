@@ -1,6 +1,6 @@
 import * as Animation from "@inglorious/game/animation.js"
 import draw from "@inglorious/ui/canvas/fps.js"
-import { merge } from "@inglorious/utils/data-structures/objects.js"
+import { extend, merge } from "@inglorious/utils/data-structures/objects.js"
 
 const DEFAULT_PARAMS = {
   accuracy: 1,
@@ -14,17 +14,16 @@ const DEFAULT_PARAMS = {
 export function enableFps(params) {
   params = merge({}, DEFAULT_PARAMS, params)
 
-  return (type) => ({
-    ...type,
+  return (type) =>
+    extend(type, {
+      ...params,
 
-    ...params,
+      draw,
 
-    draw,
-
-    "game:update"(instance, event, options) {
-      Animation.play("dt", "default", instance, { ...options, onTick })
-    },
-  })
+      "game:update"(instance, event, options) {
+        Animation.play("dt", "default", instance, { ...options, onTick })
+      },
+    })
 }
 
 function onTick(instance, options) {

@@ -6,6 +6,7 @@ import {
   enableControls,
 } from "@inglorious/game/decorators/input/controls.js"
 import { enableJump } from "@inglorious/game/decorators/jump.js"
+import { extend } from "@inglorious/utils/data-structures/objects.js"
 
 export default {
   types: {
@@ -18,33 +19,32 @@ export default {
       enableModernControls(),
       enableClampToBounds(),
       enableJump(),
-      (type) => ({
-        ...type,
+      (type) =>
+        extend(type, {
+          states: {
+            ...type.states,
 
-        states: {
-          ...type.states,
+            default: {
+              ...type.states?.default,
 
-          default: {
-            ...type.states?.default,
+              "game:update"(instance, event, options) {
+                type.states?.default["game:update"]?.(instance, event, options)
 
-            "game:update"(instance, event, options) {
-              type.states?.default["game:update"]?.(instance, event, options)
+                stopFreeFalling(instance)
+              },
+            },
 
-              stopFreeFalling(instance)
+            jumping: {
+              ...type.states?.jumping,
+
+              "game:update"(instance, event, options) {
+                type.states?.jumping["game:update"]?.(instance, event, options)
+
+                stopFreeFalling(instance)
+              },
             },
           },
-
-          jumping: {
-            ...type.states?.jumping,
-
-            "game:update"(instance, event, options) {
-              type.states?.jumping["game:update"]?.(instance, event, options)
-
-              stopFreeFalling(instance)
-            },
-          },
-        },
-      }),
+        }),
     ],
   },
 

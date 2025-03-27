@@ -1,6 +1,18 @@
 import { isObject } from "./object.js"
 
 /**
+ * Extends a destination object by merging it with one or more source objects.
+ * Performs a deep merge for nested objects and arrays.
+ *
+ * @param {Object} dest - The destination object to extend.
+ * @param {...Object} sources - The source objects to merge into the destination object.
+ * @returns {Object} - The extended destination object.
+ */
+export function extend(dest, ...sources) {
+  return merge({}, dest, ...sources)
+}
+
+/**
  * Merges multiple source objects into a destination object.
  * Performs a deep merge for nested objects and arrays.
  *

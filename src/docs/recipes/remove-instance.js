@@ -1,5 +1,6 @@
 import { enableCharacter } from "@inglorious/game/decorators/character.js"
 import { enableMouse } from "@inglorious/game/decorators/input/mouse.js"
+import { extend } from "@inglorious/utils/data-structures/objects.js"
 import { random } from "@inglorious/utils/math/rng.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
@@ -9,14 +10,13 @@ export default {
 
     character: [
       enableCharacter(),
-      (type) => ({
-        ...type,
-
-        // this event handler is needed for React
-        "instance:click"(instance, event, { notify }) {
-          notify({ id: "instance:remove", payload: event.payload })
-        },
-      }),
+      (type) =>
+        extend(type, {
+          // this event handler is needed for React
+          "instance:click"(instance, event, { notify }) {
+            notify({ id: "instance:remove", payload: event.payload })
+          },
+        }),
     ],
   },
 

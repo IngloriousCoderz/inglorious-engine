@@ -1,5 +1,5 @@
 import modernMove from "@inglorious/engine/movement/kinematic/modern.js"
-import { merge } from "@inglorious/utils/data-structures/objects.js"
+import { extend, merge } from "@inglorious/utils/data-structures/objects.js"
 import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 
 const DEFAULT_PARAMS = {
@@ -13,50 +13,45 @@ const Z = 2
 export function enableModernControls(params) {
   params = merge({}, DEFAULT_PARAMS, params)
 
-  return (type) => ({
-    ...type,
+  return (type) =>
+    extend(type, {
+      states: {
+        [params.onState]: {
+          "game:update"(instance, event, options) {
+            type.states?.[params.onState]["game:update"]?.(
+              instance,
+              event,
+              options,
+            )
 
-    states: {
-      ...type.states,
+            const maxSpeed = instance.maxSpeed ?? params.maxSpeed
 
-      [params.onState]: {
-        ...type.states?.[params.onState],
+            const { input0 } = options.instances
+            instance.velocity = zero()
 
-        "game:update"(instance, event, options) {
-          type.states?.[params.onState]["game:update"]?.(
-            instance,
-            event,
-            options,
-          )
+            if (input0.left) {
+              instance.velocity[X] = -maxSpeed
+            }
+            if (input0.down) {
+              instance.velocity[Z] = -maxSpeed
+            }
+            if (input0.right) {
+              instance.velocity[X] = maxSpeed
+            }
+            if (input0.up) {
+              instance.velocity[Z] = maxSpeed
+            }
 
-          const maxSpeed = instance.maxSpeed ?? params.maxSpeed
+            if (input0.leftRight != null) {
+              instance.velocity[X] += input0.leftRight * maxSpeed
+            }
+            if (input0.upDown != null) {
+              instance.velocity[Z] += -input0.upDown * maxSpeed
+            }
 
-          const { input0 } = options.instances
-          instance.velocity = zero()
-
-          if (input0.left) {
-            instance.velocity[X] = -maxSpeed
-          }
-          if (input0.down) {
-            instance.velocity[Z] = -maxSpeed
-          }
-          if (input0.right) {
-            instance.velocity[X] = maxSpeed
-          }
-          if (input0.up) {
-            instance.velocity[Z] = maxSpeed
-          }
-
-          if (input0.leftRight != null) {
-            instance.velocity[X] += input0.leftRight * maxSpeed
-          }
-          if (input0.upDown != null) {
-            instance.velocity[Z] += -input0.upDown * maxSpeed
-          }
-
-          merge(instance, modernMove(instance, options))
+            merge(instance, modernMove(instance, options))
+          },
         },
       },
-    },
-  })
+    })
 }

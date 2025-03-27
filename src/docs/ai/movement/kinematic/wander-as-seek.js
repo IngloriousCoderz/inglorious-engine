@@ -3,29 +3,28 @@ import wanderAsSeek, {
 } from "@inglorious/engine/ai/movement/kinematic/wander-as-seek.js"
 import { flip } from "@inglorious/game/bounds.js"
 import { enableCharacter } from "@inglorious/game/decorators/character.js"
-import { merge } from "@inglorious/utils/data-structures/objects.js"
+import { extend, merge } from "@inglorious/utils/data-structures/objects.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
 export default {
   types: {
     character: [
       enableCharacter(),
-      (type) => ({
-        ...type,
+      (type) =>
+        extend(type, {
+          "game:update"(instance, event, { dt, instances }) {
+            const { fields } = instances.parameters.groups.wanderAsSeek
 
-        "game:update"(instance, event, { dt, instances }) {
-          const { fields } = instances.parameters.groups.wanderAsSeek
-
-          merge(
-            instance,
-            wanderAsSeek(instance, {
-              dt,
-              wanderRadius: fields.wanderRadius.value,
-            }),
-          )
-          flip(instance, instances.game.bounds)
-        },
-      }),
+            merge(
+              instance,
+              wanderAsSeek(instance, {
+                dt,
+                wanderRadius: fields.wanderRadius.value,
+              }),
+            )
+            flip(instance, instances.game.bounds)
+          },
+        }),
     ],
 
     form: {
