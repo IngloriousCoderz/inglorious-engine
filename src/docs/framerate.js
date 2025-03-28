@@ -1,7 +1,7 @@
 import { bounce } from "@inglorious/game/bounds.js"
 import { enableCharacter } from "@inglorious/game/decorators/character.js"
 import { enableFps } from "@inglorious/game/decorators/fps.js"
-import { extend, merge } from "@inglorious/utils/data-structures/objects.js"
+import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
 export default {
@@ -10,12 +10,11 @@ export default {
   types: {
     character: [
       enableCharacter(),
-      (type) =>
-        extend(type, {
-          "game:update"(instance, event, options) {
-            merge(instance, bounce(instance, options))
-          },
-        }),
+      {
+        "game:update"(instance, event, options) {
+          merge(instance, bounce(instance, options))
+        },
+      },
     ],
 
     fps: [enableFps()],

@@ -1,4 +1,4 @@
-import { merge } from "@inglorious/utils/data-structures/objects.js"
+import { extend } from "@inglorious/utils/data-structures/objects.js"
 
 import { createGamepad, enableGamepad } from "./gamepad.js"
 import { createInput, enableInput } from "./input.js"
@@ -9,7 +9,7 @@ const DEFAULT_PARAMS = {
 }
 
 export function enableControls(params) {
-  params = merge({}, DEFAULT_PARAMS, params)
+  params = extend(DEFAULT_PARAMS, params)
 
   return {
     keyboard: [enableKeyboard(params)],

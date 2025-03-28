@@ -2,7 +2,7 @@ import flee from "@inglorious/engine/ai/movement/kinematic/flee.js"
 import { clampToBounds } from "@inglorious/game/bounds.js"
 import { enableCharacter } from "@inglorious/game/decorators/character.js"
 import { enableMouse } from "@inglorious/game/decorators/input/mouse.js"
-import { extend, merge } from "@inglorious/utils/data-structures/objects.js"
+import { merge } from "@inglorious/utils/data-structures/objects.js"
 
 export default {
   types: {
@@ -10,15 +10,14 @@ export default {
 
     character: [
       enableCharacter(),
-      (type) =>
-        extend(type, {
-          "game:update"(instance, event, { dt, instances }) {
-            const target = instances.mouse
+      {
+        "game:update"(instance, event, { dt, instances }) {
+          const target = instances.mouse
 
-            merge(instance, flee(instance, target, { dt }))
-            clampToBounds(instance, instances.game.bounds)
-          },
-        }),
+          merge(instance, flee(instance, target, { dt }))
+          clampToBounds(instance, instances.game.bounds)
+        },
+      },
     ],
   },
 

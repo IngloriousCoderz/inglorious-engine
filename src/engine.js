@@ -1,4 +1,4 @@
-import { merge } from "@inglorious/utils/data-structures/objects.js"
+import { extend } from "@inglorious/utils/data-structures/objects.js"
 
 import Loop from "./engine/loop.js"
 import { createStore } from "./engine/store.js"
@@ -19,7 +19,7 @@ export default class Engine {
    * @param {Object} ui - UI instance responsible for rendering.
    */
   constructor(game, ui) {
-    this._config = merge({}, DEFAULT_CONFIG, game)
+    this._config = extend(DEFAULT_CONFIG, game)
     this._store = createStore(this._config)
     this._loop = new Loop[this._config.loop.type]()
     this._ui = ui

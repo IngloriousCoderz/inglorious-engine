@@ -14,7 +14,7 @@ const FALLING = 0
 const Y = 1
 
 export function enableJump(params) {
-  params = merge({}, DEFAULT_PARAMS, params)
+  params = extend(DEFAULT_PARAMS, params)
 
   const freeFall = createFreeFall(params)
 

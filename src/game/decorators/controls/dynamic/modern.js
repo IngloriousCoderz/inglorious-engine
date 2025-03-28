@@ -10,13 +10,15 @@ const X = 0
 const Z = 2
 
 export function enableModernControls(params) {
-  params = merge({}, DEFAULT_PARAMS, params)
+  params = extend(DEFAULT_PARAMS, params)
 
   return (type) =>
     extend(type, {
       states: {
         [params.onState]: {
           "game:update"(instance, event, options) {
+            const { instances } = options
+
             type.states?.[params.onState]["game:update"]?.(
               instance,
               event,
@@ -26,7 +28,7 @@ export function enableModernControls(params) {
             const maxAcceleration =
               instance.maxAcceleration ?? params.maxAcceleration
 
-            const { input0 } = options.instances
+            const { input0 } = instances
             instance.acceleration = zero()
 
             if (input0.left) {

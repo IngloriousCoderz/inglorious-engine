@@ -1,5 +1,5 @@
 import { filter, map } from "@inglorious/utils/data-structures/object.js"
-import { merge } from "@inglorious/utils/data-structures/objects.js"
+import { extend } from "@inglorious/utils/data-structures/objects.js"
 import { pipe } from "@inglorious/utils/functions/functions.js"
 import { produce } from "immer"
 
@@ -24,10 +24,10 @@ export function createStore({ instances = {}, ...originalConfig }) {
   const listeners = new Set()
   let incomingEvents = []
 
-  const config = merge({}, DEFAULT_CONFIG, originalConfig)
+  const config = extend(DEFAULT_CONFIG, originalConfig)
   const types = augment(config.types)
 
-  let state = merge({}, DEFAULT_STATE, { instances })
+  let state = extend(DEFAULT_STATE, { instances })
   state = turnStateIntoFsm(state)
 
   return {
@@ -71,13 +71,15 @@ export function createStore({ instances = {}, ...originalConfig }) {
         add(event.payload.id, event.payload)
       }
 
-      state.instances = map(state.instances, (_, instance) => {
-        const handle = types[instance.type].states[instance.state][event.id]
+      state.instances = map(state.instances, (_, instance, instances) => {
+        const type = types[instance.type]
+        const state = type.states[instance.state]
+        const handle = state[event.id]
         return (
           handle?.(instance, event, {
             dt,
             types,
-            instances: state.instances,
+            instances,
             notify,
           }) ?? instance
         )
@@ -157,7 +159,7 @@ function applyDecorators(types) {
     }
 
     const decorators = type.map((fn) =>
-      typeof fn !== "function" ? () => fn : fn,
+      typeof fn !== "function" ? (type) => extend(type, fn) : fn,
     )
     return pipe(...decorators)({})
   })
@@ -180,7 +182,7 @@ function turnIntoFsm(types) {
       (_, value) => typeof value !== "function",
     )
 
-    return merge(
+    return extend(
       typeWithoutTopLevelEventHandlers,
       { draw },
       {

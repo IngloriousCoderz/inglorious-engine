@@ -11,7 +11,7 @@ const X = 0
 const Z = 2
 
 export function enableTankControls(params) {
-  params = merge({}, DEFAULT_PARAMS, params)
+  params = extend(DEFAULT_PARAMS, params)
 
   return (type) =>
     extend(type, {

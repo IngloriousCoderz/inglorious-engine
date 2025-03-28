@@ -1,6 +1,5 @@
 import { enableCharacter } from "@inglorious/game/decorators/character.js"
 import { enableMouse } from "@inglorious/game/decorators/input/mouse.js"
-import { extend } from "@inglorious/utils/data-structures/objects.js"
 
 export default {
   types: {
@@ -8,14 +7,13 @@ export default {
 
     character: [
       enableCharacter(),
-      (type) =>
-        extend(type, {
-          "game:update"(instance, event, options) {
-            const { mouse } = options.instances
 
-            instance.position = mouse.position
-          },
-        }),
+      {
+        "game:update"(instance, event, options) {
+          const { mouse } = options.instances
+          instance.position = mouse.position
+        },
+      },
     ],
   },
 

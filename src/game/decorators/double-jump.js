@@ -10,7 +10,7 @@ const DEFAULT_PARAMS = {
 }
 
 export function enableDoubleJump(params) {
-  params = merge({}, DEFAULT_PARAMS, params)
+  params = extend(DEFAULT_PARAMS, params)
 
   return (type) =>
     extend(type, {

@@ -1,32 +1,30 @@
 import { findCollision } from "@inglorious/engine/collision/detection.js"
 import { clampToBounds } from "@inglorious/game/bounds.js"
 import draw from "@inglorious/ui/canvas/mouse.js"
-import { extend } from "@inglorious/utils/data-structures/objects.js"
 
 const NO_Y = 0
 
 export function enableMouse() {
-  return (type) =>
-    extend(type, {
-      draw,
+  return {
+    draw,
 
-      "mouse:move"(instance, event, { instances }) {
-        instance.position = event.payload
+    "mouse:move"(instance, event, { instances }) {
+      instance.position = event.payload
 
-        clampToBounds(instance, instances.game.bounds)
-      },
+      clampToBounds(instance, instances.game.bounds)
+    },
 
-      "mouse:click"(instance, event, options) {
-        const { notify } = options
+    "mouse:click"(instance, event, options) {
+      const { notify } = options
 
-        const clickedInstance = findCollision(instance, options)
-        if (clickedInstance) {
-          notify({ id: "instance:click", payload: clickedInstance.id })
-        } else {
-          notify({ id: "scene:click", payload: event.payload })
-        }
-      },
-    })
+      const clickedInstance = findCollision(instance, options)
+      if (clickedInstance) {
+        notify({ id: "instance:click", payload: clickedInstance.id })
+      } else {
+        notify({ id: "scene:click", payload: event.payload })
+      }
+    },
+  }
 }
 
 export function track(parent, options) {

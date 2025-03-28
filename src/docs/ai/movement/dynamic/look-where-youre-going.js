@@ -10,7 +10,7 @@ import {
   createControls,
   enableControls,
 } from "@inglorious/game/decorators/input/controls.js"
-import { extend, merge } from "@inglorious/utils/data-structures/objects.js"
+import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { sum } from "@inglorious/utils/math/linear-algebra/vectors.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
@@ -20,45 +20,44 @@ export default {
 
     character: [
       enableCharacter(),
-      (type) =>
-        extend(type, {
-          "game:update"(instance, event, { dt, instances }) {
-            const { fields } = instances.parameters.groups.lookWhereYoureGoing
+      {
+        "game:update"(instance, event, { dt, instances }) {
+          const { fields } = instances.parameters.groups.lookWhereYoureGoing
 
-            const { input0 } = instances
+          const { input0 } = instances
 
-            const target = { velocity: [0, 0, 0] }
-            if (input0.left) {
-              target.velocity[0] = -1
-            }
-            if (input0.down) {
-              target.velocity[2] = -1
-            }
-            if (input0.right) {
-              target.velocity[0] = 1
-            }
-            if (input0.up) {
-              target.velocity[2] = 1
-            }
+          const target = { velocity: [0, 0, 0] }
+          if (input0.left) {
+            target.velocity[0] = -1
+          }
+          if (input0.down) {
+            target.velocity[2] = -1
+          }
+          if (input0.right) {
+            target.velocity[0] = 1
+          }
+          if (input0.up) {
+            target.velocity[2] = 1
+          }
 
-            merge(instance, {
-              velocity: target.velocity,
-              position: sum(instance.position, target.velocity),
-            })
+          merge(instance, {
+            velocity: target.velocity,
+            position: sum(instance.position, target.velocity),
+          })
 
-            merge(
-              instance,
-              lookWhereYoureGoing(instance, {
-                dt,
-                targetRadius: fields.targetRadius.value,
-                slowRadius: fields.slowRadius.value,
-                timeToTarget: fields.timeToTarget.value,
-              }),
-            )
+          merge(
+            instance,
+            lookWhereYoureGoing(instance, {
+              dt,
+              targetRadius: fields.targetRadius.value,
+              slowRadius: fields.slowRadius.value,
+              timeToTarget: fields.timeToTarget.value,
+            }),
+          )
 
-            clampToBounds(instance, instances.game.bounds)
-          },
-        }),
+          clampToBounds(instance, instances.game.bounds)
+        },
+      },
     ],
 
     form: {

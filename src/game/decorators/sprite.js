@@ -1,5 +1,5 @@
 import draw from "@inglorious/ui/canvas/sprite.js"
-import { extend, merge } from "@inglorious/utils/data-structures/objects.js"
+import { extend } from "@inglorious/utils/data-structures/objects.js"
 
 const DEFAULT_PARAMS = {
   id: null,
@@ -16,7 +16,7 @@ const DEFAULT_PARAMS = {
 }
 
 export function enableSprite(params) {
-  params = merge({}, DEFAULT_PARAMS, params)
+  params = extend(DEFAULT_PARAMS, params)
 
-  return (type) => extend(type, { sprite: params, draw })
+  return { sprite: params, draw }
 }

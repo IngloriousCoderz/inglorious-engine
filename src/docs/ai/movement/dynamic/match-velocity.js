@@ -7,7 +7,7 @@ import {
   createControls,
   enableControls,
 } from "@inglorious/game/decorators/input/controls.js"
-import { extend, merge } from "@inglorious/utils/data-structures/objects.js"
+import { merge } from "@inglorious/utils/data-structures/objects.js"
 
 export default {
   types: {
@@ -15,40 +15,39 @@ export default {
 
     character: [
       enableCharacter(),
-      (type) =>
-        extend(type, {
-          "game:update"(instance, event, { dt, instances }) {
-            const { fields } = instances.parameters.groups.matchVelocity
+      {
+        "game:update"(instance, event, { dt, instances }) {
+          const { fields } = instances.parameters.groups.matchVelocity
 
-            const { input0 } = instances
+          const { input0 } = instances
 
-            const SPEED = instance.maxSpeed
+          const SPEED = instance.maxSpeed
 
-            const target = { velocity: [0, 0, 0] }
-            if (input0.left) {
-              target.velocity[0] = -SPEED
-            }
-            if (input0.down) {
-              target.velocity[2] = -SPEED
-            }
-            if (input0.right) {
-              target.velocity[0] = SPEED
-            }
-            if (input0.up) {
-              target.velocity[2] = SPEED
-            }
+          const target = { velocity: [0, 0, 0] }
+          if (input0.left) {
+            target.velocity[0] = -SPEED
+          }
+          if (input0.down) {
+            target.velocity[2] = -SPEED
+          }
+          if (input0.right) {
+            target.velocity[0] = SPEED
+          }
+          if (input0.up) {
+            target.velocity[2] = SPEED
+          }
 
-            merge(
-              instance,
-              matchVelocity(instance, target, {
-                dt,
-                timeToTarget: fields.timeToTarget.value,
-              }),
-            )
+          merge(
+            instance,
+            matchVelocity(instance, target, {
+              dt,
+              timeToTarget: fields.timeToTarget.value,
+            }),
+          )
 
-            clampToBounds(instance, instances.game.bounds)
-          },
-        }),
+          clampToBounds(instance, instances.game.bounds)
+        },
+      },
     ],
 
     form: {

@@ -4,7 +4,7 @@ import {
   createControls,
   enableControls,
 } from "@inglorious/game/decorators/input/controls.js"
-import { extend, merge } from "@inglorious/utils/data-structures/objects.js"
+import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 
 const X = 0
@@ -16,29 +16,28 @@ export default {
 
     character: [
       enableCharacter(),
-      (type) =>
-        extend(type, {
-          "game:update"(instance, event, options) {
-            const { input0 } = options.instances
+      {
+        "game:update"(instance, event, options) {
+          const { input0 } = options.instances
 
-            instance.velocity = zero()
+          instance.velocity = zero()
 
-            if (input0.left) {
-              instance.velocity[X] = -instance.maxSpeed
-            }
-            if (input0.down) {
-              instance.velocity[Z] = -instance.maxSpeed
-            }
-            if (input0.right) {
-              instance.velocity[X] = instance.maxSpeed
-            }
-            if (input0.up) {
-              instance.velocity[Z] = instance.maxSpeed
-            }
+          if (input0.left) {
+            instance.velocity[X] = -instance.maxSpeed
+          }
+          if (input0.down) {
+            instance.velocity[Z] = -instance.maxSpeed
+          }
+          if (input0.right) {
+            instance.velocity[X] = instance.maxSpeed
+          }
+          if (input0.up) {
+            instance.velocity[Z] = instance.maxSpeed
+          }
 
-            merge(instance, move(instance, options))
-          },
-        }),
+          merge(instance, move(instance, options))
+        },
+      },
     ],
   },
 

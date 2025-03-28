@@ -1,75 +1,72 @@
-import { extend } from "@inglorious/utils/data-structures/objects.js"
-
 const DEFAULT_PARAMS = {
   name: "gamepad0",
 }
 
 export function enableGamepad() {
-  return (type) =>
-    extend(type, {
-      "game:update"(instance, event, { notify }) {
-        navigator.getGamepads().forEach((gamepad) => {
-          if (gamepad == null) {
-            return
-          }
+  return {
+    "game:update"(instance, event, { notify }) {
+      navigator.getGamepads().forEach((gamepad) => {
+        if (gamepad == null) {
+          return
+        }
 
-          gamepad.axes.forEach((axis, index) => {
-            notify({
-              id: "gamepad:axis",
-              payload: { id: gamepad.index, axis: `Axis${index}`, value: axis },
-            })
-          })
-
-          gamepad.buttons.forEach((button, index) => {
-            const id = button.pressed ? "gamepad:press" : "gamepad:release"
-            notify({
-              id,
-              payload: { id: gamepad.index, button: `Btn${index}` },
-            })
+        gamepad.axes.forEach((axis, index) => {
+          notify({
+            id: "gamepad:axis",
+            payload: { id: gamepad.index, axis: `Axis${index}`, value: axis },
           })
         })
-      },
 
-      "gamepad:axis"(instance, event, { notify }) {
-        const { id, axis, value } = event.payload
+        gamepad.buttons.forEach((button, index) => {
+          const id = button.pressed ? "gamepad:press" : "gamepad:release"
+          notify({
+            id,
+            payload: { id: gamepad.index, button: `Btn${index}` },
+          })
+        })
+      })
+    },
 
-        if (instance.id !== `gamepad${id}`) {
-          return
-        }
+    "gamepad:axis"(instance, event, { notify }) {
+      const { id, axis, value } = event.payload
 
-        const action = instance.mapping[axis]
-        instance[action] = value
-        notify({ id: "input:axis", payload: { id, action, value } })
-      },
+      if (instance.id !== `gamepad${id}`) {
+        return
+      }
 
-      "gamepad:press"(instance, event, { notify }) {
-        const { id, button } = event.payload
+      const action = instance.mapping[axis]
+      instance[action] = value
+      notify({ id: "input:axis", payload: { id, action, value } })
+    },
 
-        if (instance.id !== `gamepad${id}`) {
-          return
-        }
+    "gamepad:press"(instance, event, { notify }) {
+      const { id, button } = event.payload
 
-        const action = instance.mapping[button]
-        if (!instance[action]) {
-          instance[action] = true
-          notify({ id: "input:press", payload: { id, action } })
-        }
-      },
+      if (instance.id !== `gamepad${id}`) {
+        return
+      }
 
-      "gamepad:release"(instance, event, { notify }) {
-        const { id, button } = event.payload
+      const action = instance.mapping[button]
+      if (!instance[action]) {
+        instance[action] = true
+        notify({ id: "input:press", payload: { id, action } })
+      }
+    },
 
-        if (instance.id !== `gamepad${id}`) {
-          return
-        }
+    "gamepad:release"(instance, event, { notify }) {
+      const { id, button } = event.payload
 
-        const action = instance.mapping[button]
-        if (instance[action]) {
-          instance[action] = false
-          notify({ id: "input:release", payload: { id, action } })
-        }
-      },
-    })
+      if (instance.id !== `gamepad${id}`) {
+        return
+      }
+
+      const action = instance.mapping[button]
+      if (instance[action]) {
+        instance[action] = false
+        notify({ id: "input:release", payload: { id, action } })
+      }
+    },
+  }
 }
 
 export function createGamepad(name = DEFAULT_PARAMS.name, mapping = {}) {

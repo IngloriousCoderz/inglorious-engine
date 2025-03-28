@@ -1,42 +1,39 @@
-import { extend } from "@inglorious/utils/data-structures/objects.js"
-
 const DEFAULT_PARAMS = {
   name: "input0",
 }
 
 export function enableInput() {
-  return (type) =>
-    extend(type, {
-      "input:axis"(instance, event) {
-        const { id, action, value } = event.payload
+  return {
+    "input:axis"(instance, event) {
+      const { id, action, value } = event.payload
 
-        if (!id.endsWith(instance.id)) {
-          return
-        }
+      if (!id.endsWith(instance.id)) {
+        return
+      }
 
-        instance[action] = value
-      },
+      instance[action] = value
+    },
 
-      "input:press"(instance, event) {
-        const { id, action } = event.payload
+    "input:press"(instance, event) {
+      const { id, action } = event.payload
 
-        if (!id.endsWith(instance.id)) {
-          return
-        }
+      if (!id.endsWith(instance.id)) {
+        return
+      }
 
-        instance[action] = true
-      },
+      instance[action] = true
+    },
 
-      "input:release"(instance, event) {
-        const { id, action } = event.payload
+    "input:release"(instance, event) {
+      const { id, action } = event.payload
 
-        if (!id.endsWith(instance.id)) {
-          return
-        }
+      if (!id.endsWith(instance.id)) {
+        return
+      }
 
-        instance[action] = false
-      },
-    })
+      instance[action] = false
+    },
+  }
 }
 
 export function createInput(name = DEFAULT_PARAMS.name, mapping = {}) {

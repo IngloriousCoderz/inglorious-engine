@@ -24,11 +24,7 @@ export default {
       (type) =>
         extend(type, {
           states: {
-            ...type.states,
-
             default: {
-              ...type.states?.default,
-
               "game:update"(instance, event, options) {
                 type.states?.default["game:update"]?.(instance, event, options)
 
@@ -37,8 +33,6 @@ export default {
             },
 
             jumping: {
-              ...type.states?.jumping,
-
               "game:update"(instance, event, options) {
                 type.states?.jumping["game:update"]?.(instance, event, options)
 
@@ -47,8 +41,6 @@ export default {
             },
 
             doubleJumping: {
-              ...type.states?.doubleJumping,
-
               "game:update"(instance, event, options) {
                 type.states?.doubleJumping["game:update"]?.(
                   instance,

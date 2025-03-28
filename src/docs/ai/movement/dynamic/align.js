@@ -10,7 +10,7 @@ import {
   enableControls,
 } from "@inglorious/game/decorators/input/controls.js"
 import { enableMouse } from "@inglorious/game/decorators/input/mouse.js"
-import { extend, merge } from "@inglorious/utils/data-structures/objects.js"
+import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { clamp } from "@inglorious/utils/math/numbers.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
@@ -18,51 +18,49 @@ export default {
   types: {
     mouse: [
       enableMouse(),
-      (type) =>
-        extend(type, {
-          "field:change"(instance, event) {
-            const { id, value } = event.payload
-            if (id === "targetOrientation") {
-              instance.orientation = -value * pi()
-            }
-          },
+      {
+        "field:change"(instance, event) {
+          const { id, value } = event.payload
+          if (id === "targetOrientation") {
+            instance.orientation = -value * pi()
+          }
+        },
 
-          "game:update"(instance, event, options) {
-            const { input0 } = options.instances
+        "game:update"(instance, event, options) {
+          const { input0 } = options.instances
 
-            if (input0.left || input0.up) {
-              instance.orientation += 0.1
-            } else if (input0.right || input0.down) {
-              instance.orientation -= 0.1
-            }
-            instance.orientation = clamp(instance.orientation, -pi(), pi())
-          },
-        }),
+          if (input0.left || input0.up) {
+            instance.orientation += 0.1
+          } else if (input0.right || input0.down) {
+            instance.orientation -= 0.1
+          }
+          instance.orientation = clamp(instance.orientation, -pi(), pi())
+        },
+      },
     ],
 
     ...enableControls(),
 
     character: [
       enableCharacter(),
-      (type) =>
-        extend(type, {
-          "game:update"(instance, event, { dt, instances }) {
-            const target = instances.mouse
-            const { fields } = instances.parameters.groups.align
+      {
+        "game:update"(instance, event, { dt, instances }) {
+          const target = instances.mouse
+          const { fields } = instances.parameters.groups.align
 
-            merge(
-              instance,
-              align(instance, target, {
-                dt,
-                targetRadius: fields.targetRadius.value,
-                slowRadius: fields.slowRadius.value,
-                timeToTarget: fields.timeToTarget.value,
-              }),
-            )
+          merge(
+            instance,
+            align(instance, target, {
+              dt,
+              targetRadius: fields.targetRadius.value,
+              slowRadius: fields.slowRadius.value,
+              timeToTarget: fields.timeToTarget.value,
+            }),
+          )
 
-            clampToBounds(instance, instances.game.bounds)
-          },
-        }),
+          clampToBounds(instance, instances.game.bounds)
+        },
+      },
     ],
 
     form: {
