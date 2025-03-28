@@ -29,11 +29,9 @@ export default class Engine {
    * Starts the game engine, initializing the loop and notifying the store.
    */
   start() {
-    const { fps } = this._config.loop
-    const msPerFrame = ONE_SECOND / fps
-    this._loop.start(this, msPerFrame)
-    this.isRunning = true
     this._store.notify({ id: "game:start" })
+    this._loop.start(this, ONE_SECOND / this._config.loop.fps)
+    this.isRunning = true
   }
 
   /**

@@ -59,9 +59,7 @@ export function createStore({ instances = {}, ...originalConfig }) {
   function update(dt) {
     state = { ...state }
 
-    state.events.push({ id: "game:update" })
-
-    state.events.push(...incomingEvents)
+    state.events.push(...incomingEvents, { id: "game:update" })
     incomingEvents = []
 
     while (state.events.length) {
@@ -78,7 +76,7 @@ export function createStore({ instances = {}, ...originalConfig }) {
         return (
           handle?.(instance, event, {
             dt,
-            types,
+            type: config.types[instance.type],
             instances,
             notify,
           }) ?? instance

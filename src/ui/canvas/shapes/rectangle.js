@@ -1,12 +1,12 @@
 /* eslint-disable no-magic-numbers */
 
-export default function draw(ctx, options = {}) {
+export default function draw(ctx, instance) {
   const {
     size,
     color = "black",
     backgroundColor = "transparent",
     thickness = 1,
-  } = options
+  } = instance
   const [width = 100, height = 50] = size
 
   ctx.save()

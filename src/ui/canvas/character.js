@@ -2,8 +2,8 @@
 
 import circle from "./shapes/circle.js"
 
-export default function draw(ctx, options = {}) {
-  const { size = 24, orientation = 0 } = options
+export default function draw(ctx, instance) {
+  const { size = 24, orientation = 0 } = instance
 
   const radius = size * 0.5
 
@@ -23,7 +23,7 @@ export default function draw(ctx, options = {}) {
   ctx.restore()
 
   ctx.save()
-  circle(ctx, { ...options, radius, fill: "lightgrey" })
+  circle(ctx, { ...instance, radius, fill: "lightgrey" })
 
   ctx.restore()
 }

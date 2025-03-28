@@ -1,8 +1,7 @@
 import SpriteComponent from "./sprite.jsx"
 
-export default function Sprite({ type, instance, className, style }) {
-  const { states, ...rest } = type.sprite
-  const { state, value } = instance.sprite
+export default function Sprite({ instance, className, style }) {
+  const { states, state, value, ...rest } = instance.sprite
   const { frames, flip } = states[state]
 
   return (

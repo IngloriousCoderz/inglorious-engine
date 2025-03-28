@@ -302,7 +302,6 @@ test("it should have a built-in finite state machine", () => {
 
   store.notify({ id: "cat:meow" })
   store.update()
-  store.update()
 
   const state = store.getState()
   expect(state).toStrictEqual(afterState)

@@ -1,7 +1,7 @@
 /* eslint-disable no-magic-numbers */
 
-export default function draw(ctx, options = {}) {
-  const { color = "black", thickness = 1, orientation = 0 } = options
+export default function draw(ctx, instance) {
+  const { color = "black", thickness = 1, orientation = 0 } = instance
 
   ctx.save()
 

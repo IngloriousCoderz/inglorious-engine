@@ -2,13 +2,13 @@
 
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
-export default function draw(ctx, options = {}) {
+export default function draw(ctx, instance) {
   const {
     radius = 24,
     stroke = "black",
     fill = "transparent",
     thickness = 1,
-  } = options
+  } = instance
 
   ctx.save()
 

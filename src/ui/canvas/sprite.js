@@ -1,12 +1,10 @@
 /* eslint-disable no-magic-numbers */
 
-export default function draw(ctx, options = {}) {
-  const { types, type, sprite } = options
-  const { id, src, width, height, rows, cols, scale, states } =
-    types[type].sprite
+export default function draw(ctx, instance) {
+  const { id, src, width, height, rows, cols, scale, states } = instance.sprite
 
-  const { frames, flip } = states[sprite.state]
-  const [sx, sy] = frames[sprite.value]
+  const { frames, flip } = states[instance.sprite.state]
+  const [sx, sy] = frames[instance.sprite.value]
 
   const cellWidth = width / cols
   const cellHeight = height / rows

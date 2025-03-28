@@ -1,13 +1,13 @@
 export default {
   types: {
     character: {
-      draw(ctx, options = {}) {
+      draw(ctx, instance) {
         const {
           size = 24,
           orientation = 0,
           stroke = "black",
           fill = "transparent",
-        } = options
+        } = instance
 
         const radius = size * 0.5
 

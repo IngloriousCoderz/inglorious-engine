@@ -48,7 +48,7 @@ function createDraw(options) {
     const { types, instances } = options
     const type = types[instance.type]
 
-    const Component = type.sprite
+    const Component = instance.sprite
       ? Components.sprite
       : Components[instance.type]
 
@@ -57,7 +57,6 @@ function createDraw(options) {
         key={instance.id}
         id={instance.id}
         type={type}
-        types={types}
         instance={instance}
         instances={instances}
       />

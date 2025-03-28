@@ -18,5 +18,15 @@ const DEFAULT_PARAMS = {
 export function enableSprite(params) {
   params = extend(DEFAULT_PARAMS, params)
 
-  return { sprite: params, draw }
+  return {
+    draw,
+
+    states: {
+      idle: {
+        "game:start"(instance) {
+          instance.sprite = instance.sprite ?? params
+        },
+      },
+    },
+  }
 }

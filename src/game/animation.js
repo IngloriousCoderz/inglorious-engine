@@ -1,21 +1,24 @@
-/* eslint-disable no-magic-numbers */
+const COUNTER_RESET = 0
+const DEFAULT_VALUE = 0
 
-const DEFAULT_ANIMATION = { counter: 0, value: 0 }
+export function play(what, state, instance, options) {
+  const { dt, onTick } = options
+  const {
+    speed,
+    defaultValue = DEFAULT_VALUE,
+    value = DEFAULT_VALUE,
+  } = instance[what]
 
-export function play(type, state, instance, options) {
-  const { dt, types, onTick } = options
-  const { speed, value = 0 } = types[instance.type][type]
-
-  instance[type] = instance[type] ?? { ...DEFAULT_ANIMATION }
-  if (state !== instance[type].state) {
-    instance[type].state = state
-    instance[type].counter = 0
-    instance[type].value = value
+  if (state !== instance[what].state) {
+    instance[what].state = state
+    instance[what].counter = COUNTER_RESET
+    instance[what].value = defaultValue
   }
 
-  instance[type].counter += dt
-  if (instance[type].counter >= speed) {
-    instance[type].counter = 0
+  instance[what].counter += dt
+  if (instance[what].counter >= speed) {
+    instance[what].counter = COUNTER_RESET
+    instance[what].value = value
     onTick && onTick(instance, options)
   }
 }

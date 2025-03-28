@@ -49,10 +49,6 @@ const nextState = {
 
 export default {
   types: {
-    game: {
-      pixelated: true,
-    },
-
     mouse: [enableMouse()],
 
     cat: [
@@ -227,10 +223,14 @@ export default {
   },
 
   instances: {
+    game: {
+      pixelated: true,
+    },
+
     mouse: {
       id: "mouse",
       type: "mouse",
-      position: [400, 0, 300],
+      position: [0, 0, 0],
     },
 
     neko: {

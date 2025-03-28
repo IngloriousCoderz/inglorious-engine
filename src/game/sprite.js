@@ -97,11 +97,9 @@ export function play(spriteState, instance, options) {
 }
 
 function onTick(instance, options) {
-  const { types, notify } = options
-  const { type, sprite } = instance
+  const { notify } = options
 
-  const { states } = types[type].sprite
-  const { frames } = states[sprite.state]
+  const { frames } = instance.sprite.states[instance.sprite.state]
 
   instance.sprite.value = mod(instance.sprite.value + 1, frames.length)
   if (instance.sprite.value === frames.length - 1) {
