@@ -1,4 +1,4 @@
-import Game from "@inglorious/docs/game.jsx"
+import UiChooser from "@inglorious/docs/ui-chooser.jsx"
 
 import controls from "./controls.js"
 import gamepad from "./gamepad.js"
@@ -7,7 +7,7 @@ import mouse from "./mouse.js"
 
 export default {
   title: "Engine/Input",
-  component: Game,
+  component: UiChooser,
 }
 
 export const Mouse = {

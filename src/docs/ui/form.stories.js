@@ -1,8 +1,9 @@
-import Game from "@inglorious/ui/react/game/index.jsx"
+import UiChooser from "@inglorious/docs/ui-chooser.jsx"
 
 export default {
   title: "UI/Form",
-  component: Game,
+  component: UiChooser,
+  args: { ui: "react" },
 }
 
 export const Default = {

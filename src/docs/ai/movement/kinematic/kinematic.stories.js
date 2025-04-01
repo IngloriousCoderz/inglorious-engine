@@ -1,4 +1,4 @@
-import Game from "@inglorious/docs/game.jsx"
+import UiChooser from "@inglorious/docs/ui-chooser.jsx"
 
 import align from "./align.js"
 import arrive from "./arrive.js"
@@ -10,7 +10,7 @@ import wanderAsSeek from "./wander-as-seek.js"
 
 export default {
   title: "Engine/AI/Movement/Kinematic",
-  component: Game,
+  component: UiChooser,
 }
 
 export const Seek = {

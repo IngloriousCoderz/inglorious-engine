@@ -1,6 +1,4 @@
-// import Game from "@inglorious/ui/react/game/index.jsx"
-
-import Game from "@inglorious/docs/game.jsx"
+import UiChooser from "@inglorious/docs/ui-chooser.jsx"
 
 import addAndRemove from "./add-and-remove.js"
 import addInstance from "./add-instance.js"
@@ -11,8 +9,7 @@ import states from "./states.js"
 
 export default {
   title: "Engine/Recipes",
-  component: Game,
-  parameters: { layout: "centered" },
+  component: UiChooser,
 }
 
 export const RandomInstances = {
@@ -36,5 +33,8 @@ export const States = {
 }
 
 export const DecisionTree = {
-  args: { config: decisionTree },
+  args: {
+    config: decisionTree,
+    ui: "canvas",
+  },
 }

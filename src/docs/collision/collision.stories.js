@@ -1,12 +1,11 @@
-import Game from "@inglorious/docs/game.jsx"
+import UiChooser from "@inglorious/docs/ui-chooser.jsx"
 
 import circles from "./circles.js"
 import platform from "./platform.js"
 
 export default {
   title: "Engine/Collision Detection",
-  component: Game,
-  parameters: { layout: "centered" },
+  component: UiChooser,
 }
 
 export const Circles = {
@@ -14,5 +13,8 @@ export const Circles = {
 }
 
 export const Platform = {
-  args: { config: platform },
+  args: {
+    config: platform,
+    ui: "canvas",
+  },
 }

@@ -1,4 +1,4 @@
-import Game from "@inglorious/docs/game.jsx"
+import UiChooser from "@inglorious/docs/ui-chooser.jsx"
 
 import doubleJump from "./double-jump.js"
 import jump from "./jump.js"
@@ -8,7 +8,7 @@ import tankControls from "./tank-controls.js"
 
 export default {
   title: "Engine/Player/Kinematic",
-  component: Game,
+  component: UiChooser,
 }
 
 export const Move = {

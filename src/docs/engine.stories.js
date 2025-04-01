@@ -1,4 +1,4 @@
-import Game from "@inglorious/docs/game.jsx"
+import UiChooser from "@inglorious/docs/ui-chooser.jsx"
 
 import bounds from "./bounds.js"
 import codeReuse from "./code-reuse.js"
@@ -9,10 +9,7 @@ import instances from "./instances.js"
 
 export default {
   title: "Engine",
-  component: Game,
-  parameters: {
-    layout: "centered",
-  },
+  component: UiChooser,
 }
 
 export const Empty = {

@@ -14,7 +14,10 @@ const preview = {
     docs: {
       theme,
     },
+    layout: "centered",
   },
+  argTypes: { ui: { control: "radio", options: ["canvas", "react"] } },
+  args: { ui: "canvas" },
 }
 
 export default preview
