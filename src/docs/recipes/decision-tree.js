@@ -53,13 +53,13 @@ export default {
 
     cat: [
       enableSprite({
-        id: "neko",
-        src: "/decision-tree/neko.png",
-        width: 192,
-        height: 192,
-        rows: 6,
-        cols: 6,
-        scale: 2,
+        image: {
+          id: "neko",
+          src: "/sprites/neko.png",
+          imageSize: [192, 192],
+          tileSize: [32, 32],
+          scale: 2,
+        },
         speed: 0.2,
         states: {
           idle: {
@@ -228,13 +228,11 @@ export default {
     },
 
     mouse: {
-      id: "mouse",
       type: "mouse",
       position: [0, 0, 0],
     },
 
     neko: {
-      id: "neko",
       type: "cat",
       state: "idle",
       maxSpeed: 250,

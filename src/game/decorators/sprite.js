@@ -1,4 +1,4 @@
-import draw from "@inglorious/ui/canvas/sprite.js"
+import draw from "@inglorious/ui/canvas/image/sprite.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
 
 const DEFAULT_PARAMS = {

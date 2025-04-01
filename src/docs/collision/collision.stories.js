@@ -13,8 +13,5 @@ export const Circles = {
 }
 
 export const Platform = {
-  args: {
-    config: platform,
-    ui: "canvas",
-  },
+  args: { config: platform },
 }

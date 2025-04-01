@@ -33,8 +33,5 @@ export const States = {
 }
 
 export const DecisionTree = {
-  args: {
-    config: decisionTree,
-    ui: "canvas",
-  },
+  args: { config: decisionTree },
 }
