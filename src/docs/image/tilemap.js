@@ -12,7 +12,7 @@ export default {
 
     dungeon: {
       type: "tilemap",
-      position: [400 - 160 / 2, 0, 300 + 160 / 2],
+      position: [400 - (16 * 6 * 3) / 2, 0, 300 + (16 * 5 * 3) / 2],
       tilemap: {
         image: {
           id: "dungeon",
@@ -20,7 +20,7 @@ export default {
           imageSize: [160, 160],
           tileSize: [16, 16],
           columns: 6,
-          scale: 2,
+          scale: 3,
         },
         layers: [
           {
