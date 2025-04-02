@@ -1,7 +1,6 @@
 import "./sprite.module.css"
 
 const DEFAULT_SCALE = 1
-const DEFAULT_FLIP = ""
 
 const FLIP = -1
 const NO_FLIP = 1
@@ -9,16 +8,27 @@ const NO_FLIP = 1
 const CENTER_WIDTH = 2
 const CENTER_HEIGHT = 2
 
+const FLIPPED_HORIZONTALLY_FLAG = 0x80000000
+const FLIPPED_VERTICALLY_FLAG = 0x40000000
+// const FLIPPED_DIAGONALLY_FLAG = 0x20000000
+// const ROTATED_HEXAGONAL_120_FLAG = 0x10000000
+
 export default function Sprite({ instance, className, style: customStyle }) {
-  const { image, states, state, value } = instance.sprite
+  const { image, frames, state, value } = instance.sprite
   const { src, imageSize, tileSize, scale = DEFAULT_SCALE } = image
 
   const [imageWidth] = imageSize
   const [tileWidth, tileHeight] = tileSize
   const cols = imageWidth / tileWidth
 
-  const { frames, flip = DEFAULT_FLIP } = states[state]
-  const tile = frames[value]
+  const flaggedTile = frames[state][value]
+
+  const isFlippedHorizontally = !!(flaggedTile & FLIPPED_HORIZONTALLY_FLAG)
+  const isFlippedVertically = !!(flaggedTile & FLIPPED_VERTICALLY_FLAG)
+
+  let tile = flaggedTile
+  tile &= ~FLIPPED_HORIZONTALLY_FLAG
+  tile &= ~FLIPPED_VERTICALLY_FLAG
 
   const sx = tile % cols
   const sy = Math.floor(tile / cols)
@@ -29,8 +39,8 @@ export default function Sprite({ instance, className, style: customStyle }) {
     ${-tileHeight / CENTER_HEIGHT}px
   )`
   transform += `scale(
-    ${flip.includes("h") ? FLIP : NO_FLIP},
-    ${flip.includes("v") ? FLIP : NO_FLIP}
+    ${isFlippedHorizontally ? FLIP : NO_FLIP},
+    ${isFlippedVertically ? FLIP : NO_FLIP}
     )`
   transform += `scale(${scale})`
 

@@ -101,13 +101,15 @@ function play(spriteState, instance, options) {
 function onTick(instance, options) {
   const { notify } = options
 
-  const { frames } = instance.sprite.states[instance.sprite.state]
+  const { frames, state } = instance.sprite
 
-  instance.sprite.value = mod(instance.sprite.value + 1, frames.length)
-  if (instance.sprite.value === frames.length - 1) {
+  const framesLength = frames[state].length
+
+  instance.sprite.value = mod(instance.sprite.value + 1, framesLength)
+  if (instance.sprite.value === framesLength - 1) {
     notify({
       id: `sprite:animationEnd`,
-      payload: { id: instance.id, sprite: instance.sprite.state },
+      payload: { id: instance.id, spriteState: state },
     })
   }
 }

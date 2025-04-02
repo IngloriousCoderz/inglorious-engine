@@ -35,10 +35,8 @@ export default {
           scale: 2,
         },
         speed: 0.2,
-        states: {
-          sleepy: {
-            frames: [4, 10, 10, 3, 9, 15, 9, 15, 15],
-          },
+        frames: {
+          sleepy: [4, 10, 10, 3, 9, 15, 9, 15, 15],
         },
       },
     },
