@@ -11,11 +11,17 @@ const CENTER_HEIGHT = 2
 
 export default function Sprite({ instance, className, style: customStyle }) {
   const { image, states, state, value } = instance.sprite
-  const { src, tileSize, scale = DEFAULT_SCALE } = image
+  const { src, imageSize, tileSize, scale = DEFAULT_SCALE } = image
+
+  const [imageWidth] = imageSize
   const [tileWidth, tileHeight] = tileSize
+  const cols = imageWidth / tileWidth
 
   const { frames, flip = DEFAULT_FLIP } = states[state]
-  const [sx, sy] = frames[value]
+  const tile = frames[value]
+
+  const sx = tile % cols
+  const sy = Math.floor(tile / cols)
 
   let transform = ""
   transform += `translate(

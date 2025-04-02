@@ -11,11 +11,17 @@ const CENTER_HEIGHT = 2
 
 export default function draw(ctx, instance, options) {
   const { image, states, state, value } = instance.sprite
-  const { tileSize, scale = DEFAULT_SCALE } = image
+  const { imageSize, tileSize, scale = DEFAULT_SCALE } = image
+
+  const [imageWidth] = imageSize
   const [tileWidth, tileHeight] = tileSize
+  const cols = imageWidth / tileWidth
 
   const { frames, flip = DEFAULT_FLIP } = states[state]
-  const [sx, sy] = frames[value]
+  const tile = frames[value]
+
+  const sx = tile % cols
+  const sy = Math.floor(tile / cols)
 
   ctx.save()
 

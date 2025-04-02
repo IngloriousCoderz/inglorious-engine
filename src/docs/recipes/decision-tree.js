@@ -63,89 +63,47 @@ export default {
         speed: 0.2,
         states: {
           idle: {
-            frames: [[4, 0]],
+            frames: [4],
           },
 
           aware: {
-            frames: [
-              [0, 0],
-              [4, 0],
-            ],
+            frames: [0, 4],
           },
 
           leftUp: {
-            frames: [
-              [5, 3],
-              [5, 4],
-            ],
+            frames: [23, 29],
             flip: "h",
           },
           up: {
-            frames: [
-              [4, 4],
-              [0, 5],
-            ],
+            frames: [28, 30, 28, 31],
           },
           rightUp: {
-            frames: [
-              [5, 3],
-              [5, 4],
-            ],
+            frames: [23, 29],
           },
           right: {
-            frames: [
-              [4, 2],
-              [4, 3],
-            ],
+            frames: [16, 22],
           },
           rightDown: {
-            frames: [
-              [1, 2],
-              [2, 2],
-            ],
+            frames: [13, 14],
           },
           down: {
-            frames: [
-              [1, 0],
-              [0, 1],
-            ],
+            frames: [1, 2, 1, 7],
           },
           leftDown: {
-            frames: [
-              [1, 2],
-              [2, 2],
-            ],
+            frames: [13, 14],
             flip: "h",
           },
           left: {
-            frames: [
-              [4, 2],
-              [4, 3],
-            ],
+            frames: [16, 22],
             flip: "h",
           },
 
           sleepy: {
-            frames: [
-              [4, 0],
-              [4, 1],
-              [4, 1],
-              [3, 0],
-              [3, 1],
-              [3, 2],
-              [3, 1],
-              [3, 2],
-              [3, 2],
-            ],
+            frames: [4, 10, 10, 3, 9, 15, 9, 15, 15],
           },
 
           sleeping: {
-            frames: [
-              [2, 4],
-              [2, 4],
-              [3, 4],
-              [3, 4],
-            ],
+            frames: [26, 26, 27, 27],
           },
         },
       }),
