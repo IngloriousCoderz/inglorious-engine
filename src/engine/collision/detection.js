@@ -1,3 +1,4 @@
+import { filter } from "@inglorious/utils/data-structures/object.js"
 import * as circle from "@inglorious/utils/math/geometry/circle.js"
 import * as line from "@inglorious/utils/math/geometry/line.js"
 import * as point from "@inglorious/utils/math/geometry/point.js"
@@ -26,16 +27,20 @@ const Shape = {
  * @returns {Instance | undefined} The first instance that collides with the point, or undefined if none are found.
  */
 export function findCollision(instance, options) {
-  const { instances, type = "hitbox" } = options
-  return Object.values(instances)
-    .filter(({ id }) => id !== instance.id)
-    .filter(({ collisions }) => collisions?.[type])
+  const { instances, collisionType = "hitbox" } = options
+
+  const otherInstances = filter(
+    instances,
+    (id, { collisions }) => id !== instance.id && collisions?.[collisionType],
+  )
+
+  return Object.values(otherInstances)
     .toSorted((a, b) => a.position[Z] - b.position[Z])
-    .find((target) => collidesWith(instance, target, type))
+    .find((target) => collidesWith(instance, target, collisionType))
 }
 
-export function collidesWith(instance, target, type = "hitbox") {
-  const instanceCollision = instance.collisions[type]
+export function collidesWith(instance, target, collisionType = "hitbox") {
+  const instanceCollision = instance.collisions[collisionType]
   const instanceShape = {
     ...instanceCollision,
     position: add(instance.position, instanceCollision.position || zero()),
@@ -44,7 +49,7 @@ export function collidesWith(instance, target, type = "hitbox") {
   }
   instanceShape.position[Y] += instance.py ?? NO_JUMP
 
-  const targetCollision = target.collisions[type]
+  const targetCollision = target.collisions[collisionType]
   const targetShape = {
     ...targetCollision,
     position: add(target.position, targetCollision.position || zero()),

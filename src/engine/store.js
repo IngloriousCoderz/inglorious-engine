@@ -98,8 +98,7 @@ export function createStore({ instances = {}, ...originalConfig }) {
    */
   function add(id, instance) {
     state = { ...state }
-    state.instances[id] = instance
-    instance.state = instance.state ?? "default"
+    state.instances[id] = turnInstanceIntoFsm(id, instance)
   }
 
   /**
@@ -212,10 +211,10 @@ function enableMutability(types) {
 function turnStateIntoFsm(state) {
   return {
     ...state,
-    instances: map(state.instances, (id, instance) => ({
-      ...instance,
-      id,
-      state: instance.state ?? "default",
-    })),
+    instances: map(state.instances, turnInstanceIntoFsm),
   }
+}
+
+function turnInstanceIntoFsm(id, instance) {
+  return { ...instance, id, state: instance.state ?? "default" }
 }

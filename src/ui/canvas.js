@@ -11,8 +11,14 @@ export function start(config, canvas) {
 
   const { game } = engine._store.getState().instances
   const [, , width, height] = game.bounds
-  canvas.width = width
-  canvas.height = height
+
+  canvas.style.width = `${width}px`
+  canvas.style.height = `${height}px`
+  const dpi = window.devicePixelRatio
+  canvas.width = Math.floor(width * dpi)
+  canvas.height = Math.floor(height * dpi)
+  ctx.scale(dpi, dpi)
+
   if (game.pixelated) {
     canvas.style.imageRendering = "pixelated"
     ctx.textRendering = "geometricPrecision"

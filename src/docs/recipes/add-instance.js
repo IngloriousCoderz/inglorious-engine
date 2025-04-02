@@ -1,5 +1,6 @@
 import { enableCharacter } from "@inglorious/game/decorators/character.js"
 import { enableMouse } from "@inglorious/game/decorators/input/mouse.js"
+import { filter } from "@inglorious/utils/data-structures/object.js"
 import { random } from "@inglorious/utils/math/rng.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
@@ -10,12 +11,16 @@ export default {
       {
         "mouse:click"(instance, event, options) {
           const { instances, notify } = options
-          const characters = Object.keys(instances)
+          const characters = filter(
+            instances,
+            (_, { type }) => type === "character",
+          )
+          const ids = Object.keys(characters)
 
           notify({
             id: "instance:add",
             payload: {
-              id: `character${characters.length + 1}`,
+              id: `character${ids.length + 1}`,
               type: "character",
               position: event.payload,
               orientation: random(0, 2 * pi(), 0.01),

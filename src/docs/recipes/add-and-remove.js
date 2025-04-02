@@ -1,5 +1,6 @@
 import { enableCharacter } from "@inglorious/game/decorators/character.js"
 import { enableMouse } from "@inglorious/game/decorators/input/mouse.js"
+import { filter } from "@inglorious/utils/data-structures/object.js"
 import { random } from "@inglorious/utils/math/rng.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
@@ -8,17 +9,20 @@ export default {
     mouse: [
       enableMouse(),
       {
-        "scene:click"(instance, event, { instances, notify }) {
-          const characters = Object.values(instances).filter(
-            ({ type }) => type === "character",
+        "scene:click"(instance, event, options) {
+          const { instances, notify } = options
+          const characters = filter(
+            instances,
+            (_, { type }) => type === "character",
           )
-          const ids = characters.map(({ id }) => id)
+          const ids = Object.keys(characters)
 
           const maxId = ids.length
             ? Number(ids[ids.length - 1].replace("character", ""))
             : 0
 
           notify({
+            id: "instance:add",
             payload: {
               id: `character${maxId + 1}`,
               type: "character",
