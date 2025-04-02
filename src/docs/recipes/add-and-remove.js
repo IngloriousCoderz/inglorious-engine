@@ -19,7 +19,6 @@ export default {
             : 0
 
           notify({
-            id: "instance:add",
             payload: {
               id: `character${maxId + 1}`,
               type: "character",
@@ -55,7 +54,6 @@ export default {
 
   instances: {
     mouse: {
-      id: "mouse",
       type: "mouse",
       position: [400, 0, 300],
       collisions: {

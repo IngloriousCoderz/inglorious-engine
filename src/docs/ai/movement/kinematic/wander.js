@@ -19,7 +19,6 @@ export default {
 
   instances: {
     character: {
-      id: "character",
       type: "character",
       maxSpeed: 250,
       maxAngularSpeed: pi() / 4,

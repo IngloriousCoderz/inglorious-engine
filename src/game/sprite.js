@@ -1,5 +1,5 @@
 /* eslint-disable no-magic-numbers */
-import * as Animation from "@inglorious/game/animation.js"
+import { Animation } from "@inglorious/game/animation.js"
 import { angle } from "@inglorious/utils/math/linear-algebra/vector.js"
 import { subtract } from "@inglorious/utils/math/linear-algebra/vectors.js"
 import { mod } from "@inglorious/utils/math/numbers.js"
@@ -8,7 +8,9 @@ import { pi, toRange } from "@inglorious/utils/math/trigonometry.js"
 const BEFORE = -1
 const AFTER = 1
 
-export function move2(instance, target) {
+export const Sprite = { move2, move4, move6, move8, play }
+
+function move2(instance, target) {
   const direction = subtract(target.position, instance.position)
 
   const directions = 2
@@ -22,7 +24,7 @@ export function move2(instance, target) {
   }
 }
 
-export function move4(instance, target) {
+function move4(instance, target) {
   const direction = subtract(target.position, instance.position)
 
   const directions = 4
@@ -40,7 +42,7 @@ export function move4(instance, target) {
   }
 }
 
-export function move6(instance, target) {
+function move6(instance, target) {
   const direction = subtract(target.position, instance.position)
 
   const directions = 6
@@ -66,7 +68,7 @@ export function move6(instance, target) {
   }
 }
 
-export function move8(instance, target) {
+function move8(instance, target) {
   const direction = subtract(target.position, instance.position)
 
   const directions = 8
@@ -92,7 +94,7 @@ export function move8(instance, target) {
   }
 }
 
-export function play(spriteState, instance, options) {
+function play(spriteState, instance, options) {
   Animation.play("sprite", spriteState, instance, { ...options, onTick })
 }
 

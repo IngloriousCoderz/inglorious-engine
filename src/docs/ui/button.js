@@ -21,7 +21,6 @@ export default {
     },
 
     rect1: {
-      id: "rect1",
       type: "button",
       position: [400, 0, 300],
     },

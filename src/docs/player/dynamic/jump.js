@@ -69,7 +69,6 @@ export default {
     },
 
     character: {
-      id: "character",
       type: "character",
       maxAcceleration: 500,
       friction: 250,

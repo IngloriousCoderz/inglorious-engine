@@ -46,7 +46,6 @@ export default {
     },
 
     character: {
-      id: "character",
       type: "character",
       maxSpeed: 250,
       position: [400, 0, 300],

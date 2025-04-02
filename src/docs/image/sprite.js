@@ -1,29 +1,15 @@
-import { enableSprite } from "@inglorious/game/decorators/sprite.js"
-import * as Sprite from "@inglorious/game/sprite.js"
+import { enableSprite } from "@inglorious/game/decorators/image/sprite.js"
+import { Sprite } from "@inglorious/game/sprite.js"
 
 export default {
   types: {
     cat: [
-      enableSprite({
-        image: {
-          id: "neko",
-          src: "/sprites/neko.png",
-          imageSize: [192, 192],
-          tileSize: [32, 32],
-          scale: 2,
-        },
-        speed: 0.2,
-        states: {
-          idle: {
-            frames: [4, 10, 10, 3, 9, 15, 9, 15, 15],
-          },
-        },
-      }),
+      enableSprite(),
       {
         states: {
-          idle: {
+          default: {
             "game:update"(instance, event, options) {
-              Sprite.play("idle", instance, options)
+              Sprite.play("sleepy", instance, options)
             },
           },
         },
@@ -38,8 +24,23 @@ export default {
 
     neko: {
       type: "cat",
-      state: "idle",
+      state: "default",
       position: [400, 0, 300],
+      sprite: {
+        image: {
+          id: "neko",
+          src: "/sprites/neko.png",
+          imageSize: [192, 192],
+          tileSize: [32, 32],
+          scale: 2,
+        },
+        speed: 0.2,
+        states: {
+          sleepy: {
+            frames: [4, 10, 10, 3, 9, 15, 9, 15, 15],
+          },
+        },
+      },
     },
   },
 }

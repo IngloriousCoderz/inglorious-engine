@@ -50,13 +50,11 @@ export default {
 
   instances: {
     mouse: {
-      id: "mouse",
       type: "mouse",
       position: [0, 0, 0],
     },
 
     character: {
-      id: "character",
       type: "character",
       state: "meandering",
       maxSpeed: 250,

@@ -28,7 +28,6 @@ export default {
 
   instances: {
     left: {
-      id: "left",
       type: "character",
       position: [200, 0, 300],
       orientation: 0,
@@ -43,7 +42,6 @@ export default {
     },
 
     right: {
-      id: "right",
       type: "character",
       position: [600, 0, 300],
       orientation: pi(),

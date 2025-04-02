@@ -23,7 +23,6 @@ export default {
 
   instances: {
     mouse: {
-      id: "mouse",
       type: "mouse",
       position: [400, 0, 300],
     },
@@ -40,7 +39,6 @@ export default {
     }),
 
     character: {
-      id: "character",
       type: "character",
       maxAngularAcceleration: 1000,
       maxAngularSpeed: 2 * pi(),

@@ -36,7 +36,6 @@ export default {
     }),
 
     character: {
-      id: "character",
       type: "character",
       position: [200, 62, 0],
       collisions: {
@@ -48,7 +47,6 @@ export default {
     },
 
     ground: {
-      id: "ground",
       type: "platform",
       position: [0, 50, 0],
       size: [800, 50, 0],
@@ -60,7 +58,6 @@ export default {
     },
 
     platform: {
-      id: "platform",
       type: "platform",
       position: [600, 100, 0],
       size: [80, 20, 0],

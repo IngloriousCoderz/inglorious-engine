@@ -1,4 +1,4 @@
-import * as Animation from "@inglorious/game/animation.js"
+import { Animation } from "@inglorious/game/animation.js"
 import draw from "@inglorious/ui/canvas/fps.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
 

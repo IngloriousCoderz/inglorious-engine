@@ -1,10 +1,8 @@
-import draw from "@inglorious/ui/canvas/image/image.js"
+import { enableImage } from "@inglorious/game/decorators/image/image"
 
 export default {
   types: {
-    image: {
-      draw,
-    },
+    image: [enableImage()],
   },
 
   instances: {

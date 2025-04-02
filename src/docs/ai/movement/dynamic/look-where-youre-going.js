@@ -77,7 +77,6 @@ export default {
     }),
 
     character: {
-      id: "character",
       type: "character",
       maxAngularAcceleration: 1000,
       maxAngularSpeed: pi() / 4,

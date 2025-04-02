@@ -1,10 +1,8 @@
-import draw from "@inglorious/ui/canvas/image/tilemap.js"
+import { enableTilemap } from "@inglorious/game/decorators/image/tilemap"
 
 export default {
   types: {
-    tilemap: {
-      draw,
-    },
+    tilemap: [enableTilemap()],
   },
 
   instances: {

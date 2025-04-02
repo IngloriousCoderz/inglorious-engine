@@ -1,7 +1,9 @@
 const COUNTER_RESET = 0
 const DEFAULT_VALUE = 0
 
-export function play(what, state, instance, options) {
+export const Animation = { play }
+
+function play(what, state, instance, options) {
   const { dt, onTick } = options
   const {
     speed,

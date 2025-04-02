@@ -1,7 +1,7 @@
 import arrive from "@inglorious/engine/ai/movement/kinematic/arrive.js"
+import { enableSprite } from "@inglorious/game/decorators/image/sprite.js"
 import { enableMouse } from "@inglorious/game/decorators/input/mouse.js"
-import { enableSprite } from "@inglorious/game/decorators/sprite.js"
-import * as Sprite from "@inglorious/game/sprite.js"
+import { Sprite } from "@inglorious/game/sprite.js"
 import { decide } from "@inglorious/utils/algorithms/decision-tree.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { length } from "@inglorious/utils/math/linear-algebra/vector.js"
@@ -52,61 +52,7 @@ export default {
     mouse: [enableMouse()],
 
     cat: [
-      enableSprite({
-        image: {
-          id: "neko",
-          src: "/sprites/neko.png",
-          imageSize: [192, 192],
-          tileSize: [32, 32],
-          scale: 2,
-        },
-        speed: 0.2,
-        states: {
-          idle: {
-            frames: [4],
-          },
-
-          aware: {
-            frames: [0, 4],
-          },
-
-          leftUp: {
-            frames: [23, 29],
-            flip: "h",
-          },
-          up: {
-            frames: [28, 30, 28, 31],
-          },
-          rightUp: {
-            frames: [23, 29],
-          },
-          right: {
-            frames: [16, 22],
-          },
-          rightDown: {
-            frames: [13, 14],
-          },
-          down: {
-            frames: [1, 2, 1, 7],
-          },
-          leftDown: {
-            frames: [13, 14],
-            flip: "h",
-          },
-          left: {
-            frames: [16, 22],
-            flip: "h",
-          },
-
-          sleepy: {
-            frames: [4, 10, 10, 3, 9, 15, 9, 15, 15],
-          },
-
-          sleeping: {
-            frames: [26, 26, 27, 27],
-          },
-        },
-      }),
+      enableSprite(),
       {
         states: {
           idle: {
@@ -195,6 +141,61 @@ export default {
       state: "idle",
       maxSpeed: 250,
       position: [400, 0, 300],
+      sprite: {
+        image: {
+          id: "neko",
+          src: "/sprites/neko.png",
+          imageSize: [192, 192],
+          tileSize: [32, 32],
+          scale: 2,
+        },
+        speed: 0.2,
+        states: {
+          idle: {
+            frames: [4],
+          },
+
+          aware: {
+            frames: [0, 4],
+          },
+
+          leftUp: {
+            frames: [23, 29],
+            flip: "h",
+          },
+          up: {
+            frames: [28, 30, 28, 31],
+          },
+          rightUp: {
+            frames: [23, 29],
+          },
+          right: {
+            frames: [16, 22],
+          },
+          rightDown: {
+            frames: [13, 14],
+          },
+          down: {
+            frames: [1, 2, 1, 7],
+          },
+          leftDown: {
+            frames: [13, 14],
+            flip: "h",
+          },
+          left: {
+            frames: [16, 22],
+            flip: "h",
+          },
+
+          sleepy: {
+            frames: [4, 10, 10, 3, 9, 15, 9, 15, 15],
+          },
+
+          sleeping: {
+            frames: [26, 26, 27, 27],
+          },
+        },
+      },
     },
   },
 }
