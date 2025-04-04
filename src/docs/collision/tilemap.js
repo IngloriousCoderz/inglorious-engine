@@ -7,7 +7,6 @@ import {
 } from "@inglorious/game/decorators/input/controls.js"
 import { Sprite } from "@inglorious/game/sprite.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
-import { pi } from "@inglorious/utils/math/trigonometry.js"
 
 export default {
   types: {
@@ -38,18 +37,7 @@ export default {
 
           merge(instance, arrive(instance, target, options))
 
-          let spriteState = instance.sprite.state ?? "right"
-          if (
-            instance.orientation > -pi() / 2 &&
-            instance.orientation < pi() / 2
-          ) {
-            spriteState = "right"
-          } else if (
-            instance.orientation < -pi() / 2 ||
-            instance.orientation > pi() / 2
-          ) {
-            spriteState = "left"
-          }
+          const spriteState = Sprite.move2(instance)
 
           Sprite.play(spriteState, instance, options)
         },

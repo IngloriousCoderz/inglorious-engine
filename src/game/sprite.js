@@ -1,35 +1,37 @@
 /* eslint-disable no-magic-numbers */
 import { Animation } from "@inglorious/game/animation.js"
-import { angle } from "@inglorious/utils/math/linear-algebra/vector.js"
-import { subtract } from "@inglorious/utils/math/linear-algebra/vectors.js"
 import { mod } from "@inglorious/utils/math/numbers.js"
 import { pi, toRange } from "@inglorious/utils/math/trigonometry.js"
 
 const BEFORE = -1
 const AFTER = 1
 
-export const Sprite = { move2, move4, move6, move8, play }
-
-function move2(instance, target) {
-  const direction = subtract(target.position, instance.position)
-
-  const directions = 2
-  const multiple = pi() / directions
-  const theta = toRange(angle(direction)) / multiple
-
-  if (theta >= 0 + BEFORE && theta < 0 + AFTER) {
-    return "right"
-  } else {
-    return "left"
-  }
+export const Sprite = {
+  move2,
+  move4,
+  move6,
+  move8,
+  play,
 }
 
-function move4(instance, target) {
-  const direction = subtract(target.position, instance.position)
+function move2(instance) {
+  const directions = 2
+  const multiple = pi() / directions
+  const theta = toRange(instance.orientation) / multiple
 
+  if (theta > 0 + BEFORE && theta < 0 + AFTER) {
+    return "right"
+  } else if (theta < 0 + BEFORE || theta > 0 + AFTER) {
+    return "left"
+  }
+
+  return instance.sprite.state ?? "right"
+}
+
+function move4(instance) {
   const directions = 4
   const multiple = pi() / directions
-  const theta = toRange(angle(direction)) / multiple
+  const theta = toRange(instance.orientation) / multiple
 
   if (theta >= -2 + BEFORE && theta < -2 + AFTER) {
     return "down"
@@ -37,17 +39,17 @@ function move4(instance, target) {
     return "right"
   } else if (theta >= 2 + BEFORE && theta < 2 + AFTER) {
     return "up"
-  } else {
+  } else if (theta < 0 + BEFORE || theta > 0 + AFTER) {
     return "left"
   }
+
+  return instance.sprite.state ?? "down"
 }
 
-function move6(instance, target) {
-  const direction = subtract(target.position, instance.position)
-
+function move6(instance) {
   const directions = 6
   const multiple = pi() / directions
-  const theta = toRange(angle(direction)) / multiple
+  const theta = toRange(instance.orientation) / multiple
 
   if (theta >= -6 + BEFORE && theta < -6 + AFTER) {
     return "leftDown"
@@ -63,17 +65,17 @@ function move6(instance, target) {
     return "up"
   } else if (theta >= 6 + BEFORE && theta < 6 + AFTER) {
     return "leftUp"
-  } else {
+  } else if (theta < 0 + BEFORE || theta > 0 + AFTER) {
     return "left"
   }
+
+  return instance.sprite.state ?? "down"
 }
 
-function move8(instance, target) {
-  const direction = subtract(target.position, instance.position)
-
+function move8(instance) {
   const directions = 8
   const multiple = pi() / directions
-  const theta = toRange(angle(direction)) / multiple
+  const theta = toRange(instance.orientation) / multiple
 
   if (theta >= -6 + BEFORE && theta < -6 + AFTER) {
     return "leftDown"
@@ -89,9 +91,11 @@ function move8(instance, target) {
     return "up"
   } else if (theta >= 6 + BEFORE && theta < 6 + AFTER) {
     return "leftUp"
-  } else {
+  } else if (theta < 0 + BEFORE || theta > 0 + AFTER) {
     return "left"
   }
+
+  return instance.sprite.state ?? "down"
 }
 
 function play(spriteState, instance, options) {

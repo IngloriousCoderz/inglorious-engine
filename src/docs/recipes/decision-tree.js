@@ -86,7 +86,7 @@ export default {
 
               merge(instance, arrive(instance, mouse, options))
 
-              const spriteState = Sprite.move8(instance, mouse)
+              const spriteState = Sprite.move8(instance)
               Sprite.play(spriteState, instance, options)
 
               instance.state = decide(nextState, { instance, target: mouse })
