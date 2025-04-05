@@ -19,7 +19,6 @@ export default {
       {
         "game:update"(instance, event, options) {
           const { input0 } = options.instances
-
           instance.velocity = zero()
 
           if (input0.left) {

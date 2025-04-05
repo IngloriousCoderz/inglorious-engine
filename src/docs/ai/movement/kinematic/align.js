@@ -25,8 +25,8 @@ export default {
           }
         },
 
-        "game:update"(instance, event, { instances }) {
-          const { input0 } = instances
+        "game:update"(instance, event, options) {
+          const { input0 } = options.instances
 
           if (input0.left || input0.up) {
             instance.orientation += 0.1

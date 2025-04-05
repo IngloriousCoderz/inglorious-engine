@@ -16,11 +16,9 @@ export default {
     character: [
       enableCharacter(),
       {
-        "game:update"(instance, event, { dt, instances }) {
-          const { fields } = instances.parameters.groups.matchVelocity
-
-          const { input0 } = instances
-
+        "game:update"(instance, event, options) {
+          const { parameters, input0, game } = options.instances
+          const { fields } = parameters.groups.matchVelocity
           const SPEED = instance.maxSpeed
 
           const target = { velocity: [0, 0, 0] }
@@ -40,12 +38,12 @@ export default {
           merge(
             instance,
             matchVelocity(instance, target, {
-              dt,
+              dt: options.dt,
               timeToTarget: fields.timeToTarget.value,
             }),
           )
 
-          clampToBounds(instance, instances.game.bounds)
+          clampToBounds(instance, game.bounds)
         },
       },
     ],

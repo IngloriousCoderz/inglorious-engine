@@ -17,8 +17,6 @@ export function enableModernControls(params) {
       states: {
         [params.onState]: {
           "game:update"(instance, event, options) {
-            const { instances } = options
-
             type.states?.[params.onState]["game:update"]?.(
               instance,
               event,
@@ -28,7 +26,7 @@ export function enableModernControls(params) {
             const maxAcceleration =
               instance.maxAcceleration ?? params.maxAcceleration
 
-            const { input0 } = instances
+            const { input0 } = options.instances
             instance.acceleration = zero()
 
             if (input0.left) {

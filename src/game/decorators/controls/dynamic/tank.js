@@ -26,8 +26,8 @@ export function enableTankControls(params) {
             instance.maxSpeed = instance.maxSpeed ?? params.maxSpeed
 
             const { input0 } = options.instances
-
             instance.acceleration = zero()
+
             if (input0.left) {
               instance.orientation += 0.1
             }

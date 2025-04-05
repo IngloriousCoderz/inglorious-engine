@@ -1,4 +1,4 @@
-import arrive from "@inglorious/engine/ai/movement/kinematic/arrive.js"
+import { enableModernControls } from "@inglorious/game/decorators/controls/kinematic/modern.js"
 import { enableSprite } from "@inglorious/game/decorators/image/sprite.js"
 import { enableTilemap } from "@inglorious/game/decorators/image/tilemap.js"
 import {
@@ -6,7 +6,7 @@ import {
   enableControls,
 } from "@inglorious/game/decorators/input/controls.js"
 import { Sprite } from "@inglorious/game/sprite.js"
-import { merge } from "@inglorious/utils/data-structures/objects.js"
+import { extend } from "@inglorious/utils/data-structures/objects.js"
 
 export default {
   types: {
@@ -16,32 +16,16 @@ export default {
 
     player: [
       enableSprite(),
-      {
-        "game:update"(instance, event, options) {
-          const { instances } = options
-          const { input0 } = instances
+      enableModernControls(),
+      (type) =>
+        extend(type, {
+          "game:update"(instance, event, options) {
+            type.states.default["game:update"](instance, event, options)
 
-          const target = { position: [...instance.position] }
-          if (input0.left) {
-            target.position[0] += -16
-          }
-          if (input0.down) {
-            target.position[2] += -16
-          }
-          if (input0.right) {
-            target.position[0] += 16
-          }
-          if (input0.up) {
-            target.position[2] += 16
-          }
-
-          merge(instance, arrive(instance, target, options))
-
-          const spriteState = Sprite.move2(instance)
-
-          Sprite.play(spriteState, instance, options)
-        },
-      },
+            const spriteState = Sprite.move2(instance)
+            Sprite.play(spriteState, instance, options)
+          },
+        }),
     ],
   },
 
