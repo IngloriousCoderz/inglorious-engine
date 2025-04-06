@@ -2,7 +2,6 @@ import { expect, test } from "vitest"
 
 import {
   intersectsCircle,
-  intersectsPlatform,
   intersectsPoint,
   intersectsRectangle,
 } from "./circle.js"
@@ -95,69 +94,4 @@ test("it should prove that a circle outside of a rectangle does not intersect wi
   }
 
   expect(intersectsRectangle(circle, rectangle)).toBe(false)
-})
-
-test("it should prove that a circle right above a platform intersects with it", () => {
-  const circle = {
-    position: [1, 1, 0],
-    radius: 1,
-  }
-  const platform = {
-    position: [-1, 0, 0],
-    size: [2, 1, 0],
-  }
-
-  expect(intersectsPlatform(circle, platform)).toBe(true)
-})
-
-test("it should prove that a circle way above a platform intersects with it", () => {
-  const circle = {
-    position: [1, 1, 0],
-    radius: 1,
-  }
-  const platform = {
-    position: [0, 0, -2],
-    size: [2, 1, 0],
-  }
-
-  expect(intersectsPlatform(circle, platform)).toBe(false)
-})
-
-test("it should prove that a circle crossing a platform does not intersect with it", () => {
-  const circle = {
-    position: [1, 1, 0],
-    radius: 1,
-  }
-  const platform = {
-    position: [-1, -1, 0],
-    size: [2, 2, 0],
-  }
-
-  expect(intersectsPlatform(circle, platform)).toBe(false)
-})
-
-test("it should prove that a circle below a platform does not intersect with it", () => {
-  const circle = {
-    position: [1, 1, 0],
-    radius: 1,
-  }
-  const platform = {
-    position: [0, 2, 0],
-    size: [2, 1, 0],
-  }
-
-  expect(intersectsPlatform(circle, platform)).toBe(false)
-})
-
-test("it should prove that a circle not crossing a platform horizontally does not intersect with it", () => {
-  const circle = {
-    position: [1, 1, 0],
-    radius: 1,
-  }
-  const platform = {
-    position: [-3, -1, 0],
-    size: [2, 1, 0],
-  }
-
-  expect(intersectsPlatform(circle, platform)).toBe(false)
 })

@@ -20,11 +20,14 @@ export default function draw(ctx, instance, options) {
 
   const [imageWidth] = imageSize
   const [tileWidth, tileHeight] = tileSize
-  const cols = imageWidth / tileWidth
+  const sCols = imageWidth / tileWidth
 
   ctx.save()
 
   layers.forEach(({ tiles }) => {
+    const dRows = Math.ceil(tiles.length / columns)
+    const height = dRows * tileHeight
+
     tiles.forEach((flaggedTile, index) => {
       const isFlippedHorizontally = !!(flaggedTile & FLIPPED_HORIZONTALLY_FLAG)
       const isFlippedVertically = !!(flaggedTile & FLIPPED_VERTICALLY_FLAG)
@@ -33,11 +36,11 @@ export default function draw(ctx, instance, options) {
       tile &= ~FLIPPED_HORIZONTALLY_FLAG
       tile &= ~FLIPPED_VERTICALLY_FLAG
 
-      const sx = tile % cols
-      const sy = Math.floor(tile / cols)
+      const sx = tile % sCols
+      const sy = Math.floor(tile / sCols)
 
       const dx = (index % columns) * tileWidth
-      const dy = Math.floor(index / columns) * tileHeight
+      const dy = Math.floor(index / columns) * tileHeight - height
 
       ctx.save()
 

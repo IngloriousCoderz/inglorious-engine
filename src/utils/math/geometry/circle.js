@@ -7,12 +7,17 @@
 
 import { subtract } from "@inglorious/utils/math/linear-algebra/vectors.js"
 
+import { clamp } from "../numbers.js"
+import { intersectsCircle as platformIntersectsCircle } from "./platform.js"
 import {
   intersectsCircle as pointIntersectsCircle,
   intersectsRectangle as pointIntersectsRectangle,
 } from "./point.js"
 import { intersectsCircle as segmentIntersectsCircle } from "./segment.js"
 import { hypothenuse } from "./triangle.js"
+
+const SQUARED = 2
+const INITIAL_SUM = 0
 
 /**
  * Checks if a circle intersects with a point.
@@ -58,6 +63,7 @@ export function intersectsRectangle(circle, rectangle) {
   const rbb = [left + width, top + height, front + depth]
 
   return (
+    // Center
     pointIntersectsRectangle(circle.position, rectangle) ||
     // Front face
     segmentIntersectsCircle({ from: ltf, to: rtf }, circle) ||
@@ -73,7 +79,9 @@ export function intersectsRectangle(circle, rectangle) {
     segmentIntersectsCircle({ from: ltf, to: ltb }, circle) ||
     segmentIntersectsCircle({ from: rtf, to: rtb }, circle) ||
     segmentIntersectsCircle({ from: lbf, to: lbb }, circle) ||
-    segmentIntersectsCircle({ from: rbf, to: rbb }, circle)
+    segmentIntersectsCircle({ from: rbf, to: rbb }, circle) ||
+    // Corners
+    isCircleWithinRectangleRadius(circle, rectangle)
   )
 }
 
@@ -84,16 +92,26 @@ export function intersectsRectangle(circle, rectangle) {
  * @returns {boolean} True if the circle intersects the platform, false otherwise.
  */
 export function intersectsPlatform(circle, platform) {
+  return platformIntersectsCircle(platform, circle)
+}
+
+function isCircleWithinRectangleRadius(circle, rectangle) {
+  const [left, top, front] = rectangle.position
+  const [width, height, depth] = rectangle.size
+
+  // Find the closest point on the rectangle to the circle's center
   const [x, y, z] = circle.position
+  const closestPoint = [
+    clamp(x, left, left + width),
+    clamp(y, top, top + height),
+    clamp(z, front, front + depth),
+  ]
 
-  const [left, top, front] = platform.position
-  const [extension, elevation, thickness] = platform.size
+  // Calculate the distance from the circle's center to the closest point
+  const distanceSquared = subtract(circle.position, closestPoint).reduce(
+    (sum, value) => sum + value ** SQUARED,
+    INITIAL_SUM,
+  )
 
-  const lowestPoint = y - circle.radius
-  const isAbove = lowestPoint <= top && lowestPoint >= top - elevation
-
-  const isOverlappingX = x >= left && x <= left + extension
-  const isOverlappingZ = z >= front && z <= front + thickness
-
-  return isAbove && isOverlappingX && isOverlappingZ
+  return distanceSquared <= circle.radius ** SQUARED
 }

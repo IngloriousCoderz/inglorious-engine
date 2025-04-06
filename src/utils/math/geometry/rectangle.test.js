@@ -1,68 +1,42 @@
 import { expect, test } from "vitest"
 
-import { intersectsPlatform } from "./rectangle.js"
+import { intersectsRectangle } from "./rectangle.js"
 
-test("it should prove that a rectangle crossing a platform from above intersects with it", () => {
-  const rectangle = {
+test("it should prove that a rectangle crossing another one intersects with it", () => {
+  const rectangle1 = {
     position: [0, 0, 0],
-    size: [2, 2, 0],
+    size: [2, 2, 2],
   }
-  const platform = {
-    position: [0, -1, 0],
-    size: [2, 2, 0],
+  const rectangle2 = {
+    position: [1, 1, 1],
+    size: [2, 2, 2],
   }
 
-  expect(intersectsPlatform(rectangle, platform)).toBe(true)
+  expect(intersectsRectangle(rectangle1, rectangle2)).toBe(true)
 })
 
-test("it should prove that a rectangle right on top of a platform intersects with it", () => {
-  const rectangle = {
+test("it should prove that a rectangle right on top of another intersects with it", () => {
+  const rectangle1 = {
     position: [0, 0, 0],
-    size: [2, 2, 0],
+    size: [2, 2, 2],
   }
-  const platform = {
-    position: [0, -2, 0],
-    size: [2, 2, 0],
+  const rectangle2 = {
+    position: [0, 0, 0],
+    size: [2, 0, 2],
   }
 
-  expect(intersectsPlatform(rectangle, platform)).toBe(true)
+  expect(intersectsRectangle(rectangle1, rectangle2)).toBe(true)
 })
 
-test("it should prove that a rectangle crossing a platform from below does not intersect with it", () => {
-  const rectangle = {
+test("it should prove that a rectangle not crossing another one does not intersect with it", () => {
+  const rectangle1 = {
     position: [0, 0, 0],
-    size: [2, 2, 0],
+    size: [2, 2, 2],
   }
-  const platform = {
-    position: [0, 1, 0],
-    size: [2, 2, 0],
-  }
-
-  expect(intersectsPlatform(rectangle, platform)).toBe(false)
-})
-
-test("it should prove that a rectangle below a platform does not intersect with it", () => {
-  const rectangle = {
-    position: [0, 0, 0],
-    size: [2, 2, 0],
-  }
-  const platform = {
-    position: [0, -3, 0],
-    size: [2, 2, 0],
+  const rectangle2 = {
+    position: [3, 3, 3],
+    size: [2, 2, 2],
   }
 
-  expect(intersectsPlatform(rectangle, platform)).toBe(false)
-})
-
-test("it should prove that a rectangle not crossing a platform horizontally does not intersect with it", () => {
-  const rectangle = {
-    position: [0, 0, 0],
-    size: [2, 2, 0],
-  }
-  const platform = {
-    position: [-3, 0, 0],
-    size: [2, 2, 0],
-  }
-
-  expect(intersectsPlatform(rectangle, platform)).toBe(false)
+  expect(intersectsRectangle(rectangle1, rectangle2)).toBe(false)
 })

@@ -3,6 +3,7 @@ import { track } from "@inglorious/game/decorators/input/mouse.js"
 
 import { absolutePosition } from "./canvas/absolute-position.js"
 
+const Y = 1
 const Z = 2
 
 export function start(config, canvas) {
@@ -55,7 +56,12 @@ function render(ctx) {
 
     Object.values(rest)
       .filter(({ position }) => position)
-      .toSorted((a, b) => a.py - b.py || b.position[Z] - a.position[Z])
+      .toSorted(
+        (a, b) =>
+          a.py - b.py ||
+          a.position[Y] - b.position[Y] ||
+          b.position[Z] - a.position[Z],
+      )
       .forEach((instance) =>
         draw(ctx, instance, { ...options, type: types[instance.type] }),
       )

@@ -1,4 +1,6 @@
+import { findCollisions } from "@inglorious/engine/collision/detection.js"
 import { enableModernControls } from "@inglorious/game/decorators/controls/kinematic/modern.js"
+import { enableCollisionsDebug } from "@inglorious/game/decorators/debug/collisions.js"
 import { enableSprite } from "@inglorious/game/decorators/image/sprite.js"
 import { enableTilemap } from "@inglorious/game/decorators/image/tilemap.js"
 import {
@@ -12,18 +14,26 @@ export default {
   types: {
     ...enableControls(),
 
-    tilemap: [enableTilemap()],
+    tilemap: [enableTilemap(), enableCollisionsDebug()],
 
     player: [
       enableSprite(),
+      enableCollisionsDebug(),
       enableModernControls(),
       (type) =>
         extend(type, {
           "game:update"(instance, event, options) {
             type.states.default["game:update"](instance, event, options)
 
+            const { dungeon } = options.instances
+
             const spriteState = Sprite.move2(instance)
             Sprite.play(spriteState, instance, options)
+
+            const collisions = findCollisions(dungeon, instance)
+            if (collisions.includes(true)) {
+              // console.log(collisions)
+            }
           },
         }),
     ],
@@ -43,7 +53,7 @@ export default {
 
     dungeon: {
       type: "tilemap",
-      position: [400 - (16 * 6 * 3) / 2, 0, 300 + (16 * 5 * 3) / 2],
+      position: [400 - (16 * 6 * 3) / 2, -1, 300 - (16 * 5 * 3) / 2],
       tilemap: {
         image: {
           id: "dungeon",
@@ -79,7 +89,6 @@ export default {
               // fourth row
               -1, -1, -1, -1, -1, -1,
               // fifth row
-              // -1, -1, 36, 37, -1, -1,
               -1, -1, 66, 67, -1, -1,
             ],
           },
@@ -87,8 +96,10 @@ export default {
       },
       collisions: {
         hitbox: {
-          shape: "tilemap",
-          mask: [
+          shape: "hitmask",
+          tileSize: [48, 48],
+          columns: 6,
+          heights: [
             // first row
             2, 2, 2, 2, 2, 2,
             // second row
@@ -106,7 +117,7 @@ export default {
 
     player: {
       type: "player",
-      position: [400 - (16 * 1 * 3) / 2, 0, 300],
+      position: [400 - (16 * 3) / 2, 0, 300],
       maxSpeed: 250,
       sprite: {
         image: {
@@ -120,6 +131,15 @@ export default {
         frames: {
           right: [17],
           left: [0x80000000 + 17],
+        },
+      },
+      collisions: {
+        hitbox: {
+          // shape: "circle",
+          // radius: (16 * 3) / 2,
+          shape: "rectangle",
+          position: [(-16 * 3) / 2, 0, (-16 * 3) / 2],
+          size: [48, 0, 48],
         },
       },
     },
