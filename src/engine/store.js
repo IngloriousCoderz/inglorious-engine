@@ -1,10 +1,11 @@
+import { enableGame } from "@inglorious/game/decorators/game"
 import { filter, map } from "@inglorious/utils/data-structures/object.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
 import { pipe } from "@inglorious/utils/functions/functions.js"
 import { produce } from "immer"
 
 // Default configuration for the store.
-const DEFAULT_CONFIG = { types: { game: {} } }
+const DEFAULT_CONFIG = { types: { game: [enableGame()] } }
 
 // Default state of the store.
 const DEFAULT_STATE = {

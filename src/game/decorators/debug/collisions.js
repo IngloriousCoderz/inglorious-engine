@@ -15,6 +15,10 @@ export function enableCollisionsDebug() {
       draw(ctx, instance, options) {
         type.draw(ctx, instance, options)
 
+        if (!options.instances.game.debug) {
+          return
+        }
+
         ctx.save()
 
         Object.values(instance.collisions).forEach((collision) => {
