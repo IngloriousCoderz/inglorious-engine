@@ -73,10 +73,9 @@ function render(ctx) {
 }
 
 function draw(ctx, instance, options) {
-  const { type } = options
-  const draw = type.draw
+  const draw = options.type.draw
 
   if (draw) {
-    absolutePosition(draw)(ctx, instance, { ...options, ...type })
+    absolutePosition(draw)(ctx, instance, options)
   }
 }

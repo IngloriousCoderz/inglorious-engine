@@ -12,14 +12,14 @@ export default {
   types: {
     ...enableControls(),
 
+    platform: [enablePlatform()],
+
     character: [
       enableCharacter(),
       enableModernControls(),
       enableClampToBounds(),
       enableJump(),
     ],
-
-    platform: [enablePlatform()],
   },
 
   instances: {
@@ -35,21 +35,11 @@ export default {
       Axis0: "leftRight",
     }),
 
-    character: {
-      type: "character",
-      position: [200, 62, 0],
-      collisions: {
-        platform: {
-          shape: "circle",
-          radius: 12,
-        },
-      },
-    },
-
     ground: {
       type: "platform",
       position: [0, 50, 0],
       size: [800, 50, 0],
+      backgroundColor: "green",
       collisions: {
         platform: {
           shape: "platform",
@@ -61,9 +51,21 @@ export default {
       type: "platform",
       position: [600, 100, 0],
       size: [80, 20, 0],
+      backgroundColor: "grey",
       collisions: {
         platform: {
           shape: "platform",
+        },
+      },
+    },
+
+    character: {
+      type: "character",
+      position: [200, 62, 0],
+      collisions: {
+        platform: {
+          shape: "circle",
+          radius: 12,
         },
       },
     },

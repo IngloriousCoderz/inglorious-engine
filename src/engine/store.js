@@ -4,14 +4,13 @@ import { extend } from "@inglorious/utils/data-structures/objects.js"
 import { pipe } from "@inglorious/utils/functions/functions.js"
 import { produce } from "immer"
 
-// Default configuration for the store.
-const DEFAULT_CONFIG = { types: { game: [enableGame()] } }
+const DEFAULT_TYPES = {
+  game: [enableGame()],
+}
 
-// Default state of the store.
-const DEFAULT_STATE = {
-  events: [],
+const DEFAULT_INSTANCES = {
   // eslint-disable-next-line no-magic-numbers
-  instances: { game: { type: "game", bounds: [0, 0, 800, 600] } }, // Default game instance with bounds.
+  game: { type: "game", bounds: [0, 0, 800, 600] }, // Default game instance with bounds.
 }
 
 /**
@@ -21,15 +20,20 @@ const DEFAULT_STATE = {
  * @param {Object} options.originalConfig - Additional configuration for the store.
  * @returns {Object} The store with methods to interact with state and events.
  */
-export function createStore({ instances = {}, ...originalConfig }) {
+export function createStore({
+  types: originalTypes,
+  instances: originalInstances,
+}) {
   const listeners = new Set()
   let incomingEvents = []
 
-  const config = extend(DEFAULT_CONFIG, originalConfig)
-  const types = augmentTypes(config.types)
+  let types = extend(DEFAULT_TYPES, originalTypes)
+  types = augmentTypes(types)
 
-  let state = extend(DEFAULT_STATE, { instances })
-  state = augmentState(state)
+  let instances = extend(DEFAULT_INSTANCES, originalInstances)
+  instances = augmentInstances(instances)
+
+  let state = { events: [], instances }
 
   return {
     subscribe,
@@ -76,7 +80,7 @@ export function createStore({ instances = {}, ...originalConfig }) {
         return (
           handle?.(instance, event, {
             dt,
-            type: config.types[instance.type],
+            type: originalTypes[instance.type],
             instances,
             notify,
           }) ?? instance
@@ -98,7 +102,7 @@ export function createStore({ instances = {}, ...originalConfig }) {
    */
   function add(id, instance) {
     state = { ...state }
-    state.instances[id] = instance
+    state.instances[id] = addInstanceId(id, instance)
   }
 
   /**
@@ -135,20 +139,10 @@ export function createStore({ instances = {}, ...originalConfig }) {
   }
 }
 
-/**
- * Augments the types configuration with additional functionality.
- * @param {Object} types - The types configuration.
- * @returns {Object} The augmented types configuration.
- */
 function augmentTypes(types) {
   return pipe(applyDecorators, enableMutability)(types)
 }
 
-/**
- * Applies decorators to the types configuration.
- * @param {Object} types - The types configuration.
- * @returns {Object} The decorated types configuration.
- */
 function applyDecorators(types) {
   return map(types, (_, type) => {
     if (!Array.isArray(type)) {
@@ -162,11 +156,6 @@ function applyDecorators(types) {
   })
 }
 
-/**
- * Enables mutability for event handlers in the types configuration.
- * @param {Object} types - The types configuration.
- * @returns {Object} The mutability-enabled types configuration.
- */
 function enableMutability(types) {
   return map(types, (_, { draw, ...events }) => ({
     draw,
@@ -174,16 +163,8 @@ function enableMutability(types) {
   }))
 }
 
-/**
- * Converts the state into a finite state machine (FSM) structure.
- * @param {Object} state - The current state.
- * @returns {Object} The FSM-enabled state.
- */
-function augmentState(state) {
-  return {
-    ...state,
-    instances: map(state.instances, addInstanceId),
-  }
+function augmentInstances(instances) {
+  return map(instances, addInstanceId)
 }
 
 function addInstanceId(id, instance) {
