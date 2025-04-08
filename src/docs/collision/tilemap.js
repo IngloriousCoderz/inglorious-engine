@@ -23,7 +23,7 @@ export default {
       (type) =>
         extend(type, {
           "game:update"(instance, event, options) {
-            type.states.default["game:update"](instance, event, options)
+            type["game:update"](instance, event, options)
 
             const { dungeon } = options.instances
 
@@ -138,7 +138,7 @@ export default {
           // shape: "circle",
           // radius: (16 * 3) / 2,
           shape: "rectangle",
-          position: [(-16 * 3) / 2, 0, (-16 * 3) / 2],
+          offset: [(-16 * 3) / 2, 0, (-16 * 3) / 2],
           size: [48, 0, 48],
         },
       },

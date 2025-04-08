@@ -74,8 +74,7 @@ function render(ctx) {
 
 function draw(ctx, instance, options) {
   const { type } = options
-  const state = type.states[instance.state]
-  const draw = state?.draw || type.draw
+  const draw = type.draw
 
   if (draw) {
     absolutePosition(draw)(ctx, instance, { ...options, ...type })

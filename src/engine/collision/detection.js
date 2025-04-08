@@ -48,6 +48,7 @@ export function collidesWith(instance, target, collisionType = "hitbox") {
   const instanceShape = {
     ...instanceCollision,
     position: add(instance.position, instanceCollision.position ?? zero()),
+    size: instanceCollision.size ?? instance.size,
   }
   instanceShape.position[Y] += instance.py ?? NO_JUMP
 
@@ -55,6 +56,7 @@ export function collidesWith(instance, target, collisionType = "hitbox") {
   const targetShape = {
     ...targetCollision,
     position: add(target.position, targetCollision.position ?? zero()),
+    size: targetCollision.size ?? target.size,
   }
   targetShape.position[Y] += target.py ?? NO_JUMP
 

@@ -1,12 +1,12 @@
 import { enableCharacter } from "@inglorious/game/decorators/character.js"
 import { enableClampToBounds } from "@inglorious/game/decorators/clamp-to-bounds.js"
 import { enableModernControls } from "@inglorious/game/decorators/controls/kinematic/modern.js"
+import { enableFsm } from "@inglorious/game/decorators/fsm.js"
 import {
   createControls,
   enableControls,
 } from "@inglorious/game/decorators/input/controls.js"
 import { enableJump } from "@inglorious/game/decorators/jump.js"
-import { extend } from "@inglorious/utils/data-structures/objects.js"
 
 export default {
   types: {
@@ -19,26 +19,19 @@ export default {
       enableModernControls(),
       enableClampToBounds(),
       enableJump(),
-      (type) =>
-        extend(type, {
-          states: {
-            default: {
-              "game:update"(instance, event, options) {
-                type.states?.default["game:update"]?.(instance, event, options)
-
-                stopFreeFalling(instance)
-              },
-            },
-
-            jumping: {
-              "game:update"(instance, event, options) {
-                type.states?.jumping["game:update"]?.(instance, event, options)
-
-                stopFreeFalling(instance)
-              },
-            },
+      enableFsm({
+        default: {
+          "game:update"(instance) {
+            stopFreeFalling(instance)
           },
-        }),
+        },
+
+        jumping: {
+          "game:update"(instance) {
+            stopFreeFalling(instance)
+          },
+        },
+      }),
     ],
   },
 

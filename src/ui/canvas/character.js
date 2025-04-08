@@ -23,7 +23,13 @@ export default function draw(ctx, instance) {
   ctx.restore()
 
   ctx.save()
-  circle(ctx, { ...instance, radius, fill: "lightgrey" })
+
+  circle(ctx, {
+    ...instance,
+    radius,
+    position: undefined,
+    backgroundColor: "lightgrey",
+  })
 
   ctx.restore()
 }

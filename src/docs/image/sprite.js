@@ -6,12 +6,8 @@ export default {
     cat: [
       enableSprite(),
       {
-        states: {
-          default: {
-            "game:update"(instance, event, options) {
-              Sprite.play("sleepy", instance, options)
-            },
-          },
+        "game:update"(instance, event, options) {
+          Sprite.play("sleepy", instance, options)
         },
       },
     ],
@@ -24,7 +20,6 @@ export default {
 
     neko: {
       type: "cat",
-      state: "default",
       position: [400, 0, 300],
       sprite: {
         image: {

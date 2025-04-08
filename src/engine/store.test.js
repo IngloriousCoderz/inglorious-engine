@@ -24,12 +24,10 @@ test("it should add an event to the event queue", () => {
         id: "game",
         type: "game",
         bounds: [0, 0, 800, 600],
-        state: "default",
       },
       instance1: {
         id: "instance1",
         type: "kitty",
-        state: "default",
         wasNotified: true,
       },
     },
@@ -69,12 +67,10 @@ test("it should process the event queue", () => {
         id: "game",
         type: "game",
         bounds: [0, 0, 800, 600],
-        state: "default",
       },
       instance1: {
         id: "instance1",
         type: "kitty",
-        state: "default",
         wasNotified: true,
         wasUpdated: true,
       },
@@ -128,17 +124,14 @@ test("it should send an event from an instance", () => {
         id: "game",
         type: "game",
         bounds: [0, 0, 800, 600],
-        state: "default",
       },
       instance1: {
         id: "instance1",
         type: "doge",
-        state: "default",
       },
       instance2: {
         id: "instance2",
         type: "kitty",
-        state: "default",
         position: "near", // should do nothing at first
       },
     },
@@ -192,17 +185,14 @@ test("it should receive an event from an instance", () => {
         id: "game",
         type: "game",
         bounds: [0, 0, 800, 600],
-        state: "default",
       },
       instance1: {
         id: "instance1",
         type: "doge",
-        state: "default",
       },
       instance2: {
         id: "instance2",
         type: "kitty",
-        state: "default",
         position: "far", // position changed
       },
     },
@@ -238,69 +228,15 @@ test("it should mutate state in an immutable way", () => {
         id: "game",
         type: "game",
         bounds: [0, 0, 800, 600],
-        state: "default",
       },
       instance1: {
         id: "instance1",
         type: "kitty",
-        state: "default",
         wasUpdated: true,
       },
     },
   }
 
-  store.update()
-
-  const state = store.getState()
-  expect(state).toStrictEqual(afterState)
-})
-
-test("it should have a built-in finite state machine", () => {
-  const config = {
-    types: {
-      kitty: {
-        states: {
-          default: {
-            "cat:meow"(instance) {
-              instance.state = "meowing"
-            },
-          },
-          meowing: {
-            "game:update"(instance) {
-              instance.treats++
-            },
-          },
-        },
-      },
-    },
-    instances: {
-      instance1: {
-        type: "kitty",
-        state: "default",
-        treats: 0,
-      },
-    },
-  }
-  const store = createStore(config)
-  const afterState = {
-    events: [],
-    instances: {
-      game: {
-        id: "game",
-        type: "game",
-        bounds: [0, 0, 800, 600],
-        state: "default",
-      },
-      instance1: {
-        id: "instance1",
-        type: "kitty",
-        state: "meowing",
-        treats: 1,
-      },
-    },
-  }
-
-  store.notify({ id: "cat:meow" })
   store.update()
 
   const state = store.getState()

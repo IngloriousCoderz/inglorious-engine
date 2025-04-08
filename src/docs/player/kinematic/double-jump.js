@@ -1,13 +1,13 @@
 import { enableCharacter } from "@inglorious/game/decorators/character.js"
-import { enableClampToBounds } from "@inglorious/game/decorators/clamp-to-bounds"
+import { enableClampToBounds } from "@inglorious/game/decorators/clamp-to-bounds.js"
 import { enableModernControls } from "@inglorious/game/decorators/controls/kinematic/modern.js"
-import { enableDoubleJump } from "@inglorious/game/decorators/double-jump"
+import { enableDoubleJump } from "@inglorious/game/decorators/double-jump.js"
+import { enableFsm } from "@inglorious/game/decorators/fsm.js"
 import {
   createControls,
   enableControls,
 } from "@inglorious/game/decorators/input/controls.js"
 import { enableJump } from "@inglorious/game/decorators/jump.js"
-import { extend } from "@inglorious/utils/data-structures/objects.js"
 
 export default {
   types: {
@@ -19,40 +19,27 @@ export default {
       enableCharacter(),
       enableModernControls(),
       enableClampToBounds(),
-      enableJump(),
       enableDoubleJump(),
-      (type) =>
-        extend(type, {
-          states: {
-            default: {
-              "game:update"(instance, event, options) {
-                type.states?.default["game:update"]?.(instance, event, options)
-
-                stopFreeFalling(instance)
-              },
-            },
-
-            jumping: {
-              "game:update"(instance, event, options) {
-                type.states?.jumping["game:update"]?.(instance, event, options)
-
-                stopFreeFalling(instance)
-              },
-            },
-
-            doubleJumping: {
-              "game:update"(instance, event, options) {
-                type.states?.doubleJumping["game:update"]?.(
-                  instance,
-                  event,
-                  options,
-                )
-
-                stopFreeFalling(instance)
-              },
-            },
+      enableJump(),
+      enableFsm({
+        default: {
+          "game:update"(instance) {
+            stopFreeFalling(instance)
           },
-        }),
+        },
+
+        jumping: {
+          "game:update"(instance) {
+            stopFreeFalling(instance)
+          },
+        },
+
+        doubleJumping: {
+          "game:update"(instance) {
+            stopFreeFalling(instance)
+          },
+        },
+      }),
     ],
   },
 
@@ -88,7 +75,6 @@ export default {
       position: [400, 0, 300],
       maxJump: 100,
       maxLeap: 100,
-      state: "default",
     },
   },
 }

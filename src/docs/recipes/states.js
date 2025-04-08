@@ -2,6 +2,7 @@ import arrive from "@inglorious/engine/ai/movement/kinematic/arrive.js"
 import wander from "@inglorious/engine/ai/movement/kinematic/wander.js"
 import { clampToBounds, flip } from "@inglorious/game/bounds.js"
 import { enableCharacter } from "@inglorious/game/decorators/character.js"
+import { enableFsm } from "@inglorious/game/decorators/fsm.js"
 import { enableMouse } from "@inglorious/game/decorators/input/mouse.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { length } from "@inglorious/utils/math/linear-algebra/vector.js"
@@ -14,37 +15,35 @@ export default {
 
     character: [
       enableCharacter(),
-      {
-        states: {
-          meandering: {
-            "game:update"(instance, event, options) {
-              const { instances } = options
-              const target = instances.mouse
+      enableFsm({
+        meandering: {
+          "game:update"(instance, event, options) {
+            const { instances } = options
+            const target = instances.mouse
 
-              merge(instance, wander(instance, options))
-              flip(instance, instances.game.bounds)
+            merge(instance, wander(instance, options))
+            flip(instance, instances.game.bounds)
 
-              if (length(subtract(instance.position, target.position)) < 200) {
-                instance.state = "hunting"
-              }
-            },
-          },
-
-          hunting: {
-            "game:update"(instance, event, options) {
-              const { instances } = options
-              const target = instances.mouse
-
-              merge(instance, arrive(instance, target, options))
-              clampToBounds(instance, instances.game.bounds)
-
-              if (length(subtract(instance.position, target.position)) >= 200) {
-                instance.state = "meandering"
-              }
-            },
+            if (length(subtract(instance.position, target.position)) < 200) {
+              instance.state = "hunting"
+            }
           },
         },
-      },
+
+        hunting: {
+          "game:update"(instance, event, options) {
+            const { instances } = options
+            const target = instances.mouse
+
+            merge(instance, arrive(instance, target, options))
+            clampToBounds(instance, instances.game.bounds)
+
+            if (length(subtract(instance.position, target.position)) >= 200) {
+              instance.state = "meandering"
+            }
+          },
+        },
+      }),
     ],
   },
 

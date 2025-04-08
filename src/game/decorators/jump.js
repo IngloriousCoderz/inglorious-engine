@@ -3,6 +3,8 @@ import { extend, merge } from "@inglorious/utils/data-structures/objects.js"
 import { applyGravity } from "@inglorious/utils/physics/gravity.js"
 import { jump } from "@inglorious/utils/physics/jump.js"
 
+import { enableFsm } from "./fsm.js"
+
 const DEFAULT_PARAMS = {
   onState: "default",
   onInput: "input0",
@@ -18,57 +20,32 @@ export function enableJump(params) {
 
   const freeFall = createFreeFall(params)
 
-  return (type) =>
-    extend(type, {
-      states: {
-        [params.onState]: {
-          "game:update"(instance, event, options) {
-            type.states?.[params.onState]["game:update"]?.(
-              instance,
-              event,
-              options,
-            )
-
-            freeFall(instance, event, options)
-          },
-
-          "input:press"(instance, event, options) {
-            type.states?.[params.onState]["input:press"]?.(
-              instance,
-              event,
-              options,
-            )
-
-            instance.onInput = instance.onInput ?? params.onInput
-            instance.maxJump = instance.maxJump ?? params.maxJump
-            instance.maxLeap = instance.maxLeap ?? params.maxLeap
-            instance.maxSpeed = instance.maxSpeed ?? params.maxSpeed
-
-            const { id, action } = event.payload
-            if (
-              id.endsWith(instance.onInput) &&
-              action === "jump" &&
-              !instance.vy
-            ) {
-              instance.state = "jumping"
-              merge(instance, jump(instance, options))
-            }
-          },
-        },
-
-        jumping: {
-          "game:update"(instance, event, options) {
-            type.states?.[params.onState]["game:update"]?.(
-              instance,
-              event,
-              options,
-            )
-
-            freeFall(instance, event, options)
-          },
-        },
+  return enableFsm({
+    [params.onState]: {
+      "game:update"(instance, event, options) {
+        freeFall(instance, event, options)
       },
-    })
+
+      "input:press"(instance, event, options) {
+        instance.onInput = instance.onInput ?? params.onInput
+        instance.maxJump = instance.maxJump ?? params.maxJump
+        instance.maxLeap = instance.maxLeap ?? params.maxLeap
+        instance.maxSpeed = instance.maxSpeed ?? params.maxSpeed
+
+        const { id, action } = event.payload
+        if (id.endsWith(instance.onInput) && action === "jump") {
+          instance.state = "jumping"
+          merge(instance, jump(instance, options))
+        }
+      },
+    },
+
+    jumping: {
+      "game:update"(instance, event, options) {
+        freeFall(instance, event, options)
+      },
+    },
+  })
 }
 
 function createFreeFall(params) {
@@ -77,8 +54,7 @@ function createFreeFall(params) {
 
     merge(instance, applyGravity(instance, options))
 
-    const { instances } = options
-    const targets = Object.values(instances).filter(
+    const targets = Object.values(options.instances).filter(
       ({ type }) => type === "platform",
     )
 

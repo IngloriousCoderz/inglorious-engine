@@ -35,7 +35,7 @@ export default {
       collisions: {
         hitbox: {
           shape: "circle",
-          position: [-6, 0, -6],
+          offset: [-6, 0, -6],
           radius: 12,
         },
       },
@@ -49,7 +49,7 @@ export default {
       collisions: {
         hitbox: {
           shape: "circle",
-          position: [-6, 0, -6],
+          offset: [-6, 0, -6],
           radius: 12,
         },
       },

@@ -6,7 +6,6 @@ import { pi } from "@inglorious/utils/math/trigonometry.js"
 
 const FULL_CIRCLE = 2
 const DEFAULT_PARAMS = {
-  onState: "default",
   maxAngularSpeed: FULL_CIRCLE * pi(),
   maxSpeed: 250,
 }
@@ -18,33 +17,29 @@ export function enableShooterControls(params) {
 
   return (type) =>
     extend(type, {
-      states: {
-        [params.onState]: {
-          "game:update"(instance, event, options) {
-            instance.maxAngularSpeed =
-              instance.maxAngularSpeed ?? params.maxAngularSpeed
-            instance.maxSpeed = instance.maxSpeed ?? params.maxSpeed
+      "game:update"(instance, event, options) {
+        instance.maxAngularSpeed =
+          instance.maxAngularSpeed ?? params.maxAngularSpeed
+        instance.maxSpeed = instance.maxSpeed ?? params.maxSpeed
 
-            const { input0, mouse } = options.instances
-            instance.velocity = zero()
+        const { input0, mouse } = options.instances
+        instance.velocity = zero()
 
-            if (input0.left) {
-              instance.velocity[Z] = -instance.maxSpeed
-            }
-            if (input0.down) {
-              instance.velocity[X] = -instance.maxSpeed
-            }
-            if (input0.right) {
-              instance.velocity[Z] = instance.maxSpeed
-            }
-            if (input0.up) {
-              instance.velocity[X] = instance.maxSpeed
-            }
+        if (input0.left) {
+          instance.velocity[Z] = -instance.maxSpeed
+        }
+        if (input0.down) {
+          instance.velocity[X] = -instance.maxSpeed
+        }
+        if (input0.right) {
+          instance.velocity[Z] = instance.maxSpeed
+        }
+        if (input0.up) {
+          instance.velocity[X] = instance.maxSpeed
+        }
 
-            merge(instance, face(instance, mouse, options))
-            merge(instance, tankMove(instance, options))
-          },
-        },
+        merge(instance, face(instance, mouse, options))
+        merge(instance, tankMove(instance, options))
       },
     })
 }

@@ -15,45 +15,35 @@ export function enableModernControls(params) {
 
   return (type) =>
     extend(type, {
-      states: {
-        [params.onState]: {
-          "game:update"(instance, event, options) {
-            const { instances } = options
+      "game:update"(instance, event, options) {
+        type["game:update"]?.(instance, event, options)
 
-            type.states?.[params.onState]["game:update"]?.(
-              instance,
-              event,
-              options,
-            )
+        const maxSpeed = instance.maxSpeed ?? params.maxSpeed
 
-            const maxSpeed = instance.maxSpeed ?? params.maxSpeed
+        const { input0 } = options.instances
+        instance.velocity = zero()
 
-            const { input0 } = instances
-            instance.velocity = zero()
+        if (input0.left) {
+          instance.velocity[X] = -maxSpeed
+        }
+        if (input0.down) {
+          instance.velocity[Z] = -maxSpeed
+        }
+        if (input0.right) {
+          instance.velocity[X] = maxSpeed
+        }
+        if (input0.up) {
+          instance.velocity[Z] = maxSpeed
+        }
 
-            if (input0.left) {
-              instance.velocity[X] = -maxSpeed
-            }
-            if (input0.down) {
-              instance.velocity[Z] = -maxSpeed
-            }
-            if (input0.right) {
-              instance.velocity[X] = maxSpeed
-            }
-            if (input0.up) {
-              instance.velocity[Z] = maxSpeed
-            }
+        if (input0.leftRight != null) {
+          instance.velocity[X] += input0.leftRight * maxSpeed
+        }
+        if (input0.upDown != null) {
+          instance.velocity[Z] += -input0.upDown * maxSpeed
+        }
 
-            if (input0.leftRight != null) {
-              instance.velocity[X] += input0.leftRight * maxSpeed
-            }
-            if (input0.upDown != null) {
-              instance.velocity[Z] += -input0.upDown * maxSpeed
-            }
-
-            merge(instance, modernMove(instance, options))
-          },
-        },
+        merge(instance, modernMove(instance, options))
       },
     })
 }

@@ -2,7 +2,7 @@ import UiChooser from "@inglorious/docs/ui-chooser.jsx"
 
 import doubleJump from "./double-jump.js"
 import jump from "./jump.js"
-import move from "./modern-controls.js"
+import modernControls from "./modern-controls.js"
 import shooterControls from "./shooter-controls.js"
 import tankControls from "./tank-controls.js"
 
@@ -11,16 +11,8 @@ export default {
   component: UiChooser,
 }
 
-export const Move = {
-  args: { config: move },
-}
-
-export const Jump = {
-  args: { config: jump },
-}
-
-export const DoubleJump = {
-  args: { config: doubleJump },
+export const ModernControls = {
+  args: { config: modernControls },
 }
 
 export const TankControls = {
@@ -29,4 +21,12 @@ export const TankControls = {
 
 export const ShooterControls = {
   args: { config: shooterControls },
+}
+
+export const Jump = {
+  args: { config: jump },
+}
+
+export const DoubleJump = {
+  args: { config: doubleJump },
 }

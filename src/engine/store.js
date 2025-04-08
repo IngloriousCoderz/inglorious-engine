@@ -1,5 +1,5 @@
 import { enableGame } from "@inglorious/game/decorators/game"
-import { filter, map } from "@inglorious/utils/data-structures/object.js"
+import { map } from "@inglorious/utils/data-structures/object.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
 import { pipe } from "@inglorious/utils/functions/functions.js"
 import { produce } from "immer"
@@ -26,10 +26,10 @@ export function createStore({ instances = {}, ...originalConfig }) {
   let incomingEvents = []
 
   const config = extend(DEFAULT_CONFIG, originalConfig)
-  const types = augment(config.types)
+  const types = augmentTypes(config.types)
 
   let state = extend(DEFAULT_STATE, { instances })
-  state = turnStateIntoFsm(state)
+  state = augmentState(state)
 
   return {
     subscribe,
@@ -72,8 +72,7 @@ export function createStore({ instances = {}, ...originalConfig }) {
 
       state.instances = map(state.instances, (_, instance, instances) => {
         const type = types[instance.type]
-        const state = type.states[instance.state]
-        const handle = state[event.id]
+        const handle = type[event.id]
         return (
           handle?.(instance, event, {
             dt,
@@ -99,7 +98,7 @@ export function createStore({ instances = {}, ...originalConfig }) {
    */
   function add(id, instance) {
     state = { ...state }
-    state.instances[id] = turnInstanceIntoFsm(id, instance)
+    state.instances[id] = instance
   }
 
   /**
@@ -141,8 +140,8 @@ export function createStore({ instances = {}, ...originalConfig }) {
  * @param {Object} types - The types configuration.
  * @returns {Object} The augmented types configuration.
  */
-function augment(types) {
-  return pipe(applyDecorators, turnIntoFsm, enableMutability)(types)
+function augmentTypes(types) {
+  return pipe(applyDecorators, enableMutability)(types)
 }
 
 /**
@@ -164,43 +163,14 @@ function applyDecorators(types) {
 }
 
 /**
- * Converts the types configuration into a finite state machine (FSM).
- * @param {Object} types - The types configuration.
- * @returns {Object} The FSM-enabled types configuration.
- */
-function turnIntoFsm(types) {
-  return map(types, (_, type) => {
-    const { draw, ...rest } = type
-    const topLevelEventHandlers = filter(
-      rest,
-      (_, value) => typeof value === "function",
-    )
-    const typeWithoutTopLevelEventHandlers = filter(
-      rest,
-      (_, value) => typeof value !== "function",
-    )
-
-    return extend(
-      typeWithoutTopLevelEventHandlers,
-      { draw },
-      {
-        states: { default: topLevelEventHandlers },
-      },
-    )
-  })
-}
-
-/**
  * Enables mutability for event handlers in the types configuration.
  * @param {Object} types - The types configuration.
  * @returns {Object} The mutability-enabled types configuration.
  */
 function enableMutability(types) {
-  return map(types, (_, { states, ...rest }) => ({
-    ...rest,
-    states: map(states, (_, events) =>
-      map(events, (_, event) => produce(event)),
-    ),
+  return map(types, (_, { draw, ...events }) => ({
+    draw,
+    ...map(events, (_, event) => produce(event)),
   }))
 }
 
@@ -209,13 +179,13 @@ function enableMutability(types) {
  * @param {Object} state - The current state.
  * @returns {Object} The FSM-enabled state.
  */
-function turnStateIntoFsm(state) {
+function augmentState(state) {
   return {
     ...state,
-    instances: map(state.instances, turnInstanceIntoFsm),
+    instances: map(state.instances, addInstanceId),
   }
 }
 
-function turnInstanceIntoFsm(id, instance) {
-  return { ...instance, id, state: instance.state ?? "default" }
+function addInstanceId(id, instance) {
+  return { ...instance, id }
 }

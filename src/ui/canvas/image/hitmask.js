@@ -24,8 +24,8 @@ export default function draw(ctx, instance, options) {
     const hue = MAX_HUE - normalizedH * MAX_HUE
 
     const instance = {
-      position: [x, NO_Y, z],
-      size: tileSize,
+      offset: [x, NO_Y, z],
+      size: [tileWidth, NO_Y, tileHeight],
       color: "transparent",
       backgroundColor: `hsla(${hue}, 100%, 50%, 0.2)`,
     }
