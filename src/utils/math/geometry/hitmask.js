@@ -1,27 +1,38 @@
-import { intersectsCircle, intersectsRectangle } from "./rectangle.js"
+// @see https://jonathanwhiting.com/tutorial/collision/
 
-const Shape = {
-  circle: intersectsCircle,
-  rectangle: intersectsRectangle,
-}
+const LOWER_BOUND = 0
 
 export function findCollisions(hitmask, target) {
-  const fn = Shape[target.shape]
-
   const { position, tileSize, columns, heights } = hitmask
   const [left, top, front] = position
   const [tileWidth, tileHeight] = tileSize
+  const rows = heights.length / columns
 
-  return heights.map((height, index) => {
-    const dx = left + (index % columns) * tileWidth
-    const dy = top
-    const dz = front + Math.floor(index / columns) * tileHeight
+  const [x, y, z] = target.position
+  const [width, height, depth] = target.size
 
-    const tile = {
-      position: [dx, dy, dz],
-      size: [tileWidth, height, tileHeight],
+  const leftTile = Math.floor((x - left) / tileWidth)
+  const rightTile = Math.floor((x - left + width) / tileWidth)
+  const bottomTile = Math.floor((z - front) / tileHeight)
+  const topTile = Math.floor((z - front + depth) / tileHeight)
+
+  if (
+    leftTile < LOWER_BOUND ||
+    rightTile > columns ||
+    bottomTile < LOWER_BOUND ||
+    topTile > rows
+  ) {
+    return false
+  }
+
+  for (let i = leftTile; i <= rightTile; i++) {
+    for (let j = bottomTile; j <= topTile; j++) {
+      const heightAtTile = heights[i * columns + j]
+      if (y + height <= top + heightAtTile) {
+        return true
+      }
     }
+  }
 
-    return fn(tile, target)
-  })
+  return false
 }

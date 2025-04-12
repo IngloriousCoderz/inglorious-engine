@@ -15,34 +15,33 @@ import {
 } from "./board.js"
 
 test("it should create an empty board", () => {
-  const size = [8, 8]
+  const size = [4, 4]
   const expectedResult = [
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
   ]
 
   expect(createBoard(size)).toStrictEqual(expectedResult)
 })
 
 test("it should create a checkerboard", () => {
-  const size = [8, 8]
+  const size = [4, 4]
   const filler = (i, j) => (!mod(i + j, 2) ? 1 : 0)
-  const expectedResult = [
-    [1, 0, 1, 0, 1, 0, 1, 0],
-    [0, 1, 0, 1, 0, 1, 0, 1],
-    [1, 0, 1, 0, 1, 0, 1, 0],
-    [0, 1, 0, 1, 0, 1, 0, 1],
-    [1, 0, 1, 0, 1, 0, 1, 0],
-    [0, 1, 0, 1, 0, 1, 0, 1],
-    [1, 0, 1, 0, 1, 0, 1, 0],
-    [0, 1, 0, 1, 0, 1, 0, 1],
-  ]
+  const expectedResult = [1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1]
 
   expect(createBoard(size, filler)).toStrictEqual(expectedResult)
 })
@@ -151,29 +150,19 @@ test("it should not return coordinates to the right if cell is rightmost", () =>
 })
 
 test("it should return a string representation of the given board", () => {
-  const board = [
-    [1, 0, 1, 0],
-    [0, 1, 0, 1],
-    [1, 0, 1, 0],
-    [0, 1, 0, 1],
-  ]
+  const board = [1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1]
 
-  expect(toString(board)).toBe(`1 0 1 0
+  expect(toString(board, [4, 4])).toBe(`1 0 1 0
 0 1 0 1
 1 0 1 0
 0 1 0 1`)
 })
 
 test("it should return a custom string representation of the given board", () => {
-  const board = [
-    [1, 0, 1, 0],
-    [0, 1, 0, 1],
-    [1, 0, 1, 0],
-    [0, 1, 0, 1],
-  ]
+  const board = [1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1]
   const cellToString = (cell) => cell.toFixed(1)
 
-  expect(toString(board, cellToString)).toBe(`1.0 0.0 1.0 0.0
+  expect(toString(board, [4, 4], cellToString)).toBe(`1.0 0.0 1.0 0.0
 0.0 1.0 0.0 1.0
 1.0 0.0 1.0 0.0
 0.0 1.0 0.0 1.0`)

@@ -58,8 +58,8 @@ function render(ctx) {
       .filter(({ position }) => position)
       .toSorted(
         (a, b) =>
-          a.py - b.py ||
           a.position[Y] - b.position[Y] ||
+          a.py - b.py ||
           b.position[Z] - a.position[Z],
       )
       .forEach((instance) =>

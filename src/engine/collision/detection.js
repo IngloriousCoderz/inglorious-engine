@@ -49,6 +49,7 @@ export function collidesWith(instance, target, collisionType = "hitbox") {
     ...instanceCollision,
     position: add(instance.position, instanceCollision.position ?? zero()),
     size: instanceCollision.size ?? instance.size,
+    radius: instanceCollision.radius ?? instance.radius,
   }
   instanceShape.position[Y] += instance.py ?? NO_JUMP
 
@@ -57,6 +58,7 @@ export function collidesWith(instance, target, collisionType = "hitbox") {
     ...targetCollision,
     position: add(target.position, targetCollision.position ?? zero()),
     size: targetCollision.size ?? target.size,
+    radius: targetCollision.radius ?? target.radius,
   }
   targetShape.position[Y] += target.py ?? NO_JUMP
 
@@ -92,7 +94,7 @@ export function findCollisions(instance, target, collisionType = "hitbox") {
   const shapeFns = Shape[instanceCollision.shape]
   const instanceShape = {
     ...instanceCollision,
-    position: add(instance.position, instanceCollision.position ?? zero()),
+    position: add(instance.position, instanceCollision.offset ?? zero()),
     heights: flipUpsideDown(
       instanceCollision.heights,
       instanceCollision.columns,
@@ -102,7 +104,7 @@ export function findCollisions(instance, target, collisionType = "hitbox") {
   const targetCollision = target.collisions[collisionType]
   const targetShape = {
     ...targetCollision,
-    position: add(target.position, targetCollision.position ?? zero()),
+    position: add(target.position, targetCollision.offset ?? zero()),
   }
   targetShape.position[Y] += target.py ?? NO_JUMP
 

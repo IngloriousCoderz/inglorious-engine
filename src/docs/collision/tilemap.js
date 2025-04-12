@@ -8,7 +8,8 @@ import {
   enableControls,
 } from "@inglorious/game/decorators/input/controls.js"
 import { Sprite } from "@inglorious/game/sprite.js"
-import { extend } from "@inglorious/utils/data-structures/objects.js"
+import { extend, merge } from "@inglorious/utils/data-structures/objects.js"
+import { applyVelocity } from "@inglorious/utils/physics/velocity.js"
 
 export default {
   types: {
@@ -30,9 +31,30 @@ export default {
             const spriteState = Sprite.move2(instance)
             Sprite.play(spriteState, instance, options)
 
-            const collisions = findCollisions(dungeon, instance)
-            if (collisions.includes(true)) {
-              // console.log(collisions)
+            if (instance.velocity[0] && findCollisions(dungeon, instance)) {
+              merge(
+                instance,
+                applyVelocity(
+                  {
+                    ...instance,
+                    velocity: [-instance.velocity[0], 0, 0],
+                  },
+                  options,
+                ),
+              )
+            }
+
+            if (instance.velocity[2] && findCollisions(dungeon, instance)) {
+              merge(
+                instance,
+                applyVelocity(
+                  {
+                    ...instance,
+                    velocity: [0, 0, -instance.velocity[2]],
+                  },
+                  options,
+                ),
+              )
             }
           },
         }),
@@ -53,7 +75,7 @@ export default {
 
     dungeon: {
       type: "tilemap",
-      position: [400 - (16 * 6 * 3) / 2, -1, 300 - (16 * 5 * 3) / 2],
+      position: [400 - (16 * 6 * 3) / 2, 0, 300 - (16 * 5 * 3) / 2],
       tilemap: {
         image: {
           id: "dungeon",
@@ -117,7 +139,7 @@ export default {
 
     player: {
       type: "player",
-      position: [400 - (16 * 3) / 2, 0, 300],
+      position: [400 - (16 * 3) / 2, 1, 300],
       maxSpeed: 250,
       sprite: {
         image: {
@@ -135,8 +157,6 @@ export default {
       },
       collisions: {
         hitbox: {
-          // shape: "circle",
-          // radius: (16 * 3) / 2,
           shape: "rectangle",
           offset: [(-16 * 3) / 2, 0, (-16 * 3) / 2],
           size: [48, 0, 48],

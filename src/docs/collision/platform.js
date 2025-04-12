@@ -64,6 +64,8 @@ export default {
       position: [200, 62, 0],
       collisions: {
         platform: {
+          // shape: "rectangle",
+          // size: [24, 24, 24],
           shape: "circle",
           radius: 12,
         },

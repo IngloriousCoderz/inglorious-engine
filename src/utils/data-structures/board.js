@@ -11,25 +11,38 @@ const DEFAULT_FILLER = () => null
  */
 const DEFAULT_CELL_TO_STRING = (cell) => `${cell}`
 
-const FIRST_ROW = 0 // The index of the first row in the board.
-const FIRST_COLUMN = 0 // The index of the first column in the board.
-const LAST_ROW_OFFSET = 1 // Offset used to calculate the last row index.
-const LAST_COLUMN_OFFSET = 1 // Offset used to calculate the last column index.
-const MOVE_DOWN = 1 // Value representing a downward movement.
-const MOVE_LEFT = -1 // Value representing a leftward movement.
-const MOVE_RIGHT = 1 // Value representing a rightward movement.
-const MOVE_UP = -1 // Value representing an upward movement.
+const FIRST_ROW = 0
+const FIRST_COLUMN = 0
+const LAST_ROW_OFFSET = 1
+const LAST_COLUMN_OFFSET = 1
+const MOVE_DOWN = 1
+const MOVE_LEFT = -1
+const MOVE_RIGHT = 1
+const MOVE_UP = -1
 
 /**
- * Creates a 2D board with the specified dimensions and fills it using the provided filler function.
+ * Calculates the index in a one-dimensional array for given row and column.
+ * @param {number} row - The row index.
+ * @param {number} column - The column index.
+ * @param {number} columns - The total number of columns.
+ * @returns {number} The calculated index.
+ */
+function getIndex(row, column, columns) {
+  return row * columns + column
+}
+
+/**
+ * Creates a 1D board with the specified dimensions and fills it using the provided filler function.
  * @param {[number, number]} dimensions - Array containing the number of rows and columns.
  * @param {Function} [filler=DEFAULT_FILLER] - Function to fill each cell of the board.
- * @returns {any[][]} The created board.
+ * @returns {any[]} The created board.
  */
 export function createBoard([rows, columns], filler = DEFAULT_FILLER) {
-  return new Array(rows)
-    .fill(null)
-    .map((_, i) => new Array(columns).fill(null).map((_, j) => filler(i, j)))
+  return new Array(rows * columns).fill(null).map((_, index) => {
+    const row = Math.floor(index / columns)
+    const column = index % columns
+    return filler(row, column)
+  })
 }
 
 /**
@@ -43,7 +56,6 @@ export function down([i, j], [rows]) {
   if (i === rows - LAST_ROW_OFFSET) {
     throw new Error()
   }
-
   return [i + MOVE_DOWN, j]
 }
 
@@ -77,7 +89,6 @@ export function left([i, j]) {
   if (j === FIRST_COLUMN) {
     throw new Error()
   }
-
   return [i, j + MOVE_LEFT]
 }
 
@@ -92,20 +103,26 @@ export function right([i, j], [, columns]) {
   if (j === columns - LAST_COLUMN_OFFSET) {
     throw new Error()
   }
-
   return [i, j + MOVE_RIGHT]
 }
 
 /**
  * Converts the board to a string representation.
- * @param {any[][]} board - The board to convert.
+ * @param {any[]} board - The 1D board to convert.
+ * @param {[number, number]} dimensions - Array containing the number of rows and columns.
  * @param {Function} [cellToString=DEFAULT_CELL_TO_STRING] - Function to convert each cell to a string.
  * @returns {string} The string representation of the board.
  */
-export function toString(board, cellToString = DEFAULT_CELL_TO_STRING) {
-  return `${board
-    .map((row, i) => row.map((cell, j) => cellToString(cell, i, j)).join(" "))
-    .join("\n")}`
+export function toString(
+  board,
+  [rows, columns],
+  cellToString = DEFAULT_CELL_TO_STRING,
+) {
+  return Array.from({ length: rows }, (_, i) =>
+    Array.from({ length: columns }, (_, j) =>
+      cellToString(board[getIndex(i, j, columns)], i, j),
+    ).join(" "),
+  ).join("\n")
 }
 
 /**
@@ -118,7 +135,6 @@ export function up([i, j]) {
   if (i === FIRST_ROW) {
     throw new Error()
   }
-
   return [i + MOVE_UP, j]
 }
 

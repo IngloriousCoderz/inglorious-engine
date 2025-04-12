@@ -108,39 +108,40 @@ test("it should find the shortest path between two nodes with arc costs", () => 
 })
 
 test("it should find the best path in a board graph", () => {
-  const size = [5, 5]
+  const rows = 5
+  const columns = 5
+  const size = [rows, columns]
   const filler = (i, j) => ({ id: `${i}${j}`, position: [i, j] })
   const board = createBoard(size, filler)
 
   const graph = {
-    nodes: board.flatMap((row) => row),
+    nodes: board,
     arcs: [],
   }
 
-  for (let i = 0; i < board.length - 1; i++) {
-    for (let j = 0; j < board[i].length - 1; j++) {
-      graph.arcs.push({
-        from: `${i}${j}`,
-        to: down([i, j], size).join(""),
-      })
-      graph.arcs.push({
-        from: `${i}${j}`,
-        to: right([i, j], size).join(""),
-      })
-      graph.arcs.push({
-        from: `${i}${j}`,
-        to: downRight([i, j], size).join(""),
-      })
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < columns; j++) {
+      const current = `${i}${j}`
+      if (i + 1 < rows) {
+        graph.arcs.push({
+          from: current,
+          to: down([i, j], size).join(""),
+        })
+      }
+      if (j + 1 < columns) {
+        graph.arcs.push({
+          from: current,
+          to: right([i, j], size).join(""),
+        })
+      }
+      if (i + 1 < rows && j + 1 < columns) {
+        graph.arcs.push({
+          from: current,
+          to: downRight([i, j], size).join(""),
+        })
+      }
     }
   }
-  graph.arcs.push({
-    from: `${board.length - 2}${board.length - 1}`,
-    to: down([board.length - 2, board.length - 1], size).join(""),
-  })
-  graph.arcs.push({
-    from: `${board.length - 1}${board.length - 2}`,
-    to: right([board.length - 1, board.length - 2], size).join(""),
-  })
 
   const start = "00"
   const end = "44"
