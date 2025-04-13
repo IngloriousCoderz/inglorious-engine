@@ -1,6 +1,7 @@
 // @see https://jonathanwhiting.com/tutorial/collision/
 
 const LOWER_BOUND = 0
+const TOP_TILE_OFFSET = 1 // Offset to include the top boundary tile
 
 export function findCollisions(hitmask, target) {
   const { position, tileSize, columns, heights } = hitmask
@@ -25,8 +26,8 @@ export function findCollisions(hitmask, target) {
     return false
   }
 
-  for (let i = leftTile; i <= rightTile; i++) {
-    for (let j = bottomTile; j <= topTile; j++) {
+  for (let i = leftTile; i < rightTile; i++) {
+    for (let j = bottomTile; j <= topTile + TOP_TILE_OFFSET; j++) {
       const heightAtTile = heights[i * columns + j]
       if (y + height <= top + heightAtTile) {
         return true

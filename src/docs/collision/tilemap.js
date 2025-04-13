@@ -1,5 +1,4 @@
 import { findCollisions } from "@inglorious/engine/collision/detection.js"
-import { enableModernControls } from "@inglorious/game/decorators/controls/kinematic/modern.js"
 import { enableCollisionsDebug } from "@inglorious/game/decorators/debug/collisions.js"
 import { enableSprite } from "@inglorious/game/decorators/image/sprite.js"
 import { enableTilemap } from "@inglorious/game/decorators/image/tilemap.js"
@@ -8,8 +7,11 @@ import {
   enableControls,
 } from "@inglorious/game/decorators/input/controls.js"
 import { Sprite } from "@inglorious/game/sprite.js"
-import { extend, merge } from "@inglorious/utils/data-structures/objects.js"
-import { applyVelocity } from "@inglorious/utils/physics/velocity.js"
+import { extend } from "@inglorious/utils/data-structures/objects.js"
+import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
+
+const X = 0
+const Z = 2
 
 export default {
   types: {
@@ -20,41 +22,51 @@ export default {
     player: [
       enableSprite(),
       enableCollisionsDebug(),
-      enableModernControls(),
+      // enableModernControls(),
       (type) =>
         extend(type, {
           "game:update"(instance, event, options) {
-            type["game:update"](instance, event, options)
+            type["game:update"]?.(instance, event, options)
 
+            const { maxSpeed } = instance
             const { dungeon } = options.instances
 
             const spriteState = Sprite.move2(instance)
             Sprite.play(spriteState, instance, options)
 
-            if (instance.velocity[0] && findCollisions(dungeon, instance)) {
-              merge(
-                instance,
-                applyVelocity(
-                  {
-                    ...instance,
-                    velocity: [-instance.velocity[0], 0, 0],
-                  },
-                  options,
-                ),
-              )
+            const { input0 } = options.instances
+            instance.velocity = zero()
+
+            if (input0.left) {
+              instance.velocity[X] = -maxSpeed
+            }
+            if (input0.right) {
+              instance.velocity[X] = maxSpeed
+            }
+            if (input0.leftRight != null) {
+              instance.velocity[X] += input0.leftRight * maxSpeed
             }
 
-            if (instance.velocity[2] && findCollisions(dungeon, instance)) {
-              merge(
-                instance,
-                applyVelocity(
-                  {
-                    ...instance,
-                    velocity: [0, 0, -instance.velocity[2]],
-                  },
-                  options,
-                ),
-              )
+            const oldX = instance.position[X]
+            instance.position[X] += instance.velocity[X] * options.dt
+            if (findCollisions(dungeon, instance)) {
+              instance.position[X] = oldX
+            }
+
+            if (input0.down) {
+              instance.velocity[Z] = -maxSpeed
+            }
+            if (input0.up) {
+              instance.velocity[Z] = maxSpeed
+            }
+            if (input0.upDown != null) {
+              instance.velocity[Z] += -input0.upDown * maxSpeed
+            }
+
+            const oldZ = instance.position[Z]
+            instance.position[Z] += instance.velocity[Z] * options.dt
+            if (findCollisions(dungeon, instance)) {
+              instance.position[Z] = oldZ
             }
           },
         }),
@@ -139,7 +151,7 @@ export default {
 
     player: {
       type: "player",
-      position: [400 - (16 * 3) / 2, 1, 300],
+      position: [400 - 16 * 3, 1, 300 - 16],
       maxSpeed: 250,
       sprite: {
         image: {
@@ -158,8 +170,10 @@ export default {
       collisions: {
         hitbox: {
           shape: "rectangle",
-          offset: [(-16 * 3) / 2, 0, (-16 * 3) / 2],
           size: [48, 0, 48],
+          offset: [-48 / 2, 0, -48 / 2],
+          // size: [24, 0, 24],
+          // offset: [-8, 0, -8],
         },
       },
     },
