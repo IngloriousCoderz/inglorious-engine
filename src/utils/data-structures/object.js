@@ -95,7 +95,7 @@ ${" ".repeat(indentationLevel)}}`
   }
 
   if (typeof obj === "string") {
-    return `'${obj}'`
+    return `"${obj}"`
   }
 
   return obj

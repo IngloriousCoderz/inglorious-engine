@@ -1,16 +1,6 @@
 import { Meta } from '@storybook/blocks'
 
-import {
-  atan2,
-  cos,
-  cosine,
-  pi,
-  sin,
-  sine,
-  toDegrees,
-  toRadians,
-  toRange,
-} from '@inglorious/utils/math/trigonometry'
+import { atan2, cos, cosine, pi, sin, sine, toDegrees, toRadians, toRange } from '@inglorious/utils/math/trigonometry'
 
 <Meta title="Utils/Math/Trigonometry" />
 
@@ -21,7 +11,6 @@ Basic trigonometry functions.
 ## Atan2
 
 Returns the atan2 of y and x.
-
 
 <code>atan2(0, 0) == {atan2(0, 0)}</code>&nbsp;
 
@@ -38,12 +27,9 @@ Returns the atan2 of y and x.
 
 Returns the cosine of an angle in radians (alias `cosine`).
 
-
 <code>cos(0) == {cos(0)}</code>&nbsp;
 
-
 <code>cos(pi() / 4) == {cos(pi() / 4).toFixed(3)}</code>&nbsp;
-
 
 <code>cos(pi() / 2) == {cos(pi() / 2)}</code> (&asymp;0)
 
@@ -55,7 +41,6 @@ Alias of `cos`.
 
 Returns an approximation of &pi;.
 
-
 <code>pi() == {pi()}</code> (&asymp;&pi;)
 
 ## Sin
@@ -65,9 +50,7 @@ Return the sine of an angle in degrees (alias `sine`).
 
 <code>sin(0) == {sin(0)}</code>&nbsp;
 
-
 <code>sin(pi() / 4) == {sin(pi() / 4).toFixed(3)}</code>&nbsp;
-
 
 <code>sin(pi() / 2) == {sin(pi() / 2)}</code>&nbsp;
 
@@ -79,13 +62,11 @@ Alias of `sin`.
 
 Converts radians into degrees.
 
-
 <code>toDegrees(pi() / 4) == {toDegrees(pi() / 4)}</code>&nbsp;
 
 ## To Radians
 
 Converts degrees into radians.
-
 
 <code>toRadians(45) == {toRadians(45)}</code> (&asymp;&pi;/4)
 
@@ -93,17 +74,12 @@ Converts degrees into radians.
 
 Clamps any angle into the range [-&pi;, &pi;].
 
-
 <code>toRange(5 / 4 * pi()) == {toRange((5 / 4) * pi())}</code> (&asymp;-3/4&pi;)
-
 
 <code>toRange(13 / 4 * pi()) == {toRange((13 / 4) * pi())}</code> (&asymp;-3/4&pi;)
 
-
 <code>toRange(-5 / 4 * pi()) == {toRange((-5 / 4) * pi())}</code> (&asymp;3/4&pi;)
 
-
 <code>toRange(-13 / 4 * pi()) == {toRange((-13 / 4) * pi())}</code> (&asymp;3/4&pi;)
-
 
 <code>toRange(3 / 4 * pi()) == {toRange((3 / 4) * pi())}</code> (&asymp;3/4&pi;)

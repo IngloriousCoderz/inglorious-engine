@@ -85,9 +85,9 @@ test("it should return a string representation of a shallow object", () => {
   }
 
   expect(toString(obj)).toBe(`{
-  key1: 'value1',
-  key2: 'value2',
-  key3: 'value3'
+  key1: "value1",
+  key2: "value2",
+  key3: "value3"
 }`)
 })
 
