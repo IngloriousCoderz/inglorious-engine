@@ -13,6 +13,8 @@ const DEFAULT_INSTANCES = {
   game: { type: "game", bounds: [0, 0, 800, 600] }, // Default game instance with bounds.
 }
 
+const DEFAULT_LAYER = 0
+
 /**
  * Creates a store to manage state and events.
  * @param {Object} options - Configuration options for the store.
@@ -102,7 +104,7 @@ export function createStore({
    */
   function add(id, instance) {
     state = { ...state }
-    state.instances[id] = addInstanceId(id, instance)
+    state.instances[id] = augmentInstance(id, instance)
   }
 
   /**
@@ -164,9 +166,9 @@ function enableMutability(types) {
 }
 
 function augmentInstances(instances) {
-  return map(instances, addInstanceId)
+  return map(instances, augmentInstance)
 }
 
-function addInstanceId(id, instance) {
-  return { ...instance, id }
+function augmentInstance(id, instance) {
+  return { ...instance, layer: instance.layer ?? DEFAULT_LAYER, id }
 }

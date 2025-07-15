@@ -61,6 +61,7 @@ export default {
 
     character: {
       type: "character",
+      layer: 1,
       position: [200, 62, 0],
       collisions: {
         platform: {

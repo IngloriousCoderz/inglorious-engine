@@ -35,11 +35,13 @@ test("it should add a finite state machine", () => {
       game: {
         id: "game",
         type: "game",
+        layer: 0,
         bounds: [0, 0, 800, 600],
       },
       instance1: {
         id: "instance1",
         type: "kitty",
+        layer: 0,
         state: "meowing",
         treats: 1,
       },

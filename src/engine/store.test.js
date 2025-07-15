@@ -23,11 +23,13 @@ test("it should add an event to the event queue", () => {
       game: {
         id: "game",
         type: "game",
+        layer: 0,
         bounds: [0, 0, 800, 600],
       },
       instance1: {
         id: "instance1",
         type: "kitty",
+        layer: 0,
         wasNotified: true,
       },
     },
@@ -66,11 +68,13 @@ test("it should process the event queue", () => {
       game: {
         id: "game",
         type: "game",
+        layer: 0,
         bounds: [0, 0, 800, 600],
       },
       instance1: {
         id: "instance1",
         type: "kitty",
+        layer: 0,
         wasNotified: true,
         wasUpdated: true,
       },
@@ -123,15 +127,18 @@ test("it should send an event from an instance", () => {
       game: {
         id: "game",
         type: "game",
+        layer: 0,
         bounds: [0, 0, 800, 600],
       },
       instance1: {
         id: "instance1",
         type: "doge",
+        layer: 0,
       },
       instance2: {
         id: "instance2",
         type: "kitty",
+        layer: 0,
         position: "near", // should do nothing at first
       },
     },
@@ -184,15 +191,18 @@ test("it should receive an event from an instance", () => {
       game: {
         id: "game",
         type: "game",
+        layer: 0,
         bounds: [0, 0, 800, 600],
       },
       instance1: {
         id: "instance1",
         type: "doge",
+        layer: 0,
       },
       instance2: {
         id: "instance2",
         type: "kitty",
+        layer: 0,
         position: "far", // position changed
       },
     },
@@ -227,11 +237,13 @@ test("it should mutate state in an immutable way", () => {
       game: {
         id: "game",
         type: "game",
+        layer: 0,
         bounds: [0, 0, 800, 600],
       },
       instance1: {
         id: "instance1",
         type: "kitty",
+        layer: 0,
         wasUpdated: true,
       },
     },

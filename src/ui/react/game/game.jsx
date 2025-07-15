@@ -20,6 +20,7 @@ const Components = {
   stats: withAbsolutePosition(Stats),
 }
 
+const Y = 1
 const Z = 2
 
 export default function Game({ engine }) {
@@ -36,7 +37,13 @@ export default function Game({ engine }) {
     <Scene instances={instances}>
       {Object.values(rest)
         .filter(({ position }) => position)
-        .toSorted((a, b) => a.py - b.py || b.position[Z] - a.position[Z])
+        .toSorted(
+          (a, b) =>
+            a.layer - b.layer ||
+            a.position[Y] - b.position[Y] ||
+            a.py - b.py ||
+            b.position[Z] - a.position[Z],
+        )
         .map(draw)}
       {mouse && draw(mouse)}
     </Scene>
