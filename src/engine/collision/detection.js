@@ -9,9 +9,7 @@ import * as segment from "@inglorious/utils/math/geometry/segment.js"
 import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 import { add } from "@inglorious/utils/math/linear-algebra/vectors.js"
 
-const Y = 1 // Y-axis index.
 const Z = 2 // Z-axis index.
-const NO_JUMP = 0 // No vertical height applied.
 
 const Shape = {
   circle,
@@ -51,7 +49,6 @@ export function collidesWith(instance, target, collisionType = "hitbox") {
     size: instanceCollision.size ?? instance.size,
     radius: instanceCollision.radius ?? instance.radius,
   }
-  instanceShape.position[Y] += instance.py ?? NO_JUMP
 
   const targetCollision = target.collisions[collisionType]
   const targetShape = {
@@ -60,7 +57,6 @@ export function collidesWith(instance, target, collisionType = "hitbox") {
     size: targetCollision.size ?? target.size,
     radius: targetCollision.radius ?? target.radius,
   }
-  targetShape.position[Y] += target.py ?? NO_JUMP
 
   return shapeCollidesWith(instanceShape, targetShape)
 }
@@ -106,7 +102,6 @@ export function findCollisions(instance, target, collisionType = "hitbox") {
     ...targetCollision,
     position: add(target.position, targetCollision.offset ?? zero()),
   }
-  targetShape.position[Y] += target.py ?? NO_JUMP
 
   return shapeFns.findCollisions(instanceShape, targetShape)
 }

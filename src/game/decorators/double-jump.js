@@ -13,7 +13,6 @@ const DEFAULT_PARAMS = {
   maxLeap: 100,
 }
 const FALLING = 0
-const Y = 1
 
 export function enableDoubleJump(params) {
   params = extend(DEFAULT_PARAMS, params)
@@ -59,9 +58,11 @@ function createFreeFall(params) {
     targets.forEach((target) => {
       if (instance.vy < FALLING && collidesWith(instance, target, "platform")) {
         instance.vy = 0
-        instance.py = 0
-        instance.position[Y] =
-          target.position[Y] + instance.collisions.platform.radius
+        const [x, , z] = instance.position
+        const { radius } = instance.collisions.platform
+        const [, targetY] = target.position
+        const py = targetY + radius
+        instance.position = [x, py, z]
         instance.state = params.onState
       }
     })

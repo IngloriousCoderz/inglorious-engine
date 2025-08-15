@@ -9,6 +9,8 @@ import {
 } from "@inglorious/game/decorators/input/controls.js"
 import { enableJump } from "@inglorious/game/decorators/jump.js"
 
+const Y = 1
+
 export default {
   types: {
     ...enableControls(),
@@ -80,9 +82,9 @@ export default {
 }
 
 function stopFreeFalling(instance) {
-  if (instance.py <= 0) {
+  if (instance.position[Y] <= 0) {
     instance.vy = 0
-    instance.py = 0
+    instance.position[Y] = 0
     instance.state = "default"
   }
 }

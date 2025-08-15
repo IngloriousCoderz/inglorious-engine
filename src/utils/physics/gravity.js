@@ -1,11 +1,16 @@
+/**
+ * @typedef {import('@inglorious/utils/math/linear-algebra/types').Vector3} Vector3
+ */
+
 /* eslint-disable no-magic-numbers */
+
+import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 
 const DEFAULT_OPTIONS = { dt: 0 } // Default options for the applyGravity function.
 const DEFAULT_JUMP = 0 // Default maximum jump height.
 const DEFAULT_LEAP = 0 // Default maximum leap distance.
 const DEFAULT_SPEED = 0 // Default maximum speed.
 const NO_VELOCITY = 0 // No initial velocity.
-const NO_POSITION = 0 // No initial position.
 
 /**
  * Applies gravity to an object based on its current velocity and position.
@@ -37,7 +42,7 @@ const NO_POSITION = 0 // No initial position.
  * @param {number} params.maxLeap - Maximum leap distance. Defaults to 0.
  * @param {number} params.maxSpeed - Maximum speed. Defaults to 0.
  * @param {number} params.vy - Current vertical velocity. Defaults to 0.
- * @param {number} params.py - Current vertical position. Defaults to 0.
+ * @param {Vector3} params.position - Current position vector.
  * @param {Object} [options=DEFAULT_OPTIONS] - Additional options.
  * @param {number} options.dt - Time delta for the calculation.
  * @returns {Object} Updated acceleration, velocity, and position.
@@ -49,7 +54,7 @@ export function applyGravity(params, options = DEFAULT_OPTIONS) {
     maxLeap = DEFAULT_LEAP,
     maxSpeed = DEFAULT_SPEED,
     vy = NO_VELOCITY,
-    py = NO_POSITION,
+    position = zero(),
   } = params
 
   if (!maxLeap) {
@@ -59,7 +64,8 @@ export function applyGravity(params, options = DEFAULT_OPTIONS) {
   const { dt } = options
   const ay = (-2 * maxJump * maxSpeed ** 2) / maxLeap ** 2
   vy += ay * dt
-  py += vy * dt + 0.5 * ay * dt * dt
+  const [x, y, z] = position
+  const py = y + vy * dt + 0.5 * ay * dt * dt
 
-  return { ay, vy, py }
+  return { ay, vy, position: [x, py, z] }
 }

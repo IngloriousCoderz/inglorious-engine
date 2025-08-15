@@ -3,7 +3,7 @@ import { toString } from "@inglorious/utils/math/linear-algebra/vector.js"
 const DECIMALS = 1
 
 export default function Stats({ instance, instances, className, style }) {
-  const { acceleration, velocity, position, orientation, ay, vy, py } =
+  const { acceleration, velocity, position, orientation, ay, vy } =
     instances[instance.target]
 
   return (
@@ -17,7 +17,6 @@ export default function Stats({ instance, instances, className, style }) {
 
       {ay != null && <div>ay: {ay.toFixed(DECIMALS)}</div>}
       {vy != null && <div>vy: {vy.toFixed(DECIMALS)}</div>}
-      {py != null && <div>py: {py.toFixed(DECIMALS)}</div>}
     </div>
   )
 }
