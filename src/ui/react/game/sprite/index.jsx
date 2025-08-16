@@ -10,8 +10,10 @@ const CENTER_HEIGHT = 2
 
 const FLIPPED_HORIZONTALLY_FLAG = 0x80000000
 const FLIPPED_VERTICALLY_FLAG = 0x40000000
-// const FLIPPED_DIAGONALLY_FLAG = 0x20000000
-// const ROTATED_HEXAGONAL_120_FLAG = 0x10000000
+// eslint-disable-next-line no-unused-vars
+const FLIPPED_DIAGONALLY_FLAG = 0x20000000
+// eslint-disable-next-line no-unused-vars
+const ROTATED_HEXAGONAL_120_FLAG = 0x10000000
 
 export default function Sprite({ instance, className, style: customStyle }) {
   const { image, frames, state, value } = instance.sprite

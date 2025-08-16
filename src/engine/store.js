@@ -66,7 +66,7 @@ export function createStore({
   function update(dt) {
     state = { ...state }
 
-    state.events.push(...incomingEvents, { id: "game:update" })
+    state.events.push(...incomingEvents, { id: "game:update", payload: dt })
     incomingEvents = []
 
     while (state.events.length) {
@@ -80,8 +80,7 @@ export function createStore({
         const type = types[instance.type]
         const handle = type[event.id]
         return (
-          handle?.(instance, event, {
-            dt,
+          handle?.(instance, event.payload, {
             type: originalTypes[instance.type],
             instances,
             notify,

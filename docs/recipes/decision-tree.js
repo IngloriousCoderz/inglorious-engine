@@ -56,23 +56,21 @@ export default {
       enableSprite(),
       enableFsm({
         idle: {
-          "game:update"(instance, event, options) {
+          "game:update"(instance, dt, options) {
             const { mouse } = options.instances
 
-            Sprite.play("idle", instance, options)
+            Sprite.play("idle", instance, dt, options)
 
             instance.state = decide(nextState, { instance, target: mouse })
           },
         },
 
         aware: {
-          "game:update"(instance, event, options) {
-            Sprite.play("aware", instance, options)
+          "game:update"(instance, dt, options) {
+            Sprite.play("aware", instance, dt, options)
           },
 
-          "sprite:animationEnd"(instance, event) {
-            const { id, spriteState } = event.payload
-
+          "sprite:animationEnd"(instance, { id, spriteState }) {
             // always check who originated the event and which sprite is running!
             if (id === instance.id && spriteState === "aware") {
               instance.state = "chasing"
@@ -81,29 +79,29 @@ export default {
         },
 
         chasing: {
-          "game:update"(instance, event, options) {
+          "game:update"(instance, dt, options) {
             const { mouse } = options.instances
 
-            merge(instance, arrive(instance, mouse, options))
+            merge(instance, arrive(instance, mouse, dt, options))
 
             const spriteState = Sprite.move8(instance)
-            Sprite.play(spriteState, instance, options)
+            Sprite.play(spriteState, instance, dt, options)
 
             instance.state = decide(nextState, { instance, target: mouse })
           },
         },
 
         sleepy: {
-          "game:update"(instance, event, options) {
+          "game:update"(instance, dt, options) {
             const { mouse } = options.instances
 
-            Sprite.play("sleepy", instance, options)
+            Sprite.play("sleepy", instance, dt, options)
 
             instance.state = decide(nextState, { instance, target: mouse })
           },
 
           "sprite:animationEnd"(instance, event) {
-            const { id, spriteState } = event.payload
+            const { id, spriteState } = event
 
             // always check who originated the event and which sprite is running!
             if (id === instance.id && spriteState === "sleepy") {
@@ -113,10 +111,10 @@ export default {
         },
 
         sleeping: {
-          "game:update"(instance, event, options) {
+          "game:update"(instance, dt, options) {
             const { mouse } = options.instances
 
-            Sprite.play("sleeping", instance, options)
+            Sprite.play("sleeping", instance, dt, options)
 
             instance.state = decide(nextState, { instance, target: mouse })
           },

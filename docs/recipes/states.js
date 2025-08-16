@@ -17,12 +17,11 @@ export default {
       enableCharacter(),
       enableFsm({
         meandering: {
-          "game:update"(instance, event, options) {
-            const { instances } = options
-            const target = instances.mouse
+          "game:update"(instance, dt, { instances }) {
+            const { mouse: target, game } = instances
 
-            merge(instance, wander(instance, options))
-            flip(instance, instances.game.bounds)
+            merge(instance, wander(instance, dt))
+            flip(instance, game.bounds)
 
             if (length(subtract(instance.position, target.position)) < 200) {
               instance.state = "hunting"
@@ -31,12 +30,11 @@ export default {
         },
 
         hunting: {
-          "game:update"(instance, event, options) {
-            const { instances } = options
-            const target = instances.mouse
+          "game:update"(instance, dt, options) {
+            const { mouse: target, game } = options.instances
 
-            merge(instance, arrive(instance, target, options))
-            clampToBounds(instance, instances.game.bounds)
+            merge(instance, arrive(instance, target, dt, options))
+            clampToBounds(instance, game.bounds)
 
             if (length(subtract(instance.position, target.position)) >= 200) {
               instance.state = "meandering"

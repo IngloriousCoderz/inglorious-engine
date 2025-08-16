@@ -13,26 +13,24 @@ export default {
     character: [
       enableCharacter(),
       {
-        "game:update"(instance, event, { dt, instances }) {
-          const target = instances.mouse
-          const { fields } = instances.parameters.groups.evade
+        "game:update"(instance, dt, { instances }) {
+          const { mouse: target, parameters, game } = instances
+          const { fields } = parameters.groups.evade
 
           merge(
             instance,
-            evade(instance, target, {
-              dt,
+            evade(instance, target, dt, {
               maxPrediction: fields.maxPrediction.value,
             }),
           )
 
-          clampToBounds(instance, instances.game.bounds)
+          clampToBounds(instance, game.bounds)
         },
       },
     ],
 
     form: {
-      "field:change"(instance, event) {
-        const { id, value } = event.payload
+      "field:change"(instance, { id, value }) {
         instance.groups.evade.fields[id].value = value
       },
     },

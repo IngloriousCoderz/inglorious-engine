@@ -6,7 +6,7 @@ import { subtract } from "@inglorious/utils/math/linear-algebra/vectors.js"
 
 import align from "./align.js"
 
-export default function face(instance, target, options) {
+export default function face(instance, target, dt, options) {
   const direction = subtract(target.position, instance.position)
   const distance = magnitude(direction)
 
@@ -16,5 +16,5 @@ export default function face(instance, target, options) {
 
   const orientation = angle(direction)
 
-  return align(instance, { ...target, orientation }, options)
+  return align(instance, { ...target, orientation }, dt, options)
 }

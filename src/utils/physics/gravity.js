@@ -6,7 +6,7 @@
 
 import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 
-const DEFAULT_OPTIONS = { dt: 0 } // Default options for the applyGravity function.
+const DEFAULT_DT = 1 // Default delta time for the applyGravity function.
 const DEFAULT_JUMP = 0 // Default maximum jump height.
 const DEFAULT_LEAP = 0 // Default maximum leap distance.
 const DEFAULT_SPEED = 0 // Default maximum speed.
@@ -42,13 +42,12 @@ const NO_VELOCITY = 0 // No initial velocity.
  * @param {number} params.maxLeap - Maximum leap distance. Defaults to 0.
  * @param {number} params.maxSpeed - Maximum speed. Defaults to 0.
  * @param {number} params.vy - Current vertical velocity. Defaults to 0.
- * @param {Vector3} params.position - Current position vector.
- * @param {Object} [options=DEFAULT_OPTIONS] - Additional options.
- * @param {number} options.dt - Time delta for the calculation.
+ * @param {Vector3} params.position - Current position vector. Defaults to a zero vector.
+ * @param {number} dt - Time delta for the calculation. Defaults to 1.
  * @returns {Object} Updated acceleration, velocity, and position.
  * @throws {Error} If maxLeap is not provided.
  */
-export function applyGravity(params, options = DEFAULT_OPTIONS) {
+export function applyGravity(params, dt = DEFAULT_DT) {
   let {
     maxJump = DEFAULT_JUMP,
     maxLeap = DEFAULT_LEAP,
@@ -61,7 +60,6 @@ export function applyGravity(params, options = DEFAULT_OPTIONS) {
     throw new Error("Missing maxLeap")
   }
 
-  const { dt } = options
   const ay = (-2 * maxJump * maxSpeed ** 2) / maxLeap ** 2
   vy += ay * dt
   const [x, y, z] = position

@@ -12,25 +12,24 @@ export default {
     character: [
       enableCharacter(),
       {
-        "game:update"(instance, event, { dt, instances }) {
-          const { fields } = instances.parameters.groups.wander
+        "game:update"(instance, dt, { instances }) {
+          const { parameters, game } = instances
+          const { fields } = parameters.groups.wander
 
           merge(
             instance,
-            wander(instance, {
-              dt,
+            wander(instance, dt, {
               wanderOffset: fields.wanderOffset.value,
               wanderRadius: fields.wanderRadius.value,
             }),
           )
-          flip(instance, instances.game.bounds)
+          flip(instance, game.bounds)
         },
       },
     ],
 
     form: {
-      "field:change"(instance, event) {
-        const { id, value } = event.payload
+      "field:change"(instance, { id, value }) {
         instance.groups.wander.fields[id].value = value
       },
     },

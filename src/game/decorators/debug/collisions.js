@@ -15,7 +15,8 @@ export function enableCollisionsDebug() {
       draw(ctx, instance, options) {
         type.draw(ctx, instance, options)
 
-        if (!options.instances.game.debug) {
+        const { game } = options.instances
+        if (!game.debug) {
           return
         }
 

@@ -10,8 +10,9 @@ export default {
     character: [
       enableCharacter(),
       {
-        "game:update"(instance, event, options) {
-          merge(instance, bounce(instance, options))
+        "game:update"(instance, dt, { instances }) {
+          const { game } = instances
+          merge(instance, bounce(instance, dt, game.bounds))
         },
       },
     ],

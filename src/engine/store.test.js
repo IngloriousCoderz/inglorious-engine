@@ -95,15 +95,15 @@ test("it should send an event from an instance", () => {
   const config = {
     types: {
       doge: {
-        "game:update"(instance, event, { instances, notify }) {
+        "game:update"(instance, dt, { instances, notify }) {
           if (instances.instance2.position === "near") {
             notify(event)
           }
         },
       },
       kitty: {
-        [event.id](instance) {
-          if (event.payload.id === "inu" && event.payload.message === "Woof!") {
+        [event.id](instance, event) {
+          if (event.id === "inu" && event.message === "Woof!") {
             instance.position = "far"
           }
         },
@@ -158,7 +158,7 @@ test("it should receive an event from an instance", () => {
   const config = {
     types: {
       doge: {
-        "game:update"(instance, event, { instances, notify }) {
+        "game:update"(instance, dt, { instances, notify }) {
           if (instances.instance2.position === "near") {
             notify(event)
           }
@@ -166,7 +166,7 @@ test("it should receive an event from an instance", () => {
       },
       kitty: {
         [event.id](instance, event) {
-          if (event.payload.id === "inu" && event.payload.message === "Woof!") {
+          if (event.id === "inu" && event.message === "Woof!") {
             instance.position = "far"
           }
         },

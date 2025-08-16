@@ -15,7 +15,8 @@ const DEFAULT_ORIENTATION = 0
 
 export default function wander(
   instance,
-  { wanderRadius = DEFAULT_WANDER_RADIUS, ...options },
+  dt,
+  { wanderRadius = DEFAULT_WANDER_RADIUS },
 ) {
   const maxAngularSpeed = instance.maxAngularSpeed ?? DEFAULT_MAX_ANGULAR_SPEED
 
@@ -27,5 +28,5 @@ export default function wander(
     multiply(fromAngle(orientation), wanderRadius),
   )
 
-  return seek(instance, { position }, options)
+  return seek(instance, { position }, dt)
 }

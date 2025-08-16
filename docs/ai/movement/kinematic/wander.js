@@ -9,9 +9,11 @@ export default {
     character: [
       enableCharacter(),
       {
-        "game:update"(instance, event, { dt, instances }) {
-          merge(instance, wander(instance, { dt }))
-          flip(instance, instances.game.bounds)
+        "game:update"(instance, dt, { instances }) {
+          const { game } = instances
+
+          merge(instance, wander(instance, dt))
+          flip(instance, game.bounds)
         },
       },
     ],

@@ -11,12 +11,12 @@ export default {
     character: [
       enableCharacter(),
       {
-        "game:update"(instance, event, { dt, instances }) {
-          const target = instances.mouse
+        "game:update"(instance, dt, { instances }) {
+          const { mouse: target, game } = instances
 
-          merge(instance, flee(instance, target, { dt }))
+          merge(instance, flee(instance, target, dt))
 
-          clampToBounds(instance, instances.game.bounds)
+          clampToBounds(instance, game.bounds)
         },
       },
     ],

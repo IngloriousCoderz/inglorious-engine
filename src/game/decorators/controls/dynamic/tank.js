@@ -1,4 +1,4 @@
-import tankMove from "@inglorious/engine/movement/dynamic/tank.js"
+import move from "@inglorious/engine/movement/dynamic/tank.js"
 import { extend, merge } from "@inglorious/utils/data-structures/objects.js"
 import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 
@@ -15,7 +15,7 @@ export function enableTankControls(params) {
 
   return (type) =>
     extend(type, {
-      "game:update"(instance, event, options) {
+      "game:update"(instance, dt, { instances }) {
         instance.maxAngularSpeed =
           instance.maxAngularSpeed ?? params.maxAngularSpeed
         instance.maxAcceleration =
@@ -24,7 +24,7 @@ export function enableTankControls(params) {
 
         instance.acceleration = zero()
 
-        const { input0 } = options.instances
+        const { input0 } = instances
         if (input0.left) {
           instance.orientation += 0.1
         }
@@ -40,7 +40,7 @@ export function enableTankControls(params) {
 
         if (input0.leftRight != null) {
           instance.orientation +=
-            -input0.leftRight * instance.maxAngularSpeed * options.dt
+            -input0.leftRight * instance.maxAngularSpeed * dt
         }
         if (input0.upDown != null) {
           instance.acceleration[X] += -input0.upDown * instance.maxAcceleration
@@ -49,7 +49,7 @@ export function enableTankControls(params) {
           instance.acceleration[Z] += input0.strafe * instance.maxAcceleration
         }
 
-        merge(instance, tankMove(instance, options))
+        merge(instance, move(instance, dt))
       },
     })
 }

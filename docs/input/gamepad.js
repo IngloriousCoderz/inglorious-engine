@@ -17,8 +17,8 @@ export default {
     character: [
       enableCharacter(),
       {
-        "game:update"(instance, event, options) {
-          const { gamepad0 } = options.instances
+        "game:update"(instance, dt, { instances }) {
+          const { gamepad0 } = instances
 
           instance.velocity = zero()
 
@@ -42,7 +42,7 @@ export default {
             instance.velocity[Z] += -gamepad0.upDown * instance.maxSpeed
           }
 
-          merge(instance, move(instance, options))
+          merge(instance, move(instance, dt))
         },
       },
     ],

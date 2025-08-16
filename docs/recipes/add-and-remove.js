@@ -9,7 +9,7 @@ export default {
     mouse: [
       enableMouse(),
       {
-        "scene:click"(instance, event, options) {
+        "scene:click"(instance, position, options) {
           const { instances, notify } = options
           const characters = filter(
             instances,
@@ -26,7 +26,7 @@ export default {
             payload: {
               id: `character${maxId + 1}`,
               type: "character",
-              position: event.payload,
+              position,
               orientation: random(0, 2 * pi(), 0.01),
               collisions: {
                 hitbox: {
@@ -39,8 +39,8 @@ export default {
         },
 
         // this event handler is needed for React
-        "instance:click"(instance, event, { notify }) {
-          notify({ id: "instance:remove", payload: event.payload })
+        "instance:click"(instance, id, { notify }) {
+          notify({ id: "instance:remove", payload: id })
         },
       },
     ],
@@ -49,8 +49,8 @@ export default {
       enableCharacter(),
       {
         // this event handler is needed in React
-        "instance:click"(instance, event, { notify }) {
-          notify({ id: "instance:remove", payload: event.payload })
+        "instance:click"(instance, id, { notify }) {
+          notify({ id: "instance:remove", payload: id })
         },
       },
     ],

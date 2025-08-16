@@ -19,16 +19,16 @@ export function enableKeyboard() {
       document.removeEventListener("keyup", handleKeyUp)
     },
 
-    "keyboard:keyDown"(instance, event, { notify }) {
-      const action = instance.mapping[event.payload]
+    "keyboard:keyDown"(instance, keyCode, { notify }) {
+      const action = instance.mapping[keyCode]
       if (!instance[action]) {
         instance[action] = true
         notify({ id: "input:press", payload: { id: instance.id, action } })
       }
     },
 
-    "keyboard:keyUp"(instance, event, { notify }) {
-      const action = instance.mapping[event.payload]
+    "keyboard:keyUp"(instance, keyCode, { notify }) {
+      const action = instance.mapping[keyCode]
       if (instance[action]) {
         instance[action] = false
         notify({ id: "input:release", payload: { id: instance.id, action } })

@@ -6,12 +6,12 @@ import {
 
 import align from "./align.js"
 
-export default function lookWhereYoureGoing(instance, options) {
+export default function lookWhereYoureGoing(instance, dt, options) {
   const velocity = instance.velocity ?? zero()
 
   if (!magnitude(velocity)) {
     return instance
   }
 
-  return align(instance, { orientation: angle(velocity) }, options)
+  return align(instance, { orientation: angle(velocity) }, dt, options)
 }

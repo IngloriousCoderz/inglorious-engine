@@ -3,8 +3,8 @@ const DEFAULT_VALUE = 0
 
 export const Animation = { play }
 
-function play(what, state, instance, options) {
-  const { dt, onTick } = options
+function play(what, state, instance, dt, options) {
+  const { onTick } = options
   const {
     speed,
     defaultValue = DEFAULT_VALUE,

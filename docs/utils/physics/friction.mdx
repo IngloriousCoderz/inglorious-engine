@@ -9,12 +9,20 @@ import { toString } from '@inglorious/utils/math/linear-algebra/vector'
 
 Friction is a force that resists movement. It is directly related to the body's momentum, which is mass times velocity, but for our purposes we can safely ignore mass and apply it directly to velocity.
 
+<code>applyFriction(\{ velocity: [8, 0, 6], friction: 5 \}) == {toString(applyFriction({ velocity: [8, 0, 6], friction: 5 }))}</code>&nbsp;
+
 A friction that is equal to the velocity's magnitude will eventually stop the body after some time.
 
-<code>applyFriction(\{ velocity: [8, 0, 6], friction: 5 \}, \{ dt: 1 \}) == {toString(applyFriction({ velocity: [8, 0, 6], friction: 5 }, { dt: 1 }))}</code>&nbsp;
-
-<code>applyFriction(\{ velocity: [8, 0, 6], friction: 5 \}, \{ dt: 2 \}) == {toString(applyFriction({ velocity: [8, 0, 6], friction: 5 }, { dt: 2 }))}</code>&nbsp;
+<code>applyFriction(\{ velocity: [8, 0, 6], friction: 5 \}, 2) == {toString(applyFriction({ velocity: [8, 0, 6], friction: 5 }, 2))}</code>&nbsp;
 
 When the body is still then no friction will be applied:
 
-<code>applyFriction(\{ velocity: [0, 0, 0], friction: 5 \}, \{ dt: 1 \}) == {toString(applyFriction({ velocity: [0, 0, 0], friction: 5 }, { dt: 1 }))}</code>&nbsp;
+<code>applyFriction(\{ velocity: [0, 0, 0], friction: 5 \}) == {toString(applyFriction({ velocity: [0, 0, 0], friction: 5 }))}</code>&nbsp;
+
+When the friction is zero then it will not be applied:
+
+<code>applyFriction(\{ velocity: [8, 0, 6], friction: 0 \}) == {toString(applyFriction({ velocity: [8, 0, 6], friction: 0 }))}</code>&nbsp;
+
+When no time has passed then no friction will be applied:
+
+<code>applyFriction(\{ velocity: [8, 0, 6], friction: 5 \}, 0) == {toString(applyFriction({ velocity: [8, 0, 6], friction: 5 }, 0))}</code>&nbsp;

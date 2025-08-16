@@ -8,20 +8,21 @@ export function enableMouse() {
   return {
     draw,
 
-    "mouse:move"(instance, event, { instances }) {
-      instance.position = event.payload
+    "mouse:move"(instance, position, { instances }) {
+      instance.position = position
 
-      clampToBounds(instance, instances.game.bounds)
+      const { game } = instances
+      clampToBounds(instance, game.bounds)
     },
 
-    "mouse:click"(instance, event, options) {
+    "mouse:click"(instance, position, options) {
       const { notify } = options
 
       const clickedInstance = findCollision(instance, options)
       if (clickedInstance) {
         notify({ id: "instance:click", payload: clickedInstance.id })
       } else {
-        notify({ id: "scene:click", payload: event.payload })
+        notify({ id: "scene:click", payload: position })
       }
     },
   }

@@ -21,8 +21,9 @@ export default {
     character: [
       enableCharacter(),
       {
-        "game:update"(instance, event, { dt, instances }) {
-          const { fields } = instances.parameters.groups.lookWhereYoureGoing
+        "game:update"(instance, dt, { instances }) {
+          const { parameters, game } = instances
+          const { fields } = parameters.groups.lookWhereYoureGoing
 
           const { input0 } = instances
 
@@ -47,22 +48,20 @@ export default {
 
           merge(
             instance,
-            lookWhereYoureGoing(instance, {
-              dt,
+            lookWhereYoureGoing(instance, dt, {
               targetRadius: fields.targetRadius.value,
               slowRadius: fields.slowRadius.value,
               timeToTarget: fields.timeToTarget.value,
             }),
           )
 
-          clampToBounds(instance, instances.game.bounds)
+          clampToBounds(instance, game.bounds)
         },
       },
     ],
 
     form: {
-      "field:change"(instance, event) {
-        const { id, value } = event.payload
+      "field:change"(instance, { id, value }) {
         instance.groups.lookWhereYoureGoing.fields[id].value = value
       },
     },

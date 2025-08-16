@@ -1,7 +1,6 @@
 import { enableCharacter } from "@inglorious/game/decorators/character.js"
 import { enableClampToBounds } from "@inglorious/game/decorators/clamp-to-bounds.js"
 import { enableModernControls } from "@inglorious/game/decorators/controls/dynamic/modern.js"
-import { enableDoubleJump } from "@inglorious/game/decorators/double-jump.js"
 import { enableFsm } from "@inglorious/game/decorators/fsm.js"
 import {
   createControls,
@@ -21,8 +20,7 @@ export default {
       enableCharacter(),
       enableModernControls(),
       enableClampToBounds(),
-      enableDoubleJump(),
-      enableJump(),
+      enableJump({ maxJumps: 2 }),
       enableFsm({
         default: {
           "game:update"(instance) {
@@ -31,12 +29,6 @@ export default {
         },
 
         jumping: {
-          "game:update"(instance) {
-            stopFreeFalling(instance)
-          },
-        },
-
-        doubleJumping: {
           "game:update"(instance) {
             stopFreeFalling(instance)
           },
@@ -77,6 +69,7 @@ export default {
       position: [400, 0, 300],
       maxJump: 100,
       maxLeap: 100,
+      maxJumps: 2,
     },
   },
 }
@@ -86,5 +79,6 @@ function stopFreeFalling(instance) {
     instance.vy = 0
     instance.position[Y] = 0
     instance.state = "default"
+    instance.jumpsLeft = 2
   }
 }

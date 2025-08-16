@@ -9,7 +9,7 @@ export default {
     mouse: [
       enableMouse(),
       {
-        "mouse:click"(instance, event, options) {
+        "mouse:click"(instance, position, options) {
           const { instances, notify } = options
           const characters = filter(
             instances,
@@ -22,7 +22,7 @@ export default {
             payload: {
               id: `character${ids.length + 1}`,
               type: "character",
-              position: event.payload,
+              position,
               orientation: random(0, 2 * pi(), 0.01),
             },
           })

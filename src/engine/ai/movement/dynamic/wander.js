@@ -13,10 +13,10 @@ const DEFAULT_ORIENTATION = 0
 
 export default function wander(
   instance,
+  dt,
   {
     wanderOffset = DEFAULT_WANDER_OFFSET,
     wanderRadius = DEFAULT_WANDER_RADIUS,
-    ...options
   },
 ) {
   const maxAngularSpeed = instance.maxAngularSpeed ?? DEFAULT_MAX_ANGULAR_SPEED
@@ -28,5 +28,5 @@ export default function wander(
   orientation += randomBinomial() * maxAngularSpeed
   position = sum(position, createVector(wanderRadius, orientation))
 
-  return seek(instance, { position }, options)
+  return seek(instance, { position }, dt)
 }

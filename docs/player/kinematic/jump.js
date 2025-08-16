@@ -78,5 +78,6 @@ function stopFreeFalling(instance) {
     instance.vy = 0
     instance.position[Y] = 0
     instance.state = "default"
+    instance.jumpsLeft = 1
   }
 }

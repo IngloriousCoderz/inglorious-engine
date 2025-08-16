@@ -17,8 +17,8 @@ const MIN_SPEED = 0
 export default function arrive(
   instance,
   target,
+  dt,
   {
-    dt,
     targetRadius = DEFAULT_TARGET_RADIUS,
     timeToTarget = DEFAULT_TIME_TO_TARGET,
   },

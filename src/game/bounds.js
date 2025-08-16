@@ -12,8 +12,7 @@ import { abs } from "@inglorious/utils/math/numbers.js"
 const X = 0
 const Z = 2
 
-export function bounce(instance, { dt, instances }) {
-  const [minX, minZ, maxX, maxZ] = instances.game.bounds
+export function bounce(instance, dt, [minX, minZ, maxX, maxZ]) {
   const [x, , z] = instance.position
 
   const velocity = createVector(instance.maxSpeed, instance.orientation)

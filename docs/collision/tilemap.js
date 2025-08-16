@@ -25,16 +25,15 @@ export default {
       // enableModernControls(),
       (type) =>
         extend(type, {
-          "game:update"(instance, event, options) {
-            type["game:update"]?.(instance, event, options)
+          "game:update"(instance, dt, options) {
+            type["game:update"]?.(instance, dt, options)
 
             const { maxSpeed } = instance
-            const { dungeon } = options.instances
+            const { dungeon, input0 } = options.instances
 
             const spriteState = Sprite.move2(instance)
             Sprite.play(spriteState, instance, options)
 
-            const { input0 } = options.instances
             instance.velocity = zero()
 
             if (input0.left) {
@@ -48,7 +47,7 @@ export default {
             }
 
             const oldX = instance.position[X]
-            instance.position[X] += instance.velocity[X] * options.dt
+            instance.position[X] += instance.velocity[X] * dt
             if (findCollisions(dungeon, instance)) {
               instance.position[X] = oldX
             }
@@ -64,7 +63,7 @@ export default {
             }
 
             const oldZ = instance.position[Z]
-            instance.position[Z] += instance.velocity[Z] * options.dt
+            instance.position[Z] += instance.velocity[Z] * dt
             if (findCollisions(dungeon, instance)) {
               instance.position[Z] = oldZ
             }

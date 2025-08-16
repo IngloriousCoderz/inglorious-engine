@@ -12,7 +12,8 @@ export const DEFAULT_MAX_PREDICTION = 10
 export default function evade(
   instance,
   target,
-  { dt, maxPrediction = DEFAULT_MAX_PREDICTION },
+  dt,
+  { maxPrediction = DEFAULT_MAX_PREDICTION },
 ) {
   let velocity = instance.velocity ?? zero()
 
@@ -34,5 +35,5 @@ export default function evade(
 
   const position = sum(target.position, multiply(target.velocity, prediction))
 
-  return flee(instance, { ...target, position }, { dt })
+  return flee(instance, { ...target, position }, dt)
 }

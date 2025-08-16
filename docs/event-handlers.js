@@ -40,8 +40,9 @@ export default {
         ctx.restore()
       },
 
-      "game:update"(instance, event, { dt, instances }) {
-        const [left, , right] = instances.game.bounds
+      "game:update"(instance, dt, { instances }) {
+        const { game } = instances
+        const [left, , right] = game.bounds
 
         if (instance.position[X] > right) {
           instance.velocity[X] = -instance.maxSpeed

@@ -17,8 +17,8 @@ export default {
     character: [
       enableCharacter(),
       {
-        "game:update"(instance, event, options) {
-          const { input0 } = options.instances
+        "game:update"(instance, dt, { instances }) {
+          const { input0 } = instances
           instance.velocity = zero()
 
           if (input0.left) {
@@ -34,7 +34,7 @@ export default {
             instance.velocity[Z] = instance.maxSpeed
           }
 
-          merge(instance, move(instance, options))
+          merge(instance, move(instance, dt))
         },
       },
     ],

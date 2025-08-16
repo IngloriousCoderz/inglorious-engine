@@ -19,12 +19,12 @@ export function enableFps(params) {
       instance.dt = instance.dt ?? params
     },
 
-    "game:update"(instance, event, options) {
-      Animation.play("dt", "default", instance, { ...options, onTick })
+    "game:update"(instance, dt) {
+      Animation.play("dt", "default", instance, dt, { onTick })
     },
   }
 }
 
-function onTick(instance, options) {
-  instance.dt.value = options.dt
+function onTick(instance, dt) {
+  instance.dt.value = dt
 }

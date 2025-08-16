@@ -12,7 +12,8 @@ export const DEFAULT_MAX_PREDICTION = 10
 export default function pursue(
   instance,
   target,
-  { dt, maxPrediction = DEFAULT_MAX_PREDICTION },
+  dt,
+  { maxPrediction = DEFAULT_MAX_PREDICTION },
 ) {
   const velocity = instance.velocity ?? zero()
 
@@ -34,5 +35,5 @@ export default function pursue(
 
   const position = sum(target.position, multiply(target.velocity, prediction))
 
-  return seek(instance, { ...target, position }, { dt })
+  return seek(instance, { ...target, position }, dt)
 }

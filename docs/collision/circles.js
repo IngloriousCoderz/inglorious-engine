@@ -10,8 +10,9 @@ export default {
     character: [
       enableCharacter(),
       {
-        "game:update"(instance, event, options) {
-          const characters = Object.values(options.instances).filter(
+        "game:update"(instance, dt, { instances }) {
+          const { game } = instances
+          const characters = Object.values(instances).filter(
             ({ type }) => type === "character",
           )
           const target = characters.find(({ id }) => id !== instance.id)
@@ -20,7 +21,7 @@ export default {
             instance.orientation += pi()
             instance.orientation = mod(instance.orientation, 2 * pi())
           }
-          merge(instance, bounce(instance, options))
+          merge(instance, bounce(instance, dt, game.bounds))
         },
       },
     ],

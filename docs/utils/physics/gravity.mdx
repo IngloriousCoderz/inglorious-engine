@@ -7,7 +7,7 @@ import { toString } from '@inglorious/utils/data-structures/object'
 
 # Gravity
 
-We can consider gravity as a constant acceleration downards. [This video](https://youtu.be/hG9SzQxaCm8) shows how to calculate this acceleration based on the curve that we want our character to draw when jumping. Also, it rightfully warns to keep jump parameters separate from our world coordinates. That's why we need a specific acceleration and velocity to model our jumps, while directly integrating into the position vector.
+We can consider gravity as a constant acceleration downards. [This video](https://youtu.be/hG9SzQxaCm8) shows how to calculate this acceleration based on the curve that we want our character to draw when jumping. Also, the video rightfully warns to keep jump parameters separate from our world coordinates. That's why we need a specific acceleration and velocity to model our jumps, while directly integrating the Y-displacement into the position vector.
 
 - `maxJump` is the maximum height that we want to achieve;
 - `maxLeap` is the maximum distance we want to cover with a jump;
@@ -15,14 +15,18 @@ We can consider gravity as a constant acceleration downards. [This video](https:
 - `vy` is the current jump velocity;
 - `position[Y]` is the current world height.
 
-<code>applyGravity(\{ maxJump: 10, maxLeap: 10, maxSpeed: 10, vy: 10, position: [0,10,0] \}, \{ dt: 1 \}) == {toString(applyGravity({ maxJump: 10, maxLeap: 10, maxSpeed: 10, vy: 10, position: [0,10,0] }, { dt: 1 }))}</code>&nbsp;
+<code>applyGravity(\{ maxJump: 10, maxLeap: 10, maxSpeed: 10, vy: 10, position: [0, 10, 0] \}) == {toString(applyGravity({ maxJump: 10, maxLeap: 10, maxSpeed: 10, vy: 10, position: [0, 10, 0] }))}</code>&nbsp;
 
 Not specifying `maxJump` and `maxSpeed` will result in no gravity being applied:
 
-<code>applyGravity(\{ maxLeap: 10, maxSpeed: 10, vy: 10, position: [0,10,0] \}, \{ dt: 1 \}) == {toString(applyGravity({ maxLeap: 10, maxSpeed: 10, vy: 10, position: [0,10,0] }, { dt: 1 }))}</code>&nbsp;
+<code>applyGravity(\{ maxLeap: 10, maxSpeed: 10, vy: 10, position: [0, 10, 0] \}) == {toString(applyGravity({ maxLeap: 10, maxSpeed: 10, vy: 10, position: [0, 10, 0] }))}</code>&nbsp;
 
-<code>applyGravity(\{ maxJump: 10, maxSpeed: 10, vy: 10, position: [0,10,0] \}, \{ dt: 1 \}) == {toString(applyGravity({ maxJump: 10, maxLeap: 10, vy: 10, position: [0,10,0] }, { dt: 1 }))}</code>&nbsp;
+<code>applyGravity(\{ maxJump: 10, maxLeap: 10, vy: 10, position: [0, 10, 0] \}) == {toString(applyGravity({ maxJump: 10, maxLeap: 10, vy: 10, position: [0, 10, 0] }))}</code>&nbsp;
 
-While not specifying `maxLeap` will result in an error, since we have to divide by this quantity:
+Passing a zero time delta will also result in no gravity being applied:
 
-<code>applyGravity(\{ maxJump: 10, maxSpeed: 10, vy: 10, position: [0,10,0] \}, \{ dt: 1 \}) == Error(['maxLeap'])</code>&nbsp;
+<code>applyGravity(\{ maxJump: 10, maxLeap: 10, maxSpeed: 10, vy: 10, position: [0, 10, 0] \}, 0) == {toString(applyGravity({ maxJump: 10, maxLeap: 10, maxSpeed: 10, vy: 10, position: [0, 10, 0] }, 0))}</code>&nbsp;
+
+While not specifying `maxLeap` will result in an error, since the algorithm has to divide by this quantity:
+
+<code>applyGravity(\{ maxJump: 10, maxSpeed: 10, vy: 10, position: [0, 10, 0] \}, 1) == Error(['maxLeap'])</code>&nbsp;

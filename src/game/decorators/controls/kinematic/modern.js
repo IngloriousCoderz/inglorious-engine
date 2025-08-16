@@ -1,4 +1,4 @@
-import modernMove from "@inglorious/engine/movement/kinematic/modern.js"
+import move from "@inglorious/engine/movement/kinematic/modern.js"
 import { extend, merge } from "@inglorious/utils/data-structures/objects.js"
 import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 
@@ -15,8 +15,8 @@ export function enableModernControls(params) {
 
   return (type) =>
     extend(type, {
-      "game:update"(instance, event, options) {
-        type["game:update"]?.(instance, event, options)
+      "game:update"(instance, dt, options) {
+        type["game:update"]?.(instance, dt, options)
 
         const maxSpeed = instance.maxSpeed ?? params.maxSpeed
 
@@ -43,7 +43,7 @@ export function enableModernControls(params) {
           instance.velocity[Z] += -input0.upDown * maxSpeed
         }
 
-        merge(instance, modernMove(instance, options))
+        merge(instance, move(instance, dt))
       },
     })
 }

@@ -15,7 +15,7 @@ const MIN_SPEED = 0
 
 const HALF_ACCELERATION = 0.5
 
-export default function seek(instance, target, { dt }) {
+export default function seek(instance, target, dt) {
   const maxAcceleration = instance.maxAcceleration ?? DEFAULT_MAX_ACCELERATION
   const maxSpeed = instance.maxSpeed ?? DEFAULT_MAX_SPEED
 

@@ -16,7 +16,7 @@ const DEFAULT_ORIENTATION = 0
 
 const HALF_ACCELERATION = 0.5
 
-export default function tankMove(instance, { dt }) {
+export default function tankMove(instance, dt) {
   const maxAcceleration = instance.maxAcceleration ?? DEFAULT_MAX_ACCELERATION
   const maxSpeed = instance.maxSpeed ?? DEFAULT_MAX_SPEED
   const friction = instance.friction ?? DEFAULT_FRICTION
@@ -31,7 +31,7 @@ export default function tankMove(instance, { dt }) {
   let velocity = instance.velocity ?? zero()
   velocity = sum(velocity, multiply(acceleration, dt))
   velocity = clamp(velocity, -maxSpeed, maxSpeed)
-  velocity = applyFriction({ velocity, friction }, { dt })
+  velocity = applyFriction({ velocity, friction }, dt)
 
   const position = sum(
     instance.position,

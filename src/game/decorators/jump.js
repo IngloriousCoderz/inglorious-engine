@@ -11,6 +11,7 @@ const DEFAULT_PARAMS = {
   maxSpeed: 250,
   maxJump: 100,
   maxLeap: 100,
+  maxJumps: 1,
 }
 const FALLING = 0
 
@@ -21,39 +22,52 @@ export function enableJump(params) {
 
   return enableFsm({
     [params.onState]: {
-      "game:update"(instance, event, options) {
-        freeFall(instance, event, options)
+      "game:update"(instance, dt, options) {
+        freeFall(instance, dt, options)
       },
 
-      "input:press"(instance, event, options) {
-        instance.onInput = instance.onInput ?? params.onInput
-        instance.maxJump = instance.maxJump ?? params.maxJump
-        instance.maxLeap = instance.maxLeap ?? params.maxLeap
-        instance.maxSpeed = instance.maxSpeed ?? params.maxSpeed
-
-        const { id, action } = event.payload
-        if (id.endsWith(instance.onInput) && action === "jump") {
-          instance.state = "jumping"
-          merge(instance, jump(instance, options))
-        }
-      },
+      "input:press": handleInput,
     },
 
     jumping: {
-      "game:update"(instance, event, options) {
-        freeFall(instance, event, options)
+      "game:update"(instance, dt, options) {
+        freeFall(instance, dt, options)
+
+        const [x, y, z] = instance.position
+        const [, vy] = instance.velocity
+        const py = y + vy * dt
+        merge(instance, { position: [x, py, z] })
       },
+
+      "input:press": handleInput,
     },
   })
 }
 
+function handleInput(instance, { id, action }) {
+  if (
+    id.endsWith(instance.onInput) &&
+    action === "jump" &&
+    instance.jumpsLeft
+  ) {
+    instance.vy = jump(instance)
+    instance.state = "jumping"
+    instance.groundObject = undefined
+    instance.jumpsLeft--
+  }
+}
+
 function createFreeFall(params) {
-  return (instance, event, options) => {
+  return (instance, dt, { instances }) => {
+    instance.onInput = instance.onInput ?? params.onInput
+    instance.maxJump = instance.maxJump ?? params.maxJump
     instance.maxLeap = instance.maxLeap ?? params.maxLeap
+    instance.maxSpeed = instance.maxSpeed ?? params.maxSpeed
+    instance.maxJumps = instance.maxJumps ?? params.maxJumps
 
-    merge(instance, applyGravity(instance, options))
+    merge(instance, applyGravity(instance, dt))
 
-    const targets = Object.values(options.instances).filter(
+    const targets = Object.values(instances).filter(
       ({ type }) => type === "platform",
     )
 
@@ -66,6 +80,8 @@ function createFreeFall(params) {
         const py = targetY + radius
         instance.position = [x, py, z]
         instance.state = params.onState
+        instance.groundObject = target
+        instance.jumpsLeft = instance.maxJumps || DEFAULT_PARAMS.maxJumps
       }
     })
   }

@@ -11,7 +11,7 @@ import { sum } from "@inglorious/utils/math/linear-algebra/vectors.js"
 
 import { applyFriction } from "./friction.js"
 
-const DEFAULT_OPTIONS = { dt: 0 } // Default options for the applyAcceleration function.
+const DEFAULT_DT = 1 // Default time delta for the applyAcceleration function.
 const NO_FRICTION = 0 // No friction constant.
 const HALF_ACCELERATION = 0.5 // Half of the acceleration factor used in position calculation.
 
@@ -29,11 +29,10 @@ const HALF_ACCELERATION = 0.5 // Half of the acceleration factor used in positio
  * @param {Vector3} [params.velocity] - The current velocity vector. Defaults to a zero vector.
  * @param {Vector3} [params.position] - The current position vector. Defaults to a zero vector.
  * @param {number} params.friction - The friction coefficient. Defaults to 0.
- * @param {Object} [options=DEFAULT_OPTIONS] - Additional options.
- * @param {number} options.dt - The time delta for the calculation. Defaults to 0.
+ * @param {number} dt - The time delta for the calculation. Defaults to 0.
  * @returns {Object} - The updated acceleration, velocity, and position.
  */
-export function applyAcceleration(params, options = DEFAULT_OPTIONS) {
+export function applyAcceleration(params, dt = DEFAULT_DT) {
   let {
     maxAcceleration,
     maxSpeed,
@@ -42,7 +41,6 @@ export function applyAcceleration(params, options = DEFAULT_OPTIONS) {
     position = zero(),
     friction = NO_FRICTION,
   } = params
-  const { dt } = options
 
   // Clamp acceleration to the maximum allowed range
   acceleration = clamp(acceleration, -maxAcceleration, maxAcceleration)
@@ -50,7 +48,7 @@ export function applyAcceleration(params, options = DEFAULT_OPTIONS) {
   // Update velocity with acceleration and clamp to the maximum allowed speed
   velocity = sum(velocity, multiply(acceleration, dt))
   velocity = clamp(velocity, -maxSpeed, maxSpeed)
-  velocity = applyFriction({ velocity, friction }, options)
+  velocity = applyFriction({ velocity, friction }, dt)
 
   // Update position with velocity and acceleration
   position = sum(

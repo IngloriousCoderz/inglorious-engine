@@ -17,28 +17,26 @@ export default {
     character: [
       enableCharacter(),
       {
-        "game:update"(instance, event, { dt, instances }) {
-          const target = instances.mouse
-          const { fields } = instances.parameters.groups.face
+        "game:update"(instance, dt, { instances }) {
+          const { mouse: target, parameters, game } = instances
+          const { fields } = parameters.groups.face
 
           merge(
             instance,
-            face(instance, target, {
-              dt,
+            face(instance, target, dt, {
               targetRadius: fields.targetRadius.value,
               slowRadius: fields.slowRadius.value,
               timeToTarget: fields.timeToTarget.value,
             }),
           )
 
-          clampToBounds(instance, instances.game.bounds)
+          clampToBounds(instance, game.bounds)
         },
       },
     ],
 
     form: {
-      "field:change"(instance, event) {
-        const { id, value } = event.payload
+      "field:change"(instance, { id, value }) {
         instance.groups.face.fields[id].value = value
       },
     },

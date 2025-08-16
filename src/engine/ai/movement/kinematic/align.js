@@ -11,8 +11,8 @@ const DEFAULT_ORIENTATION = 0
 export default function align(
   instance,
   target,
+  dt,
   {
-    dt,
     targetRadius = DEFAULT_TARGET_RADIUS,
     timeToTarget = DEFAULT_TIME_TO_TARGET,
   },

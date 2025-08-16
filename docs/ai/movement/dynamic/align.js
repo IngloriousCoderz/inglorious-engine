@@ -19,15 +19,14 @@ export default {
     mouse: [
       enableMouse(),
       {
-        "field:change"(instance, event) {
-          const { id, value } = event.payload
+        "field:change"(instance, { id, value }) {
           if (id === "targetOrientation") {
             instance.orientation = -value * pi()
           }
         },
 
-        "game:update"(instance, event, options) {
-          const { input0 } = options.instances
+        "game:update"(instance, dt, { instances }) {
+          const { input0 } = instances
 
           if (input0.left || input0.up) {
             instance.orientation += 0.1
@@ -44,28 +43,26 @@ export default {
     character: [
       enableCharacter(),
       {
-        "game:update"(instance, event, { dt, instances }) {
-          const target = instances.mouse
-          const { fields } = instances.parameters.groups.align
+        "game:update"(instance, dt, { instances }) {
+          const { mouse: target, parameters, game } = instances
+          const { fields } = parameters.groups.align
 
           merge(
             instance,
-            align(instance, target, {
-              dt,
+            align(instance, target, dt, {
               targetRadius: fields.targetRadius.value,
               slowRadius: fields.slowRadius.value,
               timeToTarget: fields.timeToTarget.value,
             }),
           )
 
-          clampToBounds(instance, instances.game.bounds)
+          clampToBounds(instance, game.bounds)
         },
       },
     ],
 
     form: {
-      "field:change"(instance, event) {
-        const { id, value } = event.payload
+      "field:change"(instance, { id, value }) {
         instance.groups.align.fields[id].value = value
       },
     },

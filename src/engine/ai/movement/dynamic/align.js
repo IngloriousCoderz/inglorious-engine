@@ -16,8 +16,8 @@ const HALF_ANGULAR_ACCELERATION = 0.5
 export default function align(
   instance,
   target,
+  dt,
   {
-    dt,
     targetRadius = DEFAULT_TARGET_RADIUS,
     slowRadius = DEFAULT_SLOW_RADIUS,
     timeToTarget = DEFAULT_TIME_TO_TARGET,

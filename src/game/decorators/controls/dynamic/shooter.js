@@ -1,5 +1,5 @@
 import face from "@inglorious/engine/ai/movement/dynamic/face.js"
-import tankMove from "@inglorious/engine/movement/dynamic/tank.js"
+import move from "@inglorious/engine/movement/dynamic/tank.js"
 import { extend, merge } from "@inglorious/utils/data-structures/objects.js"
 import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
@@ -17,7 +17,7 @@ export function enableShooterControls(params) {
 
   return (type) =>
     extend(type, {
-      "game:update"(instance, event, options) {
+      "game:update"(instance, dt, options) {
         instance.maxAngularSpeed =
           instance.maxAngularSpeed ?? params.maxAngularSpeed
         instance.maxAcceleration =
@@ -40,8 +40,8 @@ export function enableShooterControls(params) {
           instance.acceleration[X] = instance.maxAcceleration
         }
 
-        merge(instance, face(instance, mouse, options))
-        merge(instance, tankMove(instance, options))
+        merge(instance, face(instance, mouse, dt, options))
+        merge(instance, move(instance, dt))
       },
     })
 }

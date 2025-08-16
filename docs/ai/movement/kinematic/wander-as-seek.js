@@ -11,24 +11,23 @@ export default {
     character: [
       enableCharacter(),
       {
-        "game:update"(instance, event, { dt, instances }) {
-          const { fields } = instances.parameters.groups.wanderAsSeek
+        "game:update"(instance, dt, { instances }) {
+          const { parameters, game } = instances
+          const { fields } = parameters.groups.wanderAsSeek
 
           merge(
             instance,
-            wanderAsSeek(instance, {
-              dt,
+            wanderAsSeek(instance, dt, {
               wanderRadius: fields.wanderRadius.value,
             }),
           )
-          flip(instance, instances.game.bounds)
+          flip(instance, game.bounds)
         },
       },
     ],
 
     form: {
-      "field:change"(instance, event) {
-        const { id, value } = event.payload
+      "field:change"(instance, { id, value }) {
         instance.groups.wanderAsSeek.fields[id].value = value
       },
     },

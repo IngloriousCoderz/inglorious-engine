@@ -98,13 +98,11 @@ function move8(instance) {
   return instance.sprite.state ?? "down"
 }
 
-function play(spriteState, instance, options) {
-  Animation.play("sprite", spriteState, instance, { ...options, onTick })
+function play(spriteState, instance, dt, options) {
+  Animation.play("sprite", spriteState, instance, dt, { ...options, onTick })
 }
 
-function onTick(instance, options) {
-  const { notify } = options
-
+function onTick(instance, { notify }) {
   const { frames, state } = instance.sprite
 
   const framesLength = frames[state].length

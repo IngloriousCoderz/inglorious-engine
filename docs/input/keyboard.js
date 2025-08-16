@@ -17,8 +17,8 @@ export default {
     character: [
       enableCharacter(),
       {
-        "game:update"(instance, event, options) {
-          const { keyboard0 } = options.instances
+        "game:update"(instance, dt, { instances }) {
+          const { keyboard0 } = instances
 
           instance.velocity = zero()
 
@@ -35,7 +35,7 @@ export default {
             instance.velocity[Z] = instance.maxSpeed
           }
 
-          merge(instance, move(instance, options))
+          merge(instance, move(instance, dt))
         },
       },
     ],

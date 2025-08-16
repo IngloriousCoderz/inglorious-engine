@@ -9,8 +9,8 @@ export default {
       enableCharacter(),
 
       {
-        "game:update"(instance, event, options) {
-          const { mouse } = options.instances
+        "game:update"(instance, dt, { instances }) {
+          const { mouse } = instances
           instance.position = mouse.position
         },
       },

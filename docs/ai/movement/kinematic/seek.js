@@ -10,10 +10,10 @@ export default {
     character: [
       enableCharacter(),
       {
-        "game:update"(instance, event, { dt, instances }) {
-          const target = instances.mouse
+        "game:update"(instance, dt, { instances }) {
+          const { mouse: target } = instances
 
-          merge(instance, seek(instance, target, { dt }))
+          merge(instance, seek(instance, target, dt))
         },
       },
     ],
