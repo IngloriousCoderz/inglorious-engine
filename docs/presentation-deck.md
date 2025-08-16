@@ -45,7 +45,7 @@ Matteo Antony Mistretta, Inglorious Coderz
 
 <!-- slide -->
 
-## The Super Mario Power-up Problem
+### The Super Mario Power-up Problem
 
 ![Super Mario States and Transitions](https://mario.wiki.gallery/images/5/59/Smw_powerup_chart.jpg)
 
@@ -83,8 +83,7 @@ classDiagram
   Mario "1" --o "1" MarioState : has
 ```
 
-- **Pros:** Simple for small games.
-- **Cons:** Becomes a maintenance nightmare. Violates the Open/Closed Principle.
+<br/>
 
 <!-- slide -->
 
@@ -114,6 +113,11 @@ public class Mario
 
 <!-- slide -->
 
+- **Pros:** Simple for small games.
+- **Cons:** Becomes a maintenance nightmare. Violates the Open/Closed Principle.
+
+<!-- slide -->
+
 ### Option 2: Inheritance
 
 ```mermaid
@@ -137,8 +141,7 @@ classDiagram
   SuperMario <|-- CapeMario
 ```
 
-- **Pros:** Clear, strongly-typed hierarchy.
-- **Cons:** Very rigid. How do we model a `FireCapeMario`, aka `UltraMario`? Multiple inheritance is messy or impossible (the "Diamond Problem"). State transitions (losing a power-up) are awkward—do we destroy the object and create a new one?
+<br/>
 
 <!-- slide -->
 
@@ -161,6 +164,11 @@ public class CapeMario : SuperMario { ... }
 ```
 
 <br/>
+
+<!-- slide -->
+
+- **Pros:** Clear, strongly-typed hierarchy.
+- **Cons:** Very rigid. How do we model a `FireCapeMario`, aka `UltraMario`? Multiple inheritance is messy or impossible (the "Diamond Problem"). State transitions (losing a power-up) are awkward—do we destroy the object and create a new one?
 
 <!-- slide -->
 
@@ -193,8 +201,7 @@ classDiagram
   IMarioState <|.. CapeState
 ```
 
-- **Pros:** Great for state transitions. Decouples Mario from the state logic.
-- **Cons:** Still a lot of boilerplate (interfaces, classes for each state). Combining states is still not straightforward.
+<br/>
 
 <!-- slide -->
 
@@ -220,9 +227,12 @@ public class CapeState : IMarioState { ... }
 
 <!-- slide -->
 
-### Option 4: The Decorator Pattern
+- **Pros:** Great for state transitions. Decouples Mario from the state logic.
+- **Cons:** Still a lot of boilerplate (interfaces, classes for each state). Combining states is still not straightforward.
 
-This is my favorite OOP solution and gets very close to what I want to show you.
+<!-- slide -->
+
+### Option 4: The Decorator Pattern
 
 ```mermaid
 classDiagram
@@ -252,11 +262,6 @@ classDiagram
 
 <br/>
 
-<!-- slide -->
-
-- **Pros:** Very flexible, allows for runtime composition.
-- **Cons:** Can lead to many small classes. Object identity can get confusing. It's still very "class-heavy."
-
 ```csharp
 IMario mario = new BaseMario();
 mario = new SuperMario(mario);
@@ -265,6 +270,13 @@ mario = new CapeDecorator(mario); // Ultra Mario!
 ```
 
 <br/>
+
+<!-- slide -->
+
+This is my favorite OOP solution and gets very close to what I want to show you.
+
+- **Pros:** Very flexible, allows for runtime composition.
+- **Cons:** Can lead to many small classes. Object identity can get confusing. It's still very "class-heavy."
 
 <!-- slide -->
 
@@ -299,18 +311,15 @@ const mario = {
 
 <!-- slide -->
 
-## The "Aha!" Moment: Function Composition
+### The "Aha!" Moment: Function Composition
 
-If entities are just data, then behaviors are just **functions that transform that data**.
-
-Instead of decorators, we have simple functions.
+If entities are just data, then behaviors are just **functions that transform that data**. Instead of decorators, we have simple functions.
 
 ```javascript
 // These are our "power-ups". They are just functions.
 function addSuperPower(instance) {
   instance.canBreakBricks = true
-  // maybe make him bigger too
-  instance.size = [32, 64]
+  instance.size = [32, 64] // maybe make him bigger too
 }
 
 function addFirePower(instance) {
@@ -326,20 +335,19 @@ function addCapePower(instance) {
 
 <!-- slide -->
 
-This is what my engine's documentation refers to as **Composition over Inheritance**.
+This is what the engine's documentation refers to as **Composition over Inheritance**.
 
-> **A quick note on purity:** This might look like we're mutating the `instance` object directly, which doesn't seem very "pure". This is where the engine's Redux inspiration comes in. The engine gives our function a temporary _draft_ of the state. We can write simple, mutable-style code on this draft, and the engine will safely produce a new, immutable state behind the scenes (using a library called Immer).
+> **A quick note on purity:** This might look like we're mutating the `instance` object directly, which doesn't seem very "pure". In reality the engine gives our function a temporary _draft_ of the state. We can write simple, mutable-style code on this draft, and the engine will safely produce a new, immutable state behind the scenes (using a library called Immer).
 
 <!-- slide -->
 
-## Putting It All Together
+### Putting It All Together
 
 In the game, when Mario hits a power-up block, we just call the function to transform his data. The engine is event-driven, so this happens inside an event handler.
 
 ```javascript
-// Mario collides with a Fire Flower.
+// Mario collides with a power-up.
 // The engine's event handler for the player is called.
-
 function onCollision(player, otherThing) {
   if (otherThing.type === "FireFlower") {
     addFirePower(player)
@@ -440,7 +448,7 @@ This architecture gives us some major advantages, many of which will feel famili
 ## Dive Deeper
 
 - **Live Documentation:** The engine is fully documented with live, interactive examples.
-- **Quick Start Guide:** You can get a game running in under 5 minutes.
+- **Quick Start Guide:** You can get a game running in under 30 seconds.
 - **Core Concepts:** Explains all the principles we discussed today in more detail.
 - **It's Open Source!** The code for the engine and the documentation is all on GitHub. We welcome contributions!
 
@@ -449,4 +457,4 @@ This architecture gives us some major advantages, many of which will feel famili
 ## Thank You & Q&A
 
 - **Engine & Docs:** https://inglorious-engine.vercel.app/
-- **Contact/Socials:** antony.mistretta or antonymistretta
+- **Contact/Socials:** https://www.linkedin.com/in/antonymistretta/
