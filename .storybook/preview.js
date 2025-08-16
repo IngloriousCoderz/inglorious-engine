@@ -20,4 +20,7 @@ const preview = {
   args: { ui: "canvas" },
 }
 
+// Set default story to quick-start
+preview.parameters.initialStory = "docs-quick-start--docs"
+
 export default preview

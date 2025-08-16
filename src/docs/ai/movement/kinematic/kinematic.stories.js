@@ -25,18 +25,18 @@ export const Arrive = {
   args: { config: arrive },
 }
 
-export const Wander = {
-  args: { config: wander },
-}
-
-export const WanderAsSeek = {
-  args: { config: wanderAsSeek },
-}
-
 export const Align = {
   args: { config: align },
 }
 
 export const Face = {
   args: { config: face },
+}
+
+export const Wander = {
+  args: { config: wander },
+}
+
+export const WanderAsSeek = {
+  args: { config: wanderAsSeek },
 }

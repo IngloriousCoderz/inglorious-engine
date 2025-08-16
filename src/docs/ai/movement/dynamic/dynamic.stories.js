@@ -28,14 +28,6 @@ export const Arrive = {
   args: { config: arrive },
 }
 
-export const Align = {
-  args: { config: align },
-}
-
-export const MatchVelocity = {
-  args: { config: matchVelocity },
-}
-
 export const Pursue = {
   args: { config: pursue },
 }
@@ -44,8 +36,8 @@ export const Evade = {
   args: { config: evade },
 }
 
-export const Face = {
-  args: { config: face },
+export const Wander = {
+  args: { config: wander },
 }
 
 export const LookWhereYoureGoing = {
@@ -53,6 +45,14 @@ export const LookWhereYoureGoing = {
   args: { config: lookWhereYoureGoing },
 }
 
-export const Wander = {
-  args: { config: wander },
+export const Align = {
+  args: { config: align },
+}
+
+export const Face = {
+  args: { config: face },
+}
+
+export const MatchVelocity = {
+  args: { config: matchVelocity },
 }

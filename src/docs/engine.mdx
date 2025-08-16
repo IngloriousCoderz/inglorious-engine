@@ -3,30 +3,18 @@ import * as Engine from './engine.stories'
 
 import bounds from './bounds?raw'
 import codeReuse from './code-reuse?raw'
-import empty from './empty?raw'
 import eventHandlers from './event-handlers?raw'
 import framerate from './framerate?raw'
-import instances from './instances?raw'
 
 <Meta of={Engine} />
 
-# Inglorious Engine
+# Core Concepts
 
-Welcome to the official Inglorious Engine's docz! This project, and its related documentation, is a _HUUUGE_ work in progress, but feel free to stick around and, if you like what you see, maybe you will feel like cheering or contributing!
+This page showcases some of the core concepts and features of the Inglorious Engine. If you are just getting started, we recommend you check out the [Quick Start Guide](/docs/quick-start--docs) first.
 
 Inglorious Engine is a headless game engine that takes a configuration file in plain JavaScript and creates a scene. The UI can be implemented in any technology: canvas, HTML, ...here we are using React components.
 
-But the best documentation is through examples, so here's a few games!
-
-## Empty
-
-The most minimal configuration you can create is an empty object. This will render an 800x600 scene with a light grey background.
-
-Here's the code for this beauty:
-
-<Source dark code={empty} />
-
-<Canvas of={Engine.Empty} />
+Here are a few examples of what you can do.
 
 ## Bounds
 
@@ -37,18 +25,6 @@ The game is an instance in the game, that we can customize as we please.
 <Source dark code={bounds} />
 
 <Canvas of={Engine.Bounds} />
-
-## Types And Instances
-
-Let's add something to the scene. The game configuration requires that we specify a static part, which is stuff that will never change, and a dynamic part, which is basically the current game state.
-
-The static part includes the definition of each `type` of actors we want to show on the screen. Here we define a type called `character` that draws itself as a circle with a triangle, to easily show its position and orientation.
-
-In the dynamic part we add an instance of this type. In this basic scenario the `character` instance needs to specify only its type and position. Something like this:
-
-<Source dark code={instances} />
-
-<Canvas of={Engine.Instances} />
 
 ## Event Handlers
 
@@ -91,4 +67,11 @@ What if you want to provide a more retro feel to your game? You can use a fixed 
 
 <Canvas of={Engine.Framerate} />
 
-So far so good? Let's move on to some complex stuff then! See how we can trigger some more events, such as [input](/docs/engine-input--docs) events, then take a look at some [recipes](/docs/engine-recipes--docs) that give life to our game!
+## What's Next?
+
+You've now seen the core features of the engine. Here's where you can go from here:
+
+- **Add player controls**: See [Input Handling](/docs/engine-input--docs) for keyboard and mouse.
+- **Detect collisions**: Learn about [Collision Detection](/docs/engine-collision-detection--docs).
+- **Build autonomous characters**: Explore [AI Kinematic Movement](/docs/ai-movement-kinematic--docs) and [AI Dynamic Movement](/docs/ai-movement-dynamic--docs).
+- **See complete examples**: Look at our [Recipes](/docs/engine-recipes--docs) for common game patterns.

@@ -25,3 +25,43 @@ The seek algorithm makes the instance chase a target. Speed is constant and it m
 <Source dark code={seek} />
 
 <Canvas of={Kinematic.Seek} />
+
+## Flee
+
+The flee algorithm is the exact opposite of seek: the instance will run away from the target.
+
+<Source dark code={flee} />
+
+<Canvas of={Kinematic.Flee} />
+
+## Arrive
+
+The arrive algorithm is a more refined version of seek: the instance will slow down as it approaches the target.
+
+<Source dark code={arrive} />
+
+<Canvas of={Kinematic.Arrive} />
+
+## Align
+
+The align algorithm makes the instance rotate to match the target's orientation.
+
+<Source dark code={align} />
+
+<Canvas of={Kinematic.Align} />
+
+## Wander
+
+The wander algorithm makes the instance move around randomly. It does so by changing its orientation by a small random amount at each frame.
+
+<Source dark code={wander} />
+
+<Canvas of={Kinematic.Wander} />
+
+## Wander as Seek
+
+This is a simpler version of the wander algorithm that does not require trigonometry. It just seeks a random point in the scene, and once it's reached, it seeks another one.
+
+<Source dark code={wanderAsSeek} />
+
+<Canvas of={Kinematic.WanderAsSeek} />

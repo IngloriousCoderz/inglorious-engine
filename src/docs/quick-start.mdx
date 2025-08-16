@@ -1,0 +1,127 @@
+import { Canvas, Meta, Source } from '@storybook/blocks'
+import * as QuickStart from './quick-start.stories'
+
+import helloWorld from './quick-start/hello-world?raw'
+import firstGame from './quick-start/first-game?raw'
+
+<Meta of={QuickStart} />
+
+# Quick Start Guide
+
+Welcome to Inglorious Engine! This guide will get you up and running in minutes.
+
+## What is Inglorious Engine?
+
+Inglorious Engine is a **functional programming** game engine for JavaScript. Instead of object-oriented programming, it uses:
+- **Global state** - One source of truth for your entire game
+- **Immutability** - State changes create new state, never modify existing
+- **Pure functions** - Predictable, testable, and reusable functions
+- **Function composition** - Combine behaviors like building blocks
+
+## Your First Game
+
+### Step 1: Basic Setup
+
+Create an HTML file with this structure:
+
+```html
+<!doctype html>
+<html lang="en">
+  <body>
+    <canvas id="canvas"></canvas>
+    
+    <script type="importmap">
+      {
+        "imports": {
+          "immer": "/node_modules/immer/dist/immer.mjs",
+          "@inglorious/": "/src/",
+          "game": "./my-game.js"
+        }
+      }
+    </script>
+    
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
+```
+
+### Step 2: Hello World
+
+Create `my-game.js` with the simplest possible game:
+
+<Source dark code={helloWorld} />
+
+<Canvas of={QuickStart.HelloWorld} />
+
+This creates an 800x600 canvas with a light grey background. Not exciting yet, but it's working!
+
+### Step 3: Add a Character
+
+Let's add something to the scene:
+
+<Source dark code={firstGame} />
+
+<Canvas of={QuickStart.FirstGame} />
+
+## Key Concepts
+
+### 1. Game Configuration Structure
+
+Every game has this structure:
+```javascript
+export default {
+  // Static definitions - never change
+  types: {
+    // Define what kinds of objects exist
+  },
+  
+  // Dynamic state - changes during gameplay
+  instances: {
+    // Actual objects in the scene
+  }
+}
+```
+
+### 2. Types vs Instances
+
+- **Types**: Define what something *is* (like a blueprint)
+- **Instances**: Define specific *examples* of that type (like actual objects)
+
+### 3. Event Handlers
+
+To make things move and interact, use event handlers:
+
+```javascript
+types: {
+  character: {
+    // Drawing logic here
+    draw(ctx, instance) { /* ... */ },
+    
+    // Event handlers here
+    events: {
+      'game:update': (instance, event, { dt, config, instances }) => {
+        // This runs every frame
+        // Update position, velocity, etc.
+      }
+    }
+  }
+}
+```
+
+## Next Steps
+
+Now that you have a basic understanding of the engine, you're ready to dive deeper.
+
+Continue to the **[Core Concepts](/docs/engine--docs)** page to learn about event handlers, code reuse, and other essential features.
+
+## Why Functional Programming?
+
+Traditional game engines use objects with methods that modify internal state. Inglorious Engine is different:
+
+✅ **Predictable**: Same input always produces same output  
+✅ **Testable**: Pure functions are easy to test  
+✅ **Composable**: Combine behaviors like LEGO blocks  
+✅ **Debuggable**: State changes are explicit and traceable  
+✅ **Performant**: Immutability enables efficient rendering  
+
+Ready to build your first game? Let's go!
