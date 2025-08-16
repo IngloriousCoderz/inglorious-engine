@@ -1,4 +1,4 @@
-import { enableGame } from "@inglorious/game/decorators/game"
+import { enableGame } from "@inglorious/game/decorators/game.js"
 import { map } from "@inglorious/utils/data-structures/object.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
 import { pipe } from "@inglorious/utils/functions/functions.js"

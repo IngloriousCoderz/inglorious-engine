@@ -1,16 +1,34 @@
 {
   "name": "@inglorious/engine",
-  "private": true,
-  "version": "0.0.1",
-  "type": "module",
-  "license": "MIT",
-  "description": "A JavaScript game engine written with global state, immutability, and pure functions in mind. Have func(tional programming) with it!",
+  "version": "0.1.0",
+  "description": "A JavaScript game engine written with global state, immutability, and pure functions in mind. Have fun(ctional programming) with it!",
   "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IngloriousCoderz/inglorious-engine.git"
+  },
+  "homepage": "https://inglorious-engine.vercel.app/",
   "keywords": [
-    "functional",
-    "game",
-    "engine"
+    "game-engine",
+    "functional-programming",
+    "gamedev",
+    "javascript",
+    "ecs",
+    "data-oriented"
   ],
+  "type": "module",
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "exports": {
+    "./*": "./src/*"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "format": "prettier --write '**/*.{js,jsx}'",
