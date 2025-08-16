@@ -39,6 +39,8 @@ An event handler accepts the following arguments:
   - The game's current `config` object (here you can find the scene's `bounds`, for example);
   - All `instances` present in the scene; note that they are read-only, so look but don't touch!
 
+You might notice the code directly changes properties on the `instance`. While this looks like a direct mutation, the engine uses [Immer](https://immerjs.github.io/immer/) under the hood. This allows you to write simple, mutable-style code while Immer handles the complexity of producing a new, immutable state object for you. It's the best of both worlds: simple code and the safety of immutability.
+
 The character shown here updates its velocity and position at every frame, going back and forth like it's patroling the scene!
 
 The `fps` type shows FPS debug info on the top left of the scene; its value is updated based on the `dt` time at every `game:update` event.
@@ -49,11 +51,13 @@ The `fps` type shows FPS debug info on the top left of the scene; its value is u
 
 ## Code Reuse
 
-Coding is beautiful, but reusing code without reinventing the wheel is even better!
+Coding is beautiful, but reusing code without reinventing the wheel is even better! This is where the engine's functional approach really shines.
 
-All the code necessary to draw the character is now encapsulated in a `enableCharacter()` function. To be precise, this is a decorator. Note how the `character` type can now accept an array of decorators: you can combine as many decorators as you wish to give the character new features!
+Instead of relying on complex class inheritance hierarchies, we use **function composition**. In this example, all the code necessary to draw the character is encapsulated in an `enableCharacter()` decorator.
 
-The event handler for this character is using a predefined `bounce()` function which makes it look like one of those old DVD logo screensavers. There are many predefined functions out there at your disposal, just look into the docz to find the ones that suit you best.
+This approach is more flexible and powerful than inheritance. You can mix and match behaviors by simply adding decorators to an array, avoiding problems like the "diamond problem" and creating deeply nested, brittle class structures. You are free to combine `canBeControlledByPlayer`, `canBeHurt`, and `canShoot` decorators on the fly.
+
+The event handler for this character is also using a predefined `bounce()` function. There are many predefined functions out there at your disposal, just look through the documentation to find the ones that suit you best.
 
 <Source dark code={codeReuse} />
 
