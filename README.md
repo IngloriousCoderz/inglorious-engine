@@ -23,10 +23,17 @@ What makes this engine different from all the others is that, instead of Object 
 
 FP has many advantages:
 
-1. A single source of truth means that the game state is just one huge JSON structure. This entails that you have control over the whole game state at every moment, instead of having pieces of state scattered through multiple objects. To overcome the issue of scattered state, many modern game engines use an approach that is called Data-Oriented. Well, guess what: functional programming has always used it.
-2. Immutability of state means that every time you want to change something a new state will be created with that change, instead of modifying the state directly. Isn't that slow? Nope, the new state is a shallow copy of the old one. Also, immutability makes it easier to compare what was before with what is now, and in certain scenarios (such as webapps) it allows for very performant re-rendering techniques.
-3. Pure functions are functions that return a value that depends only on the input parameters, no side-effects involved. They are the most predictable, testable, and reusable functions, so why should we rely on void methods belonging to a specific class?
-4. Another important concept related to FP is function composition, which means combining multiple functions together and then applying them to some input. Think of it as a pipeline of operations: you take x, then do some transformation on it, then pass the result to some other function, and so on. This can be used as a way more powerful tool than object inheritance: you can combine multiple behaviours on some object, in a way that is very similar to the Decorator pattern we have in OOP.
+1. **Single Source of Truth**: Your entire game state is a single, plain JavaScript object. This gives you complete control over your game's world at any moment, rather than having state scattered across countless objects. This is the core idea behind the Data-Oriented Design (DOD) paradigm that many modern engines are now adopting. With this engine, you get that benefit naturally.
+2. **Efficient Immutability**: A common misconception is that creating a new state on every change is slow. This engine uses structural sharing (via Immer), meaning only the parts of the state that actually change are copied. The rest of the state tree is shared by reference, making updates extremely fast. This provides a huge benefit:
+   - **Optimized Rendering**: Detecting changes becomes trivial and fast. A simple reference check (`prevState === nextState`) is all that's needed to determine if data has changed, enabling highly performant UIs (especially with libraries like React). This is much faster than the deep, recursive comparisons required in mutable systems.
+3. **Pure Functions**: Game logic is built with pure functions — functions that return a value based only on their inputs, with no side effects. This makes your game logic predictable, easy to test in isolation, and highly reusable, freeing you from the complexity of class methods with hidden side effects.
+4. **Composition over Inheritance**: Instead of complex class hierarchies, you build entities by composing functions. Think of it as a pipeline of operations applied to your data. This is a more flexible and powerful alternative to inheritance. You can mix and match behaviors (e.g., `canBeControlledByPlayer`, `canBeHurt`, `canShoot`) on the fly, avoiding the rigidity and common problems of deep inheritance chains.
+5. **Dynamic by Nature**: JavaScript objects are dynamic. You can add or remove properties from an entity at any time without being constrained by a rigid class definition. This is perfect for game development, where an entity's state can change unpredictably (e.g., gaining a temporary power-up). This flexibility allows for more emergent game mechanics.
+6. **Unparalleled Debugging and Tooling**: Because the entire game state is a single, serializable object, you can unlock powerful development patterns that are difficult to achieve in traditional OOP engines.
+   - **Time-Travel Debugging**: Save the state at any frame. You can step backward and forward through state changes to find exactly when a bug was introduced.
+   - **Hot-Reloading**: Modify your game's logic and instantly see the results without restarting. The engine can reload the code and re-apply it to the current state, dramatically speeding up iteration.
+   - **Simplified Persistence**: Saving and loading a game is as simple as serializing and deserializing a single JSON object.
+7. **Leverage the Full JavaScript Ecosystem**: As a pure JavaScript engine, you have immediate access to the world's largest software repository: npm. Need advanced physics, complex AI, or a specific UI library? Integrate it with a simple `npm install`. You aren't limited to the built-in features or proprietary plugin ecosystem of a monolithic engine like Godot or Unity.
 
 ## Contributing
 
@@ -58,6 +65,7 @@ A note on code style, particularly regarding "magic numbers" for vector componen
 const X = 0
 const Y = 1
 const Z = 2
+
 const x = instance.position[X]
 const y = instance.position[Y]
 const z = instance.position[Z]

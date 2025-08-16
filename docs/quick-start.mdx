@@ -34,7 +34,7 @@ Create an HTML file with this structure:
       {
         "imports": {
           "immer": "https://unpkg.com/immer@10.1.1/dist/immer.mjs",
-          "@inglorious/": "https://unpkg.com/@inglorious%2Fengine@0.1.0/src/",
+          "@inglorious/": "https://unpkg.com/@inglorious%2Fengine@0.1.1/src/",
           "game": "./my-game.js"
         }
       }
@@ -121,7 +121,8 @@ Traditional game engines use objects with methods that modify internal state. In
 ✅ **Predictable**: Same input always produces same output  
 ✅ **Testable**: Pure functions are easy to test  
 ✅ **Composable**: Combine behaviors like LEGO blocks  
-✅ **Debuggable**: State changes are explicit and traceable  
+✅ **Debuggable**: Trace state changes frame-by-frame, and even enable time-travel debugging.
+✅ **Flexible**: Add new properties to objects on the fly, no classes needed  
 ✅ **Performant**: Immutability enables efficient rendering  
 
 Ready to build your first game? Let's go!
