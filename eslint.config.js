@@ -46,7 +46,7 @@ export default defineConfig([
   ...storybook.configs["flat/recommended"],
   {
     ignores: ["!.storybook"],
-    files: ["**/*.test.js", "**/*.stories.js", "src/docs/**/*.js"],
+    files: ["**/*.test.js", "docs/**/*.js"],
     rules: {
       "no-magic-numbers": "off",
     },

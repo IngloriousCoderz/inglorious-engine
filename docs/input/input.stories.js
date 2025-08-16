@@ -1,5 +1,4 @@
-import UiChooser from "@inglorious/docs/ui-chooser.jsx"
-
+import UiChooser from "../ui-chooser.jsx"
 import controls from "./controls.js"
 import gamepad from "./gamepad.js"
 import keyboard from "./keyboard.js"

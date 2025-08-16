@@ -1,5 +1,4 @@
-import UiChooser from "@inglorious/docs/ui-chooser.jsx"
-
+import UiChooser from "../ui-chooser.jsx"
 import addAndRemove from "./add-and-remove.js"
 import addInstance from "./add-instance.js"
 import decisionTree from "./decision-tree.js"

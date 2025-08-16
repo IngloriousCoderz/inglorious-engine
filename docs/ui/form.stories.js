@@ -1,4 +1,4 @@
-import UiChooser from "@inglorious/docs/ui-chooser.jsx"
+import UiChooser from "../ui-chooser.jsx"
 
 export default {
   title: "UI/Form",

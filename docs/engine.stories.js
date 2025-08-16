@@ -1,11 +1,10 @@
-import UiChooser from "@inglorious/docs/ui-chooser.jsx"
-
 import bounds from "./bounds.js"
 import codeReuse from "./code-reuse.js"
 import empty from "./empty.js"
 import eventHandlers from "./event-handlers.js"
 import framerate from "./framerate.js"
 import instances from "./instances.js"
+import UiChooser from "./ui-chooser.jsx"
 
 export default {
   title: "Engine",

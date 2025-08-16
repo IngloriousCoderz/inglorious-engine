@@ -1,5 +1,4 @@
-import UiChooser from "@inglorious/docs/ui-chooser.jsx"
-
+import UiChooser from "../ui-chooser.jsx"
 import image from "./image.js"
 import sprite from "./sprite.js"
 import tilemap from "./tilemap.js"

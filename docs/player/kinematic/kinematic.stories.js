@@ -1,5 +1,4 @@
-import UiChooser from "@inglorious/docs/ui-chooser.jsx"
-
+import UiChooser from "../../ui-chooser.jsx"
 import doubleJump from "./double-jump.js"
 import jump from "./jump.js"
 import modernControls from "./modern-controls.js"
@@ -7,7 +6,7 @@ import shooterControls from "./shooter-controls.js"
 import tankControls from "./tank-controls.js"
 
 export default {
-  title: "Engine/Player/Dynamic",
+  title: "Engine/Player/Kinematic",
   component: UiChooser,
 }
 

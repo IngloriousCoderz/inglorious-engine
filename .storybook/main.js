@@ -21,10 +21,10 @@ const config = {
   docs: {},
 
   stories: [
-    "../src/docs/quick-start.mdx",
-    "../src/docs/engine.mdx",
-    "../src/**/*.mdx",
-    "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)",
+    "../docs/quick-start.mdx",
+    "../docs/engine.mdx",
+    "../docs/**/*.mdx",
+    "../docs/**/*.stories.@(js|jsx|ts|tsx)",
   ],
 }
 

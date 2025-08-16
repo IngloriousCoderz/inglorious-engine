@@ -1,5 +1,4 @@
-import UiChooser from "@inglorious/docs/ui-chooser.jsx"
-
+import UiChooser from "../../..//ui-chooser.jsx"
 import align from "./align.js"
 import arrive from "./arrive.js"
 import face from "./face.js"

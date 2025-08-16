@@ -1,0 +1,32 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title="Utils/Docs" />
+
+# Utilities
+
+This section contains a collection of small, reusable, pure functions designed to handle common tasks within the engine and your games.
+
+## Design Philosophy
+
+The functions in this section are heavily inspired by the design philosophy of libraries like [date-fns](https://date-fns.org/). Each function is:
+
+- **Focused**: It does one thing and does it well.
+- **Pure**: It doesn't have side effects and returns a new value instead of modifying its inputs. This aligns perfectly with the engine's immutable state management.
+- **Composable**: You can easily combine them to build more complex logic, which is a core tenet of functional programming.
+
+We believe this approach leads to more readable, testable, and maintainable code.
+
+## Future Plans
+
+These utility functions are currently part of the main `@inglorious/engine` package. However, as they grow and mature, we plan to extract them into their own dedicated, scoped NPM packages (e.g., `@inglorious/math`, `@inglorious/utils`).
+
+This will make them even easier to reuse across different projects, even those not built with the Inglorious Engine.
+
+## Available Utilities
+
+Here are some of the utility modules available. Explore them to see what you can use in your own game logic.
+
+- **[Data Structures](/docs/utils-data-structures-object--docs)**: For specialized data structures like graphs or trees.
+- **[Functions](/docs/utils-functions-functions--docs)**: General-purpose functional programming helpers.
+- **[Math](/docs/utils-math-numbers--docs)**: For vector math, random number generation, and other calculations.
+- **[Physics](/docs/utils-physics-friction--docs)**: For simple physics calculations like collisions.

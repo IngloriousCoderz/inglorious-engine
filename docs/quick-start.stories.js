@@ -1,7 +1,6 @@
-import UiChooser from "@inglorious/docs/ui-chooser.jsx"
-
 import firstGame from "./quick-start/first-game.js"
 import helloWorld from "./quick-start/hello-world.js"
+import UiChooser from "./ui-chooser.jsx"
 
 export default {
   title: "Quick Start",
