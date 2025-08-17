@@ -20,6 +20,7 @@ const ZERO_VECTOR = [0, 0, 0] // eslint-disable-line no-magic-numbers
 const UNIT_VECTOR = [1, 0, 0] // eslint-disable-line no-magic-numbers
 
 const X = 0
+const Y = 1
 const Z = 2
 const LAST_COORDINATE = 1
 const TWO_COORDINATES = 2
@@ -257,7 +258,31 @@ export function toString(vector, decimals = DEFAULT_DECIMALS) {
     .join(", ")}]`
 }
 
-// TODO: add toSpherical(vector), as described in https://www.cs.mcgill.ca/~rwest/wikispeedia/wpcd/wp/p/Polar_coordinate_system.htm#:~:text=Polar%20coordinates%20can%20also%20be,as%20in%20the%20polar%20coordinates).
+// TODO: add toSpherical(vector),
+
+/**
+ * Converts a 3D cartesian vector to spherical coordinates [radius, inclination, azimuth].
+ * - radius (r): distance from the origin.
+ * - inclination (θ): angle from the Y-axis (0 to PI).
+ * - azimuth (φ): angle from the X-axis in the XZ-plane (-PI to PI).
+ *
+ * @param {Vector3} vector The cartesian vector [x, y, z].
+ * @returns {Vector3} The spherical coordinates [r, θ, φ].
+ */
+export function toSpherical(vector) {
+  const r = magnitude(vector)
+
+  if (!r) {
+    return zero()
+  }
+
+  // In a Y-up system, inclination is the angle with the Y axis.
+  const inclination = Math.acos(vector[Y] / r)
+  // Azimuth is the angle in the XZ plane, which `angle()` calculates.
+  const azimuth = angle(vector)
+
+  return [r, inclination, azimuth]
+}
 
 /**
  * Creates a unit vector with the given angle.

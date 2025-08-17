@@ -44,12 +44,12 @@ Checks if a circle intersects with a rectangle.
 
 Checks if a circle intersects with a platform.
 
-<code>intersectsPlatform(\{ position: [1, 0, 1], radius: 1 }, \{ position: [-1, 0, 0], size: [2, 1] \}) == {toString(intersectsPlatform({ position: [1, 1, 0], radius: 1 }, { position: [-1, 0, 0], size: [2, 1, 0] }))}</code>&nbsp;
+<code>intersectsPlatform(\{ position: [1, 0, 1], radius: 1 }, \{ position: [-1, 0, 0], size: [2, 1, 0] \}) == {toString(intersectsPlatform({ position: [1, 1, 0], radius: 1 }, { position: [-1, 0, 0], size: [2, 1, 0] }))}</code>&nbsp;
 
-<code>intersectsPlatform(\{ position: [1, 0, 1], radius: 1 }, \{ position: [0, 0, -2], size: [2, 1] \}) == {toString(intersectsPlatform({ position: [1, 1, 0], radius: 1 }, { position: [0, -1, ], size: [2, 1, 0] }))}</code>&nbsp;
+<code>intersectsPlatform(\{ position: [1, 0, 1], radius: 1 }, \{ position: [0, 0, -2], size: [2, 1, 0] \}) == {toString(intersectsPlatform({ position: [1, 1, 0], radius: 1 }, { position: [0, -1, ], size: [2, 1, 0] }))}</code>&nbsp;
 
-<code>intersectsPlatform(\{ position: [1, 0, 1], radius: 1 }, \{ position: [-1, 0, -1], size: [2, 2] \}) == {toString(intersectsPlatform({ position: [1, 1, 0], radius: 1 }, { position: [-1, -1, 0], size: [2, 2, 0] }))}</code>&nbsp;
+<code>intersectsPlatform(\{ position: [1, 0, 1], radius: 1 }, \{ position: [-1, 0, -1], size: [2, 2, 0] \}) == {toString(intersectsPlatform({ position: [1, 1, 0], radius: 1 }, { position: [-1, -1, 0], size: [2, 2, 0] }))}</code>&nbsp;
 
-<code>intersectsPlatform(\{ position: [1, 0, 1], radius: 1 }, \{ position: [0, 0, 2], size: [2, 1] \}) == {toString(intersectsPlatform({ position: [1, 1, 0], radius: 1 }, { position: [0, 2, 0], size: [2, 1, 0] }))}</code>&nbsp;
+<code>intersectsPlatform(\{ position: [1, 0, 1], radius: 1 }, \{ position: [0, 0, 2], size: [2, 1, 0] \}) == {toString(intersectsPlatform({ position: [1, 1, 0], radius: 1 }, { position: [0, 2, 0], size: [2, 1, 0] }))}</code>&nbsp;
 
-<code>intersectsPlatform(\{ position: [1, 0, 1], radius: 1 }, \{ position: [-3, 0, -1], size: [2, 1] \}) == {toString(intersectsPlatform({ position: [1, 1, 0], radius: 1 }, { position: [-3, -1, 0], size: [2, 1, 0] }))}</code>&nbsp;
+<code>intersectsPlatform(\{ position: [1, 0, 1], radius: 1 }, \{ position: [-3, 0, -1], size: [2, 1, 0] \}) == {toString(intersectsPlatform({ position: [1, 1, 0], radius: 1 }, { position: [-3, -1, 0], size: [2, 1, 0] }))}</code>&nbsp;

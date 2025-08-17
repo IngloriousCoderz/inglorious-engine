@@ -16,6 +16,7 @@ setMagnitude,
 shift,
 toCartesian,
 toCylindrical,
+toSpherical,
 toPolar,
 toString,
 unit,
@@ -154,11 +155,13 @@ Converts a 3D cartesian vector to cylindrical coordinates.
 
 Converts a 2D cartesian vector to polar coordinates.
 
-<code>toPolar([1, 1]) == {toString(toPolar([1, 1]))}</code> (&asymp;[&#8730;2, &pi;/4])
+<code>toPolar([1, 1]) == {toString(toPolar([1, 1]), 3)}</code> (&asymp;[&#8730;2, &pi;/4])
 
 ## To Spherical
 
-*This section is yet to be documented.*
+Converts a 3D cartesian vector to spherical coordinates.
+
+<code>toSpherical([1, 1, 1]) == {toString(toSpherical([1, 1, 1]), 3)}</code>&nbsp; (&asymp;[&#8730;3, arccos(1/&#8730;3), &pi;/4])
 
 ## To String
 

@@ -22,6 +22,7 @@ import {
   toCartesian,
   toCylindrical,
   toPolar,
+  toSpherical,
   toString,
   unit,
 } from "./vector.js"
@@ -231,6 +232,13 @@ test("it should convert a 2D cartesian vector to polar coordinates", () => {
   const expectedResult = [sqrt(2), pi() / 4]
 
   expect(toPolar(vector)).toStrictEqual(expectedResult)
+})
+
+test("it should convert a 3D cartesian vector to spherical coordinates", () => {
+  const vector = [1, 1, 1]
+  const expectedResult = [sqrt(3), Math.acos(1 / sqrt(3)), pi() / 4]
+
+  expect(toSpherical(vector)).toStrictEqual(expectedResult)
 })
 
 test("it should create a string representation of an integer vector", () => {
