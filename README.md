@@ -46,11 +46,11 @@ FP has many advantages:
 
 ## Architecture: State Management
 
-The engine's state management is inspired by Redux, but it's specifically tailored for the demands of game development. If you're familiar with Redux, you'll recognize the core pattern: the UI (or game view) is a projection of the state, and the only way to change the state is to dispatch an event.
+The engine's state management is inspired by Redux, but it's specifically tailored for the demands of game development. If you're familiar with Redux, you'll recognize the core pattern: the UI (or game view) is a projection of the state, and the only way to change the state is to dispatch an action.
 
 However, there are several key differences that make it unique:
 
-1.  **Events, not Actions**: In Redux, you dispatch "actions." Here, we use the term "event." This is a deliberate semantic choice. An event represents something that _has happened_ in the game world (e.g., `player:moved`, `enemy:destroyed`). This aligns well with event-sourcing principles and is more intuitive in a game development context.
+1.  **Events, not Actions**: In Redux, you "dispatch actions." Here, we "notify of events." This is a deliberate semantic choice. An event represents something that _has happened_ in the game world (e.g., `player:moved`, `enemy:destroyed`). This aligns well with event-sourcing principles and is more intuitive in a game development context.
 
 2.  **Asynchronous Event Queue**: Unlike Redux's synchronous dispatch, events are not processed immediately. They are added to a central event queue. The engine's main loop processes this queue once per frame. This approach has several advantages:
 
@@ -68,11 +68,11 @@ However, there are several key differences that make it unique:
 
 5.  **Composable Handlers via Function Piping**: Instead of large, monolithic "reducers," you build event handlers by composing smaller, pure functions. The engine encourages a pipeline pattern where an event and the current state are passed through a series of decorators or transformations. This makes your logic highly modular, reusable, and easy to test in isolation.
 
-6.  **Handlers Can Dispatch New Events (Controlled Side-Effects)**: In a strict Redux pattern, reducers must be pure. We relax this rule for a pragmatic reason: event handlers in this engine **can dispatch new events**. This allows you to create powerful, reactive chains of logic. For example, an `enemy:take_damage` handler might check the enemy's health and, if it drops to zero, dispatch a new `enemy:destroyed` event.
+6.  **Handlers Can Issue New Events (Controlled Side-Effects)**: In a strict Redux pattern, reducers must be pure. We relax this rule for a pragmatic reason: event handlers in this engine **can notify of new events**. This allows you to create powerful, reactive chains of logic. For example, an `enemy:take_damage` handler might check the enemy's health and, if it drops to zero, notify of a new `enemy:destroyed` event.
 
-    - **How it works**: Any event dispatched from within a handler is simply added to the end of the main event queue. It will be processed in a subsequent pass of the game loop, not immediately. This prevents synchronous, cascading updates within a single frame and makes the flow of logic easier to trace.
+    - **How it works**: Any event notified from within a handler is simply added to the end of the main event queue. It will be processed in a subsequent pass of the game loop, not immediately. This prevents synchronous, cascading updates within a single frame and makes the flow of logic easier to trace.
 
-    - **A Word of Caution**: This power comes with responsibility. It is possible to create infinite loops (e.g., event A's handler dispatches event B, and event B's handler dispatches event A). Developers should be mindful of this when designing their event chains.
+    - **A Word of Caution**: This power comes with responsibility. It is possible to create infinite loops (e.g., event A's handler notifies of event B, and event B's handler notifies of event A). Developers should be mindful of this when designing their event chains.
 
 ## Contributing
 
@@ -110,10 +110,10 @@ const y = instance.position[Y]
 const z = instance.position[Z]
 ```
 
-I find it cleaner to do like so:
+We find it cleaner to do like so:
 
 ```js
 const [x, y, z] = instance.position
 ```
 
-There are a few exceptions: in the `/docs` folder I prefer the first version because not everyone is used to destructuring and I wanted to make the examples as readable as possible for people coming from, say, Godot. In that case I would put the `X`, `Y`, and `Z` constants on top of the file, right below the imports.
+There are a few exceptions: in the `/docs` folder we prefer the first version because not everyone is used to destructuring and we wanted to make the examples as readable as possible for people coming from, say, Godot. In that case we would put the `X`, `Y`, and `Z` constants on top of the file, right below the imports.
