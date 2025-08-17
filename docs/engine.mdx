@@ -95,6 +95,42 @@ if (instance.powerUp?.type === 'speed') {
 
 This approach allows for rapid prototyping and the creation of emergent game mechanics without being constrained by rigid class structures, which aligns perfectly with the engine's data-oriented and functional philosophy.
 
+## Dynamic Types
+
+While adding properties to individual instances at runtime is powerful for temporary state changes, sometimes you need to fundamentally alter the behavior of all instances of a certain type. The engine supports this through the `type:change` event.
+
+This allows you to redefine a type's decorators and event handlers on the fly. This is particularly useful for implementing mechanics like character evolution or complex power-up systems where the core behaviors of a character change.
+
+### Example: Mario's Power-Ups
+
+Let's revisit the classic Super Mario example. When Mario picks up a power-up, his abilities change. Instead of managing boolean flags on the instance (`canBreakBricks`, `canShootFire`), we can dynamically change the `mario` type itself.
+
+Here's how you might dispatch a `type:change` event upon collision with a Fire Flower:
+
+```javascript
+// In a collision event handler for Mario...
+if (collidesWith(mario, fireFlower)) {
+    notify({
+        id: "type:change",
+        payload: {
+            id: 'mario', // The ID of the type to change
+            type: [ // The new array of decorators and handlers
+                enableBaseMario(),
+                enableSuperMario(),
+                enableFireMario(),
+                // ... other base decorators like controls, physics etc.
+            ],
+        },
+    });
+    // remove the power-up from the scene
+    notify({ id: "instance:remove", payload: fireFlower.id });
+}
+```
+
+When the engine processes this event, it will replace the existing definition for the `mario` type with the new one. All existing and future instances of `type: 'mario'` will now use the new set of behaviors, including the abilities from `enableFireMario()`.
+
+This pattern keeps instance objects clean and centralizes behavior logic within type definitions, making your game architecture more robust and easier to reason about. You can see a complete implementation of this pattern in the Mario Power-Ups recipe.
+
 ## Performance Considerations
 
 ### The Myth of Slow Immutability

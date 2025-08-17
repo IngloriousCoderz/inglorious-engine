@@ -2,6 +2,7 @@ import UiChooser from "../ui-chooser.jsx"
 import addAndRemove from "./add-and-remove.js"
 import addInstance from "./add-instance.js"
 import decisionTree from "./decision-tree.js"
+import marioPowerups from "./mario-powerups.js"
 import randomInstances from "./random-instances.js"
 import removeInstance from "./remove-instance.js"
 import states from "./states.js"
@@ -33,4 +34,9 @@ export const States = {
 
 export const DecisionTree = {
   args: { config: decisionTree },
+}
+
+export const MarioPowerups = {
+  title: "Mario Power-Ups",
+  args: { config: marioPowerups },
 }

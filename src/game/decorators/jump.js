@@ -75,9 +75,11 @@ function createFreeFall(params) {
       if (instance.vy < FALLING && collidesWith(instance, target, "platform")) {
         instance.vy = 0
         const [x, , z] = instance.position
-        const { radius } = instance.collisions.platform
-        const [, targetY] = target.position
-        const py = targetY + radius
+        const py = CalculatePY[instance.collisions.platform.shape](
+          instance,
+          target,
+          "platform",
+        )
         instance.position = [x, py, z]
         instance.state = params.onState
         instance.groundObject = target
@@ -85,4 +87,21 @@ function createFreeFall(params) {
       }
     })
   }
+}
+
+const CalculatePY = {
+  circle: calculatePYForCircle,
+  rectangle: calculatePYForRectangle,
+}
+
+function calculatePYForCircle(instance, target, collisionGroup = "hitbox") {
+  const radius = instance.collisions[collisionGroup].radius ?? instance.radius
+  const [, targetY] = target.position
+  return targetY + radius
+}
+
+function calculatePYForRectangle(instance, target, collisionGroup = "hitbox") {
+  const [, targetHeight] = target.collisions[collisionGroup].size ?? target.size
+  const [, targetY] = target.position
+  return targetY + targetHeight
 }

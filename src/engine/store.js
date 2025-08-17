@@ -29,11 +29,11 @@ export function createStore({
   const listeners = new Set()
   let incomingEvents = []
 
-  let types = extend(DEFAULT_TYPES, originalTypes)
-  types = augmentTypes(types)
+  let types
+  recomputeTypes()
 
-  let instances = extend(DEFAULT_INSTANCES, originalInstances)
-  instances = augmentInstances(instances)
+  let instances
+  recomputeInstances()
 
   let state = { events: [], instances }
 
@@ -71,6 +71,12 @@ export function createStore({
 
     while (state.events.length) {
       const event = state.events.shift()
+
+      if (event.id === "type:change") {
+        const { id, type } = event.payload
+        originalTypes[id] = type
+        recomputeTypes()
+      }
 
       if (event.id === "instance:add") {
         add(event.payload.id, event.payload)
@@ -137,6 +143,16 @@ export function createStore({
    */
   function getState() {
     return state
+  }
+
+  function recomputeTypes() {
+    types = extend(DEFAULT_TYPES, originalTypes)
+    types = augmentTypes(types)
+  }
+
+  function recomputeInstances() {
+    instances = extend(DEFAULT_INSTANCES, originalInstances)
+    instances = augmentInstances(instances)
   }
 }
 

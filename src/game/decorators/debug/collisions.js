@@ -24,7 +24,7 @@ export function enableCollisionsDebug() {
 
         Object.values(instance.collisions).forEach((collision) => {
           const draw = Shape[collision.shape]
-          draw(ctx, { ...collision, color: "#00FF00" }, options)
+          draw(ctx, { ...instance, ...collision, color: "#00FF00" }, options)
         })
 
         ctx.restore()
