@@ -3,11 +3,11 @@ import { expect, test } from "vitest"
 import { createStore } from "./store.js"
 
 test("it should add an event to the event queue", () => {
-  const event = { id: "something:happened" }
+  const event = "something:happened"
   const config = {
     types: {
       kitty: {
-        [event.id](instance) {
+        [event](instance) {
           return { ...instance, wasNotified: true }
         },
       },
@@ -43,7 +43,7 @@ test("it should add an event to the event queue", () => {
 })
 
 test("it should process the event queue", () => {
-  const event = { id: "something:happened" }
+  const event = "something:happened"
   const config = {
     types: {
       kitty: {
@@ -51,7 +51,7 @@ test("it should process the event queue", () => {
           return { ...instance, wasUpdated: true }
         },
 
-        [event.id](instance) {
+        [event](instance) {
           return { ...instance, wasNotified: true }
         },
       },
@@ -88,22 +88,18 @@ test("it should process the event queue", () => {
 })
 
 test("it should send an event from an instance", () => {
-  const event = {
-    id: "doge:message",
-    payload: { id: "inu", message: "Woof!" },
-  }
   const config = {
     types: {
       doge: {
         "game:update"(instance, dt, { instances, notify }) {
           if (instances.instance2.position === "near") {
-            notify(event)
+            notify("doge:message", { id: "inu", message: "Woof!" })
           }
         },
       },
       kitty: {
-        [event.id](instance, event) {
-          if (event.id === "inu" && event.message === "Woof!") {
+        "doge:message"(instance, { id, message }) {
+          if (id === "inu" && message === "Woof!") {
             instance.position = "far"
           }
         },
@@ -151,22 +147,21 @@ test("it should send an event from an instance", () => {
 })
 
 test("it should receive an event from an instance", () => {
-  const event = {
-    id: "doge:message",
-    payload: { id: "inu", message: "Woof!" },
-  }
+  const event = "doge:message"
+  const payload = { id: "inu", message: "Woof!" }
+
   const config = {
     types: {
       doge: {
         "game:update"(instance, dt, { instances, notify }) {
           if (instances.instance2.position === "near") {
-            notify(event)
+            notify("doge:message", { id: "inu", message: "Woof!" })
           }
         },
       },
       kitty: {
-        [event.id](instance, event) {
-          if (event.id === "inu" && event.message === "Woof!") {
+        "doge:message"(instance, { id, message }) {
+          if (id === "inu" && message === "Woof!") {
             instance.position = "far"
           }
         },
@@ -184,7 +179,7 @@ test("it should receive an event from an instance", () => {
     },
   }
   const store = createStore(config)
-  store.notify(event)
+  store.notify(event, payload)
   const afterState = {
     events: [],
     instances: {

@@ -48,7 +48,7 @@ test("it should add a finite state machine", () => {
     },
   }
 
-  store.notify({ id: "cat:meow" })
+  store.notify("cat:meow")
   store.update()
 
   const state = store.getState()

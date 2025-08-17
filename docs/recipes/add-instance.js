@@ -17,14 +17,11 @@ export default {
           )
           const ids = Object.keys(characters)
 
-          notify({
-            id: "instance:add",
-            payload: {
-              id: `character${ids.length + 1}`,
-              type: "character",
-              position,
-              orientation: random(0, 2 * pi(), 0.01),
-            },
+          notify("instance:add", {
+            id: `character${ids.length + 1}`,
+            type: "character",
+            position,
+            orientation: random(0, 2 * pi(), 0.01),
           })
         },
       },

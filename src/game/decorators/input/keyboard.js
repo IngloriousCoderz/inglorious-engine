@@ -23,7 +23,7 @@ export function enableKeyboard() {
       const action = instance.mapping[keyCode]
       if (!instance[action]) {
         instance[action] = true
-        notify({ id: "input:press", payload: { id: instance.id, action } })
+        notify("input:press", { id: instance.id, action })
       }
     },
 
@@ -31,7 +31,7 @@ export function enableKeyboard() {
       const action = instance.mapping[keyCode]
       if (instance[action]) {
         instance[action] = false
-        notify({ id: "input:release", payload: { id: instance.id, action } })
+        notify("input:release", { id: instance.id, action })
       }
     },
   }
@@ -44,6 +44,6 @@ export function createKeyboard(name = DEFAULT_PARAMS.name, mapping = {}) {
 function createKeyboardHandler(id, { notify }) {
   return (event) => {
     event.stopPropagation()
-    notify({ id, payload: event.code })
+    notify(id, event.code)
   }
 }

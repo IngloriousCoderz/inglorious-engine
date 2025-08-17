@@ -21,18 +21,15 @@ export default {
             ? Number(ids[ids.length - 1].replace("character", ""))
             : 0
 
-          notify({
-            id: "instance:add",
-            payload: {
-              id: `character${maxId + 1}`,
-              type: "character",
-              position,
-              orientation: random(0, 2 * pi(), 0.01),
-              collisions: {
-                hitbox: {
-                  shape: "circle",
-                  radius: 12,
-                },
+          notify("instance:add", {
+            id: `character${maxId + 1}`,
+            type: "character",
+            position,
+            orientation: random(0, 2 * pi(), 0.01),
+            collisions: {
+              hitbox: {
+                shape: "circle",
+                radius: 12,
               },
             },
           })
@@ -40,7 +37,7 @@ export default {
 
         // this event handler is needed for React
         "instance:click"(instance, id, { notify }) {
-          notify({ id: "instance:remove", payload: id })
+          notify("instance:remove", id)
         },
       },
     ],
@@ -50,7 +47,7 @@ export default {
       {
         // this event handler is needed in React
         "instance:click"(instance, id, { notify }) {
-          notify({ id: "instance:remove", payload: id })
+          notify("instance:remove", id)
         },
       },
     ],

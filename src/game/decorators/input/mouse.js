@@ -20,9 +20,9 @@ export function enableMouse() {
 
       const clickedInstance = findCollision(instance, options)
       if (clickedInstance) {
-        notify({ id: "instance:click", payload: clickedInstance.id })
+        notify("instance:click", clickedInstance.id)
       } else {
-        notify({ id: "scene:click", payload: position })
+        notify("scene:click", position)
       }
     },
   }
@@ -35,7 +35,7 @@ export function track(parent, options) {
   return { onMouseMove: handleMouseMove, onClick: handleClick }
 }
 
-function createHandler(id, parent, { notify }) {
+function createHandler(type, parent, { dispatch }) {
   return (event) => {
     event.stopPropagation()
 
@@ -49,7 +49,7 @@ function createHandler(id, parent, { notify }) {
       parent,
     })
 
-    notify({ id, payload })
+    dispatch({ type, payload })
   }
 }
 

@@ -18,41 +18,35 @@ const collideWithPowerUps = (instance, { instances, notify }) => {
     if (collidesWith(instance, powerup, "powerup")) {
       switch (powerup.type) {
         case "mushroom":
-          notify({
-            id: "type:change",
-            payload: {
-              id: instance.type,
-              type: [
-                enableBaseMario(),
-                enableSuperMario(),
-                enableModernControls(),
-                enableClampToBounds(),
-                enableJump(),
-                enableCollisionsDebug(),
-              ],
-            },
+          notify("type:change", {
+            id: instance.type,
+            type: [
+              enableBaseMario(),
+              enableSuperMario(),
+              enableModernControls(),
+              enableClampToBounds(),
+              enableJump(),
+              enableCollisionsDebug(),
+            ],
           })
           break
 
         case "fireFlower":
-          notify({
-            id: "type:change",
-            payload: {
-              id: instance.type,
-              type: [
-                enableBaseMario(),
-                enableSuperMario(),
-                enableFireMario(),
-                enableModernControls(),
-                enableClampToBounds(),
-                enableJump(),
-                enableCollisionsDebug(),
-              ],
-            },
+          notify("type:change", {
+            id: instance.type,
+            type: [
+              enableBaseMario(),
+              enableSuperMario(),
+              enableFireMario(),
+              enableModernControls(),
+              enableClampToBounds(),
+              enableJump(),
+              enableCollisionsDebug(),
+            ],
           })
           break
       }
-      notify({ id: "instance:remove", payload: powerup.id })
+      notify("instance:remove", powerup.id)
     }
   })
 }
@@ -72,8 +66,8 @@ const enableBaseMario = () => ({
     )
     enemies.forEach((enemy) => {
       if (collidesWith(instance, enemy, "enemy")) {
-        notify({ id: "instance:remove", payload: instance.id })
-        notify({ id: "instance:remove", payload: enemy.id })
+        notify("instance:remove", instance.id)
+        notify("instance:remove", enemy.id)
       }
     })
   },
@@ -95,20 +89,17 @@ const enableSuperMario = () => ({
     )
     enemies.forEach((enemy) => {
       if (collidesWith(instance, enemy, "enemy")) {
-        notify({
-          id: "type:change",
-          payload: {
-            id: instance.type,
-            type: [
-              enableBaseMario(),
-              enableModernControls(),
-              enableClampToBounds(),
-              enableJump(),
-              enableCollisionsDebug(),
-            ],
-          },
+        notify("type:change", {
+          id: instance.type,
+          type: [
+            enableBaseMario(),
+            enableModernControls(),
+            enableClampToBounds(),
+            enableJump(),
+            enableCollisionsDebug(),
+          ],
         })
-        notify({ id: "instance:remove", payload: enemy.id })
+        notify("instance:remove", enemy.id)
       }
     })
   },
@@ -136,21 +127,18 @@ const enableFireMario = () => ({
     )
     enemies.forEach((enemy) => {
       if (collidesWith(instance, enemy, "enemy")) {
-        notify({
-          id: "type:change",
-          payload: {
-            id: instance.type,
-            type: [
-              enableBaseMario(),
-              enableSuperMario(),
-              enableModernControls(),
-              enableClampToBounds(),
-              enableJump(),
-              enableCollisionsDebug(),
-            ],
-          },
+        notify("type:change", {
+          id: instance.type,
+          type: [
+            enableBaseMario(),
+            enableSuperMario(),
+            enableModernControls(),
+            enableClampToBounds(),
+            enableJump(),
+            enableCollisionsDebug(),
+          ],
         })
-        notify({ id: "instance:remove", payload: enemy.id })
+        notify("instance:remove", enemy.id)
       }
     })
   },

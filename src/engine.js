@@ -29,7 +29,7 @@ export default class Engine {
    * Starts the game engine, initializing the loop and notifying the store.
    */
   start() {
-    this._store.notify({ id: "game:start" })
+    this._store.notify("game:start")
     this._loop.start(this, ONE_SECOND / this._config.loop.fps)
     this.isRunning = true
   }
@@ -56,17 +56,26 @@ export default class Engine {
 
   /**
    * Notifies the store of an event.
-   * @param {Object} event - Event object to notify the store with.
+   * @param {string} id - Event object id to notify the store with.
+   * @param {any} payload - Event object payload to notify the store with.
    */
-  notify = (event) => {
-    this._store.notify(event)
+  notify = (id, payload) => {
+    this._store.notify(id, payload)
+  }
+
+  /**
+   * Dispatches an action to the store. This was added for compatibility with React.
+   * @param {object} action - Action object to be dispatched.
+   */
+  dispatch = (action) => {
+    this._store.dispatch(action)
   }
 
   /**
    * Stops the game engine, halting the loop and notifying the store.
    */
   stop() {
-    this._store.notify({ id: "game:stop" })
+    this._store.notify("game:stop")
     this._store.update()
     this._loop.stop()
     this.isRunning = false

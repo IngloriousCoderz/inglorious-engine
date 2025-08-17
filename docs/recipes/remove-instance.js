@@ -12,7 +12,7 @@ export default {
       {
         // this event handler is needed in React
         "instance:click"(instance, id, { notify }) {
-          notify({ id: "instance:remove", payload: id })
+          notify("instance:remove", id)
         },
       },
     ],

@@ -6,14 +6,14 @@ const DEFAULT_SIZE = 24
 const DEFAULT_ORIENTATION = 0
 
 export default function Character({ id, type, instance, className, style }) {
-  const notify = useDispatch()
+  const dispatch = useDispatch()
 
   const size = type.size ?? DEFAULT_SIZE
   const { orientation = DEFAULT_ORIENTATION } = instance
 
   const handleClick = (event) => {
     event.stopPropagation()
-    notify({ id: "instance:click", payload: id })
+    dispatch({ type: "instance:click", payload: id })
   }
 
   return (

@@ -41,7 +41,7 @@ export function createStore({
     subscribe,
     update,
     notify,
-    dispatch: notify, // needed for react-redux
+    dispatch, // needed for react-redux
     getTypes,
     getState,
   }
@@ -66,25 +66,25 @@ export function createStore({
   function update(dt) {
     state = { ...state }
 
-    state.events.push(...incomingEvents, { id: "game:update", payload: dt })
+    state.events.push(...incomingEvents, { type: "game:update", payload: dt })
     incomingEvents = []
 
     while (state.events.length) {
       const event = state.events.shift()
 
-      if (event.id === "type:change") {
+      if (event.type === "type:change") {
         const { id, type } = event.payload
         originalTypes[id] = type
         recomputeTypes()
       }
 
-      if (event.id === "instance:add") {
+      if (event.type === "instance:add") {
         add(event.payload.id, event.payload)
       }
 
       state.instances = map(state.instances, (_, instance, instances) => {
         const type = types[instance.type]
-        const handle = type[event.id]
+        const handle = type[event.type]
         return (
           handle?.(instance, event.payload, {
             type: originalTypes[instance.type],
@@ -94,7 +94,7 @@ export function createStore({
         )
       })
 
-      if (event.id === "instance:remove") {
+      if (event.type === "instance:remove") {
         remove(event.payload)
       }
     }
@@ -123,9 +123,14 @@ export function createStore({
 
   /**
    * Notifies the store of a new event.
-   * @param {Object} event - The event object to notify.
+   * @param {string} type - The event object type to notify.
+   * @param {any} payload - The event object payload to notify.
    */
-  function notify(event) {
+  function notify(type, payload) {
+    dispatch({ type, payload })
+  }
+
+  function dispatch(event) {
     incomingEvents.push(event)
   }
 

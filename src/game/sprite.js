@@ -109,9 +109,6 @@ function onTick(instance, { notify }) {
 
   instance.sprite.value = mod(instance.sprite.value + 1, framesLength)
   if (instance.sprite.value === framesLength - 1) {
-    notify({
-      id: `sprite:animationEnd`,
-      payload: { id: instance.id, spriteState: state },
-    })
+    notify("sprite:animationEnd", { id: instance.id, spriteState: state })
   }
 }
