@@ -18,7 +18,7 @@ Some common patterns that can be used in your game. Check the source code of eac
 
 The game configuration is pure JavaScript, so there's not much difference between defining the instances one by one or writing some code that generates them automatically!
 
-Here we are using a couple of utility functions from the [rng](/?path=/docs/utils-math-rng--docs) and [trigonometry](/?path=/docs/utils-math-trigonometry--docs) packages.
+Here we are using a couple of utility functions from the [rng](/docs/utils-math-rng--docs) and [trigonometry](/docs/utils-math-trigonometry--docs) packages.
 
 <Source dark code={randomInstances} />
 
@@ -30,7 +30,7 @@ Programmatically adding a new instance to the scene is as easy as sending an eve
 
 Try clicking anywhere on the scene to create a new instance with random orientation.
 
-Here, apart from some math functions, we are also using a predefined mouse [input](/?path=/docs/games-input--docs) package that allows us to position a cursor and handle its events.
+Here, apart from some math functions, we are also using a predefined mouse [input](/docs/engine-input--docs) package that allows us to position a cursor and handle its events.
 
 <Source dark code={addInstance} />
 
@@ -64,7 +64,7 @@ We just need to wrap our event handlers into a `states` object, set an initial `
 
 Try moving the cursor near the character to make it hunt you, and then moving it away to see the character wander around aimlessly.
 
-This code may seem a lot, but it's just a merge of the *Arrive* and *Wander* [Kinematic AI Movement](/?path=/docs/games-ai-movement-kinematic--docs) examples so feel free to take a look at them before approaching this one.
+This code may seem a lot, but it's just a merge of the *Arrive* and *Wander* [Kinematic AI Movement](/docs/engine-ai-movement-kinematic--docs) examples so feel free to take a look at them before approaching this one.
 
 <Source dark code={states} />
 

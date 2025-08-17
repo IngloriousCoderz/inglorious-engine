@@ -20,8 +20,3 @@ addons.setConfig({
   },
   initialActive: "sidebar",
 })
-
-// Redirect to quick-start by default
-if (typeof window !== "undefined" && !window.location.hash) {
-  window.location.hash = "#/docs-quick-start--docs"
-}
