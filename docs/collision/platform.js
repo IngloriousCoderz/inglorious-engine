@@ -1,6 +1,7 @@
 import { enableCharacter } from "@inglorious/game/decorators/character.js"
 import { enableClampToBounds } from "@inglorious/game/decorators/clamp-to-bounds.js"
 import { enableModernControls } from "@inglorious/game/decorators/controls/kinematic/modern.js"
+import { enableCollisionsDebug } from "@inglorious/game/decorators/debug/collisions"
 import {
   createControls,
   enableControls,
@@ -12,13 +13,14 @@ export default {
   types: {
     ...enableControls(),
 
-    platform: [enablePlatform()],
+    platform: [enablePlatform(), enableCollisionsDebug()],
 
     character: [
       enableCharacter(),
       enableModernControls(),
       enableClampToBounds(),
       enableJump(),
+      enableCollisionsDebug(),
     ],
   },
 
@@ -38,7 +40,7 @@ export default {
     ground: {
       type: "platform",
       position: [0, 0, 0],
-      size: [800, 50, 0],
+      size: [800, 64, 0],
       backgroundColor: "green",
       collisions: {
         platform: {
@@ -49,8 +51,8 @@ export default {
 
     platform: {
       type: "platform",
-      position: [600, 100, 0],
-      size: [80, 20, 0],
+      position: [600, 128, 0],
+      size: [80, 24, 0],
       backgroundColor: "grey",
       collisions: {
         platform: {
@@ -62,13 +64,11 @@ export default {
     character: {
       type: "character",
       layer: 1,
-      position: [200, 74, 0],
+      position: [200, 76, 0],
       collisions: {
         platform: {
-          shape: "rectangle",
-          size: [24, 24, 24],
-          // shape: "circle",
-          // radius: 12,
+          shape: "circle",
+          radius: 12,
         },
       },
     },

@@ -87,7 +87,7 @@ export default {
 
     dungeon: {
       type: "tilemap",
-      position: [400 - (16 * 6 * 3) / 2, 0, 300 - (16 * 5 * 3) / 2],
+      position: [400 - (48 * 6) / 2, 0, 300 - (48 * 5) / 2],
       tilemap: {
         image: {
           id: "dungeon",

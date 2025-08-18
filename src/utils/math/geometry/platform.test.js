@@ -30,8 +30,8 @@ test("it should prove that a circle way above a platform intersects with it", ()
 
 test("it should prove that a circle crossing a platform does not intersect with it", () => {
   const platform = {
-    position: [-1, -1, 0],
-    size: [2, 2, 0],
+    position: [0, 0.5, 0],
+    size: [2, 1, 0],
   }
   const circle = {
     position: [1, 1, 0],

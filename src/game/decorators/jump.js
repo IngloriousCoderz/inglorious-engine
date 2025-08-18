@@ -95,9 +95,11 @@ const CalculatePY = {
 }
 
 function calculatePYForCircle(instance, target, collisionGroup = "hitbox") {
-  const radius = instance.collisions[collisionGroup].radius ?? instance.radius
+  const [, targetHeight] = target.collisions[collisionGroup].size ?? target.size
   const [, targetY] = target.position
-  return targetY + radius
+  const instanceRadius =
+    instance.collisions[collisionGroup].radius ?? instance.radius
+  return targetY + targetHeight + instanceRadius
 }
 
 function calculatePYForRectangle(instance, target, collisionGroup = "hitbox") {

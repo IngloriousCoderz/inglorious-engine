@@ -1,6 +1,6 @@
 /* eslint-disable no-magic-numbers */
 
-import circle from "./shapes/circle.js"
+import drawCircle from "./shapes/circle.js"
 
 export default function draw(ctx, instance) {
   const { size = 24, orientation = 0 } = instance
@@ -24,7 +24,7 @@ export default function draw(ctx, instance) {
 
   ctx.save()
 
-  circle(ctx, {
+  drawCircle(ctx, {
     ...instance,
     radius,
     position: undefined,

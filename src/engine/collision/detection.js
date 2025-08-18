@@ -28,9 +28,10 @@ const Shape = {
  * @param {Options} options - Options for collision detection.
  * @returns {Instance | undefined} The first instance that collides with the point, or undefined if none are found.
  */
-export function findCollision(instance, options = {}) {
-  const { instances, collisionGroup = "hitbox" } = options
-
+export function findCollision(
+  instance,
+  { instances, collisionGroup = "hitbox" } = {},
+) {
   const otherInstances = filter(
     instances,
     (id, { collisions }) => id !== instance.id && collisions?.[collisionGroup],

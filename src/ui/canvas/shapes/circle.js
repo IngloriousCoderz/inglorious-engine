@@ -5,13 +5,13 @@ import { pi } from "@inglorious/utils/math/trigonometry.js"
 
 export default function draw(ctx, instance) {
   const {
-    position = zero(),
+    offset = zero(),
     radius = 24,
     color = "black",
     backgroundColor = "transparent",
     thickness = 1,
   } = instance
-  const [x, , z] = position
+  const [x, y, z] = offset
 
   ctx.save()
 
@@ -19,7 +19,7 @@ export default function draw(ctx, instance) {
   ctx.strokeStyle = color
   ctx.fillStyle = backgroundColor
 
-  ctx.translate(x, z)
+  ctx.translate(-x, -y - z)
 
   ctx.beginPath()
   ctx.arc(0, 0, radius, 0, 2 * pi())

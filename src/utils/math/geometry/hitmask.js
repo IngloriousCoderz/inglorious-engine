@@ -5,7 +5,7 @@ const TOP_TILE_OFFSET = 1 // Offset to include the top boundary tile
 
 export function findCollisions(hitmask, target) {
   const { position, tileSize, columns, heights } = hitmask
-  const [left, top, front] = position
+  const [left, bottom, front] = position
   const [tileWidth, tileHeight] = tileSize
   const rows = heights.length / columns
 
@@ -29,7 +29,7 @@ export function findCollisions(hitmask, target) {
   for (let i = leftTile; i < rightTile; i++) {
     for (let j = bottomTile; j <= topTile + TOP_TILE_OFFSET; j++) {
       const heightAtTile = heights[i * columns + j]
-      if (y + height <= top + heightAtTile) {
+      if (y + height <= bottom + heightAtTile) {
         return true
       }
     }

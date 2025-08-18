@@ -1,4 +1,4 @@
-import imageDraw from "./image.js"
+import drawImage from "./image.js"
 
 const DEFAULT_SCALE = 1
 
@@ -54,7 +54,7 @@ export default function draw(ctx, instance, options) {
       )
       ctx.translate(-tileWidth / CENTER_WIDTH, -tileHeight / CENTER_HEIGHT)
 
-      imageDraw(ctx, { image, sx, sy }, options)
+      drawImage(ctx, { image, sx, sy }, options)
 
       ctx.restore()
     })
