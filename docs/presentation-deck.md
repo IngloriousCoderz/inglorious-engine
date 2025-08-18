@@ -300,19 +300,16 @@ In Inglorious Engine, an entity is just data, and its behavior is defined by a c
 
 ```javascript
 // A behavior for basic movement
-const modernControls = {
-  "game:update": move,
-  "input:press": jump,
-}
+const controls = { "game:update": move, "input:press": jump }
 
 // A behavior for shooting fireballs
-const firePower = {
-  "input:press": shootFireball,
-}
+const firePower = { "input:press": shootFireball }
 
 // Mario's type is a composition of behaviors
-const marioType = [modernControls, firePower]
+const marioType = [controls, firePower]
 ```
+
+<br/>
 
 <!-- slide -->
 
@@ -325,43 +322,13 @@ This is the **Decorator Pattern**, reimagined with simple function composition.
 ```javascript
 // Base Mario
 let marioBehaviors = [baseMovement, jump]
-
-// When he gets a fire flower...
-// We decorate his behavior array!
+// When he gets a fire flower... We decorate his behavior array!
 marioBehaviors = [...marioBehaviors, firePower]
-
 // Ultra Mario? Just add another decorator.
 marioBehaviors = [...marioBehaviors, capePower]
 ```
 
 <br/>
-
-<!-- slide -->
-
-This is what the engine's documentation refers to as **[Composition over Inheritance](/docs/engine-core-concepts-composition--docs)**.
-
-> **A quick note on purity:** This might look like we're mutating the `instance` object directly, which doesn't seem very "pure". In reality the engine gives our function a temporary _draft_ of the state. We can write simple, mutable-style code on this draft, and the engine will safely produce a new, immutable state behind the scenes (using a library called Immer).
-
-<!-- slide -->
-
-### Putting It All Together
-
-In the game, when Mario hits a power-up block, we just call the function to transform his data. The engine is event-driven, so this happens inside an event handler.
-
-```javascript
-// Mario collides with a power-up.
-// The engine's event handler for the player is called.
-function onCollision(player, otherThing) {
-  if (otherThing.type === "FireFlower") {
-    addFirePower(player)
-  }
-  if (otherThing.type === "Feather") {
-    addCapePower(player)
-  }
-}
-```
-
-The "Ultra Mario" problem is now trivial. We just apply both functions. The order doesn't even matter.
 
 <!-- slide -->
 
@@ -393,27 +360,11 @@ This allows for incredible flexibility and rapid prototyping of emergent mechani
 
 <!-- slide -->
 
-## Adapting Redux for Games
-
-The engine's state management is inspired by Redux, but it's not a direct copy. We've made crucial adaptations specifically for game development.
-
-<!-- slide -->
-
-- **1. Events, not Actions:** We use the term "event" because it better describes something that _has happened_ in the game world (e.g., `player:moved`, `enemy:destroyed`). It's a more natural fit than "action."
-
-<!-- slide -->
-
-- **2. Asynchronous Event Queue:** Unlike Redux's synchronous dispatch, events are added to a queue and processed once per frame. This provides determinism, prevents mid-frame state changes, and is essential for a stable game loop.
-
-<!-- slide -->
-
-- **3. Handlers Can Create New Events:** This is the biggest departure from pure Redux. A handler for one event (like `enemy:take_damage`) can dispatch a _new_ event (like `enemy:die`). Thanks to the queue, this is a safe and powerful way to create reactive logic chains like `player:attack_hit` -> `enemy:take_damage` -> `enemy:die` -> `player:gain_xp`.
-
-<!-- slide -->
-
 ## The Redux Advantage
 
-This architecture gives us some major advantages, many of which will feel familiar to web developers.
+The architecture of Inglorious Engine is heavily inspired by [Redux](https://redux.js.org/), which gives us some major advantages, many of which will feel familiar to web developers.
+
+<img alt="redux" src="https://shiftasia.com/community/content/images/size/w1000/2023/06/b98ee4ed81b9ba54138aff328f57a03d.png" height="200" />
 
 <!-- slide -->
 
@@ -421,7 +372,7 @@ This architecture gives us some major advantages, many of which will feel famili
 
 <!-- slide -->
 
-- **Simple Logic, Safe Updates:** You write simple code that _looks_ like you're mutating objects. The engine uses Immer to handle the complex immutable updates for you, giving you simple code and the safety of immutability.
+- **Simple Logic, Safe Updates:** You write simple code that _looks_ like you're mutating objects. The engine uses [Immer](https://immerjs.github.io/immer/) to handle the complex immutable updates for you, giving you simple code and the safety of immutability.
 
 <!-- slide -->
 
@@ -434,6 +385,24 @@ This architecture gives us some major advantages, many of which will feel famili
 <!-- slide -->
 
 - **Simplified Networking:** For multiplayer games, you just send small, serializable `event` objects over the network. Each client processes the same events, guaranteeing their game states stay in sync.
+
+<!-- slide -->
+
+## Adapting Redux for Games
+
+The engine's state management is inspired by Redux, but it's not a direct copy. We've made crucial adaptations specifically for game development.
+
+<!-- slide -->
+
+- **1. Events, not Actions:** Instead of "dispatching an action", we "notify of an event" because it better describes something that _has happened_ in the game world (e.g., `player:moved`, `enemy:destroyed`). It's just a more natural fit.
+
+<!-- slide -->
+
+- **2. Asynchronous Event Queue:** Unlike Redux's synchronous dispatch, events are added to a queue and processed once per frame. This provides determinism, prevents mid-frame state changes, and is essential for a stable game loop.
+
+<!-- slide -->
+
+- **3. Handlers Can Issue New Events:** This is the biggest departure from pure Redux. A handler for one event (like `enemy:take_damage`) can notify of a _new_ event (like `enemy:die`). Thanks to the queue, this is a safe and powerful way to create reactive logic chains like `player:attack_hit` -> `enemy:take_damage` -> `enemy:die` -> `player:gain_xp`.
 
 <!-- slide -->
 
@@ -459,5 +428,6 @@ This architecture gives us some major advantages, many of which will feel famili
 
 ## Thank You & Q&A
 
-- **Engine & Docs:** https://inglorious-engine.vercel.app/
+- **Docs:** https://inglorious-engine.vercel.app/
+- **Source:** https://github.com/IngloriousCoderz/inglorious-engine
 - **Contact/Socials:** https://www.linkedin.com/in/antonymistretta/
