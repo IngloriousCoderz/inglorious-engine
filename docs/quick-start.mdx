@@ -98,11 +98,9 @@ types: {
     draw(ctx, instance) { /* ... */ },
     
     // Event handlers here
-    events: {
-      'game:update': (instance, event, { dt, config, instances }) => {
-        // This runs every frame
-        // Update position, velocity, etc.
-      }
+    'game:update': (instance, event, { dt, config, instances }) => {
+      // This runs every frame
+      // Update position, velocity, etc.
     }
   }
 }
