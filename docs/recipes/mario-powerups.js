@@ -1,39 +1,39 @@
 /* eslint-disable no-console */
 import { findCollision } from "@inglorious/engine/collision/detection.js"
-import { enableClampToBounds } from "@inglorious/game/decorators/clamp-to-bounds.js"
-import { enableModernControls } from "@inglorious/game/decorators/controls/kinematic/modern.js"
-import { enableCollisionsDebug } from "@inglorious/game/decorators/debug/collisions.js"
+import { enableClampToBounds as clampToBounds } from "@inglorious/game/decorators/clamp-to-bounds.js"
+import { enableModernControls as modernControls } from "@inglorious/game/decorators/controls/kinematic/modern.js"
 import {
   createControls,
   enableControls,
 } from "@inglorious/game/decorators/input/controls.js"
-import { enableJump } from "@inglorious/game/decorators/jump.js"
+import { enableJump as jump } from "@inglorious/game/decorators/jump.js"
 import draw from "@inglorious/ui/canvas/shapes/rectangle.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
+
+const BASE_MARIO_BEHAVIORS = [
+  modernControls(),
+  clampToBounds(),
+  jump(),
+  baseMario(),
+]
 
 export default {
   types: {
     ...enableControls(),
 
-    mario: [
-      enableBaseMario(),
-      enableModernControls(),
-      enableClampToBounds(),
-      enableJump(),
-      enableCollisionsDebug(),
-    ],
+    mario: [...BASE_MARIO_BEHAVIORS, regularMario()],
 
-    platform: [{ draw }, enableCollisionsDebug()],
+    platform: { draw },
 
-    mushroom: [{ draw }, enableCollisionsDebug()],
+    mushroom: { draw },
 
-    fireFlower: [{ draw }, enableCollisionsDebug()],
+    fireFlower: { draw },
 
-    feather: [{ draw }, enableCollisionsDebug()],
+    feather: { draw },
 
-    diamond: [{ draw }, enableCollisionsDebug()],
+    diamond: { draw },
 
-    goomba: [{ draw }, enableCollisionsDebug()],
+    goomba: { draw },
   },
 
   instances: {
@@ -216,115 +216,44 @@ export default {
   },
 }
 
-function collideWithPowerUps(instance, { instances, notify }) {
-  const powerup = findCollision(instance, {
-    instances,
-    collisionGroup: "powerup",
-  })
+function baseMario() {
+  return (type) =>
+    extend(type, {
+      draw,
 
-  if (!powerup) return
+      "game:update": (instance, dt, options) => {
+        type["game:update"]?.(instance, dt, options)
 
-  switch (powerup.type) {
-    case "mushroom":
-      instance.size = [64, 64, 0]
-      instance.speed = 300
-      instance.backgroundColor = "#b9342e"
-
-      notify("type:change", {
-        id: instance.type,
-        type: [
-          enableBaseMario(),
-          enableSuperMario(),
-          enableModernControls(),
-          enableClampToBounds(),
-          enableJump(),
-          enableCollisionsDebug(),
-        ],
-      })
-      break
-
-    case "fireFlower":
-      instance.size = [64, 64, 0]
-      instance.speed = 350
-      instance.backgroundColor = "#f4f3e9"
-
-      notify("type:change", {
-        id: instance.type,
-        type: [
-          enableBaseMario(),
-          enableSuperMario(),
-          enableFireMario(),
-          enableModernControls(),
-          enableClampToBounds(),
-          enableJump(),
-          enableCollisionsDebug(),
-        ],
-      })
-      break
-
-    case "feather":
-      instance.size = [64, 64, 0]
-      instance.speed = 350
-      instance.backgroundColor = "#f4f040"
-
-      notify("type:change", {
-        id: instance.type,
-        type: [
-          enableBaseMario(),
-          enableSuperMario(),
-          enableCapeMario(),
-          enableModernControls(),
-          enableClampToBounds(),
-          enableJump(),
-          enableCollisionsDebug(),
-        ],
-      })
-      break
-
-    case "diamond":
-      instance.size = [96, 96, 0]
-      instance.speed = 400
-      instance.backgroundColor = "#ca00ff"
-
-      notify("type:change", {
-        id: instance.type,
-        type: [
-          enableBaseMario(),
-          enableSuperMario(),
-          enableFireMario(),
-          enableCapeMario(),
-          enableModernControls(),
-          enableClampToBounds(),
-          enableJump(),
-          enableCollisionsDebug(),
-        ],
-      })
-      break
-  }
-  notify("instance:remove", powerup.id)
+        collideWithPowerUps(instance, options)
+      },
+    })
 }
 
-function enableBaseMario() {
-  return {
-    draw,
+function regularMario() {
+  return (type) =>
+    extend(type, {
+      draw,
 
-    "game:update": (instance, dt, options) => {
-      collideWithPowerUps(instance, options)
-      collideWithEnemyAndDie(instance, options)
-    },
-  }
+      "game:update": (instance, dt, options) => {
+        type["game:update"]?.(instance, dt, options)
+
+        collideWithEnemyAndDie(instance, options)
+      },
+    })
 }
 
-function enableSuperMario() {
-  return {
-    "game:update": (instance, dt, options) => {
-      collideWithPowerUps(instance, options)
-      collideWithEnemyAndShrink(instance, options)
-    },
-  }
+function superMario() {
+  return (type) =>
+    extend(type, {
+      "game:update": (instance, dt, options) => {
+        type["game:update"]?.(instance, dt, options)
+
+        collideWithEnemyAndShrink(instance, options)
+      },
+    })
 }
 
-function enableFireMario() {
+function fireMario() {
   return (type) =>
     extend(type, {
       "input:press": (instance, { id, action }) => {
@@ -335,13 +264,14 @@ function enableFireMario() {
       },
 
       "game:update": (instance, dt, options) => {
-        collideWithPowerUps(instance, options)
+        type["game:update"]?.(instance, dt, options)
+
         collideWithEnemyAndLosePowers(instance, options)
       },
     })
 }
 
-function enableCapeMario() {
+function capeMario() {
   return (type) =>
     extend(type, {
       "input:press": (instance, { id, action }) => {
@@ -353,10 +283,67 @@ function enableCapeMario() {
       },
 
       "game:update": (instance, dt, options) => {
-        collideWithPowerUps(instance, options)
+        type["game:update"]?.(instance, dt, options)
+
         collideWithEnemyAndLosePowers(instance, options)
       },
     })
+}
+
+function collideWithPowerUps(instance, { instances, notify }) {
+  const powerup = findCollision(instance, {
+    instances,
+    collisionGroup: "powerup",
+  })
+
+  if (!powerup) return
+
+  switch (powerup.type) {
+    case "mushroom":
+      instance.size = [64, 64, 0]
+      instance.maxSpeed = 300
+      instance.backgroundColor = "#b9342e"
+
+      notify("type:change", {
+        id: instance.type,
+        type: [...BASE_MARIO_BEHAVIORS, superMario()],
+      })
+      break
+
+    case "fireFlower":
+      instance.size = [64, 64, 0]
+      instance.maxSpeed = 350
+      instance.backgroundColor = "#f4f3e9"
+
+      notify("type:change", {
+        id: instance.type,
+        type: [...BASE_MARIO_BEHAVIORS, superMario(), fireMario()],
+      })
+      break
+
+    case "feather":
+      instance.size = [64, 64, 0]
+      instance.maxSpeed = 350
+      instance.backgroundColor = "#f4f040"
+
+      notify("type:change", {
+        id: instance.type,
+        type: [...BASE_MARIO_BEHAVIORS, superMario(), capeMario()],
+      })
+      break
+
+    case "diamond":
+      instance.size = [96, 96, 0]
+      instance.maxSpeed = 400
+      instance.backgroundColor = "#ca00ff"
+
+      notify("type:change", {
+        id: instance.type,
+        type: [...BASE_MARIO_BEHAVIORS, superMario(), fireMario(), capeMario()],
+      })
+      break
+  }
+  notify("instance:remove", powerup.id)
 }
 
 function collideWithEnemyAndDie(instance, { instances, notify }) {
@@ -369,6 +356,8 @@ function collideWithEnemyAndDie(instance, { instances, notify }) {
 
   notify("instance:remove", instance.id)
   notify("instance:remove", enemy.id)
+
+  console.log("Game over!")
 }
 
 function collideWithEnemyAndShrink(instance, { instances, notify }) {
@@ -380,18 +369,12 @@ function collideWithEnemyAndShrink(instance, { instances, notify }) {
   if (!enemy) return
 
   instance.size = [32, 32, 0]
-  instance.speed = 250
+  instance.maxSpeed = 250
   instance.backgroundColor = "#393664"
 
   notify("type:change", {
     id: instance.type,
-    type: [
-      enableBaseMario(),
-      enableModernControls(),
-      enableClampToBounds(),
-      enableJump(),
-      enableCollisionsDebug(),
-    ],
+    type: [...BASE_MARIO_BEHAVIORS, regularMario()],
   })
   notify("instance:remove", enemy.id)
 }
@@ -405,19 +388,12 @@ function collideWithEnemyAndLosePowers(instance, { instances, notify }) {
   if (!enemy) return
 
   instance.size = [64, 64, 0]
-  instance.speed = 300
+  instance.maxSpeed = 300
   instance.backgroundColor = "#b9342e"
 
   notify("type:change", {
     id: instance.type,
-    type: [
-      enableBaseMario(),
-      enableSuperMario(),
-      enableModernControls(),
-      enableClampToBounds(),
-      enableJump(),
-      enableCollisionsDebug(),
-    ],
+    type: [...BASE_MARIO_BEHAVIORS, superMario()],
   })
   notify("instance:remove", enemy.id)
 }

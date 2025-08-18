@@ -262,6 +262,8 @@ classDiagram
 
 <br/>
 
+<!-- slide -->
+
 ```csharp
 IMario mario = new BaseMario();
 mario = new SuperMario(mario);
