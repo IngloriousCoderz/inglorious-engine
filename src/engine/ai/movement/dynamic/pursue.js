@@ -13,7 +13,7 @@ export default function pursue(
   instance,
   target,
   dt,
-  { maxPrediction = DEFAULT_MAX_PREDICTION },
+  { maxPrediction = DEFAULT_MAX_PREDICTION } = {},
 ) {
   const velocity = instance.velocity ?? zero()
 

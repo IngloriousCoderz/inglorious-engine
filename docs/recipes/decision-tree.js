@@ -56,18 +56,18 @@ export default {
       enableSprite(),
       enableFsm({
         idle: {
-          "game:update"(instance, dt, options) {
-            const { mouse } = options.instances
+          "game:update"(instance, dt, { instances, notify }) {
+            const { mouse } = instances
 
-            Sprite.play("idle", instance, dt, options)
+            Sprite.play({ state: "idle", instance, dt, notify })
 
             instance.state = decide(nextState, { instance, target: mouse })
           },
         },
 
         aware: {
-          "game:update"(instance, dt, options) {
-            Sprite.play("aware", instance, dt, options)
+          "game:update"(instance, dt, { notify }) {
+            Sprite.play({ state: "aware", instance, dt, notify })
           },
 
           "sprite:animationEnd"(instance, { id, spriteState }) {
@@ -79,25 +79,25 @@ export default {
         },
 
         chasing: {
-          "game:update"(instance, dt, options) {
-            const { mouse } = options.instances
+          "game:update"(instance, dt, { instances, notify }) {
+            const { mouse } = instances
 
-            merge(instance, arrive(instance, mouse, dt, options))
+            merge(instance, arrive(instance, mouse, dt))
 
             const spriteState = Sprite.move8(instance)
-            Sprite.play(spriteState, instance, dt, options)
+            Sprite.play({ state: spriteState, instance, dt, notify })
 
             instance.state = decide(nextState, { instance, target: mouse })
           },
         },
 
         sleepy: {
-          "game:update"(instance, dt, options) {
-            const { mouse } = options.instances
+          "game:update"(instance, dt, { instances, notify }) {
+            const { mouse: target } = instances
 
-            Sprite.play("sleepy", instance, dt, options)
+            Sprite.play({ state: "sleepy", instance, dt, notify })
 
-            instance.state = decide(nextState, { instance, target: mouse })
+            instance.state = decide(nextState, { instance, target })
           },
 
           "sprite:animationEnd"(instance, event) {
@@ -111,12 +111,12 @@ export default {
         },
 
         sleeping: {
-          "game:update"(instance, dt, options) {
-            const { mouse } = options.instances
+          "game:update"(instance, dt, { instances, notify }) {
+            const { mouse: target } = instances
 
-            Sprite.play("sleeping", instance, dt, options)
+            Sprite.play({ state: "sleeping", instance, dt, notify })
 
-            instance.state = decide(nextState, { instance, target: mouse })
+            instance.state = decide(nextState, { instance, target })
           },
         },
       }),

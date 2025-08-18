@@ -21,7 +21,7 @@ export default function arrive(
   {
     targetRadius = DEFAULT_TARGET_RADIUS,
     timeToTarget = DEFAULT_TIME_TO_TARGET,
-  },
+  } = {},
 ) {
   const maxSpeed = instance.maxSpeed ?? DEFAULT_MAX_SPEED
 

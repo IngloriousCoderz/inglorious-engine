@@ -23,7 +23,7 @@ export default function matchVelocity(
   instance,
   target,
   dt,
-  { timeToTarget = DEFAULT_TIME_TO_TARGET },
+  { timeToTarget = DEFAULT_TIME_TO_TARGET } = {},
 ) {
   const maxAcceleration = instance.maxAcceleration ?? DEFAULT_MAX_ACCELERATION
   const maxSpeed = instance.maxSpeed ?? DEFAULT_MAX_SPEED

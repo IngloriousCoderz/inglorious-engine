@@ -29,10 +29,11 @@ export default {
             type["game:update"]?.(instance, dt, options)
 
             const { maxSpeed } = instance
-            const { dungeon, input0 } = options.instances
+            const { instances, notify } = options
+            const { dungeon, input0 } = instances
 
             const spriteState = Sprite.move2(instance)
-            Sprite.play(spriteState, instance, options)
+            Sprite.play({ state: spriteState, instance, dt, notify })
 
             instance.velocity = zero()
 

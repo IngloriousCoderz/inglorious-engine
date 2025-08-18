@@ -94,8 +94,6 @@ function shapeCollidesWith(instance, target) {
 }
 
 export function findCollisions(instance, target, collisionGroup = "hitbox") {
-  const shapeFns = Shape[instanceCollision.shape]
-
   const instanceCollision = instance.collisions[collisionGroup]
   const instanceShape = {
     ...instanceCollision,
@@ -124,6 +122,7 @@ export function findCollisions(instance, target, collisionGroup = "hitbox") {
     radius: targetCollision.radius ?? target.radius,
   }
 
+  const shapeFns = Shape[instanceCollision.shape]
   return shapeFns.findCollisions(instanceShape, targetShape)
 }
 

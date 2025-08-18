@@ -98,8 +98,29 @@ function move8(instance) {
   return instance.sprite.state ?? "down"
 }
 
-function play(spriteState, instance, dt, options) {
-  Animation.play("sprite", spriteState, instance, dt, { ...options, onTick })
+function play({ state, instance, dt, notify }) {
+  const missing = [
+    state == null && "'state'",
+    instance == null && "'instance'",
+    dt == null && "'dt'",
+    notify == null && "'notify'",
+  ]
+    .filter(Boolean)
+    .join(", ")
+  if (missing.length) {
+    throw new Error(
+      `Animation.play is missing mandatory parameters: ${missing}`,
+    )
+  }
+
+  Animation.play({
+    what: "sprite",
+    state,
+    instance,
+    dt,
+    onTick,
+    notify,
+  })
 }
 
 function onTick(instance, dt, { notify }) {

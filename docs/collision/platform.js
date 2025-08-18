@@ -37,7 +37,7 @@ export default {
 
     ground: {
       type: "platform",
-      position: [0, 50, 0],
+      position: [0, 0, 0],
       size: [800, 50, 0],
       backgroundColor: "green",
       collisions: {
@@ -62,13 +62,13 @@ export default {
     character: {
       type: "character",
       layer: 1,
-      position: [200, 62, 0],
+      position: [200, 74, 0],
       collisions: {
         platform: {
-          // shape: "rectangle",
-          // size: [24, 24, 24],
-          shape: "circle",
-          radius: 12,
+          shape: "rectangle",
+          size: [24, 24, 24],
+          // shape: "circle",
+          // radius: 12,
         },
       },
     },

@@ -13,7 +13,7 @@ export default function evade(
   instance,
   target,
   dt,
-  { maxPrediction = DEFAULT_MAX_PREDICTION },
+  { maxPrediction = DEFAULT_MAX_PREDICTION } = {},
 ) {
   let velocity = instance.velocity ?? zero()
 

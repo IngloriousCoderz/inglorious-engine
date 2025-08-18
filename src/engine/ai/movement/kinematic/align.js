@@ -15,7 +15,7 @@ export default function align(
   {
     targetRadius = DEFAULT_TARGET_RADIUS,
     timeToTarget = DEFAULT_TIME_TO_TARGET,
-  },
+  } = {},
 ) {
   const maxAngularSpeed = instance.maxAngularSpeed ?? DEFAULT_MAX_ANGULAR_SPEED
 

@@ -20,7 +20,7 @@ export function enableFps(params) {
     },
 
     "game:update"(instance, dt) {
-      Animation.play("dt", "default", instance, dt, { onTick })
+      Animation.play({ what: "dt", state: "default", instance, dt, onTick })
     },
   }
 }

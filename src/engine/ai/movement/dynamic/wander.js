@@ -17,7 +17,7 @@ export default function wander(
   {
     wanderOffset = DEFAULT_WANDER_OFFSET,
     wanderRadius = DEFAULT_WANDER_RADIUS,
-  },
+  } = {},
 ) {
   const maxAngularSpeed = instance.maxAngularSpeed ?? DEFAULT_MAX_ANGULAR_SPEED
 
