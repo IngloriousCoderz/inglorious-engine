@@ -21,6 +21,6 @@ function play(what, state, instance, dt, options) {
   if (instance[what].counter >= speed) {
     instance[what].counter = COUNTER_RESET
     instance[what].value = value
-    onTick && onTick(instance, options)
+    onTick && onTick(instance, dt, options)
   }
 }

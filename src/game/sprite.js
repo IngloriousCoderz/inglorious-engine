@@ -102,7 +102,7 @@ function play(spriteState, instance, dt, options) {
   Animation.play("sprite", spriteState, instance, dt, { ...options, onTick })
 }
 
-function onTick(instance, { notify }) {
+function onTick(instance, dt, { notify }) {
   const { frames, state } = instance.sprite
 
   const framesLength = frames[state].length
