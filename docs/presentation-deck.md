@@ -282,62 +282,63 @@ This is my favorite OOP solution and gets very close to what I want to show you.
 
 <!-- slide -->
 
-## A Different Perspective: Data over Behavior
+## A Different Perspective: Composition over Inheritance
 
-What if we stopped thinking about "what Mario **is**" (a class) and started thinking about "what Mario **has**" (data and capabilities)?
+What if we stopped thinking about "what Mario **is**" (a class) and started thinking about "what he **can do**" (a collection of behaviors)?
 
 This is the core idea of **Data-Oriented Design** and **Functional Programming**.
 
-In Inglorious Engine, an entity is just a bag of data.
+In Inglorious Engine, an entity is just data, and its behavior is defined by a collection of functions.
 
 <!-- slide -->
 
-## Mario as Data
+### Entities are Data, Behaviors are Functions
 
-Instead of a class instance, Mario is just a plain JavaScript object. Think of it like a `Dictionary<string, object>` or a simple DTO. This is our **Single Source of Truth**.
+- An **entity** is a plain object holding state.
+- A **behavior** is an object containing event handler functions.
+- An entity's **type** is just an array of these behavior objects.
 
 ```javascript
-// This is all Mario is at the start.
-// Just data. No methods.
-const mario = {
-  id: "player",
-  position: [50, 100], // A simple array for a 2D vector
-  velocity: [0, 0],
-  canBreakBricks: false,
-  canShootFire: false,
-  canFly: false,
+// A behavior for basic movement
+const modernControls = {
+  "game:update": move,
+  "input:press": jump,
 }
+
+// A behavior for shooting fireballs
+const firePower = {
+  "input:press": shootFireball,
+}
+
+// Mario's type is a composition of behaviors
+const marioType = [modernControls, firePower]
+```
+
+<!-- slide -->
+
+### The "Aha!" Moment: Functional Decorators
+
+If a `type` is just an array of behaviors, we can "decorate" an entity by adding new behaviors to that array at runtime.
+
+This is the **Decorator Pattern**, reimagined with simple function composition.
+
+```javascript
+// Base Mario
+let marioBehaviors = [baseMovement, jump]
+
+// When he gets a fire flower...
+// We decorate his behavior array!
+marioBehaviors = [...marioBehaviors, firePower]
+
+// Ultra Mario? Just add another decorator.
+marioBehaviors = [...marioBehaviors, capePower]
 ```
 
 <br/>
 
 <!-- slide -->
 
-### The "Aha!" Moment: Function Composition
-
-If entities are just data, then behaviors are just **functions that transform that data**. Instead of decorators, we have simple functions.
-
-```javascript
-// These are our "power-ups". They are just functions.
-function addSuperPower(instance) {
-  instance.canBreakBricks = true
-  instance.size = [32, 64] // maybe make him bigger too
-}
-
-function addFirePower(instance) {
-  instance.canShootFire = true
-}
-
-function addCapePower(instance) {
-  instance.canFly = true
-}
-```
-
-<br/>
-
-<!-- slide -->
-
-This is what the engine's documentation refers to as **Composition over Inheritance**.
+This is what the engine's documentation refers to as **[Composition over Inheritance](/docs/engine-core-concepts-composition--docs)**.
 
 > **A quick note on purity:** This might look like we're mutating the `instance` object directly, which doesn't seem very "pure". In reality the engine gives our function a temporary _draft_ of the state. We can write simple, mutable-style code on this draft, and the engine will safely produce a new, immutable state behind the scenes (using a library called Immer).
 
