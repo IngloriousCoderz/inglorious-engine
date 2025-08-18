@@ -41,6 +41,7 @@ export default {
       ArrowLeft: "left",
       ArrowRight: "right",
       Space: "jump",
+      KeyB: "break",
       KeyS: "shoot",
       KeyF: "float",
     }),
@@ -245,6 +246,13 @@ function regularMario() {
 function superMario() {
   return (type) =>
     extend(type, {
+      "input:press": (instance, { id, action }) => {
+        type["input:press"]?.(instance, { id, action })
+        if (id.endsWith("input0") && action === "break") {
+          console.log("Break!")
+        }
+      },
+
       "game:update": (instance, dt, options) => {
         type["game:update"]?.(instance, dt, options)
 
