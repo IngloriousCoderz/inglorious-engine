@@ -14,14 +14,14 @@ const BASE_MARIO_BEHAVIORS = [
   modernControls(),
   clampToBounds(),
   jump(),
-  baseMario(),
+  defaultMario(),
 ]
 
 export default {
   types: {
     ...enableControls(),
 
-    mario: [...BASE_MARIO_BEHAVIORS, regularMario()],
+    mario: [...BASE_MARIO_BEHAVIORS, baseMario()],
 
     platform: { draw },
 
@@ -217,7 +217,7 @@ export default {
   },
 }
 
-function baseMario() {
+function defaultMario() {
   return (type) =>
     extend(type, {
       draw,
@@ -230,7 +230,7 @@ function baseMario() {
     })
 }
 
-function regularMario() {
+function baseMario() {
   return (type) =>
     extend(type, {
       draw,
@@ -382,7 +382,7 @@ function collideWithEnemyAndShrink(instance, { instances, notify }) {
 
   notify("type:change", {
     id: instance.type,
-    type: [...BASE_MARIO_BEHAVIORS, regularMario()],
+    type: [...BASE_MARIO_BEHAVIORS, baseMario()],
   })
   notify("instance:remove", enemy.id)
 }
