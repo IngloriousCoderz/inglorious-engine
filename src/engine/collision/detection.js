@@ -29,23 +29,27 @@ const Shape = {
  * @returns {Instance | undefined} The first instance that collides with the point, or undefined if none are found.
  */
 export function findCollision(instance, options = {}) {
-  const { instances, collisionType = "hitbox" } = options
+  const { instances, collisionGroup = "hitbox" } = options
 
   const otherInstances = filter(
     instances,
-    (id, { collisions }) => id !== instance.id && collisions?.[collisionType],
+    (id, { collisions }) => id !== instance.id && collisions?.[collisionGroup],
   )
 
   return Object.values(otherInstances)
     .toSorted((a, b) => a.position[Z] - b.position[Z])
-    .find((target) => collidesWith(instance, target, collisionType))
+    .find((target) => collidesWith(instance, target, collisionGroup))
 }
 
 export function collidesWith(instance, target, collisionGroup = "hitbox") {
   const instanceCollision = instance.collisions[collisionGroup]
   const instanceShape = {
     ...instanceCollision,
-    position: add(instance.position, instanceCollision.offset ?? zero()),
+    position: add(
+      instance.position,
+      instanceCollision.offset ?? zero(),
+      instance.offset ?? zero(),
+    ),
     size: instanceCollision.size ?? instance.size,
     radius: instanceCollision.radius ?? instance.radius,
   }
@@ -53,7 +57,11 @@ export function collidesWith(instance, target, collisionGroup = "hitbox") {
   const targetCollision = target.collisions[collisionGroup]
   const targetShape = {
     ...targetCollision,
-    position: add(target.position, targetCollision.offset ?? zero()),
+    position: add(
+      target.position,
+      targetCollision.offset ?? zero(),
+      target.offset ?? zero(),
+    ),
     size: targetCollision.size ?? target.size,
     radius: targetCollision.radius ?? target.radius,
   }
@@ -85,12 +93,17 @@ function shapeCollidesWith(instance, target) {
   }
 }
 
-export function findCollisions(instance, target, collisionType = "hitbox") {
-  const instanceCollision = instance.collisions[collisionType]
+export function findCollisions(instance, target, collisionGroup = "hitbox") {
   const shapeFns = Shape[instanceCollision.shape]
+
+  const instanceCollision = instance.collisions[collisionGroup]
   const instanceShape = {
     ...instanceCollision,
-    position: add(instance.position, instanceCollision.offset ?? zero()),
+    position: add(
+      instance.position,
+      instanceCollision.offset ?? zero(),
+      instance.offset ?? zero(),
+    ),
     size: instanceCollision.size ?? instance.size,
     radius: instanceCollision.radius ?? instance.radius,
     heights: flipUpsideDown(
@@ -99,10 +112,14 @@ export function findCollisions(instance, target, collisionType = "hitbox") {
     ),
   }
 
-  const targetCollision = target.collisions[collisionType]
+  const targetCollision = target.collisions[collisionGroup]
   const targetShape = {
     ...targetCollision,
-    position: add(target.position, targetCollision.offset ?? zero()),
+    position: add(
+      target.position,
+      targetCollision.offset ?? zero(),
+      target.offset ?? zero(),
+    ),
     size: targetCollision.size ?? target.size,
     radius: targetCollision.radius ?? target.radius,
   }

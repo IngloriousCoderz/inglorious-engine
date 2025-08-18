@@ -20,7 +20,7 @@ Matteo Antony Mistretta, Inglorious Coderz
 
 ## It's-a me, Antony!
 
-![profile picture](https://avatars.githubusercontent.com/u/3750603?v=4)
+<img src="https://avatars.githubusercontent.com/u/3750603?v=4" alt="profile picture" height="200"/>
 
 - I'm not a real gamer (I suck), but I have always been fascinated by the craft of games, which I consider one of the best forms of art nowadays.
 - I myself love crafting elegant and scalable architectures. Games add an extra challenge.

@@ -10,8 +10,9 @@ export default function draw(ctx, instance) {
     backgroundColor = "transparent",
     thickness = 1,
   } = instance
-  const [x, , z] = offset
+  const [x, y, z] = offset
   const [width = 100, height = 50, depth = 0] = size
+  const rectHeight = height + depth
 
   ctx.save()
 
@@ -19,13 +20,10 @@ export default function draw(ctx, instance) {
   ctx.strokeStyle = color
   ctx.fillStyle = backgroundColor
 
-  ctx.translate(x, z)
+  ctx.translate(-x, -y - z)
 
-  ctx.beginPath()
-  ctx.fillRect(0, 0, width, height + depth)
-  ctx.strokeRect(0, 0, width, height + depth)
-  ctx.stroke()
-  ctx.closePath()
+  ctx.fillRect(0, -rectHeight, width, rectHeight)
+  ctx.strokeRect(0, -rectHeight, width, rectHeight)
 
   ctx.restore()
 }

@@ -6,6 +6,7 @@ import { extend } from "@inglorious/utils/data-structures/objects.js"
 const Shape = {
   circle: drawCircle,
   rectangle: drawRectangle,
+  platform: drawRectangle,
   hitmask: drawHitmask,
 }
 
