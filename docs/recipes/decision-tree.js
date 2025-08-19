@@ -10,40 +10,64 @@ import { subtract } from "@inglorious/utils/math/linear-algebra/vectors.js"
 
 // A reusable decision tree node
 const wakeUp = () => ({
-  test: ({ instance, target }) => {
+  test({ instance, target }) {
     const distance = length(subtract(target.position, instance.position))
     return distance >= 10
   },
-  true: () => "aware",
-  false: ({ instance }) => instance.state,
+  true() {
+    return "aware"
+  },
+  false({ instance }) {
+    return instance.state
+  },
 })
 
 // Our decision tree
 const nextState = {
-  test: ({ instance }) => instance.state,
-  idle: () => ({
-    test: ({ instance, target }) => {
-      const distance = length(subtract(target.position, instance.position))
-      return distance < 250
-    },
-    true: () => "aware",
-    false: ({ instance }) => instance.state,
-  }),
-  chasing: () => ({
-    test: ({ instance, target }) => {
-      const distance = length(subtract(target.position, instance.position))
-      return distance >= 250
-    },
-    true: () => "idle",
-    false: () => ({
-      test: ({ instance, target }) => {
+  test({ instance }) {
+    return instance.state
+  },
+  idle() {
+    return {
+      test({ instance, target }) {
         const distance = length(subtract(target.position, instance.position))
-        return distance < 10
+        return distance < 250
       },
-      true: () => "sleepy",
-      false: ({ instance }) => instance.state,
-    }),
-  }),
+      true() {
+        return "aware"
+      },
+      false({ instance }) {
+        return instance.state
+      },
+    }
+  },
+  chasing() {
+    return {
+      test({ instance, target }) {
+        const distance = length(subtract(target.position, instance.position))
+        return distance >= 250
+      },
+      true() {
+        return "idle"
+      },
+      false() {
+        return {
+          test({ instance, target }) {
+            const distance = length(
+              subtract(target.position, instance.position),
+            )
+            return distance < 10
+          },
+          true() {
+            return "sleepy"
+          },
+          false({ instance }) {
+            return instance.state
+          },
+        }
+      },
+    }
+  },
   sleepy: wakeUp,
   sleeping: wakeUp,
 }
