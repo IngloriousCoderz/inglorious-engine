@@ -13,8 +13,8 @@ const Shape = {
 export function enableCollisionsDebug() {
   return (type) =>
     extend(type, {
-      draw(ctx, instance, options) {
-        type.draw(ctx, instance, options)
+      draw(instance, ctx, options) {
+        type.draw(instance, ctx, options)
 
         const { game } = options.instances
         if (!game.debug) {
@@ -25,7 +25,7 @@ export function enableCollisionsDebug() {
 
         Object.values(instance.collisions).forEach((collision) => {
           const draw = Shape[collision.shape]
-          draw(ctx, { ...instance, ...collision, color: "#00FF00" }, options)
+          draw({ ...instance, ...collision, color: "#00FF00" }, ctx, options)
         })
 
         ctx.restore()

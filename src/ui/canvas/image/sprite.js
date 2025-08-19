@@ -13,7 +13,7 @@ const FLIPPED_VERTICALLY_FLAG = 0x40000000
 // const FLIPPED_DIAGONALLY_FLAG = 0x20000000
 // const ROTATED_HEXAGONAL_120_FLAG = 0x10000000
 
-export default function draw(ctx, instance, options) {
+export default function draw(instance, ctx) {
   const { image, frames, state, value } = instance.sprite
   const { imageSize, tileSize, scale = DEFAULT_SCALE } = image
 
@@ -43,7 +43,7 @@ export default function draw(ctx, instance, options) {
   )
   ctx.translate(-tileWidth / CENTER_WIDTH, -tileHeight / CENTER_HEIGHT)
 
-  imageDraw(ctx, { image, sx, sy }, options)
+  imageDraw({ image, sx, sy }, ctx)
 
   ctx.restore()
 }

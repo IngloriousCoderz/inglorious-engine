@@ -35,7 +35,7 @@ export function track(parent, options) {
   return { onMouseMove: handleMouseMove, onClick: handleClick }
 }
 
-function createHandler(type, parent, { dispatch }) {
+function createHandler(type, parent, { notify }) {
   return (event) => {
     event.stopPropagation()
 
@@ -49,18 +49,15 @@ function createHandler(type, parent, { dispatch }) {
       parent,
     })
 
-    dispatch({ type, payload })
+    notify(type, payload)
   }
 }
 
 function calculatePosition({ clientX, clientY, parent }) {
   const bounds = parent.getBoundingClientRect()
 
-  const scaleX = (parent.width || parent.clientWidth) / bounds.width
-  const scaleY = (parent.height || parent.clientHeight) / bounds.height
-
-  const x = (clientX - bounds.left) * scaleX
-  const z = (bounds.bottom - clientY) * scaleY
+  const x = clientX - bounds.left
+  const z = bounds.bottom - clientY
 
   return [x, NO_Y, z]
 }

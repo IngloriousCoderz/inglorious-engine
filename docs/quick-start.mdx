@@ -95,7 +95,7 @@ To make things move and interact, use event handlers:
 types: {
   character: {
     // Drawing logic here
-    draw(ctx, instance) { /* ... */ },
+    draw(instance, ctx) { /* ... */ },
     
     // Event handlers here
     'game:update': (instance, event, { dt, config, instances }) => {

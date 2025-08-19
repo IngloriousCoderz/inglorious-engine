@@ -2,7 +2,7 @@
 
 import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 
-export default function draw(ctx, instance) {
+export default function draw(instance, ctx) {
   const {
     offset = zero(),
     size,

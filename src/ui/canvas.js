@@ -64,19 +64,17 @@ function render(ctx) {
           b.position[Z] - a.position[Z],
       )
       .forEach((instance) =>
-        draw(ctx, instance, { ...options, type: types[instance.type] }),
+        draw(instance, ctx, { ...options, type: types[instance.type] }),
       )
 
-    if (mouse) {
-      draw(ctx, mouse, { ...options, type: types[mouse.type] })
-    }
+    mouse && draw(mouse, ctx, { ...options, type: types[mouse.type] })
   }
 }
 
-function draw(ctx, instance, options) {
+function draw(instance, ctx, options) {
   const draw = options.type.draw
 
   if (draw) {
-    absolutePosition(draw)(ctx, instance, options)
+    absolutePosition(draw)(instance, ctx, options)
   }
 }

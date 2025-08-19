@@ -5,7 +5,7 @@ const LAST_ROW_OFFSET = 1
 const NO_Y = 0
 const MAX_HUE = 255
 
-export default function draw(ctx, instance, options) {
+export default function draw(instance, ctx) {
   const { tileSize, columns, heights } = instance
 
   const [tileWidth, tileHeight] = tileSize
@@ -32,7 +32,7 @@ export default function draw(ctx, instance, options) {
       backgroundColor: `hsla(${hue}, 100%, 50%, 0.2)`,
     }
 
-    drawRectangle(ctx, instance, options)
+    drawRectangle(instance, ctx)
 
     ctx.restore()
   })
