@@ -4,7 +4,7 @@ const DEFAULT_PARAMS = {
 
 export function enableInput() {
   return {
-    "input:axis"(instance, { id, action, value }) {
+    inputAxis(instance, { id, action, value }) {
       if (!id.endsWith(instance.id)) {
         return
       }
@@ -12,7 +12,7 @@ export function enableInput() {
       instance[action] = value
     },
 
-    "input:press"(instance, { id, action }) {
+    inputPress(instance, { id, action }) {
       if (!id.endsWith(instance.id)) {
         return
       }
@@ -20,7 +20,7 @@ export function enableInput() {
       instance[action] = true
     },
 
-    "input:release"(instance, { id, action }) {
+    inputRelease(instance, { id, action }) {
       if (!id.endsWith(instance.id)) {
         return
       }

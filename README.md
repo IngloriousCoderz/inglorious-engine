@@ -60,9 +60,9 @@ However, there are several key differences that make it unique:
 
 3.  **Core Engine Events**: The engine has a few built-in events that drive its core functionality. Key examples include:
 
-    - `game:update`: Fired on every frame, typically carrying the `deltaTime` since the last frame. This is where you'll put most of your continuous game logic (like movement).
-    - `instance:add`: Used to add a new entity (instance) to the game state.
-    - `instance:remove`: Used to remove an entity from the game state.
+    - `update`: Fired on every frame, typically carrying the `deltaTime` since the last frame. This is where you'll put most of your continuous game logic (like movement).
+    - `instanceAdd`: Used to add a new entity (instance) to the game state.
+    - `instanceRemove`: Used to remove an entity from the game state.
 
 4.  **Ergonomic Immutability with Immer**: The state is immutable, but to make this easy to work with, we use Immer. Inside your event handlers, you can write code that looks like it's mutating the state directly. Immer handles the magic behind the scenes, producing a new, updated state with structural sharing, giving you the performance benefits of immutability with the developer experience of mutable code.
 

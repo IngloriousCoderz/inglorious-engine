@@ -29,7 +29,7 @@ export default class Engine {
    * Starts the game engine, initializing the loop and notifying the store.
    */
   start() {
-    this._store.notify("game:start")
+    this._store.notify("start")
     this._loop.start(this, ONE_SECOND / this._config.loop.fps)
     this.isRunning = true
   }
@@ -75,7 +75,7 @@ export default class Engine {
    * Stops the game engine, halting the loop and notifying the store.
    */
   stop() {
-    this._store.notify("game:stop")
+    this._store.notify("stop")
     this._store.update()
     this._loop.stop()
     this.isRunning = false

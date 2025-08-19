@@ -25,8 +25,8 @@ export default {
       // enableModernControls(),
       (type) =>
         extend(type, {
-          "game:update"(instance, dt, options) {
-            type["game:update"]?.(instance, dt, options)
+          update(instance, dt, options) {
+            type.update?.(instance, dt, options)
 
             const { maxSpeed } = instance
             const { instances, notify } = options

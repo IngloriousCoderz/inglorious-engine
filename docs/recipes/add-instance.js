@@ -9,7 +9,7 @@ export default {
     mouse: [
       enableMouse(),
       {
-        "mouse:click"(instance, position, options) {
+        mouseClick(instance, position, options) {
           const { instances, notify } = options
           const characters = filter(
             instances,
@@ -17,7 +17,7 @@ export default {
           )
           const ids = Object.keys(characters)
 
-          notify("instance:add", {
+          notify("instanceAdd", {
             id: `character${ids.length + 1}`,
             type: "character",
             position,

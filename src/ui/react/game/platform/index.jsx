@@ -13,7 +13,7 @@ export default function Platform({ id, instance, className, style }) {
 
   const handleClick = (event) => {
     event.stopPropagation()
-    dispatch({ id: "instance:click", payload: id })
+    dispatch({ id: "instanceClick", payload: id })
   }
 
   return (

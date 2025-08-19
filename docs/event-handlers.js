@@ -40,7 +40,7 @@ export default {
         ctx.restore()
       },
 
-      "game:update"(instance, dt, { instances }) {
+      update(instance, dt, { instances }) {
         const { game } = instances
         const [left, , right] = game.bounds
 

@@ -1,6 +1,6 @@
 export function enableGame() {
   return {
-    "keyboard:keyUp"(instance, code) {
+    keyboardKeyUp(instance, code) {
       if (code === "KeyC") {
         instance.debug = !instance.debug
       }

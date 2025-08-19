@@ -9,7 +9,7 @@ export default {
       enableCharacter(),
 
       {
-        "game:update"(instance, dt, { instances }) {
+        update(instance, dt, { instances }) {
           const { mouse } = instances
           instance.position = mouse.position
         },

@@ -10,7 +10,7 @@ export default {
     character: [
       enableCharacter(),
       {
-        "game:update"(instance, dt, { instances }) {
+        update(instance, dt, { instances }) {
           const { game } = instances
           const characters = Object.values(instances).filter(
             ({ type }) => type === "character",

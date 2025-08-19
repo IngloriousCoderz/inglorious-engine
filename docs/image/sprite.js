@@ -6,7 +6,7 @@ export default {
     cat: [
       enableSprite(),
       {
-        "game:update"(instance, dt, { notify }) {
+        update(instance, dt, { notify }) {
           Sprite.play({ state: "sleepy", instance, dt, notify })
         },
       },

@@ -9,7 +9,7 @@ export default {
     mouse: [
       enableMouse(),
       {
-        "scene:click"(instance, position, options) {
+        sceneClick(instance, position, options) {
           const { instances, notify } = options
           const characters = filter(
             instances,
@@ -21,7 +21,7 @@ export default {
             ? Number(ids[ids.length - 1].replace("character", ""))
             : 0
 
-          notify("instance:add", {
+          notify("instanceAdd", {
             id: `character${maxId + 1}`,
             type: "character",
             position,
@@ -36,8 +36,8 @@ export default {
         },
 
         // this event handler is needed for React
-        "instance:click"(instance, id, { notify }) {
-          notify("instance:remove", id)
+        instanceClick(instance, id, { notify }) {
+          notify("instanceRemove", id)
         },
       },
     ],
@@ -46,8 +46,8 @@ export default {
       enableCharacter(),
       {
         // this event handler is needed in React
-        "instance:click"(instance, id, { notify }) {
-          notify("instance:remove", id)
+        instanceClick(instance, id, { notify }) {
+          notify("instanceRemove", id)
         },
       },
     ],

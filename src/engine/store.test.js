@@ -3,7 +3,7 @@ import { expect, test } from "vitest"
 import { createStore } from "./store.js"
 
 test("it should add an event to the event queue", () => {
-  const event = "something:happened"
+  const event = "somethingHappened"
   const config = {
     types: {
       kitty: {
@@ -43,11 +43,11 @@ test("it should add an event to the event queue", () => {
 })
 
 test("it should process the event queue", () => {
-  const event = "something:happened"
+  const event = "somethingHappened"
   const config = {
     types: {
       kitty: {
-        "game:update"(instance) {
+        update(instance) {
           return { ...instance, wasUpdated: true }
         },
 
@@ -91,14 +91,14 @@ test("it should send an event from an instance", () => {
   const config = {
     types: {
       doge: {
-        "game:update"(instance, dt, { instances, notify }) {
+        update(instance, dt, { instances, notify }) {
           if (instances.instance2.position === "near") {
-            notify("doge:message", { id: "inu", message: "Woof!" })
+            notify("dogeMessage", { id: "inu", message: "Woof!" })
           }
         },
       },
       kitty: {
-        "doge:message"(instance, { id, message }) {
+        dogeMessage(instance, { id, message }) {
           if (id === "inu" && message === "Woof!") {
             instance.position = "far"
           }
@@ -147,20 +147,20 @@ test("it should send an event from an instance", () => {
 })
 
 test("it should receive an event from an instance", () => {
-  const event = "doge:message"
+  const event = "dogeMessage"
   const payload = { id: "inu", message: "Woof!" }
 
   const config = {
     types: {
       doge: {
-        "game:update"(instance, dt, { instances, notify }) {
+        update(instance, dt, { instances, notify }) {
           if (instances.instance2.position === "near") {
-            notify("doge:message", { id: "inu", message: "Woof!" })
+            notify("dogeMessage", { id: "inu", message: "Woof!" })
           }
         },
       },
       kitty: {
-        "doge:message"(instance, { id, message }) {
+        dogeMessage(instance, { id, message }) {
           if (id === "inu" && message === "Woof!") {
             instance.position = "far"
           }
@@ -213,7 +213,7 @@ test("it should mutate state in an immutable way", () => {
   const config = {
     types: {
       kitty: {
-        "game:update"(instance) {
+        update(instance) {
           instance.wasUpdated = true
         },
       },

@@ -6,32 +6,32 @@ export function enableKeyboard() {
   let handleKeyDown, handleKeyUp
 
   return {
-    "game:start"(instance, event, options) {
-      handleKeyDown = createKeyboardHandler("keyboard:keyDown", options)
-      handleKeyUp = createKeyboardHandler("keyboard:keyUp", options)
+    start(instance, event, options) {
+      handleKeyDown = createKeyboardHandler("keyboardKeyDown", options)
+      handleKeyUp = createKeyboardHandler("keyboardKeyUp", options)
 
       document.addEventListener("keydown", handleKeyDown)
       document.addEventListener("keyup", handleKeyUp)
     },
 
-    "game:stop"() {
+    stop() {
       document.removeEventListener("keydown", handleKeyDown)
       document.removeEventListener("keyup", handleKeyUp)
     },
 
-    "keyboard:keyDown"(instance, keyCode, { notify }) {
+    keyboardKeyDown(instance, keyCode, { notify }) {
       const action = instance.mapping[keyCode]
       if (!instance[action]) {
         instance[action] = true
-        notify("input:press", { id: instance.id, action })
+        notify("inputPress", { id: instance.id, action })
       }
     },
 
-    "keyboard:keyUp"(instance, keyCode, { notify }) {
+    keyboardKeyUp(instance, keyCode, { notify }) {
       const action = instance.mapping[keyCode]
       if (instance[action]) {
         instance[action] = false
-        notify("input:release", { id: instance.id, action })
+        notify("inputRelease", { id: instance.id, action })
       }
     },
   }

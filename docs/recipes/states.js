@@ -17,7 +17,7 @@ export default {
       enableCharacter(),
       enableFsm({
         meandering: {
-          "game:update"(instance, dt, { instances }) {
+          update(instance, dt, { instances }) {
             const { mouse: target, game } = instances
 
             merge(instance, wander(instance, dt))
@@ -30,7 +30,7 @@ export default {
         },
 
         hunting: {
-          "game:update"(instance, dt, options) {
+          update(instance, dt, options) {
             const { mouse: target, game } = options.instances
 
             merge(instance, arrive(instance, target, dt, options))

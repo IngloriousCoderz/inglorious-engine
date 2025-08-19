@@ -13,7 +13,7 @@ export default function Character({ id, type, instance, className, style }) {
 
   const handleClick = (event) => {
     event.stopPropagation()
-    dispatch({ type: "instance:click", payload: id })
+    dispatch({ type: "instanceClick", payload: id })
   }
 
   return (

@@ -222,8 +222,8 @@ function defaultMario() {
     extend(type, {
       draw,
 
-      "game:update": (instance, dt, options) => {
-        type["game:update"]?.(instance, dt, options)
+      update(instance, dt, options) {
+        type.update?.(instance, dt, options)
 
         collideWithPowerUps(instance, options)
       },
@@ -235,8 +235,8 @@ function baseMario() {
     extend(type, {
       draw,
 
-      "game:update": (instance, dt, options) => {
-        type["game:update"]?.(instance, dt, options)
+      update(instance, dt, options) {
+        type.update?.(instance, dt, options)
 
         collideWithEnemyAndDie(instance, options)
       },
@@ -246,15 +246,15 @@ function baseMario() {
 function superMario() {
   return (type) =>
     extend(type, {
-      "input:press": (instance, { id, action }) => {
-        type["input:press"]?.(instance, { id, action })
+      inputPress(instance, { id, action }) {
+        type.inputPress?.(instance, { id, action })
         if (id.endsWith("input0") && action === "break") {
           console.log("Break!")
         }
       },
 
-      "game:update": (instance, dt, options) => {
-        type["game:update"]?.(instance, dt, options)
+      update(instance, dt, options) {
+        type.update?.(instance, dt, options)
 
         collideWithEnemyAndShrink(instance, options)
       },
@@ -264,15 +264,15 @@ function superMario() {
 function fireMario() {
   return (type) =>
     extend(type, {
-      "input:press": (instance, { id, action }) => {
-        type["input:press"]?.(instance, { id, action })
+      inputPress(instance, { id, action }) {
+        type.inputPress?.(instance, { id, action })
         if (id.endsWith("input0") && action === "shoot") {
           console.log("Shoot!")
         }
       },
 
-      "game:update": (instance, dt, options) => {
-        type["game:update"]?.(instance, dt, options)
+      update(instance, dt, options) {
+        type.update?.(instance, dt, options)
 
         collideWithEnemyAndLosePowers(instance, options)
       },
@@ -282,16 +282,16 @@ function fireMario() {
 function capeMario() {
   return (type) =>
     extend(type, {
-      "input:press": (instance, { id, action }) => {
-        type["input:press"]?.(instance, { id, action })
+      inputPress(instance, { id, action }) {
+        type.inputPress?.(instance, { id, action })
 
         if (id.endsWith("input0") && action === "float") {
           console.log("Float!")
         }
       },
 
-      "game:update": (instance, dt, options) => {
-        type["game:update"]?.(instance, dt, options)
+      update(instance, dt, options) {
+        type.update?.(instance, dt, options)
 
         collideWithEnemyAndLosePowers(instance, options)
       },
@@ -312,7 +312,7 @@ function collideWithPowerUps(instance, { instances, notify }) {
       instance.maxSpeed = 300
       instance.backgroundColor = "#b9342e"
 
-      notify("type:change", {
+      notify("typeChange", {
         id: instance.type,
         type: [...BASE_MARIO_BEHAVIORS, superMario()],
       })
@@ -323,7 +323,7 @@ function collideWithPowerUps(instance, { instances, notify }) {
       instance.maxSpeed = 350
       instance.backgroundColor = "#f4f3e9"
 
-      notify("type:change", {
+      notify("typeChange", {
         id: instance.type,
         type: [...BASE_MARIO_BEHAVIORS, superMario(), fireMario()],
       })
@@ -334,7 +334,7 @@ function collideWithPowerUps(instance, { instances, notify }) {
       instance.maxSpeed = 350
       instance.backgroundColor = "#f4f040"
 
-      notify("type:change", {
+      notify("typeChange", {
         id: instance.type,
         type: [...BASE_MARIO_BEHAVIORS, superMario(), capeMario()],
       })
@@ -345,13 +345,13 @@ function collideWithPowerUps(instance, { instances, notify }) {
       instance.maxSpeed = 400
       instance.backgroundColor = "#ca00ff"
 
-      notify("type:change", {
+      notify("typeChange", {
         id: instance.type,
         type: [...BASE_MARIO_BEHAVIORS, superMario(), fireMario(), capeMario()],
       })
       break
   }
-  notify("instance:remove", powerup.id)
+  notify("instanceRemove", powerup.id)
 }
 
 function collideWithEnemyAndDie(instance, { instances, notify }) {
@@ -362,8 +362,8 @@ function collideWithEnemyAndDie(instance, { instances, notify }) {
 
   if (!enemy) return
 
-  notify("instance:remove", instance.id)
-  notify("instance:remove", enemy.id)
+  notify("instanceRemove", instance.id)
+  notify("instanceRemove", enemy.id)
 
   console.log("Game over!")
 }
@@ -380,11 +380,11 @@ function collideWithEnemyAndShrink(instance, { instances, notify }) {
   instance.maxSpeed = 250
   instance.backgroundColor = "#393664"
 
-  notify("type:change", {
+  notify("typeChange", {
     id: instance.type,
     type: [...BASE_MARIO_BEHAVIORS, baseMario()],
   })
-  notify("instance:remove", enemy.id)
+  notify("instanceRemove", enemy.id)
 }
 
 function collideWithEnemyAndLosePowers(instance, { instances, notify }) {
@@ -399,9 +399,9 @@ function collideWithEnemyAndLosePowers(instance, { instances, notify }) {
   instance.maxSpeed = 300
   instance.backgroundColor = "#b9342e"
 
-  notify("type:change", {
+  notify("typeChange", {
     id: instance.type,
     type: [...BASE_MARIO_BEHAVIORS, superMario()],
   })
-  notify("instance:remove", enemy.id)
+  notify("instanceRemove", enemy.id)
 }

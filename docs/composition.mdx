@@ -40,13 +40,13 @@ All logic lives in functions, which are grouped into "behavior objects". These o
 ```javascript
 // A behavior for basic movement
 const modernControls = {
-  "game:update"(instance, dt, options) { /* ... */ },
-  "input:press"(instance, event) { /* ... */ },
+  update(instance, dt, options) { /* ... */ },
+  inputPress(instance, event) { /* ... */ },
 }
 
 // A behavior for shooting fireballs
 const firePower = {
-  "input:press"(instance, { action }) {
+  inputPress(instance, { action }) {
     if (action === 'shoot') {
       console.log('Shoot!');
     }

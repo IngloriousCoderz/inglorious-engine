@@ -16,13 +16,13 @@ export default function Field({ id, instance }) {
   const handleChange = (event) => {
     const newValue = parse(event.target, inputType)
     setValue(newValue)
-    dispatch({ type: "field:change", payload: { id, value: newValue } })
+    dispatch({ type: "fieldChange", payload: { id, value: newValue } })
   }
 
   const handleClick = () => {
     const newValue = defaultValue
     setValue(newValue)
-    dispatch({ type: "field:change", payload: { id, value: newValue } })
+    dispatch({ type: "fieldChange", payload: { id, value: newValue } })
   }
 
   return (

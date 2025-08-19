@@ -17,7 +17,7 @@ export default {
     character: [
       enableCharacter(),
       {
-        "game:update"(instance, dt, { instances }) {
+        update(instance, dt, { instances }) {
           const { gamepad0 } = instances
 
           instance.velocity = zero()

@@ -15,8 +15,8 @@ export function enableModernControls(params) {
 
   return (type) =>
     extend(type, {
-      "game:update"(instance, dt, options) {
-        type["game:update"]?.(instance, dt, options)
+      update(instance, dt, options) {
+        type.update?.(instance, dt, options)
 
         const maxSpeed = instance.maxSpeed ?? params.maxSpeed
 

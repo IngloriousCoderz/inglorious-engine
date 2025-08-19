@@ -110,7 +110,7 @@ Here's how you might dispatch a `type:change` event upon collision with a Fire F
 ```javascript
 // In a collision event handler for Mario...
 if (collidesWith(mario, fireFlower)) {
-    notify("type:change", {
+    notify("typeChange", {
         id: 'mario', // The ID of the type to change
         type: [ // The new array of decorators and handlers
             enableBaseMario(),
@@ -120,7 +120,7 @@ if (collidesWith(mario, fireFlower)) {
         ],
     });
     // remove the power-up from the scene
-    notify("instance:remove", fireFlower.id);
+    notify("instanceRemove", fireFlower.id);
 }
 ```
 

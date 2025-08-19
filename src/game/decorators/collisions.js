@@ -11,12 +11,8 @@ export function enableCollisions(params) {
     extend(type, {
       states: {
         [params.onState]: {
-          "game:update"(instance, dt, options) {
-            type.states?.[params.onState]["game:update"]?.(
-              instance,
-              dt,
-              options,
-            )
+          update(instance, dt, options) {
+            type.states?.[params.onState].update?.(instance, dt, options)
           },
         },
       },

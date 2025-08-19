@@ -9,12 +9,12 @@ test("it should add a finite state machine", () => {
       kitty: [
         enableFsm({
           default: {
-            "cat:meow"(instance) {
+            catMeow(instance) {
               instance.state = "meowing"
             },
           },
           meowing: {
-            "game:update"(instance) {
+            update(instance) {
               instance.treats++
             },
           },
@@ -48,7 +48,7 @@ test("it should add a finite state machine", () => {
     },
   }
 
-  store.notify("cat:meow")
+  store.notify("catMeow")
   store.update()
 
   const state = store.getState()

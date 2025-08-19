@@ -15,7 +15,7 @@ export default {
     character: [
       enableCharacter(),
       {
-        "game:update"(instance, dt, { instances }) {
+        update(instance, dt, { instances }) {
           const { mouse: target, parameters, game } = instances
           const { fields } = parameters.groups.arrive
 
@@ -34,7 +34,7 @@ export default {
     ],
 
     form: {
-      "field:change"(instance, { id, value }) {
+      fieldChange(instance, { id, value }) {
         instance.groups.arrive.fields[id].value = value
       },
     },

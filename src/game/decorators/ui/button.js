@@ -6,13 +6,13 @@ export function enableButton() {
 
     states: {
       default: {
-        "instance:click"(instance) {
+        instanceClick(instance) {
           instance.state = "pressed"
         },
       },
 
       pressed: {
-        "instance:release"(instance) {
+        instanceRelease(instance) {
           instance.state = "default"
         },
       },

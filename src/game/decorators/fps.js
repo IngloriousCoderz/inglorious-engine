@@ -15,11 +15,11 @@ export function enableFps(params) {
   return {
     draw,
 
-    "game:start"(instance) {
+    start(instance) {
       instance.dt = instance.dt ?? params
     },
 
-    "game:update"(instance, dt) {
+    update(instance, dt) {
       Animation.play({ what: "dt", state: "default", instance, dt, onTick })
     },
   }

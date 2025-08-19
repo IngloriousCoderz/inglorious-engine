@@ -66,19 +66,19 @@ export function createStore({
   function update(dt) {
     state = { ...state }
 
-    state.events.push(...incomingEvents, { type: "game:update", payload: dt })
+    state.events.push(...incomingEvents, { type: "update", payload: dt })
     incomingEvents = []
 
     while (state.events.length) {
       const event = state.events.shift()
 
-      if (event.type === "type:change") {
+      if (event.type === "typeChange") {
         const { id, type } = event.payload
         originalTypes[id] = type
         recomputeTypes()
       }
 
-      if (event.type === "instance:add") {
+      if (event.type === "instanceAdd") {
         add(event.payload.id, event.payload)
       }
 
@@ -94,7 +94,7 @@ export function createStore({
         )
       })
 
-      if (event.type === "instance:remove") {
+      if (event.type === "instanceRemove") {
         remove(event.payload)
       }
     }

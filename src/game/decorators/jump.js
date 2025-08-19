@@ -22,15 +22,15 @@ export function enableJump(params) {
 
   return enableFsm({
     [params.onState]: {
-      "game:update"(instance, dt, options) {
+      update(instance, dt, options) {
         freeFall(instance, dt, options)
       },
 
-      "input:press": handleInput,
+      inputPress: handleInput,
     },
 
     jumping: {
-      "game:update"(instance, dt, options) {
+      update(instance, dt, options) {
         freeFall(instance, dt, options)
 
         const [x, y, z] = instance.position
@@ -39,7 +39,7 @@ export function enableJump(params) {
         merge(instance, { position: [x, py, z] })
       },
 
-      "input:press": handleInput,
+      inputPress: handleInput,
     },
   })
 }

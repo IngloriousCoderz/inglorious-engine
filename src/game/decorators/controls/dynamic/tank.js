@@ -15,7 +15,7 @@ export function enableTankControls(params) {
 
   return (type) =>
     extend(type, {
-      "game:update"(instance, dt, { instances }) {
+      update(instance, dt, { instances }) {
         instance.maxAngularSpeed =
           instance.maxAngularSpeed ?? params.maxAngularSpeed
         instance.maxAcceleration =

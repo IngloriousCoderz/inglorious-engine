@@ -8,29 +8,29 @@ export function enableMouse() {
   return {
     draw,
 
-    "mouse:move"(instance, position, { instances }) {
+    mouseMove(instance, position, { instances }) {
       instance.position = position
 
       const { game } = instances
       clampToBounds(instance, game.bounds)
     },
 
-    "mouse:click"(instance, position, options) {
+    mouseClick(instance, position, options) {
       const { notify } = options
 
       const clickedInstance = findCollision(instance, options)
       if (clickedInstance) {
-        notify("instance:click", clickedInstance.id)
+        notify("instanceClick", clickedInstance.id)
       } else {
-        notify("scene:click", position)
+        notify("sceneClick", position)
       }
     },
   }
 }
 
 export function track(parent, options) {
-  const handleMouseMove = createHandler("mouse:move", parent, options)
-  const handleClick = createHandler("mouse:click", parent, options)
+  const handleMouseMove = createHandler("mouseMove", parent, options)
+  const handleClick = createHandler("mouseClick", parent, options)
 
   return { onMouseMove: handleMouseMove, onClick: handleClick }
 }

@@ -300,10 +300,10 @@ In Inglorious Engine, an entity is just data, and its behavior is defined by a c
 
 ```javascript
 // A behavior for basic movement
-const controls = { "game:update": move, "input:press": jump }
+const controls = { update: move, inputPress: jump }
 
 // A behavior for shooting fireballs
-const firePower = { "input:press": shootFireball }
+const firePower = { inputPress: shootFireball }
 
 // Mario's type is a composition of behaviors
 const marioType = [controls, firePower]

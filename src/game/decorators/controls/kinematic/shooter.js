@@ -17,7 +17,7 @@ export function enableShooterControls(params) {
 
   return (type) =>
     extend(type, {
-      "game:update"(instance, dt, options) {
+      update(instance, dt, options) {
         instance.maxAngularSpeed =
           instance.maxAngularSpeed ?? params.maxAngularSpeed
         instance.maxSpeed = instance.maxSpeed ?? params.maxSpeed

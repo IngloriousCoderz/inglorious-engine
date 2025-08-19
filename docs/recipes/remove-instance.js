@@ -11,8 +11,8 @@ export default {
       enableCharacter(),
       {
         // this event handler is needed in React
-        "instance:click"(instance, id, { notify }) {
-          notify("instance:remove", id)
+        instanceClick(instance, id, { notify }) {
+          notify("instanceRemove", id)
         },
       },
     ],

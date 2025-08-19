@@ -23,13 +23,13 @@ export default {
       enableJump(),
       enableFsm({
         default: {
-          "game:update"(instance) {
+          update(instance) {
             stopFreeFalling(instance)
           },
         },
 
         jumping: {
-          "game:update"(instance) {
+          update(instance) {
             stopFreeFalling(instance)
           },
         },
