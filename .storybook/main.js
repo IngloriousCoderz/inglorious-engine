@@ -8,10 +8,8 @@ const config = {
 
   addons: [
     "@storybook/addon-links",
-    "@storybook/addon-essentials",
-    "@storybook/addon-interactions",
-    "@storybook/test",
     "@chromatic-com/storybook",
+    "@storybook/addon-docs",
   ],
 
   typescript: {
