@@ -1,4 +1,3 @@
-import { character } from "@inglorious/game/behaviors/character.js"
 import { clamped } from "@inglorious/game/behaviors/clamped.js"
 import { modernControls } from "@inglorious/game/behaviors/controls/kinematic/modern.js"
 import {
@@ -6,15 +5,21 @@ import {
   controlsTypes,
 } from "@inglorious/game/behaviors/input/controls.js"
 import { jumpable } from "@inglorious/game/behaviors/jumpable.js"
-import { rectangle } from "@inglorious/game/behaviors/shapes/rectangle.js"
+import renderCharacter from "@inglorious/ui/canvas/character.js"
+import renderRectangle from "@inglorious/ui/canvas/shapes/rectangle.js"
 
 export default {
   types: {
     ...controlsTypes(),
 
-    platform: [rectangle()],
+    platform: [{ render: renderRectangle }],
 
-    character: [character(), modernControls(), clamped(), jumpable()],
+    character: [
+      { render: renderCharacter },
+      modernControls(),
+      clamped(),
+      jumpable(),
+    ],
   },
 
   instances: {

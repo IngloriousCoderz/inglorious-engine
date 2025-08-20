@@ -1,9 +1,9 @@
 import move from "@inglorious/engine/movement/kinematic/modern.js"
-import { character } from "@inglorious/game/behaviors/character.js"
 import {
   createKeyboard,
   keyboard,
 } from "@inglorious/game/behaviors/input/keyboard.js"
+import renderCharacter from "@inglorious/ui/canvas/character.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 
@@ -15,7 +15,7 @@ export default {
     keyboard: [keyboard()],
 
     character: [
-      character(),
+      { render: renderCharacter },
       {
         update(instance, dt, { instances }) {
           const { keyboard0 } = instances

@@ -1,8 +1,8 @@
 import arrive from "@inglorious/engine/ai/movement/kinematic/arrive.js"
 import { fsm } from "@inglorious/game/behaviors/fsm.js"
-import { sprite } from "@inglorious/game/behaviors/image/sprite.js"
 import { mouse } from "@inglorious/game/behaviors/input/mouse.js"
 import { Sprite } from "@inglorious/game/sprite.js"
+import renderSprite from "@inglorious/ui/canvas/image/sprite.js"
 import { decide } from "@inglorious/utils/algorithms/decision-tree.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { length } from "@inglorious/utils/math/linear-algebra/vector.js"
@@ -77,7 +77,7 @@ export default {
     mouse: [mouse()],
 
     cat: [
-      sprite(),
+      { render: renderSprite },
       fsm({
         idle: {
           update(instance, dt, { instances, notify }) {

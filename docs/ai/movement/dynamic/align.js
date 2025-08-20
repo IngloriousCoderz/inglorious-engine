@@ -3,13 +3,13 @@ import align, {
   DEFAULT_TARGET_RADIUS,
   DEFAULT_TIME_TO_TARGET,
 } from "@inglorious/engine/ai/movement/dynamic/align.js"
-import { character } from "@inglorious/game/behaviors/character.js"
 import {
   controlsInstances,
   controlsTypes,
 } from "@inglorious/game/behaviors/input/controls.js"
 import { mouse } from "@inglorious/game/behaviors/input/mouse.js"
 import { clampToBounds } from "@inglorious/game/bounds.js"
+import renderCharacter from "@inglorious/ui/canvas/character.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { clamp } from "@inglorious/utils/math/numbers.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
@@ -41,7 +41,7 @@ export default {
     ...controlsTypes(),
 
     character: [
-      character(),
+      { render: renderCharacter },
       {
         update(instance, dt, { instances }) {
           const { mouse, parameters, game } = instances

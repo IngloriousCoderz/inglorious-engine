@@ -1,4 +1,3 @@
-import { character } from "@inglorious/game/behaviors/character.js"
 import { clamped } from "@inglorious/game/behaviors/clamped.js"
 import { modernControls } from "@inglorious/game/behaviors/controls/kinematic/modern.js"
 import { fsm } from "@inglorious/game/behaviors/fsm.js"
@@ -7,6 +6,7 @@ import {
   controlsTypes,
 } from "@inglorious/game/behaviors/input/controls.js"
 import { jumpable } from "@inglorious/game/behaviors/jumpable.js"
+import renderCharacter from "@inglorious/ui/canvas/character.js"
 
 const Y = 1
 
@@ -17,7 +17,7 @@ export default {
     stats: {},
 
     character: [
-      character(),
+      { render: renderCharacter },
       modernControls(),
       clamped(),
       jumpable({ maxJumps: 2 }),

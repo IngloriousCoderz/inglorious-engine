@@ -62,9 +62,9 @@ The `fps` type shows FPS debug info on the top left of the scene; its value is u
 
 Coding is beautiful, but reusing code without reinventing the wheel is even better! This is where the engine's functional approach really shines through its **[Composition over Inheritance](/docs/engine-core-concepts-composition--docs)** philosophy.
 
-Instead of relying on complex class inheritance hierarchies, we use **function composition**. In this example, all the code necessary to render the character is encapsulated in a `character()` behavior.
+Instead of relying on complex class inheritance hierarchies, we use **behavior composition**. A `type` is defined as an array of *behaviors*—plain JavaScript objects that contain event handlers. The engine merges these objects to create the final, composite behavior for the type.
 
-This approach is more flexible and powerful than inheritance. You can mix and match behaviors by simply adding decorators to an array, avoiding problems like the "diamond problem" and creating deeply nested, brittle class structures. You are free to combine `canBeControlledByPlayer`, `canBeHurt`, and `canShoot` decorators on the fly.
+This approach is more flexible and powerful than inheritance. You can mix and match behaviors by simply adding new objects to the type's array, avoiding problems like the "diamond problem" and creating deeply nested, brittle class structures.
 
 The event handler for this character is also using a predefined `bounce()` function. There are many predefined functions out there at your disposal, just look through the documentation to find the ones that suit you best.
 
@@ -125,7 +125,7 @@ if (collidesWith(mario, fireFlower)) {
             baseMario(),
             superMario(),
             fireMario(),
-            // ... other base decorators like controls, physics etc.
+            // ... other base behaviors like controls, physics etc.
         ],
     });
     // remove the power-up from the scene

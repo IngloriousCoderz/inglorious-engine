@@ -1,10 +1,10 @@
-import { sprite } from "@inglorious/game/behaviors/image/sprite.js"
 import { Sprite } from "@inglorious/game/sprite.js"
+import renderSprite from "@inglorious/ui/canvas/image/sprite.js"
 
 export default {
   types: {
     cat: [
-      sprite(),
+      { render: renderSprite },
       {
         update(instance, dt, { notify }) {
           Sprite.play({ state: "sleepy", instance, dt, notify })

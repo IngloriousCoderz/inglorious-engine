@@ -1,12 +1,12 @@
 import matchVelocity, {
   DEFAULT_TIME_TO_TARGET,
 } from "@inglorious/engine/ai/movement/dynamic/match-velocity.js"
-import { character } from "@inglorious/game/behaviors/character.js"
 import {
   controlsInstances,
   controlsTypes,
 } from "@inglorious/game/behaviors/input/controls.js"
 import { clampToBounds } from "@inglorious/game/bounds.js"
+import renderCharacter from "@inglorious/ui/canvas/character.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 
 export default {
@@ -14,7 +14,7 @@ export default {
     ...controlsTypes(),
 
     character: [
-      character(),
+      { render: renderCharacter },
       {
         update(instance, dt, { instances }) {
           const { parameters, input0, game } = instances

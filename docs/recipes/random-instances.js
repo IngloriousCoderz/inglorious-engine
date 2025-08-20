@@ -1,10 +1,10 @@
-import { character } from "@inglorious/game/behaviors/character.js"
+import renderCharacter from "@inglorious/ui/canvas/character.js"
 import { random } from "@inglorious/utils/math/rng.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
 export default {
   types: {
-    character: [character()],
+    character: [{ render: renderCharacter }],
   },
 
   instances: {

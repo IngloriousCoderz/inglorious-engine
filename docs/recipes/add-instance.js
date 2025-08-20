@@ -1,4 +1,4 @@
-import { character } from "@inglorious/game/behaviors/character.js"
+import renderCharacter from "@inglorious/ui/canvas/character.js"
 import { mouse } from "@inglorious/game/behaviors/input/mouse.js"
 import { filter } from "@inglorious/utils/data-structures/object.js"
 import { random } from "@inglorious/utils/math/rng.js"
@@ -27,7 +27,7 @@ export default {
       },
     ],
 
-    character: [character()],
+    character: [{ render: renderCharacter }],
   },
 
   instances: {

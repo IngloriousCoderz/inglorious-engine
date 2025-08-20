@@ -37,19 +37,23 @@ const mario = {
 
 All logic lives in functions, which are grouped into "behavior objects". These objects are essentially collections of event handlers.
 
-```javascript
-// A behavior for basic movement
-const modernControls = {
-  update(instance, dt, options) { /* ... */ },
-  inputPress(instance, event) { /* ... */ },
-}
+To make behaviors configurable and reusable, we often create them with **behavior factories**—functions that return a behavior object.
 
+```javascript
 // A behavior for shooting fireballs
-const firePower = {
+const firePower = { // This one is a simple object
   inputPress(instance, { action }) {
     if (action === 'shoot') {
       console.log('Shoot!');
     }
+  }
+}
+
+// A behavior factory for jumping
+function jumpable(params) { // This allows for custom parameters
+  return {
+    inputPress(instance, event) { /* ... */ },
+    update(instance, dt, options) { /* ... */ },
   }
 }
 ```
@@ -63,11 +67,41 @@ When an event occurs for an instance, the engine iterates through its type's beh
 ```javascript
 // The type definition for a base mario
 types: {
-  mario: [render, modernControls, jump]
+  mario: [
+    { render: renderMario },   // A renderer object
+    firePower,                 // A behavior object
+    jumpable({ maxJumps: 2 }), // A behavior from a factory
+  ],
 }
 ```
 
-### 4. Runtime Re-Composition
+### 4. Chaining Behaviors
+
+A powerful feature of this composition model is the ability for behaviors to wrap and extend the logic of previously defined behaviors. A behavior factory doesn't just have to return a static object; it can be a higher-order function that receives the already-composed `type` and extends it.
+
+This allows you to create decorators that chain their logic, similar to middleware.
+
+```javascript
+// A behavior factory that clamps the instance to the screen bounds
+export function clamped() {
+  // This function receives the type composed so far
+  return (type) =>
+    // It returns a new, extended behavior object
+    extend(type, {
+      // It defines its own update handler
+      update(instance, dt, options) {
+        // Crucially, it calls the original update handler first
+        type.update?.(instance, dt, options)
+
+        // Then, it adds its own logic
+        const { game } = options.instances
+        clampToBounds(instance, game.bounds)
+      },
+    })
+}
+```
+
+### 5. Runtime Re-Composition
 
 Because a `type` is just an array, we can change it at any time. By dispatching a `morph` event, you can provide a completely new array of behaviors for an instance type. This is how we achieve the "Decorator Pattern" in a functional way.
 

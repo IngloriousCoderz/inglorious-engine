@@ -1,16 +1,16 @@
-import { character } from "@inglorious/game/behaviors/character.js"
 import { clamped } from "@inglorious/game/behaviors/clamped"
 import { tankControls } from "@inglorious/game/behaviors/controls/kinematic/tank.js"
 import {
   controlsInstances,
   controlsTypes,
 } from "@inglorious/game/behaviors/input/controls.js"
+import renderCharacter from "@inglorious/ui/canvas/character.js"
 
 export default {
   types: {
     ...controlsTypes(),
 
-    character: [character(), tankControls(), clamped()],
+    character: [{ render: renderCharacter }, tankControls(), clamped()],
   },
 
   instances: {

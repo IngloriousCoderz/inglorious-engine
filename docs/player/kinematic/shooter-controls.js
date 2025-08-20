@@ -1,4 +1,3 @@
-import { character } from "@inglorious/game/behaviors/character.js"
 import { clamped } from "@inglorious/game/behaviors/clamped.js"
 import { shooterControls } from "@inglorious/game/behaviors/controls/kinematic/shooter.js"
 import {
@@ -6,6 +5,7 @@ import {
   controlsTypes,
 } from "@inglorious/game/behaviors/input/controls.js"
 import { mouse } from "@inglorious/game/behaviors/input/mouse.js"
+import renderCharacter from "@inglorious/ui/canvas/character.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
 export default {
@@ -14,7 +14,7 @@ export default {
 
     ...controlsTypes(),
 
-    character: [character(), shooterControls(), clamped()],
+    character: [{ render: renderCharacter }, shooterControls(), clamped()],
   },
 
   instances: {

@@ -1,8 +1,8 @@
-import { image } from "@inglorious/game/behaviors/image/image"
+import renderImage from "@inglorious/ui/canvas/image/image.js"
 
 export default {
   types: {
-    image: [image()],
+    image: [{ render: renderImage }],
   },
 
   instances: {

@@ -1,5 +1,5 @@
-import { character } from "@inglorious/game/behaviors/character.js"
 import { mouse } from "@inglorious/game/behaviors/input/mouse.js"
+import renderCharacter from "@inglorious/ui/canvas/character.js"
 import { filter } from "@inglorious/utils/data-structures/object.js"
 import { random } from "@inglorious/utils/math/rng.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
@@ -43,7 +43,7 @@ export default {
     ],
 
     character: [
-      character(),
+      { render: renderCharacter },
       {
         // this event handler is needed in React
         instanceClick(instance, id, { notify }) {

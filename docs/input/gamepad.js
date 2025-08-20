@@ -1,9 +1,9 @@
 import move from "@inglorious/engine/movement/kinematic/modern.js"
-import { character } from "@inglorious/game/behaviors/character.js"
 import {
   createGamepad,
   gamepad,
 } from "@inglorious/game/behaviors/input/gamepad.js"
+import renderCharacter from "@inglorious/ui/canvas/character.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 
@@ -15,7 +15,7 @@ export default {
     gamepad: [gamepad()],
 
     character: [
-      character(),
+      { render: renderCharacter },
       {
         update(instance, dt, { instances }) {
           const { gamepad0 } = instances

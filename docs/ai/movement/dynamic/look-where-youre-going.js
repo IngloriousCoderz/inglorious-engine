@@ -4,12 +4,12 @@ import {
   DEFAULT_TIME_TO_TARGET,
 } from "@inglorious/engine/ai/movement/dynamic/align.js"
 import lookWhereYoureGoing from "@inglorious/engine/ai/movement/dynamic/look-where-youre-going.js"
-import { character } from "@inglorious/game/behaviors/character.js"
 import {
   controlsInstances,
   controlsTypes,
 } from "@inglorious/game/behaviors/input/controls.js"
 import { clampToBounds } from "@inglorious/game/bounds.js"
+import renderCharacter from "@inglorious/ui/canvas/character.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { sum } from "@inglorious/utils/math/linear-algebra/vectors.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
@@ -19,7 +19,7 @@ export default {
     ...controlsTypes(),
 
     character: [
-      character(),
+      { render: renderCharacter },
       {
         update(instance, dt, { instances }) {
           const { parameters, game } = instances

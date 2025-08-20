@@ -1,13 +1,12 @@
-import { character } from "@inglorious/game/behaviors/character.js"
 import { mouse } from "@inglorious/game/behaviors/input/mouse.js"
+import renderCharacter from "@inglorious/ui/canvas/character.js"
 
 export default {
   types: {
     mouse: [mouse()],
 
     character: [
-      character(),
-
+      { render: renderCharacter },
       {
         update(instance, dt, { instances }) {
           const { mouse } = instances

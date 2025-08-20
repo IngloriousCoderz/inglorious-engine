@@ -1,12 +1,12 @@
 import { findCollisions } from "@inglorious/engine/collision/detection.js"
 import { collisionGizmos } from "@inglorious/game/behaviors/debug/collision.js"
-import { sprite } from "@inglorious/game/behaviors/image/sprite.js"
-import { tilemap } from "@inglorious/game/behaviors/image/tilemap.js"
 import {
   controlsInstances,
   controlsTypes,
 } from "@inglorious/game/behaviors/input/controls.js"
 import { Sprite } from "@inglorious/game/sprite.js"
+import renderSprite from "@inglorious/ui/canvas/image/sprite.js"
+import renderTilemap from "@inglorious/ui/canvas/image/tilemap.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
 import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 
@@ -17,10 +17,10 @@ export default {
   types: {
     ...controlsTypes(),
 
-    tilemap: [tilemap(), collisionGizmos()],
+    tilemap: [{ render: renderTilemap }, collisionGizmos()],
 
     player: [
-      sprite(),
+      { render: renderSprite },
       collisionGizmos(),
       // modernControls(),
       (type) =>

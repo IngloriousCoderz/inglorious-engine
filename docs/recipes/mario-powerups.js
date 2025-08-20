@@ -7,11 +7,11 @@ import {
   controlsTypes,
 } from "@inglorious/game/behaviors/input/controls.js"
 import { jumpable } from "@inglorious/game/behaviors/jumpable.js"
-import { rectangle } from "@inglorious/game/behaviors/shapes/rectangle"
+import renderRectangle from "@inglorious/ui/canvas/shapes/rectangle.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
 
 const BASE_MARIO_BEHAVIORS = [
-  rectangle(),
+  { render: renderRectangle },
   modernControls(),
   clamped(),
   jumpable(),
@@ -24,17 +24,17 @@ export default {
 
     mario: [...BASE_MARIO_BEHAVIORS, baseMario()],
 
-    platform: [rectangle()],
+    platform: [{ render: renderRectangle }],
 
-    mushroom: [rectangle()],
+    mushroom: [{ render: renderRectangle }],
 
-    fireFlower: [rectangle()],
+    fireFlower: [{ render: renderRectangle }],
 
-    feather: [rectangle()],
+    feather: [{ render: renderRectangle }],
 
-    diamond: [rectangle()],
+    diamond: [{ render: renderRectangle }],
 
-    goomba: [rectangle()],
+    goomba: [{ render: renderRectangle }],
   },
 
   instances: {

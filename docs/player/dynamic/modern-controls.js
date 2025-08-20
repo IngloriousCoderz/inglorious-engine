@@ -1,10 +1,10 @@
-import { character } from "@inglorious/game/behaviors/character.js"
 import { clamped } from "@inglorious/game/behaviors/clamped.js"
 import { modernControls } from "@inglorious/game/behaviors/controls/dynamic/modern.js"
 import {
   controlsInstances,
   controlsTypes,
 } from "@inglorious/game/behaviors/input/controls.js"
+import renderCharacter from "@inglorious/ui/canvas/character.js"
 
 export default {
   types: {
@@ -12,7 +12,7 @@ export default {
 
     stats: {},
 
-    character: [character(), modernControls(), clamped()],
+    character: [{ render: renderCharacter }, modernControls(), clamped()],
   },
 
   instances: {

@@ -1,9 +1,5 @@
-import render from "@inglorious/ui/canvas/form/button.js"
-
 export function button() {
   return {
-    render,
-
     states: {
       default: {
         instanceClick(instance) {

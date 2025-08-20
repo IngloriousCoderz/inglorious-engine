@@ -1,8 +1,8 @@
-import { tilemap } from "@inglorious/game/behaviors/image/tilemap"
+import renderTilemap from "@inglorious/ui/canvas/image/tilemap.js"
 
 export default {
   types: {
-    tilemap: [tilemap()],
+    tilemap: [{ render: renderTilemap }],
   },
 
   instances: {

@@ -3,9 +3,9 @@ import {
   DEFAULT_TIME_TO_TARGET,
 } from "@inglorious/engine/ai/movement/kinematic/align.js"
 import face from "@inglorious/engine/ai/movement/kinematic/face.js"
-import { character } from "@inglorious/game/behaviors/character.js"
 import { mouse } from "@inglorious/game/behaviors/input/mouse.js"
 import { clampToBounds } from "@inglorious/game/bounds.js"
+import renderCharacter from "@inglorious/ui/canvas/character.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
@@ -14,7 +14,7 @@ export default {
     mouse: [mouse()],
 
     character: [
-      character(),
+      { render: renderCharacter },
       {
         update(instance, dt, { instances }) {
           const { mouse, parameters, game } = instances

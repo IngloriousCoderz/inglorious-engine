@@ -1,7 +1,7 @@
 import flee from "@inglorious/engine/ai/movement/dynamic/flee.js"
-import { character } from "@inglorious/game/behaviors/character.js"
 import { mouse } from "@inglorious/game/behaviors/input/mouse.js"
 import { clampToBounds } from "@inglorious/game/bounds.js"
+import renderCharacter from "@inglorious/ui/canvas/character.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 
 export default {
@@ -9,7 +9,7 @@ export default {
     mouse: [mouse()],
 
     character: [
-      character(),
+      { render: renderCharacter },
       {
         update(instance, dt, { instances }) {
           const { mouse, game } = instances
