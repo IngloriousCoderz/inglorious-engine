@@ -1,6 +1,6 @@
 /* eslint-disable no-magic-numbers */
 
-export default function render(instance, ctx) {
+export function renderMouse(instance, ctx) {
   const { color = "black", thickness = 1, orientation = 0 } = instance
 
   ctx.save()

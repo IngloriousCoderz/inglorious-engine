@@ -3,7 +3,7 @@
 import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
-export default function render(instance, ctx) {
+export function renderCircle(instance, ctx) {
   const {
     offset = zero(),
     radius = 24,

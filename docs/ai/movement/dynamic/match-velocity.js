@@ -6,7 +6,7 @@ import {
   controlsTypes,
 } from "@inglorious/game/behaviors/input/controls.js"
 import { clampToBounds } from "@inglorious/game/bounds.js"
-import renderCharacter from "@inglorious/ui/canvas/character.js"
+import { renderCharacter } from "@inglorious/ui/canvas/character.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 
 export default {

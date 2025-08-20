@@ -4,7 +4,7 @@ import {
   controlsInstances,
   controlsTypes,
 } from "@inglorious/game/behaviors/input/controls.js"
-import renderCharacter from "@inglorious/ui/canvas/character.js"
+import { renderCharacter } from "@inglorious/ui/canvas/character.js"
 
 export default {
   types: {

@@ -1,6 +1,6 @@
 import { collidesWith } from "@inglorious/engine/collision/detection.js"
 import { bounce } from "@inglorious/game/bounds.js"
-import renderCharacter from "@inglorious/ui/canvas/character.js"
+import { renderCharacter } from "@inglorious/ui/canvas/character.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { mod } from "@inglorious/utils/math/numbers.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"

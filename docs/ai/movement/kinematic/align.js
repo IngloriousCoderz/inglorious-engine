@@ -8,7 +8,8 @@ import {
 } from "@inglorious/game/behaviors/input/controls.js"
 import { mouse } from "@inglorious/game/behaviors/input/mouse.js"
 import { clampToBounds } from "@inglorious/game/bounds.js"
-import renderCharacter from "@inglorious/ui/canvas/character.js"
+import { renderCharacter } from "@inglorious/ui/canvas/character.js"
+import { renderMouse } from "@inglorious/ui/canvas/mouse.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { clamp } from "@inglorious/utils/math/numbers.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
@@ -16,6 +17,7 @@ import { pi } from "@inglorious/utils/math/trigonometry.js"
 export default {
   types: {
     mouse: [
+      { render: renderMouse },
       mouse(),
       {
         fieldChange(instance, { id, value }) {

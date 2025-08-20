@@ -1,9 +1,10 @@
 import { mouse } from "@inglorious/game/behaviors/input/mouse.js"
 import { button } from "@inglorious/game/behaviors/ui/button.js"
+import { renderMouse } from "@inglorious/ui/canvas/mouse.js"
 
 export default {
   types: {
-    mouse: [mouse()],
+    mouse: [{ render: renderMouse }, mouse()],
 
     button: [
       button(),

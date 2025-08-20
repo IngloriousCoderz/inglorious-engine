@@ -1,5 +1,5 @@
 import { Sprite } from "@inglorious/game/sprite.js"
-import renderSprite from "@inglorious/ui/canvas/image/sprite.js"
+import { renderSprite } from "@inglorious/ui/canvas/image/sprite.js"
 
 export default {
   types: {

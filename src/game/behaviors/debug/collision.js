@@ -1,6 +1,6 @@
-import renderHitmask from "@inglorious/ui/canvas/image/hitmask.js"
-import renderCircle from "@inglorious/ui/canvas/shapes/circle.js"
-import renderRectangle from "@inglorious/ui/canvas/shapes/rectangle.js"
+import { renderHitmask } from "@inglorious/ui/canvas/image/hitmask.js"
+import { renderCircle } from "@inglorious/ui/canvas/shapes/circle.js"
+import { renderRectangle } from "@inglorious/ui/canvas/shapes/rectangle.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
 
 const Shape = {

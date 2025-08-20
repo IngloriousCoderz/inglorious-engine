@@ -3,12 +3,13 @@ import evade, {
 } from "@inglorious/engine/ai/movement/dynamic/evade.js"
 import { mouse } from "@inglorious/game/behaviors/input/mouse.js"
 import { clampToBounds } from "@inglorious/game/bounds.js"
-import renderCharacter from "@inglorious/ui/canvas/character.js"
+import { renderCharacter } from "@inglorious/ui/canvas/character.js"
+import { renderMouse } from "@inglorious/ui/canvas/mouse.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 
 export default {
   types: {
-    mouse: [mouse()],
+    mouse: [{ render: renderMouse }, mouse()],
 
     character: [
       { render: renderCharacter },

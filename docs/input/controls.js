@@ -3,7 +3,7 @@ import {
   controlsInstances,
   controlsTypes,
 } from "@inglorious/game/behaviors/input/controls.js"
-import renderCharacter from "@inglorious/ui/canvas/character.js"
+import { renderCharacter } from "@inglorious/ui/canvas/character.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 

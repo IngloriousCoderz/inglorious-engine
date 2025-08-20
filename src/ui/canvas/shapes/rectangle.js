@@ -2,7 +2,7 @@
 
 import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 
-export default function render(instance, ctx) {
+export function renderRectangle(instance, ctx) {
   const {
     offset = zero(),
     size,

@@ -1,5 +1,6 @@
 import { mouse } from "@inglorious/game/behaviors/input/mouse.js"
-import renderCharacter from "@inglorious/ui/canvas/character.js"
+import { renderCharacter } from "@inglorious/ui/canvas/character.js"
+import { renderMouse } from "@inglorious/ui/canvas/mouse.js"
 import { filter } from "@inglorious/utils/data-structures/object.js"
 import { random } from "@inglorious/utils/math/rng.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
@@ -7,6 +8,7 @@ import { pi } from "@inglorious/utils/math/trigonometry.js"
 export default {
   types: {
     mouse: [
+      { render: renderMouse },
       mouse(),
       {
         sceneClick(instance, position, options) {

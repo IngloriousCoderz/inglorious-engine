@@ -3,7 +3,8 @@ import wander from "@inglorious/engine/ai/movement/kinematic/wander.js"
 import { fsm } from "@inglorious/game/behaviors/fsm.js"
 import { mouse } from "@inglorious/game/behaviors/input/mouse.js"
 import { clampToBounds, flip } from "@inglorious/game/bounds.js"
-import renderCharacter from "@inglorious/ui/canvas/character.js"
+import { renderCharacter } from "@inglorious/ui/canvas/character.js"
+import { renderMouse } from "@inglorious/ui/canvas/mouse.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { length } from "@inglorious/utils/math/linear-algebra/vector.js"
 import { subtract } from "@inglorious/utils/math/linear-algebra/vectors.js"
@@ -11,7 +12,7 @@ import { pi } from "@inglorious/utils/math/trigonometry.js"
 
 export default {
   types: {
-    mouse: [mouse()],
+    mouse: [{ render: renderMouse }, mouse()],
 
     character: [
       { render: renderCharacter },

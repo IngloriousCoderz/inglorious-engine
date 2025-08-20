@@ -7,7 +7,7 @@ import {
   controlsTypes,
 } from "@inglorious/game/behaviors/input/controls.js"
 import { jumpable } from "@inglorious/game/behaviors/jumpable.js"
-import renderRectangle from "@inglorious/ui/canvas/shapes/rectangle.js"
+import { renderRectangle } from "@inglorious/ui/canvas/shapes/rectangle.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
 
 const BASE_MARIO_BEHAVIORS = [

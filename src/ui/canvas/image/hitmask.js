@@ -1,11 +1,11 @@
-import renderRectangle from "@inglorious/ui/canvas/shapes/rectangle.js"
+import { renderRectangle } from "@inglorious/ui/canvas/shapes/rectangle.js"
 import { max } from "@inglorious/utils/data-structures/array.js"
 
 const LAST_ROW_OFFSET = 1
 const NO_Y = 0
 const MAX_HUE = 255
 
-export default function render(instance, ctx) {
+export function renderHitmask(instance, ctx) {
   const { tileSize, columns, heights } = instance
 
   const [tileWidth, tileHeight] = tileSize

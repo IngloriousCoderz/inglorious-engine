@@ -5,8 +5,8 @@ import {
   controlsTypes,
 } from "@inglorious/game/behaviors/input/controls.js"
 import { Sprite } from "@inglorious/game/sprite.js"
-import renderSprite from "@inglorious/ui/canvas/image/sprite.js"
-import renderTilemap from "@inglorious/ui/canvas/image/tilemap.js"
+import { renderSprite } from "@inglorious/ui/canvas/image/sprite.js"
+import { renderTilemap } from "@inglorious/ui/canvas/image/tilemap.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
 import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 

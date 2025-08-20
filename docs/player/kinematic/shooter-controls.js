@@ -5,12 +5,13 @@ import {
   controlsTypes,
 } from "@inglorious/game/behaviors/input/controls.js"
 import { mouse } from "@inglorious/game/behaviors/input/mouse.js"
-import renderCharacter from "@inglorious/ui/canvas/character.js"
+import { renderCharacter } from "@inglorious/ui/canvas/character.js"
+import { renderMouse } from "@inglorious/ui/canvas/mouse.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
 export default {
   types: {
-    mouse: [mouse()],
+    mouse: [{ render: renderMouse }, mouse()],
 
     ...controlsTypes(),
 
