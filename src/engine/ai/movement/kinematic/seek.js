@@ -8,7 +8,7 @@ import { subtract, sum } from "@inglorious/utils/math/linear-algebra/vectors.js"
 
 const DEFAULT_MAX_SPEED = 0
 
-export default function seek(instance, target, dt) {
+export function seek(instance, target, dt) {
   const maxSpeed = instance.maxSpeed ?? DEFAULT_MAX_SPEED
 
   const direction = subtract(target.position, instance.position)

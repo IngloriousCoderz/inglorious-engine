@@ -1,4 +1,4 @@
-import { mouse } from "@inglorious/game/behaviors/input/mouse.js"
+import { mouse } from "@inglorious/engine/behaviors/input/mouse.js"
 import { renderCharacter } from "@inglorious/ui/canvas/character.js"
 import { renderMouse } from "@inglorious/ui/canvas/mouse.js"
 import { filter } from "@inglorious/utils/data-structures/object.js"

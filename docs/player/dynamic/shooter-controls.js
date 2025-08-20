@@ -1,10 +1,10 @@
-import { clamped } from "@inglorious/game/behaviors/clamped.js"
-import { shooterControls } from "@inglorious/game/behaviors/controls/dynamic/shooter.js"
+import { clamped } from "@inglorious/engine/behaviors/clamped.js"
+import { shooterControls } from "@inglorious/engine/behaviors/controls/dynamic/shooter.js"
 import {
   controlsInstances,
   controlsTypes,
-} from "@inglorious/game/behaviors/input/controls.js"
-import { mouse } from "@inglorious/game/behaviors/input/mouse.js"
+} from "@inglorious/engine/behaviors/input/controls.js"
+import { mouse } from "@inglorious/engine/behaviors/input/mouse.js"
 import { renderCharacter } from "@inglorious/ui/canvas/character.js"
 import { renderMouse } from "@inglorious/ui/canvas/mouse.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"

@@ -1,11 +1,12 @@
-import matchVelocity, {
+import {
   DEFAULT_TIME_TO_TARGET,
+  matchVelocity,
 } from "@inglorious/engine/ai/movement/dynamic/match-velocity.js"
 import {
   controlsInstances,
   controlsTypes,
-} from "@inglorious/game/behaviors/input/controls.js"
-import { clampToBounds } from "@inglorious/game/bounds.js"
+} from "@inglorious/engine/behaviors/input/controls.js"
+import { clampToBounds } from "@inglorious/engine/physics/bounds.js"
 import { renderCharacter } from "@inglorious/ui/canvas/character.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 

@@ -1,4 +1,5 @@
-import align, {
+import {
+  align,
   DEFAULT_SLOW_RADIUS,
   DEFAULT_TARGET_RADIUS,
   DEFAULT_TIME_TO_TARGET,
@@ -6,9 +7,9 @@ import align, {
 import {
   controlsInstances,
   controlsTypes,
-} from "@inglorious/game/behaviors/input/controls.js"
-import { mouse } from "@inglorious/game/behaviors/input/mouse.js"
-import { clampToBounds } from "@inglorious/game/bounds.js"
+} from "@inglorious/engine/behaviors/input/controls.js"
+import { mouse } from "@inglorious/engine/behaviors/input/mouse.js"
+import { clampToBounds } from "@inglorious/engine/physics/bounds.js"
 import { renderCharacter } from "@inglorious/ui/canvas/character.js"
 import { renderMouse } from "@inglorious/ui/canvas/mouse.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"

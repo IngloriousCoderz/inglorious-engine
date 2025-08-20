@@ -1,4 +1,4 @@
-import { createStore } from "@inglorious/engine/store"
+import { createStore } from "@inglorious/engine/core/store"
 import { expect, test } from "vitest"
 
 import { fsm } from "./fsm"

@@ -19,7 +19,7 @@ const MIN_SPEED = 0
 
 const HALF_ACCELERATION = 0.5
 
-export default function matchVelocity(
+export function matchVelocity(
   instance,
   target,
   dt,

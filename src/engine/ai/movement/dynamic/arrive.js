@@ -1,10 +1,9 @@
+import { matchVelocity } from "@inglorious/engine/ai/movement/dynamic/match-velocity.js"
 import {
   magnitude,
   setMagnitude,
 } from "@inglorious/utils/math/linear-algebra/vector.js"
 import { subtract } from "@inglorious/utils/math/linear-algebra/vectors.js"
-
-import matchVelocity from "./match-velocity.js"
 
 export const DEFAULT_TARGET_RADIUS = 1
 export const DEFAULT_SLOW_RADIUS = 100
@@ -12,7 +11,7 @@ export const DEFAULT_TIME_TO_TARGET = 0.1
 
 const DEFAULT_MAX_SPEED = 0
 
-export default function arrive(
+export function arrive(
   instance,
   target,
   dt,

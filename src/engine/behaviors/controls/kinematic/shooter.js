@@ -1,15 +1,18 @@
-import move from "@inglorious/engine/movement/kinematic/tank.js"
+import { face } from "@inglorious/engine/ai/movement/kinematic/face.js"
+import { tankMove } from "@inglorious/engine/movement/kinematic/tank.js"
 import { extend, merge } from "@inglorious/utils/data-structures/objects.js"
 import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
+import { pi } from "@inglorious/utils/math/trigonometry.js"
 
+const FULL_CIRCLE = 2
 const DEFAULT_PARAMS = {
-  maxAngularSpeed: 10,
+  maxAngularSpeed: FULL_CIRCLE * pi(),
   maxSpeed: 250,
 }
 const X = 0
 const Z = 2
 
-export function tankControls(params) {
+export function shooterControls(params) {
   params = extend(DEFAULT_PARAMS, params)
 
   return (type) =>
@@ -19,34 +22,24 @@ export function tankControls(params) {
           instance.maxAngularSpeed ?? params.maxAngularSpeed
         instance.maxSpeed = instance.maxSpeed ?? params.maxSpeed
 
-        const { input0 } = options.instances
+        const { input0, mouse } = options.instances
         instance.velocity = zero()
 
         if (input0.left) {
-          instance.orientation += 0.1
+          instance.velocity[Z] = -instance.maxSpeed
         }
         if (input0.down) {
           instance.velocity[X] = -instance.maxSpeed
         }
         if (input0.right) {
-          instance.orientation -= 0.1
+          instance.velocity[Z] = instance.maxSpeed
         }
         if (input0.up) {
           instance.velocity[X] = instance.maxSpeed
         }
 
-        if (input0.leftRight != null) {
-          instance.orientation +=
-            -input0.leftRight * instance.maxAngularSpeed * dt
-        }
-        if (input0.upDown != null) {
-          instance.velocity[X] += -input0.upDown * instance.maxSpeed
-        }
-        if (input0.strafe != null) {
-          instance.velocity[Z] += input0.strafe * instance.maxSpeed
-        }
-
-        merge(instance, move(instance, dt))
+        merge(instance, face(instance, mouse, dt, options))
+        merge(instance, tankMove(instance, dt))
       },
     })
 }

@@ -1,6 +1,6 @@
 const ONE_SECOND = 1000
 
-export default class AnimationFrameLoop {
+export class AnimationFrameLoop {
   _id = null
   _previousTime = new Date()
 

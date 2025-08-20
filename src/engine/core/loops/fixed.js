@@ -1,9 +1,9 @@
 const ONE_SECOND = 1000
 
-export default class ElapsedLoop {
+export class FixedLoop {
   _shouldStop = false
 
-  start(engine) {
+  async start(engine, msPerUpdate) {
     let previousTime = Date.now()
 
     while (!this._shouldStop) {
@@ -14,10 +14,15 @@ export default class ElapsedLoop {
       engine.render(dt / ONE_SECOND)
 
       previousTime = currentTime
+      await sleep(Date.now() - currentTime + msPerUpdate)
     }
   }
 
   stop() {
     this._shouldStop = true
   }
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
 }

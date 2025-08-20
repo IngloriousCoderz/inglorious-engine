@@ -14,7 +14,7 @@ const DEFAULT_MAX_SPEED = 0
 
 const MIN_SPEED = 0
 
-export default function arrive(
+export function arrive(
   instance,
   target,
   dt,

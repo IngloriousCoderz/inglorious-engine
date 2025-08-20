@@ -1,5 +1,5 @@
-import { mouse } from "@inglorious/game/behaviors/input/mouse.js"
-import { button } from "@inglorious/game/behaviors/ui/button.js"
+import { mouse } from "@inglorious/engine/behaviors/input/mouse.js"
+import { button } from "@inglorious/engine/behaviors/ui/button.js"
 import { renderMouse } from "@inglorious/ui/canvas/mouse.js"
 
 export default {

@@ -1,8 +1,7 @@
+import { seek } from "@inglorious/engine/ai/movement/dynamic/seek.js"
 import { createVector } from "@inglorious/utils/math/linear-algebra/vector.js"
 import { sum } from "@inglorious/utils/math/linear-algebra/vectors.js"
 import { randomBinomial } from "@inglorious/utils/math/rng.js"
-
-import seek from "./seek.js"
 
 export const DEFAULT_WANDER_OFFSET = 100
 export const DEFAULT_WANDER_RADIUS = 100
@@ -11,7 +10,7 @@ const DEFAULT_MAX_ANGULAR_SPEED = 0
 
 const DEFAULT_ORIENTATION = 0
 
-export default function wander(
+export function wander(
   instance,
   dt,
   {

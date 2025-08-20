@@ -1,7 +1,8 @@
-import wanderAsSeek, {
+import {
   DEFAULT_WANDER_RADIUS,
+  wanderAsSeek,
 } from "@inglorious/engine/ai/movement/kinematic/wander-as-seek.js"
-import { flip } from "@inglorious/game/bounds.js"
+import { flip } from "@inglorious/engine/physics/bounds.js"
 import { renderCharacter } from "@inglorious/ui/canvas/character.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"

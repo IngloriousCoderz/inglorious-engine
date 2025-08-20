@@ -8,7 +8,7 @@ const DEFAULT_MAX_ANGULAR_SPEED = 0
 
 const DEFAULT_ORIENTATION = 0
 
-export default function align(
+export function align(
   instance,
   target,
   dt,

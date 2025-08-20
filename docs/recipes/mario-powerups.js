@@ -1,12 +1,12 @@
 /* eslint-disable no-console */
-import { findCollision } from "@inglorious/engine/collision/detection.js"
-import { clamped } from "@inglorious/game/behaviors/clamped.js"
-import { modernControls } from "@inglorious/game/behaviors/controls/kinematic/modern.js"
+import { clamped } from "@inglorious/engine/behaviors/clamped.js"
+import { modernControls } from "@inglorious/engine/behaviors/controls/kinematic/modern.js"
 import {
   controlsInstances,
   controlsTypes,
-} from "@inglorious/game/behaviors/input/controls.js"
-import { jumpable } from "@inglorious/game/behaviors/jumpable.js"
+} from "@inglorious/engine/behaviors/input/controls.js"
+import { jumpable } from "@inglorious/engine/behaviors/jumpable.js"
+import { findCollision } from "@inglorious/engine/collision/detection.js"
 import { renderRectangle } from "@inglorious/ui/canvas/shapes/rectangle.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
 

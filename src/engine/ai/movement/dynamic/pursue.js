@@ -1,3 +1,4 @@
+import { seek } from "@inglorious/engine/ai/movement/dynamic/seek.js"
 import {
   magnitude,
   multiply,
@@ -5,11 +6,9 @@ import {
 } from "@inglorious/utils/math/linear-algebra/vector.js"
 import { subtract, sum } from "@inglorious/utils/math/linear-algebra/vectors.js"
 
-import seek from "./seek.js"
-
 export const DEFAULT_MAX_PREDICTION = 10
 
-export default function pursue(
+export function pursue(
   instance,
   target,
   dt,

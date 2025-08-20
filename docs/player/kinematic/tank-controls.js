@@ -1,9 +1,9 @@
-import { clamped } from "@inglorious/game/behaviors/clamped"
-import { tankControls } from "@inglorious/game/behaviors/controls/kinematic/tank.js"
+import { clamped } from "@inglorious/engine/behaviors/clamped"
+import { tankControls } from "@inglorious/engine/behaviors/controls/kinematic/tank.js"
 import {
   controlsInstances,
   controlsTypes,
-} from "@inglorious/game/behaviors/input/controls.js"
+} from "@inglorious/engine/behaviors/input/controls.js"
 import { renderCharacter } from "@inglorious/ui/canvas/character.js"
 
 export default {

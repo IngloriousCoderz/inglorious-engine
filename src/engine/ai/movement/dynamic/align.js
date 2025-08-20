@@ -13,7 +13,7 @@ const DEFAULT_ORIENTATION = 0
 
 const HALF_ANGULAR_ACCELERATION = 0.5
 
-export default function align(
+export function align(
   instance,
   target,
   dt,

@@ -1,6 +1,6 @@
 import { expect, test } from "vitest"
 
-import seek from "./seek.js"
+import { seek } from "./seek.js"
 
 test("it should move toward the target", () => {
   const instance = { maxSpeed: 1, position: [0, 0, 0] }

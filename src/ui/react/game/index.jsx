@@ -1,4 +1,4 @@
-import Engine from "@inglorious/engine"
+import { Engine } from "@inglorious/engine/core/engine.js"
 import { useEffect, useMemo, useState } from "react"
 import { Provider } from "react-redux"
 

@@ -1,4 +1,4 @@
-import { Animation } from "@inglorious/game/animation.js"
+import { Ticker } from "@inglorious/engine/animation/ticker.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
 
 const DEFAULT_PARAMS = {
@@ -17,7 +17,7 @@ export function fps(params) {
     },
 
     update(instance, dt) {
-      Animation.play({ what: "dt", state: "default", instance, dt, onTick })
+      Ticker.tick({ what: "dt", state: "default", instance, dt, onTick })
     },
   }
 }

@@ -1,8 +1,9 @@
-import wander, {
+import {
   DEFAULT_WANDER_OFFSET,
   DEFAULT_WANDER_RADIUS,
+  wander,
 } from "@inglorious/engine/ai/movement/dynamic/wander.js"
-import { flip } from "@inglorious/game/bounds.js"
+import { flip } from "@inglorious/engine/physics/bounds.js"
 import { renderCharacter } from "@inglorious/ui/canvas/character.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"

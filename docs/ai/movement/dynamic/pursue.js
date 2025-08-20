@@ -1,8 +1,9 @@
-import pursue, {
+import {
   DEFAULT_MAX_PREDICTION,
+  pursue,
 } from "@inglorious/engine/ai/movement/dynamic/pursue.js"
-import { mouse } from "@inglorious/game/behaviors/input/mouse.js"
-import { clampToBounds } from "@inglorious/game/bounds.js"
+import { mouse } from "@inglorious/engine/behaviors/input/mouse.js"
+import { clampToBounds } from "@inglorious/engine/physics/bounds.js"
 import { renderCharacter } from "@inglorious/ui/canvas/character.js"
 import { renderMouse } from "@inglorious/ui/canvas/mouse.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"

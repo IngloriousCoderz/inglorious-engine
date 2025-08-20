@@ -1,4 +1,4 @@
-export default class FlashLoop {
+export class FlashLoop {
   _shouldStop = false
 
   start(engine) {

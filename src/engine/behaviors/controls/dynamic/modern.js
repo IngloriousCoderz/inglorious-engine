@@ -1,11 +1,9 @@
-import move from "@inglorious/engine/movement/kinematic/modern.js"
+import { modernMove } from "@inglorious/engine/movement/dynamic/modern.js"
 import { extend, merge } from "@inglorious/utils/data-structures/objects.js"
 import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 
 const DEFAULT_PARAMS = {
-  onState: "default",
-  movementStrategy: "kinematic",
-  maxSpeed: 250,
+  maxAcceleration: 500,
 }
 const X = 0
 const Z = 2
@@ -18,32 +16,33 @@ export function modernControls(params) {
       update(instance, dt, options) {
         type.update?.(instance, dt, options)
 
-        const maxSpeed = instance.maxSpeed ?? params.maxSpeed
+        const maxAcceleration =
+          instance.maxAcceleration ?? params.maxAcceleration
 
         const { input0 } = options.instances
-        instance.velocity = zero()
+        instance.acceleration = zero()
 
         if (input0.left) {
-          instance.velocity[X] = -maxSpeed
-        }
-        if (input0.down) {
-          instance.velocity[Z] = -maxSpeed
+          instance.acceleration[X] = -maxAcceleration
         }
         if (input0.right) {
-          instance.velocity[X] = maxSpeed
+          instance.acceleration[X] = maxAcceleration
+        }
+        if (input0.down) {
+          instance.acceleration[Z] = -maxAcceleration
         }
         if (input0.up) {
-          instance.velocity[Z] = maxSpeed
+          instance.acceleration[Z] = maxAcceleration
         }
 
         if (input0.leftRight != null) {
-          instance.velocity[X] += input0.leftRight * maxSpeed
+          instance.acceleration[X] += input0.leftRight * maxAcceleration
         }
         if (input0.upDown != null) {
-          instance.velocity[Z] += -input0.upDown * maxSpeed
+          instance.acceleration[Z] += -input0.upDown * maxAcceleration
         }
 
-        merge(instance, move(instance, dt))
+        merge(instance, modernMove(instance, dt))
       },
     })
 }

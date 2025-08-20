@@ -1,4 +1,4 @@
-import { Sprite } from "@inglorious/game/sprite.js"
+import { Sprite } from "@inglorious/engine/animation/sprite.js"
 import { renderSprite } from "@inglorious/ui/canvas/image/sprite.js"
 
 export default {

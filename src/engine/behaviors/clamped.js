@@ -1,6 +1,6 @@
 import { extend } from "@inglorious/utils/data-structures/objects.js"
 
-import { clampToBounds } from "../bounds.js"
+import { clampToBounds } from "../physics/bounds.js"
 
 export function clamped() {
   return (type) =>

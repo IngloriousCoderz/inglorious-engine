@@ -1,5 +1,5 @@
-import { fps } from "@inglorious/game/behaviors/fps.js"
-import { bounce } from "@inglorious/game/bounds.js"
+import { fps } from "@inglorious/engine/behaviors/fps.js"
+import { bounce } from "@inglorious/engine/physics/bounds.js"
 import { renderCharacter } from "@inglorious/ui/canvas/character.js"
 import { renderFps } from "@inglorious/ui/canvas/fps.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"

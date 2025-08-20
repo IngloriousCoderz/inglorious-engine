@@ -1,19 +1,19 @@
 import { extend } from "@inglorious/utils/data-structures/objects.js"
 
-import Loop from "./engine/loop.js"
-import { createStore } from "./engine/store.js"
+import Loop from "./loop.js"
+import { createStore } from "./store.js"
 
 // Default configuration for the engine
 // loop.type specifies the type of loop to use (defaults to "animationFrame").
 const DEFAULT_CONFIG = {
-  loop: { type: "animationFrame" },
+  loop: { type: "animationFrame", fps: 60 },
 }
 const ONE_SECOND = 1000 // Number of milliseconds in one second.
 
 /**
  * Engine class responsible for managing the game loop, state, and rendering.
  */
-export default class Engine {
+export class Engine {
   /**
    * @param {Object} game - Game-specific configuration.
    * @param {Object} ui - UI instance responsible for rendering.

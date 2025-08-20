@@ -1,5 +1,5 @@
 /* eslint-disable no-magic-numbers */
-import { Animation } from "@inglorious/game/animation.js"
+import { Ticker } from "@inglorious/engine/animation/ticker.js"
 import { mod } from "@inglorious/utils/math/numbers.js"
 import { pi, toRange } from "@inglorious/utils/math/trigonometry.js"
 
@@ -108,12 +108,10 @@ function play({ state, instance, dt, notify }) {
     .filter(Boolean)
     .join(", ")
   if (missing.length) {
-    throw new Error(
-      `Animation.play is missing mandatory parameters: ${missing}`,
-    )
+    throw new Error(`Sprite.play is missing mandatory parameters: ${missing}`)
   }
 
-  Animation.play({
+  Ticker.tick({
     what: "sprite",
     state,
     instance,

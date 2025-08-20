@@ -1,5 +1,5 @@
 import { findCollision } from "@inglorious/engine/collision/detection.js"
-import { clampToBounds } from "@inglorious/game/bounds.js"
+import { clampToBounds } from "@inglorious/engine/physics/bounds.js"
 
 const NO_Y = 0
 

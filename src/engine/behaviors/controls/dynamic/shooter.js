@@ -1,5 +1,5 @@
-import face from "@inglorious/engine/ai/movement/dynamic/face.js"
-import move from "@inglorious/engine/movement/dynamic/tank.js"
+import { face } from "@inglorious/engine/ai/movement/dynamic/face.js"
+import { tankMove } from "@inglorious/engine/movement/dynamic/tank.js"
 import { extend, merge } from "@inglorious/utils/data-structures/objects.js"
 import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
@@ -41,7 +41,7 @@ export function shooterControls(params) {
         }
 
         merge(instance, face(instance, mouse, dt, options))
-        merge(instance, move(instance, dt))
+        merge(instance, tankMove(instance, dt))
       },
     })
 }

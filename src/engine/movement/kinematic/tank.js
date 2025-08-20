@@ -11,7 +11,7 @@ const DEFAULT_MAX_SPEED = 0
 
 const DEFAULT_ORIENTATION = 0
 
-export default function tankMove(instance, dt) {
+export function tankMove(instance, dt) {
   const maxSpeed = instance.maxSpeed ?? DEFAULT_MAX_SPEED
 
   let orientation = instance.orientation ?? DEFAULT_ORIENTATION

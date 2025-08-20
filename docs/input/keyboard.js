@@ -1,8 +1,8 @@
-import move from "@inglorious/engine/movement/kinematic/modern.js"
 import {
   createKeyboard,
   keyboard,
-} from "@inglorious/game/behaviors/input/keyboard.js"
+} from "@inglorious/engine/behaviors/input/keyboard.js"
+import { modernMove } from "@inglorious/engine/movement/kinematic/modern.js"
 import { renderCharacter } from "@inglorious/ui/canvas/character.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
@@ -35,7 +35,7 @@ export default {
             instance.velocity[Z] = instance.maxSpeed
           }
 
-          merge(instance, move(instance, dt))
+          merge(instance, modernMove(instance, dt))
         },
       },
     ],

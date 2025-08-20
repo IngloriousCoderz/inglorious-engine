@@ -1,3 +1,4 @@
+import { seek } from "@inglorious/engine/ai/movement/kinematic/seek.js"
 import {
   fromAngle,
   multiply,
@@ -5,15 +6,13 @@ import {
 import { sum } from "@inglorious/utils/math/linear-algebra/vectors.js"
 import { randomBinomial } from "@inglorious/utils/math/rng.js"
 
-import seek from "./seek.js"
-
 export const DEFAULT_WANDER_RADIUS = 10
 
 const DEFAULT_MAX_ANGULAR_SPEED = 0
 
 const DEFAULT_ORIENTATION = 0
 
-export default function wander(
+export function wanderAsSeek(
   instance,
   dt,
   { wanderRadius = DEFAULT_WANDER_RADIUS } = {},

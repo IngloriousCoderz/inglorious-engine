@@ -11,7 +11,7 @@ const DEFAULT_MAX_ANGULAR_SPEED = 0
 
 const DEFAULT_ORIENTATION = 0
 
-export default function wander(instance, dt) {
+export function wander(instance, dt) {
   const maxSpeed = instance.maxSpeed ?? DEFAULT_MAX_SPEED
   const maxAngularSpeed = instance.maxAngularSpeed ?? DEFAULT_MAX_ANGULAR_SPEED
 

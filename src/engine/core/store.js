@@ -1,4 +1,4 @@
-import { game } from "@inglorious/game/behaviors/game.js"
+import { game } from "@inglorious/engine/behaviors/game.js"
 import { map } from "@inglorious/utils/data-structures/object.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
 import { pipe } from "@inglorious/utils/functions/functions.js"
