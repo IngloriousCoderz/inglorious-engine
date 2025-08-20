@@ -12,15 +12,15 @@ import wanderAsSeek from './wander-as-seek?raw'
 
 # Kinematic Movement
 
-The algorithms described here make an NPC instance move by changing its velocity. The movement is a little snappy but it does the trick for simple games.
+The algorithms described here make an NPC entity move by changing its velocity. The movement is a little snappy but it does the trick for simple games.
 
-Every algorithm returns some parameters, such as velocity, position, and orientation, which can be merged to the instance.
+Every algorithm returns some parameters, such as velocity, position, and orientation, which can be merged to the entity.
 
 Most examples here make use of user [input](/docs/engine-input--docs), so check those out if you haven't already.
 
 ## Seek
 
-The seek algorithm makes the instance chase a target. Speed is constant and it makes the character flick around the target once reached.
+The seek algorithm makes the entity chase a target. Speed is constant and it makes the character flick around the target once reached.
 
 <Source dark code={seek} />
 
@@ -28,7 +28,7 @@ The seek algorithm makes the instance chase a target. Speed is constant and it m
 
 ## Flee
 
-The flee algorithm is the exact opposite of seek: the instance will run away from the target.
+The flee algorithm is the exact opposite of seek: the entity will run away from the target.
 
 <Source dark code={flee} />
 
@@ -36,7 +36,7 @@ The flee algorithm is the exact opposite of seek: the instance will run away fro
 
 ## Arrive
 
-The arrive algorithm is a more refined version of seek: the instance will slow down as it approaches the target.
+The arrive algorithm is a more refined version of seek: the entity will slow down as it approaches the target.
 
 <Source dark code={arrive} />
 
@@ -44,7 +44,7 @@ The arrive algorithm is a more refined version of seek: the instance will slow d
 
 ## Align
 
-The align algorithm makes the instance rotate to match the target's orientation.
+The align algorithm makes the entity rotate to match the target's orientation.
 
 <Source dark code={align} />
 
@@ -52,7 +52,7 @@ The align algorithm makes the instance rotate to match the target's orientation.
 
 ## Wander
 
-The wander algorithm makes the instance move around randomly. It does so by changing its orientation by a small random amount at each frame.
+The wander algorithm makes the entity move around randomly. It does so by changing its orientation by a small random amount at each frame.
 
 <Source dark code={wander} />
 

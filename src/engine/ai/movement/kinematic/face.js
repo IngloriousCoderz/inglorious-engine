@@ -5,15 +5,15 @@ import {
 } from "@inglorious/utils/math/linear-algebra/vector.js"
 import { subtract } from "@inglorious/utils/math/linear-algebra/vectors.js"
 
-export function face(instance, target, dt, options) {
-  const direction = subtract(target.position, instance.position)
+export function face(entity, target, dt, options) {
+  const direction = subtract(target.position, entity.position)
   const distance = magnitude(direction)
 
   if (!distance) {
-    return instance
+    return entity
   }
 
   const orientation = angle(direction)
 
-  return align(instance, { ...target, orientation }, dt, options)
+  return align(entity, { ...target, orientation }, dt, options)
 }

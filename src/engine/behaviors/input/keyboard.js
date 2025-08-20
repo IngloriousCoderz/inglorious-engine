@@ -6,7 +6,7 @@ export function keyboard() {
   let handleKeyDown, handleKeyUp
 
   return {
-    start(instance, event, options) {
+    start(entity, event, options) {
       handleKeyDown = createKeyboardHandler("keyboardKeyDown", options)
       handleKeyUp = createKeyboardHandler("keyboardKeyUp", options)
 
@@ -19,19 +19,19 @@ export function keyboard() {
       document.removeEventListener("keyup", handleKeyUp)
     },
 
-    keyboardKeyDown(instance, keyCode, { notify }) {
-      const action = instance.mapping[keyCode]
-      if (!instance[action]) {
-        instance[action] = true
-        notify("inputPress", { id: instance.id, action })
+    keyboardKeyDown(entity, keyCode, { notify }) {
+      const action = entity.mapping[keyCode]
+      if (!entity[action]) {
+        entity[action] = true
+        notify("inputPress", { id: entity.id, action })
       }
     },
 
-    keyboardKeyUp(instance, keyCode, { notify }) {
-      const action = instance.mapping[keyCode]
-      if (instance[action]) {
-        instance[action] = false
-        notify("inputRelease", { id: instance.id, action })
+    keyboardKeyUp(entity, keyCode, { notify }) {
+      const action = entity.mapping[keyCode]
+      if (entity[action]) {
+        entity[action] = false
+        notify("inputRelease", { id: entity.id, action })
       }
     },
   }

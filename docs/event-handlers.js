@@ -3,13 +3,13 @@ const X = 0
 export default {
   types: {
     character: {
-      render(instance, ctx) {
+      render(entity, ctx) {
         const {
           size = 24,
           orientation = 0,
           stroke = "black",
           fill = "transparent",
-        } = instance
+        } = entity
 
         const radius = size * 0.5
 
@@ -40,24 +40,24 @@ export default {
         ctx.restore()
       },
 
-      update(instance, dt, { instances }) {
-        const { game } = instances
+      update(entity, dt, { entities }) {
+        const { game } = entities
         const [left, , right] = game.bounds
 
-        if (instance.position[X] > right) {
-          instance.velocity[X] = -instance.maxSpeed
-          instance.orientation = 3.14
-        } else if (instance.position[X] < left) {
-          instance.velocity[X] = instance.maxSpeed
-          instance.orientation = 0
+        if (entity.position[X] > right) {
+          entity.velocity[X] = -entity.maxSpeed
+          entity.orientation = 3.14
+        } else if (entity.position[X] < left) {
+          entity.velocity[X] = entity.maxSpeed
+          entity.orientation = 0
         }
 
-        instance.position[X] += instance.velocity[X] * dt
+        entity.position[X] += entity.velocity[X] * dt
       },
     },
   },
 
-  instances: {
+  entities: {
     character: {
       type: "character",
       maxSpeed: 250,

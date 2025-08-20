@@ -16,7 +16,7 @@ const ONE_SECOND = 1000 // Number of milliseconds in one second.
 export class Engine {
   /**
    * @param {Object} game - Game-specific configuration.
-   * @param {Object} ui - UI instance responsible for rendering.
+   * @param {Object} ui - UI entity responsible for rendering.
    */
   constructor(game, ui) {
     this._config = extend(DEFAULT_CONFIG, game)
@@ -50,7 +50,7 @@ export class Engine {
     this._ui?.render({
       dt,
       types: this._store.getTypes(),
-      instances: this._store.getState().instances,
+      entities: this._store.getState().entities,
     })
   }
 

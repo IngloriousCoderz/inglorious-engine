@@ -18,27 +18,27 @@ export default {
       { render: renderCharacter },
       fsm({
         meandering: {
-          update(instance, dt, { instances }) {
-            const { mouse, game } = instances
+          update(entity, dt, { entities }) {
+            const { mouse, game } = entities
 
-            merge(instance, wander(instance, dt))
-            flip(instance, game.bounds)
+            merge(entity, wander(entity, dt))
+            flip(entity, game.bounds)
 
-            if (length(subtract(instance.position, mouse.position)) < 200) {
-              instance.state = "hunting"
+            if (length(subtract(entity.position, mouse.position)) < 200) {
+              entity.state = "hunting"
             }
           },
         },
 
         hunting: {
-          update(instance, dt, options) {
-            const { mouse, game } = options.instances
+          update(entity, dt, options) {
+            const { mouse, game } = options.entities
 
-            merge(instance, arrive(instance, mouse, dt, options))
-            clampToBounds(instance, game.bounds)
+            merge(entity, arrive(entity, mouse, dt, options))
+            clampToBounds(entity, game.bounds)
 
-            if (length(subtract(instance.position, mouse.position)) >= 200) {
-              instance.state = "meandering"
+            if (length(subtract(entity.position, mouse.position)) >= 200) {
+              entity.state = "meandering"
             }
           },
         },
@@ -46,7 +46,7 @@ export default {
     ],
   },
 
-  instances: {
+  entities: {
     mouse: {
       type: "mouse",
       position: [0, 0, 0],

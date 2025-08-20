@@ -1,8 +1,8 @@
 const DEFAULT_PADDING = 10
 const ONE_SECOND = 1
 
-export function renderFps(instance, ctx) {
-  const { accuracy, size, value } = instance.dt
+export function renderFps(entity, ctx) {
+  const { accuracy, size, value } = entity.dt
 
   ctx.save()
 

@@ -9,20 +9,20 @@ test("it should add a finite state machine", () => {
       kitty: [
         fsm({
           default: {
-            catMeow(instance) {
-              instance.state = "meowing"
+            catMeow(entity) {
+              entity.state = "meowing"
             },
           },
           meowing: {
-            update(instance) {
-              instance.treats++
+            update(entity) {
+              entity.treats++
             },
           },
         }),
       ],
     },
-    instances: {
-      instance1: {
+    entities: {
+      entity1: {
         type: "kitty",
         treats: 0,
       },
@@ -31,15 +31,15 @@ test("it should add a finite state machine", () => {
   const store = createStore(config)
   const afterState = {
     events: [],
-    instances: {
+    entities: {
       game: {
         id: "game",
         type: "game",
         layer: 0,
         bounds: [0, 0, 800, 600],
       },
-      instance1: {
-        id: "instance1",
+      entity1: {
+        id: "entity1",
         type: "kitty",
         layer: 0,
         state: "meowing",

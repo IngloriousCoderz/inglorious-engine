@@ -12,7 +12,7 @@ export const DEFAULT_TIME_TO_TARGET = 0.1
 const DEFAULT_MAX_SPEED = 0
 
 export function arrive(
-  instance,
+  entity,
   target,
   dt,
   {
@@ -21,13 +21,13 @@ export function arrive(
     timeToTarget = DEFAULT_TIME_TO_TARGET,
   } = {},
 ) {
-  const maxSpeed = instance.maxSpeed ?? DEFAULT_MAX_SPEED
+  const maxSpeed = entity.maxSpeed ?? DEFAULT_MAX_SPEED
 
-  const direction = subtract(target.position, instance.position)
+  const direction = subtract(target.position, entity.position)
   const distance = magnitude(direction)
 
   if (distance < targetRadius) {
-    return instance
+    return entity
   }
 
   let speed
@@ -38,5 +38,5 @@ export function arrive(
   }
   const velocity = setMagnitude(direction, speed)
 
-  return matchVelocity(instance, { velocity }, dt, { timeToTarget })
+  return matchVelocity(entity, { velocity }, dt, { timeToTarget })
 }

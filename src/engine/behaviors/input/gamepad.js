@@ -4,7 +4,7 @@ const DEFAULT_PARAMS = {
 
 export function gamepad() {
   return {
-    update(instance, dt, { notify }) {
+    update(entity, dt, { notify }) {
       navigator.getGamepads().forEach((gamepad) => {
         if (gamepad == null) {
           return
@@ -25,36 +25,36 @@ export function gamepad() {
       })
     },
 
-    gamepadAxis(instance, { id, axis, value }, { notify }) {
-      if (instance.id !== `gamepad${id}`) {
+    gamepadAxis(entity, { id, axis, value }, { notify }) {
+      if (entity.id !== `gamepad${id}`) {
         return
       }
 
-      const action = instance.mapping[axis]
-      instance[action] = value
+      const action = entity.mapping[axis]
+      entity[action] = value
       notify("inputAxis", { id, action, value })
     },
 
-    gamepadPress(instance, { id, button }, { notify }) {
-      if (instance.id !== `gamepad${id}`) {
+    gamepadPress(entity, { id, button }, { notify }) {
+      if (entity.id !== `gamepad${id}`) {
         return
       }
 
-      const action = instance.mapping[button]
-      if (!instance[action]) {
-        instance[action] = true
+      const action = entity.mapping[button]
+      if (!entity[action]) {
+        entity[action] = true
         notify("inputPress", { id, action })
       }
     },
 
-    gamepadRelease(instance, { id, button }, { notify }) {
-      if (instance.id !== `gamepad${id}`) {
+    gamepadRelease(entity, { id, button }, { notify }) {
+      if (entity.id !== `gamepad${id}`) {
         return
       }
 
-      const action = instance.mapping[button]
-      if (instance[action]) {
-        instance[action] = false
+      const action = entity.mapping[button]
+      if (entity[action]) {
+        entity[action] = false
         notify("inputRelease", { id, action })
       }
     },

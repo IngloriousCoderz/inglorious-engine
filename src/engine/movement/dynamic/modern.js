@@ -8,10 +8,10 @@ const DEFAULT_ORIENTATION = 0
 
 const ORIENTATION_CHANGE_THRESHOLD = 4
 
-export function modernMove(instance, dt) {
-  const { acceleration, velocity, position } = applyAcceleration(instance, dt)
+export function modernMove(entity, dt) {
+  const { acceleration, velocity, position } = applyAcceleration(entity, dt)
 
-  let orientation = instance.orientation ?? DEFAULT_ORIENTATION
+  let orientation = entity.orientation ?? DEFAULT_ORIENTATION
   orientation =
     magnitude(velocity) > ORIENTATION_CHANGE_THRESHOLD
       ? angle(velocity)

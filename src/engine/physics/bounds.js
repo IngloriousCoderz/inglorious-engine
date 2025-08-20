@@ -12,10 +12,10 @@ import { abs } from "@inglorious/utils/math/numbers.js"
 const X = 0
 const Z = 2
 
-export function bounce(instance, dt, [minX, minZ, maxX, maxZ]) {
-  const [x, , z] = instance.position
+export function bounce(entity, dt, [minX, minZ, maxX, maxZ]) {
+  const [x, , z] = entity.position
 
-  const velocity = createVector(instance.maxSpeed, instance.orientation)
+  const velocity = createVector(entity.maxSpeed, entity.orientation)
   if (x < minX || x >= maxX) {
     velocity[X] = -velocity[X]
   }
@@ -24,25 +24,25 @@ export function bounce(instance, dt, [minX, minZ, maxX, maxZ]) {
     velocity[Z] = -velocity[Z]
   }
 
-  const position = sum(instance.position, multiply(velocity, dt))
+  const position = sum(entity.position, multiply(velocity, dt))
   const orientation = angle(velocity)
 
   return { velocity, position, orientation }
 }
 
 // TODO: make the following functions pure
-export function clampToBounds(instance, [minX, minZ, maxX, maxZ]) {
-  instance.position = clamp(
-    instance.position,
+export function clampToBounds(entity, [minX, minZ, maxX, maxZ]) {
+  entity.position = clamp(
+    entity.position,
     [minX, minZ, minZ],
     [maxX, maxZ, maxZ],
   )
 }
 
-export function flip(instance, [minX, minZ, maxX, maxZ]) {
-  const [x, , z] = instance.position
+export function flip(entity, [minX, minZ, maxX, maxZ]) {
+  const [x, , z] = entity.position
 
-  const direction = fromAngle(instance.orientation)
+  const direction = fromAngle(entity.orientation)
 
   if (x < minX || x >= maxX || z < minZ || z >= maxZ) {
     if (x < minX) {
@@ -57,9 +57,9 @@ export function flip(instance, [minX, minZ, maxX, maxZ]) {
       direction[Z] = -abs(direction[Z])
     }
 
-    instance.acceleration = zero()
-    instance.velocity = zero()
+    entity.acceleration = zero()
+    entity.velocity = zero()
   }
 
-  instance.orientation = angle(direction)
+  entity.orientation = angle(direction)
 }

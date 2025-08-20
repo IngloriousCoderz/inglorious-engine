@@ -2,7 +2,7 @@
 import { clamped } from "@inglorious/engine/behaviors/clamped.js"
 import { modernControls } from "@inglorious/engine/behaviors/controls/kinematic/modern.js"
 import {
-  controlsInstances,
+  controlsEntities,
   controlsTypes,
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { jumpable } from "@inglorious/engine/behaviors/jumpable.js"
@@ -37,8 +37,8 @@ export default {
     goomba: [{ render: renderRectangle }],
   },
 
-  instances: {
-    ...controlsInstances("input0", {
+  entities: {
+    ...controlsEntities("input0", {
       ArrowLeft: "left",
       ArrowRight: "right",
       Space: "jump",
@@ -221,10 +221,10 @@ export default {
 function defaultMario() {
   return (type) =>
     extend(type, {
-      update(instance, dt, options) {
-        type.update?.(instance, dt, options)
+      update(entity, dt, options) {
+        type.update?.(entity, dt, options)
 
-        collideWithPowerUps(instance, options)
+        collideWithPowerUps(entity, options)
       },
     })
 }
@@ -232,10 +232,10 @@ function defaultMario() {
 function baseMario() {
   return (type) =>
     extend(type, {
-      update(instance, dt, options) {
-        type.update?.(instance, dt, options)
+      update(entity, dt, options) {
+        type.update?.(entity, dt, options)
 
-        collideWithEnemyAndDie(instance, options)
+        collideWithEnemyAndDie(entity, options)
       },
     })
 }
@@ -243,17 +243,17 @@ function baseMario() {
 function superMario() {
   return (type) =>
     extend(type, {
-      inputPress(instance, { id, action }) {
-        type.inputPress?.(instance, { id, action })
+      inputPress(entity, { id, action }) {
+        type.inputPress?.(entity, { id, action })
         if (id.endsWith("input0") && action === "break") {
           console.log("Break!")
         }
       },
 
-      update(instance, dt, options) {
-        type.update?.(instance, dt, options)
+      update(entity, dt, options) {
+        type.update?.(entity, dt, options)
 
-        collideWithEnemyAndShrink(instance, options)
+        collideWithEnemyAndShrink(entity, options)
       },
     })
 }
@@ -261,17 +261,17 @@ function superMario() {
 function fireMario() {
   return (type) =>
     extend(type, {
-      inputPress(instance, { id, action }) {
-        type.inputPress?.(instance, { id, action })
+      inputPress(entity, { id, action }) {
+        type.inputPress?.(entity, { id, action })
         if (id.endsWith("input0") && action === "shoot") {
           console.log("Shoot!")
         }
       },
 
-      update(instance, dt, options) {
-        type.update?.(instance, dt, options)
+      update(entity, dt, options) {
+        type.update?.(entity, dt, options)
 
-        collideWithEnemyAndLosePowers(instance, options)
+        collideWithEnemyAndLosePowers(entity, options)
       },
     })
 }
@@ -279,25 +279,25 @@ function fireMario() {
 function capeMario() {
   return (type) =>
     extend(type, {
-      inputPress(instance, { id, action }) {
-        type.inputPress?.(instance, { id, action })
+      inputPress(entity, { id, action }) {
+        type.inputPress?.(entity, { id, action })
 
         if (id.endsWith("input0") && action === "float") {
           console.log("Float!")
         }
       },
 
-      update(instance, dt, options) {
-        type.update?.(instance, dt, options)
+      update(entity, dt, options) {
+        type.update?.(entity, dt, options)
 
-        collideWithEnemyAndLosePowers(instance, options)
+        collideWithEnemyAndLosePowers(entity, options)
       },
     })
 }
 
-function collideWithPowerUps(instance, { instances, notify }) {
-  const powerup = findCollision(instance, {
-    instances,
+function collideWithPowerUps(entity, { entities, notify }) {
+  const powerup = findCollision(entity, {
+    entities,
     collisionGroup: "powerup",
   })
 
@@ -305,45 +305,45 @@ function collideWithPowerUps(instance, { instances, notify }) {
 
   switch (powerup.type) {
     case "mushroom":
-      instance.size = [64, 64, 0]
-      instance.maxSpeed = 300
-      instance.backgroundColor = "#b9342e"
+      entity.size = [64, 64, 0]
+      entity.maxSpeed = 300
+      entity.backgroundColor = "#b9342e"
 
       notify("morph", {
-        id: instance.type,
+        id: entity.type,
         type: [...BASE_MARIO_BEHAVIORS, superMario()],
       })
       break
 
     case "fireFlower":
-      instance.size = [64, 64, 0]
-      instance.maxSpeed = 350
-      instance.backgroundColor = "#f4f3e9"
+      entity.size = [64, 64, 0]
+      entity.maxSpeed = 350
+      entity.backgroundColor = "#f4f3e9"
 
       notify("morph", {
-        id: instance.type,
+        id: entity.type,
         type: [...BASE_MARIO_BEHAVIORS, superMario(), fireMario()],
       })
       break
 
     case "feather":
-      instance.size = [64, 64, 0]
-      instance.maxSpeed = 350
-      instance.backgroundColor = "#f4f040"
+      entity.size = [64, 64, 0]
+      entity.maxSpeed = 350
+      entity.backgroundColor = "#f4f040"
 
       notify("morph", {
-        id: instance.type,
+        id: entity.type,
         type: [...BASE_MARIO_BEHAVIORS, superMario(), capeMario()],
       })
       break
 
     case "diamond":
-      instance.size = [96, 96, 0]
-      instance.maxSpeed = 400
-      instance.backgroundColor = "#ca00ff"
+      entity.size = [96, 96, 0]
+      entity.maxSpeed = 400
+      entity.backgroundColor = "#ca00ff"
 
       notify("morph", {
-        id: instance.type,
+        id: entity.type,
         type: [...BASE_MARIO_BEHAVIORS, superMario(), fireMario(), capeMario()],
       })
       break
@@ -351,53 +351,53 @@ function collideWithPowerUps(instance, { instances, notify }) {
   notify("remove", powerup.id)
 }
 
-function collideWithEnemyAndDie(instance, { instances, notify }) {
-  const enemy = findCollision(instance, {
-    instances,
+function collideWithEnemyAndDie(entity, { entities, notify }) {
+  const enemy = findCollision(entity, {
+    entities,
     collisionGroup: "enemy",
   })
 
   if (!enemy) return
 
-  notify("remove", instance.id)
+  notify("remove", entity.id)
   notify("remove", enemy.id)
 
   console.log("Game over!")
 }
 
-function collideWithEnemyAndShrink(instance, { instances, notify }) {
-  const enemy = findCollision(instance, {
-    instances,
+function collideWithEnemyAndShrink(entity, { entities, notify }) {
+  const enemy = findCollision(entity, {
+    entities,
     collisionGroup: "enemy",
   })
 
   if (!enemy) return
 
-  instance.size = [32, 32, 0]
-  instance.maxSpeed = 250
-  instance.backgroundColor = "#393664"
+  entity.size = [32, 32, 0]
+  entity.maxSpeed = 250
+  entity.backgroundColor = "#393664"
 
   notify("morph", {
-    id: instance.type,
+    id: entity.type,
     type: [...BASE_MARIO_BEHAVIORS, baseMario()],
   })
   notify("remove", enemy.id)
 }
 
-function collideWithEnemyAndLosePowers(instance, { instances, notify }) {
-  const enemy = findCollision(instance, {
-    instances,
+function collideWithEnemyAndLosePowers(entity, { entities, notify }) {
+  const enemy = findCollision(entity, {
+    entities,
     collisionGroup: "enemy",
   })
 
   if (!enemy) return
 
-  instance.size = [64, 64, 0]
-  instance.maxSpeed = 300
-  instance.backgroundColor = "#b9342e"
+  entity.size = [64, 64, 0]
+  entity.maxSpeed = 300
+  entity.backgroundColor = "#b9342e"
 
   notify("morph", {
-    id: instance.type,
+    id: entity.type,
     type: [...BASE_MARIO_BEHAVIORS, superMario()],
   })
   notify("remove", enemy.id)

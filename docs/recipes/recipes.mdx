@@ -2,11 +2,11 @@ import { Canvas, Meta, Source } from '@storybook/addon-docs/blocks'
 import * as Recipes from './recipes.stories'
 
 import addAndRemove from './add-and-remove?raw'
-import addInstance from './add-instance?raw'
+import addEntity from './add-entity?raw'
 import decisionTree from './decision-tree?raw'
 import marioPowerups from './mario-powerups?raw'
-import randomInstances from './random-instances?raw'
-import removeInstance from './remove-instance?raw'
+import randomEntities from './random-entities?raw'
+import removeEntity from './remove-entity?raw'
 import states from './states?raw'
 
 <Meta of={Recipes} />
@@ -15,37 +15,37 @@ import states from './states?raw'
 
 Some common patterns that can be used in your game. Check the source code of each recipe and take inspiration!
 
-## Spawning Random Instances
+## Spawning Random Entities
 
-The game configuration is pure JavaScript, so there's not much difference between defining the instances one by one or writing some code that generates them automatically!
+The game configuration is pure JavaScript, so there's not much difference between defining the entities one by one or writing some code that generates them automatically!
 
 Here we are using a couple of utility functions from the [rng](/docs/utils-math-rng--docs) and [trigonometry](/docs/utils-math-trigonometry--docs) packages.
 
-<Source dark code={randomInstances} />
+<Source dark code={randomEntities} />
 
-<Canvas of={Recipes.RandomInstances} />
+<Canvas of={Recipes.RandomEntities} />
 
-## Adding An Instance
+## Adding An Entity
 
-Programmatically adding a new instance to the scene is as easy as sending an event to the game engine asking nicely.
+Programmatically adding a new entity to the scene is as easy as sending an event to the game engine asking nicely.
 
-Try clicking anywhere on the scene to create a new instance with random orientation.
+Try clicking anywhere on the scene to create a new entity with random orientation.
 
 Here, apart from some math functions, we are also using a predefined mouse [input](/docs/engine-input--docs) package that allows us to position a cursor and handle its events.
 
-<Source dark code={addInstance} />
+<Source dark code={addEntity} />
 
-<Canvas of={Recipes.AddInstance} />
+<Canvas of={Recipes.AddEntity} />
 
-## Removing An Instance
+## Removing An Entity
 
-Removing an instance is pretty much the same: we notify the engine of our intention and we enjoy the result.
+Removing an entity is pretty much the same: we notify the engine of our intention and we enjoy the result.
 
-Try clicking on any instance do remove it from the scene.
+Try clicking on any entity do remove it from the scene.
 
-<Source dark code={removeInstance} />
+<Source dark code={removeEntity} />
 
-<Canvas of={Recipes.RemoveInstance} />
+<Canvas of={Recipes.RemoveEntity} />
 
 ## Add And Remove
 
@@ -61,7 +61,7 @@ The most complex part of this code is generating new incremental ids, which is n
 
 Adding a states to our character is very easy, in fact every game so far was secretely using states already!
 
-We just need to wrap our event handlers into a `states` object, set an initial `state` on our instance, and transition from one state to another inside our event handlers.
+We just need to wrap our event handlers into a `states` object, set an initial `state` on our entity, and transition from one state to another inside our event handlers.
 
 Try moving the cursor near the character to make it hunt you, and then moving it away to see the character wander around aimlessly.
 

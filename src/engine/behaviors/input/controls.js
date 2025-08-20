@@ -18,7 +18,7 @@ export function controlsTypes(params) {
   }
 }
 
-export function controlsInstances(name = DEFAULT_PARAMS.name, mapping = {}) {
+export function controlsEntities(name = DEFAULT_PARAMS.name, mapping = {}) {
   return {
     [`keyboard_${name}`]: createKeyboard(`keyboard_${name}`, mapping),
     [`gamepad_${name}`]: createGamepad(`gamepad_${name}`, mapping),

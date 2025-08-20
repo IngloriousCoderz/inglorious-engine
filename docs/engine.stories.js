@@ -1,9 +1,9 @@
 import bounds from "./bounds.js"
 import codeReuse from "./code-reuse.js"
 import empty from "./empty.js"
+import entities from "./entities.js"
 import eventHandlers from "./event-handlers.js"
 import framerate from "./framerate.js"
-import instances from "./instances.js"
 import UiChooser from "./ui-chooser.jsx"
 
 export default {
@@ -19,8 +19,8 @@ export const Bounds = {
   args: { config: bounds },
 }
 
-export const Instances = {
-  args: { config: instances },
+export const Entities = {
+  args: { config: entities },
 }
 
 export const EventHandlers = {

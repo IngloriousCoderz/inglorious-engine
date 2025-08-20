@@ -5,7 +5,7 @@ export default {
     image: [{ render: renderImage }],
   },
 
-  instances: {
+  entities: {
     logo: {
       type: "image",
       position: [400 - 128 / 2, 0, 300 + 128 / 2],

@@ -20,17 +20,17 @@ const MIN_SPEED = 0
 const HALF_ACCELERATION = 0.5
 
 export function matchVelocity(
-  instance,
+  entity,
   target,
   dt,
   { timeToTarget = DEFAULT_TIME_TO_TARGET } = {},
 ) {
-  const maxAcceleration = instance.maxAcceleration ?? DEFAULT_MAX_ACCELERATION
-  const maxSpeed = instance.maxSpeed ?? DEFAULT_MAX_SPEED
+  const maxAcceleration = entity.maxAcceleration ?? DEFAULT_MAX_ACCELERATION
+  const maxSpeed = entity.maxSpeed ?? DEFAULT_MAX_SPEED
 
-  let orientation = instance.orientation ?? DEFAULT_ORIENTATION
+  let orientation = entity.orientation ?? DEFAULT_ORIENTATION
 
-  let velocity = instance.velocity ?? zero()
+  let velocity = entity.velocity ?? zero()
   const velocityDelta = subtract(target.velocity, velocity)
 
   let acceleration = divide(velocityDelta, timeToTarget)
@@ -40,7 +40,7 @@ export function matchVelocity(
   velocity = clamp(velocity, MIN_SPEED, maxSpeed)
 
   const position = sum(
-    instance.position,
+    entity.position,
     multiply(velocity, dt),
     multiply(acceleration, HALF_ACCELERATION * dt * dt),
   )

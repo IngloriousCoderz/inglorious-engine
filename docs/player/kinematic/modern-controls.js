@@ -1,7 +1,7 @@
 import { clamped } from "@inglorious/engine/behaviors/clamped.js"
 import { modernControls } from "@inglorious/engine/behaviors/controls/kinematic/modern.js"
 import {
-  controlsInstances,
+  controlsEntities,
   controlsTypes,
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { renderCharacter } from "@inglorious/ui/canvas/character.js"
@@ -15,8 +15,8 @@ export default {
     character: [{ render: renderCharacter }, modernControls(), clamped()],
   },
 
-  instances: {
-    ...controlsInstances("input0", {
+  entities: {
+    ...controlsEntities("input0", {
       ArrowUp: "up",
       ArrowDown: "down",
       ArrowLeft: "left",

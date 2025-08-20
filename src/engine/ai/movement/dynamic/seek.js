@@ -15,25 +15,25 @@ const MIN_SPEED = 0
 
 const HALF_ACCELERATION = 0.5
 
-export function seek(instance, target, dt) {
-  const maxAcceleration = instance.maxAcceleration ?? DEFAULT_MAX_ACCELERATION
-  const maxSpeed = instance.maxSpeed ?? DEFAULT_MAX_SPEED
+export function seek(entity, target, dt) {
+  const maxAcceleration = entity.maxAcceleration ?? DEFAULT_MAX_ACCELERATION
+  const maxSpeed = entity.maxSpeed ?? DEFAULT_MAX_SPEED
 
-  const direction = subtract(target.position, instance.position)
+  const direction = subtract(target.position, entity.position)
   const distance = magnitude(direction)
 
   if (!distance) {
-    return instance
+    return entity
   }
 
   const acceleration = setMagnitude(direction, maxAcceleration)
 
-  let velocity = instance.velocity ?? zero()
+  let velocity = entity.velocity ?? zero()
   velocity = sum(velocity, multiply(acceleration, dt))
   velocity = clamp(velocity, MIN_SPEED, maxSpeed)
 
   const position = sum(
-    instance.position,
+    entity.position,
     multiply(velocity, dt),
     multiply(acceleration, HALF_ACCELERATION * dt * dt),
   )

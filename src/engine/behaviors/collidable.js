@@ -11,8 +11,8 @@ export function collidable(params) {
     extend(type, {
       states: {
         [params.onState]: {
-          update(instance, dt, options) {
-            type.states?.[params.onState].update?.(instance, dt, options)
+          update(entity, dt, options) {
+            type.states?.[params.onState].update?.(entity, dt, options)
           },
         },
       },

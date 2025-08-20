@@ -14,39 +14,38 @@ export function tankControls(params) {
 
   return (type) =>
     extend(type, {
-      update(instance, dt, options) {
-        instance.maxAngularSpeed =
-          instance.maxAngularSpeed ?? params.maxAngularSpeed
-        instance.maxSpeed = instance.maxSpeed ?? params.maxSpeed
+      update(entity, dt, options) {
+        entity.maxAngularSpeed =
+          entity.maxAngularSpeed ?? params.maxAngularSpeed
+        entity.maxSpeed = entity.maxSpeed ?? params.maxSpeed
 
-        const { input0 } = options.instances
-        instance.velocity = zero()
+        const { input0 } = options.entities
+        entity.velocity = zero()
 
         if (input0.left) {
-          instance.orientation += 0.1
+          entity.orientation += 0.1
         }
         if (input0.down) {
-          instance.velocity[X] = -instance.maxSpeed
+          entity.velocity[X] = -entity.maxSpeed
         }
         if (input0.right) {
-          instance.orientation -= 0.1
+          entity.orientation -= 0.1
         }
         if (input0.up) {
-          instance.velocity[X] = instance.maxSpeed
+          entity.velocity[X] = entity.maxSpeed
         }
 
         if (input0.leftRight != null) {
-          instance.orientation +=
-            -input0.leftRight * instance.maxAngularSpeed * dt
+          entity.orientation += -input0.leftRight * entity.maxAngularSpeed * dt
         }
         if (input0.upDown != null) {
-          instance.velocity[X] += -input0.upDown * instance.maxSpeed
+          entity.velocity[X] += -input0.upDown * entity.maxSpeed
         }
         if (input0.strafe != null) {
-          instance.velocity[Z] += input0.strafe * instance.maxSpeed
+          entity.velocity[Z] += input0.strafe * entity.maxSpeed
         }
 
-        merge(instance, tankMove(instance, dt))
+        merge(entity, tankMove(entity, dt))
       },
     })
 }

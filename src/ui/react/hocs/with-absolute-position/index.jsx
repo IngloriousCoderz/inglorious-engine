@@ -4,8 +4,8 @@ import classes from "./with-absolute-position.module.scss"
 
 export function withAbsolutePosition(Component) {
   return function AbsolutePosition(props) {
-    const [, , , screenHeight] = props.instances.game.bounds
-    const { position = zero() } = props.instance
+    const [, , , screenHeight] = props.entities.game.bounds
+    const { position = zero() } = props.entity
 
     const [x, y, z] = position
 

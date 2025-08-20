@@ -13,30 +13,30 @@ export default {
     character: [
       { render: renderCharacter },
       {
-        update(instance, dt, { instances }) {
-          const { parameters, game } = instances
+        update(entity, dt, { entities }) {
+          const { parameters, game } = entities
           const { fields } = parameters.groups.wander
 
           merge(
-            instance,
-            wander(instance, dt, {
+            entity,
+            wander(entity, dt, {
               wanderOffset: fields.wanderOffset.value,
               wanderRadius: fields.wanderRadius.value,
             }),
           )
-          flip(instance, game.bounds)
+          flip(entity, game.bounds)
         },
       },
     ],
 
     form: {
-      fieldChange(instance, { id, value }) {
-        instance.groups.wander.fields[id].value = value
+      fieldChange(entity, { id, value }) {
+        entity.groups.wander.fields[id].value = value
       },
     },
   },
 
-  instances: {
+  entities: {
     character: {
       type: "character",
       maxAcceleration: 1000,

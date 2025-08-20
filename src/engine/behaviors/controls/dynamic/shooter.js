@@ -17,31 +17,31 @@ export function shooterControls(params) {
 
   return (type) =>
     extend(type, {
-      update(instance, dt, options) {
-        instance.maxAngularSpeed =
-          instance.maxAngularSpeed ?? params.maxAngularSpeed
-        instance.maxAcceleration =
-          instance.maxAcceleration ?? params.maxAcceleration
-        instance.maxSpeed = instance.maxSpeed ?? params.maxSpeed
+      update(entity, dt, options) {
+        entity.maxAngularSpeed =
+          entity.maxAngularSpeed ?? params.maxAngularSpeed
+        entity.maxAcceleration =
+          entity.maxAcceleration ?? params.maxAcceleration
+        entity.maxSpeed = entity.maxSpeed ?? params.maxSpeed
 
-        const { input0, mouse } = options.instances
-        instance.acceleration = zero()
+        const { input0, mouse } = options.entities
+        entity.acceleration = zero()
 
         if (input0.left) {
-          instance.acceleration[Z] = -instance.maxAcceleration
+          entity.acceleration[Z] = -entity.maxAcceleration
         }
         if (input0.down) {
-          instance.acceleration[X] = -instance.maxAcceleration
+          entity.acceleration[X] = -entity.maxAcceleration
         }
         if (input0.right) {
-          instance.acceleration[Z] = instance.maxAcceleration
+          entity.acceleration[Z] = entity.maxAcceleration
         }
         if (input0.up) {
-          instance.acceleration[X] = instance.maxAcceleration
+          entity.acceleration[X] = entity.maxAcceleration
         }
 
-        merge(instance, face(instance, mouse, dt, options))
-        merge(instance, tankMove(instance, dt))
+        merge(entity, face(entity, mouse, dt, options))
+        merge(entity, tankMove(entity, dt))
       },
     })
 }

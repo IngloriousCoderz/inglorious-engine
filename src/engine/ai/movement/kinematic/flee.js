@@ -8,18 +8,18 @@ import { subtract, sum } from "@inglorious/utils/math/linear-algebra/vectors.js"
 
 const DEFAULT_MAX_SPEED = 0
 
-export function flee(instance, target, dt) {
-  const maxSpeed = instance.maxSpeed ?? DEFAULT_MAX_SPEED
+export function flee(entity, target, dt) {
+  const maxSpeed = entity.maxSpeed ?? DEFAULT_MAX_SPEED
 
-  const direction = subtract(instance.position, target.position)
+  const direction = subtract(entity.position, target.position)
   const distance = magnitude(direction)
 
   if (!distance) {
-    return instance
+    return entity
   }
 
   const velocity = setMagnitude(direction, maxSpeed)
-  const position = sum(instance.position, multiply(velocity, dt))
+  const position = sum(entity.position, multiply(velocity, dt))
   const orientation = angle(velocity)
 
   return { velocity, position, orientation }

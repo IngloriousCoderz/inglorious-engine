@@ -12,18 +12,18 @@ export default {
     character: [
       { render: renderCharacter },
       {
-        update(instance, dt, { instances }) {
-          const { mouse, game } = instances
+        update(entity, dt, { entities }) {
+          const { mouse, game } = entities
 
-          merge(instance, flee(instance, mouse, dt))
+          merge(entity, flee(entity, mouse, dt))
 
-          clampToBounds(instance, game.bounds)
+          clampToBounds(entity, game.bounds)
         },
       },
     ],
   },
 
-  instances: {
+  entities: {
     mouse: {
       type: "mouse",
       position: [400, 0, 300],

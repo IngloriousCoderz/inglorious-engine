@@ -1,7 +1,7 @@
 import { Sprite } from "@inglorious/engine/animation/sprite.js"
 import { collisionGizmos } from "@inglorious/engine/behaviors/debug/collision.js"
 import {
-  controlsInstances,
+  controlsEntities,
   controlsTypes,
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { findCollisions } from "@inglorious/engine/collision/detection.js"
@@ -25,60 +25,60 @@ export default {
       // modernControls(),
       (type) =>
         extend(type, {
-          update(instance, dt, options) {
-            type.update?.(instance, dt, options)
+          update(entity, dt, options) {
+            type.update?.(entity, dt, options)
 
-            const { maxSpeed } = instance
-            const { instances, notify } = options
-            const { dungeon, input0 } = instances
+            const { maxSpeed } = entity
+            const { entities, notify } = options
+            const { dungeon, input0 } = entities
 
-            const animation = Sprite.move2(instance)
-            Sprite.play(animation, { instance, dt, notify })
+            const animation = Sprite.move2(entity)
+            Sprite.play(animation, { entity, dt, notify })
 
-            instance.velocity = zero()
+            entity.velocity = zero()
 
             if (input0.left) {
-              instance.velocity[X] = -maxSpeed
+              entity.velocity[X] = -maxSpeed
             }
             if (input0.right) {
-              instance.velocity[X] = maxSpeed
+              entity.velocity[X] = maxSpeed
             }
             if (input0.leftRight != null) {
-              instance.velocity[X] += input0.leftRight * maxSpeed
+              entity.velocity[X] += input0.leftRight * maxSpeed
             }
 
-            const oldX = instance.position[X]
-            instance.position[X] += instance.velocity[X] * dt
-            if (findCollisions(dungeon, instance)) {
-              instance.position[X] = oldX
+            const oldX = entity.position[X]
+            entity.position[X] += entity.velocity[X] * dt
+            if (findCollisions(dungeon, entity)) {
+              entity.position[X] = oldX
             }
 
             if (input0.down) {
-              instance.velocity[Z] = -maxSpeed
+              entity.velocity[Z] = -maxSpeed
             }
             if (input0.up) {
-              instance.velocity[Z] = maxSpeed
+              entity.velocity[Z] = maxSpeed
             }
             if (input0.upDown != null) {
-              instance.velocity[Z] += -input0.upDown * maxSpeed
+              entity.velocity[Z] += -input0.upDown * maxSpeed
             }
 
-            const oldZ = instance.position[Z]
-            instance.position[Z] += instance.velocity[Z] * dt
-            if (findCollisions(dungeon, instance)) {
-              instance.position[Z] = oldZ
+            const oldZ = entity.position[Z]
+            entity.position[Z] += entity.velocity[Z] * dt
+            if (findCollisions(dungeon, entity)) {
+              entity.position[Z] = oldZ
             }
           },
         }),
     ],
   },
 
-  instances: {
+  entities: {
     game: {
       pixelated: true,
     },
 
-    ...controlsInstances("input0", {
+    ...controlsEntities("input0", {
       ArrowLeft: "left",
       ArrowRight: "right",
       ArrowDown: "down",
@@ -151,7 +151,7 @@ export default {
 
     player: {
       type: "player",
-      position: [400 - 16 * 3, 1, 300 - 16],
+      position: [400 - 48 / 2, 1, 300 - 48],
       maxSpeed: 250,
       sprite: {
         image: {
@@ -171,9 +171,7 @@ export default {
         hitbox: {
           shape: "rectangle",
           size: [48, 0, 48],
-          offset: [-48 / 2, 0, -48 / 2],
-          // size: [24, 0, 24],
-          // offset: [-8, 0, -8],
+          offset: [48 / 2, 0, -48 / 2],
         },
       },
     },

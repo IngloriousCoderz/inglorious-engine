@@ -2,7 +2,7 @@ import { clamped } from "@inglorious/engine/behaviors/clamped.js"
 import { modernControls } from "@inglorious/engine/behaviors/controls/dynamic/modern.js"
 import { fsm } from "@inglorious/engine/behaviors/fsm.js"
 import {
-  controlsInstances,
+  controlsEntities,
   controlsTypes,
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { jumpable } from "@inglorious/engine/behaviors/jumpable.js"
@@ -23,22 +23,22 @@ export default {
       jumpable(),
       fsm({
         default: {
-          update(instance) {
-            stopFreeFalling(instance)
+          update(entity) {
+            stopFreeFalling(entity)
           },
         },
 
         jumping: {
-          update(instance) {
-            stopFreeFalling(instance)
+          update(entity) {
+            stopFreeFalling(entity)
           },
         },
       }),
     ],
   },
 
-  instances: {
-    ...controlsInstances("input0", {
+  entities: {
+    ...controlsEntities("input0", {
       ArrowUp: "up",
       ArrowDown: "down",
       ArrowLeft: "left",
@@ -74,11 +74,11 @@ export default {
   },
 }
 
-function stopFreeFalling(instance) {
-  if (instance.position[Y] <= 0) {
-    instance.vy = 0
-    instance.position[Y] = 0
-    instance.state = "default"
-    instance.jumpsLeft = 1
+function stopFreeFalling(entity) {
+  if (entity.position[Y] <= 0) {
+    entity.vy = 0
+    entity.position[Y] = 0
+    entity.state = "default"
+    entity.jumpsLeft = 1
   }
 }

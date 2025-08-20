@@ -5,19 +5,19 @@ const NO_Y = 0
 
 export function mouse() {
   return {
-    mouseMove(instance, position, { instances }) {
-      instance.position = position
+    mouseMove(entity, position, { entities }) {
+      entity.position = position
 
-      const { game } = instances
-      clampToBounds(instance, game.bounds)
+      const { game } = entities
+      clampToBounds(entity, game.bounds)
     },
 
-    mouseClick(instance, position, options) {
+    mouseClick(entity, position, options) {
       const { notify } = options
 
-      const clickedInstance = findCollision(instance, options)
-      if (clickedInstance) {
-        notify("instanceClick", clickedInstance.id)
+      const clickedEntity = findCollision(entity, options)
+      if (clickedEntity) {
+        notify("entityClick", clickedEntity.id)
       } else {
         notify("sceneClick", position)
       }

@@ -4,28 +4,28 @@ const DEFAULT_PARAMS = {
 
 export function input() {
   return {
-    inputAxis(instance, { id, action, value }) {
-      if (!id.endsWith(instance.id)) {
+    inputAxis(entity, { id, action, value }) {
+      if (!id.endsWith(entity.id)) {
         return
       }
 
-      instance[action] = value
+      entity[action] = value
     },
 
-    inputPress(instance, { id, action }) {
-      if (!id.endsWith(instance.id)) {
+    inputPress(entity, { id, action }) {
+      if (!id.endsWith(entity.id)) {
         return
       }
 
-      instance[action] = true
+      entity[action] = true
     },
 
-    inputRelease(instance, { id, action }) {
-      if (!id.endsWith(instance.id)) {
+    inputRelease(entity, { id, action }) {
+      if (!id.endsWith(entity.id)) {
         return
       }
 
-      instance[action] = false
+      entity[action] = false
     },
   }
 }

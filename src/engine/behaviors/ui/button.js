@@ -2,14 +2,14 @@ export function button() {
   return {
     states: {
       default: {
-        instanceClick(instance) {
-          instance.state = "pressed"
+        entityClick(entity) {
+          entity.state = "pressed"
         },
       },
 
       pressed: {
-        instanceRelease(instance) {
-          instance.state = "default"
+        entityRelease(entity) {
+          entity.state = "default"
         },
       },
     },

@@ -11,16 +11,16 @@ export default {
     character: [
       { render: renderCharacter },
       {
-        update(instance, dt, { instances }) {
-          const { mouse } = instances
+        update(entity, dt, { entities }) {
+          const { mouse } = entities
 
-          merge(instance, seek(instance, mouse, dt))
+          merge(entity, seek(entity, mouse, dt))
         },
       },
     ],
   },
 
-  instances: {
+  entities: {
     mouse: {
       type: "mouse",
       position: [400, 0, 300],

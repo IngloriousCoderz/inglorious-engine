@@ -13,19 +13,19 @@ const Shape = {
 export function collisionGizmos() {
   return (type) =>
     extend(type, {
-      render(instance, ctx, options) {
-        type.render(instance, ctx, options)
+      render(entity, ctx, options) {
+        type.render(entity, ctx, options)
 
-        const { game } = options.instances
+        const { game } = options.entities
         if (!game.debug) {
           return
         }
 
         ctx.save()
 
-        Object.values(instance.collisions).forEach((collision) => {
+        Object.values(entity.collisions).forEach((collision) => {
           const render = Shape[collision.shape]
-          render({ ...instance, ...collision, color: "#00FF00" }, ctx, options)
+          render({ ...entity, ...collision, color: "#00FF00" }, ctx, options)
         })
 
         ctx.restore()

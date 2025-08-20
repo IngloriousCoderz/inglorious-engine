@@ -10,7 +10,7 @@ export function start(config, canvas) {
   const ctx = canvas.getContext("2d")
   const engine = new Engine(config, { render: render(ctx) })
 
-  const { game } = engine._store.getState().instances
+  const { game } = engine._store.getState().entities
   const [, , width, height] = game.bounds
 
   canvas.style.width = `${width}px`
@@ -44,8 +44,8 @@ export function start(config, canvas) {
 
 function render(ctx) {
   return (options) => {
-    const { types, instances } = options
-    const { game, mouse, ...rest } = instances
+    const { types, entities } = options
+    const { game, mouse, ...rest } = entities
 
     const [x, y, width, height] = game.bounds
     ctx.fillStyle = "lightgrey"
@@ -62,10 +62,10 @@ function render(ctx) {
           a.position[Y] - b.position[Y] ||
           b.position[Z] - a.position[Z],
       )
-      .forEach((instance) => {
-        const { render } = types[instance.type]
+      .forEach((entity) => {
+        const { render } = types[entity.type]
         if (render) {
-          absolutePosition(render)(instance, ctx, options)
+          absolutePosition(render)(entity, ctx, options)
         }
       })
 

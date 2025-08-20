@@ -9,18 +9,18 @@ import { subtract, sum } from "@inglorious/utils/math/linear-algebra/vectors.js"
 export const DEFAULT_MAX_PREDICTION = 10
 
 export function pursue(
-  instance,
+  entity,
   target,
   dt,
   { maxPrediction = DEFAULT_MAX_PREDICTION } = {},
 ) {
-  const velocity = instance.velocity ?? zero()
+  const velocity = entity.velocity ?? zero()
 
-  const direction = subtract(target.position, instance.position)
+  const direction = subtract(target.position, entity.position)
   const distance = magnitude(direction)
 
   if (!distance) {
-    return instance
+    return entity
   }
 
   const speed = magnitude(velocity)
@@ -34,5 +34,5 @@ export function pursue(
 
   const position = sum(target.position, multiply(target.velocity, prediction))
 
-  return seek(instance, { ...target, position }, dt)
+  return seek(entity, { ...target, position }, dt)
 }

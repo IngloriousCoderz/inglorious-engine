@@ -1,13 +1,13 @@
 export default {
   types: {
     character: {
-      render(instance, ctx) {
+      render(entity, ctx) {
         const {
           size = 24,
           orientation = 0,
           stroke = "black",
           fill = "transparent",
-        } = instance
+        } = entity
 
         const radius = size * 0.5
 
@@ -40,7 +40,7 @@ export default {
     },
   },
 
-  instances: {
+  entities: {
     character: {
       type: "character",
       position: [400, 0, 300],

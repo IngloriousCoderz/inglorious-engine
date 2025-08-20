@@ -9,15 +9,15 @@ export default {
     character: [
       { render: renderCharacter },
       {
-        update(instance, dt, { instances }) {
-          const { mouse } = instances
-          instance.position = mouse.position
+        update(entity, dt, { entities }) {
+          const { mouse } = entities
+          entity.position = mouse.position
         },
       },
     ],
   },
 
-  instances: {
+  entities: {
     mouse: {
       type: "mouse",
       position: [400, 0, 300],

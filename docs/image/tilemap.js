@@ -5,7 +5,7 @@ export default {
     tilemap: [{ render: renderTilemap }],
   },
 
-  instances: {
+  entities: {
     game: {
       pixelated: true,
     },

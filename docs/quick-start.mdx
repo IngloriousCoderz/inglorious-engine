@@ -76,16 +76,16 @@ export default {
   },
   
   // Dynamic state - changes during gameplay
-  instances: {
+  entities: {
     // Actual objects in the scene
   }
 }
 ```
 
-### 2. Types vs Instances
+### 2. Types vs Entities
 
 - **Types**: Define what something *is* (like a blueprint)
-- **Instances**: Define specific *examples* of that type (like actual objects)
+- **Entities**: Define specific *examples* of that type (like actual objects)
 
 ### 3. Event Handlers
 
@@ -95,10 +95,10 @@ To make things move and interact, use event handlers:
 types: {
   character: {
     // Drawing logic here
-    render(instance, ctx) { /* ... */ },
+    render(entity, ctx) { /* ... */ },
     
     // Event handlers here
-    update(instance, event, { dt, config, instances }) {
+    update(entity, event, { dt, config, entities }) {
       // This runs every frame
       // Update position, velocity, etc.
     }
@@ -121,7 +121,7 @@ Traditional game engines use objects with methods that modify internal state. In
 ✅ **Composable**: Combine behaviors like LEGO blocks. This is a core part of the engine's **[Composition over Inheritance](/docs/engine-core-concepts-composition--docs)** philosophy  
 ✅ **Debuggable**: Trace state changes frame-by-frame, and even enable time-travel debugging  
 ✅ **Networked**: Multiplayer made easy with simple event synchronization  
-✅ **Flexible**: Add new properties to objects on the fly, no classes needed  
+✅ **Flexible**: Add new properties to entities on the fly, no classes needed  
 ✅ **Performant**: Immutability enables efficient rendering  
 
 Ready to build your first game? Let's go!

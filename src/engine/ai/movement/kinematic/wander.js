@@ -11,16 +11,16 @@ const DEFAULT_MAX_ANGULAR_SPEED = 0
 
 const DEFAULT_ORIENTATION = 0
 
-export function wander(instance, dt) {
-  const maxSpeed = instance.maxSpeed ?? DEFAULT_MAX_SPEED
-  const maxAngularSpeed = instance.maxAngularSpeed ?? DEFAULT_MAX_ANGULAR_SPEED
+export function wander(entity, dt) {
+  const maxSpeed = entity.maxSpeed ?? DEFAULT_MAX_SPEED
+  const maxAngularSpeed = entity.maxAngularSpeed ?? DEFAULT_MAX_ANGULAR_SPEED
 
-  let orientation = instance.orientation ?? DEFAULT_ORIENTATION
+  let orientation = entity.orientation ?? DEFAULT_ORIENTATION
   orientation += randomBinomial() * maxAngularSpeed
 
   const velocity = createVector(maxSpeed, orientation)
 
-  const position = sum(instance.position, multiply(velocity, dt))
+  const position = sum(entity.position, multiply(velocity, dt))
   orientation = angle(velocity)
 
   return { velocity, position, orientation }

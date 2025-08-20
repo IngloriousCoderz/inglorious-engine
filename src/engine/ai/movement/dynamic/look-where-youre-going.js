@@ -5,12 +5,12 @@ import {
   zero,
 } from "@inglorious/utils/math/linear-algebra/vector.js"
 
-export function lookWhereYoureGoing(instance, dt, options) {
-  const velocity = instance.velocity ?? zero()
+export function lookWhereYoureGoing(entity, dt, options) {
+  const velocity = entity.velocity ?? zero()
 
   if (!magnitude(velocity)) {
-    return instance
+    return entity
   }
 
-  return align(instance, { orientation: angle(velocity) }, dt, options)
+  return align(entity, { orientation: angle(velocity) }, dt, options)
 }

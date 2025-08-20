@@ -12,11 +12,11 @@ export function fsm(states) {
       (acc, eventName) => ({
         ...acc,
 
-        [eventName](instance, event, options) {
-          type[eventName]?.(instance, event, options)
+        [eventName](entity, event, options) {
+          type[eventName]?.(entity, event, options)
 
-          const state = states[instance.state ?? DEFAULT_STATE]
-          state?.[eventName]?.(instance, event, options)
+          const state = states[entity.state ?? DEFAULT_STATE]
+          state?.[eventName]?.(entity, event, options)
         },
       }),
       {},

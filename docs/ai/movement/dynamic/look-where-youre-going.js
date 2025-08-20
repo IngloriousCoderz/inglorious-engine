@@ -5,7 +5,7 @@ import {
 } from "@inglorious/engine/ai/movement/dynamic/align.js"
 import { lookWhereYoureGoing } from "@inglorious/engine/ai/movement/dynamic/look-where-youre-going.js"
 import {
-  controlsInstances,
+  controlsEntities,
   controlsTypes,
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { clampToBounds } from "@inglorious/engine/physics/bounds.js"
@@ -21,11 +21,11 @@ export default {
     character: [
       { render: renderCharacter },
       {
-        update(instance, dt, { instances }) {
-          const { parameters, game } = instances
+        update(entity, dt, { entities }) {
+          const { parameters, game } = entities
           const { fields } = parameters.groups.lookWhereYoureGoing
 
-          const { input0 } = instances
+          const { input0 } = entities
 
           const target = { velocity: [0, 0, 0] }
           if (input0.left) {
@@ -41,34 +41,34 @@ export default {
             target.velocity[2] = 1
           }
 
-          merge(instance, {
+          merge(entity, {
             velocity: target.velocity,
-            position: sum(instance.position, target.velocity),
+            position: sum(entity.position, target.velocity),
           })
 
           merge(
-            instance,
-            lookWhereYoureGoing(instance, dt, {
+            entity,
+            lookWhereYoureGoing(entity, dt, {
               targetRadius: fields.targetRadius.value,
               slowRadius: fields.slowRadius.value,
               timeToTarget: fields.timeToTarget.value,
             }),
           )
 
-          clampToBounds(instance, game.bounds)
+          clampToBounds(entity, game.bounds)
         },
       },
     ],
 
     form: {
-      fieldChange(instance, { id, value }) {
-        instance.groups.lookWhereYoureGoing.fields[id].value = value
+      fieldChange(entity, { id, value }) {
+        entity.groups.lookWhereYoureGoing.fields[id].value = value
       },
     },
   },
 
-  instances: {
-    ...controlsInstances("input0", {
+  entities: {
+    ...controlsEntities("input0", {
       ArrowLeft: "left",
       ArrowRight: "right",
       ArrowDown: "down",

@@ -1,7 +1,7 @@
 /* eslint-disable no-magic-numbers */
 
-export function renderMouse(instance, ctx) {
-  const { color = "black", thickness = 1, orientation = 0 } = instance
+export function renderMouse(entity, ctx) {
+  const { color = "black", thickness = 1, orientation = 0 } = entity
 
   ctx.save()
 

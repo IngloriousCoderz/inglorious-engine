@@ -15,17 +15,17 @@ const MIN_SPEED = 0
 
 const HALF_ACCELERATION = 0.5
 
-export function flee(instance, target, dt) {
-  const maxAcceleration = instance.maxAcceleration ?? DEFAULT_MAX_ACCELERATION
-  const maxSpeed = instance.maxSpeed ?? DEFAULT_MAX_SPEED
+export function flee(entity, target, dt) {
+  const maxAcceleration = entity.maxAcceleration ?? DEFAULT_MAX_ACCELERATION
+  const maxSpeed = entity.maxSpeed ?? DEFAULT_MAX_SPEED
 
-  let velocity = instance.velocity ?? zero()
+  let velocity = entity.velocity ?? zero()
 
-  const direction = subtract(instance.position, target.position)
+  const direction = subtract(entity.position, target.position)
   const distance = magnitude(direction)
 
   if (!distance) {
-    return instance
+    return entity
   }
 
   const acceleration = setMagnitude(direction, maxAcceleration)
@@ -34,7 +34,7 @@ export function flee(instance, target, dt) {
   velocity = clamp(velocity, MIN_SPEED, maxSpeed)
 
   const position = sum(
-    instance.position,
+    entity.position,
     multiply(velocity, dt),
     multiply(acceleration, HALF_ACCELERATION * dt * dt),
   )

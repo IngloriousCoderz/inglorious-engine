@@ -13,9 +13,9 @@ export default {
     character: [
       { render: renderCharacter },
       {
-        update(instance, dt, { instances }) {
-          const { game } = instances
-          merge(instance, bounce(instance, dt, game.bounds))
+        update(entity, dt, { entities }) {
+          const { game } = entities
+          merge(entity, bounce(entity, dt, game.bounds))
         },
       },
     ],
@@ -23,7 +23,7 @@ export default {
     fps: [{ render: renderFps }, fps()],
   },
 
-  instances: {
+  entities: {
     character: {
       type: "character",
       maxSpeed: 250,

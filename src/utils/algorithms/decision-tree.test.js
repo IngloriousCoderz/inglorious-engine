@@ -5,16 +5,16 @@ import { expect, test } from "vitest"
 import { decide } from "./decision-tree.js"
 
 test("it should make a decision based on a binary decision tree", () => {
-  const instance = { state: "sleeping", position: [0, 0, 0] }
+  const entity = { state: "sleeping", position: [0, 0, 0] }
   const target = { position: [10, 0, 0] }
   const tree = {
-    test({ instance }) {
-      return instance.state === "idle"
+    test({ entity }) {
+      return entity.state === "idle"
     },
     true() {
       return {
-        test({ instance, target }) {
-          const distance = length(subtract(target.position, instance.position))
+        test({ entity, target }) {
+          const distance = length(subtract(target.position, entity.position))
           return distance < 250
         },
         true() {
@@ -24,14 +24,14 @@ test("it should make a decision based on a binary decision tree", () => {
     },
     false() {
       return {
-        test({ instance }) {
-          return instance.state === "chasing"
+        test({ entity }) {
+          return entity.state === "chasing"
         },
         true() {
           return {
-            test({ instance, target }) {
+            test({ entity, target }) {
               const distance = length(
-                subtract(target.position, instance.position),
+                subtract(target.position, entity.position),
               )
               return distance >= 250
             },
@@ -40,9 +40,9 @@ test("it should make a decision based on a binary decision tree", () => {
             },
             false() {
               return {
-                test({ instance, target }) {
+                test({ entity, target }) {
                   const distance = length(
-                    subtract(target.position, instance.position),
+                    subtract(target.position, entity.position),
                   )
                   return distance < 10
                 },
@@ -55,14 +55,14 @@ test("it should make a decision based on a binary decision tree", () => {
         },
         false() {
           return {
-            test({ instance }) {
-              return ["sleepy", "sleeping"].includes(instance.state)
+            test({ entity }) {
+              return ["sleepy", "sleeping"].includes(entity.state)
             },
             true() {
               return {
-                test({ instance, target }) {
+                test({ entity, target }) {
                   const distance = length(
-                    subtract(target.position, instance.position),
+                    subtract(target.position, entity.position),
                   )
                   return distance >= 10
                 },
@@ -77,49 +77,49 @@ test("it should make a decision based on a binary decision tree", () => {
     },
   }
 
-  const state = decide(tree, { instance, target })
+  const state = decide(tree, { entity, target })
 
   expect(state).toBe("aware")
 })
 
 test("it should make a decision on a multi-child tree", () => {
-  const instance = { state: "sleeping", position: [0, 0, 0] }
+  const entity = { state: "sleeping", position: [0, 0, 0] }
   const target = { position: [10, 0, 0] }
   const wakeUp = () => ({
-    test({ instance, target }) {
-      const distance = length(subtract(target.position, instance.position))
+    test({ entity, target }) {
+      const distance = length(subtract(target.position, entity.position))
       return distance >= 10
     },
     true() {
       return "aware"
     },
-    false({ instance }) {
-      return instance.state
+    false({ entity }) {
+      return entity.state
     },
   })
 
   const tree = {
-    test({ instance }) {
-      return instance.state
+    test({ entity }) {
+      return entity.state
     },
     idle() {
       return {
-        test({ instance, target }) {
-          const distance = length(subtract(target.position, instance.position))
+        test({ entity, target }) {
+          const distance = length(subtract(target.position, entity.position))
           return distance < 250
         },
         true() {
           return "aware"
         },
-        false({ instance }) {
-          return instance.state
+        false({ entity }) {
+          return entity.state
         },
       }
     },
     chasing() {
       return {
-        test({ instance, target }) {
-          const distance = length(subtract(target.position, instance.position))
+        test({ entity, target }) {
+          const distance = length(subtract(target.position, entity.position))
           return distance >= 250
         },
         true() {
@@ -127,17 +127,17 @@ test("it should make a decision on a multi-child tree", () => {
         },
         false() {
           return {
-            test({ instance, target }) {
+            test({ entity, target }) {
               const distance = length(
-                subtract(target.position, instance.position),
+                subtract(target.position, entity.position),
               )
               return distance < 10
             },
             true() {
               return "sleepy"
             },
-            false({ instance }) {
-              return instance.state
+            false({ entity }) {
+              return entity.state
             },
           }
         },
@@ -147,7 +147,7 @@ test("it should make a decision on a multi-child tree", () => {
     sleeping: wakeUp,
   }
 
-  const state = decide(tree, { instance, target })
+  const state = decide(tree, { entity, target })
 
   expect(state).toBe("aware")
 })

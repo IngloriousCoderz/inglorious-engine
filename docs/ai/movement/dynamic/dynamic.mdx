@@ -16,15 +16,15 @@ import matchVelocity from './match-velocity?raw'
 
 # Dynamic Movement
 
-The algorithms described here make an NPC instance move by applying forces, which in turn affect its acceleration and velocity. The movement is much smoother and more realistic than its [kinematic](/docs/ai-movement-kinematic-kinematic--docs) counterpart.
+The algorithms described here make an NPC entity move by applying forces, which in turn affect its acceleration and velocity. The movement is much smoother and more realistic than its [kinematic](/docs/ai-movement-kinematic-kinematic--docs) counterpart.
 
-Every algorithm returns a steering object, which contains a linear and an angular acceleration. These can be used to update the instance's velocity and orientation.
+Every algorithm returns a steering object, which contains a linear and an angular acceleration. These can be used to update the entity's velocity and orientation.
 
 Most examples here make use of user [input](/docs/games-input--docs), so check those out if you haven't already.
 
 ## Seek
 
-The seek algorithm makes the instance chase a target. The movement is much smoother than its kinematic counterpart.
+The seek algorithm makes the entity chase a target. The movement is much smoother than its kinematic counterpart.
 
 <Source dark code={seek} />
 
@@ -32,7 +32,7 @@ The seek algorithm makes the instance chase a target. The movement is much smoot
 
 ## Flee
 
-The flee algorithm is the exact opposite of seek: the instance will run away from the target.
+The flee algorithm is the exact opposite of seek: the entity will run away from the target.
 
 <Source dark code={flee} />
 
@@ -40,7 +40,7 @@ The flee algorithm is the exact opposite of seek: the instance will run away fro
 
 ## Arrive
 
-The arrive algorithm is a more refined version of seek: the instance will slow down as it approaches the target, and the movement is much smoother.
+The arrive algorithm is a more refined version of seek: the entity will slow down as it approaches the target, and the movement is much smoother.
 
 <Source dark code={arrive} />
 
@@ -64,7 +64,7 @@ Evade is the opposite of pursue. It predicts the future position of a moving tar
 
 ## Wander
 
-The wander algorithm makes the instance move around randomly, but in a smooth and realistic way.
+The wander algorithm makes the entity move around randomly, but in a smooth and realistic way.
 
 <Source dark code={wander} />
 
@@ -80,7 +80,7 @@ A simple but effective algorithm that aligns the character's orientation with it
 
 ## Align and Face
 
-The `align` algorithm makes the instance rotate to match the target's orientation, while `face` makes it rotate to look at the target's position. They are smoother versions of their kinematic counterparts.
+The `align` algorithm makes the entity rotate to match the target's orientation, while `face` makes it rotate to look at the target's position. They are smoother versions of their kinematic counterparts.
 
 <Source dark code={align} />
 
@@ -92,7 +92,7 @@ The `align` algorithm makes the instance rotate to match the target's orientatio
 
 ## Match Velocity
 
-This algorithm adjusts the instance's velocity to match the target's velocity. It's a key component for flocking behaviors.
+This algorithm adjusts the entity's velocity to match the target's velocity. It's a key component for flocking behaviors.
 
 <Source dark code={matchVelocity} />
 

@@ -20,7 +20,7 @@ Here are a few examples of what you can do.
 
 We can customize the game's bounds by passing an array of four numbers: these will hold the upper and lower bounds in pixels.
 
-The game is an instance in the game, that we can customize as we please.
+The game is an entity in the game, that we can customize as we please.
 
 <Source dark code={bounds} />
 
@@ -28,18 +28,18 @@ The game is an instance in the game, that we can customize as we please.
 
 ## Event Handlers
 
-To animate stuff we write event handlers for events that are triggered by our instances or by the game itself. The `update` event, for example, is a special core event that is triggered at every cycle of the game loop.
+To animate stuff we write event handlers for events that are triggered by our entities or by the game itself. The `update` event, for example, is a special core event that is triggered at every cycle of the game loop.
 
 An event handler accepts the following arguments:
 
-- The `instance` itself that is handling the event, so we can change its properties to our needs;
+- The `entity` itself that is handling the event, so we can change its properties to our needs;
 - The triggered `event`, which contains a `payload` that holds whatever we need to accomplish our task;
 - An `options` object that contains the following:
   - The elapsed time `dt`, which can help slow down certain movement algorithms based on the current FPS;
   - The game's current `config` object (here you can find the scene's `bounds`, for example);
-  - All `instances` present in the scene; note that they are read-only, so look but don't touch!
+  - All `entities` present in the scene; note that they are read-only, so look but don't touch!
 
-You might notice the code directly changes properties on the `instance`. While this looks like a direct mutation, the engine uses [Immer](https://immerjs.github.io/immer/) under the hood. This allows you to write simple, mutable-style code while Immer handles the complexity of producing a new, immutable state object for you. It's the best of both worlds: simple code and the safety of immutability.
+You might notice the code directly changes properties on the `entity`. While this looks like a direct mutation, the engine uses [Immer](https://immerjs.github.io/immer/) under the hood. This allows you to write simple, mutable-style code while Immer handles the complexity of producing a new, immutable state object for you. It's the best of both worlds: simple code and the safety of immutability.
 
 ### Naming Conventions
 
@@ -72,32 +72,32 @@ The event handler for this character is also using a predefined `bounce()` funct
 
 <Canvas of={Engine.CodeReuse} />
 
-## Dynamic Instances
+## Dynamic Entities
 
-A key advantage of building games in JavaScript is the language's inherent flexibility. Unlike in many statically-typed languages, JavaScript objects are dynamic. You can add, modify, or remove properties from any `instance` at runtime, without needing to pre-define them in its `type`.
+A key advantage of building games in JavaScript is the language's inherent flexibility. Unlike in many statically-typed languages, JavaScript objects are dynamic. You can add, modify, or remove properties from any `entity` at runtime without needing to pre-define them in its `type`.
 
-This is incredibly useful in game development. For instance, if a character picks up a temporary power-up, you can simply attach a new property to the character's instance to manage its state.
+This is incredibly useful in game development. For example, if a character picks up a temporary power-up, you can simply attach a new property to the character's entity to manage its state.
 
 ### Example
 
 Imagine an event handler for a collision between a player and a power-up item.
 
 ```javascript
-// In a 'collision' event handler for the player instance...
-instance.powerUp = { type: 'speed', duration: 10 }; // 10 seconds
+// In a 'collision' event handler for the player entity...
+entity.powerUp = { type: 'speed', duration: 10 }; // 10 seconds
 
 // Later, in the 'game:update' event handler for the player...
-if (instance.powerUp?.type === 'speed') {
+if (entity.powerUp?.type === 'speed') {
     // This function would increase the player's speed
     // (Remember, Immer handles immutability for you!)
-    instance.velocity[0] *= 1.5;
-    instance.velocity[1] *= 1.5;
+    entity.velocity[0] *= 1.5;
+    entity.velocity[1] *= 1.5;
 
-    instance.powerUp.duration -= dt;
+    entity.powerUp.duration -= dt;
 
-    if (instance.powerUp.duration <= 0) {
+    if (entity.powerUp.duration <= 0) {
         // Power-up has expired, remove the property.
-        delete instance.powerUp;
+        delete entity.powerUp;
     }
 }
 ```
@@ -106,13 +106,13 @@ This approach allows for rapid prototyping and the creation of emergent game mec
 
 ## Dynamic Types
 
-While adding properties to individual instances at runtime is powerful for temporary state changes, sometimes you need to fundamentally alter the behavior of all instances of a certain type. The engine supports this through the `morph` event.
+While adding properties to individual entities at runtime is powerful for temporary state changes, sometimes you need to fundamentally alter the behavior of all entities of a certain type. The engine supports this through the `morph` event.
 
 This allows you to redefine a type's decorators and event handlers on the fly. This is particularly useful for implementing mechanics like character evolution or complex power-up systems where the core behaviors of a character change.
 
 ### Example: Mario's Power-Ups
 
-Let's revisit the classic Super Mario example. When Mario picks up a power-up, his abilities change. Instead of managing boolean flags on the instance (`canBreakBricks`, `canShootFire`), we can dynamically change the `mario` type itself.
+Let's revisit the classic Super Mario example. When Mario picks up a power-up, his abilities change. Instead of managing boolean flags on the entity (`canBreakBricks`, `canShootFire`), we can dynamically change the `mario` type itself.
 
 Here's how you might dispatch a `morph` event upon collision with a Fire Flower:
 
@@ -133,9 +133,9 @@ if (collidesWith(mario, fireFlower)) {
 }
 ```
 
-When the engine processes this event, it will replace the existing definition for the `mario` type with the new one. All existing and future instances of `type: 'mario'` will now use the new set of behaviors, including the abilities from `fireMario()`.
+When the engine processes this event, it will replace the existing definition for the `mario` type with the new one. All existing and future entities of `type: 'mario'` will now use the new set of behaviors, including the abilities from `fireMario()`.
 
-This pattern keeps instance objects clean and centralizes behavior logic within type definitions, making your game architecture more robust and easier to reason about. You can see a complete implementation of this pattern in the Mario Power-Ups recipe.
+This pattern keeps entity objects clean and centralizes behavior logic within type definitions, making your game architecture more robust and easier to reason about. You can see a complete implementation of this pattern in the Mario Power-Ups recipe.
 
 ## Performance Considerations
 

@@ -1,7 +1,7 @@
 import classes from "./cursor.module.scss"
 
-export default function Cursor({ instance, className, style }) {
-  const { orientation } = instance
+export default function Cursor({ entity, className, style }) {
+  const { orientation } = entity
 
   return (
     <div

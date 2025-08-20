@@ -2,8 +2,8 @@
 
 import { renderCircle } from "./shapes/circle.js"
 
-export function renderCharacter(instance, ctx) {
-  const { size = 24, orientation = 0 } = instance
+export function renderCharacter(entity, ctx) {
+  const { size = 24, orientation = 0 } = entity
 
   const radius = size * 0.5
 
@@ -26,7 +26,7 @@ export function renderCharacter(instance, ctx) {
 
   renderCircle(
     {
-      ...instance,
+      ...entity,
       radius,
       position: undefined,
       backgroundColor: "lightgrey",

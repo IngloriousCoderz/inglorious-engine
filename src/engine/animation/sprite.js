@@ -14,10 +14,10 @@ export const Sprite = {
   play,
 }
 
-function move2(instance) {
+function move2(entity) {
   const directions = 2
   const multiple = pi() / directions
-  const theta = toRange(instance.orientation) / multiple
+  const theta = toRange(entity.orientation) / multiple
 
   if (theta > 0 + BEFORE && theta < 0 + AFTER) {
     return "right"
@@ -25,13 +25,13 @@ function move2(instance) {
     return "left"
   }
 
-  return instance.sprite.state ?? "right"
+  return entity.sprite.state ?? "right"
 }
 
-function move4(instance) {
+function move4(entity) {
   const directions = 4
   const multiple = pi() / directions
-  const theta = toRange(instance.orientation) / multiple
+  const theta = toRange(entity.orientation) / multiple
 
   if (theta >= -2 + BEFORE && theta < -2 + AFTER) {
     return "down"
@@ -43,13 +43,13 @@ function move4(instance) {
     return "left"
   }
 
-  return instance.sprite.state ?? "down"
+  return entity.sprite.state ?? "down"
 }
 
-function move6(instance) {
+function move6(entity) {
   const directions = 6
   const multiple = pi() / directions
-  const theta = toRange(instance.orientation) / multiple
+  const theta = toRange(entity.orientation) / multiple
 
   if (theta >= -6 + BEFORE && theta < -6 + AFTER) {
     return "leftDown"
@@ -69,13 +69,13 @@ function move6(instance) {
     return "left"
   }
 
-  return instance.sprite.state ?? "down"
+  return entity.sprite.state ?? "down"
 }
 
-function move8(instance) {
+function move8(entity) {
   const directions = 8
   const multiple = pi() / directions
-  const theta = toRange(instance.orientation) / multiple
+  const theta = toRange(entity.orientation) / multiple
 
   if (theta >= -6 + BEFORE && theta < -6 + AFTER) {
     return "leftDown"
@@ -95,13 +95,13 @@ function move8(instance) {
     return "left"
   }
 
-  return instance.sprite.state ?? "down"
+  return entity.sprite.state ?? "down"
 }
 
-function play(state, { instance, dt, notify }) {
+function play(animation, { entity, dt, notify }) {
   const missing = [
-    state == null && "'state'",
-    instance == null && "'instance'",
+    animation == null && "'animation'",
+    entity == null && "'entity'",
     dt == null && "'dt'",
     notify == null && "'notify'",
   ]
@@ -112,8 +112,8 @@ function play(state, { instance, dt, notify }) {
   }
 
   Ticker.tick({
-    target: instance.sprite,
-    state,
+    target: entity.sprite,
+    state: animation,
     dt,
     onTick: (sprite) => {
       const { frames, state: animation } = sprite
@@ -122,7 +122,7 @@ function play(state, { instance, dt, notify }) {
 
       sprite.value = mod(sprite.value + 1, framesLength)
       if (sprite.value === framesLength - 1) {
-        notify("spriteAnimationEnd", { id: instance.id, animation })
+        notify("spriteAnimationEnd", { id: entity.id, animation })
       }
     },
   })

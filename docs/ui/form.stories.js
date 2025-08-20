@@ -13,7 +13,7 @@ export const Default = {
         form: {},
       },
 
-      instances: {
+      entities: {
         login: {
           type: "form",
           position: [150, 0, 600 - 160],

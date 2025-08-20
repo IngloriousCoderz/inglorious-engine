@@ -16,7 +16,7 @@ export default {
     ],
   },
 
-  instances: {
+  entities: {
     mouse: {
       type: "mouse",
     },

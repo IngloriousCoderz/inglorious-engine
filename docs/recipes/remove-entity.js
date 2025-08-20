@@ -12,14 +12,14 @@ export default {
       { render: renderCharacter },
       {
         // this event handler is needed in React
-        instanceClick(instance, id, { notify }) {
+        entityClick(entity, id, { notify }) {
           notify("remove", id)
         },
       },
     ],
   },
 
-  instances: {
+  entities: {
     mouse: {
       type: "mouse",
       position: [400, 0, 300],

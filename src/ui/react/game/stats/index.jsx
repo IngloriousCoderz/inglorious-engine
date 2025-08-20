@@ -2,9 +2,9 @@ import { toString } from "@inglorious/utils/math/linear-algebra/vector.js"
 
 const DECIMALS = 1
 
-export default function Stats({ instance, instances, className, style }) {
+export default function Stats({ entity, entities, className, style }) {
   const { acceleration, velocity, position, orientation, ay, vy } =
-    instances[instance.target]
+    entities[entity.target]
 
   return (
     <div className={className} style={style}>

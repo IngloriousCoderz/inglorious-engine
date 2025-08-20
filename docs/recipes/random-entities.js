@@ -7,7 +7,7 @@ export default {
     character: [{ render: renderCharacter }],
   },
 
-  instances: {
+  entities: {
     ...Object.fromEntries(
       Array(100)
         .fill(null)

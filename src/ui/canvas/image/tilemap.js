@@ -13,8 +13,8 @@ const FLIPPED_VERTICALLY_FLAG = 0x40000000
 // const FLIPPED_DIAGONALLY_FLAG = 0x20000000
 // const ROTATED_HEXAGONAL_120_FLAG = 0x10000000
 
-export function renderTilemap(instance, ctx) {
-  const { tilemap } = instance
+export function renderTilemap(entity, ctx) {
+  const { tilemap } = entity
   const { image, layers } = tilemap
   const { imageSize, tileSize, columns, scale = DEFAULT_SCALE } = image
 

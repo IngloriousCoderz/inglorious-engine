@@ -14,7 +14,7 @@ const DEFAULT_ORIENTATION = 0
 const HALF_ANGULAR_ACCELERATION = 0.5
 
 export function align(
-  instance,
+  entity,
   target,
   dt,
   {
@@ -24,17 +24,17 @@ export function align(
   } = {},
 ) {
   const maxAngularAcceleration =
-    instance.maxAngularAcceleration ?? DEFAULT_MAX_ANGULAR_ACCELERATION
-  const maxAngularSpeed = instance.maxAngularSpeed ?? DEFAULT_MAX_ANGULAR_SPEED
+    entity.maxAngularAcceleration ?? DEFAULT_MAX_ANGULAR_ACCELERATION
+  const maxAngularSpeed = entity.maxAngularSpeed ?? DEFAULT_MAX_ANGULAR_SPEED
 
-  let angularSpeed = instance.angularSpeed ?? DEFAULT_ANGULAR_SPEED
-  let orientation = instance.orientation ?? DEFAULT_ORIENTATION
+  let angularSpeed = entity.angularSpeed ?? DEFAULT_ANGULAR_SPEED
+  let orientation = entity.orientation ?? DEFAULT_ORIENTATION
 
   const direction = toRange(target.orientation - orientation)
   const distance = abs(direction)
 
   if (distance < targetRadius) {
-    return instance
+    return entity
   }
 
   let targetAngularSpeed

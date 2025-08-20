@@ -15,30 +15,30 @@ export default {
     character: [
       { render: renderCharacter },
       {
-        update(instance, dt, { instances }) {
-          const { mouse, parameters, game } = instances
+        update(entity, dt, { entities }) {
+          const { mouse, parameters, game } = entities
           const { fields } = parameters.groups.evade
 
           merge(
-            instance,
-            evade(instance, mouse, dt, {
+            entity,
+            evade(entity, mouse, dt, {
               maxPrediction: fields.maxPrediction.value,
             }),
           )
 
-          clampToBounds(instance, game.bounds)
+          clampToBounds(entity, game.bounds)
         },
       },
     ],
 
     form: {
-      fieldChange(instance, { id, value }) {
-        instance.groups.evade.fields[id].value = value
+      fieldChange(entity, { id, value }) {
+        entity.groups.evade.fields[id].value = value
       },
     },
   },
 
-  instances: {
+  entities: {
     mouse: {
       type: "mouse",
       position: [400, 0, 300],

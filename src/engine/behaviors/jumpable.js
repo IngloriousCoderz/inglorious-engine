@@ -22,21 +22,21 @@ export function jumpable(params) {
 
   return fsm({
     [params.onState]: {
-      update(instance, dt, options) {
-        freeFall(instance, dt, options)
+      update(entity, dt, options) {
+        freeFall(entity, dt, options)
       },
 
       inputPress: handleInput,
     },
 
     jumping: {
-      update(instance, dt, options) {
-        freeFall(instance, dt, options)
+      update(entity, dt, options) {
+        freeFall(entity, dt, options)
 
-        const [x, y, z] = instance.position
-        const [, vy] = instance.velocity
+        const [x, y, z] = entity.position
+        const [, vy] = entity.velocity
         const py = y + vy * dt
-        merge(instance, { position: [x, py, z] })
+        merge(entity, { position: [x, py, z] })
       },
 
       inputPress: handleInput,
@@ -44,46 +44,42 @@ export function jumpable(params) {
   })
 }
 
-function handleInput(instance, { id, action }) {
-  if (
-    id.endsWith(instance.onInput) &&
-    action === "jump" &&
-    instance.jumpsLeft
-  ) {
-    instance.vy = jump(instance)
-    instance.state = "jumping"
-    instance.groundObject = undefined
-    instance.jumpsLeft--
+function handleInput(entity, { id, action }) {
+  if (id.endsWith(entity.onInput) && action === "jump" && entity.jumpsLeft) {
+    entity.vy = jump(entity)
+    entity.state = "jumping"
+    entity.groundObject = undefined
+    entity.jumpsLeft--
   }
 }
 
 function createFreeFall(params) {
-  return (instance, dt, { instances }) => {
-    instance.onInput = instance.onInput ?? params.onInput
-    instance.maxJump = instance.maxJump ?? params.maxJump
-    instance.maxLeap = instance.maxLeap ?? params.maxLeap
-    instance.maxSpeed = instance.maxSpeed ?? params.maxSpeed
-    instance.maxJumps = instance.maxJumps ?? params.maxJumps
+  return (entity, dt, { entities }) => {
+    entity.onInput = entity.onInput ?? params.onInput
+    entity.maxJump = entity.maxJump ?? params.maxJump
+    entity.maxLeap = entity.maxLeap ?? params.maxLeap
+    entity.maxSpeed = entity.maxSpeed ?? params.maxSpeed
+    entity.maxJumps = entity.maxJumps ?? params.maxJumps
 
-    merge(instance, applyGravity(instance, dt))
+    merge(entity, applyGravity(entity, dt))
 
-    const targets = Object.values(instances).filter(
+    const targets = Object.values(entities).filter(
       ({ type }) => type === "platform",
     )
 
     targets.forEach((target) => {
-      if (instance.vy < FALLING && collidesWith(instance, target, "platform")) {
-        instance.vy = 0
-        const [x, , z] = instance.position
-        const py = CalculatePY[instance.collisions.platform.shape](
-          instance,
+      if (entity.vy < FALLING && collidesWith(entity, target, "platform")) {
+        entity.vy = 0
+        const [x, , z] = entity.position
+        const py = CalculatePY[entity.collisions.platform.shape](
+          entity,
           target,
           "platform",
         )
-        instance.position = [x, py, z]
-        instance.state = params.onState
-        instance.groundObject = target
-        instance.jumpsLeft = instance.maxJumps || DEFAULT_PARAMS.maxJumps
+        entity.position = [x, py, z]
+        entity.state = params.onState
+        entity.groundObject = target
+        entity.jumpsLeft = entity.maxJumps || DEFAULT_PARAMS.maxJumps
       }
     })
   }
@@ -94,15 +90,14 @@ const CalculatePY = {
   rectangle: calculatePYForRectangle,
 }
 
-function calculatePYForCircle(instance, target, collisionGroup = "hitbox") {
+function calculatePYForCircle(entity, target, collisionGroup = "hitbox") {
   const [, targetHeight] = target.collisions[collisionGroup].size ?? target.size
   const [, targetY] = target.position
-  const instanceRadius =
-    instance.collisions[collisionGroup].radius ?? instance.radius
-  return targetY + targetHeight + instanceRadius
+  const entityRadius = entity.collisions[collisionGroup].radius ?? entity.radius
+  return targetY + targetHeight + entityRadius
 }
 
-function calculatePYForRectangle(instance, target, collisionGroup = "hitbox") {
+function calculatePYForRectangle(entity, target, collisionGroup = "hitbox") {
   const [, targetHeight] = target.collisions[collisionGroup].size ?? target.size
   const [, targetY] = target.position
   return targetY + targetHeight

@@ -13,36 +13,35 @@ export function modernControls(params) {
 
   return (type) =>
     extend(type, {
-      update(instance, dt, options) {
-        type.update?.(instance, dt, options)
+      update(entity, dt, options) {
+        type.update?.(entity, dt, options)
 
-        const maxAcceleration =
-          instance.maxAcceleration ?? params.maxAcceleration
+        const maxAcceleration = entity.maxAcceleration ?? params.maxAcceleration
 
-        const { input0 } = options.instances
-        instance.acceleration = zero()
+        const { input0 } = options.entities
+        entity.acceleration = zero()
 
         if (input0.left) {
-          instance.acceleration[X] = -maxAcceleration
+          entity.acceleration[X] = -maxAcceleration
         }
         if (input0.right) {
-          instance.acceleration[X] = maxAcceleration
+          entity.acceleration[X] = maxAcceleration
         }
         if (input0.down) {
-          instance.acceleration[Z] = -maxAcceleration
+          entity.acceleration[Z] = -maxAcceleration
         }
         if (input0.up) {
-          instance.acceleration[Z] = maxAcceleration
+          entity.acceleration[Z] = maxAcceleration
         }
 
         if (input0.leftRight != null) {
-          instance.acceleration[X] += input0.leftRight * maxAcceleration
+          entity.acceleration[X] += input0.leftRight * maxAcceleration
         }
         if (input0.upDown != null) {
-          instance.acceleration[Z] += -input0.upDown * maxAcceleration
+          entity.acceleration[Z] += -input0.upDown * maxAcceleration
         }
 
-        merge(instance, modernMove(instance, dt))
+        merge(entity, modernMove(entity, dt))
       },
     })
 }

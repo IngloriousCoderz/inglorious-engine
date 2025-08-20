@@ -13,19 +13,19 @@ const DEFAULT_MAX_ANGULAR_SPEED = 0
 const DEFAULT_ORIENTATION = 0
 
 export function wanderAsSeek(
-  instance,
+  entity,
   dt,
   { wanderRadius = DEFAULT_WANDER_RADIUS } = {},
 ) {
-  const maxAngularSpeed = instance.maxAngularSpeed ?? DEFAULT_MAX_ANGULAR_SPEED
+  const maxAngularSpeed = entity.maxAngularSpeed ?? DEFAULT_MAX_ANGULAR_SPEED
 
-  let orientation = instance.orientation ?? DEFAULT_ORIENTATION
+  let orientation = entity.orientation ?? DEFAULT_ORIENTATION
   orientation += randomBinomial() * maxAngularSpeed
 
   const position = sum(
-    instance.position,
+    entity.position,
     multiply(fromAngle(orientation), wanderRadius),
   )
 
-  return seek(instance, { position }, dt)
+  return seek(entity, { position }, dt)
 }

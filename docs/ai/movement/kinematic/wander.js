@@ -9,17 +9,17 @@ export default {
     character: [
       { render: renderCharacter },
       {
-        update(instance, dt, { instances }) {
-          const { game } = instances
+        update(entity, dt, { entities }) {
+          const { game } = entities
 
-          merge(instance, wander(instance, dt))
-          flip(instance, game.bounds)
+          merge(entity, wander(entity, dt))
+          flip(entity, game.bounds)
         },
       },
     ],
   },
 
-  instances: {
+  entities: {
     character: {
       type: "character",
       maxSpeed: 250,

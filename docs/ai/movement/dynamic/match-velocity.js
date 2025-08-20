@@ -3,7 +3,7 @@ import {
   matchVelocity,
 } from "@inglorious/engine/ai/movement/dynamic/match-velocity.js"
 import {
-  controlsInstances,
+  controlsEntities,
   controlsTypes,
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { clampToBounds } from "@inglorious/engine/physics/bounds.js"
@@ -17,10 +17,10 @@ export default {
     character: [
       { render: renderCharacter },
       {
-        update(instance, dt, { instances }) {
-          const { parameters, input0, game } = instances
+        update(entity, dt, { entities }) {
+          const { parameters, input0, game } = entities
           const { fields } = parameters.groups.matchVelocity
-          const SPEED = instance.maxSpeed
+          const SPEED = entity.maxSpeed
 
           const target = { velocity: [0, 0, 0] }
           if (input0.left) {
@@ -37,26 +37,26 @@ export default {
           }
 
           merge(
-            instance,
-            matchVelocity(instance, target, dt, {
+            entity,
+            matchVelocity(entity, target, dt, {
               timeToTarget: fields.timeToTarget.value,
             }),
           )
 
-          clampToBounds(instance, game.bounds)
+          clampToBounds(entity, game.bounds)
         },
       },
     ],
 
     form: {
-      fieldChange(instance, { id, value }) {
-        instance.groups.matchVelocity.fields[id].value = value
+      fieldChange(entity, { id, value }) {
+        entity.groups.matchVelocity.fields[id].value = value
       },
     },
   },
 
-  instances: {
-    ...controlsInstances("input0", {
+  entities: {
+    ...controlsEntities("input0", {
       ArrowLeft: "left",
       ArrowRight: "right",
       ArrowDown: "down",

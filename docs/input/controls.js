@@ -1,5 +1,5 @@
 import {
-  controlsInstances,
+  controlsEntities,
   controlsTypes,
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { modernMove } from "@inglorious/engine/movement/kinematic/modern.js"
@@ -17,31 +17,31 @@ export default {
     character: [
       { render: renderCharacter },
       {
-        update(instance, dt, { instances }) {
-          const { input0 } = instances
-          instance.velocity = zero()
+        update(entity, dt, { entities }) {
+          const { input0 } = entities
+          entity.velocity = zero()
 
           if (input0.left) {
-            instance.velocity[X] = -instance.maxSpeed
+            entity.velocity[X] = -entity.maxSpeed
           }
           if (input0.down) {
-            instance.velocity[Z] = -instance.maxSpeed
+            entity.velocity[Z] = -entity.maxSpeed
           }
           if (input0.right) {
-            instance.velocity[X] = instance.maxSpeed
+            entity.velocity[X] = entity.maxSpeed
           }
           if (input0.up) {
-            instance.velocity[Z] = instance.maxSpeed
+            entity.velocity[Z] = entity.maxSpeed
           }
 
-          merge(instance, modernMove(instance, dt))
+          merge(entity, modernMove(entity, dt))
         },
       },
     ],
   },
 
-  instances: {
-    ...controlsInstances("input0", {
+  entities: {
+    ...controlsEntities("input0", {
       ArrowUp: "up",
       ArrowDown: "down",
       ArrowLeft: "left",

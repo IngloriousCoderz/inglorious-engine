@@ -1,8 +1,8 @@
 export function game() {
   return {
-    keyboardKeyUp(instance, code) {
+    keyboardKeyUp(entity, code) {
       if (code === "KeyC") {
-        instance.debug = !instance.debug
+        entity.debug = !entity.debug
       }
     },
   }

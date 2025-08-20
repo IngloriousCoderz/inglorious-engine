@@ -6,14 +6,14 @@ export default {
     cat: [
       { render: renderSprite },
       {
-        update(instance, dt, { notify }) {
-          Sprite.play("sleepy", { instance, dt, notify })
+        update(entity, dt, { notify }) {
+          Sprite.play("sleepy", { entity, dt, notify })
         },
       },
     ],
   },
 
-  instances: {
+  entities: {
     game: {
       pixelated: true,
     },

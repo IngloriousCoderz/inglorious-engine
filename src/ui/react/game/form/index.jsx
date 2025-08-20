@@ -3,8 +3,8 @@ import { Fragment } from "react"
 import Fields from "./fields/index.jsx"
 import classes from "./form.module.scss"
 
-export default function Form({ instance, className, style }) {
-  const { fields, groups } = instance
+export default function Form({ entity, className, style }) {
+  const { fields, groups } = entity
 
   return (
     <div className={`${classes.form} ${className}`} style={style}>

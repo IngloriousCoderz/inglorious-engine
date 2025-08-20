@@ -1,7 +1,7 @@
 const DEFAULT_POSITION = 0
 
-export function renderImage(instance, ctx) {
-  const { image, sx = DEFAULT_POSITION, sy = DEFAULT_POSITION } = instance
+export function renderImage(entity, ctx) {
+  const { image, sx = DEFAULT_POSITION, sy = DEFAULT_POSITION } = entity
   const { id, src, imageSize, tileSize = imageSize } = image
 
   const [tileWidth, tileHeight] = tileSize

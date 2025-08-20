@@ -4,10 +4,10 @@ import { useDispatch } from "react-redux"
 
 import classes from "./scene.module.scss"
 
-export default function Scene({ instances, children }) {
+export default function Scene({ entities, children }) {
   const dispatch = useDispatch()
 
-  const [, , width, height] = instances.game.bounds
+  const [, , width, height] = entities.game.bounds
 
   const ref = useRef()
   const mouseHandlers = track(ref.current, { dispatch })

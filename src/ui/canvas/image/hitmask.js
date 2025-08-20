@@ -5,8 +5,8 @@ const LAST_ROW_OFFSET = 1
 const NO_Y = 0
 const MAX_HUE = 255
 
-export function renderHitmask(instance, ctx) {
-  const { tileSize, columns, heights } = instance
+export function renderHitmask(entity, ctx) {
+  const { tileSize, columns, heights } = entity
 
   const [tileWidth, tileHeight] = tileSize
   const rows = Math.ceil(heights.length / columns)
@@ -25,14 +25,14 @@ export function renderHitmask(instance, ctx) {
     const normalizedH = (h - minH) / (maxH - minH)
     const hue = MAX_HUE - normalizedH * MAX_HUE
 
-    const instance = {
+    const entity = {
       offset: [-x, NO_Y, -z],
       size: [tileWidth, NO_Y, tileHeight],
       color: "transparent",
       backgroundColor: `hsla(${hue}, 100%, 50%, 0.2)`,
     }
 
-    renderRectangle(instance, ctx)
+    renderRectangle(entity, ctx)
 
     ctx.restore()
   })

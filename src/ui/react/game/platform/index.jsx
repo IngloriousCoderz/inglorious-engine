@@ -6,14 +6,14 @@ import classes from "./platform.module.scss"
 
 const DEFAULT_SIZE = [80, 20]
 
-export default function Platform({ id, instance, className, style }) {
+export default function Platform({ id, entity, className, style }) {
   const dispatch = useDispatch()
 
-  const [width, height] = instance.size ?? DEFAULT_SIZE
+  const [width, height] = entity.size ?? DEFAULT_SIZE
 
   const handleClick = (event) => {
     event.stopPropagation()
-    dispatch({ id: "instanceClick", payload: id })
+    dispatch({ id: "entityClick", payload: id })
   }
 
   return (

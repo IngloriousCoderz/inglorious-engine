@@ -15,8 +15,8 @@ const FLIPPED_DIAGONALLY_FLAG = 0x20000000
 // eslint-disable-next-line no-unused-vars
 const ROTATED_HEXAGONAL_120_FLAG = 0x10000000
 
-export default function Sprite({ instance, className, style: customStyle }) {
-  const { image, frames, state, value } = instance.sprite
+export default function Sprite({ entity, className, style: customStyle }) {
+  const { image, frames, state, value } = entity.sprite
   const { src, imageSize, tileSize, scale = DEFAULT_SCALE } = image
 
   const [imageWidth] = imageSize

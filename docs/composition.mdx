@@ -42,7 +42,7 @@ To make behaviors configurable and reusable, we often create them with **behavio
 ```javascript
 // A behavior for shooting fireballs
 const firePower = { // This one is a simple object
-  inputPress(instance, { action }) {
+  inputPress(entity, { action }) {
     if (action === 'shoot') {
       console.log('Shoot!');
     }
@@ -52,17 +52,17 @@ const firePower = { // This one is a simple object
 // A behavior factory for jumping
 function jumpable(params) { // This allows for custom parameters
   return {
-    inputPress(instance, event) { /* ... */ },
-    update(instance, dt, options) { /* ... */ },
+    inputPress(entity, event) { /* ... */ },
+    update(entity, dt, options) { /* ... */ },
   }
 }
 ```
 
 ### 3. Types are Composed Behavior Arrays
 
-This is the key insight. An instance's `type` is not a rigid class, but a dynamic **array of behavior objects**.
+This is the key insight. An entity's `type` is not a rigid class, but a dynamic **array of behavior objects**.
 
-When an event occurs for an instance, the engine iterates through its type's behavior array and executes any matching event handlers it finds.
+When an event occurs for an entity, the engine iterates through its type's behavior array and executes any matching event handlers it finds.
 
 ```javascript
 // The type definition for a base mario
@@ -82,20 +82,20 @@ A powerful feature of this composition model is the ability for behaviors to wra
 This allows you to create decorators that chain their logic, similar to middleware.
 
 ```javascript
-// A behavior factory that clamps the instance to the screen bounds
+// A behavior factory that clamps the entity to the screen bounds
 export function clamped() {
   // This function receives the type composed so far
   return (type) =>
     // It returns a new, extended behavior object
     extend(type, {
       // It defines its own update handler
-      update(instance, dt, options) {
+      update(entity, dt, options) {
         // Crucially, it calls the original update handler first
-        type.update?.(instance, dt, options)
+        type.update?.(entity, dt, options)
 
         // Then, it adds its own logic
-        const { game } = options.instances
-        clampToBounds(instance, game.bounds)
+        const { game } = options.entities
+        clampToBounds(entity, game.bounds)
       },
     })
 }
@@ -103,11 +103,11 @@ export function clamped() {
 
 ### 5. Runtime Re-Composition
 
-Because a `type` is just an array, we can change it at any time. By dispatching a `morph` event, you can provide a completely new array of behaviors for an instance type. This is how we achieve the "Decorator Pattern" in a functional way.
+Because a `type` is just an array, we can change it at any time. By dispatching a `morph` event, you can provide a completely new array of behaviors for an entity type. This is how we achieve the "Decorator Pattern" in a functional way.
 
 When Mario picks up a Fire Flower, we don't just set a flag. We fundamentally change what he *can do* by recomposing his behavior array. See the full implementation in the [Super Mario Power-Ups recipe](/docs/engine-recipes--docs#super-mario-power-ups).
 
 This approach provides incredible flexibility:
 -   **No "Diamond Problem":** You can mix and match any behaviors you want. An "Ultra Mario" with fire and flight is just `[...base, firePower, capePower]`.
--   **Dynamic & Pluggable:** You can add or remove behaviors at any point in the game's lifecycle. You could even load new behavior modules from a server and plug them into an existing instance type.
+-   **Dynamic & Pluggable:** You can add or remove behaviors at any point in the game's lifecycle. You could even load new behavior modules from a server and plug them into an existing entity type.
 -   **Clear & Testable:** Each behavior is a self-contained unit that can be tested in isolation.

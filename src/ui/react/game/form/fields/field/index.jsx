@@ -3,8 +3,8 @@ import { useDispatch } from "react-redux"
 
 import classes from "./field.module.scss"
 
-export default function Field({ id, instance }) {
-  const { label, inputType, defaultValue = "", ...rest } = instance
+export default function Field({ id, entity }) {
+  const { label, inputType, defaultValue = "", ...rest } = entity
 
   const [value, setValue] = useState(defaultValue)
   useEffect(() => {

@@ -15,41 +15,40 @@ export function tankControls(params) {
 
   return (type) =>
     extend(type, {
-      update(instance, dt, { instances }) {
-        instance.maxAngularSpeed =
-          instance.maxAngularSpeed ?? params.maxAngularSpeed
-        instance.maxAcceleration =
-          instance.maxAcceleration ?? params.maxAcceleration
-        instance.maxSpeed = instance.maxSpeed ?? params.maxSpeed
+      update(entity, dt, { entities }) {
+        entity.maxAngularSpeed =
+          entity.maxAngularSpeed ?? params.maxAngularSpeed
+        entity.maxAcceleration =
+          entity.maxAcceleration ?? params.maxAcceleration
+        entity.maxSpeed = entity.maxSpeed ?? params.maxSpeed
 
-        instance.acceleration = zero()
+        entity.acceleration = zero()
 
-        const { input0 } = instances
+        const { input0 } = entities
         if (input0.left) {
-          instance.orientation += 0.1
+          entity.orientation += 0.1
         }
         if (input0.down) {
-          instance.acceleration[X] = -instance.maxAcceleration
+          entity.acceleration[X] = -entity.maxAcceleration
         }
         if (input0.right) {
-          instance.orientation -= 0.1
+          entity.orientation -= 0.1
         }
         if (input0.up) {
-          instance.acceleration[X] = instance.maxAcceleration
+          entity.acceleration[X] = entity.maxAcceleration
         }
 
         if (input0.leftRight != null) {
-          instance.orientation +=
-            -input0.leftRight * instance.maxAngularSpeed * dt
+          entity.orientation += -input0.leftRight * entity.maxAngularSpeed * dt
         }
         if (input0.upDown != null) {
-          instance.acceleration[X] += -input0.upDown * instance.maxAcceleration
+          entity.acceleration[X] += -input0.upDown * entity.maxAcceleration
         }
         if (input0.strafe != null) {
-          instance.acceleration[Z] += input0.strafe * instance.maxAcceleration
+          entity.acceleration[Z] += input0.strafe * entity.maxAcceleration
         }
 
-        merge(instance, tankMove(instance, dt))
+        merge(entity, tankMove(entity, dt))
       },
     })
 }

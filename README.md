@@ -61,9 +61,9 @@ However, there are several key differences that make it unique:
 3.  **Core Engine Events & Naming Convention**: The engine has a few built-in, **single-word** events that drive its core functionality. To avoid conflicts, you should use **multi-word `camelCase`** names for your own custom game events (`playerJump`, `itemCollect`). This convention is similar to how custom HTML elements require a hyphen to distinguish them from standard elements. Key engine events include:
 
     - `update`: Fired on every frame, typically carrying the `deltaTime` since the last frame. This is where you'll put most of your continuous game logic (like movement).
-    - `add`: Used to add a new entity (instance) to the game state.
+    - `add`: Used to add a new entity to the game state.
     - `remove`: Used to remove an entity from the game state.
-    - `morph`: Used to dynamically change the behaviors associated with an instance's type.
+    - `morph`: Used to dynamically change the behaviors associated with an entity's type.
 
 4.  **Ergonomic Immutability with Immer**: The state is immutable, but to make this easy to work with, we use Immer. Inside your event handlers, you can write code that looks like it's mutating the state directly. Immer handles the magic behind the scenes, producing a new, updated state with structural sharing, giving you the performance benefits of immutability with the developer experience of mutable code.
 
@@ -106,15 +106,15 @@ const X = 0
 const Y = 1
 const Z = 2
 
-const x = instance.position[X]
-const y = instance.position[Y]
-const z = instance.position[Z]
+const x = entity.position[X]
+const y = entity.position[Y]
+const z = entity.position[Z]
 ```
 
 We find it cleaner to do like so:
 
 ```js
-const [x, y, z] = instance.position
+const [x, y, z] = entity.position
 ```
 
 There are a few exceptions: in the `/docs` folder we prefer the first version because not everyone is used to destructuring and we wanted to make the examples as readable as possible for people coming from, say, Godot. In that case we would put the `X`, `Y`, and `Z` constants on top of the file, right below the imports.

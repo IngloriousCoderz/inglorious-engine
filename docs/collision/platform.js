@@ -1,7 +1,7 @@
 import { clamped } from "@inglorious/engine/behaviors/clamped.js"
 import { modernControls } from "@inglorious/engine/behaviors/controls/kinematic/modern.js"
 import {
-  controlsInstances,
+  controlsEntities,
   controlsTypes,
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { jumpable } from "@inglorious/engine/behaviors/jumpable.js"
@@ -22,8 +22,8 @@ export default {
     ],
   },
 
-  instances: {
-    ...controlsInstances("input0", {
+  entities: {
+    ...controlsEntities("input0", {
       ArrowLeft: "left",
       ArrowRight: "right",
       Space: "jump",

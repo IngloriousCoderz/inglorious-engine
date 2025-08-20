@@ -17,38 +17,38 @@ export default {
     character: [
       { render: renderCharacter },
       {
-        update(instance, dt, { instances }) {
-          const { gamepad0 } = instances
+        update(entity, dt, { entities }) {
+          const { gamepad0 } = entities
 
-          instance.velocity = zero()
+          entity.velocity = zero()
 
           if (gamepad0.left) {
-            instance.velocity[X] = -instance.maxSpeed
+            entity.velocity[X] = -entity.maxSpeed
           }
           if (gamepad0.down) {
-            instance.velocity[Z] = -instance.maxSpeed
+            entity.velocity[Z] = -entity.maxSpeed
           }
           if (gamepad0.right) {
-            instance.velocity[X] = instance.maxSpeed
+            entity.velocity[X] = entity.maxSpeed
           }
           if (gamepad0.up) {
-            instance.velocity[Z] = instance.maxSpeed
+            entity.velocity[Z] = entity.maxSpeed
           }
 
           if (gamepad0.leftRight != null) {
-            instance.velocity[X] += gamepad0.leftRight * instance.maxSpeed
+            entity.velocity[X] += gamepad0.leftRight * entity.maxSpeed
           }
           if (gamepad0.upDown != null) {
-            instance.velocity[Z] += -gamepad0.upDown * instance.maxSpeed
+            entity.velocity[Z] += -gamepad0.upDown * entity.maxSpeed
           }
 
-          merge(instance, modernMove(instance, dt))
+          merge(entity, modernMove(entity, dt))
         },
       },
     ],
   },
 
-  instances: {
+  entities: {
     gamepad0: createGamepad("gamepad0", {
       Btn12: "up",
       Btn13: "down",

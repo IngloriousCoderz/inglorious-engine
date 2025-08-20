@@ -24,17 +24,17 @@ const Y = 1
 const Z = 2
 
 export default function Game({ engine }) {
-  // NOTE: don't use simply engine.instances here: need to subscribe to animate scene!
-  const instances = useSelector((state) => state.instances)
+  // NOTE: don't use simply engine.entities here: need to subscribe to animate scene!
+  const entities = useSelector((state) => state.entities)
 
   const types = engine._store.getTypes()
-  const { mouse, ...rest } = instances
-  const options = { types, instances }
+  const { mouse, ...rest } = entities
+  const options = { types, entities }
 
   const render = createDraw(options)
 
   return (
-    <Scene instances={instances}>
+    <Scene entities={entities}>
       {Object.values(rest)
         .filter(({ position }) => position)
         .toSorted(
@@ -50,21 +50,21 @@ export default function Game({ engine }) {
 }
 
 function createDraw(options) {
-  return function Draw(instance) {
-    const { types, instances } = options
-    const type = types[instance.type]
+  return function Draw(entity) {
+    const { types, entities } = options
+    const type = types[entity.type]
 
-    const Component = instance.sprite
+    const Component = entity.sprite
       ? Components.sprite
-      : Components[instance.type]
+      : Components[entity.type]
 
     return (
       <Component
-        key={instance.id}
-        id={instance.id}
+        key={entity.id}
+        id={entity.id}
         type={type}
-        instance={instance}
-        instances={instances}
+        entity={entity}
+        entities={entities}
       />
     )
   }

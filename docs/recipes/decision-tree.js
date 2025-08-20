@@ -11,41 +11,41 @@ import { subtract } from "@inglorious/utils/math/linear-algebra/vectors.js"
 
 // A reusable decision tree node
 const wakeUp = () => ({
-  test({ instance, target }) {
-    const distance = length(subtract(target.position, instance.position))
+  test({ entity, target }) {
+    const distance = length(subtract(target.position, entity.position))
     return distance >= 10
   },
   true() {
     return "aware"
   },
-  false({ instance }) {
-    return instance.state
+  false({ entity }) {
+    return entity.state
   },
 })
 
 // Our decision tree
 const nextState = {
-  test({ instance }) {
-    return instance.state
+  test({ entity }) {
+    return entity.state
   },
   idle() {
     return {
-      test({ instance, target }) {
-        const distance = length(subtract(target.position, instance.position))
+      test({ entity, target }) {
+        const distance = length(subtract(target.position, entity.position))
         return distance < 250
       },
       true() {
         return "aware"
       },
-      false({ instance }) {
-        return instance.state
+      false({ entity }) {
+        return entity.state
       },
     }
   },
   chasing() {
     return {
-      test({ instance, target }) {
-        const distance = length(subtract(target.position, instance.position))
+      test({ entity, target }) {
+        const distance = length(subtract(target.position, entity.position))
         return distance >= 250
       },
       true() {
@@ -53,17 +53,15 @@ const nextState = {
       },
       false() {
         return {
-          test({ instance, target }) {
-            const distance = length(
-              subtract(target.position, instance.position),
-            )
+          test({ entity, target }) {
+            const distance = length(subtract(target.position, entity.position))
             return distance < 10
           },
           true() {
             return "sleepy"
           },
-          false({ instance }) {
-            return instance.state
+          false({ entity }) {
+            return entity.state
           },
         }
       },
@@ -81,72 +79,72 @@ export default {
       { render: renderSprite },
       fsm({
         idle: {
-          update(instance, dt, { instances, notify }) {
-            const { mouse } = instances
+          update(entity, dt, { entities, notify }) {
+            const { mouse } = entities
 
-            Sprite.play("idle", { instance, dt, notify })
+            Sprite.play("idle", { entity, dt, notify })
 
-            instance.state = decide(nextState, { instance, target: mouse })
+            entity.state = decide(nextState, { entity, target: mouse })
           },
         },
 
         aware: {
-          update(instance, dt, { notify }) {
-            Sprite.play("aware", { instance, dt, notify })
+          update(entity, dt, { notify }) {
+            Sprite.play("aware", { entity, dt, notify })
           },
 
-          spriteAnimationEnd(instance, { id, animation }) {
+          spriteAnimationEnd(entity, { id, animation }) {
             // always check who originated the event and which sprite is running!
-            if (id === instance.id && animation === "aware") {
-              instance.state = "chasing"
+            if (id === entity.id && animation === "aware") {
+              entity.state = "chasing"
             }
           },
         },
 
         chasing: {
-          update(instance, dt, { instances, notify }) {
-            const { mouse } = instances
+          update(entity, dt, { entities, notify }) {
+            const { mouse } = entities
 
-            merge(instance, arrive(instance, mouse, dt))
+            merge(entity, arrive(entity, mouse, dt))
 
-            const animation = Sprite.move8(instance)
-            Sprite.play(animation, { instance, dt, notify })
+            const animation = Sprite.move8(entity)
+            Sprite.play(animation, { entity, dt, notify })
 
-            instance.state = decide(nextState, { instance, target: mouse })
+            entity.state = decide(nextState, { entity, target: mouse })
           },
         },
 
         sleepy: {
-          update(instance, dt, { instances, notify }) {
-            const { mouse } = instances
+          update(entity, dt, { entities, notify }) {
+            const { mouse } = entities
 
-            Sprite.play("sleepy", { instance, dt, notify })
+            Sprite.play("sleepy", { entity, dt, notify })
 
-            instance.state = decide(nextState, { instance, target: mouse })
+            entity.state = decide(nextState, { entity, target: mouse })
           },
 
-          spriteAnimationEnd(instance, { id, animation }) {
+          spriteAnimationEnd(entity, { id, animation }) {
             // always check who originated the event and which sprite is running!
-            if (id === instance.id && animation === "sleepy") {
-              instance.state = "sleeping"
+            if (id === entity.id && animation === "sleepy") {
+              entity.state = "sleeping"
             }
           },
         },
 
         sleeping: {
-          update(instance, dt, { instances, notify }) {
-            const { mouse } = instances
+          update(entity, dt, { entities, notify }) {
+            const { mouse } = entities
 
-            Sprite.play("sleeping", { instance, dt, notify })
+            Sprite.play("sleeping", { entity, dt, notify })
 
-            instance.state = decide(nextState, { instance, target: mouse })
+            entity.state = decide(nextState, { entity, target: mouse })
           },
         },
       }),
     ],
   },
 
-  instances: {
+  entities: {
     game: {
       pixelated: true,
     },

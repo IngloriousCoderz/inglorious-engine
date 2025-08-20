@@ -10,24 +10,24 @@ export default {
     character: [
       { render: renderCharacter },
       {
-        update(instance, dt, { instances }) {
-          const { game } = instances
-          const characters = Object.values(instances).filter(
+        update(entity, dt, { entities }) {
+          const { game } = entities
+          const characters = Object.values(entities).filter(
             ({ type }) => type === "character",
           )
-          const target = characters.find(({ id }) => id !== instance.id)
+          const target = characters.find(({ id }) => id !== entity.id)
 
-          if (collidesWith(instance, target)) {
-            instance.orientation += pi()
-            instance.orientation = mod(instance.orientation, 2 * pi())
+          if (collidesWith(entity, target)) {
+            entity.orientation += pi()
+            entity.orientation = mod(entity.orientation, 2 * pi())
           }
-          merge(instance, bounce(instance, dt, game.bounds))
+          merge(entity, bounce(entity, dt, game.bounds))
         },
       },
     ],
   },
 
-  instances: {
+  entities: {
     left: {
       type: "character",
       position: [200, 0, 300],

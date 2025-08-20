@@ -12,13 +12,13 @@ export function fps(params) {
   params = extend(DEFAULT_PARAMS, params)
 
   return {
-    start(instance) {
-      instance.dt = instance.dt ?? params
+    start(entity) {
+      entity.dt = entity.dt ?? params
     },
 
-    update(instance, dt) {
+    update(entity, dt) {
       Ticker.tick({
-        target: instance.dt,
+        target: entity.dt,
         dt,
         onTick: (target, dt) => {
           target.value = dt

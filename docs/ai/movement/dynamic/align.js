@@ -5,7 +5,7 @@ import {
   DEFAULT_TIME_TO_TARGET,
 } from "@inglorious/engine/ai/movement/dynamic/align.js"
 import {
-  controlsInstances,
+  controlsEntities,
   controlsTypes,
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { mouse } from "@inglorious/engine/behaviors/input/mouse.js"
@@ -22,21 +22,21 @@ export default {
       { render: renderMouse },
       mouse(),
       {
-        fieldChange(instance, { id, value }) {
+        fieldChange(entity, { id, value }) {
           if (id === "targetOrientation") {
-            instance.orientation = -value * pi()
+            entity.orientation = -value * pi()
           }
         },
 
-        update(instance, dt, { instances }) {
-          const { input0 } = instances
+        update(entity, dt, { entities }) {
+          const { input0 } = entities
 
           if (input0.left || input0.up) {
-            instance.orientation += 0.1
+            entity.orientation += 0.1
           } else if (input0.right || input0.down) {
-            instance.orientation -= 0.1
+            entity.orientation -= 0.1
           }
-          instance.orientation = clamp(instance.orientation, -pi(), pi())
+          entity.orientation = clamp(entity.orientation, -pi(), pi())
         },
       },
     ],
@@ -46,39 +46,39 @@ export default {
     character: [
       { render: renderCharacter },
       {
-        update(instance, dt, { instances }) {
-          const { mouse, parameters, game } = instances
+        update(entity, dt, { entities }) {
+          const { mouse, parameters, game } = entities
           const { fields } = parameters.groups.align
 
           merge(
-            instance,
-            align(instance, mouse, dt, {
+            entity,
+            align(entity, mouse, dt, {
               targetRadius: fields.targetRadius.value,
               slowRadius: fields.slowRadius.value,
               timeToTarget: fields.timeToTarget.value,
             }),
           )
 
-          clampToBounds(instance, game.bounds)
+          clampToBounds(entity, game.bounds)
         },
       },
     ],
 
     form: {
-      fieldChange(instance, { id, value }) {
-        instance.groups.align.fields[id].value = value
+      fieldChange(entity, { id, value }) {
+        entity.groups.align.fields[id].value = value
       },
     },
   },
 
-  instances: {
+  entities: {
     mouse: {
       type: "mouse",
       position: [400, 0, 300],
       orientation: 0,
     },
 
-    ...controlsInstances("input0", {
+    ...controlsEntities("input0", {
       ArrowLeft: "left",
       ArrowRight: "right",
       ArrowDown: "down",

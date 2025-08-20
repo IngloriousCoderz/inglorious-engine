@@ -11,10 +11,10 @@ export default {
       { render: renderMouse },
       mouse(),
       {
-        sceneClick(instance, position, options) {
-          const { instances, notify } = options
+        sceneClick(entity, position, options) {
+          const { entities, notify } = options
           const characters = filter(
-            instances,
+            entities,
             (_, { type }) => type === "character",
           )
           const ids = Object.keys(characters)
@@ -38,7 +38,7 @@ export default {
         },
 
         // this event handler is needed for React
-        instanceClick(instance, id, { notify }) {
+        entityClick(entity, id, { notify }) {
           notify("remove", id)
         },
       },
@@ -48,14 +48,14 @@ export default {
       { render: renderCharacter },
       {
         // this event handler is needed in React
-        instanceClick(instance, id, { notify }) {
+        entityClick(entity, id, { notify }) {
           notify("remove", id)
         },
       },
     ],
   },
 
-  instances: {
+  entities: {
     mouse: {
       type: "mouse",
       position: [400, 0, 300],

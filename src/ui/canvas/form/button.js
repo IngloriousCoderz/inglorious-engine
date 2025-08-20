@@ -1,7 +1,7 @@
 /* eslint-disable no-magic-numbers */
 
-export function renderButton(instance, ctx) {
-  const { size, color = "black", thickness = 1 } = instance
+export function renderButton(entity, ctx) {
+  const { size, color = "black", thickness = 1 } = entity
   const [width = 100, height = 50] = size
 
   ctx.save()
@@ -9,7 +9,7 @@ export function renderButton(instance, ctx) {
   ctx.lineWidth = thickness
   ctx.strokeStyle = color
 
-  if (instance.state === "pressed") {
+  if (entity.state === "pressed") {
     ctx.fillStyle = "white"
   } else {
     ctx.fillStyle = "black"

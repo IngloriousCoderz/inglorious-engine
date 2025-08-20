@@ -17,31 +17,31 @@ export default {
     character: [
       { render: renderCharacter },
       {
-        update(instance, dt, { instances }) {
-          const { keyboard0 } = instances
+        update(entity, dt, { entities }) {
+          const { keyboard0 } = entities
 
-          instance.velocity = zero()
+          entity.velocity = zero()
 
           if (keyboard0.left) {
-            instance.velocity[X] = -instance.maxSpeed
+            entity.velocity[X] = -entity.maxSpeed
           }
           if (keyboard0.down) {
-            instance.velocity[Z] = -instance.maxSpeed
+            entity.velocity[Z] = -entity.maxSpeed
           }
           if (keyboard0.right) {
-            instance.velocity[X] = instance.maxSpeed
+            entity.velocity[X] = entity.maxSpeed
           }
           if (keyboard0.up) {
-            instance.velocity[Z] = instance.maxSpeed
+            entity.velocity[Z] = entity.maxSpeed
           }
 
-          merge(instance, modernMove(instance, dt))
+          merge(entity, modernMove(entity, dt))
         },
       },
     ],
   },
 
-  instances: {
+  entities: {
     keyboard0: createKeyboard("keyboard0", {
       ArrowLeft: "left",
       ArrowDown: "down",

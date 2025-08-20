@@ -1,7 +1,7 @@
 import { clamped } from "@inglorious/engine/behaviors/clamped.js"
 import { shooterControls } from "@inglorious/engine/behaviors/controls/kinematic/shooter.js"
 import {
-  controlsInstances,
+  controlsEntities,
   controlsTypes,
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { mouse } from "@inglorious/engine/behaviors/input/mouse.js"
@@ -18,13 +18,13 @@ export default {
     character: [{ render: renderCharacter }, shooterControls(), clamped()],
   },
 
-  instances: {
+  entities: {
     mouse: {
       type: "mouse",
       position: [400, 0, 300],
     },
 
-    ...controlsInstances("input0", {
+    ...controlsEntities("input0", {
       ArrowLeft: "left",
       ArrowRight: "right",
       ArrowDown: "down",

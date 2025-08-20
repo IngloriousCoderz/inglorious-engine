@@ -1,10 +1,10 @@
 import UiChooser from "../ui-chooser.jsx"
 import addAndRemove from "./add-and-remove.js"
-import addInstance from "./add-instance.js"
+import addEntity from "./add-entity.js"
 import decisionTree from "./decision-tree.js"
 import marioPowerups from "./mario-powerups.js"
-import randomInstances from "./random-instances.js"
-import removeInstance from "./remove-instance.js"
+import randomEntities from "./random-entities.js"
+import removeEntity from "./remove-entity.js"
 import states from "./states.js"
 
 export default {
@@ -12,16 +12,16 @@ export default {
   component: UiChooser,
 }
 
-export const RandomInstances = {
-  args: { config: randomInstances },
+export const RandomEntities = {
+  args: { config: randomEntities },
 }
 
-export const AddInstance = {
-  args: { config: addInstance },
+export const AddEntity = {
+  args: { config: addEntity },
 }
 
-export const RemoveInstance = {
-  args: { config: removeInstance },
+export const RemoveEntity = {
+  args: { config: removeEntity },
 }
 
 export const AddAndRemove = {

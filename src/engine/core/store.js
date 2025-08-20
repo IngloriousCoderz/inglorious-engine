@@ -8,9 +8,9 @@ const DEFAULT_TYPES = {
   game: [game()],
 }
 
-const DEFAULT_INSTANCES = {
+const DEFAULT_ENTITIES = {
   // eslint-disable-next-line no-magic-numbers
-  game: { type: "game", bounds: [0, 0, 800, 600] }, // Default game instance with bounds.
+  game: { type: "game", bounds: [0, 0, 800, 600] }, // Default game entity with bounds.
 }
 
 const DEFAULT_LAYER = 0
@@ -18,13 +18,13 @@ const DEFAULT_LAYER = 0
 /**
  * Creates a store to manage state and events.
  * @param {Object} options - Configuration options for the store.
- * @param {Object} options.instances - Initial instances to include in the store.
+ * @param {Object} options.entities - Initial entities to include in the store.
  * @param {Object} options.originalConfig - Additional configuration for the store.
  * @returns {Object} The store with methods to interact with state and events.
  */
 export function createStore({
   types: originalTypes,
-  instances: originalInstances,
+  entities: originalEntities,
 }) {
   const listeners = new Set()
   let incomingEvents = []
@@ -32,10 +32,10 @@ export function createStore({
   let types
   recomputeTypes()
 
-  let instances
-  recomputeInstances()
+  let entities
+  recomputeEntities()
 
-  let state = { events: [], instances }
+  let state = { events: [], entities }
 
   return {
     subscribe,
@@ -82,15 +82,15 @@ export function createStore({
         add(event.payload.id, event.payload)
       }
 
-      state.instances = map(state.instances, (_, instance, instances) => {
-        const type = types[instance.type]
+      state.entities = map(state.entities, (_, entity, entities) => {
+        const type = types[entity.type]
         const handle = type[event.type]
         return (
-          handle?.(instance, event.payload, {
-            type: originalTypes[instance.type],
-            instances,
+          handle?.(entity, event.payload, {
+            type: originalTypes[entity.type],
+            entities,
             notify,
-          }) ?? instance
+          }) ?? entity
         )
       })
 
@@ -103,22 +103,22 @@ export function createStore({
   }
 
   /**
-   * Adds a new instance to the state.
-   * @param {string} id - The ID of the instance to add.
-   * @param {Object} instance - The instance object to add.
+   * Adds a new entity to the state.
+   * @param {string} id - The ID of the entity to add.
+   * @param {Object} entity - The entity object to add.
    */
-  function add(id, instance) {
+  function add(id, entity) {
     state = { ...state }
-    state.instances[id] = augmentInstance(id, instance)
+    state.entities[id] = augmentEntity(id, entity)
   }
 
   /**
-   * Removes an instance from the state.
-   * @param {string} id - The ID of the instance to remove.
+   * Removes an entity from the state.
+   * @param {string} id - The ID of the entity to remove.
    */
   function remove(id) {
     state = { ...state }
-    delete state.instances[id]
+    delete state.entities[id]
   }
 
   /**
@@ -155,9 +155,9 @@ export function createStore({
     types = augmentTypes(types)
   }
 
-  function recomputeInstances() {
-    instances = extend(DEFAULT_INSTANCES, originalInstances)
-    instances = augmentInstances(instances)
+  function recomputeEntities() {
+    entities = extend(DEFAULT_ENTITIES, originalEntities)
+    entities = augmentEntities(entities)
   }
 }
 
@@ -185,10 +185,10 @@ function enableMutability(types) {
   }))
 }
 
-function augmentInstances(instances) {
-  return map(instances, augmentInstance)
+function augmentEntities(entities) {
+  return map(entities, augmentEntity)
 }
 
-function augmentInstance(id, instance) {
-  return { ...instance, layer: instance.layer ?? DEFAULT_LAYER, id }
+function augmentEntity(id, entity) {
+  return { ...entity, layer: entity.layer ?? DEFAULT_LAYER, id }
 }
