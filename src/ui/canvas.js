@@ -45,7 +45,6 @@ export function start(config, canvas) {
 function render(ctx) {
   return (options) => {
     const { types, instances } = options
-
     const { game, mouse, ...rest } = instances
 
     const [x, y, width, height] = game.bounds
@@ -63,18 +62,13 @@ function render(ctx) {
           a.position[Y] - b.position[Y] ||
           b.position[Z] - a.position[Z],
       )
-      .forEach((instance) =>
-        draw(instance, ctx, { ...options, type: types[instance.type] }),
-      )
+      .forEach((instance) => {
+        const { render } = types[instance.type]
+        if (render) {
+          absolutePosition(render)(instance, ctx, options)
+        }
+      })
 
-    mouse && draw(mouse, ctx, { ...options, type: types[mouse.type] })
-  }
-}
-
-function draw(instance, ctx, options) {
-  const draw = options.type.draw
-
-  if (draw) {
-    absolutePosition(draw)(instance, ctx, options)
+    mouse && absolutePosition(types[mouse.type].render)(mouse, ctx, options)
   }
 }

@@ -1,4 +1,4 @@
-import drawImage from "./image.js"
+import renderImage from "./image.js"
 
 const DEFAULT_SCALE = 1
 
@@ -13,7 +13,7 @@ const FLIPPED_VERTICALLY_FLAG = 0x40000000
 // const FLIPPED_DIAGONALLY_FLAG = 0x20000000
 // const ROTATED_HEXAGONAL_120_FLAG = 0x10000000
 
-export default function draw(instance, ctx) {
+export default function render(instance, ctx) {
   const { tilemap } = instance
   const { image, layers } = tilemap
   const { imageSize, tileSize, columns, scale = DEFAULT_SCALE } = image
@@ -54,7 +54,7 @@ export default function draw(instance, ctx) {
       )
       ctx.translate(-tileWidth / CENTER_WIDTH, -tileHeight / CENTER_HEIGHT)
 
-      drawImage({ image, sx, sy }, ctx)
+      renderImage({ image, sx, sy }, ctx)
 
       ctx.restore()
     })

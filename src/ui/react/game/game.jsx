@@ -31,7 +31,7 @@ export default function Game({ engine }) {
   const { mouse, ...rest } = instances
   const options = { types, instances }
 
-  const draw = createDraw(options)
+  const render = createDraw(options)
 
   return (
     <Scene instances={instances}>
@@ -43,8 +43,8 @@ export default function Game({ engine }) {
             a.position[Y] - b.position[Y] ||
             b.position[Z] - a.position[Z],
         )
-        .map(draw)}
-      {mouse && draw(mouse)}
+        .map(render)}
+      {mouse && render(mouse)}
     </Scene>
   )
 }

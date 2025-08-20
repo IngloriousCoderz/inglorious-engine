@@ -1,6 +1,6 @@
 /* eslint-disable no-magic-numbers */
 
-export default function draw(instance, ctx) {
+export default function render(instance, ctx) {
   const { size, color = "black", thickness = 1 } = instance
   const [width = 100, height = 50] = size
 

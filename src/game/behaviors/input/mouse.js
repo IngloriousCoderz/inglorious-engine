@@ -1,12 +1,12 @@
 import { findCollision } from "@inglorious/engine/collision/detection.js"
 import { clampToBounds } from "@inglorious/game/bounds.js"
-import draw from "@inglorious/ui/canvas/mouse.js"
+import render from "@inglorious/ui/canvas/mouse.js"
 
 const NO_Y = 0
 
 export function mouse() {
   return {
-    draw,
+    render,
 
     mouseMove(instance, position, { instances }) {
       instance.position = position

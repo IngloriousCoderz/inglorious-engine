@@ -1,6 +1,6 @@
 const DEFAULT_POSITION = 0
 
-export default function draw(instance, ctx) {
+export default function render(instance, ctx) {
   const { image, sx = DEFAULT_POSITION, sy = DEFAULT_POSITION } = instance
   const { id, src, imageSize, tileSize = imageSize } = image
 

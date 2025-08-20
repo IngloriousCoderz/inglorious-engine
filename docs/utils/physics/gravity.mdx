@@ -7,7 +7,7 @@ import { toString } from '@inglorious/utils/data-structures/object'
 
 # Gravity
 
-We can consider gravity as a constant acceleration downards. [This video](https://youtu.be/hG9SzQxaCm8) shows how to calculate this acceleration based on the curve that we want our character to draw when jumping. Also, the video rightfully warns to keep jump parameters separate from our world coordinates. That's why we need a specific acceleration and velocity to model our jumps, while directly integrating the Y-displacement into the position vector.
+We can consider gravity as a constant acceleration downards. [This video](https://youtu.be/hG9SzQxaCm8) shows how to calculate this acceleration based on the curve that we want our character to render when jumping. Also, the video rightfully warns to keep jump parameters separate from our world coordinates. That's why we need a specific acceleration and velocity to model our jumps, while directly integrating the Y-displacement into the position vector.
 
 - `maxJump` is the maximum height that we want to achieve;
 - `maxLeap` is the maximum distance we want to cover with a jump;

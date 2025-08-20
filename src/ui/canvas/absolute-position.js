@@ -1,6 +1,6 @@
 import { snap, zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 
-export function absolutePosition(draw) {
+export function absolutePosition(render) {
   return (instance, ctx, options = {}) => {
     const { position = zero() } = instance
     const [x, y, z] = snap(position)
@@ -11,7 +11,7 @@ export function absolutePosition(draw) {
     ctx.save()
 
     ctx.translate(x, screenHeight - y - z)
-    draw(instance, ctx, options)
+    render(instance, ctx, options)
 
     ctx.restore()
   }

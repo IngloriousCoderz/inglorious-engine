@@ -1,8 +1,8 @@
-import draw from "@inglorious/ui/canvas/form/button.js"
+import render from "@inglorious/ui/canvas/form/button.js"
 
 export function button() {
   return {
-    draw,
+    render,
 
     states: {
       default: {

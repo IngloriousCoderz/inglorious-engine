@@ -179,8 +179,8 @@ function applyDecorators(types) {
 }
 
 function enableMutability(types) {
-  return map(types, (_, { draw, ...events }) => ({
-    draw,
+  return map(types, (_, { render, ...events }) => ({
+    render,
     ...map(events, (_, event) => produce(event)),
   }))
 }

@@ -1,5 +1,5 @@
-import draw from "@inglorious/ui/canvas/image/tilemap.js"
+import render from "@inglorious/ui/canvas/image/tilemap.js"
 
 export function tilemap() {
-  return { draw }
+  return { render }
 }

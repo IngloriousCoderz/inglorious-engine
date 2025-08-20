@@ -3,7 +3,7 @@ const X = 0
 export default {
   types: {
     character: {
-      draw(instance, ctx) {
+      render(instance, ctx) {
         const {
           size = 24,
           orientation = 0,

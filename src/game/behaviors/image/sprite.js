@@ -1,5 +1,5 @@
-import draw from "@inglorious/ui/canvas/image/sprite.js"
+import render from "@inglorious/ui/canvas/image/sprite.js"
 
 export function sprite() {
-  return { draw }
+  return { render }
 }

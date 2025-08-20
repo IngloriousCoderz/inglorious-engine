@@ -1,7 +1,7 @@
 const DEFAULT_PADDING = 10
 const ONE_SECOND = 1
 
-export default function draw(instance, ctx) {
+export default function render(instance, ctx) {
   const { accuracy, size, value } = instance.dt
 
   ctx.save()
