@@ -1,43 +1,44 @@
 /* eslint-disable no-console */
 import { findCollision } from "@inglorious/engine/collision/detection.js"
-import { enableClampToBounds as clampToBounds } from "@inglorious/game/decorators/clamp-to-bounds.js"
-import { enableModernControls as modernControls } from "@inglorious/game/decorators/controls/kinematic/modern.js"
+import { clamped } from "@inglorious/game/behaviors/clamped.js"
+import { modernControls } from "@inglorious/game/behaviors/controls/kinematic/modern.js"
 import {
-  createControls,
-  enableControls,
-} from "@inglorious/game/decorators/input/controls.js"
-import { enableJump as jump } from "@inglorious/game/decorators/jump.js"
-import draw from "@inglorious/ui/canvas/shapes/rectangle.js"
+  controlsInstances,
+  controlsTypes,
+} from "@inglorious/game/behaviors/input/controls.js"
+import { jumpable } from "@inglorious/game/behaviors/jumpable.js"
+import { rectangle } from "@inglorious/game/behaviors/shapes/rectangle"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
 
 const BASE_MARIO_BEHAVIORS = [
+  rectangle(),
   modernControls(),
-  clampToBounds(),
-  jump(),
+  clamped(),
+  jumpable(),
   defaultMario(),
 ]
 
 export default {
   types: {
-    ...enableControls(),
+    ...controlsTypes(),
 
     mario: [...BASE_MARIO_BEHAVIORS, baseMario()],
 
-    platform: { draw },
+    platform: [rectangle()],
 
-    mushroom: { draw },
+    mushroom: [rectangle()],
 
-    fireFlower: { draw },
+    fireFlower: [rectangle()],
 
-    feather: { draw },
+    feather: [rectangle()],
 
-    diamond: { draw },
+    diamond: [rectangle()],
 
-    goomba: { draw },
+    goomba: [rectangle()],
   },
 
   instances: {
-    ...createControls("input0", {
+    ...controlsInstances("input0", {
       ArrowLeft: "left",
       ArrowRight: "right",
       Space: "jump",
@@ -220,8 +221,6 @@ export default {
 function defaultMario() {
   return (type) =>
     extend(type, {
-      draw,
-
       update(instance, dt, options) {
         type.update?.(instance, dt, options)
 
@@ -233,8 +232,6 @@ function defaultMario() {
 function baseMario() {
   return (type) =>
     extend(type, {
-      draw,
-
       update(instance, dt, options) {
         type.update?.(instance, dt, options)
 

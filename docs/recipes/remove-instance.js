@@ -1,14 +1,14 @@
-import { enableCharacter } from "@inglorious/game/decorators/character.js"
-import { enableMouse } from "@inglorious/game/decorators/input/mouse.js"
+import { character } from "@inglorious/game/behaviors/character.js"
+import { mouse } from "@inglorious/game/behaviors/input/mouse.js"
 import { random } from "@inglorious/utils/math/rng.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
 export default {
   types: {
-    mouse: [enableMouse()],
+    mouse: [mouse()],
 
     character: [
-      enableCharacter(),
+      character(),
       {
         // this event handler is needed in React
         instanceClick(instance, id, { notify }) {

@@ -1,5 +1,5 @@
 import Engine from "@inglorious/engine.js"
-import { track } from "@inglorious/game/decorators/input/mouse.js"
+import { track } from "@inglorious/game/behaviors/input/mouse.js"
 
 import { absolutePosition } from "./canvas/absolute-position.js"
 

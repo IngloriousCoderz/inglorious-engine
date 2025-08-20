@@ -1,12 +1,12 @@
-import { enableMouse } from "@inglorious/game/decorators/input/mouse.js"
-import { enableButton } from "@inglorious/game/decorators/ui/button.js"
+import { mouse } from "@inglorious/game/behaviors/input/mouse.js"
+import { button } from "@inglorious/game/behaviors/ui/button.js"
 
 export default {
   types: {
-    mouse: [enableMouse()],
+    mouse: [mouse()],
 
     button: [
-      enableButton(),
+      button(),
       {
         size: [100, 50, 0],
         color: "black",

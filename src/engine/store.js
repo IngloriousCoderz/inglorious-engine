@@ -1,11 +1,11 @@
-import { enableGame } from "@inglorious/game/decorators/game.js"
+import { game } from "@inglorious/game/behaviors/game.js"
 import { map } from "@inglorious/utils/data-structures/object.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
 import { pipe } from "@inglorious/utils/functions/functions.js"
 import { produce } from "immer"
 
 const DEFAULT_TYPES = {
-  game: [enableGame()],
+  game: [game()],
 }
 
 const DEFAULT_INSTANCES = {

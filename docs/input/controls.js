@@ -1,9 +1,9 @@
 import move from "@inglorious/engine/movement/kinematic/modern.js"
-import { enableCharacter } from "@inglorious/game/decorators/character.js"
+import { character } from "@inglorious/game/behaviors/character.js"
 import {
-  createControls,
-  enableControls,
-} from "@inglorious/game/decorators/input/controls.js"
+  controlsInstances,
+  controlsTypes,
+} from "@inglorious/game/behaviors/input/controls.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 
@@ -12,10 +12,10 @@ const Z = 2
 
 export default {
   types: {
-    ...enableControls(),
+    ...controlsTypes(),
 
     character: [
-      enableCharacter(),
+      character(),
       {
         update(instance, dt, { instances }) {
           const { input0 } = instances
@@ -41,7 +41,7 @@ export default {
   },
 
   instances: {
-    ...createControls("input0", {
+    ...controlsInstances("input0", {
       ArrowUp: "up",
       ArrowDown: "down",
       ArrowLeft: "left",

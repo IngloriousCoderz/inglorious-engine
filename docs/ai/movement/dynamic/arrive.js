@@ -3,17 +3,17 @@ import arrive, {
   DEFAULT_TARGET_RADIUS,
   DEFAULT_TIME_TO_TARGET,
 } from "@inglorious/engine/ai/movement/dynamic/arrive.js"
+import { character } from "@inglorious/game/behaviors/character.js"
+import { mouse } from "@inglorious/game/behaviors/input/mouse.js"
 import { clampToBounds } from "@inglorious/game/bounds.js"
-import { enableCharacter } from "@inglorious/game/decorators/character.js"
-import { enableMouse } from "@inglorious/game/decorators/input/mouse.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 
 export default {
   types: {
-    mouse: [enableMouse()],
+    mouse: [mouse()],
 
     character: [
-      enableCharacter(),
+      character(),
       {
         update(instance, dt, { instances }) {
           const { mouse, parameters, game } = instances

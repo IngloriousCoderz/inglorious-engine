@@ -1,9 +1,9 @@
 import move from "@inglorious/engine/movement/kinematic/modern.js"
-import { enableCharacter } from "@inglorious/game/decorators/character.js"
+import { character } from "@inglorious/game/behaviors/character.js"
 import {
   createGamepad,
-  enableGamepad,
-} from "@inglorious/game/decorators/input/gamepad.js"
+  gamepad,
+} from "@inglorious/game/behaviors/input/gamepad.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 
@@ -12,10 +12,10 @@ const Z = 2
 
 export default {
   types: {
-    gamepad: [enableGamepad()],
+    gamepad: [gamepad()],
 
     character: [
-      enableCharacter(),
+      character(),
       {
         update(instance, dt, { instances }) {
           const { gamepad0 } = instances

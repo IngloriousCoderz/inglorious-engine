@@ -1,8 +1,8 @@
-import { enableImage } from "@inglorious/game/decorators/image/image"
+import { image } from "@inglorious/game/behaviors/image/image"
 
 export default {
   types: {
-    image: [enableImage()],
+    image: [image()],
   },
 
   instances: {

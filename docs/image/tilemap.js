@@ -1,8 +1,8 @@
-import { enableTilemap } from "@inglorious/game/decorators/image/tilemap"
+import { tilemap } from "@inglorious/game/behaviors/image/tilemap"
 
 export default {
   types: {
-    tilemap: [enableTilemap()],
+    tilemap: [tilemap()],
   },
 
   instances: {

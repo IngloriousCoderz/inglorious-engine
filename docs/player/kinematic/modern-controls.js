@@ -1,26 +1,22 @@
-import { enableCharacter } from "@inglorious/game/decorators/character.js"
-import { enableClampToBounds } from "@inglorious/game/decorators/clamp-to-bounds.js"
-import { enableModernControls } from "@inglorious/game/decorators/controls/kinematic/modern.js"
+import { character } from "@inglorious/game/behaviors/character.js"
+import { clamped } from "@inglorious/game/behaviors/clamped.js"
+import { modernControls } from "@inglorious/game/behaviors/controls/kinematic/modern.js"
 import {
-  createControls,
-  enableControls,
-} from "@inglorious/game/decorators/input/controls.js"
+  controlsInstances,
+  controlsTypes,
+} from "@inglorious/game/behaviors/input/controls.js"
 
 export default {
   types: {
-    ...enableControls(),
+    ...controlsTypes(),
 
     stats: {},
 
-    character: [
-      enableCharacter(),
-      enableModernControls(),
-      enableClampToBounds(),
-    ],
+    character: [character(), modernControls(), clamped()],
   },
 
   instances: {
-    ...createControls("input0", {
+    ...controlsInstances("input0", {
       ArrowUp: "up",
       ArrowDown: "down",
       ArrowLeft: "left",

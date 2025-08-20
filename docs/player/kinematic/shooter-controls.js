@@ -1,24 +1,20 @@
-import { enableCharacter } from "@inglorious/game/decorators/character.js"
-import { enableClampToBounds } from "@inglorious/game/decorators/clamp-to-bounds.js"
-import { enableShooterControls } from "@inglorious/game/decorators/controls/kinematic/shooter.js"
+import { character } from "@inglorious/game/behaviors/character.js"
+import { clamped } from "@inglorious/game/behaviors/clamped.js"
+import { shooterControls } from "@inglorious/game/behaviors/controls/kinematic/shooter.js"
 import {
-  createControls,
-  enableControls,
-} from "@inglorious/game/decorators/input/controls.js"
-import { enableMouse } from "@inglorious/game/decorators/input/mouse.js"
+  controlsInstances,
+  controlsTypes,
+} from "@inglorious/game/behaviors/input/controls.js"
+import { mouse } from "@inglorious/game/behaviors/input/mouse.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
 export default {
   types: {
-    mouse: [enableMouse()],
+    mouse: [mouse()],
 
-    ...enableControls(),
+    ...controlsTypes(),
 
-    character: [
-      enableCharacter(),
-      enableShooterControls(),
-      enableClampToBounds(),
-    ],
+    character: [character(), shooterControls(), clamped()],
   },
 
   instances: {
@@ -27,7 +23,7 @@ export default {
       position: [400, 0, 300],
     },
 
-    ...createControls("input0", {
+    ...controlsInstances("input0", {
       ArrowLeft: "left",
       ArrowRight: "right",
       ArrowDown: "down",

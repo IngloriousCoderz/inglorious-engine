@@ -1,11 +1,11 @@
 import { findCollisions } from "@inglorious/engine/collision/detection.js"
-import { enableCollisionsDebug } from "@inglorious/game/decorators/debug/collisions.js"
-import { enableSprite } from "@inglorious/game/decorators/image/sprite.js"
-import { enableTilemap } from "@inglorious/game/decorators/image/tilemap.js"
+import { collisionGizmos } from "@inglorious/game/behaviors/debug/collision.js"
+import { sprite } from "@inglorious/game/behaviors/image/sprite.js"
+import { tilemap } from "@inglorious/game/behaviors/image/tilemap.js"
 import {
-  createControls,
-  enableControls,
-} from "@inglorious/game/decorators/input/controls.js"
+  controlsInstances,
+  controlsTypes,
+} from "@inglorious/game/behaviors/input/controls.js"
 import { Sprite } from "@inglorious/game/sprite.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
 import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
@@ -15,14 +15,14 @@ const Z = 2
 
 export default {
   types: {
-    ...enableControls(),
+    ...controlsTypes(),
 
-    tilemap: [enableTilemap(), enableCollisionsDebug()],
+    tilemap: [tilemap(), collisionGizmos()],
 
     player: [
-      enableSprite(),
-      enableCollisionsDebug(),
-      // enableModernControls(),
+      sprite(),
+      collisionGizmos(),
+      // modernControls(),
       (type) =>
         extend(type, {
           update(instance, dt, options) {
@@ -78,7 +78,7 @@ export default {
       pixelated: true,
     },
 
-    ...createControls("input0", {
+    ...controlsInstances("input0", {
       ArrowLeft: "left",
       ArrowRight: "right",
       ArrowDown: "down",

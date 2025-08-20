@@ -1,9 +1,9 @@
 import arrive from "@inglorious/engine/ai/movement/kinematic/arrive.js"
 import wander from "@inglorious/engine/ai/movement/kinematic/wander.js"
+import { character } from "@inglorious/game/behaviors/character.js"
+import { fsm } from "@inglorious/game/behaviors/fsm.js"
+import { mouse } from "@inglorious/game/behaviors/input/mouse.js"
 import { clampToBounds, flip } from "@inglorious/game/bounds.js"
-import { enableCharacter } from "@inglorious/game/decorators/character.js"
-import { enableFsm } from "@inglorious/game/decorators/fsm.js"
-import { enableMouse } from "@inglorious/game/decorators/input/mouse.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { length } from "@inglorious/utils/math/linear-algebra/vector.js"
 import { subtract } from "@inglorious/utils/math/linear-algebra/vectors.js"
@@ -11,11 +11,11 @@ import { pi } from "@inglorious/utils/math/trigonometry.js"
 
 export default {
   types: {
-    mouse: [enableMouse()],
+    mouse: [mouse()],
 
     character: [
-      enableCharacter(),
-      enableFsm({
+      character(),
+      fsm({
         meandering: {
           update(instance, dt, { instances }) {
             const { mouse, game } = instances

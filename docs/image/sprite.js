@@ -1,10 +1,10 @@
-import { enableSprite } from "@inglorious/game/decorators/image/sprite.js"
+import { sprite } from "@inglorious/game/behaviors/image/sprite.js"
 import { Sprite } from "@inglorious/game/sprite.js"
 
 export default {
   types: {
     cat: [
-      enableSprite(),
+      sprite(),
       {
         update(instance, dt, { notify }) {
           Sprite.play({ state: "sleepy", instance, dt, notify })

@@ -2,13 +2,13 @@ import align, {
   DEFAULT_TARGET_RADIUS,
   DEFAULT_TIME_TO_TARGET,
 } from "@inglorious/engine/ai/movement/kinematic/align.js"
-import { clampToBounds } from "@inglorious/game/bounds.js"
-import { enableCharacter } from "@inglorious/game/decorators/character.js"
+import { character } from "@inglorious/game/behaviors/character.js"
 import {
-  createControls,
-  enableControls,
-} from "@inglorious/game/decorators/input/controls.js"
-import { enableMouse } from "@inglorious/game/decorators/input/mouse.js"
+  controlsInstances,
+  controlsTypes,
+} from "@inglorious/game/behaviors/input/controls.js"
+import { mouse } from "@inglorious/game/behaviors/input/mouse.js"
+import { clampToBounds } from "@inglorious/game/bounds.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { clamp } from "@inglorious/utils/math/numbers.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
@@ -16,7 +16,7 @@ import { pi } from "@inglorious/utils/math/trigonometry.js"
 export default {
   types: {
     mouse: [
-      enableMouse(),
+      mouse(),
       {
         fieldChange(instance, { id, value }) {
           if (id === "targetOrientation") {
@@ -37,10 +37,10 @@ export default {
       },
     ],
 
-    ...enableControls(),
+    ...controlsTypes(),
 
     character: [
-      enableCharacter(),
+      character(),
       {
         update(instance, dt, { instances }) {
           const { mouse, parameters, game } = instances
@@ -72,7 +72,7 @@ export default {
       position: [400, 0, 300],
       orientation: 0,
     },
-    ...createControls("input0", {
+    ...controlsInstances("input0", {
       ArrowLeft: "left",
       ArrowRight: "right",
       ArrowDown: "down",

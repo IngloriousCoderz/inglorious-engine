@@ -1,27 +1,27 @@
-import { enableCharacter } from "@inglorious/game/decorators/character.js"
-import { enableClampToBounds } from "@inglorious/game/decorators/clamp-to-bounds.js"
-import { enableModernControls } from "@inglorious/game/decorators/controls/dynamic/modern.js"
-import { enableFsm } from "@inglorious/game/decorators/fsm.js"
+import { character } from "@inglorious/game/behaviors/character.js"
+import { clamped } from "@inglorious/game/behaviors/clamped.js"
+import { modernControls } from "@inglorious/game/behaviors/controls/dynamic/modern.js"
+import { fsm } from "@inglorious/game/behaviors/fsm.js"
 import {
-  createControls,
-  enableControls,
-} from "@inglorious/game/decorators/input/controls.js"
-import { enableJump } from "@inglorious/game/decorators/jump.js"
+  controlsInstances,
+  controlsTypes,
+} from "@inglorious/game/behaviors/input/controls.js"
+import { jumpable } from "@inglorious/game/behaviors/jumpable.js"
 
 const Y = 1
 
 export default {
   types: {
-    ...enableControls(),
+    ...controlsTypes(),
 
     stats: {},
 
     character: [
-      enableCharacter(),
-      enableModernControls(),
-      enableClampToBounds(),
-      enableJump({ maxJumps: 2 }),
-      enableFsm({
+      character(),
+      modernControls(),
+      clamped(),
+      jumpable({ maxJumps: 2 }),
+      fsm({
         default: {
           update(instance) {
             stopFreeFalling(instance)
@@ -38,7 +38,7 @@ export default {
   },
 
   instances: {
-    ...createControls("input0", {
+    ...controlsInstances("input0", {
       ArrowUp: "up",
       ArrowDown: "down",
       ArrowLeft: "left",

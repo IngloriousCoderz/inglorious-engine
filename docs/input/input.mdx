@@ -14,7 +14,7 @@ It's pretty easy to add input controls to your game. Let's have a look.
 
 ## Mouse
 
-If you need mouse support, it's as easy as using the `enableMouse()` decorator. It automatically detects movement and clicks on any instance in the scene.
+If you need mouse support, it's as easy as using the `mouse()` behavior. It automatically detects movement and clicks on any instance in the scene.
 
 You can get a reference to any instance in the scene by inspecting the `options.instances` property.
 
@@ -46,7 +46,7 @@ If you plug a gamepad, there's a high chance that the engine will recognize it a
 
 ## Controls
 
-Want to make both keyboard and gamepad work? Use the `enableControls()` and `createControls()` functions then!
+Want to make both keyboard and gamepad work? Use the `controlsTypes()` and `controlsInstances()` functions then!
 
 You'll probably always want to use these two instead of dealing with keyboards and gamepads separately, but who am I to judge?
 

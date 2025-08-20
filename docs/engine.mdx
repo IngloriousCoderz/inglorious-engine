@@ -62,7 +62,7 @@ The `fps` type shows FPS debug info on the top left of the scene; its value is u
 
 Coding is beautiful, but reusing code without reinventing the wheel is even better! This is where the engine's functional approach really shines through its **[Composition over Inheritance](/docs/engine-core-concepts-composition--docs)** philosophy.
 
-Instead of relying on complex class inheritance hierarchies, we use **function composition**. In this example, all the code necessary to draw the character is encapsulated in an `enableCharacter()` decorator.
+Instead of relying on complex class inheritance hierarchies, we use **function composition**. In this example, all the code necessary to draw the character is encapsulated in a `character()` behavior.
 
 This approach is more flexible and powerful than inheritance. You can mix and match behaviors by simply adding decorators to an array, avoiding problems like the "diamond problem" and creating deeply nested, brittle class structures. You are free to combine `canBeControlledByPlayer`, `canBeHurt`, and `canShoot` decorators on the fly.
 
@@ -121,10 +121,10 @@ Here's how you might dispatch a `morph` event upon collision with a Fire Flower:
 if (collidesWith(mario, fireFlower)) {
     notify("morph", {
         id: 'mario', // The ID of the type to change
-        type: [ // The new array of decorators and handlers
-            enableBaseMario(),
-            enableSuperMario(),
-            enableFireMario(),
+        type: [ // The new array of behaviors and handlers
+            baseMario(),
+            superMario(),
+            fireMario(),
             // ... other base decorators like controls, physics etc.
         ],
     });
@@ -133,7 +133,7 @@ if (collidesWith(mario, fireFlower)) {
 }
 ```
 
-When the engine processes this event, it will replace the existing definition for the `mario` type with the new one. All existing and future instances of `type: 'mario'` will now use the new set of behaviors, including the abilities from `enableFireMario()`.
+When the engine processes this event, it will replace the existing definition for the `mario` type with the new one. All existing and future instances of `type: 'mario'` will now use the new set of behaviors, including the abilities from `fireMario()`.
 
 This pattern keeps instance objects clean and centralizes behavior logic within type definitions, making your game architecture more robust and easier to reason about. You can see a complete implementation of this pattern in the Mario Power-Ups recipe.
 

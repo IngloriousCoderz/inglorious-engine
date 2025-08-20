@@ -1,6 +1,6 @@
+import { character } from "@inglorious/game/behaviors/character.js"
+import { fps } from "@inglorious/game/behaviors/fps.js"
 import { bounce } from "@inglorious/game/bounds.js"
-import { enableCharacter } from "@inglorious/game/decorators/character.js"
-import { enableFps } from "@inglorious/game/decorators/fps.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
@@ -10,7 +10,7 @@ export default {
 
   types: {
     character: [
-      enableCharacter(),
+      character(),
       {
         update(instance, dt, { instances }) {
           const { game } = instances
@@ -19,7 +19,7 @@ export default {
       },
     ],
 
-    fps: [enableFps()],
+    fps: [fps()],
   },
 
   instances: {

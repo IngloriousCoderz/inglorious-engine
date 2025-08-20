@@ -1,7 +1,7 @@
 import arrive from "@inglorious/engine/ai/movement/kinematic/arrive.js"
-import { enableFsm } from "@inglorious/game/decorators/fsm.js"
-import { enableSprite } from "@inglorious/game/decorators/image/sprite.js"
-import { enableMouse } from "@inglorious/game/decorators/input/mouse.js"
+import { fsm } from "@inglorious/game/behaviors/fsm.js"
+import { sprite } from "@inglorious/game/behaviors/image/sprite.js"
+import { mouse } from "@inglorious/game/behaviors/input/mouse.js"
 import { Sprite } from "@inglorious/game/sprite.js"
 import { decide } from "@inglorious/utils/algorithms/decision-tree.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
@@ -74,11 +74,11 @@ const nextState = {
 
 export default {
   types: {
-    mouse: [enableMouse()],
+    mouse: [mouse()],
 
     cat: [
-      enableSprite(),
-      enableFsm({
+      sprite(),
+      fsm({
         idle: {
           update(instance, dt, { instances, notify }) {
             const { mouse } = instances

@@ -1,31 +1,24 @@
-import { enableCharacter } from "@inglorious/game/decorators/character.js"
-import { enableClampToBounds } from "@inglorious/game/decorators/clamp-to-bounds.js"
-import { enableModernControls } from "@inglorious/game/decorators/controls/kinematic/modern.js"
-import { enableCollisionsDebug } from "@inglorious/game/decorators/debug/collisions"
+import { character } from "@inglorious/game/behaviors/character.js"
+import { clamped } from "@inglorious/game/behaviors/clamped.js"
+import { modernControls } from "@inglorious/game/behaviors/controls/kinematic/modern.js"
 import {
-  createControls,
-  enableControls,
-} from "@inglorious/game/decorators/input/controls.js"
-import { enableJump } from "@inglorious/game/decorators/jump.js"
-import { enablePlatform } from "@inglorious/game/decorators/platform.js"
+  controlsInstances,
+  controlsTypes,
+} from "@inglorious/game/behaviors/input/controls.js"
+import { jumpable } from "@inglorious/game/behaviors/jumpable.js"
+import { rectangle } from "@inglorious/game/behaviors/shapes/rectangle.js"
 
 export default {
   types: {
-    ...enableControls(),
+    ...controlsTypes(),
 
-    platform: [enablePlatform(), enableCollisionsDebug()],
+    platform: [rectangle()],
 
-    character: [
-      enableCharacter(),
-      enableModernControls(),
-      enableClampToBounds(),
-      enableJump(),
-      enableCollisionsDebug(),
-    ],
+    character: [character(), modernControls(), clamped(), jumpable()],
   },
 
   instances: {
-    ...createControls("input0", {
+    ...controlsInstances("input0", {
       ArrowLeft: "left",
       ArrowRight: "right",
       Space: "jump",

@@ -2,15 +2,15 @@ import wander, {
   DEFAULT_WANDER_OFFSET,
   DEFAULT_WANDER_RADIUS,
 } from "@inglorious/engine/ai/movement/dynamic/wander.js"
+import { character } from "@inglorious/game/behaviors/character.js"
 import { flip } from "@inglorious/game/bounds.js"
-import { enableCharacter } from "@inglorious/game/decorators/character.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
 export default {
   types: {
     character: [
-      enableCharacter(),
+      character(),
       {
         update(instance, dt, { instances }) {
           const { parameters, game } = instances

@@ -1,5 +1,5 @@
-import { enableCharacter } from "@inglorious/game/decorators/character.js"
-import { enableMouse } from "@inglorious/game/decorators/input/mouse.js"
+import { character } from "@inglorious/game/behaviors/character.js"
+import { mouse } from "@inglorious/game/behaviors/input/mouse.js"
 import { filter } from "@inglorious/utils/data-structures/object.js"
 import { random } from "@inglorious/utils/math/rng.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
@@ -7,7 +7,7 @@ import { pi } from "@inglorious/utils/math/trigonometry.js"
 export default {
   types: {
     mouse: [
-      enableMouse(),
+      mouse(),
       {
         mouseClick(instance, position, options) {
           const { instances, notify } = options
@@ -27,7 +27,7 @@ export default {
       },
     ],
 
-    character: [enableCharacter()],
+    character: [character()],
   },
 
   instances: {

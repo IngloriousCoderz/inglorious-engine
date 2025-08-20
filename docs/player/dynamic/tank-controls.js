@@ -1,20 +1,20 @@
-import { enableCharacter } from "@inglorious/game/decorators/character.js"
-import { enableClampToBounds } from "@inglorious/game/decorators/clamp-to-bounds.js"
-import { enableTankControls } from "@inglorious/game/decorators/controls/dynamic/tank.js"
+import { character } from "@inglorious/game/behaviors/character.js"
+import { clamped } from "@inglorious/game/behaviors/clamped.js"
+import { tankControls } from "@inglorious/game/behaviors/controls/dynamic/tank.js"
 import {
-  createControls,
-  enableControls,
-} from "@inglorious/game/decorators/input/controls.js"
+  controlsInstances,
+  controlsTypes,
+} from "@inglorious/game/behaviors/input/controls.js"
 
 export default {
   types: {
-    ...enableControls(),
+    ...controlsTypes(),
 
-    character: [enableCharacter(), enableTankControls(), enableClampToBounds()],
+    character: [character(), tankControls(), clamped()],
   },
 
   instances: {
-    ...createControls("input0", {
+    ...controlsInstances("input0", {
       ArrowUp: "up",
       ArrowDown: "down",
       ArrowLeft: "left",
