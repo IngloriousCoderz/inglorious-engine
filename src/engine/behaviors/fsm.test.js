@@ -1,7 +1,7 @@
-import { createStore } from "@inglorious/engine/core/store"
+import { createStore } from "@inglorious/engine/core/store.js"
 import { expect, test } from "vitest"
 
-import { fsm } from "./fsm"
+import { fsm } from "./fsm.js"
 
 test("it should add a finite state machine", () => {
   const config = {

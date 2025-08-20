@@ -90,15 +90,15 @@ test("it should process the event queue", () => {
 test("it should send an event from an instance", () => {
   const config = {
     types: {
-      doge: {
+      doggo: {
         update(instance, dt, { instances, notify }) {
           if (instances.instance2.position === "near") {
-            notify("dogeMessage", { id: "inu", message: "Woof!" })
+            notify("doggoMessage", { id: "inu", message: "Woof!" })
           }
         },
       },
       kitty: {
-        dogeMessage(instance, { id, message }) {
+        doggoMessage(instance, { id, message }) {
           if (id === "inu" && message === "Woof!") {
             instance.position = "far"
           }
@@ -108,7 +108,7 @@ test("it should send an event from an instance", () => {
 
     instances: {
       instance1: {
-        type: "doge",
+        type: "doggo",
       },
       instance2: {
         type: "kitty",
@@ -128,7 +128,7 @@ test("it should send an event from an instance", () => {
       },
       instance1: {
         id: "instance1",
-        type: "doge",
+        type: "doggo",
         layer: 0,
       },
       instance2: {
@@ -147,20 +147,20 @@ test("it should send an event from an instance", () => {
 })
 
 test("it should receive an event from an instance", () => {
-  const event = "dogeMessage"
+  const event = "doggoMessage"
   const payload = { id: "inu", message: "Woof!" }
 
   const config = {
     types: {
-      doge: {
+      doggo: {
         update(instance, dt, { instances, notify }) {
           if (instances.instance2.position === "near") {
-            notify("dogeMessage", { id: "inu", message: "Woof!" })
+            notify("doggoMessage", { id: "inu", message: "Woof!" })
           }
         },
       },
       kitty: {
-        dogeMessage(instance, { id, message }) {
+        doggoMessage(instance, { id, message }) {
           if (id === "inu" && message === "Woof!") {
             instance.position = "far"
           }
@@ -170,7 +170,7 @@ test("it should receive an event from an instance", () => {
 
     instances: {
       instance1: {
-        type: "doge",
+        type: "doggo",
       },
       instance2: {
         type: "kitty",
@@ -191,7 +191,7 @@ test("it should receive an event from an instance", () => {
       },
       instance1: {
         id: "instance1",
-        type: "doge",
+        type: "doggo",
         layer: 0,
       },
       instance2: {
