@@ -117,11 +117,11 @@ export default {
 
         sleepy: {
           update(instance, dt, { instances, notify }) {
-            const { mouse: target } = instances
+            const { mouse } = instances
 
             Sprite.play({ state: "sleepy", instance, dt, notify })
 
-            instance.state = decide(nextState, { instance, target })
+            instance.state = decide(nextState, { instance, target: mouse })
           },
 
           spriteAnimationEnd(instance, event) {
@@ -136,11 +136,11 @@ export default {
 
         sleeping: {
           update(instance, dt, { instances, notify }) {
-            const { mouse: target } = instances
+            const { mouse } = instances
 
             Sprite.play({ state: "sleeping", instance, dt, notify })
 
-            instance.state = decide(nextState, { instance, target })
+            instance.state = decide(nextState, { instance, target: mouse })
           },
         },
       }),

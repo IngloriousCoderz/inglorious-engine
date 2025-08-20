@@ -43,12 +43,12 @@ export default {
       enableCharacter(),
       {
         update(instance, dt, { instances }) {
-          const { mouse: target, parameters, game } = instances
+          const { mouse, parameters, game } = instances
           const { fields } = parameters.groups.align
 
           merge(
             instance,
-            align(instance, target, dt, {
+            align(instance, mouse, dt, {
               targetRadius: fields.targetRadius.value,
               timeToTarget: fields.timeToTarget.value,
             }),

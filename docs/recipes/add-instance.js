@@ -17,7 +17,7 @@ export default {
           )
           const ids = Object.keys(characters)
 
-          notify("instanceAdd", {
+          notify("add", {
             id: `character${ids.length + 1}`,
             type: "character",
             position,

@@ -50,7 +50,7 @@ The engine's state management is inspired by Redux, but it's specifically tailor
 
 However, there are several key differences that make it unique:
 
-1.  **Events, not Actions**: In Redux, you "dispatch actions." Here, we "notify of events." This is a deliberate semantic choice. An event represents something that _has happened_ in the game world (e.g., `player:moved`, `enemy:destroyed`). This aligns well with event-sourcing principles and is more intuitive in a game development context.
+1.  **Events, not Actions**: In Redux, you "dispatch actions." Here, we "notify of events." This is a deliberate semantic choice. An event handler is a function that reacts to a specific occurrence in the game world (e.g., `playerMove`, `enemyDestroy`). The naming convention is similar to standard JavaScript event handlers like `onClick`, where the handler name describes the event it's listening for.
 
 2.  **Asynchronous Event Queue**: Unlike Redux's synchronous dispatch, events are not processed immediately. They are added to a central event queue. The engine's main loop processes this queue once per frame. This approach has several advantages:
 
@@ -58,11 +58,12 @@ However, there are several key differences that make it unique:
     - It ensures state changes happen at a predictable point in the game loop, preventing race conditions or cascading updates within a single frame.
     - It allows for event batching and provides a solid foundation for networking and time-travel debugging.
 
-3.  **Core Engine Events**: The engine has a few built-in events that drive its core functionality. Key examples include:
+3.  **Core Engine Events & Naming Convention**: The engine has a few built-in, **single-word** events that drive its core functionality. To avoid conflicts, you should use **multi-word `camelCase`** names for your own custom game events (`playerJump`, `itemCollect`). This convention is similar to how custom HTML elements require a hyphen to distinguish them from standard elements. Key engine events include:
 
     - `update`: Fired on every frame, typically carrying the `deltaTime` since the last frame. This is where you'll put most of your continuous game logic (like movement).
-    - `instanceAdd`: Used to add a new entity (instance) to the game state.
-    - `instanceRemove`: Used to remove an entity from the game state.
+    - `add`: Used to add a new entity (instance) to the game state.
+    - `remove`: Used to remove an entity from the game state.
+    - `morph`: Used to dynamically change the behaviors associated with an instance's type.
 
 4.  **Ergonomic Immutability with Immer**: The state is immutable, but to make this easy to work with, we use Immer. Inside your event handlers, you can write code that looks like it's mutating the state directly. Immer handles the magic behind the scenes, producing a new, updated state with structural sharing, giving you the performance benefits of immutability with the developer experience of mutable code.
 

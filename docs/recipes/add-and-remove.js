@@ -21,7 +21,7 @@ export default {
             ? Number(ids[ids.length - 1].replace("character", ""))
             : 0
 
-          notify("instanceAdd", {
+          notify("add", {
             id: `character${maxId + 1}`,
             type: "character",
             position,
@@ -37,7 +37,7 @@ export default {
 
         // this event handler is needed for React
         instanceClick(instance, id, { notify }) {
-          notify("instanceRemove", id)
+          notify("remove", id)
         },
       },
     ],
@@ -47,7 +47,7 @@ export default {
       {
         // this event handler is needed in React
         instanceClick(instance, id, { notify }) {
-          notify("instanceRemove", id)
+          notify("remove", id)
         },
       },
     ],

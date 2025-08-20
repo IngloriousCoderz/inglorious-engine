@@ -14,12 +14,12 @@ export default {
       enableCharacter(),
       {
         update(instance, dt, { instances }) {
-          const { mouse: target, parameters, game } = instances
+          const { mouse, parameters, game } = instances
           const { fields } = parameters.groups.evade
 
           merge(
             instance,
-            evade(instance, target, dt, {
+            evade(instance, mouse, dt, {
               maxPrediction: fields.maxPrediction.value,
             }),
           )

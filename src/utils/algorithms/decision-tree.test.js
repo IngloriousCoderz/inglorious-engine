@@ -13,8 +13,8 @@ test("it should make a decision based on a binary decision tree", () => {
     },
     true() {
       return {
-        test({ instance, mouse }) {
-          const distance = length(subtract(mouse.position, instance.position))
+        test({ instance, target }) {
+          const distance = length(subtract(target.position, instance.position))
           return distance < 250
         },
         true() {
@@ -29,9 +29,9 @@ test("it should make a decision based on a binary decision tree", () => {
         },
         true() {
           return {
-            test({ instance, mouse }) {
+            test({ instance, target }) {
               const distance = length(
-                subtract(mouse.position, instance.position),
+                subtract(target.position, instance.position),
               )
               return distance >= 250
             },
@@ -40,9 +40,9 @@ test("it should make a decision based on a binary decision tree", () => {
             },
             false() {
               return {
-                test({ instance, mouse }) {
+                test({ instance, target }) {
                   const distance = length(
-                    subtract(mouse.position, instance.position),
+                    subtract(target.position, instance.position),
                   )
                   return distance < 10
                 },
@@ -60,9 +60,9 @@ test("it should make a decision based on a binary decision tree", () => {
             },
             true() {
               return {
-                test({ instance, mouse }) {
+                test({ instance, target }) {
                   const distance = length(
-                    subtract(mouse.position, instance.position),
+                    subtract(target.position, instance.position),
                   )
                   return distance >= 10
                 },
@@ -77,7 +77,7 @@ test("it should make a decision based on a binary decision tree", () => {
     },
   }
 
-  const state = decide(tree, { instance, mouse: target })
+  const state = decide(tree, { instance, target })
 
   expect(state).toBe("aware")
 })

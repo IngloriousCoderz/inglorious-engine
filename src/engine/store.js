@@ -72,13 +72,13 @@ export function createStore({
     while (state.events.length) {
       const event = state.events.shift()
 
-      if (event.type === "typeChange") {
+      if (event.type === "morph") {
         const { id, type } = event.payload
         originalTypes[id] = type
         recomputeTypes()
       }
 
-      if (event.type === "instanceAdd") {
+      if (event.type === "add") {
         add(event.payload.id, event.payload)
       }
 
@@ -94,7 +94,7 @@ export function createStore({
         )
       })
 
-      if (event.type === "instanceRemove") {
+      if (event.type === "remove") {
         remove(event.payload)
       }
     }

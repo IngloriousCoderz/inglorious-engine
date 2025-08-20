@@ -394,7 +394,7 @@ The engine's state management is inspired by Redux, but it's not a direct copy. 
 
 <!-- slide -->
 
-- **1. Events, not Actions:** Instead of "dispatching an action", we "notify of an event" because it better describes something that _has happened_ in the game world (e.g., `player:moved`, `enemy:destroyed`). It's just a more natural fit.
+- **1. Events, not Actions:** Instead of "dispatching an action", we "notify of an event". Event handlers are named for the event they react to (e.g., `playerMove`, `enemyDestroy`), similar to standard JavaScript event handlers like `onClick`. It's a natural fit for game logic.
 
 <!-- slide -->
 
@@ -402,7 +402,7 @@ The engine's state management is inspired by Redux, but it's not a direct copy. 
 
 <!-- slide -->
 
-- **3. Handlers Can Issue New Events:** This is the biggest departure from pure Redux. A handler for one event (like `enemy:take_damage`) can notify of a _new_ event (like `enemy:die`). Thanks to the queue, this is a safe and powerful way to create reactive logic chains like `player:attack_hit` -> `enemy:take_damage` -> `enemy:die` -> `player:gain_xp`.
+- **3. Handlers Can Issue New Events:** This is the biggest departure from pure Redux. A handler for one event (like `enemyTakeDamage`) can notify of a _new_ event (like `enemyDie`). Thanks to the queue, this is a safe and powerful way to create reactive logic chains like `playerAttackHit` -> `enemyTakeDamage` -> `enemyDie` -> `playerGainXp`.
 
 <!-- slide -->
 

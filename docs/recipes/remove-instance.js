@@ -12,7 +12,7 @@ export default {
       {
         // this event handler is needed in React
         instanceClick(instance, id, { notify }) {
-          notify("instanceRemove", id)
+          notify("remove", id)
         },
       },
     ],

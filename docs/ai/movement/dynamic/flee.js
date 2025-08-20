@@ -12,9 +12,9 @@ export default {
       enableCharacter(),
       {
         update(instance, dt, { instances }) {
-          const { mouse: target, game } = instances
+          const { mouse, game } = instances
 
-          merge(instance, flee(instance, target, dt))
+          merge(instance, flee(instance, mouse, dt))
 
           clampToBounds(instance, game.bounds)
         },

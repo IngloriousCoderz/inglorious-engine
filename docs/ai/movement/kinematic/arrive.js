@@ -15,12 +15,12 @@ export default {
       enableCharacter(),
       {
         update(instance, dt, { instances }) {
-          const { mouse: target, parameters, game } = instances
+          const { mouse, parameters, game } = instances
           const { fields } = parameters.groups.arrive
 
           merge(
             instance,
-            arrive(instance, target, dt, {
+            arrive(instance, mouse, dt, {
               targetRadius: fields.targetRadius.value,
               timeToTarget: fields.timeToTarget.value,
             }),

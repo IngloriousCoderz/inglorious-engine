@@ -11,9 +11,9 @@ export default {
       enableCharacter(),
       {
         update(instance, dt, { instances }) {
-          const { mouse: target } = instances
+          const { mouse } = instances
 
-          merge(instance, seek(instance, target, dt))
+          merge(instance, seek(instance, mouse, dt))
         },
       },
     ],

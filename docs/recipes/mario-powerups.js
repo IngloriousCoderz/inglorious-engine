@@ -312,7 +312,7 @@ function collideWithPowerUps(instance, { instances, notify }) {
       instance.maxSpeed = 300
       instance.backgroundColor = "#b9342e"
 
-      notify("typeChange", {
+      notify("morph", {
         id: instance.type,
         type: [...BASE_MARIO_BEHAVIORS, superMario()],
       })
@@ -323,7 +323,7 @@ function collideWithPowerUps(instance, { instances, notify }) {
       instance.maxSpeed = 350
       instance.backgroundColor = "#f4f3e9"
 
-      notify("typeChange", {
+      notify("morph", {
         id: instance.type,
         type: [...BASE_MARIO_BEHAVIORS, superMario(), fireMario()],
       })
@@ -334,7 +334,7 @@ function collideWithPowerUps(instance, { instances, notify }) {
       instance.maxSpeed = 350
       instance.backgroundColor = "#f4f040"
 
-      notify("typeChange", {
+      notify("morph", {
         id: instance.type,
         type: [...BASE_MARIO_BEHAVIORS, superMario(), capeMario()],
       })
@@ -345,13 +345,13 @@ function collideWithPowerUps(instance, { instances, notify }) {
       instance.maxSpeed = 400
       instance.backgroundColor = "#ca00ff"
 
-      notify("typeChange", {
+      notify("morph", {
         id: instance.type,
         type: [...BASE_MARIO_BEHAVIORS, superMario(), fireMario(), capeMario()],
       })
       break
   }
-  notify("instanceRemove", powerup.id)
+  notify("remove", powerup.id)
 }
 
 function collideWithEnemyAndDie(instance, { instances, notify }) {
@@ -362,8 +362,8 @@ function collideWithEnemyAndDie(instance, { instances, notify }) {
 
   if (!enemy) return
 
-  notify("instanceRemove", instance.id)
-  notify("instanceRemove", enemy.id)
+  notify("remove", instance.id)
+  notify("remove", enemy.id)
 
   console.log("Game over!")
 }
@@ -380,11 +380,11 @@ function collideWithEnemyAndShrink(instance, { instances, notify }) {
   instance.maxSpeed = 250
   instance.backgroundColor = "#393664"
 
-  notify("typeChange", {
+  notify("morph", {
     id: instance.type,
     type: [...BASE_MARIO_BEHAVIORS, baseMario()],
   })
-  notify("instanceRemove", enemy.id)
+  notify("remove", enemy.id)
 }
 
 function collideWithEnemyAndLosePowers(instance, { instances, notify }) {
@@ -399,9 +399,9 @@ function collideWithEnemyAndLosePowers(instance, { instances, notify }) {
   instance.maxSpeed = 300
   instance.backgroundColor = "#b9342e"
 
-  notify("typeChange", {
+  notify("morph", {
     id: instance.type,
     type: [...BASE_MARIO_BEHAVIORS, superMario()],
   })
-  notify("instanceRemove", enemy.id)
+  notify("remove", enemy.id)
 }

@@ -28,7 +28,7 @@ The game is an instance in the game, that we can customize as we please.
 
 ## Event Handlers
 
-To animate stuff we write event handlers for events that are triggered by our instances or by the game itself. The `game:update` event, for example, is triggered at every cycle of the game loop.
+To animate stuff we write event handlers for events that are triggered by our instances or by the game itself. The `update` event, for example, is a special core event that is triggered at every cycle of the game loop.
 
 An event handler accepts the following arguments:
 
@@ -41,9 +41,18 @@ An event handler accepts the following arguments:
 
 You might notice the code directly changes properties on the `instance`. While this looks like a direct mutation, the engine uses [Immer](https://immerjs.github.io/immer/) under the hood. This allows you to write simple, mutable-style code while Immer handles the complexity of producing a new, immutable state object for you. It's the best of both worlds: simple code and the safety of immutability.
 
-The character shown here updates its velocity and position at every frame, going back and forth like it's patroling the scene!
+### Naming Conventions
 
-The `fps` type shows FPS debug info on the top left of the scene; its value is updated based on the `dt` time at every `game:update` event.
+The engine uses a simple and powerful naming convention for events to ensure clarity and prevent conflicts:
+
+- **Core Engine Events are single words**: These are reserved, special-purpose commands like `update`, `add`, `remove`, and `morph`.
+- **Custom Game Events are multi-word (`camelCase`)**: For all your game-specific logic, you should use descriptive, multi-word names like `playerJump`, `enemyTakeDamage`, or `itemCollect`.
+
+This convention acts as a form of namespacing, similar to how custom HTML elements must contain a hyphen (e.g., `<my-component>`) to distinguish them from standard elements (e.g., `<div>`). It makes it immediately clear which events are part of the engine's lifecycle and which are specific to your game's logic.
+
+The character shown here uses the `update` event to update its velocity and position at every frame, going back and forth like it's patroling the scene!
+
+The `fps` type shows FPS debug info on the top left of the scene; its value is updated based on the `dt` time at every `update` event.
 
 <Source dark code={eventHandlers} />
 
@@ -97,7 +106,7 @@ This approach allows for rapid prototyping and the creation of emergent game mec
 
 ## Dynamic Types
 
-While adding properties to individual instances at runtime is powerful for temporary state changes, sometimes you need to fundamentally alter the behavior of all instances of a certain type. The engine supports this through the `type:change` event.
+While adding properties to individual instances at runtime is powerful for temporary state changes, sometimes you need to fundamentally alter the behavior of all instances of a certain type. The engine supports this through the `morph` event.
 
 This allows you to redefine a type's decorators and event handlers on the fly. This is particularly useful for implementing mechanics like character evolution or complex power-up systems where the core behaviors of a character change.
 
@@ -105,12 +114,12 @@ This allows you to redefine a type's decorators and event handlers on the fly. T
 
 Let's revisit the classic Super Mario example. When Mario picks up a power-up, his abilities change. Instead of managing boolean flags on the instance (`canBreakBricks`, `canShootFire`), we can dynamically change the `mario` type itself.
 
-Here's how you might dispatch a `type:change` event upon collision with a Fire Flower:
+Here's how you might dispatch a `morph` event upon collision with a Fire Flower:
 
 ```javascript
 // In a collision event handler for Mario...
 if (collidesWith(mario, fireFlower)) {
-    notify("typeChange", {
+    notify("morph", {
         id: 'mario', // The ID of the type to change
         type: [ // The new array of decorators and handlers
             enableBaseMario(),
@@ -120,7 +129,7 @@ if (collidesWith(mario, fireFlower)) {
         ],
     });
     // remove the power-up from the scene
-    notify("instanceRemove", fireFlower.id);
+    notify("remove", fireFlower.id);
 }
 ```
 
