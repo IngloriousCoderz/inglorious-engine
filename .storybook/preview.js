@@ -15,6 +15,11 @@ const preview = {
       theme,
     },
     layout: "centered",
+    options: {
+      storySort: {
+        order: ["Docs"],
+      },
+    },
   },
   argTypes: { ui: { control: "radio", options: ["canvas", "react"] } },
   args: { ui: "canvas" },
