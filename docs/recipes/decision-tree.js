@@ -84,7 +84,7 @@ export default {
           update(instance, dt, { instances, notify }) {
             const { mouse } = instances
 
-            Sprite.play({ state: "idle", instance, dt, notify })
+            Sprite.play("idle", { instance, dt, notify })
 
             instance.state = decide(nextState, { instance, target: mouse })
           },
@@ -92,12 +92,12 @@ export default {
 
         aware: {
           update(instance, dt, { notify }) {
-            Sprite.play({ state: "aware", instance, dt, notify })
+            Sprite.play("aware", { instance, dt, notify })
           },
 
-          spriteAnimationEnd(instance, { id, spriteState }) {
+          spriteAnimationEnd(instance, { id, animation }) {
             // always check who originated the event and which sprite is running!
-            if (id === instance.id && spriteState === "aware") {
+            if (id === instance.id && animation === "aware") {
               instance.state = "chasing"
             }
           },
@@ -109,8 +109,8 @@ export default {
 
             merge(instance, arrive(instance, mouse, dt))
 
-            const spriteState = Sprite.move8(instance)
-            Sprite.play({ state: spriteState, instance, dt, notify })
+            const animation = Sprite.move8(instance)
+            Sprite.play(animation, { instance, dt, notify })
 
             instance.state = decide(nextState, { instance, target: mouse })
           },
@@ -120,16 +120,14 @@ export default {
           update(instance, dt, { instances, notify }) {
             const { mouse } = instances
 
-            Sprite.play({ state: "sleepy", instance, dt, notify })
+            Sprite.play("sleepy", { instance, dt, notify })
 
             instance.state = decide(nextState, { instance, target: mouse })
           },
 
-          spriteAnimationEnd(instance, event) {
-            const { id, spriteState } = event
-
+          spriteAnimationEnd(instance, { id, animation }) {
             // always check who originated the event and which sprite is running!
-            if (id === instance.id && spriteState === "sleepy") {
+            if (id === instance.id && animation === "sleepy") {
               instance.state = "sleeping"
             }
           },
@@ -139,7 +137,7 @@ export default {
           update(instance, dt, { instances, notify }) {
             const { mouse } = instances
 
-            Sprite.play({ state: "sleeping", instance, dt, notify })
+            Sprite.play("sleeping", { instance, dt, notify })
 
             instance.state = decide(nextState, { instance, target: mouse })
           },

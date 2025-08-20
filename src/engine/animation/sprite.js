@@ -98,7 +98,7 @@ function move8(instance) {
   return instance.sprite.state ?? "down"
 }
 
-function play({ state, instance, dt, notify }) {
+function play(state, { instance, dt, notify }) {
   const missing = [
     state == null && "'state'",
     instance == null && "'instance'",
@@ -112,22 +112,18 @@ function play({ state, instance, dt, notify }) {
   }
 
   Ticker.tick({
-    what: "sprite",
+    target: instance.sprite,
     state,
-    instance,
     dt,
-    onTick,
-    notify,
+    onTick: (sprite) => {
+      const { frames, state: animation } = sprite
+
+      const framesLength = frames[animation].length
+
+      sprite.value = mod(sprite.value + 1, framesLength)
+      if (sprite.value === framesLength - 1) {
+        notify("spriteAnimationEnd", { id: instance.id, animation })
+      }
+    },
   })
-}
-
-function onTick(instance, dt, { notify }) {
-  const { frames, state } = instance.sprite
-
-  const framesLength = frames[state].length
-
-  instance.sprite.value = mod(instance.sprite.value + 1, framesLength)
-  if (instance.sprite.value === framesLength - 1) {
-    notify("spriteAnimationEnd", { id: instance.id, spriteState: state })
-  }
 }

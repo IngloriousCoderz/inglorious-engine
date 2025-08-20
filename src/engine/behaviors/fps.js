@@ -17,11 +17,13 @@ export function fps(params) {
     },
 
     update(instance, dt) {
-      Ticker.tick({ what: "dt", state: "default", instance, dt, onTick })
+      Ticker.tick({
+        target: instance.dt,
+        dt,
+        onTick: (target, dt) => {
+          target.value = dt
+        },
+      })
     },
   }
-}
-
-function onTick(instance, dt) {
-  instance.dt.value = dt
 }

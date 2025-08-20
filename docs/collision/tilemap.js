@@ -32,8 +32,8 @@ export default {
             const { instances, notify } = options
             const { dungeon, input0 } = instances
 
-            const spriteState = Sprite.move2(instance)
-            Sprite.play({ state: spriteState, instance, dt, notify })
+            const animation = Sprite.move2(instance)
+            Sprite.play(animation, { instance, dt, notify })
 
             instance.velocity = zero()
 

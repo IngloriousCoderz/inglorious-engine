@@ -1,33 +1,28 @@
-const COUNTER_RESET = 0
+const DEFAULT_STATE = "default"
 const DEFAULT_VALUE = 0
+const COUNTER_RESET = 0
 
 export const Ticker = { tick }
 
-function tick({ what, state, instance, dt, onTick, ...options }) {
-  const missing = [
-    what == null && "'what'",
-    state == null && "'state'",
-    instance == null && "'instance'",
-    dt == null && "'dt'",
-  ]
+function tick({ target, state = DEFAULT_STATE, dt, onTick, ...options }) {
+  const missing = [target == null && "'target'", dt == null && "'dt'"]
     .filter(Boolean)
     .join(", ")
   if (missing.length) {
     throw new Error(`Ticker.tick is missing mandatory parameters: ${missing}`)
   }
 
-  const ticker = instance[what]
-  const { speed, defaultValue = DEFAULT_VALUE } = ticker
+  const { speed, defaultValue = DEFAULT_VALUE } = target
 
-  if (state !== ticker.state) {
-    ticker.state = state
-    ticker.counter = COUNTER_RESET
-    ticker.value = defaultValue
+  if (state !== target.state) {
+    target.state = state
+    target.counter = COUNTER_RESET
+    target.value = defaultValue
   }
 
-  ticker.counter += dt
-  if (ticker.counter >= speed) {
-    ticker.counter = COUNTER_RESET
-    onTick?.(instance, dt, options)
+  target.counter += dt
+  if (target.counter >= speed) {
+    target.counter = COUNTER_RESET
+    onTick?.(target, dt, options)
   }
 }

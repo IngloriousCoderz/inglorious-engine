@@ -7,7 +7,7 @@ export default {
       { render: renderSprite },
       {
         update(instance, dt, { notify }) {
-          Sprite.play({ state: "sleepy", instance, dt, notify })
+          Sprite.play("sleepy", { instance, dt, notify })
         },
       },
     ],
