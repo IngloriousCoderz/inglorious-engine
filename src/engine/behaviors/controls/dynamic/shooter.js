@@ -17,7 +17,7 @@ export function shooterControls(params) {
 
   return (type) =>
     extend(type, {
-      update(entity, dt, { api }) {
+      update(entity, dt, api) {
         entity.maxAngularSpeed =
           entity.maxAngularSpeed ?? params.maxAngularSpeed
         entity.maxAcceleration =

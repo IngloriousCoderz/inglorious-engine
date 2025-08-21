@@ -32,12 +32,9 @@ To animate stuff we write event handlers for events that are triggered by our en
 
 An event handler accepts the following arguments:
 
-- The `entity` itself that is handling the event, so we can change its properties to our needs;
-- The triggered `event`, which contains a `payload` that holds whatever we need to accomplish our task;
-- An `options` object that contains the following:
-  - The elapsed time `dt`, which can help slow down certain movement algorithms based on the current FPS;
-  - The game's current `config` object (here you can find the scene's `bounds`, for example);
-  - All `entities` present in the scene; note that they are read-only, so look but don't touch!
+- The `entity` itself that is handling the event, so we can change its properties to our needs.
+- The event's `payload`, which contains data relevant to the event. For the special `update` event, this is the delta time (`dt`).
+- The engine's `api` object, which provides safe access to engine functionalities like `getEntity(id)`, `getEntities()`, and `notify(type, payload)`.
 
 You might notice the code directly changes properties on the `entity`. While this looks like a direct mutation, the engine uses [Immer](https://immerjs.github.io/immer/) under the hood. This allows you to write simple, mutable-style code while Immer handles the complexity of producing a new, immutable state object for you. It's the best of both worlds: simple code and the safety of immutability.
 

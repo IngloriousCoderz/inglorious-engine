@@ -17,7 +17,7 @@ export default {
     character: [
       { render: renderCharacter },
       {
-        update(entity, dt, { api }) {
+        update(entity, dt, api) {
           const gamepad0 = api.getEntity("gamepad0")
 
           entity.velocity = zero()

@@ -6,7 +6,7 @@ export default {
     cat: [
       { render: renderSprite },
       {
-        update(entity, dt, { api }) {
+        update(entity, dt, api) {
           Sprite.play("sleepy", { entity, dt, notify: api.notify })
         },
       },

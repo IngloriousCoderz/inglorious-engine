@@ -11,7 +11,7 @@ export default {
       { render: renderMouse },
       mouse(),
       {
-        mouseClick(entity, position, { api }) {
+        mouseClick(entity, position, api) {
           const entities = api.getEntities()
           const characters = filter(
             entities,

@@ -17,9 +17,9 @@ const DEFAULT_LAYER = 0
 
 /**
  * Creates a store to manage state and events.
- * @param {Object} options - Configuration options for the store.
- * @param {Object} options.entities - Initial entities to include in the store.
- * @param {Object} options.originalConfig - Additional configuration for the store.
+ * @param {Object} config - Configuration options for the store.
+ * @param {Object} [config.types] - The initial types configuration.
+ * @param {Object} [config.entities] - The initial entities configuration.
  * @returns {Object} The store with methods to interact with state and events.
  */
 export function createStore({
@@ -43,6 +43,7 @@ export function createStore({
     notify,
     dispatch, // needed for react-redux
     getTypes,
+    getOriginalTypes,
     getState,
   }
 
@@ -86,12 +87,7 @@ export function createStore({
       state.entities = map(state.entities, (_, entity) => {
         const type = types[entity.type]
         const handle = type[event.type]
-        return (
-          handle?.(entity, event.payload, {
-            type: originalTypes[entity.type],
-            api,
-          }) ?? entity
-        )
+        return handle?.(entity, event.payload, api) ?? entity
       })
 
       if (event.type === "remove") {
@@ -130,16 +126,31 @@ export function createStore({
     dispatch({ type, payload })
   }
 
+  /**
+   * Dispatches an event to be processed in the next update cycle.
+   * @param {Object} event - The event object.
+   * @param {string} event.type - The type of the event.
+   * @param {any} [event.payload] - The payload of the event.
+   */
   function dispatch(event) {
     incomingEvents.push(event)
   }
 
   /**
-   * Retrieves the types configuration.
-   * @returns {Object} The types configuration.
+   * Retrieves the augmented types configuration.
+   * This includes composed behaviors and event handlers wrapped for immutability.
+   * @returns {Object} The augmented types configuration.
    */
   function getTypes() {
     return types
+  }
+
+  /**
+   * Retrieves the original, un-augmented types configuration.
+   * @returns {Object} The original types configuration.
+   */
+  function getOriginalTypes() {
+    return originalTypes
   }
 
   /**

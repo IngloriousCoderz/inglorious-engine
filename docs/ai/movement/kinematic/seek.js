@@ -11,7 +11,7 @@ export default {
     character: [
       { render: renderCharacter },
       {
-        update(entity, dt, { api }) {
+        update(entity, dt, api) {
           const mouse = api.getEntity("mouse")
 
           merge(entity, seek(entity, mouse, dt))

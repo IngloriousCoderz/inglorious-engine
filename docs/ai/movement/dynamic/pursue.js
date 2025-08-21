@@ -15,7 +15,7 @@ export default {
     character: [
       { render: renderCharacter },
       {
-        update(entity, dt, { api }) {
+        update(entity, dt, api) {
           const mouse = api.getEntity("mouse")
           const parameters = api.getEntity("parameters")
           const game = api.getEntity("game")

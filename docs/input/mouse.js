@@ -9,7 +9,7 @@ export default {
     character: [
       { render: renderCharacter },
       {
-        update(entity, dt, { api }) {
+        update(entity, dt, api) {
           const mouse = api.getEntity("mouse")
           entity.position = mouse.position
         },

@@ -22,16 +22,16 @@ export function jumpable(params) {
 
   return fsm({
     [params.onState]: {
-      update(entity, dt, options) {
-        freeFall(entity, dt, options)
+      update(entity, dt, api) {
+        freeFall(entity, dt, api)
       },
 
       inputPress: handleInput,
     },
 
     jumping: {
-      update(entity, dt, options) {
-        freeFall(entity, dt, options)
+      update(entity, dt, api) {
+        freeFall(entity, dt, api)
 
         const [x, y, z] = entity.position
         const [, vy] = entity.velocity
@@ -54,7 +54,7 @@ function handleInput(entity, { id, action }) {
 }
 
 function createFreeFall(params) {
-  return (entity, dt, { api }) => {
+  return (entity, dt, api) => {
     entity.onInput = entity.onInput ?? params.onInput
     entity.maxJump = entity.maxJump ?? params.maxJump
     entity.maxLeap = entity.maxLeap ?? params.maxLeap

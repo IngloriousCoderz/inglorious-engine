@@ -17,7 +17,7 @@ export default {
     character: [
       { render: renderCharacter },
       {
-        update(entity, dt, { api }) {
+        update(entity, dt, api) {
           const keyboard0 = api.getEntity("keyboard0")
 
           entity.velocity = zero()

@@ -27,7 +27,7 @@ export default {
           }
         },
 
-        update(entity, dt, { api }) {
+        update(entity, dt, api) {
           const input0 = api.getEntity("input0")
 
           if (input0.left || input0.up) {
@@ -45,7 +45,7 @@ export default {
     character: [
       { render: renderCharacter },
       {
-        update(entity, dt, { api }) {
+        update(entity, dt, api) {
           const mouse = api.getEntity("mouse")
           const parameters = api.getEntity("parameters")
           const game = api.getEntity("game")

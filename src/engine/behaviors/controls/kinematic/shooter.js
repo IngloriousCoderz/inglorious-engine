@@ -17,13 +17,13 @@ export function shooterControls(params) {
 
   return (type) =>
     extend(type, {
-      update(entity, dt, options) {
+      update(entity, dt, api) {
         entity.maxAngularSpeed =
           entity.maxAngularSpeed ?? params.maxAngularSpeed
         entity.maxSpeed = entity.maxSpeed ?? params.maxSpeed
 
-        const input0 = options.api.getEntity("input0")
-        const mouse = options.api.getEntity("mouse")
+        const input0 = api.getEntity("input0")
+        const mouse = api.getEntity("mouse")
 
         entity.velocity = zero()
 

@@ -4,7 +4,7 @@ const DEFAULT_PARAMS = {
 
 export function gamepad() {
   return {
-    update(entity, dt, { api }) {
+    update(entity, dt, api) {
       navigator.getGamepads().forEach((gamepad) => {
         if (gamepad == null) {
           return
@@ -25,7 +25,7 @@ export function gamepad() {
       })
     },
 
-    gamepadAxis(entity, { id, axis, value }, { api }) {
+    gamepadAxis(entity, { id, axis, value }, api) {
       if (entity.id !== `gamepad${id}`) {
         return
       }
@@ -35,7 +35,7 @@ export function gamepad() {
       api.notify("inputAxis", { id, action, value })
     },
 
-    gamepadPress(entity, { id, button }, { api }) {
+    gamepadPress(entity, { id, button }, api) {
       if (entity.id !== `gamepad${id}`) {
         return
       }
@@ -47,7 +47,7 @@ export function gamepad() {
       }
     },
 
-    gamepadRelease(entity, { id, button }, { api }) {
+    gamepadRelease(entity, { id, button }, api) {
       if (entity.id !== `gamepad${id}`) {
         return
       }

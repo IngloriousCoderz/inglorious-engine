@@ -221,10 +221,10 @@ export default {
 function defaultMario() {
   return (type) =>
     extend(type, {
-      update(entity, dt, options) {
-        type.update?.(entity, dt, options)
+      update(entity, dt, api) {
+        type.update?.(entity, dt, api)
 
-        collideWithPowerUps(entity, options)
+        collideWithPowerUps(entity, api)
       },
     })
 }
@@ -232,10 +232,10 @@ function defaultMario() {
 function baseMario() {
   return (type) =>
     extend(type, {
-      update(entity, dt, options) {
-        type.update?.(entity, dt, options)
+      update(entity, dt, api) {
+        type.update?.(entity, dt, api)
 
-        collideWithEnemyAndDie(entity, options)
+        collideWithEnemyAndDie(entity, api)
       },
     })
 }
@@ -250,10 +250,10 @@ function superMario() {
         }
       },
 
-      update(entity, dt, options) {
-        type.update?.(entity, dt, options)
+      update(entity, dt, api) {
+        type.update?.(entity, dt, api)
 
-        collideWithEnemyAndShrink(entity, options)
+        collideWithEnemyAndShrink(entity, api)
       },
     })
 }
@@ -268,10 +268,10 @@ function fireMario() {
         }
       },
 
-      update(entity, dt, options) {
-        type.update?.(entity, dt, options)
+      update(entity, dt, api) {
+        type.update?.(entity, dt, api)
 
-        collideWithEnemyAndLosePowers(entity, options)
+        collideWithEnemyAndLosePowers(entity, api)
       },
     })
 }
@@ -287,15 +287,15 @@ function capeMario() {
         }
       },
 
-      update(entity, dt, options) {
-        type.update?.(entity, dt, options)
+      update(entity, dt, api) {
+        type.update?.(entity, dt, api)
 
-        collideWithEnemyAndLosePowers(entity, options)
+        collideWithEnemyAndLosePowers(entity, api)
       },
     })
 }
 
-function collideWithPowerUps(entity, { api }) {
+function collideWithPowerUps(entity, api) {
   const powerup = findCollision(entity, {
     api,
     collisionGroup: "powerup",
@@ -352,7 +352,7 @@ function collideWithPowerUps(entity, { api }) {
   api.notify("remove", powerup.id)
 }
 
-function collideWithEnemyAndDie(entity, { api }) {
+function collideWithEnemyAndDie(entity, api) {
   const enemy = findCollision(entity, {
     api,
     collisionGroup: "enemy",
@@ -366,7 +366,7 @@ function collideWithEnemyAndDie(entity, { api }) {
   console.log("Game over!")
 }
 
-function collideWithEnemyAndShrink(entity, { api }) {
+function collideWithEnemyAndShrink(entity, api) {
   const enemy = findCollision(entity, {
     api,
     collisionGroup: "enemy",
@@ -386,7 +386,7 @@ function collideWithEnemyAndShrink(entity, { api }) {
   api.notify("remove", enemy.id)
 }
 
-function collideWithEnemyAndLosePowers(entity, { api }) {
+function collideWithEnemyAndLosePowers(entity, api) {
   const enemy = findCollision(entity, {
     api,
     collisionGroup: "enemy",

@@ -5,10 +5,10 @@ import { clampToBounds } from "../physics/bounds.js"
 export function clamped() {
   return (type) =>
     extend(type, {
-      update(entity, dt, options) {
-        type.update?.(entity, dt, options)
+      update(entity, dt, api) {
+        type.update?.(entity, dt, api)
 
-        const game = options.api.getEntity("game")
+        const game = api.getEntity("game")
         clampToBounds(entity, game.bounds)
       },
     })

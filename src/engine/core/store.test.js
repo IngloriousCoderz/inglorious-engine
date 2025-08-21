@@ -91,7 +91,7 @@ test("it should send an event from an entity", () => {
   const config = {
     types: {
       doggo: {
-        update(entity, dt, { api }) {
+        update(entity, dt, api) {
           const entity2 = api.getEntity("entity2")
           if (entity2.position === "near") {
             api.notify("doggoMessage", { id: "inu", message: "Woof!" })
@@ -158,7 +158,7 @@ test("it should receive an event from an entity", () => {
   const config = {
     types: {
       doggo: {
-        update(entity, dt, { api }) {
+        update(entity, dt, api) {
           const entity2 = api.getEntity("entity2")
 
           if (entity2.position === "near") {

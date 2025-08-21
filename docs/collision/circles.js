@@ -10,11 +10,10 @@ export default {
     character: [
       { render: renderCharacter },
       {
-        update(entity, dt, options) {
-          const { api } = options
+        update(entity, dt, api) {
           const game = api.getEntity("game")
 
-          const isColliding = findCollision(entity, options)
+          const isColliding = findCollision(entity, { api })
 
           if (isColliding) {
             entity.orientation += pi()

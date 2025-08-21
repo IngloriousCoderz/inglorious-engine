@@ -18,7 +18,7 @@ export default {
       { render: renderCharacter },
       fsm({
         meandering: {
-          update(entity, dt, { api }) {
+          update(entity, dt, api) {
             const mouse = api.getEntity("mouse")
             const game = api.getEntity("game")
 
@@ -32,7 +32,7 @@ export default {
         },
 
         hunting: {
-          update(entity, dt, { api }) {
+          update(entity, dt, api) {
             const mouse = api.getEntity("mouse")
             const game = api.getEntity("game")
 

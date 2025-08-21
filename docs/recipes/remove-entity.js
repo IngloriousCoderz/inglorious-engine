@@ -12,7 +12,7 @@ export default {
       { render: renderCharacter },
       {
         // this event handler is needed in React
-        entityClick(entity, id, { api }) {
+        entityClick(entity, id, api) {
           api.notify("remove", id)
         },
       },

@@ -14,7 +14,7 @@ export function tankControls(params) {
 
   return (type) =>
     extend(type, {
-      update(entity, dt, { api }) {
+      update(entity, dt, api) {
         entity.maxAngularSpeed =
           entity.maxAngularSpeed ?? params.maxAngularSpeed
         entity.maxSpeed = entity.maxSpeed ?? params.maxSpeed

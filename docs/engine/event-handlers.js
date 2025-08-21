@@ -40,7 +40,7 @@ export default {
         ctx.restore()
       },
 
-      update(entity, dt, { api }) {
+      update(entity, dt, api) {
         const game = api.getEntity("game")
         const [left, , right] = game.bounds
 

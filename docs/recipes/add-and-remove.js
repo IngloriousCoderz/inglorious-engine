@@ -11,7 +11,7 @@ export default {
       { render: renderMouse },
       mouse(),
       {
-        sceneClick(entity, position, { api }) {
+        sceneClick(entity, position, api) {
           const entities = api.getEntities()
 
           const characters = filter(
@@ -39,7 +39,7 @@ export default {
         },
 
         // this event handler is needed for React
-        entityClick(entity, id, { api }) {
+        entityClick(entity, id, api) {
           api.notify("remove", id)
         },
       },
@@ -49,7 +49,7 @@ export default {
       { render: renderCharacter },
       {
         // this event handler is needed in React
-        entityClick(entity, id, { api }) {
+        entityClick(entity, id, api) {
           api.notify("remove", id)
         },
       },

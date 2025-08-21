@@ -5,7 +5,7 @@ const NO_Y = 0
 
 export function mouse() {
   return {
-    mouseMove(entity, position, { api }) {
+    mouseMove(entity, position, api) {
       const game = api.getEntity("game")
 
       entity.position = position
@@ -13,10 +13,8 @@ export function mouse() {
       clampToBounds(entity, game.bounds)
     },
 
-    mouseClick(entity, position, options) {
-      const { api } = options
-
-      const clickedEntity = findCollision(entity, options)
+    mouseClick(entity, position, api) {
+      const clickedEntity = findCollision(entity, { api })
       if (clickedEntity) {
         api.notify("entityClick", clickedEntity.id)
       } else {

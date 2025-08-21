@@ -13,10 +13,10 @@ const Shape = {
 export function collisionGizmos() {
   return (type) =>
     extend(type, {
-      render(entity, ctx, options) {
-        type.render(entity, ctx, options)
+      render(entity, ctx, api) {
+        type.render(entity, ctx, api)
 
-        const game = options.api.getEntity("game")
+        const game = api.getEntity("game")
 
         if (!game.debug) {
           return
@@ -26,7 +26,7 @@ export function collisionGizmos() {
 
         Object.values(entity.collisions).forEach((collision) => {
           const render = Shape[collision.shape]
-          render({ ...entity, ...collision, color: "#00FF00" }, ctx, options)
+          render({ ...entity, ...collision, color: "#00FF00" }, ctx, api)
         })
 
         ctx.restore()

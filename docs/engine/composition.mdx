@@ -52,8 +52,8 @@ const firePower = { // This one is a simple object
 // A behavior factory for jumping
 function jumpable(params) { // This allows for custom parameters
   return {
-    inputPress(entity, event) { /* ... */ },
-    update(entity, dt, options) { /* ... */ },
+    inputPress(entity, event, api) { /* ... */ },
+    update(entity, dt, api) { /* ... */ },
   }
 }
 ```
@@ -89,12 +89,12 @@ export function clamped() {
     // It returns a new, extended behavior object
     extend(type, {
       // It defines its own update handler
-      update(entity, dt, options) {
+      update(entity, dt, api) {
         // Crucially, it calls the original update handler first
-        type.update?.(entity, dt, options)
+        type.update?.(entity, dt, api)
 
         // Then, it adds its own logic
-        const game = options.api.getEntity("game")
+        const game = api.getEntity("game")
         clampToBounds(entity, game.bounds)
       },
     })

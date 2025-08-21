@@ -6,9 +6,9 @@ export function keyboard() {
   let handleKeyDown, handleKeyUp
 
   return {
-    start(entity, event, options) {
-      handleKeyDown = createKeyboardHandler("keyboardKeyDown", options)
-      handleKeyUp = createKeyboardHandler("keyboardKeyUp", options)
+    start(entity, event, api) {
+      handleKeyDown = createKeyboardHandler("keyboardKeyDown", api)
+      handleKeyUp = createKeyboardHandler("keyboardKeyUp", api)
 
       document.addEventListener("keydown", handleKeyDown)
       document.addEventListener("keyup", handleKeyUp)
@@ -19,7 +19,7 @@ export function keyboard() {
       document.removeEventListener("keyup", handleKeyUp)
     },
 
-    keyboardKeyDown(entity, keyCode, { api }) {
+    keyboardKeyDown(entity, keyCode, api) {
       const action = entity.mapping[keyCode]
       if (!entity[action]) {
         entity[action] = true
@@ -27,7 +27,7 @@ export function keyboard() {
       }
     },
 
-    keyboardKeyUp(entity, keyCode, { api }) {
+    keyboardKeyUp(entity, keyCode, api) {
       const action = entity.mapping[keyCode]
       if (entity[action]) {
         entity[action] = false
@@ -41,7 +41,7 @@ export function createKeyboard(name = DEFAULT_PARAMS.name, mapping = {}) {
   return { id: name, type: "keyboard", mapping }
 }
 
-function createKeyboardHandler(id, { api }) {
+function createKeyboardHandler(id, api) {
   return (event) => {
     event.stopPropagation()
     api.notify(id, event.code)

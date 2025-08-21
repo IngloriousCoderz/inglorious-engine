@@ -25,10 +25,9 @@ export default {
       // modernControls(),
       (type) =>
         extend(type, {
-          update(entity, dt, options) {
-            type.update?.(entity, dt, options)
+          update(entity, dt, api) {
+            type.update?.(entity, dt, api)
 
-            const { api } = options
             const dungeon = api.getEntity("dungeon")
             const input0 = api.getEntity("input0")
 

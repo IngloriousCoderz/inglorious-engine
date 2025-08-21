@@ -79,7 +79,7 @@ export default {
       { render: renderSprite },
       fsm({
         idle: {
-          update(entity, dt, { api }) {
+          update(entity, dt, api) {
             const mouse = api.getEntity("mouse")
 
             Sprite.play("idle", { entity, dt, notify: api.notify })
@@ -89,7 +89,7 @@ export default {
         },
 
         aware: {
-          update(entity, dt, { api }) {
+          update(entity, dt, api) {
             Sprite.play("aware", { entity, dt, notify: api.notify })
           },
 
@@ -102,7 +102,7 @@ export default {
         },
 
         chasing: {
-          update(entity, dt, { api }) {
+          update(entity, dt, api) {
             const mouse = api.getEntity("mouse")
 
             merge(entity, arrive(entity, mouse, dt))
@@ -115,7 +115,7 @@ export default {
         },
 
         sleepy: {
-          update(entity, dt, { api }) {
+          update(entity, dt, api) {
             const mouse = api.getEntity("mouse")
 
             Sprite.play("sleepy", { entity, dt, notify: api.notify })
@@ -132,7 +132,7 @@ export default {
         },
 
         sleeping: {
-          update(entity, dt, { api }) {
+          update(entity, dt, api) {
             const mouse = api.getEntity("mouse")
 
             Sprite.play("sleeping", { entity, dt, notify: api.notify })
