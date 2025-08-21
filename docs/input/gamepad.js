@@ -3,7 +3,7 @@ import {
   gamepad,
 } from "@inglorious/engine/behaviors/input/gamepad.js"
 import { modernMove } from "@inglorious/engine/movement/kinematic/modern.js"
-import { renderCharacter } from "@inglorious/ui/canvas/character.js"
+import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 
@@ -17,8 +17,8 @@ export default {
     character: [
       { render: renderCharacter },
       {
-        update(entity, dt, { entities }) {
-          const { gamepad0 } = entities
+        update(entity, dt, { api }) {
+          const gamepad0 = api.getEntity("gamepad0")
 
           entity.velocity = zero()
 

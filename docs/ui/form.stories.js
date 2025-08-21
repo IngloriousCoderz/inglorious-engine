@@ -1,9 +1,9 @@
-import UiChooser from "../ui-chooser.jsx"
+import RendererChooser from "../renderer-chooser.jsx"
 
 export default {
   title: "UI/Form",
-  component: UiChooser,
-  args: { ui: "react" },
+  component: RendererChooser,
+  args: { renderer: "react" },
 }
 
 export const Default = {

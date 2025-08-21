@@ -119,7 +119,7 @@ Here's how you might dispatch a `morph` event upon collision with a Fire Flower:
 ```javascript
 // In a collision event handler for Mario...
 if (collidesWith(mario, fireFlower)) {
-    notify("morph", {
+    api.notify("morph", {
         id: 'mario', // The ID of the type to change
         type: [ // The new array of behaviors and handlers
             baseMario(),
@@ -129,7 +129,7 @@ if (collidesWith(mario, fireFlower)) {
         ],
     });
     // remove the power-up from the scene
-    notify("remove", fireFlower.id);
+    api.notify("remove", fireFlower.id);
 }
 ```
 

@@ -1,4 +1,4 @@
-import { start } from "@inglorious/ui/canvas.js"
+import { start } from "@inglorious/renderers/canvas.js"
 import game from "game"
 
 const canvas = document.getElementById("canvas")

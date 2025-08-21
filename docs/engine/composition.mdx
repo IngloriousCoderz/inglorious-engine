@@ -94,7 +94,7 @@ export function clamped() {
         type.update?.(entity, dt, options)
 
         // Then, it adds its own logic
-        const { game } = options.entities
+        const game = options.api.getEntity("game")
         clampToBounds(entity, game.bounds)
       },
     })

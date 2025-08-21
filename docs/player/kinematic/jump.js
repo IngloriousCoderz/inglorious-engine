@@ -6,7 +6,7 @@ import {
   controlsTypes,
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { jumpable } from "@inglorious/engine/behaviors/jumpable.js"
-import { renderCharacter } from "@inglorious/ui/canvas/character.js"
+import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
 
 const Y = 1
 

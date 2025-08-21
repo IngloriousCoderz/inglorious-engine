@@ -20,7 +20,7 @@ export function modernControls(params) {
 
         const maxSpeed = entity.maxSpeed ?? params.maxSpeed
 
-        const { input0 } = options.entities
+        const input0 = options.api.getEntity("input0")
         entity.velocity = zero()
 
         if (input0.left) {

@@ -1,4 +1,4 @@
-import { renderCharacter } from "@inglorious/ui/canvas/character.js"
+import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
 import { random } from "@inglorious/utils/math/rng.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 

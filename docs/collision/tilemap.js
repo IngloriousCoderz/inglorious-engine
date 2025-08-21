@@ -5,8 +5,8 @@ import {
   controlsTypes,
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { findCollisions } from "@inglorious/engine/collision/detection.js"
-import { renderSprite } from "@inglorious/ui/canvas/image/sprite.js"
-import { renderTilemap } from "@inglorious/ui/canvas/image/tilemap.js"
+import { renderSprite } from "@inglorious/renderers/canvas/image/sprite.js"
+import { renderTilemap } from "@inglorious/renderers/canvas/image/tilemap.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
 import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 
@@ -28,12 +28,14 @@ export default {
           update(entity, dt, options) {
             type.update?.(entity, dt, options)
 
+            const { api } = options
+            const dungeon = api.getEntity("dungeon")
+            const input0 = api.getEntity("input0")
+
             const { maxSpeed } = entity
-            const { entities, notify } = options
-            const { dungeon, input0 } = entities
 
             const animation = Sprite.move2(entity)
-            Sprite.play(animation, { entity, dt, notify })
+            Sprite.play(animation, { entity, dt, notify: api.notify })
 
             entity.velocity = zero()
 

@@ -3,7 +3,7 @@ import {
   wanderAsSeek,
 } from "@inglorious/engine/ai/movement/kinematic/wander-as-seek.js"
 import { flip } from "@inglorious/engine/physics/bounds.js"
-import { renderCharacter } from "@inglorious/ui/canvas/character.js"
+import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
@@ -12,8 +12,9 @@ export default {
     character: [
       { render: renderCharacter },
       {
-        update(entity, dt, { entities }) {
-          const { parameters, game } = entities
+        update(entity, dt, { api }) {
+          const parameters = api.getEntity("parameters")
+          const game = api.getEntity("game")
           const { fields } = parameters.groups.wanderAsSeek
 
           merge(

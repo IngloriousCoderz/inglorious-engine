@@ -1,4 +1,4 @@
-import UiChooser from "../../..//ui-chooser.jsx"
+import RendererChooser from "../../../renderer-chooser.jsx"
 import align from "./align.js"
 import arrive from "./arrive.js"
 import face from "./face.js"
@@ -9,7 +9,7 @@ import wanderAsSeek from "./wander-as-seek.js"
 
 export default {
   title: "Engine/AI/Movement/Kinematic",
-  component: UiChooser,
+  component: RendererChooser,
 }
 
 export const Seek = {

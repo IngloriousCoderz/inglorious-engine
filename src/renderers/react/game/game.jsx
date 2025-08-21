@@ -1,4 +1,4 @@
-import { withAbsolutePosition } from "@inglorious/ui/react/hocs/with-absolute-position"
+import { withAbsolutePosition } from "@inglorious/renderers/react/hocs/with-absolute-position"
 import { useSelector } from "react-redux"
 
 import Character from "./character/index.jsx"

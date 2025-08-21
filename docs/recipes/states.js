@@ -3,8 +3,8 @@ import { wander } from "@inglorious/engine/ai/movement/kinematic/wander.js"
 import { fsm } from "@inglorious/engine/behaviors/fsm.js"
 import { mouse } from "@inglorious/engine/behaviors/input/mouse.js"
 import { clampToBounds, flip } from "@inglorious/engine/physics/bounds.js"
-import { renderCharacter } from "@inglorious/ui/canvas/character.js"
-import { renderMouse } from "@inglorious/ui/canvas/mouse.js"
+import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
+import { renderMouse } from "@inglorious/renderers/canvas/mouse.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { length } from "@inglorious/utils/math/linear-algebra/vector.js"
 import { subtract } from "@inglorious/utils/math/linear-algebra/vectors.js"
@@ -18,8 +18,9 @@ export default {
       { render: renderCharacter },
       fsm({
         meandering: {
-          update(entity, dt, { entities }) {
-            const { mouse, game } = entities
+          update(entity, dt, { api }) {
+            const mouse = api.getEntity("mouse")
+            const game = api.getEntity("game")
 
             merge(entity, wander(entity, dt))
             flip(entity, game.bounds)
@@ -31,10 +32,11 @@ export default {
         },
 
         hunting: {
-          update(entity, dt, options) {
-            const { mouse, game } = options.entities
+          update(entity, dt, { api }) {
+            const mouse = api.getEntity("mouse")
+            const game = api.getEntity("game")
 
-            merge(entity, arrive(entity, mouse, dt, options))
+            merge(entity, arrive(entity, mouse, dt))
             clampToBounds(entity, game.bounds)
 
             if (length(subtract(entity.position, mouse.position)) >= 200) {

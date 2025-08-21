@@ -1,4 +1,4 @@
-import { renderTilemap } from "@inglorious/ui/canvas/image/tilemap.js"
+import { renderTilemap } from "@inglorious/renderers/canvas/image/tilemap.js"
 
 export default {
   types: {

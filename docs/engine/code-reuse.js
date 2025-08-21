@@ -1,7 +1,7 @@
 import { fps } from "@inglorious/engine/behaviors/fps.js"
 import { bounce } from "@inglorious/engine/physics/bounds.js"
-import { renderCharacter } from "@inglorious/ui/canvas/character.js"
-import { renderFps } from "@inglorious/ui/canvas/fps.js"
+import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
+import { renderFps } from "@inglorious/renderers/canvas/fps.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
@@ -11,8 +11,8 @@ export default {
     character: [
       { render: renderCharacter },
       {
-        update(entity, dt, { entities }) {
-          const { game } = entities
+        update(entity, dt, { api }) {
+          const game = api.getEntity("game")
           merge(entity, bounce(entity, dt, game.bounds))
         },
       },

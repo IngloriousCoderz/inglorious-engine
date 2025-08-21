@@ -1,11 +1,11 @@
-import UiChooser from "../ui-chooser.jsx"
+import RendererChooser from "../renderer-chooser.jsx"
 import circles from "./circles.js"
 import platform from "./platform.js"
 import tilemap from "./tilemap.js"
 
 export default {
   title: "Engine/Collision Detection",
-  component: UiChooser,
+  component: RendererChooser,
 }
 
 export const Circles = {

@@ -5,8 +5,8 @@ import {
   controlsTypes,
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { mouse } from "@inglorious/engine/behaviors/input/mouse.js"
-import { renderCharacter } from "@inglorious/ui/canvas/character.js"
-import { renderMouse } from "@inglorious/ui/canvas/mouse.js"
+import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
+import { renderMouse } from "@inglorious/renderers/canvas/mouse.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
 export default {

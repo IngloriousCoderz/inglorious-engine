@@ -7,7 +7,7 @@ import {
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { jumpable } from "@inglorious/engine/behaviors/jumpable.js"
 import { findCollision } from "@inglorious/engine/collision/detection.js"
-import { renderRectangle } from "@inglorious/ui/canvas/shapes/rectangle.js"
+import { renderRectangle } from "@inglorious/renderers/canvas/shapes/rectangle.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
 
 const BASE_MARIO_BEHAVIORS = [
@@ -295,9 +295,9 @@ function capeMario() {
     })
 }
 
-function collideWithPowerUps(entity, { entities, notify }) {
+function collideWithPowerUps(entity, { api }) {
   const powerup = findCollision(entity, {
-    entities,
+    api,
     collisionGroup: "powerup",
   })
 
@@ -309,7 +309,7 @@ function collideWithPowerUps(entity, { entities, notify }) {
       entity.maxSpeed = 300
       entity.backgroundColor = "#b9342e"
 
-      notify("morph", {
+      api.notify("morph", {
         id: entity.type,
         type: [...BASE_MARIO_BEHAVIORS, superMario()],
       })
@@ -320,7 +320,7 @@ function collideWithPowerUps(entity, { entities, notify }) {
       entity.maxSpeed = 350
       entity.backgroundColor = "#f4f3e9"
 
-      notify("morph", {
+      api.notify("morph", {
         id: entity.type,
         type: [...BASE_MARIO_BEHAVIORS, superMario(), fireMario()],
       })
@@ -331,7 +331,7 @@ function collideWithPowerUps(entity, { entities, notify }) {
       entity.maxSpeed = 350
       entity.backgroundColor = "#f4f040"
 
-      notify("morph", {
+      api.notify("morph", {
         id: entity.type,
         type: [...BASE_MARIO_BEHAVIORS, superMario(), capeMario()],
       })
@@ -342,32 +342,33 @@ function collideWithPowerUps(entity, { entities, notify }) {
       entity.maxSpeed = 400
       entity.backgroundColor = "#ca00ff"
 
-      notify("morph", {
+      api.notify("morph", {
         id: entity.type,
         type: [...BASE_MARIO_BEHAVIORS, superMario(), fireMario(), capeMario()],
       })
       break
   }
-  notify("remove", powerup.id)
+
+  api.notify("remove", powerup.id)
 }
 
-function collideWithEnemyAndDie(entity, { entities, notify }) {
+function collideWithEnemyAndDie(entity, { api }) {
   const enemy = findCollision(entity, {
-    entities,
+    api,
     collisionGroup: "enemy",
   })
 
   if (!enemy) return
 
-  notify("remove", entity.id)
-  notify("remove", enemy.id)
+  api.notify("remove", entity.id)
+  api.notify("remove", enemy.id)
 
   console.log("Game over!")
 }
 
-function collideWithEnemyAndShrink(entity, { entities, notify }) {
+function collideWithEnemyAndShrink(entity, { api }) {
   const enemy = findCollision(entity, {
-    entities,
+    api,
     collisionGroup: "enemy",
   })
 
@@ -377,16 +378,17 @@ function collideWithEnemyAndShrink(entity, { entities, notify }) {
   entity.maxSpeed = 250
   entity.backgroundColor = "#393664"
 
-  notify("morph", {
+  api.notify("morph", {
     id: entity.type,
     type: [...BASE_MARIO_BEHAVIORS, baseMario()],
   })
-  notify("remove", enemy.id)
+
+  api.notify("remove", enemy.id)
 }
 
-function collideWithEnemyAndLosePowers(entity, { entities, notify }) {
+function collideWithEnemyAndLosePowers(entity, { api }) {
   const enemy = findCollision(entity, {
-    entities,
+    api,
     collisionGroup: "enemy",
   })
 
@@ -396,9 +398,9 @@ function collideWithEnemyAndLosePowers(entity, { entities, notify }) {
   entity.maxSpeed = 300
   entity.backgroundColor = "#b9342e"
 
-  notify("morph", {
+  api.notify("morph", {
     id: entity.type,
     type: [...BASE_MARIO_BEHAVIORS, superMario()],
   })
-  notify("remove", enemy.id)
+  api.notify("remove", enemy.id)
 }

@@ -1,8 +1,8 @@
 import { flee } from "@inglorious/engine/ai/movement/dynamic/flee.js"
 import { mouse } from "@inglorious/engine/behaviors/input/mouse.js"
 import { clampToBounds } from "@inglorious/engine/physics/bounds.js"
-import { renderCharacter } from "@inglorious/ui/canvas/character.js"
-import { renderMouse } from "@inglorious/ui/canvas/mouse.js"
+import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
+import { renderMouse } from "@inglorious/renderers/canvas/mouse.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 
 export default {
@@ -12,8 +12,9 @@ export default {
     character: [
       { render: renderCharacter },
       {
-        update(entity, dt, { entities }) {
-          const { mouse, game } = entities
+        update(entity, dt, { api }) {
+          const mouse = api.getEntity("mouse")
+          const game = api.getEntity("game")
 
           merge(entity, flee(entity, mouse, dt))
 

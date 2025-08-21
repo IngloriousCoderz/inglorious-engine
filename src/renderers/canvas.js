@@ -10,7 +10,7 @@ export function start(config, canvas) {
   const ctx = canvas.getContext("2d")
   const engine = new Engine(config, { render: render(ctx) })
 
-  const { game } = engine._store.getState().entities
+  const game = engine.getEntity("game")
   const [, , width, height] = game.bounds
 
   canvas.style.width = `${width}px`
@@ -44,8 +44,8 @@ export function start(config, canvas) {
 
 function render(ctx) {
   return (options) => {
-    const { types, entities } = options
-    const { game, mouse, ...rest } = entities
+    const { types, api } = options
+    const { game, mouse, ...rest } = api.getEntities()
 
     const [x, y, width, height] = game.bounds
     ctx.fillStyle = "lightgrey"

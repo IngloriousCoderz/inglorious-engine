@@ -1,6 +1,6 @@
-import { collidesWith } from "@inglorious/engine/collision/detection.js"
+import { findCollision } from "@inglorious/engine/collision/detection.js"
 import { bounce } from "@inglorious/engine/physics/bounds.js"
-import { renderCharacter } from "@inglorious/ui/canvas/character.js"
+import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { mod } from "@inglorious/utils/math/numbers.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
@@ -10,14 +10,13 @@ export default {
     character: [
       { render: renderCharacter },
       {
-        update(entity, dt, { entities }) {
-          const { game } = entities
-          const characters = Object.values(entities).filter(
-            ({ type }) => type === "character",
-          )
-          const target = characters.find(({ id }) => id !== entity.id)
+        update(entity, dt, options) {
+          const { api } = options
+          const game = api.getEntity("game")
 
-          if (collidesWith(entity, target)) {
+          const isColliding = findCollision(entity, options)
+
+          if (isColliding) {
             entity.orientation += pi()
             entity.orientation = mod(entity.orientation, 2 * pi())
           }

@@ -61,9 +61,10 @@ export function createStore({
 
   /**
    * Updates the state based on elapsed time and processes events.
-   * @param {number} dt - The delta time since the last update.
+   * @param {number} dt - The delta time since the last update in milliseconds.
+   * @param {Object} api - The engine's public API.
    */
-  function update(dt) {
+  function update(dt, api) {
     state = { ...state }
 
     state.events.push(...incomingEvents, { type: "update", payload: dt })
@@ -82,14 +83,13 @@ export function createStore({
         add(event.payload.id, event.payload)
       }
 
-      state.entities = map(state.entities, (_, entity, entities) => {
+      state.entities = map(state.entities, (_, entity) => {
         const type = types[entity.type]
         const handle = type[event.type]
         return (
           handle?.(entity, event.payload, {
             type: originalTypes[entity.type],
-            entities,
-            notify,
+            api,
           }) ?? entity
         )
       })

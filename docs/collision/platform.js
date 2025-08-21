@@ -5,8 +5,8 @@ import {
   controlsTypes,
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { jumpable } from "@inglorious/engine/behaviors/jumpable.js"
-import { renderCharacter } from "@inglorious/ui/canvas/character.js"
-import { renderRectangle } from "@inglorious/ui/canvas/shapes/rectangle.js"
+import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
+import { renderRectangle } from "@inglorious/renderers/canvas/shapes/rectangle.js"
 
 export default {
   types: {

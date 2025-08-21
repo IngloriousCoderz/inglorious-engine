@@ -9,7 +9,7 @@ import {
   controlsTypes,
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { clampToBounds } from "@inglorious/engine/physics/bounds.js"
-import { renderCharacter } from "@inglorious/ui/canvas/character.js"
+import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { sum } from "@inglorious/utils/math/linear-algebra/vectors.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
@@ -21,11 +21,11 @@ export default {
     character: [
       { render: renderCharacter },
       {
-        update(entity, dt, { entities }) {
-          const { parameters, game } = entities
+        update(entity, dt, { api }) {
+          const input0 = api.getEntity("input0")
+          const parameters = api.getEntity("parameters")
+          const game = api.getEntity("game")
           const { fields } = parameters.groups.lookWhereYoureGoing
-
-          const { input0 } = entities
 
           const target = { velocity: [0, 0, 0] }
           if (input0.left) {

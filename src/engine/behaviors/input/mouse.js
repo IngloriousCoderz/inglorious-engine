@@ -5,21 +5,22 @@ const NO_Y = 0
 
 export function mouse() {
   return {
-    mouseMove(entity, position, { entities }) {
+    mouseMove(entity, position, { api }) {
+      const game = api.getEntity("game")
+
       entity.position = position
 
-      const { game } = entities
       clampToBounds(entity, game.bounds)
     },
 
     mouseClick(entity, position, options) {
-      const { notify } = options
+      const { api } = options
 
       const clickedEntity = findCollision(entity, options)
       if (clickedEntity) {
-        notify("entityClick", clickedEntity.id)
+        api.notify("entityClick", clickedEntity.id)
       } else {
-        notify("sceneClick", position)
+        api.notify("sceneClick", position)
       }
     },
   }
@@ -32,7 +33,7 @@ export function track(parent, options) {
   return { onMouseMove: handleMouseMove, onClick: handleClick }
 }
 
-function createHandler(type, parent, { notify }) {
+function createHandler(type, parent, { notify, dispatch }) {
   return (event) => {
     event.stopPropagation()
 
@@ -46,7 +47,8 @@ function createHandler(type, parent, { notify }) {
       parent,
     })
 
-    notify(type, payload)
+    notify?.(type, payload)
+    dispatch?.({ type, payload })
   }
 }
 

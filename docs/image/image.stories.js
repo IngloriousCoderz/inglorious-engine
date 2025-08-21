@@ -1,11 +1,11 @@
-import UiChooser from "../ui-chooser.jsx"
+import RendererChooser from "../renderer-chooser.jsx"
 import image from "./image.js"
 import sprite from "./sprite.js"
 import tilemap from "./tilemap.js"
 
 export default {
   title: "Engine/Image",
-  component: UiChooser,
+  component: RendererChooser,
 }
 
 export const Image = {

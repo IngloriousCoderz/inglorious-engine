@@ -5,8 +5,8 @@ import {
 import { face } from "@inglorious/engine/ai/movement/kinematic/face.js"
 import { mouse } from "@inglorious/engine/behaviors/input/mouse.js"
 import { clampToBounds } from "@inglorious/engine/physics/bounds.js"
-import { renderCharacter } from "@inglorious/ui/canvas/character.js"
-import { renderMouse } from "@inglorious/ui/canvas/mouse.js"
+import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
+import { renderMouse } from "@inglorious/renderers/canvas/mouse.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
@@ -17,8 +17,10 @@ export default {
     character: [
       { render: renderCharacter },
       {
-        update(entity, dt, { entities }) {
-          const { mouse, parameters, game } = entities
+        update(entity, dt, { api }) {
+          const mouse = api.getEntity("mouse")
+          const parameters = api.getEntity("parameters")
+          const game = api.getEntity("game")
           const { fields } = parameters.groups.face
 
           merge(

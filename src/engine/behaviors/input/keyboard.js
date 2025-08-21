@@ -19,19 +19,19 @@ export function keyboard() {
       document.removeEventListener("keyup", handleKeyUp)
     },
 
-    keyboardKeyDown(entity, keyCode, { notify }) {
+    keyboardKeyDown(entity, keyCode, { api }) {
       const action = entity.mapping[keyCode]
       if (!entity[action]) {
         entity[action] = true
-        notify("inputPress", { id: entity.id, action })
+        api.notify("inputPress", { id: entity.id, action })
       }
     },
 
-    keyboardKeyUp(entity, keyCode, { notify }) {
+    keyboardKeyUp(entity, keyCode, { api }) {
       const action = entity.mapping[keyCode]
       if (entity[action]) {
         entity[action] = false
-        notify("inputRelease", { id: entity.id, action })
+        api.notify("inputRelease", { id: entity.id, action })
       }
     },
   }
@@ -41,9 +41,9 @@ export function createKeyboard(name = DEFAULT_PARAMS.name, mapping = {}) {
   return { id: name, type: "keyboard", mapping }
 }
 
-function createKeyboardHandler(id, { notify }) {
+function createKeyboardHandler(id, { api }) {
   return (event) => {
     event.stopPropagation()
-    notify(id, event.code)
+    api.notify(id, event.code)
   }
 }

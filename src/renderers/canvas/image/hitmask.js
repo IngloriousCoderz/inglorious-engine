@@ -1,4 +1,4 @@
-import { renderRectangle } from "@inglorious/ui/canvas/shapes/rectangle.js"
+import { renderRectangle } from "@inglorious/renderers/canvas/shapes/rectangle.js"
 import { max } from "@inglorious/utils/data-structures/array.js"
 
 const LAST_ROW_OFFSET = 1

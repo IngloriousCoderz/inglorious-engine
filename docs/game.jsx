@@ -1,4 +1,4 @@
-import { start } from "@inglorious/ui/canvas"
+import { start } from "@inglorious/renderers/canvas"
 import { useRef } from "react"
 import { useEffect } from "react"
 

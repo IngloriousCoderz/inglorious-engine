@@ -18,7 +18,8 @@ export function modernControls(params) {
 
         const maxAcceleration = entity.maxAcceleration ?? params.maxAcceleration
 
-        const { input0 } = options.entities
+        const input0 = options.api.getEntity("input0")
+
         entity.acceleration = zero()
 
         if (input0.left) {

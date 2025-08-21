@@ -40,8 +40,8 @@ export default {
         ctx.restore()
       },
 
-      update(entity, dt, { entities }) {
-        const { game } = entities
+      update(entity, dt, { api }) {
+        const game = api.getEntity("game")
         const [left, , right] = game.bounds
 
         if (entity.position[X] > right) {

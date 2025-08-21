@@ -1,6 +1,6 @@
-import { renderHitmask } from "@inglorious/ui/canvas/image/hitmask.js"
-import { renderCircle } from "@inglorious/ui/canvas/shapes/circle.js"
-import { renderRectangle } from "@inglorious/ui/canvas/shapes/rectangle.js"
+import { renderHitmask } from "@inglorious/renderers/canvas/image/hitmask.js"
+import { renderCircle } from "@inglorious/renderers/canvas/shapes/circle.js"
+import { renderRectangle } from "@inglorious/renderers/canvas/shapes/rectangle.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
 
 const Shape = {
@@ -16,7 +16,8 @@ export function collisionGizmos() {
       render(entity, ctx, options) {
         type.render(entity, ctx, options)
 
-        const { game } = options.entities
+        const game = options.api.getEntity("game")
+
         if (!game.debug) {
           return
         }

@@ -54,7 +54,7 @@ function handleInput(entity, { id, action }) {
 }
 
 function createFreeFall(params) {
-  return (entity, dt, { entities }) => {
+  return (entity, dt, { api }) => {
     entity.onInput = entity.onInput ?? params.onInput
     entity.maxJump = entity.maxJump ?? params.maxJump
     entity.maxLeap = entity.maxLeap ?? params.maxLeap
@@ -62,6 +62,8 @@ function createFreeFall(params) {
     entity.maxJumps = entity.maxJumps ?? params.maxJumps
 
     merge(entity, applyGravity(entity, dt))
+
+    const entities = api.getEntities()
 
     const targets = Object.values(entities).filter(
       ({ type }) => type === "platform",

@@ -22,7 +22,9 @@ export function shooterControls(params) {
           entity.maxAngularSpeed ?? params.maxAngularSpeed
         entity.maxSpeed = entity.maxSpeed ?? params.maxSpeed
 
-        const { input0, mouse } = options.entities
+        const input0 = options.api.getEntity("input0")
+        const mouse = options.api.getEntity("mouse")
+
         entity.velocity = zero()
 
         if (input0.left) {
@@ -38,7 +40,7 @@ export function shooterControls(params) {
           entity.velocity[X] = entity.maxSpeed
         }
 
-        merge(entity, face(entity, mouse, dt, options))
+        merge(entity, face(entity, mouse, dt))
         merge(entity, tankMove(entity, dt))
       },
     })

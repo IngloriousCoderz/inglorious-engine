@@ -21,8 +21,8 @@ const preview = {
       },
     },
   },
-  argTypes: { ui: { control: "radio", options: ["canvas", "react"] } },
-  args: { ui: "canvas" },
+  argTypes: { renderer: { control: "radio", options: ["canvas", "react"] } },
+  args: { renderer: "canvas" },
 }
 
 // Set default story to quick-start

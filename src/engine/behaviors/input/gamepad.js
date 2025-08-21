@@ -4,14 +4,14 @@ const DEFAULT_PARAMS = {
 
 export function gamepad() {
   return {
-    update(entity, dt, { notify }) {
+    update(entity, dt, { api }) {
       navigator.getGamepads().forEach((gamepad) => {
         if (gamepad == null) {
           return
         }
 
         gamepad.axes.forEach((axis, index) => {
-          notify("gamepadAxis", {
+          api.notify("gamepadAxis", {
             id: gamepad.index,
             axis: `Axis${index}`,
             value: axis,
@@ -20,22 +20,22 @@ export function gamepad() {
 
         gamepad.buttons.forEach((button, index) => {
           const id = button.pressed ? "gamepadPress" : "gamepadRelease"
-          notify(id, { id: gamepad.index, button: `Btn${index}` })
+          api.notify(id, { id: gamepad.index, button: `Btn${index}` })
         })
       })
     },
 
-    gamepadAxis(entity, { id, axis, value }, { notify }) {
+    gamepadAxis(entity, { id, axis, value }, { api }) {
       if (entity.id !== `gamepad${id}`) {
         return
       }
 
       const action = entity.mapping[axis]
       entity[action] = value
-      notify("inputAxis", { id, action, value })
+      api.notify("inputAxis", { id, action, value })
     },
 
-    gamepadPress(entity, { id, button }, { notify }) {
+    gamepadPress(entity, { id, button }, { api }) {
       if (entity.id !== `gamepad${id}`) {
         return
       }
@@ -43,11 +43,11 @@ export function gamepad() {
       const action = entity.mapping[button]
       if (!entity[action]) {
         entity[action] = true
-        notify("inputPress", { id, action })
+        api.notify("inputPress", { id, action })
       }
     },
 
-    gamepadRelease(entity, { id, button }, { notify }) {
+    gamepadRelease(entity, { id, button }, { api }) {
       if (entity.id !== `gamepad${id}`) {
         return
       }
@@ -55,7 +55,7 @@ export function gamepad() {
       const action = entity.mapping[button]
       if (entity[action]) {
         entity[action] = false
-        notify("inputRelease", { id, action })
+        api.notify("inputRelease", { id, action })
       }
     },
   }

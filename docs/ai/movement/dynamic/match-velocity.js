@@ -7,7 +7,7 @@ import {
   controlsTypes,
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { clampToBounds } from "@inglorious/engine/physics/bounds.js"
-import { renderCharacter } from "@inglorious/ui/canvas/character.js"
+import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 
 export default {
@@ -17,8 +17,10 @@ export default {
     character: [
       { render: renderCharacter },
       {
-        update(entity, dt, { entities }) {
-          const { parameters, input0, game } = entities
+        update(entity, dt, { api }) {
+          const input0 = api.getEntity("input0")
+          const parameters = api.getEntity("parameters")
+          const game = api.getEntity("game")
           const { fields } = parameters.groups.matchVelocity
           const SPEED = entity.maxSpeed
 

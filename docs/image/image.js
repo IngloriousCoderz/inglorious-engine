@@ -1,4 +1,4 @@
-import { renderImage } from "@inglorious/ui/canvas/image/image.js"
+import { renderImage } from "@inglorious/renderers/canvas/image/image.js"
 
 export default {
   types: {

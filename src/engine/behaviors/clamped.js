@@ -8,7 +8,7 @@ export function clamped() {
       update(entity, dt, options) {
         type.update?.(entity, dt, options)
 
-        const { game } = options.entities
+        const game = options.api.getEntity("game")
         clampToBounds(entity, game.bounds)
       },
     })

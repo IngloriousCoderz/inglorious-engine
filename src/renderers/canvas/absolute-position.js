@@ -5,7 +5,7 @@ export function absolutePosition(render) {
     const { position = zero() } = entity
     const [x, y, z] = snap(position)
 
-    const { game } = options.entities
+    const game = options.api.getEntity("game")
     const [, , , screenHeight] = game.bounds
 
     ctx.save()

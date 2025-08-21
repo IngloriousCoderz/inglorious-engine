@@ -1,6 +1,7 @@
 import { extend } from "@inglorious/utils/data-structures/objects.js"
 
 import Loop from "./loop.js"
+import { createSelector } from "./select.js"
 import { createStore } from "./store.js"
 
 // Default configuration for the engine
@@ -16,13 +17,24 @@ const ONE_SECOND = 1000 // Number of milliseconds in one second.
 export class Engine {
   /**
    * @param {Object} game - Game-specific configuration.
-   * @param {Object} ui - UI entity responsible for rendering.
+   * @param {Object} renderer - UI entity responsible for rendering.
    */
-  constructor(game, ui) {
+  constructor(game, renderer) {
     this._config = extend(DEFAULT_CONFIG, game)
     this._store = createStore(this._config)
     this._loop = new Loop[this._config.loop.type]()
-    this._ui = ui
+    this._renderer = renderer
+
+    this._entitiesSelector = null
+    this._entitySelectors = {}
+
+    this._api = {
+      createSelector: this.createSelector.bind(this),
+      getEntities: this.getEntities.bind(this),
+      getEntity: this.getEntity.bind(this),
+      notify: this.notify,
+      dispatch: this.dispatch,
+    }
   }
 
   /**
@@ -35,11 +47,44 @@ export class Engine {
   }
 
   /**
+   * Creates a memoized selector function. This selector does not require you to pass the state, because the engine will do it for you.
+   * @param {Array<Function>} inputSelectors - An array of input selector functions.
+   * @param {Function} resultFunc - A function that receives the results of the input selectors and returns a computed value.
+   * @returns {Function} A memoized selector function that, when called, returns the selected state.
+   */
+  createSelector(inputSelectors, resultFunc) {
+    const selector = createSelector(inputSelectors, resultFunc)
+
+    return () => selector(this._store.getState())
+  }
+
+  getEntities() {
+    if (!this._entitiesSelector) {
+      this._entitiesSelector = this.createSelector(
+        [(state) => state.entities],
+        (entities) => entities,
+      )
+    }
+    return this._entitiesSelector()
+  }
+
+  getEntity(id) {
+    if (!this._entitySelectors[id]) {
+      this._entitySelectors[id] = this.createSelector(
+        [(state) => state.entities],
+        (entities) => entities[id],
+      )
+    }
+
+    return this._entitySelectors[id]()
+  }
+
+  /**
    * Updates the game state.
    * @param {number} dt - Delta time since the last update in milliseconds.
    */
   update(dt) {
-    this._store.update(dt)
+    this._store.update(dt, this._api)
   }
 
   /**
@@ -47,10 +92,10 @@ export class Engine {
    * @param {number} dt - Delta time since the last render in milliseconds.
    */
   render(dt) {
-    this._ui?.render({
+    this._renderer?.render({
       dt,
       types: this._store.getTypes(),
-      entities: this._store.getState().entities,
+      api: this._api,
     })
   }
 

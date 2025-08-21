@@ -1,6 +1,6 @@
 import { mouse } from "@inglorious/engine/behaviors/input/mouse.js"
-import { renderCharacter } from "@inglorious/ui/canvas/character.js"
-import { renderMouse } from "@inglorious/ui/canvas/mouse.js"
+import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
+import { renderMouse } from "@inglorious/renderers/canvas/mouse.js"
 import { filter } from "@inglorious/utils/data-structures/object.js"
 import { random } from "@inglorious/utils/math/rng.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
@@ -11,15 +11,15 @@ export default {
       { render: renderMouse },
       mouse(),
       {
-        mouseClick(entity, position, options) {
-          const { entities, notify } = options
+        mouseClick(entity, position, { api }) {
+          const entities = api.getEntities()
           const characters = filter(
             entities,
             (_, { type }) => type === "character",
           )
           const ids = Object.keys(characters)
 
-          notify("add", {
+          api.notify("add", {
             id: `character${ids.length + 1}`,
             type: "character",
             position,

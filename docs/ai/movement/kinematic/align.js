@@ -9,8 +9,8 @@ import {
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { mouse } from "@inglorious/engine/behaviors/input/mouse.js"
 import { clampToBounds } from "@inglorious/engine/physics/bounds.js"
-import { renderCharacter } from "@inglorious/ui/canvas/character.js"
-import { renderMouse } from "@inglorious/ui/canvas/mouse.js"
+import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
+import { renderMouse } from "@inglorious/renderers/canvas/mouse.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { clamp } from "@inglorious/utils/math/numbers.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
@@ -27,8 +27,8 @@ export default {
           }
         },
 
-        update(entity, dt, { entities }) {
-          const { input0 } = entities
+        update(entity, dt, { api }) {
+          const input0 = api.getEntity("input0")
 
           if (input0.left || input0.up) {
             entity.orientation += 0.1
@@ -45,8 +45,10 @@ export default {
     character: [
       { render: renderCharacter },
       {
-        update(entity, dt, { entities }) {
-          const { mouse, parameters, game } = entities
+        update(entity, dt, { api }) {
+          const mouse = api.getEntity("mouse")
+          const parameters = api.getEntity("parameters")
+          const game = api.getEntity("game")
           const { fields } = parameters.groups.align
 
           merge(

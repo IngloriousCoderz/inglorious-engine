@@ -1,4 +1,4 @@
-import UiChooser from "../../ui-chooser.jsx"
+import RendererChooser from "../../renderer-chooser.jsx"
 import doubleJump from "./double-jump.js"
 import jump from "./jump.js"
 import modernControls from "./modern-controls.js"
@@ -7,7 +7,7 @@ import tankControls from "./tank-controls.js"
 
 export default {
   title: "Engine/Player/Kinematic",
-  component: UiChooser,
+  component: RendererChooser,
 }
 
 export const ModernControls = {

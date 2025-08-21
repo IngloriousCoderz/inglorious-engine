@@ -1,6 +1,6 @@
 import { mouse } from "@inglorious/engine/behaviors/input/mouse.js"
 import { button } from "@inglorious/engine/behaviors/ui/button.js"
-import { renderMouse } from "@inglorious/ui/canvas/mouse.js"
+import { renderMouse } from "@inglorious/renderers/canvas/mouse.js"
 
 export default {
   types: {

@@ -1,4 +1,4 @@
-import UiChooser from "../ui-chooser.jsx"
+import RendererChooser from "../renderer-chooser.jsx"
 import bounds from "./bounds.js"
 import codeReuse from "./code-reuse.js"
 import empty from "./empty.js"
@@ -8,7 +8,7 @@ import framerate from "./framerate.js"
 
 export default {
   title: "Engine",
-  component: UiChooser,
+  component: RendererChooser,
 }
 
 export const Empty = {

@@ -1,4 +1,4 @@
-import UiChooser from "../../../ui-chooser.jsx"
+import RendererChooser from "../../../renderer-chooser.jsx"
 import align from "./align.js"
 import arrive from "./arrive.js"
 import evade from "./evade.js"
@@ -12,7 +12,7 @@ import wander from "./wander.js"
 
 export default {
   title: "Engine/AI/Movement/Dynamic",
-  component: UiChooser,
+  component: RendererChooser,
 }
 
 export const Seek = {

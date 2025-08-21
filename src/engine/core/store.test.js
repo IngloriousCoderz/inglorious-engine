@@ -36,7 +36,7 @@ test("it should add an event to the event queue", () => {
   }
 
   store.notify(event)
-  store.update()
+  store.update(0, {})
 
   const state = store.getState()
   expect(state).toStrictEqual(afterState)
@@ -81,7 +81,7 @@ test("it should process the event queue", () => {
     },
   }
 
-  store.update()
+  store.update(0, {})
 
   const state = store.getState()
   expect(state).toStrictEqual(afterState)
@@ -91,9 +91,10 @@ test("it should send an event from an entity", () => {
   const config = {
     types: {
       doggo: {
-        update(entity, dt, { entities, notify }) {
-          if (entities.entity2.position === "near") {
-            notify("doggoMessage", { id: "inu", message: "Woof!" })
+        update(entity, dt, { api }) {
+          const entity2 = api.getEntity("entity2")
+          if (entity2.position === "near") {
+            api.notify("doggoMessage", { id: "inu", message: "Woof!" })
           }
         },
       },
@@ -117,6 +118,10 @@ test("it should send an event from an entity", () => {
     },
   }
   const store = createStore(config)
+  const api = {
+    getEntity: (id) => store.getState().entities[id],
+    notify: store.notify,
+  }
   const afterState = {
     events: [],
     entities: {
@@ -140,7 +145,7 @@ test("it should send an event from an entity", () => {
     },
   }
 
-  store.update()
+  store.update(0, api)
 
   const state = store.getState()
   expect(state).toStrictEqual(afterState)
@@ -153,9 +158,11 @@ test("it should receive an event from an entity", () => {
   const config = {
     types: {
       doggo: {
-        update(entity, dt, { entities, notify }) {
-          if (entities.entity2.position === "near") {
-            notify("doggoMessage", { id: "inu", message: "Woof!" })
+        update(entity, dt, { api }) {
+          const entity2 = api.getEntity("entity2")
+
+          if (entity2.position === "near") {
+            api.notify("doggoMessage", { id: "inu", message: "Woof!" })
           }
         },
       },
@@ -179,6 +186,10 @@ test("it should receive an event from an entity", () => {
     },
   }
   const store = createStore(config)
+  const api = {
+    getEntity: (id) => store.getState().entities[id],
+    notify: store.notify,
+  }
   store.notify(event, payload)
   const afterState = {
     events: [],
@@ -203,7 +214,7 @@ test("it should receive an event from an entity", () => {
     },
   }
 
-  store.update()
+  store.update(0, api)
 
   const state = store.getState()
   expect(state).toStrictEqual(afterState)
@@ -244,7 +255,7 @@ test("it should mutate state in an immutable way", () => {
     },
   }
 
-  store.update()
+  store.update(0, {})
 
   const state = store.getState()
   expect(state).toStrictEqual(afterState)

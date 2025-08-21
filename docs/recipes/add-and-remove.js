@@ -1,6 +1,6 @@
 import { mouse } from "@inglorious/engine/behaviors/input/mouse.js"
-import { renderCharacter } from "@inglorious/ui/canvas/character.js"
-import { renderMouse } from "@inglorious/ui/canvas/mouse.js"
+import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
+import { renderMouse } from "@inglorious/renderers/canvas/mouse.js"
 import { filter } from "@inglorious/utils/data-structures/object.js"
 import { random } from "@inglorious/utils/math/rng.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
@@ -11,8 +11,9 @@ export default {
       { render: renderMouse },
       mouse(),
       {
-        sceneClick(entity, position, options) {
-          const { entities, notify } = options
+        sceneClick(entity, position, { api }) {
+          const entities = api.getEntities()
+
           const characters = filter(
             entities,
             (_, { type }) => type === "character",
@@ -23,7 +24,7 @@ export default {
             ? Number(ids[ids.length - 1].replace("character", ""))
             : 0
 
-          notify("add", {
+          api.notify("add", {
             id: `character${maxId + 1}`,
             type: "character",
             position,
@@ -38,8 +39,8 @@ export default {
         },
 
         // this event handler is needed for React
-        entityClick(entity, id, { notify }) {
-          notify("remove", id)
+        entityClick(entity, id, { api }) {
+          api.notify("remove", id)
         },
       },
     ],
@@ -48,8 +49,8 @@ export default {
       { render: renderCharacter },
       {
         // this event handler is needed in React
-        entityClick(entity, id, { notify }) {
-          notify("remove", id)
+        entityClick(entity, id, { api }) {
+          api.notify("remove", id)
         },
       },
     ],

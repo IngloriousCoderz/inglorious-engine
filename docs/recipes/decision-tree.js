@@ -2,8 +2,8 @@ import { arrive } from "@inglorious/engine/ai/movement/kinematic/arrive.js"
 import { Sprite } from "@inglorious/engine/animation/sprite.js"
 import { fsm } from "@inglorious/engine/behaviors/fsm.js"
 import { mouse } from "@inglorious/engine/behaviors/input/mouse.js"
-import { renderSprite } from "@inglorious/ui/canvas/image/sprite.js"
-import { renderMouse } from "@inglorious/ui/canvas/mouse.js"
+import { renderSprite } from "@inglorious/renderers/canvas/image/sprite.js"
+import { renderMouse } from "@inglorious/renderers/canvas/mouse.js"
 import { decide } from "@inglorious/utils/algorithms/decision-tree.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { length } from "@inglorious/utils/math/linear-algebra/vector.js"
@@ -79,18 +79,18 @@ export default {
       { render: renderSprite },
       fsm({
         idle: {
-          update(entity, dt, { entities, notify }) {
-            const { mouse } = entities
+          update(entity, dt, { api }) {
+            const mouse = api.getEntity("mouse")
 
-            Sprite.play("idle", { entity, dt, notify })
+            Sprite.play("idle", { entity, dt, notify: api.notify })
 
             entity.state = decide(nextState, { entity, target: mouse })
           },
         },
 
         aware: {
-          update(entity, dt, { notify }) {
-            Sprite.play("aware", { entity, dt, notify })
+          update(entity, dt, { api }) {
+            Sprite.play("aware", { entity, dt, notify: api.notify })
           },
 
           spriteAnimationEnd(entity, { id, animation }) {
@@ -102,23 +102,23 @@ export default {
         },
 
         chasing: {
-          update(entity, dt, { entities, notify }) {
-            const { mouse } = entities
+          update(entity, dt, { api }) {
+            const mouse = api.getEntity("mouse")
 
             merge(entity, arrive(entity, mouse, dt))
 
             const animation = Sprite.move8(entity)
-            Sprite.play(animation, { entity, dt, notify })
+            Sprite.play(animation, { entity, dt, notify: api.notify })
 
             entity.state = decide(nextState, { entity, target: mouse })
           },
         },
 
         sleepy: {
-          update(entity, dt, { entities, notify }) {
-            const { mouse } = entities
+          update(entity, dt, { api }) {
+            const mouse = api.getEntity("mouse")
 
-            Sprite.play("sleepy", { entity, dt, notify })
+            Sprite.play("sleepy", { entity, dt, notify: api.notify })
 
             entity.state = decide(nextState, { entity, target: mouse })
           },
@@ -132,10 +132,10 @@ export default {
         },
 
         sleeping: {
-          update(entity, dt, { entities, notify }) {
-            const { mouse } = entities
+          update(entity, dt, { api }) {
+            const mouse = api.getEntity("mouse")
 
-            Sprite.play("sleeping", { entity, dt, notify })
+            Sprite.play("sleeping", { entity, dt, notify: api.notify })
 
             entity.state = decide(nextState, { entity, target: mouse })
           },

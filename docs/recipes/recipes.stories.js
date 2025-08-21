@@ -1,4 +1,4 @@
-import UiChooser from "../ui-chooser.jsx"
+import RendererChooser from "../renderer-chooser.jsx"
 import addAndRemove from "./add-and-remove.js"
 import addEntity from "./add-entity.js"
 import decisionTree from "./decision-tree.js"
@@ -9,7 +9,7 @@ import states from "./states.js"
 
 export default {
   title: "Engine/Recipes",
-  component: UiChooser,
+  component: RendererChooser,
 }
 
 export const RandomEntities = {

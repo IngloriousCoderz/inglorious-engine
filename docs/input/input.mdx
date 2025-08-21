@@ -16,7 +16,7 @@ It's pretty easy to add input controls to your game. Let's have a look.
 
 If you need mouse support, it's as easy as using the `mouse()` behavior. It automatically detects movement and clicks on any entity in the scene.
 
-You can get a reference to any entity in the scene by inspecting the `options.entities` property.
+You can get a reference to any entity in the scene by invoking the `api.getEntity(id)` method. The `api` object is a property of the context parameter, which is always the third parameter of an event handler.
 
 <Source dark code={mouse} />
 

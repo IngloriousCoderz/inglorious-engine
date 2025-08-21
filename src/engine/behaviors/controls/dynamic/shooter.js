@@ -17,14 +17,16 @@ export function shooterControls(params) {
 
   return (type) =>
     extend(type, {
-      update(entity, dt, options) {
+      update(entity, dt, { api }) {
         entity.maxAngularSpeed =
           entity.maxAngularSpeed ?? params.maxAngularSpeed
         entity.maxAcceleration =
           entity.maxAcceleration ?? params.maxAcceleration
         entity.maxSpeed = entity.maxSpeed ?? params.maxSpeed
 
-        const { input0, mouse } = options.entities
+        const input0 = api.getEntity("input0")
+        const mouse = api.getEntity("mouse")
+
         entity.acceleration = zero()
 
         if (input0.left) {
@@ -40,7 +42,7 @@ export function shooterControls(params) {
           entity.acceleration[X] = entity.maxAcceleration
         }
 
-        merge(entity, face(entity, mouse, dt, options))
+        merge(entity, face(entity, mouse, dt))
         merge(entity, tankMove(entity, dt))
       },
     })
