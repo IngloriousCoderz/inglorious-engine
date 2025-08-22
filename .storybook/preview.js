@@ -11,15 +11,8 @@ const preview = {
         date: /Date$/,
       },
     },
-    docs: {
-      theme,
-    },
+    docs: { theme },
     layout: "centered",
-    options: {
-      storySort: {
-        order: ["Docs"],
-      },
-    },
   },
   argTypes: { renderer: { control: "radio", options: ["canvas", "react"] } },
   args: { renderer: "canvas" },

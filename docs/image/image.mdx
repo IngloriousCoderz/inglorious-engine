@@ -1,0 +1,50 @@
+import { Canvas, Meta, Source } from '@storybook/addon-docs/blocks'
+import RendererChooser from '../renderer-chooser.jsx'
+import image from './image.js?raw'
+import sprite from './sprite.js?raw'
+import tilemap from './tilemap.js?raw'
+import * as Image from './image.stories'
+
+<Meta of={Image} />
+
+# Image Rendering
+
+The Inglorious Engine provides capabilities for rendering images, sprites, and tilemaps. This is essential for creating visually rich games.
+
+## Images
+
+The most basic form of image rendering is displaying a static image. This can be used for backgrounds, UI elements, or any non-animated visual asset. In Inglorious Engine, this is achieved by creating an entity with an `image` component and a `renderImage` behavior.
+
+Here's a simple configuration for rendering an image:
+
+<Source dark code={image} />
+
+The `image` component specifies the source of the image and its properties like scale.
+
+Below is a live example of a static image.
+
+<Canvas of={Image.Image} />
+
+## Sprites
+
+Sprites are 2D images or animations that are integrated into a larger scene. In Inglorious Engine, a sprite is an entity with a `sprite` component and a `renderSprite` behavior.
+
+Here's an example of an entity configuration for a sprite:
+
+<Source dark code={sprite} />
+
+The `sprite` component contains information about the image source, its dimensions, and animation frames. The `Sprite` helper provides utilities for managing sprite animations, like `Sprite.move4` for 4-directional movement.
+
+Below is a live example of an animated sprite.
+
+<Canvas of={Image.Sprite} />
+
+## Tilemaps
+
+Tilemaps are a common technique used to create game levels or large images by stitching together smaller images called tiles. The engine provides a `renderTilemap` behavior for this purpose.
+
+An entity with a tilemap would look like this:
+
+<Source dark code={tilemap} />
+
+<Canvas of={Image.Tilemap} />
