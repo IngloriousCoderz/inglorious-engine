@@ -10,7 +10,7 @@ export function start(config, canvas) {
   const ctx = canvas.getContext("2d")
   const engine = new Engine(config, { render: render(ctx) })
 
-  const game = engine.getEntity("game")
+  const game = engine._api.getEntity("game")
   const [, , width, height] = game.bounds
 
   canvas.style.width = `${width}px`
@@ -32,8 +32,8 @@ export function start(config, canvas) {
   })
 
   const { onMouseMove, onClick } = track(canvas, {
-    notify: engine.notify,
-    dispatch: engine.dispatch,
+    notify: engine._api.notify,
+    dispatch: engine._api.dispatch,
   })
 
   canvas.addEventListener("mousemove", onMouseMove)

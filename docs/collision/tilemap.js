@@ -175,8 +175,8 @@ export default {
       collisions: {
         hitbox: {
           shape: "rectangle",
-          size: [46, 0, 46],
-          offset: [-46 / 2, 0, -46 / 2],
+          size: [44, 0, 44],
+          offset: [-44 / 2, 0, -44 / 2],
         },
       },
     },
