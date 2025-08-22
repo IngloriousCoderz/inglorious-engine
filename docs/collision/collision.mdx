@@ -3,6 +3,7 @@ import * as Collision from './collision.stories'
 
 import circles from './circles?raw'
 import platform from './platform?raw'
+import tilemap from './tilemap?raw'
 
 <Meta of={Collision} />
 
@@ -25,3 +26,13 @@ A character is able to jump on top of a platform and keep its `y` position.
 <Source dark code={platform} />
 
 <Canvas of={Collision.Platform} />
+
+## Tilemap
+
+Collision with a tilemap is very low-cost: we just need to check which tiles surrounding the sprite do collide with it.
+
+*Hint*: Press 'c' on your keyboard to see collision debug gizmos!
+
+<Source dark code={tilemap} />
+
+<Canvas of={Collision.Tilemap} />
