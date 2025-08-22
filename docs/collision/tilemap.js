@@ -48,12 +48,6 @@ export default {
               entity.velocity[X] += input0.leftRight * maxSpeed
             }
 
-            const oldX = entity.position[X]
-            entity.position[X] += entity.velocity[X] * dt
-            if (findCollisions(dungeon, entity)) {
-              entity.position[X] = oldX
-            }
-
             if (input0.down) {
               entity.velocity[Z] = -maxSpeed
             }
@@ -64,10 +58,20 @@ export default {
               entity.velocity[Z] += -input0.upDown * maxSpeed
             }
 
-            const oldZ = entity.position[Z]
-            entity.position[Z] += entity.velocity[Z] * dt
-            if (findCollisions(dungeon, entity)) {
-              entity.position[Z] = oldZ
+            // Check for collision on the X-axis
+            const newPositionX = [...entity.position]
+            newPositionX[X] += entity.velocity[X] * dt
+            const tempEntityX = { ...entity, position: newPositionX }
+            if (!findCollisions(dungeon, tempEntityX)) {
+              entity.position[X] = newPositionX[X]
+            }
+
+            // Check for collision on the Z-axis
+            const newPositionZ = [...entity.position]
+            newPositionZ[Z] += entity.velocity[Z] * dt
+            const tempEntityZ = { ...entity, position: newPositionZ }
+            if (!findCollisions(dungeon, tempEntityZ)) {
+              entity.position[Z] = newPositionZ[Z]
             }
           },
         }),
@@ -152,7 +156,7 @@ export default {
 
     player: {
       type: "player",
-      position: [400 - 48 / 2, 1, 300 - 48],
+      position: [400 - 48, 1, 300 - 48 / 2],
       maxSpeed: 250,
       sprite: {
         image: {
@@ -171,8 +175,8 @@ export default {
       collisions: {
         hitbox: {
           shape: "rectangle",
-          size: [48, 0, 48],
-          offset: [48 / 2, 0, -48 / 2],
+          size: [46, 0, 46],
+          offset: [-46 / 2, 0, -46 / 2],
         },
       },
     },

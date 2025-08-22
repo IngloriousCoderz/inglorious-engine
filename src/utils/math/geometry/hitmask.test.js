@@ -2,45 +2,88 @@ import { expect, test } from "vitest"
 
 import { findCollisions } from "./hitmask"
 
+/**
+ * Given a rectangle located at (1.5, 0, 2.5) with a size of (1, 1, 1),
+ * which is touching a wall tile, this test proves a collision is detected.
+ *
+ * Tilemap layout:
+ * ⬛️🟩🟩⬛️
+ * ⬛️⬛️⬛️⬛️
+ * ⬛️⬛️⬛️⬛️
+ *
+ * Rectangle position: R at (1.5, 2.5)
+ *
+ * Expected outcome: true
+ */
 test("it should prove that a rectangle touching a wall intersects with it", () => {
   const hitmask = {
     position: [0, 0, 0],
     tileSize: [1, 1],
     columns: 4,
-    heights: [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0],
+    // The top row (indices 0, 1, 2, 3) now has the walls.
+    heights: [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   }
   const rectangle = {
     shape: "rectangle",
-    position: [2.5, 0, 1.5],
+    position: [1.5, 0, 2.5],
     size: [1, 1, 1],
   }
 
   expect(findCollisions(hitmask, rectangle)).toBe(true)
 })
 
+/**
+ * Given the same scenario as the previous test, but all coordinates
+ * are shifted by a constant value, this test proves the outcome remains
+ * unchanged, ensuring the collision detection is relative.
+ *
+ * Tilemap layout:
+ * ⬛️🟩🟩⬛️
+ * ⬛️⬛️⬛️⬛️
+ * ⬛️⬛️⬛️⬛️
+ *
+ * Rectangle position: R at (11.5, 12.5)
+ *
+ * Expected outcome: true
+ */
 test("it should prove that shifting operands does not change the outcome", () => {
   const SHIFT = 10
   const hitmask = {
     position: [0 + SHIFT, 0, 0 + SHIFT],
     tileSize: [1, 1],
     columns: 4,
-    heights: [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0],
+    // The top row (indices 0, 1, 2, 3) now has the walls.
+    heights: [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   }
   const rectangle = {
     shape: "rectangle",
-    position: [2.5 + SHIFT, 0, 1.5 + SHIFT],
+    position: [1.5 + SHIFT, 0, 2.5 + SHIFT],
     size: [1, 1, 1],
   }
 
   expect(findCollisions(hitmask, rectangle)).toBe(true)
 })
 
+/**
+ * Given a rectangle located at (0.5, 0, 0.5) with a size of (1, 1, 1),
+ * which is not touching any walls, this test proves no collision is detected.
+ *
+ * Tilemap layout:
+ * ⬛️🟩🟩⬛️
+ * ⬛️⬛️⬛️⬛️
+ * ⬛️⬛️⬛️⬛️
+ *
+ * Rectangle position: R at (0.5, 0.5)
+ *
+ * Expected outcome: false
+ */
 test("it should prove that a rectangle not touching a wall does not intersect with it", () => {
   const hitmask = {
     position: [0, 0, 0],
     tileSize: [1, 1],
     columns: 4,
-    heights: [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0],
+    // The top row (indices 0, 1, 2, 3) now has the walls.
+    heights: [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   }
   const rectangle = {
     shape: "rectangle",
@@ -51,28 +94,56 @@ test("it should prove that a rectangle not touching a wall does not intersect wi
   expect(findCollisions(hitmask, rectangle)).toBe(false)
 })
 
+/**
+ * Given a rectangle located above the tile, this test proves no
+ * collision is detected even when the X and Z positions overlap.
+ *
+ * Tilemap layout:
+ * ⬛️🟩🟩⬛️
+ * ⬛️⬛️⬛️⬛️
+ * ⬛️⬛️⬛️⬛️
+ *
+ * Rectangle position: R at (1.5, 1.1, 2.5)
+ *
+ * Expected outcome: false
+ */
 test("it should prove that a rectangle above the tile of a hitmask does not intersect with it", () => {
   const hitmask = {
     position: [0, 0, 0],
     tileSize: [1, 1],
     columns: 4,
-    heights: [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0],
+    // The top row (indices 0, 1, 2, 3) now has the walls.
+    heights: [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   }
   const rectangle = {
     shape: "rectangle",
-    position: [2.5, 1, 1.5],
+    position: [1.5, 1.1, 2.5],
     size: [1, 1, 1],
   }
 
   expect(findCollisions(hitmask, rectangle)).toBe(false)
 })
 
+/**
+ * Given a rectangle located outside of the tilemap, this test proves
+ * no collision is detected.
+ *
+ * Tilemap layout:
+ * ⬛️🟩🟩⬛️
+ * ⬛️⬛️⬛️⬛️
+ * ⬛️⬛️⬛️⬛️
+ *
+ * Rectangle position: R at (5, 0, 1)
+ *
+ * Expected outcome: false
+ */
 test("it should prove that a rectangle outside of a hitmask does not intersect with it", () => {
   const hitmask = {
     position: [0, 0, 0],
     tileSize: [1, 1],
     columns: 4,
-    heights: [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0],
+    // The top row (indices 0, 1, 2, 3) now has the walls.
+    heights: [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   }
   const rectangle = {
     shape: "rectangle",

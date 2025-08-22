@@ -42,28 +42,11 @@ export function findCollision(entity, { api, collisionGroup = "hitbox" } = {}) {
 }
 
 export function collidesWith(entity, target, collisionGroup = "hitbox") {
-  const entityCollision = entity.collisions[collisionGroup]
-  const entityShape = {
-    ...entityCollision,
-    position: add(
-      entity.position,
-      entityCollision.offset ?? zero(),
-      entity.offset ?? zero(),
-    ),
-    size: entityCollision.size ?? entity.size,
-    radius: entityCollision.radius ?? entity.radius,
-  }
+  const entityShape = getCollisionShape(entity, collisionGroup)
+  const targetShape = getCollisionShape(target, collisionGroup)
 
-  const targetCollision = target.collisions[collisionGroup]
-  const targetShape = {
-    ...targetCollision,
-    position: add(
-      target.position,
-      targetCollision.offset ?? zero(),
-      target.offset ?? zero(),
-    ),
-    size: targetCollision.size ?? target.size,
-    radius: targetCollision.radius ?? target.radius,
+  if (!entityShape || !targetShape) {
+    return false
   }
 
   return shapeCollidesWith(entityShape, targetShape)
@@ -94,39 +77,41 @@ function shapeCollidesWith(entity, target) {
 }
 
 export function findCollisions(entity, target, collisionGroup = "hitbox") {
-  const entityCollision = entity.collisions[collisionGroup]
-  const entityShape = {
-    ...entityCollision,
-    position: add(
-      entity.position,
-      entityCollision.offset ?? zero(),
-      // entity.offset ?? zero(),
-    ),
-    size: entityCollision.size ?? entity.size,
-    radius: entityCollision.radius ?? entity.radius,
-    heights: flipUpsideDown(entityCollision.heights, entityCollision.columns),
+  const entityShape = getCollisionShape(entity, collisionGroup)
+  const targetShape = getCollisionShape(target, collisionGroup)
+
+  if (!entityShape || !targetShape) {
+    return false
   }
 
-  const targetCollision = target.collisions[collisionGroup]
-  const targetShape = {
-    ...targetCollision,
-    position: add(
-      target.position,
-      targetCollision.offset ?? zero(),
-      // target.offset ?? zero(),
-    ),
-    size: targetCollision.size ?? target.size,
-    radius: targetCollision.radius ?? target.radius,
+  const shapeFns = Shape[entityShape.shape]
+  if (!shapeFns || !shapeFns.findCollisions) {
+    return false
   }
 
-  const shapeFns = Shape[entityCollision.shape]
   return shapeFns.findCollisions(entityShape, targetShape)
 }
 
-export function flipUpsideDown(grid, columns) {
-  const rows = []
-  for (let i = 0; i < grid.length; i += columns) {
-    rows.push(grid.slice(i, i + columns))
+/**
+ * Correctly calculates the absolute position and size of an entity's
+ * collision shape, including any offsets.
+ */
+function getCollisionShape(entity, collisionGroup = "hitbox") {
+  const collision = entity.collisions[collisionGroup]
+  if (!collision) {
+    return null
   }
-  return rows.reverse().flat()
+
+  const position = add(
+    entity.position,
+    collision.offset ?? zero(),
+    entity.offset ?? zero(),
+  )
+
+  return {
+    ...collision,
+    position,
+    size: collision.size ?? entity.size,
+    radius: collision.radius ?? entity.radius,
+  }
 }

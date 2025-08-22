@@ -1,36 +1,51 @@
 // @see https://jonathanwhiting.com/tutorial/collision/
 
-const LOWER_BOUND = 0
-const TOP_TILE_OFFSET = 1 // Offset to include the top boundary tile
+import { intersectsRectangle } from "./rectangle"
+
+const FIRST_TILE = 0
+const LAST_ROW = 1
 
 export function findCollisions(hitmask, target) {
   const { position, tileSize, columns, heights } = hitmask
-  const [left, bottom, front] = position
-  const [tileWidth, tileHeight] = tileSize
+  const [tilemapX, tilemapY, tilemapZ] = position
+  const [tileWidth, tileDepth] = tileSize
   const rows = heights.length / columns
 
-  const [x, y, z] = target.position
-  const [width, height, depth] = target.size
+  const [playerX, , playerZ] = target.position
+  const [playerWidth, , playerDepth] = target.size
 
-  const leftTile = Math.floor((x - left) / tileWidth)
-  const rightTile = Math.floor((x - left + width) / tileWidth)
-  const bottomTile = Math.floor((z - front) / tileHeight)
-  const topTile = Math.floor((z - front + depth) / tileHeight)
+  const playerHitboxLeft = playerX
+  const playerHitboxRight = playerX + playerWidth
+  const playerHitboxBottom = playerZ
+  const playerHitboxTop = playerZ + playerDepth
 
-  if (
-    leftTile < LOWER_BOUND ||
-    rightTile > columns ||
-    bottomTile < LOWER_BOUND ||
-    topTile > rows
-  ) {
-    return false
-  }
+  const minTileX = Math.floor((playerHitboxLeft - tilemapX) / tileWidth)
+  const maxTileX = Math.floor((playerHitboxRight - tilemapX) / tileWidth)
+  const minTileZ = Math.floor((playerHitboxBottom - tilemapZ) / tileDepth)
+  const maxTileZ = Math.floor((playerHitboxTop - tilemapZ) / tileDepth)
 
-  for (let i = leftTile; i < rightTile; i++) {
-    for (let j = bottomTile; j <= topTile + TOP_TILE_OFFSET; j++) {
-      const heightAtTile = heights[i * columns + j]
-      if (y + height <= bottom + heightAtTile) {
-        return true
+  for (let i = minTileX; i <= maxTileX; i++) {
+    for (let j = minTileZ; j <= maxTileZ; j++) {
+      if (i < FIRST_TILE || i >= columns || j < FIRST_TILE || j >= rows) {
+        continue
+      }
+
+      const tileIndex = (rows - LAST_ROW - j) * columns + i
+      const tileHeightValue = heights[tileIndex]
+
+      if (tileHeightValue) {
+        const tileRectangle = {
+          position: [
+            tilemapX + i * tileWidth,
+            tilemapY,
+            tilemapZ + j * tileDepth,
+          ],
+          size: [tileWidth, tileHeightValue, tileDepth],
+        }
+
+        if (intersectsRectangle(target, tileRectangle)) {
+          return true
+        }
       }
     }
   }

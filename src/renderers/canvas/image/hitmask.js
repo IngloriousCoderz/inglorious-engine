@@ -26,7 +26,7 @@ export function renderHitmask(entity, ctx) {
     const hue = MAX_HUE - normalizedH * MAX_HUE
 
     const entity = {
-      offset: [-x, NO_Y, -z],
+      offset: [x, NO_Y, -z],
       size: [tileWidth, NO_Y, tileHeight],
       color: "transparent",
       backgroundColor: `hsla(${hue}, 100%, 50%, 0.2)`,

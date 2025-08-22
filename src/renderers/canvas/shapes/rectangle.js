@@ -20,10 +20,11 @@ export function renderRectangle(entity, ctx) {
   ctx.strokeStyle = color
   ctx.fillStyle = backgroundColor
 
-  ctx.translate(-x, -y - z)
+  const drawX = x
+  const drawY = -y - z - rectHeight
 
-  ctx.fillRect(0, -rectHeight, width, rectHeight)
-  ctx.strokeRect(0, -rectHeight, width, rectHeight)
+  ctx.fillRect(drawX, drawY, width, rectHeight)
+  ctx.strokeRect(drawX, drawY, width, rectHeight)
 
   ctx.restore()
 }
