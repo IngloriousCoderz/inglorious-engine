@@ -19,7 +19,7 @@ importers:
         version: 19.0.0(react@19.0.0)
       react-redux:
         specifier: ^9.2.0
-        version: 9.2.0(@types/react@18.2.21)(react@19.0.0)
+        version: 9.2.0(@types/react@18.2.21)(react@19.0.0)(redux@5.0.1)
     devDependencies:
       '@chromatic-com/storybook':
         specifier: ^4.1.0
@@ -171,8 +171,8 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
-  '@babel/runtime@7.22.11':
-    resolution: {integrity: sha512-ee7jVNlWN09+KftVOu9n7S8gQzD/Z6hN/I8VBRXW4P1+Xe7kJGXMwu8vds4aGIMHZnNbdpSWCfZZtinytpcAvA==}
+  '@babel/runtime@7.28.3':
+    resolution: {integrity: sha512-9uIQ10o0WGdpP6GDhXcdOJPJuDgFtIDtN/9+ArJQ2NAfAmiuhTQdzkaTGR33v43GYS2UrSA0eX2pPPHoFVvpxA==}
     engines: {node: '>=6.9.0'}
 
   '@babel/template@7.27.2':
@@ -2420,12 +2420,12 @@ packages:
     resolution: {integrity: sha512-6tDA8g98We0zd0GvVeMT9arEOnTw9qM03L9cJXaCjrip1OO764RDBLBfrB4cwzNGDj5OA5ioymC9GkizgWJDUg==}
     engines: {node: '>=8'}
 
+  redux@5.0.1:
+    resolution: {integrity: sha512-M9/ELqF6fy8FwmkpnF0S3YKOqMyoWJ4+CS5Efg2ct3oY9daQvd/Pc71FpGZsVsbl3Cpb+IIcjBDUnnyBdQbq4w==}
+
   reflect.getprototypeof@1.0.10:
     resolution: {integrity: sha512-00o4I+DVrefhv+nX0ulyi3biSHCPDe+yLv5o/p6d/UVlirijB8E16FtfwSAi4g3tcqrQ4lRAqQSoFEZJehYEcw==}
     engines: {node: '>= 0.4'}
-
-  regenerator-runtime@0.14.0:
-    resolution: {integrity: sha512-srw17NI0TUWHuGa5CFGGmhfNIeja30WMBfbslPNhf6JrqQlLN5gcrvig1oqPxiVaXb0oW0XRKtH6Nngs5lKCIA==}
 
   regexp.prototype.flags@1.5.0:
     resolution: {integrity: sha512-0SutC3pNudRKgquxGoRGIz946MZVHqbNfPjBdxeOhBrdgDKlRoXmYLQN9xRbrR09ZXWeGAdPuif7egofn6v5LA==}
@@ -3098,9 +3098,7 @@ snapshots:
       '@babel/core': 7.28.3
       '@babel/helper-plugin-utils': 7.27.1
 
-  '@babel/runtime@7.22.11':
-    dependencies:
-      regenerator-runtime: 0.14.0
+  '@babel/runtime@7.28.3': {}
 
   '@babel/template@7.27.2':
     dependencies:
@@ -3626,7 +3624,7 @@ snapshots:
   '@testing-library/dom@10.4.0':
     dependencies:
       '@babel/code-frame': 7.27.1
-      '@babel/runtime': 7.22.11
+      '@babel/runtime': 7.28.3
       '@types/aria-query': 5.0.1
       aria-query: 5.3.0
       chalk: 4.1.2
@@ -5391,13 +5389,14 @@ snapshots:
 
   react-is@18.2.0: {}
 
-  react-redux@9.2.0(@types/react@18.2.21)(react@19.0.0):
+  react-redux@9.2.0(@types/react@18.2.21)(react@19.0.0)(redux@5.0.1):
     dependencies:
       '@types/use-sync-external-store': 0.0.6
       react: 19.0.0
       use-sync-external-store: 1.4.0(react@19.0.0)
     optionalDependencies:
       '@types/react': 18.2.21
+      redux: 5.0.1
 
   react-refresh@0.17.0: {}
 
@@ -5422,6 +5421,9 @@ snapshots:
       indent-string: 4.0.0
       strip-indent: 3.0.0
 
+  redux@5.0.1:
+    optional: true
+
   reflect.getprototypeof@1.0.10:
     dependencies:
       call-bind: 1.0.8
@@ -5432,8 +5434,6 @@ snapshots:
       get-intrinsic: 1.3.0
       get-proto: 1.0.1
       which-builtin-type: 1.2.1
-
-  regenerator-runtime@0.14.0: {}
 
   regexp.prototype.flags@1.5.0:
     dependencies:

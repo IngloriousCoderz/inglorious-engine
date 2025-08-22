@@ -1,6 +1,7 @@
 import { extend } from "@inglorious/utils/data-structures/objects.js"
 
 import { createApi } from "./api.js"
+import { initDevTools, sendAction } from "./dev-tools.js"
 import Loop from "./loop.js"
 import { createStore } from "./store.js"
 
@@ -29,6 +30,10 @@ export class Engine {
     this._loop = new Loop[this._config.loop.type]()
     this._renderer = renderer
     this._api = createApi(this._store, this._config)
+
+    if (this._config.devMode) {
+      initDevTools(this._store)
+    }
   }
 
   /**
@@ -55,7 +60,14 @@ export class Engine {
    * @param {number} dt - Delta time since the last update in milliseconds.
    */
   update(dt) {
+    const eventsToProcess = this._store.getIncomingEvents()
+
     this._store.update(dt, this._api)
+
+    const state = this._store.getState()
+    for (const event of eventsToProcess) {
+      sendAction(event, state)
+    }
   }
 
   /**

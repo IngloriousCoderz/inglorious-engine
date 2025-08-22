@@ -38,22 +38,13 @@ export default {
           })
         },
 
-        // this event handler is needed for React
         entityClick(entity, id, api) {
           api.notify("remove", id)
         },
       },
     ],
 
-    character: [
-      { render: renderCharacter },
-      {
-        // this event handler is needed in React
-        entityClick(entity, id, api) {
-          api.notify("remove", id)
-        },
-      },
-    ],
+    character: [{ render: renderCharacter }],
   },
 
   entities: {

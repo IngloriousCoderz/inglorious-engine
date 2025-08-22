@@ -41,10 +41,12 @@ export function createStore({
     subscribe,
     update,
     notify,
-    dispatch, // needed for react-redux
+    dispatch, // needed for compatibility with Redux
     getTypes,
     getOriginalTypes,
     getState,
+    setState,
+    getIncomingEvents: () => [...incomingEvents],
   }
 
   /**
@@ -159,6 +161,10 @@ export function createStore({
    */
   function getState() {
     return state
+  }
+
+  function setState(newState) {
+    state = newState
   }
 
   function recomputeTypes() {

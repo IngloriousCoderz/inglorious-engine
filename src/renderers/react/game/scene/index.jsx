@@ -10,7 +10,9 @@ export default function Scene({ entities, children }) {
   const [, , width, height] = entities.game.bounds
 
   const ref = useRef()
-  const mouseHandlers = track(ref.current, { dispatch })
+  const mouseHandlers = track(ref.current, {
+    notify: (type, payload) => dispatch({ type, payload }),
+  })
 
   return (
     <div

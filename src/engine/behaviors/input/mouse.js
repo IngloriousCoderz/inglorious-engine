@@ -31,7 +31,7 @@ export function track(parent, options) {
   return { onMouseMove: handleMouseMove, onClick: handleClick }
 }
 
-function createHandler(type, parent, { notify, dispatch }) {
+function createHandler(type, parent, api) {
   return (event) => {
     event.stopPropagation()
 
@@ -45,8 +45,7 @@ function createHandler(type, parent, { notify, dispatch }) {
       parent,
     })
 
-    notify?.(type, payload)
-    dispatch?.({ type, payload })
+    api.notify(type, payload)
   }
 }
 

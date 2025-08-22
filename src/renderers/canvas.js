@@ -31,10 +31,7 @@ export function start(config, canvas) {
     }
   })
 
-  const { onMouseMove, onClick } = track(canvas, {
-    notify: engine._api.notify,
-    dispatch: engine._api.dispatch,
-  })
+  const { onMouseMove, onClick } = track(canvas, engine._api)
 
   canvas.addEventListener("mousemove", onMouseMove)
   canvas.addEventListener("click", onClick)

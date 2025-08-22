@@ -6,17 +6,17 @@ import { pi } from "@inglorious/utils/math/trigonometry.js"
 
 export default {
   types: {
-    mouse: [{ render: renderMouse }, mouse()],
-
-    character: [
-      { render: renderCharacter },
+    mouse: [
+      { render: renderMouse },
+      mouse(),
       {
-        // this event handler is needed in React
         entityClick(entity, id, api) {
           api.notify("remove", id)
         },
       },
     ],
+
+    character: [{ render: renderCharacter }],
   },
 
   entities: {
