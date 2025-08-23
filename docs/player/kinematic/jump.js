@@ -11,6 +11,7 @@ import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
 const Y = 1
 
 export default {
+  devMode: true,
   types: {
     ...controlsTypes(),
 
@@ -39,22 +40,22 @@ export default {
 
   entities: {
     ...controlsEntities("input0", {
-      ArrowUp: "up",
-      ArrowDown: "down",
-      ArrowLeft: "left",
-      ArrowRight: "right",
+      ArrowUp: "moveUp",
+      ArrowDown: "moveDown",
+      ArrowLeft: "moveLeft",
+      ArrowRight: "moveRight",
       Space: "jump",
-      KeyW: "up",
-      KeyS: "down",
-      KeyA: "left",
-      KeyD: "right",
-      Btn12: "up",
-      Btn13: "down",
-      Btn14: "left",
-      Btn15: "right",
+      KeyW: "moveUp",
+      KeyS: "moveDown",
+      KeyA: "moveLeft",
+      KeyD: "moveRight",
+      Btn12: "moveUp",
+      Btn13: "moveDown",
+      Btn14: "moveLeft",
+      Btn15: "moveRight",
       Btn0: "jump",
-      Axis0: "leftRight",
-      Axis1: "upDown",
+      Axis0: "moveLeftRight",
+      Axis1: "moveUpDown",
     }),
 
     stats: {
@@ -65,6 +66,7 @@ export default {
 
     character: {
       type: "character",
+      associatedInput: "input0",
       maxSpeed: 250,
       position: [400, 0, 300],
       maxJump: 100,

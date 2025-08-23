@@ -1,6 +1,7 @@
 import { renderTilemap } from "@inglorious/renderers/canvas/image/tilemap.js"
 
 export default {
+  devMode: true,
   types: {
     tilemap: [{ render: renderTilemap }],
   },

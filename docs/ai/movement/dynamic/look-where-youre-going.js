@@ -15,29 +15,56 @@ import { sum } from "@inglorious/utils/math/linear-algebra/vectors.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
 export default {
+  devMode: true,
   types: {
     ...controlsTypes(),
 
     character: [
       { render: renderCharacter },
       {
+        moveLeft(entity, { id }) {
+          if (id === entity.associatedInput) entity.movement.left = true
+        },
+        moveLeftEnd(entity, { id }) {
+          if (id === entity.associatedInput) entity.movement.left = false
+        },
+        moveRight(entity, { id }) {
+          if (id === entity.associatedInput) entity.movement.right = true
+        },
+        moveRightEnd(entity, { id }) {
+          if (id === entity.associatedInput) entity.movement.right = false
+        },
+        moveUp(entity, { id }) {
+          if (id === entity.associatedInput) entity.movement.up = true
+        },
+        moveUpEnd(entity, { id }) {
+          if (id === entity.associatedInput) entity.movement.up = false
+        },
+        moveDown(entity, { id }) {
+          if (id === entity.associatedInput) entity.movement.down = true
+        },
+        moveDownEnd(entity, { id }) {
+          if (id === entity.associatedInput) entity.movement.down = false
+        },
+
         update(entity, dt, api) {
-          const input0 = api.getEntity("input0")
           const parameters = api.getEntity("parameters")
           const game = api.getEntity("game")
           const { fields } = parameters.groups.lookWhereYoureGoing
 
+          entity.movement ??= {}
           const target = { velocity: [0, 0, 0] }
-          if (input0.left) {
+
+          if (entity.movement.left) {
             target.velocity[0] = -1
           }
-          if (input0.down) {
+          if (entity.movement.down) {
             target.velocity[2] = -1
           }
-          if (input0.right) {
+          if (entity.movement.right) {
             target.velocity[0] = 1
           }
-          if (input0.up) {
+          if (entity.movement.up) {
             target.velocity[2] = 1
           }
 
@@ -69,14 +96,15 @@ export default {
 
   entities: {
     ...controlsEntities("input0", {
-      ArrowLeft: "left",
-      ArrowRight: "right",
-      ArrowDown: "down",
-      ArrowUp: "up",
+      ArrowLeft: "moveLeft",
+      ArrowRight: "moveRight",
+      ArrowDown: "moveDown",
+      ArrowUp: "moveUp",
     }),
 
     character: {
       type: "character",
+      associatedInput: "input0",
       maxAngularAcceleration: 1000,
       maxAngularSpeed: pi() / 4,
       position: [400, 0, 300],

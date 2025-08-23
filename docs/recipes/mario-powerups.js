@@ -19,6 +19,7 @@ const BASE_MARIO_BEHAVIORS = [
 ]
 
 export default {
+  devMode: true,
   types: {
     ...controlsTypes(),
 
@@ -39,16 +40,24 @@ export default {
 
   entities: {
     ...controlsEntities("input0", {
-      ArrowLeft: "left",
-      ArrowRight: "right",
+      ArrowLeft: "moveLeft",
+      ArrowRight: "moveRight",
       Space: "jump",
-      KeyB: "break",
-      KeyS: "shoot",
       KeyF: "float",
+      KeyS: "shoot",
+      KeyB: "break",
+      Btn0: "jump",
+      Btn1: "float",
+      Btn2: "shoot",
+      Btn3: "break",
+      Btn14: "moveLeft",
+      Btn15: "moveRight",
+      Axis0: "moveLeftRight",
     }),
 
     mario: {
       type: "mario",
+      associatedInput: "input0",
       layer: 1,
       position: [100, 32, 0],
       size: [32, 32, 0],
@@ -243,10 +252,9 @@ function baseMario() {
 function superMario() {
   return (type) =>
     extend(type, {
-      inputPress(entity, { id, action }) {
-        type.inputPress?.(entity, { id, action })
-        if (id.endsWith("input0") && action === "break") {
-          console.log("Break!")
+      break(entity, { id }) {
+        if (id === entity.associatedInput) {
+          console.log("Breaking!")
         }
       },
 
@@ -261,10 +269,9 @@ function superMario() {
 function fireMario() {
   return (type) =>
     extend(type, {
-      inputPress(entity, { id, action }) {
-        type.inputPress?.(entity, { id, action })
-        if (id.endsWith("input0") && action === "shoot") {
-          console.log("Shoot!")
+      shoot(entity, { id }) {
+        if (id === entity.associatedInput) {
+          console.log("Shooting!")
         }
       },
 
@@ -279,11 +286,9 @@ function fireMario() {
 function capeMario() {
   return (type) =>
     extend(type, {
-      inputPress(entity, { id, action }) {
-        type.inputPress?.(entity, { id, action })
-
-        if (id.endsWith("input0") && action === "float") {
-          console.log("Float!")
+      float(entity, { id }) {
+        if (id === entity.associatedInput) {
+          console.log("Floating!")
         }
       },
 

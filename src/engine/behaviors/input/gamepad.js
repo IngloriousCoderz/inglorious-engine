@@ -26,36 +26,36 @@ export function gamepad() {
     },
 
     gamepadAxis(entity, { id, axis, value }, api) {
-      if (entity.id !== `gamepad${id}`) {
+      if (entity.id !== `gamepad_input${id}`) {
         return
       }
 
       const action = entity.mapping[axis]
       entity[action] = value
-      api.notify("inputAxis", { id, action, value })
+      api.notify("inputAxis", { id: entity.id, action, value })
     },
 
     gamepadPress(entity, { id, button }, api) {
-      if (entity.id !== `gamepad${id}`) {
+      if (entity.id !== `gamepad_input${id}`) {
         return
       }
 
       const action = entity.mapping[button]
       if (!entity[action]) {
         entity[action] = true
-        api.notify("inputPress", { id, action })
+        api.notify("inputPress", { id: entity.id, action })
       }
     },
 
     gamepadRelease(entity, { id, button }, api) {
-      if (entity.id !== `gamepad${id}`) {
+      if (entity.id !== `gamepad_input${id}`) {
         return
       }
 
       const action = entity.mapping[button]
       if (entity[action]) {
         entity[action] = false
-        api.notify("inputRelease", { id, action })
+        api.notify("inputRelease", { id: entity.id, action })
       }
     },
   }

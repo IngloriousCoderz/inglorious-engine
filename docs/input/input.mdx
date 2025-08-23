@@ -2,8 +2,6 @@ import { Canvas, Meta, Source } from '@storybook/addon-docs/blocks'
 import * as Input from './input.stories'
 
 import mouse from "./mouse?raw"
-import keyboard from "./keyboard?raw"
-import gamepad from "./gamepad?raw"
 import controls from "./controls?raw"
 
 <Meta of={Input} />
@@ -22,33 +20,13 @@ You can get a reference to any entity in the scene by invoking the `api.getEntit
 
 <Canvas of={Input.Mouse} />
 
-## Keyboard
+## Keyboard and Gamepad
 
-Using the keyboard is very similar, but we also need to specify an id for the input and some mapping configuration. This way we can create multiple mappings that can work at the same time!
+The recommended way to handle input from keyboards and gamepads is by using the unified `controls` behaviors.
 
-Also, please note how we are using some predefined functions to achieve our goal:
+The `controlsTypes()` and `controlsEntities()` functions allow you to define input mappings that work for both keyboards and gamepads simultaneously, abstracting away the device-specific details. This makes your game's control logic cleaner and more flexible.
 
-- `zero()` returns a vector with the three coordinates set to zero;
-- `move()` calculates orientation, position, and velocity;
-- `merge()` applies those calculations to the entity.
-
-<Source dark code={keyboard} />
-
-<Canvas of={Input.Keyboard} />
-
-## Gamepad
-
-If you plug a gamepad, there's a high chance that the engine will recognize it and you will be able to control your character with the D-pad or the left axis.
-
-<Source dark code={gamepad} />
-
-<Canvas of={Input.Gamepad} />
-
-## Controls
-
-Want to make both keyboard and gamepad work? Use the `controlsTypes()` and `controlsEntities()` functions then!
-
-You'll probably always want to use these two instead of dealing with keyboards and gamepads separately, but who am I to judge?
+If you plug in a gamepad, there's a high chance that the engine will recognize it and you will be able to control your character with the D-pad or the left axis, using the same mapping.
 
 <Source dark code={controls} />
 

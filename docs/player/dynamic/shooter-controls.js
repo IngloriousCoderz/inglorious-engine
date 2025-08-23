@@ -10,6 +10,7 @@ import { renderMouse } from "@inglorious/renderers/canvas/mouse.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
 export default {
+  devMode: true,
   types: {
     mouse: [{ render: renderMouse }, mouse()],
 
@@ -25,18 +26,26 @@ export default {
     },
 
     ...controlsEntities("input0", {
-      ArrowUp: "up",
-      ArrowDown: "down",
-      ArrowLeft: "left",
-      ArrowRight: "right",
-      KeyW: "up",
-      KeyS: "down",
-      KeyA: "left",
-      KeyD: "right",
+      ArrowUp: "moveUp",
+      ArrowDown: "moveDown",
+      ArrowLeft: "moveLeft",
+      ArrowRight: "moveRight",
+      KeyW: "moveUp",
+      KeyS: "moveDown",
+      KeyA: "moveLeft",
+      KeyD: "moveRight",
+      Btn12: "moveUp",
+      Btn13: "moveDown",
+      Btn14: "moveLeft",
+      Btn15: "moveRight",
+      Axis0: "strafe",
+      Axis1: "move",
+      Axis2: "turn",
     }),
 
     character: {
       type: "character",
+      associatedInput: "input0",
       maxAngularAcceleration: 1000,
       maxAngularSpeed: 2 * pi(),
       maxAcceleration: 500,

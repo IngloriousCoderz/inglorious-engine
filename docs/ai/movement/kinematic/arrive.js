@@ -10,6 +10,7 @@ import { renderMouse } from "@inglorious/renderers/canvas/mouse.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 
 export default {
+  devMode: true,
   types: {
     mouse: [{ render: renderMouse }, mouse()],
 

@@ -3,6 +3,7 @@ import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
 import { renderMouse } from "@inglorious/renderers/canvas/mouse.js"
 
 export default {
+  devMode: true,
   types: {
     mouse: [{ render: renderMouse }, mouse()],
 

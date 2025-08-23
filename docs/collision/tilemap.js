@@ -1,4 +1,5 @@
 import { Sprite } from "@inglorious/engine/animation/sprite.js"
+import { modernVelocity } from "@inglorious/engine/behaviors/controls/kinematic/modern.js"
 import { collisionGizmos } from "@inglorious/engine/behaviors/debug/collision.js"
 import {
   controlsEntities,
@@ -8,12 +9,12 @@ import { findCollisions } from "@inglorious/engine/collision/detection.js"
 import { renderSprite } from "@inglorious/renderers/canvas/image/sprite.js"
 import { renderTilemap } from "@inglorious/renderers/canvas/image/tilemap.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
-import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 
 const X = 0
 const Z = 2
 
 export default {
+  devMode: true,
   types: {
     ...controlsTypes(),
 
@@ -22,59 +23,9 @@ export default {
     player: [
       { render: renderSprite },
       collisionGizmos(),
-      // modernControls(),
-      (type) =>
-        extend(type, {
-          update(entity, dt, api) {
-            type.update?.(entity, dt, api)
-
-            const dungeon = api.getEntity("dungeon")
-            const input0 = api.getEntity("input0")
-
-            const { maxSpeed } = entity
-
-            const animation = Sprite.move2(entity)
-            Sprite.play(animation, { entity, dt, notify: api.notify })
-
-            entity.velocity = zero()
-
-            if (input0.left) {
-              entity.velocity[X] = -maxSpeed
-            }
-            if (input0.right) {
-              entity.velocity[X] = maxSpeed
-            }
-            if (input0.leftRight != null) {
-              entity.velocity[X] += input0.leftRight * maxSpeed
-            }
-
-            if (input0.down) {
-              entity.velocity[Z] = -maxSpeed
-            }
-            if (input0.up) {
-              entity.velocity[Z] = maxSpeed
-            }
-            if (input0.upDown != null) {
-              entity.velocity[Z] += -input0.upDown * maxSpeed
-            }
-
-            // Check for collision on the X-axis
-            const newPositionX = [...entity.position]
-            newPositionX[X] += entity.velocity[X] * dt
-            const tempEntityX = { ...entity, position: newPositionX }
-            if (!findCollisions(dungeon, tempEntityX)) {
-              entity.position[X] = newPositionX[X]
-            }
-
-            // Check for collision on the Z-axis
-            const newPositionZ = [...entity.position]
-            newPositionZ[Z] += entity.velocity[Z] * dt
-            const tempEntityZ = { ...entity, position: newPositionZ }
-            if (!findCollisions(dungeon, tempEntityZ)) {
-              entity.position[Z] = newPositionZ[Z]
-            }
-          },
-        }),
+      modernVelocity(),
+      tilemapCollider,
+      animated,
     ],
   },
 
@@ -84,10 +35,12 @@ export default {
     },
 
     ...controlsEntities("input0", {
-      ArrowLeft: "left",
-      ArrowRight: "right",
-      ArrowDown: "down",
-      ArrowUp: "up",
+      ArrowLeft: "moveLeft",
+      ArrowRight: "moveRight",
+      ArrowDown: "moveDown",
+      ArrowUp: "moveUp",
+      Axis0: "moveLeftRight",
+      Axis1: "moveUpDown",
     }),
 
     dungeon: {
@@ -156,6 +109,7 @@ export default {
 
     player: {
       type: "player",
+      associatedInput: "input0",
       position: [400 - 48, 1, 300 - 48 / 2],
       maxSpeed: 250,
       sprite: {
@@ -181,4 +135,41 @@ export default {
       },
     },
   },
+}
+
+function tilemapCollider(type) {
+  return extend(type, {
+    update(entity, dt, api) {
+      type.update?.(entity, dt, api)
+
+      const dungeon = api.getEntity("dungeon")
+
+      // Check for collision on the X-axis
+      const newPositionX = [...entity.position]
+      newPositionX[X] += entity.velocity[X] * dt
+      const tempEntityX = { ...entity, position: newPositionX }
+      if (!findCollisions(dungeon, tempEntityX)) {
+        entity.position[X] = newPositionX[X]
+      }
+
+      // Check for collision on the Z-axis
+      const newPositionZ = [...entity.position]
+      newPositionZ[Z] += entity.velocity[Z] * dt
+      const tempEntityZ = { ...entity, position: newPositionZ }
+      if (!findCollisions(dungeon, tempEntityZ)) {
+        entity.position[Z] = newPositionZ[Z]
+      }
+    },
+  })
+}
+
+function animated(type) {
+  return extend(type, {
+    update(entity, dt, api) {
+      type.update?.(entity, dt, api)
+
+      const animation = Sprite.move2(entity)
+      Sprite.play(animation, { entity, dt, notify: api.notify })
+    },
+  })
 }

@@ -17,6 +17,7 @@ import { clamp } from "@inglorious/utils/math/numbers.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
 export default {
+  devMode: true,
   types: {
     mouse: [
       { render: renderMouse },
@@ -27,14 +28,27 @@ export default {
             entity.orientation = -value * pi()
           }
         },
-
-        update(entity, dt, api) {
-          const input0 = api.getEntity("input0")
-
-          if (input0.left || input0.up) {
-            entity.orientation += 0.1
-          } else if (input0.right || input0.down) {
-            entity.orientation -= 0.1
+        turnLeft(entity, { id }) {
+          if (id !== entity.associatedInput) return
+          entity.turningLeft = true
+        },
+        turnLeftEnd(entity, { id }) {
+          if (id !== entity.associatedInput) return
+          entity.turningLeft = false
+        },
+        turnRight(entity, { id }) {
+          if (id !== entity.associatedInput) return
+          entity.turningRight = true
+        },
+        turnRightEnd(entity, { id }) {
+          if (id !== entity.associatedInput) return
+          entity.turningRight = false
+        },
+        update(entity, dt) {
+          if (entity.turningLeft) {
+            entity.orientation += 5 * dt
+          } else if (entity.turningRight) {
+            entity.orientation -= 5 * dt
           }
           entity.orientation = clamp(entity.orientation, -pi(), pi())
         },
@@ -76,15 +90,16 @@ export default {
   entities: {
     mouse: {
       type: "mouse",
+      associatedInput: "input0",
       position: [400, 0, 300],
       orientation: 0,
     },
 
     ...controlsEntities("input0", {
-      ArrowLeft: "left",
-      ArrowRight: "right",
-      ArrowDown: "down",
-      ArrowUp: "up",
+      ArrowLeft: "turnLeft",
+      ArrowRight: "turnRight",
+      ArrowDown: "turnRight",
+      ArrowUp: "turnLeft",
     }),
 
     character: {

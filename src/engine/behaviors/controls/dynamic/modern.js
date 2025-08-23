@@ -2,6 +2,8 @@ import { modernMove } from "@inglorious/engine/movement/dynamic/modern.js"
 import { extend, merge } from "@inglorious/utils/data-structures/objects.js"
 import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 
+import { createMovementEventHandlers } from "../event-handlers.js"
+
 const DEFAULT_PARAMS = {
   maxAcceleration: 500,
 }
@@ -13,33 +15,41 @@ export function modernControls(params) {
 
   return (type) =>
     extend(type, {
+      ...createMovementEventHandlers([
+        "moveLeft",
+        "moveRight",
+        "moveUp",
+        "moveDown",
+        "moveLeftRight",
+        "moveUpDown",
+      ]),
+
       update(entity, dt, api) {
         type.update?.(entity, dt, api)
 
         const maxAcceleration = entity.maxAcceleration ?? params.maxAcceleration
 
-        const input0 = api.getEntity("input0")
-
+        const { movement = {} } = entity
         entity.acceleration = zero()
 
-        if (input0.left) {
+        if (movement.moveLeft) {
           entity.acceleration[X] = -maxAcceleration
         }
-        if (input0.right) {
+        if (movement.moveRight) {
           entity.acceleration[X] = maxAcceleration
         }
-        if (input0.down) {
-          entity.acceleration[Z] = -maxAcceleration
-        }
-        if (input0.up) {
+        if (movement.moveUp) {
           entity.acceleration[Z] = maxAcceleration
         }
-
-        if (input0.leftRight != null) {
-          entity.acceleration[X] += input0.leftRight * maxAcceleration
+        if (movement.moveDown) {
+          entity.acceleration[Z] = -maxAcceleration
         }
-        if (input0.upDown != null) {
-          entity.acceleration[Z] += -input0.upDown * maxAcceleration
+
+        if (movement.moveLeftRight) {
+          entity.acceleration[X] += movement.moveLeftRight * maxAcceleration
+        }
+        if (movement.moveUpDown) {
+          entity.acceleration[Z] += -movement.moveUpDown * maxAcceleration
         }
 
         merge(entity, modernMove(entity, dt))

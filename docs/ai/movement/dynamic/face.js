@@ -12,6 +12,7 @@ import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
 export default {
+  devMode: true,
   types: {
     mouse: [{ render: renderMouse }, mouse()],
 

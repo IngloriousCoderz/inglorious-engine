@@ -1,7 +1,5 @@
 import RendererChooser from "../renderer-chooser.jsx"
 import controls from "./controls.js"
-import gamepad from "./gamepad.js"
-import keyboard from "./keyboard.js"
 import mouse from "./mouse.js"
 
 export default {
@@ -11,14 +9,6 @@ export default {
 
 export const Mouse = {
   args: { config: mouse },
-}
-
-export const Keyboard = {
-  args: { config: keyboard },
-}
-
-export const Gamepad = {
-  args: { config: gamepad },
 }
 
 export const Controls = {

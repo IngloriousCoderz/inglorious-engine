@@ -1,6 +1,7 @@
 const X = 0
 
 export default {
+  devMode: true,
   types: {
     character: {
       render(entity, ctx) {

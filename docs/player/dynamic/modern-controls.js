@@ -7,6 +7,7 @@ import {
 import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
 
 export default {
+  devMode: true,
   types: {
     ...controlsTypes(),
 
@@ -17,22 +18,20 @@ export default {
 
   entities: {
     ...controlsEntities("input0", {
-      ArrowUp: "up",
-      ArrowDown: "down",
-      ArrowLeft: "left",
-      ArrowRight: "right",
-      Space: "jump",
-      KeyW: "up",
-      KeyS: "down",
-      KeyA: "left",
-      KeyD: "right",
-      Btn12: "up",
-      Btn13: "down",
-      Btn14: "left",
-      Btn15: "right",
-      Btn0: "jump",
-      Axis0: "leftRight",
-      Axis1: "upDown",
+      ArrowUp: "moveUp",
+      ArrowDown: "moveDown",
+      ArrowLeft: "moveLeft",
+      ArrowRight: "moveRight",
+      KeyW: "moveUp",
+      KeyS: "moveDown",
+      KeyA: "moveLeft",
+      KeyD: "moveRight",
+      Btn12: "moveUp",
+      Btn13: "moveDown",
+      Btn14: "moveLeft",
+      Btn15: "moveRight",
+      Axis0: "moveLeftRight",
+      Axis1: "moveUpDown",
     }),
 
     stats: {
@@ -43,6 +42,7 @@ export default {
 
     character: {
       type: "character",
+      associatedInput: "input0",
       maxAcceleration: 500,
       friction: 250,
       position: [400, 0, 300],

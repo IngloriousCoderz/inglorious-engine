@@ -3,6 +3,7 @@ import { button } from "@inglorious/engine/behaviors/ui/button.js"
 import { renderMouse } from "@inglorious/renderers/canvas/mouse.js"
 
 export default {
+  devMode: true,
   types: {
     mouse: [{ render: renderMouse }, mouse()],
 

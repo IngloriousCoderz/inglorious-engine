@@ -72,6 +72,7 @@ const nextState = {
 }
 
 export default {
+  devMode: true,
   types: {
     mouse: [{ render: renderMouse }, mouse()],
 

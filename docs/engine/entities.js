@@ -1,4 +1,5 @@
 export default {
+  devMode: true,
   types: {
     character: {
       render(entity, ctx) {

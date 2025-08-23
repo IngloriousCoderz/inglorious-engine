@@ -2,6 +2,8 @@ import { tankMove } from "@inglorious/engine/movement/dynamic/tank.js"
 import { extend, merge } from "@inglorious/utils/data-structures/objects.js"
 import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 
+import { createMovementEventHandlers } from "../event-handlers.js"
+
 const DEFAULT_PARAMS = {
   maxAngularSpeed: 10,
   maxAcceleration: 500,
@@ -15,38 +17,47 @@ export function tankControls(params) {
 
   return (type) =>
     extend(type, {
-      update(entity, dt, api) {
-        const input0 = api.getEntity("input0")
+      ...createMovementEventHandlers([
+        "turnLeft",
+        "turnRight",
+        "moveForward",
+        "moveBackward",
+        "strafe",
+        "move",
+        "turn",
+      ]),
 
+      update(entity, dt) {
         entity.maxAngularSpeed =
           entity.maxAngularSpeed ?? params.maxAngularSpeed
         entity.maxAcceleration =
           entity.maxAcceleration ?? params.maxAcceleration
         entity.maxSpeed = entity.maxSpeed ?? params.maxSpeed
 
+        const { movement = {} } = entity
         entity.acceleration = zero()
 
-        if (input0.left) {
+        if (movement.turnLeft) {
           entity.orientation += 0.1
         }
-        if (input0.down) {
-          entity.acceleration[X] = -entity.maxAcceleration
-        }
-        if (input0.right) {
+        if (movement.turnRight) {
           entity.orientation -= 0.1
         }
-        if (input0.up) {
+        if (movement.moveForward) {
           entity.acceleration[X] = entity.maxAcceleration
         }
+        if (movement.moveBackward) {
+          entity.acceleration[X] = -entity.maxAcceleration
+        }
 
-        if (input0.leftRight != null) {
-          entity.orientation += -input0.leftRight * entity.maxAngularSpeed * dt
+        if (movement.strafe != null) {
+          entity.acceleration[Z] += movement.strafe * entity.maxAcceleration
         }
-        if (input0.upDown != null) {
-          entity.acceleration[X] += -input0.upDown * entity.maxAcceleration
+        if (movement.move) {
+          entity.acceleration[X] += -movement.move * entity.maxAcceleration
         }
-        if (input0.strafe != null) {
-          entity.acceleration[Z] += input0.strafe * entity.maxAcceleration
+        if (movement.turn) {
+          entity.orientation += -movement.turn * entity.maxAngularSpeed * dt
         }
 
         merge(entity, tankMove(entity, dt))

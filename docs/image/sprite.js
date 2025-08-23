@@ -2,6 +2,7 @@ import { Sprite } from "@inglorious/engine/animation/sprite.js"
 import { renderSprite } from "@inglorious/renderers/canvas/image/sprite.js"
 
 export default {
+  devMode: true,
   types: {
     cat: [
       { render: renderSprite },

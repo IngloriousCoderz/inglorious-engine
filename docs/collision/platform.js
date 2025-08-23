@@ -9,6 +9,7 @@ import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
 import { renderRectangle } from "@inglorious/renderers/canvas/shapes/rectangle.js"
 
 export default {
+  devMode: true,
   types: {
     ...controlsTypes(),
 
@@ -24,15 +25,15 @@ export default {
 
   entities: {
     ...controlsEntities("input0", {
-      ArrowLeft: "left",
-      ArrowRight: "right",
+      ArrowLeft: "moveLeft",
+      ArrowRight: "moveRight",
       Space: "jump",
-      KeyA: "left",
-      KeyD: "right",
+      KeyA: "moveLeft",
+      KeyD: "moveRight",
       Btn0: "jump",
-      Btn14: "left",
-      Btn15: "right",
-      Axis0: "leftRight",
+      Btn14: "moveLeft",
+      Btn15: "moveRight",
+      Axis0: "moveLeftRight",
     }),
 
     ground: {
@@ -61,6 +62,7 @@ export default {
 
     character: {
       type: "character",
+      associatedInput: "input0",
       layer: 1,
       position: [200, 76, 0],
       collisions: {

@@ -1,6 +1,7 @@
 import { renderImage } from "@inglorious/renderers/canvas/image/image.js"
 
 export default {
+  devMode: true,
   types: {
     image: [{ render: renderImage }],
   },

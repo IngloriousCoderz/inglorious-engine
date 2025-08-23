@@ -7,6 +7,7 @@ import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
 export default {
+  devMode: true,
   loop: { type: "fixed", fps: 10 },
 
   types: {
