@@ -5,7 +5,7 @@ import {
 } from "@inglorious/engine/ai/movement/kinematic/align.js"
 import {
   controlsEntities,
-  controlsTypes,
+  setupControls,
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { mouse } from "@inglorious/engine/behaviors/input/mouse.js"
 import { clampToBounds } from "@inglorious/engine/physics/bounds.js"
@@ -15,9 +15,12 @@ import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { clamp } from "@inglorious/utils/math/numbers.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
+const controls = setupControls()
+
 export default {
   devMode: true,
   types: {
+    ...controls.types,
     mouse: [
       { render: renderMouse },
       mouse(),
@@ -54,8 +57,6 @@ export default {
       },
     ],
 
-    ...controlsTypes(),
-
     character: [
       { render: renderCharacter },
       {
@@ -86,6 +87,7 @@ export default {
   },
 
   entities: {
+    ...controls.entities,
     mouse: {
       type: "mouse",
       associatedInput: "input0",

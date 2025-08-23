@@ -3,17 +3,19 @@ import { modernControls } from "@inglorious/engine/behaviors/controls/dynamic/mo
 import { fsm } from "@inglorious/engine/behaviors/fsm.js"
 import {
   controlsEntities,
-  controlsTypes,
+  setupControls,
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { jumpable } from "@inglorious/engine/behaviors/jumpable.js"
 import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
 
 const Y = 1
 
+const controls = setupControls()
+
 export default {
   devMode: true,
   types: {
-    ...controlsTypes(),
+    ...controls.types,
 
     stats: {},
 
@@ -39,6 +41,7 @@ export default {
   },
 
   entities: {
+    ...controls.entities,
     ...controlsEntities("input0", {
       ArrowUp: "moveUp",
       ArrowDown: "moveDown",

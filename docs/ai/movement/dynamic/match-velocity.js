@@ -4,16 +4,18 @@ import {
 } from "@inglorious/engine/ai/movement/dynamic/match-velocity.js"
 import {
   controlsEntities,
-  controlsTypes,
+  setupControls,
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { clampToBounds } from "@inglorious/engine/physics/bounds.js"
 import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 
+const controls = setupControls()
+
 export default {
   devMode: true,
   types: {
-    ...controlsTypes(),
+    ...controls.types,
 
     character: [
       { render: renderCharacter },
@@ -85,6 +87,7 @@ export default {
   },
 
   entities: {
+    ...controls.entities,
     ...controlsEntities("input0", {
       ArrowLeft: "moveLeft",
       ArrowRight: "moveRight",

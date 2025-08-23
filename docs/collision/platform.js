@@ -2,16 +2,18 @@ import { clamped } from "@inglorious/engine/behaviors/clamped.js"
 import { modernControls } from "@inglorious/engine/behaviors/controls/kinematic/modern.js"
 import {
   controlsEntities,
-  controlsTypes,
+  setupControls,
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { jumpable } from "@inglorious/engine/behaviors/jumpable.js"
 import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
 import { renderRectangle } from "@inglorious/renderers/canvas/shapes/rectangle.js"
 
+const controls = setupControls()
+
 export default {
   devMode: true,
   types: {
-    ...controlsTypes(),
+    ...controls.types,
 
     platform: [{ render: renderRectangle }],
 
@@ -24,6 +26,7 @@ export default {
   },
 
   entities: {
+    ...controls.entities,
     ...controlsEntities("input0", {
       ArrowLeft: "moveLeft",
       ArrowRight: "moveRight",

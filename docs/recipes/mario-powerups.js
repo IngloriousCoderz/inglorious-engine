@@ -3,7 +3,7 @@ import { clamped } from "@inglorious/engine/behaviors/clamped.js"
 import { modernControls } from "@inglorious/engine/behaviors/controls/kinematic/modern.js"
 import {
   controlsEntities,
-  controlsTypes,
+  setupControls,
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { jumpable } from "@inglorious/engine/behaviors/jumpable.js"
 import { findCollision } from "@inglorious/engine/collision/detection.js"
@@ -17,11 +17,12 @@ const BASE_MARIO_BEHAVIORS = [
   jumpable(),
   defaultMario(),
 ]
+const controls = setupControls()
 
 export default {
   devMode: true,
   types: {
-    ...controlsTypes(),
+    ...controls.types,
 
     mario: [...BASE_MARIO_BEHAVIORS, baseMario()],
 
@@ -39,6 +40,7 @@ export default {
   },
 
   entities: {
+    ...controls.entities,
     ...controlsEntities("input0", {
       ArrowLeft: "moveLeft",
       ArrowRight: "moveRight",

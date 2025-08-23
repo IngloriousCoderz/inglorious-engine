@@ -6,7 +6,7 @@ import {
 import { lookWhereYoureGoing } from "@inglorious/engine/ai/movement/dynamic/look-where-youre-going.js"
 import {
   controlsEntities,
-  controlsTypes,
+  setupControls,
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { clampToBounds } from "@inglorious/engine/physics/bounds.js"
 import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
@@ -14,10 +14,12 @@ import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { sum } from "@inglorious/utils/math/linear-algebra/vectors.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
+const controls = setupControls()
+
 export default {
   devMode: true,
   types: {
-    ...controlsTypes(),
+    ...controls.types,
 
     character: [
       { render: renderCharacter },
@@ -95,6 +97,7 @@ export default {
   },
 
   entities: {
+    ...controls.entities,
     ...controlsEntities("input0", {
       ArrowLeft: "moveLeft",
       ArrowRight: "moveRight",

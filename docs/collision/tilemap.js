@@ -3,7 +3,7 @@ import { modernVelocity } from "@inglorious/engine/behaviors/controls/kinematic/
 import { collisionGizmos } from "@inglorious/engine/behaviors/debug/collision.js"
 import {
   controlsEntities,
-  controlsTypes,
+  setupControls,
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { findCollisions } from "@inglorious/engine/collision/detection.js"
 import { renderSprite } from "@inglorious/renderers/canvas/image/sprite.js"
@@ -13,10 +13,12 @@ import { extend } from "@inglorious/utils/data-structures/objects.js"
 const X = 0
 const Z = 2
 
+const controls = setupControls()
+
 export default {
   devMode: true,
   types: {
-    ...controlsTypes(),
+    ...controls.types,
 
     tilemap: [{ render: renderTilemap }, collisionGizmos()],
 
@@ -34,6 +36,7 @@ export default {
       pixelated: true,
     },
 
+    ...controls.entities,
     ...controlsEntities("input0", {
       ArrowLeft: "moveLeft",
       ArrowRight: "moveRight",

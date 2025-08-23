@@ -24,6 +24,10 @@ export function keyboard() {
 
     keyboardKeyDown(entity, keyCode, api) {
       const action = entity.mapping[keyCode]
+      if (!action) {
+        return
+      }
+
       if (!entity[action]) {
         entity[action] = true
         api.notify("inputPress", { id: entity.id, action })
@@ -32,6 +36,10 @@ export function keyboard() {
 
     keyboardKeyUp(entity, keyCode, api) {
       const action = entity.mapping[keyCode]
+      if (!action) {
+        return
+      }
+
       if (entity[action]) {
         entity[action] = false
         api.notify("inputRelease", { id: entity.id, action })

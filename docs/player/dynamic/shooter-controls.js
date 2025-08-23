@@ -2,19 +2,20 @@ import { clamped } from "@inglorious/engine/behaviors/clamped.js"
 import { shooterControls } from "@inglorious/engine/behaviors/controls/dynamic/shooter.js"
 import {
   controlsEntities,
-  controlsTypes,
+  setupControls,
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { mouse } from "@inglorious/engine/behaviors/input/mouse.js"
 import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
 import { renderMouse } from "@inglorious/renderers/canvas/mouse.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
+const controls = setupControls()
+
 export default {
   devMode: true,
   types: {
+    ...controls.types,
     mouse: [{ render: renderMouse }, mouse()],
-
-    ...controlsTypes(),
 
     character: [{ render: renderCharacter }, shooterControls(), clamped()],
   },
@@ -25,6 +26,7 @@ export default {
       position: [400, 0, 300],
     },
 
+    ...controls.entities,
     ...controlsEntities("input0", {
       ArrowUp: "moveUp",
       ArrowDown: "moveDown",

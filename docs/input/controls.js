@@ -1,19 +1,22 @@
 import { modernControls } from "@inglorious/engine/behaviors/controls/kinematic/modern.js"
 import {
   controlsEntities,
-  controlsTypes,
+  setupControls,
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
+
+const controls = setupControls()
 
 export default {
   devMode: true,
   types: {
-    ...controlsTypes(),
+    ...controls.types,
 
     character: [{ render: renderCharacter }, modernControls()],
   },
 
   entities: {
+    ...controls.entities,
     ...controlsEntities("input0", {
       ArrowUp: "moveUp",
       ArrowDown: "moveDown",
