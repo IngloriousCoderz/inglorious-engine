@@ -36,6 +36,7 @@ export function createStore({
   recomputeEntities()
 
   let state = { events: [], entities }
+  const initialState = { ...state }
 
   return {
     subscribe,
@@ -46,6 +47,7 @@ export function createStore({
     getOriginalTypes,
     getState,
     setState,
+    reset,
     getIncomingEvents: () => [...incomingEvents],
   }
 
@@ -165,6 +167,11 @@ export function createStore({
 
   function setState(newState) {
     state = newState
+  }
+
+  function reset() {
+    state = initialState
+    recomputeEntities()
   }
 
   function recomputeTypes() {

@@ -13,12 +13,30 @@ export function initDevTools(store) {
   })
 
   devToolsInstance.subscribe((message) => {
-    if (
-      message.type === "DISPATCH" &&
-      message.payload.type === "JUMP_TO_STATE"
-    ) {
-      const newState = JSON.parse(message.state)
-      store.setState(newState)
+    if (message.type !== "DISPATCH") {
+      return
+    }
+
+    switch (message.payload.type) {
+      // reset button
+      case "RESET": {
+        store.reset()
+        devToolsInstance.init(store.getState())
+        break
+      }
+
+      // revert button
+      case "ROLLBACK": {
+        const newState = JSON.parse(message.state)
+        store.setState(newState)
+        break
+      }
+
+      // commit button
+      case "COMMIT": {
+        devToolsInstance.init(store.getState())
+        break
+      }
     }
   })
 
