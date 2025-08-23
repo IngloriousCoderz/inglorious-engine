@@ -1,6 +1,6 @@
 // @see https://jonathanwhiting.com/tutorial/collision/
 
-import { intersectsRectangle } from "./rectangle"
+import { intersectsRectangle } from "./rectangle.js"
 
 const FIRST_TILE = 0
 const LAST_ROW = 1

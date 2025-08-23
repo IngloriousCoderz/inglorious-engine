@@ -1,4 +1,14 @@
-const ACTION_BLACKLIST = ["update", "mouseMove", "spriteAnimationEnd"]
+const ACTION_BLACKLIST = [
+  "update",
+  "gamepadAxis",
+  "gamepadPress",
+  "gamepadRelease",
+  "keyboardKeyDown",
+  "keyboardKeyUp",
+  "mouseMove",
+  "mouseClick",
+  "spriteAnimationEnd",
+]
 
 let devToolsInstance = null
 

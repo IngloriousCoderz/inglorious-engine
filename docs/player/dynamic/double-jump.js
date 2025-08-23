@@ -11,6 +11,7 @@ import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
 const Y = 1
 
 export default {
+  devMode: true,
   types: {
     ...controlsTypes(),
 

@@ -4,19 +4,22 @@ const DEFAULT_PARAMS = {
 
 export function keyboard() {
   let handleKeyDown, handleKeyUp
+  let currentDocument = null
 
   return {
     start(entity, event, api) {
+      currentDocument = document.body.ownerDocument || document
+
       handleKeyDown = createKeyboardHandler("keyboardKeyDown", api)
       handleKeyUp = createKeyboardHandler("keyboardKeyUp", api)
 
-      document.addEventListener("keydown", handleKeyDown)
-      document.addEventListener("keyup", handleKeyUp)
+      currentDocument.addEventListener("keydown", handleKeyDown)
+      currentDocument.addEventListener("keyup", handleKeyUp)
     },
 
     stop() {
-      document.removeEventListener("keydown", handleKeyDown)
-      document.removeEventListener("keyup", handleKeyUp)
+      currentDocument.removeEventListener("keydown", handleKeyDown)
+      currentDocument.removeEventListener("keyup", handleKeyUp)
     },
 
     keyboardKeyDown(entity, keyCode, api) {
