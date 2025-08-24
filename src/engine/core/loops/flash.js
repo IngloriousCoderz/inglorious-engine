@@ -4,7 +4,6 @@ export class FlashLoop {
   start(engine) {
     while (!this._shouldStop) {
       engine.update()
-      engine.render()
     }
   }
 

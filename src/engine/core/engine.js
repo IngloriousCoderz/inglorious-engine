@@ -10,6 +10,7 @@ import { createStore } from "./store.js"
 const DEFAULT_CONFIG = {
   devMode: false,
   loop: { type: "animationFrame", fps: 60 },
+  systems: [],
 }
 const ONE_SECOND = 1000 // Number of milliseconds in one second.
 
@@ -24,12 +25,20 @@ export class Engine {
    * @param {Object} [game] - Game-specific configuration.
    * @param {Object} [renderer] - UI entity responsible for rendering. It must have a `render` method.
    */
-  constructor(game, renderer) {
+  constructor(game) {
     this._config = extend(DEFAULT_CONFIG, game)
-    this._store = createStore(this._config)
+
+    const systems = [...(this._config.systems ?? [])]
+    if (this._config.renderer) {
+      systems.push(...this._config.renderer.getSystems())
+    }
+
+    this._store = createStore({ ...this._config, systems })
     this._loop = new Loop[this._config.loop.type]()
-    this._renderer = renderer
     this._api = createApi(this._store, this._config)
+
+    // The renderer might need the engine instance to initialize itself (e.g., to set up DOM events).
+    this._config.renderer?.init(this)
 
     if (this._config.devMode) {
       initDevTools(this._store)
@@ -73,17 +82,5 @@ export class Engine {
       }
       sendAction(action, this._store.getState())
     }
-  }
-
-  /**
-   * Renders the game state using the UI.
-   * @param {number} dt - Delta time since the last render in milliseconds.
-   */
-  render(dt) {
-    this._renderer?.render({
-      dt,
-      types: this._store.getTypes(),
-      api: this._api,
-    })
   }
 }

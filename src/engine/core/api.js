@@ -42,6 +42,8 @@ export function createApi(store, config) {
     (entities) => entities,
   )
 
+  const getTypes = () => store.getTypes()
+
   const getEntities = () => {
     const entities = _entitiesSelector()
 
@@ -94,6 +96,7 @@ export function createApi(store, config) {
 
   return {
     createSelector,
+    getTypes,
     getEntities,
     getEntity,
     getType,

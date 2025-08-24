@@ -25,6 +25,7 @@ const DEFAULT_LAYER = 0
 export function createStore({
   types: originalTypes,
   entities: originalEntities,
+  systems = [],
 }) {
   const listeners = new Set()
   let incomingEvents = []
@@ -98,6 +99,8 @@ export function createStore({
         remove(event.payload)
       }
     }
+
+    systems.forEach((system) => system(state, dt, api))
 
     listeners.forEach((onUpdate) => onUpdate())
   }

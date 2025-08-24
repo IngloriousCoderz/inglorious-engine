@@ -11,7 +11,6 @@ export class FixedLoop {
       const dt = currentTime - previousTime
 
       engine.update(dt / ONE_SECOND)
-      engine.render(dt / ONE_SECOND)
 
       previousTime = currentTime
       await sleep(Date.now() - currentTime + msPerUpdate)

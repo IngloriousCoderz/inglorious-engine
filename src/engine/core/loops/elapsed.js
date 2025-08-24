@@ -11,7 +11,6 @@ export class ElapsedLoop {
       const dt = currentTime - previousTime
 
       engine.update(dt / ONE_SECOND)
-      engine.render(dt / ONE_SECOND)
 
       previousTime = currentTime
     }

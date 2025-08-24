@@ -19,7 +19,6 @@ export class AnimationFrameLoop {
     const dt = currentTime - this._previousTime
 
     engine.update(dt / ONE_SECOND)
-    engine.render(dt / ONE_SECOND)
 
     this._previousTime = currentTime
   }

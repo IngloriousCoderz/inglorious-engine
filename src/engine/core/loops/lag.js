@@ -15,7 +15,6 @@ export class LagLoop {
 
       while (lag >= msPerUpdate) {
         engine.update(dt / ONE_SECOND)
-        engine.render(dt / ONE_SECOND)
         lag -= msPerUpdate
       }
     }

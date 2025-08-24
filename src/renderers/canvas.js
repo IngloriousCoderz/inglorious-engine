@@ -1,71 +1,62 @@
 import { track } from "@inglorious/engine/behaviors/input/mouse.js"
-import { Engine } from "@inglorious/engine/core/engine.js"
 
-import { absolutePosition } from "./canvas/absolute-position.js"
+import { createRenderingSystem } from "./canvas/rendering-system.js"
 
-const Y = 1
-const Z = 2
+export class CanvasRenderer {
+  _onKeyPress = null
+  _onMouseMove = null
+  _onClick = null
 
-export function start(config, canvas) {
-  const ctx = canvas.getContext("2d")
-  const engine = new Engine(config, { render: render(ctx) })
-
-  const game = engine._api.getEntity("game")
-  const [, , width, height] = game.bounds
-
-  canvas.style.width = `${width}px`
-  canvas.style.height = `${height}px`
-  const dpi = window.devicePixelRatio
-  canvas.width = Math.floor(width * dpi)
-  canvas.height = Math.floor(height * dpi)
-  ctx.scale(dpi, dpi)
-
-  if (game.pixelated) {
-    canvas.style.imageRendering = "pixelated"
-    ctx.textRendering = "geometricPrecision"
+  constructor(canvas) {
+    this.canvas = canvas
+    this.ctx = canvas.getContext("2d")
   }
 
-  document.addEventListener("keypress", (event) => {
-    if (event.key === "p") {
-      engine.isRunning ? engine.stop() : engine.start()
-    }
-  })
+  getSystems() {
+    return [createRenderingSystem(this.ctx)]
+  }
 
-  const { onMouseMove, onClick } = track(canvas, engine._api)
+  init(engine) {
+    const game = engine._api.getEntity("game")
+    const [, , width, height] = game.bounds
 
-  canvas.addEventListener("mousemove", onMouseMove)
-  canvas.addEventListener("click", onClick)
+    this.canvas.style.width = `${width}px`
+    this.canvas.style.height = `${height}px`
+    const dpi = window.devicePixelRatio
+    this.canvas.width = width * dpi
+    this.canvas.height = height * dpi
+    this.ctx.scale(dpi, dpi)
 
-  engine.start()
-}
-
-function render(ctx) {
-  return (options) => {
-    const { types, api } = options
-    const { game, mouse, ...rest } = api.getEntities()
-
-    const [x, y, width, height] = game.bounds
-    ctx.fillStyle = "lightgrey"
-    ctx.fillRect(x, y, width, height)
     if (game.pixelated) {
-      ctx.imageSmoothingEnabled = false
+      this.canvas.style.imageRendering = "pixelated"
+      this.ctx.textRendering = "geometricPrecision"
+      this.ctx.imageSmoothingEnabled = false
     }
 
-    Object.values(rest)
-      .filter(({ position }) => position)
-      .toSorted(
-        (a, b) =>
-          a.layer - b.layer ||
-          a.position[Y] - b.position[Y] ||
-          b.position[Z] - a.position[Z],
-      )
-      .forEach((entity) => {
-        const { render } = types[entity.type]
-        if (render) {
-          absolutePosition(render)(entity, ctx, options)
-        }
-      })
+    this._onKeyPress = (event) => {
+      if (event.key === "p") {
+        engine.isRunning ? engine.stop() : engine.start()
+      }
+    }
+    document.addEventListener("keypress", this._onKeyPress)
 
-    mouse && absolutePosition(types[mouse.type].render)(mouse, ctx, options)
+    const { onMouseMove, onClick } = track(this.canvas, engine._api)
+    this._onMouseMove = onMouseMove
+    this._onClick = onClick
+
+    this.canvas.addEventListener("mousemove", this._onMouseMove)
+    this.canvas.addEventListener("click", this._onClick)
+  }
+
+  destroy() {
+    if (this._onKeyPress) {
+      document.removeEventListener("keypress", this._onKeyPress)
+    }
+    if (this._onMouseMove) {
+      this.canvas.removeEventListener("mousemove", this._onMouseMove)
+    }
+    if (this._onClick) {
+      this.canvas.removeEventListener("click", this._onClick)
+    }
   }
 }
