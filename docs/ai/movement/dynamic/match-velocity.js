@@ -2,11 +2,11 @@ import {
   DEFAULT_TIME_TO_TARGET,
   matchVelocity,
 } from "@inglorious/engine/ai/movement/dynamic/match-velocity.js"
+import { clamped } from "@inglorious/engine/behaviors/clamped.js"
 import {
   controlsEntities,
   setupControls,
 } from "@inglorious/engine/behaviors/input/controls.js"
-import { clampToBounds } from "@inglorious/engine/physics/bounds.js"
 import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 
@@ -18,36 +18,36 @@ export default {
     ...controls.types,
 
     character: [
-      { render: renderCharacter },
       {
-        moveLeft(entity, { id }) {
-          if (id === entity.associatedInput) entity.movement.left = true
+        render: renderCharacter,
+
+        moveLeft(entity, { inputId }) {
+          if (inputId === entity.associatedInput) entity.movement.left = true
         },
-        moveLeftEnd(entity, { id }) {
-          if (id === entity.associatedInput) entity.movement.left = false
+        moveLeftEnd(entity, { inputId }) {
+          if (inputId === entity.associatedInput) entity.movement.left = false
         },
-        moveRight(entity, { id }) {
-          if (id === entity.associatedInput) entity.movement.right = true
+        moveRight(entity, { inputId }) {
+          if (inputId === entity.associatedInput) entity.movement.right = true
         },
-        moveRightEnd(entity, { id }) {
-          if (id === entity.associatedInput) entity.movement.right = false
+        moveRightEnd(entity, { inputId }) {
+          if (inputId === entity.associatedInput) entity.movement.right = false
         },
-        moveUp(entity, { id }) {
-          if (id === entity.associatedInput) entity.movement.up = true
+        moveUp(entity, { inputId }) {
+          if (inputId === entity.associatedInput) entity.movement.up = true
         },
-        moveUpEnd(entity, { id }) {
-          if (id === entity.associatedInput) entity.movement.up = false
+        moveUpEnd(entity, { inputId }) {
+          if (inputId === entity.associatedInput) entity.movement.up = false
         },
-        moveDown(entity, { id }) {
-          if (id === entity.associatedInput) entity.movement.down = true
+        moveDown(entity, { inputId }) {
+          if (inputId === entity.associatedInput) entity.movement.down = true
         },
-        moveDownEnd(entity, { id }) {
-          if (id === entity.associatedInput) entity.movement.down = false
+        moveDownEnd(entity, { inputId }) {
+          if (inputId === entity.associatedInput) entity.movement.down = false
         },
 
         update(entity, dt, api) {
           const parameters = api.getEntity("parameters")
-          const game = api.getEntity("game")
           const { fields } = parameters.groups.matchVelocity
           const SPEED = entity.maxSpeed
 
@@ -73,10 +73,9 @@ export default {
               timeToTarget: fields.timeToTarget.value,
             }),
           )
-
-          merge(entity, { position: clampToBounds(entity, game.bounds) })
         },
       },
+      clamped(),
     ],
 
     form: {
@@ -101,6 +100,12 @@ export default {
       maxAcceleration: 1000,
       maxSpeed: 250,
       position: [400, 0, 300],
+      collisions: {
+        bounds: {
+          shape: "circle",
+          radius: 12,
+        },
+      },
     },
 
     parameters: {

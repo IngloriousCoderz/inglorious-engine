@@ -1,6 +1,6 @@
 import { seek } from "@inglorious/engine/ai/movement/dynamic/seek.js"
+import { clamped } from "@inglorious/engine/behaviors/clamped.js"
 import { mouse } from "@inglorious/engine/behaviors/input/mouse.js"
-import { clampToBounds } from "@inglorious/engine/physics/bounds.js"
 import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
 import { renderMouse } from "@inglorious/renderers/canvas/mouse.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
@@ -11,16 +11,14 @@ export default {
     mouse: [{ render: renderMouse }, mouse()],
 
     character: [
-      { render: renderCharacter },
       {
+        render: renderCharacter,
         update(entity, dt, api) {
           const mouse = api.getEntity("mouse")
-          const game = api.getEntity("game")
-
           merge(entity, seek(entity, mouse, dt))
-          merge(entity, { position: clampToBounds(entity, game.bounds) })
         },
       },
+      clamped(),
     ],
   },
 
@@ -35,6 +33,12 @@ export default {
       maxAcceleration: 1000,
       maxSpeed: 250,
       position: [400, 0, 300],
+      collisions: {
+        bounds: {
+          shape: "circle",
+          radius: 12,
+        },
+      },
     },
   },
 }

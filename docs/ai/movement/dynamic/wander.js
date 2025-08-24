@@ -12,8 +12,8 @@ export default {
   devMode: true,
   types: {
     character: [
-      { render: renderCharacter },
       {
+        render: renderCharacter,
         update(entity, dt, api) {
           const parameters = api.getEntity("parameters")
           const game = api.getEntity("game")

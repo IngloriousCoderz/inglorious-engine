@@ -6,7 +6,7 @@ import { createMovementEventHandlers } from "../event-handlers.js"
 
 const DEFAULT_PARAMS = {
   maxAcceleration: 500,
-  onInput: "input0",
+  associatedInput: "input0",
 }
 const X = 0
 const Z = 2
@@ -25,14 +25,18 @@ export function modernControls(params) {
         "moveUpDown",
       ]),
 
+      start(entity, api) {
+        type.start?.(entity, api)
+
+        entity.maxAcceleration ??= params.maxAcceleration
+        entity.associatedInput ??= params.associatedInput
+        entity.movement ??= {}
+      },
+
       update(entity, dt, api) {
         type.update?.(entity, dt, api)
 
-        entity.onInput = entity.onInput ?? params.onInput
-
-        const maxAcceleration = entity.maxAcceleration ?? params.maxAcceleration
-
-        const { movement = {} } = entity
+        const { movement, maxAcceleration } = entity
         entity.acceleration = zero()
 
         if (movement.moveLeft) {

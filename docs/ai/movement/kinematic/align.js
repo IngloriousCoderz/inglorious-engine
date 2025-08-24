@@ -3,12 +3,12 @@ import {
   DEFAULT_TARGET_RADIUS,
   DEFAULT_TIME_TO_TARGET,
 } from "@inglorious/engine/ai/movement/kinematic/align.js"
+import { clamped } from "@inglorious/engine/behaviors/clamped.js"
 import {
   controlsEntities,
   setupControls,
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { mouse } from "@inglorious/engine/behaviors/input/mouse.js"
-import { clampToBounds } from "@inglorious/engine/physics/bounds.js"
 import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
 import { renderMouse } from "@inglorious/renderers/canvas/mouse.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
@@ -30,22 +30,20 @@ export default {
             entity.orientation = -value * pi()
           }
         },
-        turnLeft(entity, { id }) {
-          if (id !== entity.associatedInput) return
-          entity.turningLeft = true
+
+        turnLeft(entity, { inputId }) {
+          if (inputId === entity.associatedInput) entity.turningLeft = true
         },
-        turnLeftEnd(entity, { id }) {
-          if (id !== entity.associatedInput) return
-          entity.turningLeft = false
+        turnLeftEnd(entity, { inputId }) {
+          if (inputId === entity.associatedInput) entity.turningLeft = false
         },
-        turnRight(entity, { id }) {
-          if (id !== entity.associatedInput) return
-          entity.turningRight = true
+        turnRight(entity, { inputId }) {
+          if (inputId === entity.associatedInput) entity.turningRight = true
         },
-        turnRightEnd(entity, { id }) {
-          if (id !== entity.associatedInput) return
-          entity.turningRight = false
+        turnRightEnd(entity, { inputId }) {
+          if (inputId === entity.associatedInput) entity.turningRight = false
         },
+
         update(entity, dt) {
           if (entity.turningLeft) {
             entity.orientation += 5 * dt
@@ -58,12 +56,11 @@ export default {
     ],
 
     character: [
-      { render: renderCharacter },
       {
+        render: renderCharacter,
         update(entity, dt, api) {
           const mouse = api.getEntity("mouse")
           const parameters = api.getEntity("parameters")
-          const game = api.getEntity("game")
           const { fields } = parameters.groups.align
 
           merge(
@@ -73,10 +70,9 @@ export default {
               timeToTarget: fields.timeToTarget.value,
             }),
           )
-
-          clampToBounds(entity, game.bounds)
         },
       },
+      clamped(),
     ],
 
     form: {
@@ -105,6 +101,12 @@ export default {
       type: "character",
       maxAngularSpeed: pi() / 4,
       position: [400, 0, 300],
+      collisions: {
+        bounds: {
+          shape: "circle",
+          radius: 12,
+        },
+      },
     },
 
     parameters: {

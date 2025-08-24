@@ -8,9 +8,10 @@ import { createMovementEventHandlers } from "../event-handlers.js"
 
 const FULL_CIRCLE = 2
 const DEFAULT_PARAMS = {
-  maxAngularSpeed: FULL_CIRCLE * pi(),
   maxSpeed: 250,
-  onInput: "input0",
+  maxAngularSpeed: FULL_CIRCLE * pi(),
+  maxAcceleration: 500,
+  associatedInput: "input0",
 }
 const X = 0
 const Z = 2
@@ -33,40 +34,43 @@ export function shooterControls(params) {
         "turn",
       ]),
 
-      update(entity, dt, api) {
-        entity.onInput = entity.onInput ?? params.onInput
-        entity.maxAngularSpeed =
-          entity.maxAngularSpeed ?? params.maxAngularSpeed
-        entity.maxAcceleration =
-          entity.maxAcceleration ?? params.maxAcceleration
-        entity.maxSpeed = entity.maxSpeed ?? params.maxSpeed
+      start(entity, api) {
+        type.start?.(entity, api)
 
+        entity.maxSpeed ??= params.maxSpeed
+        entity.maxAngularSpeed ??= params.maxAngularSpeed
+        entity.maxAcceleration ??= params.maxAcceleration
+        entity.associatedInput ??= params.associatedInput
+        entity.movement ??= {}
+      },
+
+      update(entity, dt, api) {
         const mouse = api.getEntity("mouse")
 
-        const { movement = {} } = entity
+        const { movement, maxAngularSpeed, maxAcceleration } = entity
         entity.acceleration = zero()
 
         if (movement.moveLeft) {
-          entity.acceleration[Z] = -entity.maxAcceleration
+          entity.acceleration[Z] = -maxAcceleration
         }
         if (movement.moveRight) {
-          entity.acceleration[Z] = entity.maxAcceleration
+          entity.acceleration[Z] = maxAcceleration
         }
         if (movement.moveUp) {
-          entity.acceleration[X] = entity.maxAcceleration
+          entity.acceleration[X] = maxAcceleration
         }
         if (movement.moveDown) {
-          entity.acceleration[X] = -entity.maxAcceleration
+          entity.acceleration[X] = -maxAcceleration
         }
 
         if (movement.strafe) {
-          entity.acceleration[Z] += movement.strafe * entity.maxAcceleration
+          entity.acceleration[Z] += movement.strafe * maxAcceleration
         }
         if (movement.move) {
-          entity.acceleration[X] += -movement.move * entity.maxAcceleration
+          entity.acceleration[X] += -movement.move * maxAcceleration
         }
         if (movement.turn) {
-          entity.orientation += -movement.turn * entity.maxAngularSpeed * dt
+          entity.orientation += -movement.turn * maxAngularSpeed * dt
         }
 
         const isUsingAnalogMovement =

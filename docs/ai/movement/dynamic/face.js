@@ -4,8 +4,8 @@ import {
   DEFAULT_TIME_TO_TARGET,
 } from "@inglorious/engine/ai/movement/dynamic/align.js"
 import { face } from "@inglorious/engine/ai/movement/dynamic/face.js"
+import { clamped } from "@inglorious/engine/behaviors/clamped.js"
 import { mouse } from "@inglorious/engine/behaviors/input/mouse.js"
-import { clampToBounds } from "@inglorious/engine/physics/bounds.js"
 import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
 import { renderMouse } from "@inglorious/renderers/canvas/mouse.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
@@ -17,12 +17,11 @@ export default {
     mouse: [{ render: renderMouse }, mouse()],
 
     character: [
-      { render: renderCharacter },
       {
+        render: renderCharacter,
         update(entity, dt, api) {
           const mouse = api.getEntity("mouse")
           const parameters = api.getEntity("parameters")
-          const game = api.getEntity("game")
           const { fields } = parameters.groups.face
 
           merge(
@@ -33,10 +32,9 @@ export default {
               timeToTarget: fields.timeToTarget.value,
             }),
           )
-
-          merge(entity, { position: clampToBounds(entity, game.bounds) })
         },
       },
+      clamped(),
     ],
 
     form: {
@@ -57,6 +55,12 @@ export default {
       maxAngularSpeed: pi() / 4,
       maxAngularAcceleration: 1000,
       position: [400, 0, 300],
+      collisions: {
+        bounds: {
+          shape: "circle",
+          radius: 12,
+        },
+      },
     },
 
     parameters: {

@@ -5,10 +5,8 @@ import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 import { createMovementEventHandlers } from "../event-handlers.js"
 
 const DEFAULT_PARAMS = {
-  onState: "default",
-  movementStrategy: "kinematic",
   maxSpeed: 250,
-  onInput: "input0",
+  associatedInput: "input0",
 }
 const X = 0
 const Z = 2
@@ -27,14 +25,18 @@ export function modernVelocity(params) {
         "moveUpDown",
       ]),
 
+      start(entity, api) {
+        type.start?.(entity, api)
+
+        entity.maxSpeed ??= params.maxSpeed
+        entity.associatedInput ??= params.associatedInput
+        entity.movement ??= {}
+      },
+
       update(entity, dt, api) {
         type.update?.(entity, dt, api)
 
-        entity.onInput = entity.onInput ?? params.onInput
-
-        const maxSpeed = entity.maxSpeed ?? params.maxSpeed
-
-        const { movement = {} } = entity
+        const { movement, maxSpeed } = entity
         entity.velocity = zero()
 
         if (movement.moveLeft) {

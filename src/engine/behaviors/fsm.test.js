@@ -48,6 +48,7 @@ test("it should add a finite state machine", () => {
     },
   }
 
+  store.notify("start")
   store.notify("catMeow")
   store.update()
 

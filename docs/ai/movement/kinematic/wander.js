@@ -8,8 +8,8 @@ export default {
   devMode: true,
   types: {
     character: [
-      { render: renderCharacter },
       {
+        render: renderCharacter,
         update(entity, dt, api) {
           const game = api.getEntity("game")
 

@@ -3,25 +3,31 @@ import { extend } from "@inglorious/utils/data-structures/objects.js"
 const DEFAULT_STATE = "default"
 
 export function fsm(states) {
+  const uniqueEventNames = [
+    ...new Set(Object.values(states).flatMap(Object.keys)),
+  ]
+
   return (type) => {
-    const uniqueEventNames = [
-      ...new Set(Object.values(states).flatMap(Object.keys)),
-    ]
+    return extend(type, {
+      start(entity, api) {
+        type.start?.(entity, api)
 
-    const newType = uniqueEventNames.reduce(
-      (acc, eventName) => ({
-        ...acc,
+        entity.state ??= DEFAULT_STATE
+      },
 
-        [eventName](entity, event, api) {
-          type[eventName]?.(entity, event, api)
+      ...uniqueEventNames.reduce(
+        (acc, eventName) => ({
+          ...acc,
 
-          const state = states[entity.state ?? DEFAULT_STATE]
-          state?.[eventName]?.(entity, event, api)
-        },
-      }),
-      {},
-    )
+          [eventName](entity, event, api) {
+            type[eventName]?.(entity, event, api)
 
-    return extend(type, newType)
+            const state = states[entity.state]
+            state?.[eventName]?.(entity, event, api)
+          },
+        }),
+        {},
+      ),
+    })
   }
 }

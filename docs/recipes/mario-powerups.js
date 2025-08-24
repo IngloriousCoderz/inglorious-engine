@@ -67,6 +67,9 @@ export default {
       maxSpeed: 250,
       state: "default",
       collisions: {
+        bounds: {
+          shape: "rectangle",
+        },
         platform: {
           shape: "rectangle",
         },
@@ -74,9 +77,6 @@ export default {
           shape: "rectangle",
         },
         enemy: {
-          shape: "rectangle",
-        },
-        bounds: {
           shape: "rectangle",
         },
       },

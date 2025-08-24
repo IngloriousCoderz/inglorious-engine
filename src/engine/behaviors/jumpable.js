@@ -5,11 +5,11 @@ import { applyGravity } from "@inglorious/utils/physics/gravity.js"
 import { jump } from "@inglorious/utils/physics/jump.js"
 
 const DEFAULT_PARAMS = {
-  onInput: "input0",
   maxSpeed: 250,
   maxJump: 100,
   maxLeap: 100,
   maxJumps: 1,
+  associatedInput: "input0",
 }
 const FALLING = 0
 
@@ -18,51 +18,44 @@ export function jumpable(params) {
 
   return (type) =>
     extend(type, {
-      start: handleStart(type, params),
-      jump: handleJump,
-      update: handleUpdate(type),
+      start(entity, api) {
+        type.start?.(entity, api)
+
+        entity.maxSpeed = entity.maxSpeed ?? params.maxSpeed
+        entity.maxJump = entity.maxJump ?? params.maxJump
+        entity.maxLeap = entity.maxLeap ?? params.maxLeap
+        entity.maxJumps = entity.maxJumps ?? params.maxJumps
+        entity.associatedInput =
+          entity.associatedInput ?? params.associatedInput
+        entity.jumpsLeft = entity.jumpsLeft ?? entity.maxJumps
+      },
+
+      jump(entity, { inputId }) {
+        if (inputId === entity.associatedInput && entity.jumpsLeft) {
+          entity.vy = jump(entity)
+          entity.groundObject = undefined
+          entity.jumpsLeft--
+        }
+      },
+
+      update(entity, dt, api) {
+        type.update?.(entity, dt, api)
+
+        merge(entity, applyGravity(entity, dt))
+
+        if (entity.vy < FALLING) {
+          const entities = api.getEntities()
+          const target = findCollision(entity, entities, "platform")
+
+          if (target) {
+            entity.vy = 0
+            const [x, , z] = entity.position
+            const py = calculateLandingPosition(entity, target, "platform")
+            entity.position = [x, py, z]
+            entity.groundObject = target
+            entity.jumpsLeft = entity.maxJumps
+          }
+        }
+      },
     })
-}
-
-function handleStart(type, params) {
-  return (entity) => {
-    type.start?.(entity)
-
-    entity.onInput = entity.onInput ?? params.onInput
-    entity.maxJump = entity.maxJump ?? params.maxJump
-    entity.maxLeap = entity.maxLeap ?? params.maxLeap
-    entity.maxSpeed = entity.maxSpeed ?? params.maxSpeed
-    entity.maxJumps = entity.maxJumps ?? params.maxJumps
-    entity.jumpsLeft = entity.jumpsLeft ?? entity.maxJumps
-  }
-}
-
-function handleJump(entity, { inputId }) {
-  if (inputId === entity.onInput && entity.jumpsLeft) {
-    entity.vy = jump(entity)
-    entity.groundObject = undefined
-    entity.jumpsLeft--
-  }
-}
-
-function handleUpdate(type) {
-  return (entity, dt, api) => {
-    type.update?.(entity, dt, api)
-
-    merge(entity, applyGravity(entity, dt))
-
-    if (entity.vy < FALLING) {
-      const entities = api.getEntities()
-      const target = findCollision(entity, entities, "platform")
-
-      if (target) {
-        entity.vy = 0
-        const [x, , z] = entity.position
-        const py = calculateLandingPosition(entity, target, "platform")
-        entity.position = [x, py, z]
-        entity.groundObject = target
-        entity.jumpsLeft = entity.maxJumps
-      }
-    }
-  }
 }

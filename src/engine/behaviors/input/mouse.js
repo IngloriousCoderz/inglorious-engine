@@ -5,6 +5,11 @@ const NO_Y = 0
 
 export function mouse() {
   return {
+    start(entity) {
+      entity.collisions ??= {}
+      entity.collisions.bounds ??= { shape: "point" }
+    },
+
     mouseMove(entity, position, api) {
       const game = api.getEntity("game")
 
