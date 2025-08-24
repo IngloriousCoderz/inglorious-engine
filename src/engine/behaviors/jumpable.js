@@ -1,8 +1,8 @@
 import { findCollision } from "@inglorious/engine/collision/detection.js"
+import { calculateLandingPosition } from "@inglorious/engine/physics/position.js"
 import { extend, merge } from "@inglorious/utils/data-structures/objects.js"
 import { applyGravity } from "@inglorious/utils/physics/gravity.js"
 import { jump } from "@inglorious/utils/physics/jump.js"
-import { calculateLandingPosition } from "@inglorious/utils/physics/position.js"
 
 const DEFAULT_PARAMS = {
   onInput: "input0",
