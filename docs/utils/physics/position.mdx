@@ -1,0 +1,55 @@
+import { Meta, Source } from '@storybook/addon-docs/blocks'
+
+<Meta title="Utils/Physics/Position" />
+
+# Position
+
+This module provides utility functions for physics-based position calculations.
+
+## `calculateLandingPosition(entity, target, collisionGroup)`
+
+Calculates the correct vertical position (`y`) for an `entity` to land on top of a `target` object, typically a platform. This function is essential for ensuring characters in a platformer game land correctly on surfaces rather than sinking into them or floating above.
+
+The calculation is shape-aware and will correctly position both rectangular and circular entities.
+
+### Parameters
+
+-   **`entity`** `(Object)`: The entity that is landing. The function inspects its `collisions` property to determine its shape (`rectangle` or `circle`) and relevant dimensions (like `radius`). It checks for the specified `collisionGroup` first, then falls back to the `hitbox` group.
+-   **`target`** `(Object)`: The object being landed on (e.g., a platform). The function uses its `position` and `size` from within its `collisions` property under the specified `collisionGroup`.
+-   **`collisionGroup`** `(String)`: The collision group name to use for looking up collision properties on both the `entity` and `target`. Defaults to `"platform"`.
+
+### Returns
+
+-   `(Number)`: The calculated `y` position for the entity to be perfectly on top of the target.
+
+### Example
+
+<Source
+  language="js"
+  code={`
+import { calculateLandingPosition } from "@inglorious/utils/physics/position.js"
+
+const player = {
+  radius: 10,
+  collisions: {
+    hitbox: { shape: 'circle', radius: 10 },
+  },
+}
+
+const platform = {
+  position: [200, 150, 0],
+  size: [100, 20],
+  collisions: {
+    platform: { size: [100, 20] },
+  },
+}
+
+// The player is falling and a collision with the platform is detected.
+// We now need to calculate where to place the player.
+const landingY = calculateLandingPosition(player, platform, 'platform')
+
+// landingY will be 180 (platform.y + platform.height + player.radius)
+// So the player's new position would be [player.x, 180, player.z]
+console.log(landingY) // 180
+`}
+/>

@@ -10,6 +10,7 @@ const FULL_CIRCLE = 2
 const DEFAULT_PARAMS = {
   maxAngularSpeed: FULL_CIRCLE * pi(),
   maxSpeed: 250,
+  onInput: "input0",
 }
 const X = 0
 const Z = 2
@@ -33,6 +34,7 @@ export function shooterControls(params) {
       ]),
 
       update(entity, dt, api) {
+        entity.onInput = entity.onInput ?? params.onInput
         entity.maxAngularSpeed =
           entity.maxAngularSpeed ?? params.maxAngularSpeed
         entity.maxSpeed = entity.maxSpeed ?? params.maxSpeed

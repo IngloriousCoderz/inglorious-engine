@@ -25,7 +25,7 @@ export function gamepadsPoller() {
           }
 
           api.notify("gamepadAxis", {
-            id: gamepad.index,
+            gamepadIndex: gamepad.index,
             axis: `Axis${index}`,
             value: axis,
           })
@@ -38,12 +38,12 @@ export function gamepadsPoller() {
 
           if (isPressed && !wasPressed) {
             api.notify("gamepadPress", {
-              id: gamepad.index,
+              gamepadIndex: gamepad.index,
               button: `Btn${index}`,
             })
           } else if (!isPressed && wasPressed) {
             api.notify("gamepadRelease", {
-              id: gamepad.index,
+              gamepadIndex: gamepad.index,
               button: `Btn${index}`,
             })
           }
@@ -57,8 +57,8 @@ export function gamepadsPoller() {
 
 export function gamepadListener() {
   return {
-    gamepadAxis(entity, { id, axis, value }, api) {
-      if (entity.id !== `gamepad_input${id}`) {
+    gamepadAxis(entity, { gamepadIndex, axis, value }, api) {
+      if (entity.id !== `gamepad_input${gamepadIndex}`) {
         return
       }
 
@@ -68,11 +68,11 @@ export function gamepadListener() {
       }
 
       entity[action] = value
-      api.notify("inputAxis", { id: entity.id, action, value })
+      api.notify("inputAxis", { controlId: entity.id, action, value })
     },
 
-    gamepadPress(entity, { id, button }, api) {
-      if (entity.id !== `gamepad_input${id}`) {
+    gamepadPress(entity, { gamepadIndex, button }, api) {
+      if (entity.id !== `gamepad_input${gamepadIndex}`) {
         return
       }
 
@@ -83,12 +83,12 @@ export function gamepadListener() {
 
       if (!entity[action]) {
         entity[action] = true
-        api.notify("inputPress", { id: entity.id, action })
+        api.notify("inputPress", { controlId: entity.id, action })
       }
     },
 
-    gamepadRelease(entity, { id, button }, api) {
-      if (entity.id !== `gamepad_input${id}`) {
+    gamepadRelease(entity, { gamepadIndex, button }, api) {
+      if (entity.id !== `gamepad_input${gamepadIndex}`) {
         return
       }
 
@@ -99,7 +99,7 @@ export function gamepadListener() {
 
       if (entity[action]) {
         entity[action] = false
-        api.notify("inputRelease", { id: entity.id, action })
+        api.notify("inputRelease", { controlId: entity.id, action })
       }
     },
   }

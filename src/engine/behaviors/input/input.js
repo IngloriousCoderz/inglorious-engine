@@ -4,34 +4,34 @@ const DEFAULT_PARAMS = {
 
 export function input() {
   return {
-    inputAxis(entity, { id, action, value }, api) {
-      if (!id.endsWith(entity.id)) {
+    inputAxis(entity, { controlId, action, value }, api) {
+      if (!controlId.endsWith(entity.id)) {
         return
       }
 
       entity[action] = value
 
-      api.notify(action, { id: entity.id, value })
+      api.notify(action, { inputId: entity.id, value })
     },
 
-    inputPress(entity, { id, action }, api) {
-      if (!id.endsWith(entity.id)) {
+    inputPress(entity, { controlId, action }, api) {
+      if (!controlId.endsWith(entity.id)) {
         return
       }
 
       entity[action] = true
 
-      api.notify(action, { id: entity.id })
+      api.notify(action, { inputId: entity.id })
     },
 
-    inputRelease(entity, { id, action }, api) {
-      if (!id.endsWith(entity.id)) {
+    inputRelease(entity, { controlId, action }, api) {
+      if (!controlId.endsWith(entity.id)) {
         return
       }
 
       entity[action] = false
 
-      api.notify(`${action}End`, { id: entity.id })
+      api.notify(`${action}End`, { inputId: entity.id })
     },
   }
 }

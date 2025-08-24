@@ -8,6 +8,7 @@ const DEFAULT_PARAMS = {
   onState: "default",
   movementStrategy: "kinematic",
   maxSpeed: 250,
+  onInput: "input0",
 }
 const X = 0
 const Z = 2
@@ -28,6 +29,8 @@ export function modernVelocity(params) {
 
       update(entity, dt, api) {
         type.update?.(entity, dt, api)
+
+        entity.onInput = entity.onInput ?? params.onInput
 
         const maxSpeed = entity.maxSpeed ?? params.maxSpeed
 

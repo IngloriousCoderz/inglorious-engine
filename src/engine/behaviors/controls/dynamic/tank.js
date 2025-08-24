@@ -8,6 +8,7 @@ const DEFAULT_PARAMS = {
   maxAngularSpeed: 10,
   maxAcceleration: 500,
   maxSpeed: 250,
+  onInput: "input0",
 }
 const X = 0
 const Z = 2
@@ -28,6 +29,7 @@ export function tankControls(params) {
       ]),
 
       update(entity, dt) {
+        entity.onInput = entity.onInput ?? params.onInput
         entity.maxAngularSpeed =
           entity.maxAngularSpeed ?? params.maxAngularSpeed
         entity.maxAcceleration =
@@ -38,10 +40,10 @@ export function tankControls(params) {
         entity.acceleration = zero()
 
         if (movement.turnLeft) {
-          entity.orientation += 0.1
+          entity.orientation += entity.maxAngularSpeed * dt
         }
         if (movement.turnRight) {
-          entity.orientation -= 0.1
+          entity.orientation -= entity.maxAngularSpeed * dt
         }
         if (movement.moveForward) {
           entity.acceleration[X] = entity.maxAcceleration
