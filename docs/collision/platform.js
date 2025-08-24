@@ -20,7 +20,7 @@ export default {
     character: [
       { render: renderCharacter },
       modernControls(),
-      clamped(),
+      clamped({ depthAxis: "z" }),
       jumpable(),
     ],
   },
@@ -42,11 +42,11 @@ export default {
     ground: {
       type: "platform",
       position: [0, 0, 0],
-      size: [800, 64, 0],
+      size: [800, 48, 0],
       backgroundColor: "green",
       collisions: {
         platform: {
-          shape: "platform",
+          shape: "rectangle",
         },
       },
     },
@@ -58,7 +58,7 @@ export default {
       backgroundColor: "grey",
       collisions: {
         platform: {
-          shape: "platform",
+          shape: "rectangle",
         },
       },
     },
@@ -67,8 +67,14 @@ export default {
       type: "character",
       associatedInput: "input0",
       layer: 1,
-      position: [200, 76, 0],
+      position: [200, 50, 0],
       collisions: {
+        bounds: {
+          shape: "circle",
+          radius: 12,
+          // shape: "rectangle",
+          // size: [24, 24, 0],
+        },
         platform: {
           shape: "circle",
           radius: 12,

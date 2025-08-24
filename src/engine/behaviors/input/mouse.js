@@ -14,7 +14,8 @@ export function mouse() {
     },
 
     mouseClick(entity, position, api) {
-      const clickedEntity = findCollision(entity, { api })
+      const entities = api.getEntities()
+      const clickedEntity = findCollision(entity, entities)
       if (clickedEntity) {
         api.notify("entityClick", clickedEntity.id)
       } else {

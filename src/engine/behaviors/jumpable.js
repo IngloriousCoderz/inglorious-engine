@@ -25,8 +25,8 @@ export function jumpable(params) {
 }
 
 function handleStart(type, params) {
-  return (entity, api) => {
-    type.start?.(entity, api)
+  return (entity) => {
+    type.start?.(entity)
 
     entity.onInput = entity.onInput ?? params.onInput
     entity.maxJump = entity.maxJump ?? params.maxJump
@@ -52,7 +52,8 @@ function handleUpdate(type) {
     merge(entity, applyGravity(entity, dt))
 
     if (entity.vy < FALLING) {
-      const target = findCollision(entity, { api, collisionGroup: "platform" })
+      const entities = api.getEntities()
+      const target = findCollision(entity, entities, "platform")
 
       if (target) {
         entity.vy = 0

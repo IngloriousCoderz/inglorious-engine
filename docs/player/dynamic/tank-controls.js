@@ -44,6 +44,12 @@ export default {
       maxSpeed: 250,
       friction: 250,
       position: [400, 0, 300],
+      collisions: {
+        bounds: {
+          shape: "circle",
+          radius: 12,
+        },
+      },
     },
   },
 }

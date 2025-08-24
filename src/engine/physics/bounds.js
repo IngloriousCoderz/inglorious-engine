@@ -30,13 +30,50 @@ export function bounce(entity, dt, [minX, minZ, maxX, maxZ]) {
   return { velocity, position, orientation }
 }
 
-// TODO: make the following functions pure
-export function clampToBounds(entity, [minX, minZ, maxX, maxZ]) {
-  entity.position = clamp(
-    entity.position,
-    [minX, minZ, minZ],
-    [maxX, maxZ, maxZ],
-  )
+const ClampToBoundsByShape = {
+  rectangle(entity, [minX, minZ, maxX, maxZ], collisionGroup) {
+    const [width, height, depth] =
+      entity.collisions?.[collisionGroup]?.size ?? entity.size
+
+    return clamp(
+      entity.position,
+      [minX, minZ, minZ],
+      [maxX - width, maxZ - height, maxZ - depth],
+    )
+  },
+
+  circle(entity, [minX, minY, maxX, maxY], collisionGroup, depthAxis = "y") {
+    const radius = entity.collisions?.[collisionGroup]?.radius ?? entity.radius
+
+    if (depthAxis === "z") {
+      return clamp(
+        entity.position,
+        [minX + radius, minY + radius, minY],
+        [maxX - radius, maxY - radius, maxY],
+      )
+    }
+
+    return clamp(
+      entity.position,
+      [minX + radius, minY, minY + radius],
+      [maxX - radius, maxY, maxY - radius],
+    )
+  },
+
+  point(entity, [minX, minZ, maxX, maxZ]) {
+    return clamp(entity.position, [minX, minZ, minZ], [maxX, maxZ, maxZ])
+  },
+}
+
+export function clampToBounds(
+  entity,
+  bounds,
+  collisionGroup = "bounds",
+  depthAxis,
+) {
+  const shape = entity.collisions?.[collisionGroup]?.shape || "rectangle"
+  const handler = ClampToBoundsByShape[shape] || ClampToBoundsByShape.point
+  return handler(entity, bounds, collisionGroup, depthAxis)
 }
 
 export function flip(entity, [minX, minZ, maxX, maxZ]) {

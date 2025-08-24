@@ -75,6 +75,12 @@ export default {
       maxJump: 100,
       maxLeap: 100,
       maxJumps: 2,
+      collisions: {
+        bounds: {
+          shape: "circle",
+          radius: 12,
+        },
+      },
     },
   },
 }

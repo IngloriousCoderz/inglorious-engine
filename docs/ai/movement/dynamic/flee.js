@@ -19,7 +19,7 @@ export default {
 
           merge(entity, flee(entity, mouse, dt))
 
-          clampToBounds(entity, game.bounds)
+          merge(entity, { position: clampToBounds(entity, game.bounds) })
         },
       },
     ],

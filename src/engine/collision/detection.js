@@ -28,9 +28,7 @@ const Shape = {
  * @param {Options} options - Options for collision detection.
  * @returns {Entity | undefined} The first entity that collides with the point, or undefined if none are found.
  */
-export function findCollision(entity, { api, collisionGroup = "hitbox" } = {}) {
-  const entities = api.getEntities()
-
+export function findCollision(entity, entities, collisionGroup = "hitbox") {
   const otherEntities = filter(
     entities,
     (id, { collisions }) => id !== entity.id && collisions?.[collisionGroup],

@@ -76,6 +76,9 @@ export default {
         enemy: {
           shape: "rectangle",
         },
+        bounds: {
+          shape: "rectangle",
+        },
       },
     },
 
@@ -86,7 +89,7 @@ export default {
       backgroundColor: "#654321",
       collisions: {
         platform: {
-          shape: "platform",
+          shape: "rectangle",
         },
       },
     },
@@ -98,7 +101,7 @@ export default {
       backgroundColor: "#654321",
       collisions: {
         platform: {
-          shape: "platform",
+          shape: "rectangle",
         },
       },
     },
@@ -123,7 +126,7 @@ export default {
       backgroundColor: "#654321",
       collisions: {
         platform: {
-          shape: "platform",
+          shape: "rectangle",
         },
       },
     },
@@ -148,7 +151,7 @@ export default {
       backgroundColor: "#654321",
       collisions: {
         platform: {
-          shape: "platform",
+          shape: "rectangle",
         },
       },
     },
@@ -173,7 +176,7 @@ export default {
       backgroundColor: "#654321",
       collisions: {
         platform: {
-          shape: "platform",
+          shape: "rectangle",
         },
       },
     },
@@ -303,10 +306,8 @@ function capeMario() {
 }
 
 function collideWithPowerUps(entity, api) {
-  const powerup = findCollision(entity, {
-    api,
-    collisionGroup: "powerup",
-  })
+  const entities = api.getEntities()
+  const powerup = findCollision(entity, entities, "powerup")
 
   if (!powerup) return
 
@@ -360,10 +361,8 @@ function collideWithPowerUps(entity, api) {
 }
 
 function collideWithEnemyAndDie(entity, api) {
-  const enemy = findCollision(entity, {
-    api,
-    collisionGroup: "enemy",
-  })
+  const entities = api.getEntities()
+  const enemy = findCollision(entity, entities, "enemy")
 
   if (!enemy) return
 
@@ -374,10 +373,8 @@ function collideWithEnemyAndDie(entity, api) {
 }
 
 function collideWithEnemyAndShrink(entity, api) {
-  const enemy = findCollision(entity, {
-    api,
-    collisionGroup: "enemy",
-  })
+  const entities = api.getEntities()
+  const enemy = findCollision(entity, entities, "enemy")
 
   if (!enemy) return
 
@@ -394,10 +391,8 @@ function collideWithEnemyAndShrink(entity, api) {
 }
 
 function collideWithEnemyAndLosePowers(entity, api) {
-  const enemy = findCollision(entity, {
-    api,
-    collisionGroup: "enemy",
-  })
+  const entities = api.getEntities()
+  const enemy = findCollision(entity, entities, "enemy")
 
   if (!enemy) return
 

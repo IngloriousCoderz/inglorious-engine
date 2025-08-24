@@ -40,7 +40,7 @@ export class Engine {
    * Starts the game engine, initializing the loop and notifying the store.
    */
   start() {
-    this._store.notify("start")
+    this._store.notify("start", this._api)
     this._loop.start(this, ONE_SECOND / this._config.loop.fps)
     this.isRunning = true
   }
@@ -49,7 +49,7 @@ export class Engine {
    * Stops the game engine, halting the loop and notifying the store.
    */
   stop() {
-    this._store.notify("stop")
+    this._store.notify("stop", this._api)
     this._store.update(FINAL_UPDATE_DELTA_TIME, this._api)
     this._loop.stop()
     this.isRunning = false

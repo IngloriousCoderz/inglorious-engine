@@ -74,7 +74,7 @@ export default {
             }),
           )
 
-          clampToBounds(entity, game.bounds)
+          merge(entity, { position: clampToBounds(entity, game.bounds) })
         },
       },
     ],
