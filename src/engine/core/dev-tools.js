@@ -13,6 +13,8 @@ export const ACTION_BLACKLIST = [
   "spriteAnimationEnd",
 ]
 
+const LAST_STATE = 1
+
 let devToolsInstance = null
 
 export function initDevTools(store) {
@@ -48,6 +50,28 @@ export function initDevTools(store) {
       // commit button
       case "COMMIT": {
         devToolsInstance.init(store.getState())
+        break
+      }
+
+      // import from file button
+      case "IMPORT_STATE": {
+        const { computedStates, actionsById } = message.payload.nextLiftedState
+
+        const [firstComputedState] = computedStates
+        const lastComputedState =
+          computedStates[computedStates.length - LAST_STATE]
+        if (lastComputedState) {
+          store.setState(lastComputedState.state)
+        }
+
+        const flattenedActions = Object.values(actionsById)
+          .flatMap(({ action }) => action.payload ?? action)
+          .map((action, index) => [index, action])
+
+        devToolsInstance.init(
+          firstComputedState.state,
+          Object.fromEntries(flattenedActions),
+        )
         break
       }
     }
