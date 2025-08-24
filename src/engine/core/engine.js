@@ -67,13 +67,11 @@ export class Engine {
     this._store.update(dt, this._api)
 
     if (eventsToProcess.length) {
-      sendAction(
-        {
-          type: eventsToProcess.map(({ type }) => type).join("|"),
-          payload: eventsToProcess,
-        },
-        this._store.getState(),
-      )
+      const action = {
+        type: eventsToProcess.map(({ type }) => type).join("|"),
+        payload: eventsToProcess,
+      }
+      sendAction(action, this._store.getState())
     }
   }
 

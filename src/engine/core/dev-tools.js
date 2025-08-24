@@ -25,6 +25,22 @@ export function initDevTools(store) {
   devToolsInstance = window.__REDUX_DEVTOOLS_EXTENSION__.connect({
     name: "Inglorious Engine",
     predicate: (state, action) => !ACTION_BLACKLIST.includes(action.type),
+    actionCreators: {
+      jump: () => ({ type: "jump", payload: { inputId: "input0" } }),
+    },
+    // @see https://github.com/reduxjs/redux-devtools/blob/main/extension/docs/API/Arguments.md#features
+    features: {
+      pause: true, // start/pause recording of dispatched actions
+      lock: true, // lock/unlock dispatching actions and side effects
+      persist: true, // persist states on page reloading
+      export: true, // export history of actions in a file
+      import: "custom", // import history of actions from a file
+      jump: false, // jump back and forth (time travelling)
+      skip: false, // skip (cancel) actions
+      reorder: false, // drag and drop actions in the history list
+      dispatch: true, // dispatch custom actions or action creators
+      test: false, // generate tests for the selected actions
+    },
   })
 
   devToolsInstance.subscribe((message) => {
