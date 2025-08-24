@@ -1,4 +1,4 @@
-const ACTION_BLACKLIST = [
+export const ACTION_BLACKLIST = [
   "update",
   "gamepadAxis",
   "gamepadPress",
