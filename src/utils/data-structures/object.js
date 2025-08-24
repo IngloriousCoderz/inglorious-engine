@@ -62,6 +62,35 @@ export function map(obj, callback) {
 }
 
 /**
+ * A simplified version of Immer's `produce`. It allows you to work with
+ * immutable data structures as if they were mutable.
+ *
+ * The recipe function receives a draft copy of the state. It can either
+ * mutate the draft and return nothing (`undefined`), or it can return a
+ * completely new value, which will become the next state.
+ *
+ * Can be called in two ways:
+ * - **Standard:** `produce(baseState, recipe, ...args)`
+ * - **Curried:** `produce(recipe)` returns a new function `(baseState, ...args) => newState`
+ *
+ * @template T
+ * @param {T|function(T, ...*): (T|void)} baseState The initial state, or a recipe for currying.
+ * @param {function(T, ...*): (T|void)} [recipe] The recipe function.
+ * @param {...*} args Additional arguments to pass to the recipe.
+ * @returns {T | function(T, ...*): T} A new state, or a producer function if curried.
+ */
+export function produce(baseState, recipe, ...args) {
+  if (typeof baseState === "function" && recipe === undefined) {
+    const recipeFn = baseState
+    return (state, ...recipeArgs) => produce(state, recipeFn, ...recipeArgs)
+  }
+
+  const draft = clone(baseState)
+  const result = recipe(draft, ...args)
+  return result === undefined ? draft : result
+}
+
+/**
  * Converts an object or array to a formatted string representation.
  * @param {*} obj - The object or array to convert.
  * @param {number} [indentationLevel=INITIAL_LEVEL] - The current indentation level (used for nested structures).
