@@ -77,44 +77,4 @@ However, there are several key differences that make it unique:
 
 ## Contributing
 
-We welcome contributions from the community! Whether you're fixing a bug, adding a feature, or improving the documentation, your help is appreciated.
-
-### Development Setup
-
-1.  Fork and clone the repository.
-2.  Install dependencies using pnpm:
-    ```bash
-    pnpm install
-    ```
-3.  Run the Storybook documentation locally:
-    ```bash
-    pnpm storybook
-    ```
-4.  Run the unit tests:
-    ```bash
-    pnpm test
-    ```
-
-### Code Style
-
-The project uses ESLint for linting and Prettier for formatting. Please ensure your code adheres to the project's style to avoid introducing errors.
-
-A note on code style, particularly regarding "magic numbers" for vector components:
-
-```js
-const X = 0
-const Y = 1
-const Z = 2
-
-const x = entity.position[X]
-const y = entity.position[Y]
-const z = entity.position[Z]
-```
-
-We find it cleaner to do like so:
-
-```js
-const [x, y, z] = entity.position
-```
-
-There are a few exceptions: in the `/docs` folder we prefer the first version because not everyone is used to destructuring and we wanted to make the examples as readable as possible for people coming from, say, Godot. In that case we would put the `X`, `Y`, and `Z` constants on top of the file, right below the imports.
+We welcome contributions from the community! Whether you're fixing a bug, adding a feature, or improving the documentation, your help is appreciated. Please read our Contributing Guidelines for details on how to get started.
