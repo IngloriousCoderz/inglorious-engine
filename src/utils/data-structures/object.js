@@ -62,8 +62,15 @@ export function map(obj, callback) {
 }
 
 /**
- * A simplified version of Immer's `produce`. It allows you to work with
- * immutable data structures as if they were mutable.
+ * A utility function inspired by Immer's `produce` API. It provides a convenient
+ * way to work with immutable data structures by allowing "mutations" on a
+ * temporary draft.
+ *
+ * **Important:** Unlike Immer, which uses structural sharing via proxies for
+ * high performance, this implementation performs a full deep clone of the base
+ * state on every call using `JSON.parse(JSON.stringify())`. This can be
+ * inefficient for large or complex states. It is intended for simple use cases
+ * where the convenience of the API outweighs the performance cost.
  *
  * The recipe function receives a draft copy of the state. It can either
  * mutate the draft and return nothing (`undefined`), or it can return a

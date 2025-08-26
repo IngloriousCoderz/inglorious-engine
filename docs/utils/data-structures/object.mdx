@@ -40,45 +40,55 @@ Behaves similar to `Array.prototype.map`, returning an object that has values tr
 
 ## Produce
 
-A simplified, curried version of Immer's `produce`. It allows you to work with immutable data structures as if they were mutable, without having to worry about accidentally changing the original state.
+A utility function inspired by Immer's `produce` API. It provides a convenient way to work with immutable data structures by allowing "mutations" on a temporary draft.
 
-### Basic Usage: Mutating the Draft
+### Important Performance Note
 
-The most common way to use `produce` is to pass it a base state and a "recipe" function. This recipe function receives a `draft` of the state, which you can freely mutate. `produce` will handle the logic to create a new, updated state immutably.
+Unlike Immer, which uses structural sharing via proxies for high performance, this implementation performs a **full deep clone** of the base state on every call using `JSON.parse(JSON.stringify())`.
 
-<code>const baseState = \{ a: 1, b: \{ c: [2, 3] \} \}</code>&nbsp;
-<code>const recipe = (draft) => \{ draft.a = 10; draft.b.c.push(4); \}</code>&nbsp;
-<code>produce(baseState, recipe) == {toString(produce({ a: 1, b: { c: [2, 3] } }, (draft) => { draft.a = 10; draft.b.c.push(4); }))}</code>&nbsp;
+This can be very inefficient for large or complex states. It is intended for simple use cases where the convenience of the API outweighs the performance cost. For performance-critical state updates, consider using a library like Immer directly.
 
-### Returning a New State
+### How It Works
 
-Alternatively, the recipe can return a completely new state. If the recipe returns any value other than `undefined`, that value will be used as the next state. This is useful for simple updates.
+The `recipe` function receives a draft copy of the state. It can either mutate the draft and return nothing (`undefined`), or it can return a completely new value, which will become the next state.
 
-<code>const baseState = \{ value: 1 \}</code>&nbsp;
-<code>const recipe = (draft) => (\{ ...draft, wasChanged: true \})</code>&nbsp;
-<code>produce(baseState, recipe) == {toString(produce({ value: 1 }, (draft) => ({ ...draft, wasChanged: true })))}</code>&nbsp;
+### Usage
 
-### Passing Extra Arguments
+The function can be called in two ways:
 
-You can pass additional arguments to `produce`, which will be forwarded to your recipe function after the `draft` state.
+#### Standard Call
 
-<code>const baseState = \{ value: 10 \}</code>&nbsp;
-<code>const recipe = (draft, amount) => \{ draft.value += amount; \}</code>&nbsp;
-<code>produce(baseState, recipe, 5) == {toString(produce({ value: 10 }, (draft, amount) => { draft.value += amount; }, 5))}</code>&nbsp;
+```javascript
+import { produce } from '@inglorious/utils/data-structures/object';
 
-### Currying
+const baseState = {
+  user: { name: 'Alice', age: 30 },
+  posts: [],
+};
 
-`produce` also supports currying. You can call it with just a recipe function to create a reusable "producer" function. This producer can then be called with a state and any extra arguments. This is very useful for event handlers in state management.
+const nextState = produce(baseState, (draft) => {
+  draft.user.age += 1;
+  draft.posts.push({ id: 1, title: 'Hello World' });
+});
 
-<code>const incrementBy = (draft, amount) => \{ draft.value += amount; \}</code>&nbsp;
-<code>const incrementer = produce(incrementBy)</code>&nbsp;
-<code>const baseState = \{ value: 10 \}</code>&nbsp;
-<code>incrementer(baseState, 5) == {toString(produce((draft, amount) => { draft.value += amount; })({ value: 10 }, 5))}</code>&nbsp;
+console.log(nextState.user.age); // 31
+console.log(baseState.user.age); // 30 (original state is untouched)
+```
 
-## To String
+#### Curried Call
 
-Returns a string representation of a given object.
+You can also create a reusable producer function by passing only the recipe.
 
-<code>const obj = \{ key1: 'value1', key2: 'value2', key3: 'value3' \}</code>&nbsp;
+```javascript
+import { produce } from '@inglorious/utils/data-structures/object';
 
-<code>toString(obj) == "{toString({ key1: 'value1', key2: 'value2', key3: 'value3' })}"</code>&nbsp;
+const incrementAge = produce((draft) => {
+  draft.user.age += 1;
+});
+
+const state1 = { user: { name: 'Alice', age: 30 } };
+const state2 = incrementAge(state1);
+
+console.log(state2.user.age); // 31
+console.log(state1.user.age); // 30
+```
