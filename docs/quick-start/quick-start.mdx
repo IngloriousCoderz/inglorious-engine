@@ -1,14 +1,14 @@
 import { Canvas, Meta, Source } from '@storybook/addon-docs/blocks'
 import * as QuickStart from './quick-start.stories'
 
-import helloWorld from './quick-start/hello-world?raw'
-import firstGame from './quick-start/first-game?raw'
+import helloWorld from './hello-world?raw'
+import firstGame from './first-game?raw'
 
 <Meta of={QuickStart} />
 
-# Quick Start Guide
+# Quick Start
 
-Welcome to Inglorious Engine! This guide will get you up and running in minutes.
+Welcome to the Inglorious Engine! This guide will walk you through the basic concepts to get you up and running.
 
 ## What is Inglorious Engine?
 
@@ -18,7 +18,21 @@ Inglorious Engine is a **functional programming** game engine for JavaScript. In
 - **Pure functions** - Predictable, testable, and reusable functions
 - **Function composition** - Combine behaviors like building blocks
 
+## Core Concepts
+
+An Inglorious Engine game is defined by a configuration object. The main building blocks are:
+
+-   **Entities**: The "things" in your game (player, enemies, items).
+-   **Types & Behaviors**: Reusable templates and logic for your entities.
+-   **Systems**: Global logic that orchestrates entities, like physics or animation.
+
+For a deeper dive into these, check out the **[Core Concepts](/docs/engine--docs)** documentation.
+
+The two main ways to implement game logic are with **Behaviors** and **Systems**. While behaviors are attached to specific entity types, systems operate globally. You can read a detailed comparison in the **[Systems documentation](/docs/engine-systems--docs)**.
+
 ## Your First Game
+
+Let's start with a "Hello World" example and then build a simple game.
 
 ### Step 1: Basic Setup
 
@@ -70,6 +84,11 @@ Let's add something to the scene:
 Every game has this structure:
 ```javascript
 export default {
+  // Optional systems - cross-entity behaviors
+  systems: [
+    // List all needed systems, or create your own!
+  ],
+
   // Static definitions - never change
   types: {
     // Define what kinds of objects exist

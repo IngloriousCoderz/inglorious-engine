@@ -10,7 +10,7 @@ A core philosophy of Inglorious Engine is favoring **composition over inheritanc
 
 In many games, a character's abilities can change dramatically. A hero picks up a power-up, a vehicle gets an upgrade, or an enemy enters a different phase.
 
-Traditional Object-Oriented Programming often models this with inheritance hierarchies or complex state machines. As shown in the [Super Mario Power-Ups recipe](/docs/engine-recipes--docs#super-mario-power-ups), these approaches can become rigid or lead to a lot of boilerplate code.
+Traditional Object-Oriented Programming often models this with inheritance hierarchies or complex state machines. As shown in the **[Dynamic Behaviors recipe](/docs/engine-recipes--docs#dynamic-behaviors)**, these approaches can become rigid or lead to a lot of boilerplate code.
 
 -   **Inheritance:** What happens when you need to combine behaviors from different branches of the inheritance tree (the "Diamond Problem")? How do you "downgrade" a character?
 -   **State Pattern:** While flexible, it can lead to an explosion of small state classes to represent every possible combination of abilities.
@@ -105,7 +105,7 @@ export function clamped() {
 
 Because a `type` is just an array, we can change it at any time. By dispatching a `morph` event, you can provide a completely new array of behaviors for an entity type. This is how we achieve the "Decorator Pattern" in a functional way.
 
-When Mario picks up a Fire Flower, we don't just set a flag. We fundamentally change what he *can do* by recomposing his behavior array. See the full implementation in the [Super Mario Power-Ups recipe](/docs/engine-recipes--docs#super-mario-power-ups).
+When Mario picks up a Fire Flower, we don't just set a flag. We fundamentally change what he *can do* by recomposing his behavior array. See the full implementation in the **[Dynamic Behaviors recipe](/docs/engine-recipes--docs#dynamic-behaviors)**.
 
 This approach provides incredible flexibility:
 -   **No "Diamond Problem":** You can mix and match any behaviors you want. An "Ultra Mario" with fire and flight is just `[...base, firePower, capePower]`.

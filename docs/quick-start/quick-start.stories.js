@@ -1,6 +1,6 @@
-import firstGame from "./quick-start/first-game.js"
-import helloWorld from "./quick-start/hello-world.js"
-import RendererChooser from "./renderer-chooser.jsx"
+import RendererChooser from "../renderer-chooser.jsx"
+import firstGame from "./first-game.js"
+import helloWorld from "./hello-world.js"
 
 export default {
   title: "Quick Start",

@@ -41,6 +41,8 @@ Sprites are 2D images or animations that are integrated into a larger scene. In 
 
 Animations are driven by the `spriteAnimationSystem`, which must be included in your game's `systems` array. This system allows for declarative control over animations: simply set the `entity.sprite.state` property to the name of the desired animation (e.g., "sleepy", "walk_left"), and the system will handle advancing the frames.
 
+The `spriteAnimationSystem` is a good example of a **System** in Inglorious Engine. You can learn more about **Systems and how they compare to entity behaviors**.
+
 Here's an example of an entity configuration for a sprite:
 
 <Source dark code={sprite} />

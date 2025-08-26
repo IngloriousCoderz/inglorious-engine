@@ -4,6 +4,7 @@ export default {
   // through state changes, and dispatch events manually, which is incredibly
   // useful for debugging.
   devMode: true,
+
   types: {
     character: {
       render(entity, ctx) {

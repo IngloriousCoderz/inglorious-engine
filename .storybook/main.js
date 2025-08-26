@@ -19,7 +19,7 @@ const config = {
   docs: {},
 
   stories: [
-    "../docs/quick-start.mdx",
+    "../docs/quick-start/quick-start.mdx",
     "../docs/engine.mdx",
     "../docs/**/*.mdx",
     "../docs/**/*.stories.@(js|jsx|ts|tsx)",

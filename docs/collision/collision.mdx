@@ -1,38 +1,34 @@
-import { Canvas, Meta, Source } from '@storybook/addon-docs/blocks'
-import * as Collision from './collision.stories'
+import { Canvas, Meta, Story } from "@storybook/addon-docs";
+import * as CollisionStories from "./collision.stories.js";
 
-import circles from './circles?raw'
-import platform from './platform?raw'
-import tilemap from './tilemap?raw'
-
-<Meta of={Collision} />
+<Meta of={CollisionStories} />
 
 # Collision Detection
 
-Examples on how to use the built-in collision detection functions.
+Inglorious Engine provides a flexible collision detection system. You can define `collisions` properties on your entities with different shapes like circles and rectangles.
 
-## Circles
+## Circle to Circle
 
-Two shapes with a circular hitbox bounce against each other when colliding.
+Here is an example of two entities with circular hitboxes that detect collisions with each other.
 
-<Source dark code={circles} />
+<Canvas>
+  <Story of={CollisionStories.Circles} />
+</Canvas>
 
-<Canvas of={Collision.Circles} />
+## Platformer Collisions
 
-## Platform
+For platformer games, you can define platforms and characters that interact with them. The `jumpable` behavior, for instance, relies on collision detection to know when an entity is on the ground.
 
-A character is able to jump on top of a platform and keep its `y` position.
+<Canvas>
+  <Story of={CollisionStories.Platform} />
+</Canvas>
 
-<Source dark code={platform} />
+## Tilemap Collisions
 
-<Canvas of={Collision.Platform} />
+You can also define complex collision shapes using a `hitmask` for tilemaps. This is useful for creating levels with intricate layouts.
 
-## Tilemap
+The example below demonstrates a player colliding with a tilemap. It also uses the `spriteAnimationSystem` to animate the player character. This is a great example of how you can combine different features of the engine. You can learn more about **Systems here**.
 
-Collision with a tilemap is very low-cost: we just need to check which tiles surrounding the sprite do collide with it.
-
-*Hint*: Press 'c' on your keyboard to see collision debug gizmos!
-
-<Source dark code={tilemap} />
-
-<Canvas of={Collision.Tilemap} />
+<Canvas>
+  <Story of={CollisionStories.Tilemap} />
+</Canvas>

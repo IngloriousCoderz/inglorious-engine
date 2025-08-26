@@ -1,18 +1,42 @@
 import { Canvas, Meta, Source, Story } from '@storybook/addon-docs/blocks'
-import * as Engine from './engine.stories'
+import * as CoreConcepts from './core-concepts.stories'
 
 import bounds from './bounds?raw'
 import codeReuse from './code-reuse?raw'
 import eventHandlers from './event-handlers?raw'
 import framerate from './framerate?raw'
 
-<Meta of={Engine} />
+<Meta of={CoreConcepts} />
 
 # Core Concepts
 
-This page showcases some of the core concepts and features of the Inglorious Engine. If you are just getting started, we recommend you check out the [Quick Start Guide](/docs/quick-start--docs) first.
+The Inglorious Engine is built around a few core concepts that work together to create your game. Understanding these will help you build games more effectively.
 
-Inglorious Engine is a headless game engine that takes a configuration file in plain JavaScript and creates a scene. The UI can be implemented in any technology: canvas, HTML, ...here we are using React components.
+## The Engine and Game Loop
+
+The heart of the engine is the game loop, which continuously updates the game state and renders it to the screen. You can configure the loop, for example, to run at a fixed framerate.
+
+## The Configuration Object
+
+You configure your game by passing a configuration object to the `Engine`. This object defines everything about your game: entities, types, systems, and global settings.
+
+## Entities
+
+Entities are the "things" in your game world. An entity is a simple object with an `id` and a collection of properties. For example, a player character, a bullet, or an enemy are all entities.
+
+## Types and Behaviors
+
+To avoid duplicating logic and properties for similar entities, you can define **Types**. A type is a template for entities. It's an array of **Behaviors**, which are reusable pieces of logic and properties. When an entity is created with a `type`, it inherits all the behaviors from that type.
+
+## Systems
+
+While Behaviors are great for entity-specific logic, **Systems** are used for global logic that can affect multiple entities. They are functions that run on every frame and have access to the entire game state. This makes them perfect for things like physics, animation, or AI that needs to coordinate between entities.
+
+You can learn more about the power of **[Systems and how they compare to Behaviors](/docs/engine-systems--docs)**.
+
+# Deep Dive
+
+As you already saw in the **[Quickstart](/docs/quick-start--docs)**, the Inglorious Engine is a headless game engine that takes a configuration file in plain JavaScript and creates a scene. The UI can be implemented in any technology: canvas, HTML, ...here we are using React components.
 
 Here are a few examples of what you can do.
 
@@ -20,11 +44,11 @@ Here are a few examples of what you can do.
 
 We can customize the game's bounds by passing an array of four numbers: these will hold the upper and lower bounds in pixels.
 
-The game is an entity in the game, that we can customize as we please.
+The game is an entity like any other in the game, that we can customize as we please.
 
 <Source dark code={bounds} />
 
-<Canvas of={Engine.Bounds} />
+<Canvas of={CoreConcepts.Bounds} />
 
 ## Event Handlers
 
@@ -53,7 +77,7 @@ The `fps` type shows FPS debug info on the top left of the scene; its value is u
 
 <Source dark code={eventHandlers} />
 
-<Canvas of={Engine.EventHandlers} />
+<Canvas of={CoreConcepts.EventHandlers} />
 
 ## Code Reuse
 
@@ -67,7 +91,7 @@ The event handler for this character is also using a predefined `bounce()` funct
 
 <Source dark code={codeReuse} />
 
-<Canvas of={Engine.CodeReuse} />
+<Canvas of={CoreConcepts.CodeReuse} />
 
 ## Dynamic Entities
 
@@ -165,7 +189,7 @@ What if you want to provide a more retro feel to your game? You can use a fixed 
 
 <Source dark code={framerate} />
 
-<Canvas of={Engine.Framerate} />
+<Canvas of={CoreConcepts.Framerate} />
 
 ## What's Next?
 

@@ -6,6 +6,11 @@ import tilemap from "./tilemap.js"
 export default {
   title: "Engine/Collision Detection",
   component: RendererChooser,
+  parameters: {
+    docs: {
+      page: () => import("./collision.mdx"),
+    },
+  },
 }
 
 export const Circles = {

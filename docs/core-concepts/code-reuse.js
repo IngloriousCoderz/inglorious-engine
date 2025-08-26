@@ -8,6 +8,7 @@ import { pi } from "@inglorious/utils/math/trigonometry.js"
 
 export default {
   devMode: true,
+
   types: {
     character: [
       { render: renderCharacter },

@@ -13,7 +13,7 @@ export function fps(params) {
 
   return {
     start(entity) {
-      entity.dt = entity.dt ?? params
+      entity.dt ??= params
     },
 
     update(entity, dt) {
