@@ -6,7 +6,6 @@ import { createMovementEventHandlers } from "../event-handlers.js"
 
 const DEFAULT_PARAMS = {
   maxAcceleration: 500,
-  associatedInput: "input0",
 }
 const X = 0
 const Z = 2
@@ -29,7 +28,6 @@ export function modernControls(params) {
         type.start?.(entity, api)
 
         entity.maxAcceleration ??= params.maxAcceleration
-        entity.associatedInput ??= params.associatedInput
         entity.movement ??= {}
       },
 

@@ -6,7 +6,6 @@ import { createMovementEventHandlers } from "../event-handlers.js"
 
 const DEFAULT_PARAMS = {
   maxSpeed: 250,
-  associatedInput: "input0",
 }
 const X = 0
 const Z = 2
@@ -29,7 +28,6 @@ export function modernVelocity(params) {
         type.start?.(entity, api)
 
         entity.maxSpeed ??= params.maxSpeed
-        entity.associatedInput ??= params.associatedInput
         entity.movement ??= {}
       },
 

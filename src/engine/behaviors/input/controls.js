@@ -24,10 +24,14 @@ export function setupControls(params) {
   }
 }
 
-export function controlsEntities(name = DEFAULT_PARAMS.name, mapping = {}) {
+export function controlsEntities(
+  name = DEFAULT_PARAMS.name,
+  targetIds,
+  mapping = {},
+) {
   return {
-    [`keyboard_${name}`]: createKeyboard(`keyboard_${name}`, mapping),
-    [`gamepad_${name}`]: createGamepad(`gamepad_${name}`, mapping),
-    [name]: createInput(name, mapping),
+    [`keyboard_${name}`]: createKeyboard(`keyboard_${name}`, name, mapping),
+    [`gamepad_${name}`]: createGamepad(`gamepad_${name}`, name, mapping),
+    [name]: createInput(name, targetIds, mapping),
   }
 }

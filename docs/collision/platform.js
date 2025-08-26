@@ -27,7 +27,7 @@ export default {
 
   entities: {
     ...controls.entities,
-    ...controlsEntities("input0", {
+    ...controlsEntities("input0", ["character"], {
       ArrowLeft: "moveLeft",
       ArrowRight: "moveRight",
       Space: "jump",
@@ -65,7 +65,6 @@ export default {
 
     character: {
       type: "character",
-      associatedInput: "input0",
       layer: 1,
       position: [200, 50, 0],
       collisions: {

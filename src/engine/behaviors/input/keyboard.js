@@ -48,8 +48,12 @@ export function keyboard() {
   }
 }
 
-export function createKeyboard(name = DEFAULT_PARAMS.name, mapping = {}) {
-  return { id: name, type: "keyboard", mapping }
+export function createKeyboard(
+  name = DEFAULT_PARAMS.name,
+  targetInput,
+  mapping = {},
+) {
+  return { id: name, type: "keyboard", targetInput, mapping }
 }
 
 function createKeyboardHandler(id, api) {

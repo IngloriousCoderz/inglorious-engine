@@ -2,7 +2,6 @@ import { Ticker } from "@inglorious/engine/animation/ticker.js"
 import { jumpable } from "@inglorious/engine/behaviors/jumpable.js"
 import { renderCircle } from "@inglorious/renderers/canvas/shapes/circle.js"
 import { renderRectangle } from "@inglorious/renderers/canvas/shapes/rectangle.js"
-import { jump } from "@inglorious/utils/physics/jump.js"
 
 export default {
   devMode: true,
@@ -17,7 +16,6 @@ export default {
   entities: {
     ball1: {
       type: "ball",
-      associatedInput: "input0",
       position: [200, 32, 0],
       size: [32, 32, 0],
       backgroundColor: "#393664",
@@ -27,7 +25,6 @@ export default {
 
     ball2: {
       type: "ball",
-      associatedInput: "input0",
       position: [400, 32, 0],
       size: [32, 32, 0],
       backgroundColor: "#643639",
@@ -37,7 +34,6 @@ export default {
 
     ball3: {
       type: "ball",
-      associatedInput: "input0",
       position: [600, 32, 0],
       size: [32, 32, 0],
       backgroundColor: "#366439",
@@ -55,7 +51,7 @@ export default {
   },
 }
 
-function delayedJumpSystem(state, dt /*api*/) {
+function delayedJumpSystem(state, dt, api) {
   Object.values(state.entities)
     .filter(
       ({ delayedJump, groundObject }) =>
@@ -68,9 +64,7 @@ function delayedJumpSystem(state, dt /*api*/) {
         target: entity.delayedJump,
         dt,
         onTick: (delayedJump) => {
-          // api.notify("jump", { inputId: entity.associatedInput })
-          entity.vy = jump(entity)
-          entity.groundObject = undefined
+          api.notify("jump", { entityId: entity.id })
           delayedJump.triggered = true
         },
       })

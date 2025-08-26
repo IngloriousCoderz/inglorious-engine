@@ -41,7 +41,7 @@ export default {
 
   entities: {
     ...controls.entities,
-    ...controlsEntities("input0", {
+    ...controlsEntities("input0", ["mario"], {
       ArrowLeft: "moveLeft",
       ArrowRight: "moveRight",
       Space: "jump",
@@ -59,7 +59,6 @@ export default {
 
     mario: {
       type: "mario",
-      associatedInput: "input0",
       layer: 1,
       position: [100, 32, 0],
       size: [32, 32, 0],

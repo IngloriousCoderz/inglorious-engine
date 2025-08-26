@@ -9,7 +9,6 @@ const DEFAULT_PARAMS = {
   maxJump: 100,
   maxLeap: 100,
   maxJumps: 1,
-  associatedInput: "input0",
 }
 const FALLING = 0
 
@@ -25,13 +24,11 @@ export function jumpable(params) {
         entity.maxJump = entity.maxJump ?? params.maxJump
         entity.maxLeap = entity.maxLeap ?? params.maxLeap
         entity.maxJumps = entity.maxJumps ?? params.maxJumps
-        entity.associatedInput =
-          entity.associatedInput ?? params.associatedInput
         entity.jumpsLeft = entity.jumpsLeft ?? entity.maxJumps
       },
 
-      jump(entity, { inputId }) {
-        if (inputId === entity.associatedInput && entity.jumpsLeft) {
+      jump(entity, { entityId }) {
+        if (entityId === entity.id && entity.jumpsLeft) {
           entity.vy = jump(entity)
           entity.groundObject = undefined
           entity.jumpsLeft--

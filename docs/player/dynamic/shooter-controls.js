@@ -27,7 +27,7 @@ export default {
     },
 
     ...controls.entities,
-    ...controlsEntities("input0", {
+    ...controlsEntities("input0", ["character"], {
       ArrowUp: "moveUp",
       ArrowDown: "moveDown",
       ArrowLeft: "moveLeft",
@@ -47,7 +47,6 @@ export default {
 
     character: {
       type: "character",
-      associatedInput: "input0",
       maxAngularAcceleration: 1000,
       maxAngularSpeed: 2 * pi(),
       maxAcceleration: 500,

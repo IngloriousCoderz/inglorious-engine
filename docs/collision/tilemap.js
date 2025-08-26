@@ -41,7 +41,7 @@ export default {
     },
 
     ...controls.entities,
-    ...controlsEntities("input0", {
+    ...controlsEntities("input0", ["player"], {
       ArrowLeft: "moveLeft",
       ArrowRight: "moveRight",
       ArrowDown: "moveDown",
@@ -116,7 +116,6 @@ export default {
 
     player: {
       type: "player",
-      associatedInput: "input0",
       position: [400 - 48, 1, 300 - 48 / 2],
       maxSpeed: 250,
       sprite: {

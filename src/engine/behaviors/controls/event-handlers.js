@@ -8,8 +8,8 @@ export function createMovementEventHandlers(events) {
       entity.movement[eventName] = value ?? true
     }
 
-    acc[`${eventName}End`] = (entity, { inputId }) => {
-      if (inputId !== entity.associatedInput) {
+    acc[`${eventName}End`] = (entity, { entityId }) => {
+      if (entityId !== entity.id) {
         return
       }
 

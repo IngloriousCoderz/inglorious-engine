@@ -21,7 +21,7 @@ export default {
             type.update?.(entity, dt, api)
 
             if (!entity.jumpTriggered) {
-              api.notify("jump", { inputId: entity.associatedInput })
+              api.notify("jump", { entityId: entity.id })
               entity.jumpTriggered = true
             }
           },
@@ -33,7 +33,6 @@ export default {
   entities: {
     ball1: {
       type: "ball",
-      associatedInput: "input0",
       position: [200, 32, 0],
       size: [32, 32, 0],
       backgroundColor: "#393664",
@@ -43,7 +42,6 @@ export default {
 
     ball2: {
       type: "ball",
-      associatedInput: "input0",
       position: [400, 32, 0],
       size: [32, 32, 0],
       backgroundColor: "#643639",
@@ -53,7 +51,6 @@ export default {
 
     ball3: {
       type: "ball",
-      associatedInput: "input0",
       position: [600, 32, 0],
       size: [32, 32, 0],
       backgroundColor: "#366439",

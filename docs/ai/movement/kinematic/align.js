@@ -31,17 +31,17 @@ export default {
           }
         },
 
-        turnLeft(entity, { inputId }) {
-          if (inputId === entity.associatedInput) entity.turningLeft = true
+        turnLeft(entity, { entityId }) {
+          if (entityId === entity.id) entity.turningLeft = true
         },
-        turnLeftEnd(entity, { inputId }) {
-          if (inputId === entity.associatedInput) entity.turningLeft = false
+        turnLeftEnd(entity, { entityId }) {
+          if (entityId === entity.id) entity.turningLeft = false
         },
-        turnRight(entity, { inputId }) {
-          if (inputId === entity.associatedInput) entity.turningRight = true
+        turnRight(entity, { entityId }) {
+          if (entityId === entity.id) entity.turningRight = true
         },
-        turnRightEnd(entity, { inputId }) {
-          if (inputId === entity.associatedInput) entity.turningRight = false
+        turnRightEnd(entity, { entityId }) {
+          if (entityId === entity.id) entity.turningRight = false
         },
 
         update(entity, dt) {
@@ -86,11 +86,10 @@ export default {
     ...controls.entities,
     mouse: {
       type: "mouse",
-      associatedInput: "input0",
       position: [400, 0, 300],
       orientation: 0,
     },
-    ...controlsEntities("input0", {
+    ...controlsEntities("input0", ["mouse"], {
       ArrowLeft: "turnLeft",
       ArrowRight: "turnRight",
       ArrowDown: "turnRight",

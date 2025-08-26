@@ -7,7 +7,6 @@ import { createMovementEventHandlers } from "../event-handlers.js"
 const DEFAULT_PARAMS = {
   maxSpeed: 250,
   maxAngularSpeed: 10,
-  associatedInput: "input0",
 }
 const X = 0
 const Z = 2
@@ -32,7 +31,6 @@ export function tankControls(params) {
 
         entity.maxSpeed ??= params.maxSpeed
         entity.maxAngularSpeed ??= params.maxAngularSpeed
-        entity.associatedInput ??= params.associatedInput
         entity.movement ??= {}
       },
 

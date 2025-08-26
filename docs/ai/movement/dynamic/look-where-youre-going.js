@@ -29,29 +29,29 @@ export default {
           entity.movement ??= {}
         },
 
-        moveLeft(entity, { inputId }) {
-          if (inputId === entity.associatedInput) entity.movement.left = true
+        moveLeft(entity, { entityId }) {
+          if (entityId === entity.id) entity.movement.left = true
         },
-        moveLeftEnd(entity, { inputId }) {
-          if (inputId === entity.associatedInput) entity.movement.left = false
+        moveLeftEnd(entity, { entityId }) {
+          if (entityId === entity.id) entity.movement.left = false
         },
-        moveRight(entity, { inputId }) {
-          if (inputId === entity.associatedInput) entity.movement.right = true
+        moveRight(entity, { entityId }) {
+          if (entityId === entity.id) entity.movement.right = true
         },
-        moveRightEnd(entity, { inputId }) {
-          if (inputId === entity.associatedInput) entity.movement.right = false
+        moveRightEnd(entity, { entityId }) {
+          if (entityId === entity.id) entity.movement.right = false
         },
-        moveUp(entity, { inputId }) {
-          if (inputId === entity.associatedInput) entity.movement.up = true
+        moveUp(entity, { entityId }) {
+          if (entityId === entity.id) entity.movement.up = true
         },
-        moveUpEnd(entity, { inputId }) {
-          if (inputId === entity.associatedInput) entity.movement.up = false
+        moveUpEnd(entity, { entityId }) {
+          if (entityId === entity.id) entity.movement.up = false
         },
-        moveDown(entity, { inputId }) {
-          if (inputId === entity.associatedInput) entity.movement.down = true
+        moveDown(entity, { entityId }) {
+          if (entityId === entity.id) entity.movement.down = true
         },
-        moveDownEnd(entity, { inputId }) {
-          if (inputId === entity.associatedInput) entity.movement.down = false
+        moveDownEnd(entity, { entityId }) {
+          if (entityId === entity.id) entity.movement.down = false
         },
 
         update(entity, dt, api) {
@@ -101,7 +101,7 @@ export default {
   entities: {
     ...controls.entities,
 
-    ...controlsEntities("input0", {
+    ...controlsEntities("input0", ["character"], {
       ArrowLeft: "moveLeft",
       ArrowRight: "moveRight",
       ArrowDown: "moveDown",
@@ -110,7 +110,6 @@ export default {
 
     character: {
       type: "character",
-      associatedInput: "input0",
       maxAngularAcceleration: 1000,
       maxAngularSpeed: pi() / 4,
       position: [400, 0, 300],

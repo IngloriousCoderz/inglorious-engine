@@ -8,34 +8,41 @@ export function input() {
       if (!controlId.endsWith(entity.id)) {
         return
       }
-
       entity[action] = value
 
-      api.notify(action, { inputId: entity.id, value })
+      entity.targetIds.forEach((targetId) => {
+        api.notify(action, { entityId: targetId, value })
+      })
     },
 
     inputPress(entity, { controlId, action }, api) {
       if (!controlId.endsWith(entity.id)) {
         return
       }
-
       entity[action] = true
 
-      api.notify(action, { inputId: entity.id })
+      entity.targetIds.forEach((targetId) => {
+        api.notify(action, { entityId: targetId })
+      })
     },
 
     inputRelease(entity, { controlId, action }, api) {
       if (!controlId.endsWith(entity.id)) {
         return
       }
-
       entity[action] = false
 
-      api.notify(`${action}End`, { inputId: entity.id })
+      entity.targetIds.forEach((targetId) => {
+        api.notify(`${action}End`, { entityId: targetId })
+      })
     },
   }
 }
 
-export function createInput(name = DEFAULT_PARAMS.name, mapping = {}) {
-  return { id: name, type: "input", mapping }
+export function createInput(
+  name = DEFAULT_PARAMS.name,
+  targetIds = [],
+  mapping = {},
+) {
+  return { id: name, type: "input", targetIds, mapping }
 }

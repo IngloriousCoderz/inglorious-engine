@@ -105,6 +105,10 @@ export function gamepadListener() {
   }
 }
 
-export function createGamepad(name = DEFAULT_PARAMS.name, mapping = {}) {
-  return { id: name, type: "gamepad_listener", mapping }
+export function createGamepad(
+  name = DEFAULT_PARAMS.name,
+  targetInput,
+  mapping = {},
+) {
+  return { id: name, type: "gamepad_listener", targetInput, mapping }
 }
