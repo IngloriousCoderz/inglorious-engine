@@ -10,7 +10,7 @@ const DEFAULT_PARAMS = {
 const X = 0
 const Z = 2
 
-export function modernControls(params) {
+export function modernAcceleration(params) {
   params = extend(DEFAULT_PARAMS, params)
 
   return (type) =>
@@ -56,8 +56,21 @@ export function modernControls(params) {
         if (movement.moveUpDown) {
           entity.acceleration[Z] += -movement.moveUpDown * maxAcceleration
         }
+      },
+    })
+}
 
+export function modernControls(params) {
+  const accelerationBehavior = modernAcceleration(params)
+
+  return (type) => {
+    const newType = accelerationBehavior(type)
+
+    return extend(newType, {
+      update(entity, dt, api) {
+        newType.update?.(entity, dt, api)
         merge(entity, modernMove(entity, dt))
       },
     })
+  }
 }

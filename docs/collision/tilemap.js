@@ -10,6 +10,7 @@ import { spriteAnimationSystem } from "@inglorious/engine/systems/sprite-animati
 import { renderSprite } from "@inglorious/renderers/canvas/image/sprite.js"
 import { renderTilemap } from "@inglorious/renderers/canvas/image/tilemap.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
+import { angle } from "@inglorious/utils/math/linear-algebra/vector.js"
 
 const X = 0
 const Z = 2
@@ -173,6 +174,8 @@ function animated(type) {
   return extend(type, {
     update(entity, dt, api) {
       type.update?.(entity, dt, api)
+
+      entity.orientation = angle(entity.velocity)
 
       const animation = Sprite.move2(entity)
       entity.sprite.state = animation

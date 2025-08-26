@@ -26,6 +26,7 @@ const Z = 2
 export default function Game({ engine }) {
   // NOTE: don't use simply engine.entities here: need to subscribe to animate scene!
   const entities = useSelector((state) => state.entities)
+  // const entities = engine._store.getState().entities
 
   const types = engine._store.getTypes()
   const { mouse, ...rest } = entities

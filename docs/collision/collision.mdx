@@ -1,4 +1,4 @@
-import { Canvas, Meta, Story } from "@storybook/addon-docs";
+import { Canvas, Meta, Story } from "@storybook/addon-docs/blocks";
 import * as CollisionStories from "./collision.stories.js";
 
 <Meta of={CollisionStories} />
@@ -11,17 +11,13 @@ Inglorious Engine provides a flexible collision detection system. You can define
 
 Here is an example of two entities with circular hitboxes that detect collisions with each other.
 
-<Canvas>
-  <Story of={CollisionStories.Circles} />
-</Canvas>
+<Canvas of={CollisionStories.Circles} />
 
 ## Platformer Collisions
 
 For platformer games, you can define platforms and characters that interact with them. The `jumpable` behavior, for instance, relies on collision detection to know when an entity is on the ground.
 
-<Canvas>
-  <Story of={CollisionStories.Platform} />
-</Canvas>
+<Canvas of={CollisionStories.Platform} />
 
 ## Tilemap Collisions
 
@@ -29,6 +25,4 @@ You can also define complex collision shapes using a `hitmask` for tilemaps. Thi
 
 The example below demonstrates a player colliding with a tilemap. It also uses the `spriteAnimationSystem` to animate the player character. This is a great example of how you can combine different features of the engine. You can learn more about **Systems here**.
 
-<Canvas>
-  <Story of={CollisionStories.Tilemap} />
-</Canvas>
+<Canvas of={CollisionStories.Tilemap} />

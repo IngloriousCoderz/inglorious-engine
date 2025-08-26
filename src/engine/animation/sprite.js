@@ -3,10 +3,8 @@ import { Ticker } from "@inglorious/engine/animation/ticker.js"
 import { mod } from "@inglorious/utils/math/numbers.js"
 import { pi, toRange } from "@inglorious/utils/math/trigonometry.js"
 
-const BEFORE = -1
-const AFTER = 1
-
 export const Sprite = {
+  fromAngle,
   move2,
   move4,
   move6,
@@ -15,87 +13,39 @@ export const Sprite = {
 }
 
 function move2(entity) {
-  const directions = 2
-  const multiple = pi() / directions
-  const theta = toRange(entity.orientation) / multiple
-
-  if (theta > 0 + BEFORE && theta < 0 + AFTER) {
-    return "right"
-  } else if (theta < 0 + BEFORE || theta > 0 + AFTER) {
-    return "left"
-  }
-
-  return entity.sprite.state ?? "right"
+  return fromAngle(entity, ["right", "left"]) ?? "right"
 }
 
 function move4(entity) {
-  const directions = 4
-  const multiple = pi() / directions
-  const theta = toRange(entity.orientation) / multiple
-
-  if (theta >= -2 + BEFORE && theta < -2 + AFTER) {
-    return "down"
-  } else if (theta >= 0 + BEFORE && theta < 0 + AFTER) {
-    return "right"
-  } else if (theta >= 2 + BEFORE && theta < 2 + AFTER) {
-    return "up"
-  } else if (theta < 0 + BEFORE || theta > 0 + AFTER) {
-    return "left"
-  }
-
-  return entity.sprite.state ?? "down"
+  return fromAngle(entity, ["right", "up", "left", "down"]) ?? "down"
 }
 
 function move6(entity) {
-  const directions = 6
-  const multiple = pi() / directions
-  const theta = toRange(entity.orientation) / multiple
-
-  if (theta >= -6 + BEFORE && theta < -6 + AFTER) {
-    return "leftDown"
-  } else if (theta >= -4 + BEFORE && theta < -4 + AFTER) {
-    return "down"
-  } else if (theta >= -2 + BEFORE && theta < -2 + AFTER) {
-    return "rightDown"
-  } else if (theta >= 0 + BEFORE && theta < 0 + AFTER) {
-    return "right"
-  } else if (theta >= 2 + BEFORE && theta < 2 + AFTER) {
-    return "rightUp"
-  } else if (theta >= 4 + BEFORE && theta < 4 + AFTER) {
-    return "up"
-  } else if (theta >= 6 + BEFORE && theta < 6 + AFTER) {
-    return "leftUp"
-  } else if (theta < 0 + BEFORE || theta > 0 + AFTER) {
-    return "left"
-  }
-
-  return entity.sprite.state ?? "down"
+  return (
+    fromAngle(entity, [
+      "right",
+      "rightUp",
+      "leftUp",
+      "left",
+      "leftDown",
+      "rightDown",
+    ]) ?? "down"
+  )
 }
 
 function move8(entity) {
-  const directions = 8
-  const multiple = pi() / directions
-  const theta = toRange(entity.orientation) / multiple
-
-  if (theta >= -6 + BEFORE && theta < -6 + AFTER) {
-    return "leftDown"
-  } else if (theta >= -4 + BEFORE && theta < -4 + AFTER) {
-    return "down"
-  } else if (theta >= -2 + BEFORE && theta < -2 + AFTER) {
-    return "rightDown"
-  } else if (theta >= 0 + BEFORE && theta < 0 + AFTER) {
-    return "right"
-  } else if (theta >= 2 + BEFORE && theta < 2 + AFTER) {
-    return "rightUp"
-  } else if (theta >= 4 + BEFORE && theta < 4 + AFTER) {
-    return "up"
-  } else if (theta >= 6 + BEFORE && theta < 6 + AFTER) {
-    return "leftUp"
-  } else if (theta < 0 + BEFORE || theta > 0 + AFTER) {
-    return "left"
-  }
-
-  return entity.sprite.state ?? "down"
+  return (
+    fromAngle(entity, [
+      "right",
+      "rightUp",
+      "up",
+      "leftUp",
+      "left",
+      "leftDown",
+      "down",
+      "rightDown",
+    ]) ?? "down"
+  )
 }
 
 function play(animation, { entity, dt, notify }) {
@@ -124,4 +74,28 @@ function play(animation, { entity, dt, notify }) {
       }
     },
   })
+}
+
+/**
+ * Determines a sprite state from an orientation angle, based on a list of states.
+ * The states are assumed to be ordered starting from the right (0 radians) and
+ * proceeding counter-clockwise.
+ *
+ * @param {object} entity - The entity with an orientation.
+ * @param {string[]} states - An array of state names corresponding to directions.
+ * @returns {string} The calculated state name.
+ */
+function fromAngle(entity, states) {
+  const directions = states.length
+  const slice = (2 * pi()) / directions
+
+  // Normalize orientation to [0, 2*PI)
+  const normalizedOrientation = mod(toRange(entity.orientation), 2 * pi())
+
+  // Shift by half a slice so that 0 rad is in the middle of the first slice, then find the index
+  const index = Math.floor(
+    mod(normalizedOrientation + slice / 2, 2 * pi()) / slice,
+  )
+
+  return states[index] ?? entity.sprite.state
 }

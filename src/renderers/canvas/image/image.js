@@ -23,14 +23,11 @@ export function renderImage(entity, ctx) {
   if (img) {
     ctx.drawImage(img, ...imgParams)
   } else {
-    const img = new Image()
-    img.id = id
-    img.style.display = "none"
-    img.onload = () => {
-      ctx.drawImage(img, ...imgParams)
-    }
-    img.src = src
-    document.body.appendChild(img)
+    const newImg = new Image()
+    newImg.id = id
+    newImg.style.display = "none"
+    newImg.src = src
+    document.body.appendChild(newImg)
   }
 
   ctx.restore()
