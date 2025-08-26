@@ -1,0 +1,57 @@
+import { Canvas, Meta, Source } from "@storybook/addon-docs/blocks"
+import * as KinematicStories from "./kinematic.stories.js"
+
+import modernControls from './modern-controls?raw'
+import tankControls from './tank-controls?raw'
+import shooterControls from './shooter-controls?raw'
+import jump from './jump?raw'
+import doubleJump from './double-jump?raw'
+
+<Meta of={KinematicStories} />
+
+# Kinematic Player Controls
+
+This section showcases different types of kinematic player controls. Kinematic
+controls directly affect the entity's velocity, resulting in immediate,
+responsive movement without inertia.
+
+## Modern Controls
+
+Standard video game controls where the character moves up, down, left, or right
+based on input (WASD or arrow keys).
+
+<Canvas of={KinematicStories.ModernControls} />
+
+<Source dark code={modernControls} />
+## Tank Controls
+
+Movement is relative to the character's orientation. "Up" moves forward, while
+"left" and "right" rotate the character.
+
+<Canvas of={KinematicStories.TankControls} />
+
+<Source dark code={tankControls} />
+## Shooter Controls
+
+Common in top-down shooters. Movement is controlled by keys (WASD/arrows), while
+orientation follows the mouse, allowing independent aiming and moving.
+
+<Canvas of={KinematicStories.ShooterControls} />
+
+<Source dark code={shooterControls} />
+## Jump
+
+Builds on modern controls by adding a jump action, usually triggered by the
+space bar.
+
+<Canvas of={KinematicStories.Jump} />
+
+<Source dark code={jump} />
+## Double Jump
+
+Extends the jump mechanic to allow a second jump in mid-air, a staple in
+platformer games.
+
+<Canvas of={KinematicStories.DoubleJump} />
+
+<Source dark code={doubleJump} />

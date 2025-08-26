@@ -1,18 +1,13 @@
 import RendererChooser from "../renderer-chooser.jsx"
 import bounds from "./bounds.js"
 import codeReuse from "./code-reuse.js"
-import empty from "./empty.js"
 import entities from "./entities.js"
 import eventHandlers from "./event-handlers.js"
 import framerate from "./framerate.js"
 
 export default {
-  title: "Engine",
+  title: "Engine/Core Concepts",
   component: RendererChooser,
-}
-
-export const Empty = {
-  args: { config: empty },
 }
 
 export const Bounds = {
