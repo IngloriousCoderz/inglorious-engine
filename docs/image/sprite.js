@@ -1,14 +1,17 @@
-import { Sprite } from "@inglorious/engine/animation/sprite.js"
+import { spriteAnimationSystem } from "@inglorious/engine/systems/sprite-animation.js"
 import { renderSprite } from "@inglorious/renderers/canvas/image/sprite.js"
 
 export default {
   devMode: true,
+
+  systems: [spriteAnimationSystem],
+
   types: {
     cat: [
       { render: renderSprite },
       {
-        update(entity, dt, api) {
-          Sprite.play("sleepy", { entity, dt, notify: api.notify })
+        update(entity) {
+          entity.sprite.state = "sleepy"
         },
       },
     ],

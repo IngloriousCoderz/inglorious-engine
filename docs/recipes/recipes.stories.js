@@ -37,6 +37,5 @@ export const DecisionTree = {
 }
 
 export const DynamicBehaviors = {
-  title: "Dynamic Behaviors (Morphing)",
   args: { config: dynamicBehaviors },
 }

@@ -6,6 +6,7 @@ import {
   setupControls,
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { findCollisions } from "@inglorious/engine/collision/detection.js"
+import { spriteAnimationSystem } from "@inglorious/engine/systems/sprite-animation.js"
 import { renderSprite } from "@inglorious/renderers/canvas/image/sprite.js"
 import { renderTilemap } from "@inglorious/renderers/canvas/image/tilemap.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
@@ -17,6 +18,9 @@ const controls = setupControls()
 
 export default {
   devMode: true,
+
+  systems: [spriteAnimationSystem],
+
   types: {
     ...controls.types,
 
@@ -172,7 +176,7 @@ function animated(type) {
       type.update?.(entity, dt, api)
 
       const animation = Sprite.move2(entity)
-      Sprite.play(animation, { entity, dt, notify: api.notify })
+      entity.sprite.state = animation
     },
   })
 }

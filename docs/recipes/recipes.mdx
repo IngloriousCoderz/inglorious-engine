@@ -4,7 +4,7 @@ import * as Recipes from './recipes.stories'
 import addAndRemove from './add-and-remove?raw'
 import addEntity from './add-entity?raw'
 import decisionTree from './decision-tree?raw'
-import marioPowerups from './mario-powerups?raw'
+import dynamicBehaviors from './dynamic-behaviors?raw'
 import randomEntities from './random-entities?raw'
 import removeEntity from './remove-entity?raw'
 import states from './states?raw'
@@ -85,6 +85,6 @@ This game also showcases sprites!
 
 This recipe shows how to implement a power-up system like in Super Mario. It's a practical example of the engine's **[Composition over Inheritance](/docs/engine-core-concepts-composition--docs)** philosophy, where we dynamically change the character's type definition at runtime through the `morph` event.
 
-<Source dark code={marioPowerups} />
+<Source dark code={dynamicBehaviors} />
 
-<Canvas of={Recipes.MarioPowerups} />
+<Canvas of={Recipes.DynamicBehaviors} />

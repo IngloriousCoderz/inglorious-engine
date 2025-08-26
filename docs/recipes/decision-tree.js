@@ -2,6 +2,7 @@ import { arrive } from "@inglorious/engine/ai/movement/kinematic/arrive.js"
 import { Sprite } from "@inglorious/engine/animation/sprite.js"
 import { fsm } from "@inglorious/engine/behaviors/fsm.js"
 import { mouse } from "@inglorious/engine/behaviors/input/mouse.js"
+import { spriteAnimationSystem } from "@inglorious/engine/systems/sprite-animation.js"
 import { renderSprite } from "@inglorious/renderers/canvas/image/sprite.js"
 import { renderMouse } from "@inglorious/renderers/canvas/mouse.js"
 import { decide } from "@inglorious/utils/algorithms/decision-tree.js"
@@ -73,6 +74,9 @@ const nextState = {
 
 export default {
   devMode: true,
+
+  systems: [spriteAnimationSystem],
+
   types: {
     mouse: [{ render: renderMouse }, mouse()],
 
@@ -83,20 +87,20 @@ export default {
           update(entity, dt, api) {
             const mouse = api.getEntity("mouse")
 
-            Sprite.play("idle", { entity, dt, notify: api.notify })
+            entity.sprite.state = "idle"
 
             entity.state = decide(nextState, { entity, target: mouse })
           },
         },
 
         aware: {
-          update(entity, dt, api) {
-            Sprite.play("aware", { entity, dt, notify: api.notify })
+          update(entity) {
+            entity.sprite.state = "aware"
           },
 
-          spriteAnimationEnd(entity, { id, animation }) {
+          spriteAnimationEnd(entity, { entityId, animation }) {
             // always check who originated the event and which sprite is running!
-            if (id === entity.id && animation === "aware") {
+            if (entityId === entity.id && animation === "aware") {
               entity.state = "chasing"
             }
           },
@@ -109,7 +113,7 @@ export default {
             merge(entity, arrive(entity, mouse, dt))
 
             const animation = Sprite.move8(entity)
-            Sprite.play(animation, { entity, dt, notify: api.notify })
+            entity.sprite.state = animation
 
             entity.state = decide(nextState, { entity, target: mouse })
           },
@@ -119,14 +123,14 @@ export default {
           update(entity, dt, api) {
             const mouse = api.getEntity("mouse")
 
-            Sprite.play("sleepy", { entity, dt, notify: api.notify })
+            entity.sprite.state = "sleepy"
 
             entity.state = decide(nextState, { entity, target: mouse })
           },
 
-          spriteAnimationEnd(entity, { id, animation }) {
+          spriteAnimationEnd(entity, { entityId, animation }) {
             // always check who originated the event and which sprite is running!
-            if (id === entity.id && animation === "sleepy") {
+            if (entityId === entity.id && animation === "sleepy") {
               entity.state = "sleeping"
             }
           },
@@ -136,7 +140,7 @@ export default {
           update(entity, dt, api) {
             const mouse = api.getEntity("mouse")
 
-            Sprite.play("sleeping", { entity, dt, notify: api.notify })
+            entity.sprite.state = "sleeping"
 
             entity.state = decide(nextState, { entity, target: mouse })
           },

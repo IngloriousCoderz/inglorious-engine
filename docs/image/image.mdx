@@ -25,20 +25,6 @@ Below is a live example of a static image.
 
 <Canvas of={Image.Image} />
 
-## Sprites
-
-Sprites are 2D images or animations that are integrated into a larger scene. In Inglorious Engine, a sprite is an entity with a `sprite` component and a `renderSprite` behavior.
-
-Here's an example of an entity configuration for a sprite:
-
-<Source dark code={sprite} />
-
-The `sprite` component contains information about the image source, its dimensions, and animation frames. The `Sprite` helper provides utilities for managing sprite animations, like `Sprite.move4` for 4-directional movement.
-
-Below is a live example of an animated sprite.
-
-<Canvas of={Image.Sprite} />
-
 ## Tilemaps
 
 Tilemaps are a common technique used to create game levels or large images by stitching together smaller images called tiles. The engine provides a `renderTilemap` behavior for this purpose.
@@ -48,3 +34,19 @@ An entity with a tilemap would look like this:
 <Source dark code={tilemap} />
 
 <Canvas of={Image.Tilemap} />
+
+## Sprites
+
+Sprites are 2D images or animations that are integrated into a larger scene. In Inglorious Engine, a sprite is an entity with a `sprite` component and a `renderSprite` behavior.
+
+Animations are driven by the `spriteAnimationSystem`, which must be included in your game's `systems` array. This system allows for declarative control over animations: simply set the `entity.sprite.state` property to the name of the desired animation (e.g., "sleepy", "walk_left"), and the system will handle advancing the frames.
+
+Here's an example of an entity configuration for a sprite:
+
+<Source dark code={sprite} />
+
+The `sprite` component contains information about the image source, its dimensions, and the animation frames. In the example above, the `update` function continuously sets the sprite's state to "sleepy", which the `spriteAnimationSystem` uses to play the corresponding animation.
+
+Below is a live example of an animated sprite.
+
+<Canvas of={Image.Sprite} />

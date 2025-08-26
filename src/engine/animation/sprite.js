@@ -117,12 +117,10 @@ function play(animation, { entity, dt, notify }) {
     dt,
     onTick: (sprite) => {
       const { frames, state: animation } = sprite
-
       const framesLength = frames[animation].length
-
       sprite.value = mod(sprite.value + 1, framesLength)
       if (sprite.value === framesLength - 1) {
-        notify("spriteAnimationEnd", { id: entity.id, animation })
+        notify("spriteAnimationEnd", { entityId: entity.id, animation })
       }
     },
   })
