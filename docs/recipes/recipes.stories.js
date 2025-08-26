@@ -2,7 +2,7 @@ import RendererChooser from "../renderer-chooser.jsx"
 import addAndRemove from "./add-and-remove.js"
 import addEntity from "./add-entity.js"
 import decisionTree from "./decision-tree.js"
-import marioPowerups from "./mario-powerups.js"
+import dynamicBehaviors from "./dynamic-behaviors.js"
 import randomEntities from "./random-entities.js"
 import removeEntity from "./remove-entity.js"
 import states from "./states.js"
@@ -36,7 +36,7 @@ export const DecisionTree = {
   args: { config: decisionTree },
 }
 
-export const MarioPowerups = {
-  title: "Mario Power-Ups",
-  args: { config: marioPowerups },
+export const DynamicBehaviors = {
+  title: "Dynamic Behaviors (Morphing)",
+  args: { config: dynamicBehaviors },
 }
