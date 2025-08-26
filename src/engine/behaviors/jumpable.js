@@ -54,6 +54,7 @@ export function jumpable(params) {
             entity.position = [x, py, z]
             entity.groundObject = target
             entity.jumpsLeft = entity.maxJumps
+            api.notify("landed", { entityId: entity.id, targetId: target.id })
           }
         }
       },
