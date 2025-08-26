@@ -1,13 +1,11 @@
 import { Canvas, Meta, Source } from '@storybook/addon-docs/blocks'
 import * as Recipes from './recipes.stories'
 
-import addAndRemove from './add-and-remove?raw'
-import addEntity from './add-entity?raw'
-import decisionTree from './decision-tree?raw'
-import dynamicBehaviors from './dynamic-behaviors?raw'
 import randomEntities from './random-entities?raw'
+import addEntity from './add-entity?raw'
 import removeEntity from './remove-entity?raw'
-import states from './states?raw'
+import addAndRemove from './add-and-remove?raw'
+import dynamicBehaviors from './dynamic-behaviors?raw'
 
 <Meta of={Recipes} />
 
@@ -56,30 +54,6 @@ The most complex part of this code is generating new incremental ids, which is n
 <Canvas of={Recipes.AddAndRemove} />
 
 <Source dark code={addAndRemove} />
-
-## States
-
-Adding a states to our character is very easy, in fact every game so far was secretely using states already!
-
-We just need to wrap our event handlers into a `states` object, set an initial `state` on our entity, and transition from one state to another inside our event handlers.
-
-Try moving the cursor near the character to make it hunt you, and then moving it away to see the character wander around aimlessly.
-
-This code may seem a lot, but it's just a merge of the *Arrive* and *Wander* [Kinematic AI Movement](/docs/engine-ai-movement-kinematic--docs) examples so feel free to take a look at them before approaching this one.
-
-<Canvas of={Recipes.States} />
-
-<Source dark code={states} />
-
-## Decision Trees
-
-Decision trees are another sweet feature built-in inside of Inglorious Engine. The following example doesn't really need one, but why not?
-
-This game also showcases sprites!
-
-<Canvas of={Recipes.DecisionTree} />
-
-<Source dark code={decisionTree} />
 
 ## Dynamic Behaviors
 

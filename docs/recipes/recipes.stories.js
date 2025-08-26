@@ -1,11 +1,9 @@
 import RendererChooser from "../renderer-chooser.jsx"
 import addAndRemove from "./add-and-remove.js"
 import addEntity from "./add-entity.js"
-import decisionTree from "./decision-tree.js"
 import dynamicBehaviors from "./dynamic-behaviors.js"
 import randomEntities from "./random-entities.js"
 import removeEntity from "./remove-entity.js"
-import states from "./states.js"
 
 export default {
   title: "Engine/Recipes",
@@ -26,14 +24,6 @@ export const RemoveEntity = {
 
 export const AddAndRemove = {
   args: { config: addAndRemove },
-}
-
-export const States = {
-  args: { config: states },
-}
-
-export const DecisionTree = {
-  args: { config: decisionTree },
 }
 
 export const DynamicBehaviors = {
