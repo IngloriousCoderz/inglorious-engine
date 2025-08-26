@@ -21,9 +21,9 @@ The game configuration is pure JavaScript, so there's not much difference betwee
 
 Here we are using a couple of utility functions from the [rng](/docs/utils-math-rng--docs) and [trigonometry](/docs/utils-math-trigonometry--docs) packages.
 
-<Source dark code={randomEntities} />
-
 <Canvas of={Recipes.RandomEntities} />
+
+<Source dark code={randomEntities} />
 
 ## Adding An Entity
 
@@ -33,9 +33,9 @@ Try clicking anywhere on the scene to create a new entity with random orientatio
 
 Here, apart from some math functions, we are also using a predefined mouse [input](/docs/engine-input--docs) package that allows us to position a cursor and handle its events.
 
-<Source dark code={addEntity} />
-
 <Canvas of={Recipes.AddEntity} />
+
+<Source dark code={addEntity} />
 
 ## Removing An Entity
 
@@ -43,9 +43,9 @@ Removing an entity is pretty much the same: we notify the engine of our intentio
 
 Try clicking on any entity do remove it from the scene.
 
-<Source dark code={removeEntity} />
-
 <Canvas of={Recipes.RemoveEntity} />
+
+<Source dark code={removeEntity} />
 
 ## Add And Remove
 
@@ -53,9 +53,9 @@ Clicking on a character will prevent the event from bubbling on the scene, so it
 
 The most complex part of this code is generating new incremental ids, which is not even mandatory. You know best what's good for your game!
 
-<Source dark code={addAndRemove} />
-
 <Canvas of={Recipes.AddAndRemove} />
+
+<Source dark code={addAndRemove} />
 
 ## States
 
@@ -67,9 +67,9 @@ Try moving the cursor near the character to make it hunt you, and then moving it
 
 This code may seem a lot, but it's just a merge of the *Arrive* and *Wander* [Kinematic AI Movement](/docs/engine-ai-movement-kinematic--docs) examples so feel free to take a look at them before approaching this one.
 
-<Source dark code={states} />
-
 <Canvas of={Recipes.States} />
+
+<Source dark code={states} />
 
 ## Decision Trees
 
@@ -77,14 +77,14 @@ Decision trees are another sweet feature built-in inside of Inglorious Engine. T
 
 This game also showcases sprites!
 
-<Source dark code={decisionTree} />
-
 <Canvas of={Recipes.DecisionTree} />
+
+<Source dark code={decisionTree} />
 
 ## Dynamic Behaviors
 
 This recipe shows how to implement a power-up system like in Super Mario. It's a practical example of the engine's **[Composition over Inheritance](/docs/engine-core-concepts-composition--docs)** philosophy, where we dynamically change the character's type definition at runtime through the `morph` event.
 
-<Source dark code={dynamicBehaviors} />
-
 <Canvas of={Recipes.DynamicBehaviors} />
+
+<Source dark code={dynamicBehaviors} />

@@ -31,24 +31,21 @@ Tilemaps are a common technique used to create game levels or large images by st
 
 An entity with a tilemap would look like this:
 
-<Source dark code={tilemap} />
-
 <Canvas of={Image.Tilemap} />
+
+<Source dark code={tilemap} />
 
 ## Sprites
 
-Sprites are 2D images or animations that are integrated into a larger scene. In Inglorious Engine, a sprite is an entity with a `sprite` component and a `renderSprite` behavior.
+Sprites are 2D images or animations that are integrated into a larger scene. In the Inglorious Engine, a sprite is an entity with a `sprite` component and a `renderSprite` behavior.
+
+
+<Canvas of={Image.Sprite} />
 
 Animations are driven by the `spriteAnimationSystem`, which must be included in your game's `systems` array. This system allows for declarative control over animations: simply set the `entity.sprite.state` property to the name of the desired animation (e.g., "sleepy", "walk_left"), and the system will handle advancing the frames.
 
-The `spriteAnimationSystem` is a good example of a **System** in Inglorious Engine. You can learn more about **Systems and how they compare to entity behaviors**.
+The `spriteAnimationSystem` is a good example of a **System** in Inglorious Engine. You can learn more about **[Systems and how they compare to entity behaviors](/docs/engine-systems--docs)**.
 
-Here's an example of an entity configuration for a sprite:
+The `sprite` component contains information about the image source, its dimensions, and the animation frames. In the example above, the `start` event handler sets the sprite's state to "sleepy", which the `spriteAnimationSystem` uses to play the corresponding animation.
 
 <Source dark code={sprite} />
-
-The `sprite` component contains information about the image source, its dimensions, and the animation frames. In the example above, the `update` function continuously sets the sprite's state to "sleepy", which the `spriteAnimationSystem` uses to play the corresponding animation.
-
-Below is a live example of an animated sprite.
-
-<Canvas of={Image.Sprite} />

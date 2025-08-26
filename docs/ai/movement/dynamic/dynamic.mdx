@@ -24,76 +24,86 @@ Most examples here make use of user [input](/docs/games-input--docs), so check t
 
 ## Seek
 
-The seek algorithm makes the entity chase a target. The movement is much smoother than its kinematic counterpart.
-
-<Source dark code={seek} />
+The `seek` algorithm makes the entity chase a target. The movement is much smoother than its kinematic counterpart.
 
 <Canvas of={Dynamic.Seek} />
 
+<Source dark code={seek} />
+
 ## Flee
 
-The flee algorithm is the exact opposite of seek: the entity will run away from the target.
-
-<Source dark code={flee} />
+The `flee` algorithm is the exact opposite of seek: the entity will run away from the target.
 
 <Canvas of={Dynamic.Flee} />
 
+<Source dark code={flee} />
+
 ## Arrive
 
-The arrive algorithm is a more refined version of seek: the entity will slow down as it approaches the target, and the movement is much smoother.
-
-<Source dark code={arrive} />
+The `arrive` algorithm is a more refined version of seek: the entity will slow down as it approaches the target, and the movement is much smoother.
 
 <Canvas of={Dynamic.Arrive} />
 
+<Source dark code={arrive} />
+
 ## Pursue
 
-The pursue algorithm is an enhanced version of seek. It predicts the future position of a moving target and seeks that position.
-
-<Source dark code={pursue} />
+The `pursue` algorithm is an enhanced version of seek. It predicts the future position of a moving target and seeks that position.
 
 <Canvas of={Dynamic.Pursue} />
 
+<Source dark code={pursue} />
+
 ## Evade
 
-Evade is the opposite of pursue. It predicts the future position of a moving target and flees from it.
-
-<Source dark code={evade} />
+The `evade` algorithm is the opposite of pursue. It predicts the future position of a moving target and flees from it.
 
 <Canvas of={Dynamic.Evade} />
 
+<Source dark code={evade} />
+
 ## Wander
 
-The wander algorithm makes the entity move around randomly, but in a smooth and realistic way.
-
-<Source dark code={wander} />
+The `wander` algorithm makes the entity move around randomly, but in a smooth and realistic way.
 
 <Canvas of={Dynamic.Wander} />
+
+<Source dark code={wander} />
 
 ## Look Where You're Going
 
 A simple but effective algorithm that aligns the character's orientation with its direction of movement.
 
-<Source dark code={lookWhereYoureGoing} />
+_Hint_: Move around with the arrow keys.
 
 <Canvas of={Dynamic.LookWhereYoureGoing} />
 
-## Align and Face
+<Source dark code={lookWhereYoureGoing} />
 
-The `align` algorithm makes the entity rotate to match the target's orientation, while `face` makes it rotate to look at the target's position. They are smoother versions of their kinematic counterparts.
+## Align
 
-<Source dark code={align} />
+The `align` algorithm makes the entity rotate to match the target's orientation.
+
+_Hint_: Move left and right with the arrow keys to rotate the mouse cursor.
 
 <Canvas of={Dynamic.Align} />
 
-<Source dark code={face} />
+<Source dark code={align} />
+
+## Face
+
+The `face` algorithm makes the entity rotate to look at the target's position.
+
+_Hint_: Move the mouse around.
 
 <Canvas of={Dynamic.Face} />
+
+<Source dark code={face} />
 
 ## Match Velocity
 
 This algorithm adjusts the entity's velocity to match the target's velocity. It's a key component for flocking behaviors.
 
-<Source dark code={matchVelocity} />
-
 <Canvas of={Dynamic.MatchVelocity} />
+
+<Source dark code={matchVelocity} />

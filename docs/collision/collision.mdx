@@ -1,5 +1,9 @@
-import { Canvas, Meta, Story } from "@storybook/addon-docs/blocks";
+import { Canvas, Meta, Source } from "@storybook/addon-docs/blocks";
 import * as CollisionStories from "./collision.stories.js";
+
+import circles from './circles?raw'
+import platform from './platform?raw'
+import tilemap from './tilemap?raw'
 
 <Meta of={CollisionStories} />
 
@@ -13,11 +17,15 @@ Here is an example of two entities with circular hitboxes that detect collisions
 
 <Canvas of={CollisionStories.Circles} />
 
+<Source dark code={circles} />
+
 ## Platformer Collisions
 
 For platformer games, you can define platforms and characters that interact with them. The `jumpable` behavior, for instance, relies on collision detection to know when an entity is on the ground.
 
 <Canvas of={CollisionStories.Platform} />
+
+<Source dark code={platform} />
 
 ## Tilemap Collisions
 
@@ -26,3 +34,5 @@ You can also define complex collision shapes using a `hitmask` for tilemaps. Thi
 The example below demonstrates a player colliding with a tilemap. It also uses the `spriteAnimationSystem` to animate the player character. This is a great example of how you can combine different features of the engine. You can learn more about **Systems here**.
 
 <Canvas of={CollisionStories.Tilemap} />
+
+<Source dark code={tilemap} />

@@ -20,48 +20,50 @@ Most examples here make use of user [input](/docs/engine-input--docs), so check 
 
 ## Seek
 
-The seek algorithm makes the entity chase a target. Speed is constant and it makes the character flick around the target once reached.
-
-<Source dark code={seek} />
+The `seek` algorithm makes the entity chase a target. Speed is constant and it makes the character flick around the target once reached.
 
 <Canvas of={Kinematic.Seek} />
 
+<Source dark code={seek} />
+
 ## Flee
 
-The flee algorithm is the exact opposite of seek: the entity will run away from the target.
-
-<Source dark code={flee} />
+The `flee` algorithm is the exact opposite of seek: the entity will run away from the target.
 
 <Canvas of={Kinematic.Flee} />
 
+<Source dark code={flee} />
+
 ## Arrive
 
-The arrive algorithm is a more refined version of seek: the entity will slow down as it approaches the target.
-
-<Source dark code={arrive} />
+The `arrive` algorithm is a more refined version of seek: the entity will slow down as it approaches the target.
 
 <Canvas of={Kinematic.Arrive} />
 
+<Source dark code={arrive} />
+
 ## Align
 
-The align algorithm makes the entity rotate to match the target's orientation.
+The `align` algorithm makes the entity rotate to match the target's orientation.
 
-<Source dark code={align} />
+_Hint_: Move left and right with the arrow keys to rotate the mouse cursor.
 
 <Canvas of={Kinematic.Align} />
 
+<Source dark code={align} />
+
 ## Wander
 
-The wander algorithm makes the entity move around randomly. It does so by changing its orientation by a small random amount at each frame.
-
-<Source dark code={wander} />
+The `wander` algorithm makes the entity move around randomly. It does so by changing its orientation by a small random amount at each frame.
 
 <Canvas of={Kinematic.Wander} />
 
+<Source dark code={wander} />
+
 ## Wander as Seek
 
-This is a simpler version of the wander algorithm that does not require trigonometry. It just seeks a random point in the scene, and once it's reached, it seeks another one.
-
-<Source dark code={wanderAsSeek} />
+This is a simpler version of the `wander` algorithm that does not require trigonometry. It just seeks a random point in the scene, and once it's reached, it seeks another one.
 
 <Canvas of={Kinematic.WanderAsSeek} />
+
+<Source dark code={wanderAsSeek} />
