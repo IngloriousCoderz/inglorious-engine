@@ -4,6 +4,8 @@ import { extend } from "@inglorious/utils/data-structures/objects.js"
 import { pipe } from "@inglorious/utils/functions/functions.js"
 import { produce } from "immer"
 
+import { readOnlyStateProxyHandler } from "./proxy"
+
 const DEFAULT_TYPES = {
   game: [game()],
 }
@@ -26,6 +28,7 @@ export function createStore({
   types: originalTypes,
   entities: originalEntities,
   systems = [],
+  devMode = false,
 }) {
   const listeners = new Set()
   let incomingEvents = []
@@ -36,8 +39,8 @@ export function createStore({
   let entities
   recomputeEntities()
 
-  let state = { events: [], entities }
-  const initialState = { ...state }
+  const initialState = { entities }
+  let state = initialState
 
   return {
     subscribe,
@@ -71,57 +74,40 @@ export function createStore({
    * @param {Object} api - The engine's public API.
    */
   function update(dt, api) {
-    state = { ...state }
+    state = produce(state, (state) => {
+      incomingEvents.push({ type: "update", payload: dt })
 
-    state.events.push(...incomingEvents, { type: "update", payload: dt })
-    incomingEvents = []
+      while (incomingEvents.length) {
+        const event = incomingEvents.shift()
 
-    while (state.events.length) {
-      const event = state.events.shift()
+        if (event.type === "morph") {
+          const { id, type } = event.payload
+          originalTypes[id] = type
+          recomputeTypes()
+        }
 
-      if (event.type === "morph") {
-        const { id, type } = event.payload
-        originalTypes[id] = type
-        recomputeTypes()
+        if (event.type === "add") {
+          const { id, ...entity } = event.payload
+          state.entities[id] = augmentEntity(id, entity)
+        }
+
+        if (event.type === "remove") {
+          const id = event.payload
+          delete state.entities[id]
+        }
+
+        for (const id in state.entities) {
+          const entity = state.entities[id]
+          const type = types[entity.type]
+          const handle = type[event.type]
+          handle?.(entity, event.payload, api)
+        }
       }
 
-      if (event.type === "add") {
-        add(event.payload.id, event.payload)
-      }
-
-      state.entities = map(state.entities, (_, entity) => {
-        const type = types[entity.type]
-        const handle = type[event.type]
-        return handle?.(entity, event.payload, api) ?? entity
-      })
-
-      if (event.type === "remove") {
-        remove(event.payload)
-      }
-    }
-
-    systems.forEach((system) => system(state, dt, api))
+      systems.forEach((system) => system(state, dt, api))
+    })
 
     listeners.forEach((onUpdate) => onUpdate())
-  }
-
-  /**
-   * Adds a new entity to the state.
-   * @param {string} id - The ID of the entity to add.
-   * @param {Object} entity - The entity object to add.
-   */
-  function add(id, entity) {
-    state = { ...state }
-    state.entities[id] = augmentEntity(id, entity)
-  }
-
-  /**
-   * Removes an entity from the state.
-   * @param {string} id - The ID of the entity to remove.
-   */
-  function remove(id) {
-    state = { ...state }
-    delete state.entities[id]
   }
 
   /**
@@ -165,6 +151,14 @@ export function createStore({
    * @returns {Object} The current state.
    */
   function getState() {
+    if (devMode) {
+      const proxiedEntities = new Proxy(
+        state.entities,
+        readOnlyStateProxyHandler(),
+      )
+      return { ...state, entities: proxiedEntities }
+    }
+
     return state
   }
 
@@ -189,7 +183,7 @@ export function createStore({
 }
 
 function augmentTypes(types) {
-  return pipe(applyDecorators, enableMutability)(types)
+  return pipe(applyDecorators)(types) //, enableMutability
 }
 
 function applyDecorators(types) {
@@ -203,13 +197,6 @@ function applyDecorators(types) {
     )
     return pipe(...decorators)({})
   })
-}
-
-function enableMutability(types) {
-  return map(types, (_, { render, ...events }) => ({
-    render,
-    ...map(events, (_, event) => produce(event)),
-  }))
 }
 
 function augmentEntities(entities) {

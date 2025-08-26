@@ -2,261 +2,113 @@ import { expect, test } from "vitest"
 
 import { createStore } from "./store.js"
 
-test("it should add an event to the event queue", () => {
-  const event = "somethingHappened"
+test("it should process events by mutating state inside handlers", () => {
   const config = {
     types: {
       kitty: {
-        [event](entity) {
-          return { ...entity, wasNotified: true }
+        feed(entity) {
+          entity.isFed = true
         },
-      },
-    },
-    entities: {
-      entity1: { type: "kitty" },
-    },
-  }
-  const store = createStore(config)
-  const afterState = {
-    events: [],
-    entities: {
-      game: {
-        id: "game",
-        type: "game",
-        layer: 0,
-        bounds: [0, 0, 800, 600],
-      },
-      entity1: {
-        id: "entity1",
-        type: "kitty",
-        layer: 0,
-        wasNotified: true,
-      },
-    },
-  }
-
-  store.notify(event)
-  store.update(0, {})
-
-  const state = store.getState()
-  expect(state).toStrictEqual(afterState)
-})
-
-test("it should process the event queue", () => {
-  const event = "somethingHappened"
-  const config = {
-    types: {
-      kitty: {
         update(entity) {
-          return { ...entity, wasUpdated: true }
-        },
-
-        [event](entity) {
-          return { ...entity, wasNotified: true }
+          entity.isMeowing = true
         },
       },
     },
     entities: {
-      entity1: { type: "kitty" },
+      kitty1: { type: "kitty" },
     },
   }
-  const store = createStore(config)
-  store.notify(event)
   const afterState = {
-    events: [],
     entities: {
-      game: {
-        id: "game",
-        type: "game",
-        layer: 0,
-        bounds: [0, 0, 800, 600],
-      },
-      entity1: {
-        id: "entity1",
+      game: { id: "game", type: "game", layer: 0, bounds: [0, 0, 800, 600] },
+      kitty1: {
+        id: "kitty1",
         type: "kitty",
         layer: 0,
-        wasNotified: true,
-        wasUpdated: true,
+        isFed: true,
+        isMeowing: true,
       },
     },
   }
 
+  const store = createStore(config)
+  store.notify("feed")
   store.update(0, {})
 
   const state = store.getState()
   expect(state).toStrictEqual(afterState)
 })
 
-test("it should send an event from an entity", () => {
+test("it should send an event from an entity and process it in the same update cycle", () => {
   const config = {
     types: {
       doggo: {
         update(entity, dt, api) {
-          const entity2 = api.getEntity("entity2")
-          if (entity2.position === "near") {
-            api.notify("doggoMessage", { id: "inu", message: "Woof!" })
-          }
+          api.notify("bark")
         },
       },
       kitty: {
-        doggoMessage(entity, { id, message }) {
-          if (id === "inu" && message === "Woof!") {
-            entity.position = "far"
-          }
+        bark(entity) {
+          entity.position = "far"
         },
       },
     },
-
     entities: {
-      entity1: {
-        type: "doggo",
-      },
-      entity2: {
-        type: "kitty",
-        position: "near",
-      },
+      doggo1: { type: "doggo" },
+      kitty1: { type: "kitty", position: "near" },
     },
-  }
-  const store = createStore(config)
-  const api = {
-    getEntity: (id) => store.getState().entities[id],
-    notify: store.notify,
   }
   const afterState = {
-    events: [],
     entities: {
-      game: {
-        id: "game",
-        type: "game",
-        layer: 0,
-        bounds: [0, 0, 800, 600],
-      },
-      entity1: {
-        id: "entity1",
-        type: "doggo",
-        layer: 0,
-      },
-      entity2: {
-        id: "entity2",
-        type: "kitty",
-        layer: 0,
-        position: "near", // should do nothing at first
-      },
+      game: { id: "game", type: "game", layer: 0, bounds: [0, 0, 800, 600] },
+      doggo1: { id: "doggo1", type: "doggo", layer: 0 },
+      kitty1: { id: "kitty1", type: "kitty", layer: 0, position: "far" },
     },
   }
 
+  const store = createStore(config)
+  const api = { notify: store.notify }
   store.update(0, api)
 
   const state = store.getState()
   expect(state).toStrictEqual(afterState)
 })
 
-test("it should receive an event from an entity", () => {
-  const event = "doggoMessage"
-  const payload = { id: "inu", message: "Woof!" }
-
+test("it should add an entity via an 'add' event", () => {
   const config = {
     types: {
-      doggo: {
-        update(entity, dt, api) {
-          const entity2 = api.getEntity("entity2")
-
-          if (entity2.position === "near") {
-            api.notify("doggoMessage", { id: "inu", message: "Woof!" })
-          }
-        },
-      },
-      kitty: {
-        doggoMessage(entity, { id, message }) {
-          if (id === "inu" && message === "Woof!") {
-            entity.position = "far"
-          }
-        },
-      },
+      kitty: {},
     },
-
-    entities: {
-      entity1: {
-        type: "doggo",
-      },
-      entity2: {
-        type: "kitty",
-        position: "near",
-      },
-    },
+    entities: {},
   }
+  const newEntity = { id: "kitty1", type: "kitty" }
+
   const store = createStore(config)
-  const api = {
-    getEntity: (id) => store.getState().entities[id],
-    notify: store.notify,
-  }
-  store.notify(event, payload)
-  const afterState = {
-    events: [],
-    entities: {
-      game: {
-        id: "game",
-        type: "game",
-        layer: 0,
-        bounds: [0, 0, 800, 600],
-      },
-      entity1: {
-        id: "entity1",
-        type: "doggo",
-        layer: 0,
-      },
-      entity2: {
-        id: "entity2",
-        type: "kitty",
-        layer: 0,
-        position: "far", // position changed
-      },
-    },
-  }
-
-  store.update(0, api)
+  store.notify("add", newEntity)
+  store.update(0, {})
 
   const state = store.getState()
-  expect(state).toStrictEqual(afterState)
+  expect(state).toStrictEqual({
+    entities: {
+      game: { id: "game", type: "game", layer: 0, bounds: [0, 0, 800, 600] },
+      kitty1: { id: "kitty1", type: "kitty", layer: 0 },
+    },
+  })
 })
 
-test("it should mutate state in an immutable way", () => {
+test("it should remove an entity via a 'remove' event", () => {
   const config = {
-    types: {
-      kitty: {
-        update(entity) {
-          entity.wasUpdated = true
-        },
-      },
-    },
-
+    types: {},
     entities: {
-      entity1: {
-        type: "kitty",
-      },
+      kitty1: { type: "kitty" },
     },
   }
   const store = createStore(config)
-  const afterState = {
-    events: [],
-    entities: {
-      game: {
-        id: "game",
-        type: "game",
-        layer: 0,
-        bounds: [0, 0, 800, 600],
-      },
-      entity1: {
-        id: "entity1",
-        type: "kitty",
-        layer: 0,
-        wasUpdated: true,
-      },
-    },
-  }
+
+  store.notify("remove", "kitty1")
 
   store.update(0, {})
 
   const state = store.getState()
-  expect(state).toStrictEqual(afterState)
+  expect(state.entities.kitty1).toBeUndefined()
 })

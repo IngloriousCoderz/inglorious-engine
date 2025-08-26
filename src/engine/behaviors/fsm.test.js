@@ -28,9 +28,7 @@ test("it should add a finite state machine", () => {
       },
     },
   }
-  const store = createStore(config)
   const afterState = {
-    events: [],
     entities: {
       game: {
         id: "game",
@@ -48,6 +46,7 @@ test("it should add a finite state machine", () => {
     },
   }
 
+  const store = createStore(config)
   store.notify("start")
   store.notify("catMeow")
   store.update()

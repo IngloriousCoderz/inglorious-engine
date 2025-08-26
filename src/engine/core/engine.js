@@ -35,7 +35,7 @@ export class Engine {
 
     this._store = createStore({ ...this._config, systems })
     this._loop = new Loop[this._config.loop.type]()
-    this._api = createApi(this._store, this._config)
+    this._api = createApi(this._store)
 
     // The renderer might need the engine instance to initialize itself (e.g., to set up DOM events).
     this._config.renderer?.init(this)
