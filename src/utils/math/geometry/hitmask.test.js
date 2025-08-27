@@ -3,7 +3,7 @@ import { expect, test } from "vitest"
 import { findCollisions } from "./hitmask"
 
 /**
- * Given a rectangle located at (1.5, 0, 2.5) with a size of (1, 1, 1),
+ * Given a rectangle located at (x=1.5, y=0, z=2.5) with a size of (1, 1, 1),
  * which is touching a wall tile, this test proves a collision is detected.
  *
  * Tilemap layout:
@@ -11,13 +11,13 @@ import { findCollisions } from "./hitmask"
  * ⬛️⬛️⬛️⬛️
  * ⬛️⬛️⬛️⬛️
  *
- * Rectangle position: R at (1.5, 2.5)
+ * Rectangle position (X,Z): R at (1.5, 2.5)
  *
  * Expected outcome: true
  */
 test("it should prove that a rectangle touching a wall intersects with it", () => {
   const hitmask = {
-    position: [0, 0, 0],
+    position: [2, 0, 1.5],
     tileSize: [1, 1],
     columns: 4,
     // The top row (indices 0, 1, 2, 3) now has the walls.
@@ -42,14 +42,14 @@ test("it should prove that a rectangle touching a wall intersects with it", () =
  * ⬛️⬛️⬛️⬛️
  * ⬛️⬛️⬛️⬛️
  *
- * Rectangle position: R at (11.5, 12.5)
+ * Rectangle position (X,Z): R at (11.5, 12.5)
  *
  * Expected outcome: true
  */
 test("it should prove that shifting operands does not change the outcome", () => {
   const SHIFT = 10
   const hitmask = {
-    position: [0 + SHIFT, 0, 0 + SHIFT],
+    position: [2 + SHIFT, 0, 1.5 + SHIFT],
     tileSize: [1, 1],
     columns: 4,
     // The top row (indices 0, 1, 2, 3) now has the walls.
@@ -57,7 +57,7 @@ test("it should prove that shifting operands does not change the outcome", () =>
   }
   const rectangle = {
     shape: "rectangle",
-    position: [1.5 + SHIFT, 0, 2.5 + SHIFT],
+    position: [11.5, 0, 12.5],
     size: [1, 1, 1],
   }
 
@@ -65,7 +65,7 @@ test("it should prove that shifting operands does not change the outcome", () =>
 })
 
 /**
- * Given a rectangle located at (0.5, 0, 0.5) with a size of (1, 1, 1),
+ * Given a rectangle located at (x=0.5, y=0, z=0.5) with a size of (1, 1, 1),
  * which is not touching any walls, this test proves no collision is detected.
  *
  * Tilemap layout:
@@ -73,13 +73,13 @@ test("it should prove that shifting operands does not change the outcome", () =>
  * ⬛️⬛️⬛️⬛️
  * ⬛️⬛️⬛️⬛️
  *
- * Rectangle position: R at (0.5, 0.5)
+ * Rectangle position (X,Z): R at (0.5, 0.5)
  *
  * Expected outcome: false
  */
 test("it should prove that a rectangle not touching a wall does not intersect with it", () => {
   const hitmask = {
-    position: [0, 0, 0],
+    position: [2, 0, 1.5],
     tileSize: [1, 1],
     columns: 4,
     // The top row (indices 0, 1, 2, 3) now has the walls.
@@ -103,13 +103,13 @@ test("it should prove that a rectangle not touching a wall does not intersect wi
  * ⬛️⬛️⬛️⬛️
  * ⬛️⬛️⬛️⬛️
  *
- * Rectangle position: R at (1.5, 1.1, 2.5)
+ * Rectangle position: R at (x=1.5, y=1.6, z=2.5)
  *
  * Expected outcome: false
  */
 test("it should prove that a rectangle above the tile of a hitmask does not intersect with it", () => {
   const hitmask = {
-    position: [0, 0, 0],
+    position: [2, 0, 1.5],
     tileSize: [1, 1],
     columns: 4,
     // The top row (indices 0, 1, 2, 3) now has the walls.
@@ -117,7 +117,7 @@ test("it should prove that a rectangle above the tile of a hitmask does not inte
   }
   const rectangle = {
     shape: "rectangle",
-    position: [1.5, 1.1, 2.5],
+    position: [1.5, 1.6, 2.5],
     size: [1, 1, 1],
   }
 
@@ -133,13 +133,13 @@ test("it should prove that a rectangle above the tile of a hitmask does not inte
  * ⬛️⬛️⬛️⬛️
  * ⬛️⬛️⬛️⬛️
  *
- * Rectangle position: R at (5, 0, 1)
+ * Rectangle position: R at (x=5.5, y=0.5, z=1.5)
  *
  * Expected outcome: false
  */
 test("it should prove that a rectangle outside of a hitmask does not intersect with it", () => {
   const hitmask = {
-    position: [0, 0, 0],
+    position: [2, 0, 1.5],
     tileSize: [1, 1],
     columns: 4,
     // The top row (indices 0, 1, 2, 3) now has the walls.
@@ -147,7 +147,7 @@ test("it should prove that a rectangle outside of a hitmask does not intersect w
   }
   const rectangle = {
     shape: "rectangle",
-    position: [5, 0, 1],
+    position: [5.5, 0.5, 1.5],
     size: [1, 1, 1],
   }
 

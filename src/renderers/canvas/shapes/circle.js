@@ -19,10 +19,8 @@ export function renderCircle(entity, ctx) {
   ctx.strokeStyle = color
   ctx.fillStyle = backgroundColor
 
-  ctx.translate(-x, -y - z)
-
   ctx.beginPath()
-  ctx.arc(0, 0, radius, 0, 2 * pi())
+  ctx.arc(x, -y - z, radius, 0, 2 * pi())
   ctx.fill()
   ctx.stroke()
   ctx.closePath()

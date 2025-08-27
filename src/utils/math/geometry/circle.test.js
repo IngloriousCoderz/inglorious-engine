@@ -57,13 +57,13 @@ test("it should prove that a circle inside of a rectangle intersects with it", (
   expect(intersectsRectangle(circle, rectangle)).toBe(true)
 })
 
-test("it should prove that a circle on the border of a rectangle intersects with it", () => {
+test("it should prove that a circle touching the border of a rectangle intersects with it", () => {
   const circle = {
     position: [1, 1, 0],
     radius: 1,
   }
   const rectangle = {
-    position: [-2, 0, 0],
+    position: [-1, 1, 0], // Rectangle's right edge is at x=0, touching the circle's left edge.
     size: [2, 2, 0],
   }
 
@@ -76,7 +76,7 @@ test("it should prove that a circle crossing a rectangle intersects with it", ()
     radius: 1,
   }
   const rectangle = {
-    position: [-1, -1, 0],
+    position: [0, 0, 0],
     size: [2, 2, 0],
   }
 

@@ -44,15 +44,16 @@ export function jumpable(params) {
           const entities = api.getEntities()
           const target = findCollision(entity, entities, "platform")
 
-          if (target) {
-            entity.vy = 0
-            const [x, , z] = entity.position
-            const py = calculateLandingPosition(entity, target, "platform")
-            entity.position = [x, py, z]
-            entity.groundObject = target
-            entity.jumpsLeft = entity.maxJumps
-            api.notify("landed", { entityId: entity.id, targetId: target.id })
-          }
+          if (!target) return
+
+          entity.vy = 0
+          const py = calculateLandingPosition(entity, target, "platform")
+
+          const [x, , z] = entity.position
+          entity.position = [x, py, z]
+          entity.groundObject = target
+          entity.jumpsLeft = entity.maxJumps
+          api.notify("landed", { entityId: entity.id, targetId: target.id })
         }
       },
     })

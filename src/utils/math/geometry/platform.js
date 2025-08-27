@@ -1,3 +1,5 @@
+const HALF = 2
+
 /**
  * Checks if a platform intersects with a circle in 3D space.
  * @param {Platform} platform - The platform to check.
@@ -5,16 +7,23 @@
  * @returns {boolean} True if the platform intersects the circle, false otherwise.
  */
 export function intersectsCircle(platform, circle) {
-  const [left, bottom, front] = platform.position
+  const [platformX, platformY, platformZ] = platform.position
   const [extension, elevation, thickness] = platform.size
+
+  const platformLeft = platformX - extension / HALF
+  const platformRight = platformX + extension / HALF
+  const platformBottom = platformY - elevation / HALF
+  const platformTop = platformY + elevation / HALF
+  const platformBack = platformZ - thickness / HALF
+  const platformFront = platformZ + thickness / HALF
 
   const [x, y, z] = circle.position
 
   const lowestY = y - circle.radius
-  const isAbove = lowestY >= bottom && lowestY <= bottom + elevation
+  const isAbove = lowestY >= platformBottom && lowestY <= platformTop
 
-  const isOverlappingX = x >= left && x <= left + extension
-  const isOverlappingZ = z >= front && z <= front + thickness
+  const isOverlappingX = x >= platformLeft && x <= platformRight
+  const isOverlappingZ = z >= platformBack && z <= platformFront
 
   return isAbove && isOverlappingX && isOverlappingZ
 }
@@ -27,16 +36,29 @@ export function intersectsCircle(platform, circle) {
  * @returns {boolean} True if the platform intersects the rectangle, false otherwise.
  */
 export function intersectsRectangle(platform, rectangle) {
-  const [left, bottom, front] = platform.position
+  const [platformX, platformY, platformZ] = platform.position
   const [extension, elevation, thickness] = platform.size
 
+  const platformLeft = platformX - extension / HALF
+  const platformRight = platformX + extension / HALF
+  const platformBottom = platformY - elevation / HALF
+  const platformTop = platformY + elevation / HALF
+  const platformBack = platformZ - thickness / HALF
+  const platformFront = platformZ + thickness / HALF
+
   const [x, y, z] = rectangle.position
-  const [width, , depth] = rectangle.size
+  const [width, height, depth] = rectangle.size
 
-  const isAbove = y >= bottom && y <= bottom + elevation
+  const left = x - width / HALF
+  const right = x + width / HALF
+  const bottom = y - height / HALF
+  const back = z - depth / HALF
+  const front = z + depth / HALF
 
-  const isOverlappingX = x + width >= left && x <= left + extension
-  const isOverlappingZ = z + depth >= front && z <= front + thickness
+  const isAbove = bottom >= platformBottom && bottom <= platformTop
+
+  const isOverlappingX = right >= platformLeft && left <= platformRight
+  const isOverlappingZ = front >= platformBack && back <= platformFront
 
   return isAbove && isOverlappingX && isOverlappingZ
 }

@@ -11,6 +11,7 @@ import { abs } from "@inglorious/utils/math/numbers.js"
 
 const X = 0
 const Z = 2
+const HALF = 2
 
 export function bounce(entity, dt, [minX, minZ, maxX, maxZ]) {
   const [x, , z] = entity.position
@@ -33,17 +34,21 @@ export function bounce(entity, dt, [minX, minZ, maxX, maxZ]) {
 const ClampToBoundsByShape = {
   rectangle(entity, [minX, minZ, maxX, maxZ], collisionGroup) {
     const [width, height, depth] =
-      entity.collisions?.[collisionGroup]?.size ?? entity.size
+      entity.collisions[collisionGroup].size ?? entity.size
+
+    const halfWidth = width / HALF
+    const halfHeight = height / HALF
+    const halfDepth = depth / HALF
 
     return clamp(
       entity.position,
-      [minX, minZ, minZ],
-      [maxX - width, maxZ - height, maxZ - depth],
+      [minX + halfWidth, minZ + halfHeight, minZ + halfDepth],
+      [maxX - halfWidth, maxZ - halfHeight, maxZ - halfDepth],
     )
   },
 
   circle(entity, [minX, minY, maxX, maxY], collisionGroup, depthAxis = "y") {
-    const radius = entity.collisions?.[collisionGroup]?.radius ?? entity.radius
+    const radius = entity.collisions[collisionGroup].radius ?? entity.radius
 
     if (depthAxis === "z") {
       return clamp(
@@ -71,26 +76,35 @@ export function clampToBounds(
   collisionGroup = "bounds",
   depthAxis,
 ) {
-  const shape = entity.collisions?.[collisionGroup]?.shape || "rectangle"
+  const shape = entity.collisions[collisionGroup].shape || "rectangle"
   const handler = ClampToBoundsByShape[shape] || ClampToBoundsByShape.point
   return handler(entity, bounds, collisionGroup, depthAxis)
 }
 
 export function flip(entity, [minX, minZ, maxX, maxZ]) {
   const [x, , z] = entity.position
+  const [width, height, depth] = entity.size
+  const rectHeight = height + depth
+  const halfWidth = width / HALF
+  const halfHeight = rectHeight / HALF
 
   const direction = fromAngle(entity.orientation)
 
-  if (x < minX || x >= maxX || z < minZ || z >= maxZ) {
-    if (x < minX) {
+  if (
+    x - halfWidth < minX ||
+    x + halfWidth >= maxX ||
+    z - halfHeight < minZ ||
+    z + halfHeight >= maxZ
+  ) {
+    if (x - halfWidth < minX) {
       direction[X] = abs(direction[X])
-    } else if (x >= maxX) {
+    } else if (x + halfWidth >= maxX) {
       direction[X] = -abs(direction[X])
     }
 
-    if (z < minZ) {
+    if (z - halfHeight < minZ) {
       direction[Z] = abs(direction[Z])
-    } else if (z >= maxZ) {
+    } else if (z + halfHeight >= maxZ) {
       direction[Z] = -abs(direction[Z])
     }
 

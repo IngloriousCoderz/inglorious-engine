@@ -2,43 +2,62 @@ import { expect, test } from "vitest"
 
 import { calculateLandingPosition } from "./position.js"
 
-test("it should calculate the landing position for a rectangular entity on a platform", () => {
+test("it should calculate the landing position for a point entity on a platform", () => {
   const entity = {
     collisions: {
-      platform: { shape: "rectangle" },
+      platform: { shape: "point" },
     },
   }
   const target = {
-    position: [0, 100, 0],
+    position: [0, 0, 0],
     collisions: {
-      platform: { size: [50, 10, 0] },
+      platform: { size: [20, 10, 0] },
     },
   }
   const collisionGroup = "platform"
 
   const py = calculateLandingPosition(entity, target, collisionGroup)
 
-  expect(py).toBe(110)
+  expect(py).toBe(5)
 })
 
 test("it should calculate the landing position for a circular entity on a platform", () => {
   const entity = {
     collisions: {
-      platform: { shape: "circle", radius: 15 },
+      platform: { shape: "circle", radius: 5 },
     },
   }
   const target = {
-    position: [0, 100, 0],
-    size: [50, 20],
+    position: [0, 0, 0],
     collisions: {
-      platform: { size: [50, 10, 0] },
+      platform: { size: [20, 10, 0] },
     },
   }
   const collisionGroup = "platform"
 
   const py = calculateLandingPosition(entity, target, collisionGroup)
 
-  expect(py).toBe(125)
+  expect(py).toBe(10)
+})
+
+test("it should calculate the landing position for a rectangular entity on a platform", () => {
+  const entity = {
+    size: [10, 10, 0],
+    collisions: {
+      platform: { shape: "rectangle" },
+    },
+  }
+  const target = {
+    position: [0, 0, 0],
+    collisions: {
+      platform: { size: [20, 10, 0] },
+    },
+  }
+  const collisionGroup = "platform"
+
+  const py = calculateLandingPosition(entity, target, collisionGroup)
+
+  expect(py).toBe(10)
 })
 
 test("it should fallback to a rectangular calculation for an unknown entity shape", () => {
@@ -48,14 +67,14 @@ test("it should fallback to a rectangular calculation for an unknown entity shap
     },
   }
   const target = {
-    position: [0, 100, 0],
+    position: [0, 0, 0],
     collisions: {
-      platform: { size: [50, 10, 0] },
+      platform: { size: [20, 10, 0] },
     },
   }
   const collisionGroup = "platform"
 
   const py = calculateLandingPosition(entity, target, collisionGroup)
 
-  expect(py).toBe(110)
+  expect(py).toBe(5)
 })

@@ -10,13 +10,44 @@ import { findCollision } from "@inglorious/engine/collision/detection.js"
 import { renderRectangle } from "@inglorious/renderers/canvas/shapes/rectangle.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
 
-const BASE_MARIO_BEHAVIORS = [
+const BASE_MARIO = [
   { render: renderRectangle },
   modernControls(),
   clamped(),
   jumpable(),
-  defaultMario(),
+  canCollideWithPowerups,
 ]
+
+const MARIO = [...BASE_MARIO, canCollideWithEnemyAndDie]
+
+const SUPER_MARIO = [
+  ...BASE_MARIO,
+  canBreakBricks,
+  canCollideWithEnemyAndShrink,
+]
+
+const FIRE_MARIO = [
+  ...BASE_MARIO,
+  canBreakBricks,
+  canShoot,
+  canCollideWithEnemyAndLosePowers,
+]
+
+const CAPE_MARIO = [
+  ...BASE_MARIO,
+  canBreakBricks,
+  canGlide,
+  canCollideWithEnemyAndLosePowers,
+]
+
+const ULTRA_MARIO = [
+  ...BASE_MARIO,
+  canBreakBricks,
+  canShoot,
+  canGlide,
+  canCollideWithEnemyAndLosePowers,
+]
+
 const controls = setupControls()
 
 export default {
@@ -24,7 +55,7 @@ export default {
   types: {
     ...controls.types,
 
-    mario: [...BASE_MARIO_BEHAVIORS, baseMario()],
+    mario: MARIO,
 
     platform: [{ render: renderRectangle }],
 
@@ -45,11 +76,11 @@ export default {
       ArrowLeft: "moveLeft",
       ArrowRight: "moveRight",
       Space: "jump",
-      KeyF: "float",
+      KeyG: "glide",
       KeyS: "shoot",
       KeyB: "break",
       Btn0: "jump",
-      Btn1: "float",
+      Btn1: "glide",
       Btn2: "shoot",
       Btn3: "break",
       Btn14: "moveLeft",
@@ -60,7 +91,7 @@ export default {
     mario: {
       type: "mario",
       layer: 1,
-      position: [100, 32, 0],
+      position: [116, 48, 0],
       size: [32, 32, 0],
       backgroundColor: "#393664",
       maxSpeed: 250,
@@ -83,7 +114,7 @@ export default {
 
     ground: {
       type: "platform",
-      position: [0, 0, 0],
+      position: [400, 16, 0],
       size: [800, 32, 0],
       backgroundColor: "#654321",
       collisions: {
@@ -95,7 +126,7 @@ export default {
 
     platform1: {
       type: "platform",
-      position: [200, 96, 0],
+      position: [275, 112, 0],
       size: [150, 32, 0],
       backgroundColor: "#654321",
       collisions: {
@@ -108,7 +139,7 @@ export default {
     powerUp1: {
       type: "mushroom",
       layer: 1,
-      position: [250, 128, 0],
+      position: [266, 144, 0],
       size: [32, 32, 0],
       backgroundColor: "#dc372f",
       collisions: {
@@ -120,7 +151,7 @@ export default {
 
     platform2: {
       type: "platform",
-      position: [450, 192, 0],
+      position: [525, 208, 0],
       size: [150, 32, 0],
       backgroundColor: "#654321",
       collisions: {
@@ -133,7 +164,7 @@ export default {
     powerUp2: {
       type: "fireFlower",
       layer: 1,
-      position: [500, 224, 0],
+      position: [516, 240, 0],
       size: [32, 32, 0],
       backgroundColor: "#e86c32",
       collisions: {
@@ -145,7 +176,7 @@ export default {
 
     platform3: {
       type: "platform",
-      position: [800 - 150, 256, 0],
+      position: [725, 272, 0],
       size: [150, 32, 0],
       backgroundColor: "#654321",
       collisions: {
@@ -158,7 +189,7 @@ export default {
     powerUp3: {
       type: "feather",
       layer: 1,
-      position: [800 - 150 + 50, 288, 0],
+      position: [716, 304, 0],
       size: [32, 32, 0],
       backgroundColor: "#fdf3f3",
       collisions: {
@@ -170,7 +201,7 @@ export default {
 
     platform4: {
       type: "platform",
-      position: [400, 352, 0],
+      position: [475, 368, 0],
       size: [150, 32, 0],
       backgroundColor: "#654321",
       collisions: {
@@ -183,7 +214,7 @@ export default {
     powerUp4: {
       type: "diamond",
       layer: 1,
-      position: [450, 384, 0],
+      position: [466, 400, 0],
       size: [32, 32, 0],
       backgroundColor: "#ca00ff",
       collisions: {
@@ -195,7 +226,7 @@ export default {
 
     enemy1: {
       type: "goomba",
-      position: [32, 32, 0],
+      position: [48, 48, 0],
       size: [32, 32, 0],
       backgroundColor: "#800000",
       collisions: {
@@ -207,7 +238,7 @@ export default {
 
     enemy2: {
       type: "goomba",
-      position: [400, 32, 0],
+      position: [416, 48, 0],
       size: [32, 32, 0],
       backgroundColor: "#800000",
       collisions: {
@@ -219,7 +250,7 @@ export default {
 
     enemy3: {
       type: "goomba",
-      position: [640, 32, 0],
+      position: [656, 48, 0],
       size: [32, 32, 0],
       backgroundColor: "#800000",
       collisions: {
@@ -231,177 +262,158 @@ export default {
   },
 }
 
-function defaultMario() {
-  return (type) =>
-    extend(type, {
-      update(entity, dt, api) {
-        type.update?.(entity, dt, api)
-
-        collideWithPowerUps(entity, api)
-      },
-    })
+function canBreakBricks(type) {
+  return extend(type, {
+    break(entity, { entityId }) {
+      if (entityId === entity.id) {
+        console.log("Breaking!")
+      }
+    },
+  })
 }
 
-function baseMario() {
-  return (type) =>
-    extend(type, {
-      update(entity, dt, api) {
-        type.update?.(entity, dt, api)
-
-        collideWithEnemyAndDie(entity, api)
-      },
-    })
+function canShoot(type) {
+  return extend(type, {
+    shoot(entity, { entityId }) {
+      if (entityId === entity.id) {
+        console.log("Shooting!")
+      }
+    },
+  })
 }
 
-function superMario() {
-  return (type) =>
-    extend(type, {
-      break(entity, { id }) {
-        if (id === entity.associatedInput) {
-          console.log("Breaking!")
-        }
-      },
-
-      update(entity, dt, api) {
-        type.update?.(entity, dt, api)
-
-        collideWithEnemyAndShrink(entity, api)
-      },
-    })
+function canGlide(type) {
+  return extend(type, {
+    glide(entity, { entityId }) {
+      if (entityId === entity.id) {
+        console.log("Gliding!")
+      }
+    },
+  })
 }
 
-function fireMario() {
-  return (type) =>
-    extend(type, {
-      shoot(entity, { id }) {
-        if (id === entity.associatedInput) {
-          console.log("Shooting!")
-        }
-      },
+function canCollideWithPowerups(type) {
+  return extend(type, {
+    update(entity, dt, api) {
+      type.update?.(entity, dt, api)
 
-      update(entity, dt, api) {
-        type.update?.(entity, dt, api)
+      const entities = api.getEntities()
+      const powerup = findCollision(entity, entities, "powerup")
 
-        collideWithEnemyAndLosePowers(entity, api)
-      },
-    })
+      if (!powerup) return
+
+      switch (powerup.type) {
+        case "mushroom":
+          entity.size = [64, 64, 0]
+          entity.maxSpeed = 300
+          entity.backgroundColor = "#b9342e"
+
+          api.notify("morph", {
+            id: entity.type,
+            type: SUPER_MARIO,
+          })
+          break
+
+        case "fireFlower":
+          entity.size = [64, 64, 0]
+          entity.maxSpeed = 350
+          entity.backgroundColor = "#f4f3e9"
+
+          api.notify("morph", {
+            id: entity.type,
+            type: FIRE_MARIO,
+          })
+          break
+
+        case "feather":
+          entity.size = [64, 64, 0]
+          entity.maxSpeed = 350
+          entity.backgroundColor = "#f4f040"
+
+          api.notify("morph", {
+            id: entity.type,
+            type: CAPE_MARIO,
+          })
+          break
+
+        case "diamond":
+          entity.size = [96, 96, 0]
+          entity.maxSpeed = 400
+          entity.backgroundColor = "#ca00ff"
+
+          api.notify("morph", {
+            id: entity.type,
+            type: ULTRA_MARIO,
+          })
+          break
+      }
+
+      api.notify("remove", powerup.id)
+    },
+  })
 }
 
-function capeMario() {
-  return (type) =>
-    extend(type, {
-      float(entity, { id }) {
-        if (id === entity.associatedInput) {
-          console.log("Floating!")
-        }
-      },
+function canCollideWithEnemyAndDie(type) {
+  return extend(type, {
+    update(entity, dt, api) {
+      type.update?.(entity, dt, api)
 
-      update(entity, dt, api) {
-        type.update?.(entity, dt, api)
+      const entities = api.getEntities()
+      const enemy = findCollision(entity, entities, "enemy")
 
-        collideWithEnemyAndLosePowers(entity, api)
-      },
-    })
+      if (!enemy) return
+
+      api.notify("remove", entity.id)
+      api.notify("remove", enemy.id)
+
+      console.log("Game over!")
+    },
+  })
 }
 
-function collideWithPowerUps(entity, api) {
-  const entities = api.getEntities()
-  const powerup = findCollision(entity, entities, "powerup")
+function canCollideWithEnemyAndShrink(type) {
+  return extend(type, {
+    update(entity, dt, api) {
+      type.update?.(entity, dt, api)
 
-  if (!powerup) return
+      const entities = api.getEntities()
+      const enemy = findCollision(entity, entities, "enemy")
 
-  switch (powerup.type) {
-    case "mushroom":
+      if (!enemy) return
+
+      entity.size = [32, 32, 0]
+      entity.maxSpeed = 250
+      entity.backgroundColor = "#393664"
+
+      api.notify("morph", {
+        id: entity.type,
+        type: MARIO,
+      })
+
+      api.notify("remove", enemy.id)
+    },
+  })
+}
+
+function canCollideWithEnemyAndLosePowers(type) {
+  return extend(type, {
+    update(entity, dt, api) {
+      type.update?.(entity, dt, api)
+
+      const entities = api.getEntities()
+      const enemy = findCollision(entity, entities, "enemy")
+
+      if (!enemy) return
+
       entity.size = [64, 64, 0]
       entity.maxSpeed = 300
       entity.backgroundColor = "#b9342e"
 
       api.notify("morph", {
         id: entity.type,
-        type: [...BASE_MARIO_BEHAVIORS, superMario()],
+        type: SUPER_MARIO,
       })
-      break
-
-    case "fireFlower":
-      entity.size = [64, 64, 0]
-      entity.maxSpeed = 350
-      entity.backgroundColor = "#f4f3e9"
-
-      api.notify("morph", {
-        id: entity.type,
-        type: [...BASE_MARIO_BEHAVIORS, superMario(), fireMario()],
-      })
-      break
-
-    case "feather":
-      entity.size = [64, 64, 0]
-      entity.maxSpeed = 350
-      entity.backgroundColor = "#f4f040"
-
-      api.notify("morph", {
-        id: entity.type,
-        type: [...BASE_MARIO_BEHAVIORS, superMario(), capeMario()],
-      })
-      break
-
-    case "diamond":
-      entity.size = [96, 96, 0]
-      entity.maxSpeed = 400
-      entity.backgroundColor = "#ca00ff"
-
-      api.notify("morph", {
-        id: entity.type,
-        type: [...BASE_MARIO_BEHAVIORS, superMario(), fireMario(), capeMario()],
-      })
-      break
-  }
-
-  api.notify("remove", powerup.id)
-}
-
-function collideWithEnemyAndDie(entity, api) {
-  const entities = api.getEntities()
-  const enemy = findCollision(entity, entities, "enemy")
-
-  if (!enemy) return
-
-  api.notify("remove", entity.id)
-  api.notify("remove", enemy.id)
-
-  console.log("Game over!")
-}
-
-function collideWithEnemyAndShrink(entity, api) {
-  const entities = api.getEntities()
-  const enemy = findCollision(entity, entities, "enemy")
-
-  if (!enemy) return
-
-  entity.size = [32, 32, 0]
-  entity.maxSpeed = 250
-  entity.backgroundColor = "#393664"
-
-  api.notify("morph", {
-    id: entity.type,
-    type: [...BASE_MARIO_BEHAVIORS, baseMario()],
+      api.notify("remove", enemy.id)
+    },
   })
-
-  api.notify("remove", enemy.id)
-}
-
-function collideWithEnemyAndLosePowers(entity, api) {
-  const entities = api.getEntities()
-  const enemy = findCollision(entity, entities, "enemy")
-
-  if (!enemy) return
-
-  entity.size = [64, 64, 0]
-  entity.maxSpeed = 300
-  entity.backgroundColor = "#b9342e"
-
-  api.notify("morph", {
-    id: entity.type,
-    type: [...BASE_MARIO_BEHAVIORS, superMario()],
-  })
-  api.notify("remove", enemy.id)
 }

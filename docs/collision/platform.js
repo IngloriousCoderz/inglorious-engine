@@ -41,8 +41,8 @@ export default {
 
     ground: {
       type: "platform",
-      position: [0, 0, 0],
-      size: [800, 48, 0],
+      position: [400, 24, 0],
+      size: [800, 48],
       backgroundColor: "green",
       collisions: {
         platform: {
@@ -66,7 +66,7 @@ export default {
     character: {
       type: "character",
       layer: 1,
-      position: [200, 50, 0],
+      position: [200, 60, 0],
       collisions: {
         bounds: {
           shape: "circle",

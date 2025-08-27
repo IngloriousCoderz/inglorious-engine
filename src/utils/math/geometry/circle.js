@@ -5,17 +5,14 @@
  * @typedef {import("./types").Platform} Platform
  */
 
+import { clamp } from "@inglorious/utils/math/linear-algebra/vector.js"
 import { subtract } from "@inglorious/utils/math/linear-algebra/vectors.js"
 
-import { clamp } from "../numbers.js"
 import { intersectsCircle as platformIntersectsCircle } from "./platform.js"
-import {
-  intersectsCircle as pointIntersectsCircle,
-  intersectsRectangle as pointIntersectsRectangle,
-} from "./point.js"
-import { intersectsCircle as segmentIntersectsCircle } from "./segment.js"
+import { intersectsCircle as pointIntersectsCircle } from "./point.js"
 import { hypothenuse } from "./triangle.js"
 
+const HALF = 2
 const SQUARED = 2
 const INITIAL_SUM = 0
 
@@ -49,40 +46,28 @@ export function intersectsCircle(circle1, circle2) {
  * @returns {boolean} True if the circle intersects the rectangle, false otherwise.
  */
 export function intersectsRectangle(circle, rectangle) {
-  const [left, top, front] = rectangle.position
+  const [rectX, rectY, rectZ] = rectangle.position
   const [width, height, depth] = rectangle.size
 
-  const ltf = [left, top, front]
-  const rtf = [left + width, top, front]
-  const lbf = [left, top, front + depth]
-  const rbf = [left + width, top, front + depth]
+  const left = rectX - width / HALF
+  const right = rectX + width / HALF
+  const bottom = rectY - height / HALF
+  const top = rectY + height / HALF
+  const back = rectZ - depth / HALF
+  const front = rectZ + depth / HALF
 
-  const ltb = [left, top + height, front]
-  const rtb = [left + width, top + height, front]
-  const lbb = [left, top + height, front + depth]
-  const rbb = [left + width, top + height, front + depth]
-
-  return (
-    // Center
-    pointIntersectsRectangle(circle.position, rectangle) ||
-    // Front face
-    segmentIntersectsCircle({ from: ltf, to: rtf }, circle) ||
-    segmentIntersectsCircle({ from: rtf, to: rbf }, circle) ||
-    segmentIntersectsCircle({ from: rbf, to: lbf }, circle) ||
-    segmentIntersectsCircle({ from: lbf, to: ltf }, circle) ||
-    // Back face
-    segmentIntersectsCircle({ from: ltb, to: rtb }, circle) ||
-    segmentIntersectsCircle({ from: rtb, to: rbb }, circle) ||
-    segmentIntersectsCircle({ from: rbb, to: lbb }, circle) ||
-    segmentIntersectsCircle({ from: lbb, to: ltb }, circle) ||
-    // Connecting edges
-    segmentIntersectsCircle({ from: ltf, to: ltb }, circle) ||
-    segmentIntersectsCircle({ from: rtf, to: rtb }, circle) ||
-    segmentIntersectsCircle({ from: lbf, to: lbb }, circle) ||
-    segmentIntersectsCircle({ from: rbf, to: rbb }, circle) ||
-    // Corners
-    isCircleWithinRectangleRadius(circle, rectangle)
+  const closestPoint = clamp(
+    circle.position,
+    [left, bottom, back],
+    [right, top, front],
   )
+
+  const distanceSquared = subtract(circle.position, closestPoint).reduce(
+    (sum, value) => sum + value ** SQUARED,
+    INITIAL_SUM,
+  )
+
+  return distanceSquared <= circle.radius ** SQUARED
 }
 
 /**
@@ -93,25 +78,4 @@ export function intersectsRectangle(circle, rectangle) {
  */
 export function intersectsPlatform(circle, platform) {
   return platformIntersectsCircle(platform, circle)
-}
-
-function isCircleWithinRectangleRadius(circle, rectangle) {
-  const [left, top, front] = rectangle.position
-  const [width, height, depth] = rectangle.size
-
-  // Find the closest point on the rectangle to the circle's center
-  const [x, y, z] = circle.position
-  const closestPoint = [
-    clamp(x, left, left + width),
-    clamp(y, top, top + height),
-    clamp(z, front, front + depth),
-  ]
-
-  // Calculate the distance from the circle's center to the closest point
-  const distanceSquared = subtract(circle.position, closestPoint).reduce(
-    (sum, value) => sum + value ** SQUARED,
-    INITIAL_SUM,
-  )
-
-  return distanceSquared <= circle.radius ** SQUARED
 }

@@ -53,16 +53,16 @@ export default {
 
     dungeon: {
       type: "tilemap",
-      position: [400 - (48 * 6) / 2, 0, 300 - (48 * 5) / 2],
+      position: [400, 0, 300],
       tilemap: {
         image: {
           id: "dungeon",
           src: "/tilemaps/dungeon.png",
           imageSize: [160, 160],
           tileSize: [16, 16],
-          columns: 6,
-          scale: 3,
         },
+        columns: 6,
+        scale: 3,
         layers: [
           {
             tiles: [
@@ -117,7 +117,8 @@ export default {
 
     player: {
       type: "player",
-      position: [400 - 48, 1, 300 - 48 / 2],
+      layer: 1,
+      position: [400 - 48, 0, 300 - 48 / 2],
       maxSpeed: 250,
       sprite: {
         image: {
@@ -136,8 +137,7 @@ export default {
       collisions: {
         hitbox: {
           shape: "rectangle",
-          size: [44, 0, 44],
-          offset: [-44 / 2, 0, -44 / 2],
+          size: [44, 1, 44],
         },
       },
     },

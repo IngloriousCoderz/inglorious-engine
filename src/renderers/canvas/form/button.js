@@ -16,8 +16,8 @@ export function renderButton(entity, ctx) {
   }
 
   ctx.beginPath()
-  ctx.fillRect(0, 0, width, height)
-  ctx.strokeRect(0, 0, width, height)
+  ctx.fillRect(-width / 2, -height / 2, width, height)
+  ctx.strokeRect(-width / 2, -height / 2, width, height)
   ctx.stroke()
   ctx.closePath()
 

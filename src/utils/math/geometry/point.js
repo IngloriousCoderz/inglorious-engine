@@ -40,11 +40,11 @@ export function intersectsPoint(point1, point2) {
  */
 export function intersectsCircle(point, circle) {
   const [x, y, z] = point
-  const [left, top, front] = circle.position
+  const [cx, cy, cz] = circle.position
   const radius = circle.radius
 
   return (
-    (x - left) ** SQUARED + (y - top) ** SQUARED + (z - front) ** SQUARED <=
+    (x - cx) ** SQUARED + (y - cy) ** SQUARED + (z - cz) ** SQUARED <=
     radius ** SQUARED
   )
 }
@@ -57,15 +57,22 @@ export function intersectsCircle(point, circle) {
  */
 export function intersectsRectangle(point, rectangle) {
   const [x, y, z] = point
-  const [left, top, front] = rectangle.position
+  const [rectX, rectY, rectZ] = rectangle.position
   const [width, height, depth] = rectangle.size
 
+  const left = rectX - width / HALF
+  const right = rectX + width / HALF
+  const bottom = rectY - height / HALF
+  const top = rectY + height / HALF
+  const back = rectZ - depth / HALF
+  const front = rectZ + depth / HALF
+
   return (
-    x >= left - width / HALF &&
-    x <= left + width / HALF &&
-    y >= top - height / HALF &&
-    y <= top + height / HALF &&
-    z >= front - depth / HALF &&
-    z <= front + depth / HALF
+    x >= left &&
+    x <= right &&
+    y >= bottom &&
+    y <= top &&
+    z >= back &&
+    z <= front
   )
 }

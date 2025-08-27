@@ -3,42 +3,58 @@
 import { intersectsRectangle } from "./rectangle.js"
 
 const FIRST_TILE = 0
+const HALF = 2
 const LAST_ROW = 1
 
 export function findCollisions(hitmask, target) {
-  const { position, tileSize, columns, heights } = hitmask
-  const [tilemapX, tilemapY, tilemapZ] = position
-  const [tileWidth, tileDepth] = tileSize
-  const rows = heights.length / columns
+  const [tilemapX, tilemapY, tilemapZ] = hitmask.position
+  const [tileWidth, tileDepth] = hitmask.tileSize
+  const halfTileWidth = tileWidth / HALF
+  const halfTileDepth = tileDepth / HALF
 
-  const [playerX, , playerZ] = target.position
-  const [playerWidth, , playerDepth] = target.size
+  const dRows = Math.ceil(hitmask.heights.length / hitmask.columns)
+  const tilemapWidth = hitmask.columns * tileWidth
+  const tilemapDepth = dRows * tileDepth
 
-  const playerHitboxLeft = playerX
-  const playerHitboxRight = playerX + playerWidth
-  const playerHitboxBottom = playerZ
-  const playerHitboxTop = playerZ + playerDepth
+  const tilemapLeft = tilemapX - tilemapWidth / HALF
+  const tilemapBack = tilemapZ - tilemapDepth / HALF
 
-  const minTileX = Math.floor((playerHitboxLeft - tilemapX) / tileWidth)
-  const maxTileX = Math.floor((playerHitboxRight - tilemapX) / tileWidth)
-  const minTileZ = Math.floor((playerHitboxBottom - tilemapZ) / tileDepth)
-  const maxTileZ = Math.floor((playerHitboxTop - tilemapZ) / tileDepth)
+  const [targetX, , targetZ] = target.position
+  const [targetWidth, , targetDepth] = target.size
+  const targetHalfWidth = targetWidth / HALF
+  const targetHalfDepth = targetDepth / HALF
+
+  const targetLeft = targetX - targetHalfWidth
+  const targetRight = targetX + targetHalfWidth
+  const targetBack = targetZ - targetHalfDepth
+  const targetFront = targetZ + targetHalfDepth
+
+  const minTileX = Math.floor((targetLeft - tilemapLeft) / tileWidth)
+  const maxTileX = Math.floor((targetRight - tilemapLeft) / tileWidth)
+  const minTileZ = Math.floor((targetBack - tilemapBack) / tileDepth)
+  const maxTileZ = Math.floor((targetFront - tilemapBack) / tileDepth)
 
   for (let i = minTileX; i <= maxTileX; i++) {
     for (let j = minTileZ; j <= maxTileZ; j++) {
-      if (i < FIRST_TILE || i >= columns || j < FIRST_TILE || j >= rows) {
+      if (
+        i < FIRST_TILE ||
+        i >= hitmask.columns ||
+        j < FIRST_TILE ||
+        j >= dRows
+      ) {
         continue
       }
 
-      const tileIndex = (rows - LAST_ROW - j) * columns + i
-      const tileHeightValue = heights[tileIndex]
+      const invertedRow = dRows - LAST_ROW - j
+      const tileIndex = invertedRow * hitmask.columns + i
+      const tileHeightValue = hitmask.heights[tileIndex]
 
       if (tileHeightValue) {
         const tileRectangle = {
           position: [
-            tilemapX + i * tileWidth,
+            tilemapLeft + i * tileWidth + halfTileWidth,
             tilemapY,
-            tilemapZ + j * tileDepth,
+            tilemapBack + j * tileDepth + halfTileDepth,
           ],
           size: [tileWidth, tileHeightValue, tileDepth],
         }

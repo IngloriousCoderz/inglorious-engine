@@ -43,7 +43,7 @@ export default {
 
     ground: {
       type: "platform",
-      position: [0, 0, 0],
+      position: [400, 16, 0],
       size: [800, 32, 0],
       backgroundColor: "#654321",
       collisions: { platform: { shape: "rectangle" } },
