@@ -75,7 +75,7 @@ const nextState = {
 export default {
   devMode: true,
 
-  systems: [spriteAnimationSystem],
+  systems: [spriteAnimationSystem()],
 
   types: {
     mouse: [{ render: renderMouse }, mouse()],
@@ -170,8 +170,8 @@ export default {
           src: "/sprites/neko.png",
           imageSize: [192, 192],
           tileSize: [32, 32],
-          scale: 2,
         },
+        scale: 2,
         speed: 0.2,
         frames: {
           idle: [4],

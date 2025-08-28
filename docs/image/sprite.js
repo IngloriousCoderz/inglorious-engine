@@ -4,7 +4,7 @@ import { renderSprite } from "@inglorious/renderers/canvas/image/sprite.js"
 export default {
   devMode: true,
 
-  systems: [spriteAnimationSystem],
+  systems: [spriteAnimationSystem()],
 
   types: {
     cat: [
@@ -31,8 +31,8 @@ export default {
           src: "/sprites/neko.png",
           imageSize: [192, 192],
           tileSize: [32, 32],
-          scale: 2,
         },
+        scale: 2,
         speed: 0.2,
         frames: {
           sleepy: [4, 10, 10, 3, 9, 15, 9, 15, 15],

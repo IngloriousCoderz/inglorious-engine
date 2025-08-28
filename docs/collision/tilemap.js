@@ -10,7 +10,10 @@ import { spriteAnimationSystem } from "@inglorious/engine/systems/sprite-animati
 import { renderSprite } from "@inglorious/renderers/canvas/image/sprite.js"
 import { renderTilemap } from "@inglorious/renderers/canvas/image/tilemap.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
-import { angle } from "@inglorious/utils/math/linear-algebra/vector.js"
+import {
+  angle,
+  magnitude,
+} from "@inglorious/utils/math/linear-algebra/vector.js"
 
 const X = 0
 const Z = 2
@@ -20,7 +23,7 @@ const controls = setupControls()
 export default {
   devMode: true,
 
-  systems: [spriteAnimationSystem],
+  systems: [spriteAnimationSystem()],
 
   types: {
     ...controls.types,
@@ -126,8 +129,8 @@ export default {
           src: "/sprites/dungeon_character.png",
           imageSize: [112, 64],
           tileSize: [16, 16],
-          scale: 3,
         },
+        scale: 3,
         speed: 0.2,
         frames: {
           right: [17],
@@ -175,7 +178,9 @@ function animated(type) {
     update(entity, dt, api) {
       type.update?.(entity, dt, api)
 
-      entity.orientation = angle(entity.velocity)
+      entity.orientation = magnitude(entity.velocity)
+        ? angle(entity.velocity)
+        : entity.orientation
 
       const animation = Sprite.move2(entity)
       entity.sprite.state = animation

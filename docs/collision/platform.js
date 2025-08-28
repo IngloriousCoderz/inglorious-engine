@@ -1,5 +1,5 @@
 import { clamped } from "@inglorious/engine/behaviors/clamped.js"
-import { modernControls } from "@inglorious/engine/behaviors/controls/kinematic/modern.js"
+import { modernVelocity } from "@inglorious/engine/behaviors/controls/kinematic/modern.js"
 import {
   controlsEntities,
   setupControls,
@@ -19,7 +19,7 @@ export default {
 
     character: [
       { render: renderCharacter },
-      modernControls(),
+      modernVelocity(),
       clamped({ depthAxis: "z" }),
       jumpable(),
     ],
@@ -53,7 +53,7 @@ export default {
 
     platform: {
       type: "platform",
-      position: [600, 128, 0],
+      position: [600, 120, 0],
       size: [80, 24, 0],
       backgroundColor: "grey",
       collisions: {

@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { clamped } from "@inglorious/engine/behaviors/clamped.js"
-import { modernControls } from "@inglorious/engine/behaviors/controls/kinematic/modern.js"
+import { modernVelocity } from "@inglorious/engine/behaviors/controls/kinematic/modern.js"
 import {
   controlsEntities,
   setupControls,
@@ -12,8 +12,8 @@ import { extend } from "@inglorious/utils/data-structures/objects.js"
 
 const BASE_MARIO = [
   { render: renderRectangle },
-  modernControls(),
-  clamped(),
+  modernVelocity(),
+  clamped({ depthAxis: "z" }),
   jumpable(),
   canCollideWithPowerups,
 ]
@@ -126,7 +126,7 @@ export default {
 
     platform1: {
       type: "platform",
-      position: [275, 112, 0],
+      position: [275, 100, 0],
       size: [150, 32, 0],
       backgroundColor: "#654321",
       collisions: {
@@ -139,7 +139,7 @@ export default {
     powerUp1: {
       type: "mushroom",
       layer: 1,
-      position: [266, 144, 0],
+      position: [266, 132, 0],
       size: [32, 32, 0],
       backgroundColor: "#dc372f",
       collisions: {
@@ -151,7 +151,7 @@ export default {
 
     platform2: {
       type: "platform",
-      position: [525, 208, 0],
+      position: [525, 180, 0],
       size: [150, 32, 0],
       backgroundColor: "#654321",
       collisions: {
@@ -164,7 +164,7 @@ export default {
     powerUp2: {
       type: "fireFlower",
       layer: 1,
-      position: [516, 240, 0],
+      position: [516, 212, 0],
       size: [32, 32, 0],
       backgroundColor: "#e86c32",
       collisions: {
@@ -176,7 +176,7 @@ export default {
 
     platform3: {
       type: "platform",
-      position: [725, 272, 0],
+      position: [725, 240, 0],
       size: [150, 32, 0],
       backgroundColor: "#654321",
       collisions: {
@@ -189,7 +189,7 @@ export default {
     powerUp3: {
       type: "feather",
       layer: 1,
-      position: [716, 304, 0],
+      position: [716, 272, 0],
       size: [32, 32, 0],
       backgroundColor: "#fdf3f3",
       collisions: {
@@ -201,7 +201,7 @@ export default {
 
     platform4: {
       type: "platform",
-      position: [475, 368, 0],
+      position: [475, 320, 0],
       size: [150, 32, 0],
       backgroundColor: "#654321",
       collisions: {
@@ -214,7 +214,7 @@ export default {
     powerUp4: {
       type: "diamond",
       layer: 1,
-      position: [466, 400, 0],
+      position: [466, 352, 0],
       size: [32, 32, 0],
       backgroundColor: "#ca00ff",
       collisions: {
@@ -302,10 +302,13 @@ function canCollideWithPowerups(type) {
 
       if (!powerup) return
 
+      const oldheight = entity.size[1]
+
       switch (powerup.type) {
         case "mushroom":
           entity.size = [64, 64, 0]
           entity.maxSpeed = 300
+          entity.position[1] += (entity.size[1] - oldheight) / 2
           entity.backgroundColor = "#b9342e"
 
           api.notify("morph", {
@@ -317,6 +320,7 @@ function canCollideWithPowerups(type) {
         case "fireFlower":
           entity.size = [64, 64, 0]
           entity.maxSpeed = 350
+          entity.position[1] += (entity.size[1] - oldheight) / 2
           entity.backgroundColor = "#f4f3e9"
 
           api.notify("morph", {
@@ -328,6 +332,7 @@ function canCollideWithPowerups(type) {
         case "feather":
           entity.size = [64, 64, 0]
           entity.maxSpeed = 350
+          entity.position[1] += (entity.size[1] - oldheight) / 2
           entity.backgroundColor = "#f4f040"
 
           api.notify("morph", {
@@ -339,6 +344,7 @@ function canCollideWithPowerups(type) {
         case "diamond":
           entity.size = [96, 96, 0]
           entity.maxSpeed = 400
+          entity.position[1] += (entity.size[1] - oldheight) / 2
           entity.backgroundColor = "#ca00ff"
 
           api.notify("morph", {
@@ -381,8 +387,10 @@ function canCollideWithEnemyAndShrink(type) {
 
       if (!enemy) return
 
+      const oldShrinkHeight = entity.size[1]
       entity.size = [32, 32, 0]
       entity.maxSpeed = 250
+      entity.position[1] += (entity.size[1] - oldShrinkHeight) / 2
       entity.backgroundColor = "#393664"
 
       api.notify("morph", {
@@ -405,8 +413,10 @@ function canCollideWithEnemyAndLosePowers(type) {
 
       if (!enemy) return
 
+      const oldLosePowersHeight = entity.size[1]
       entity.size = [64, 64, 0]
       entity.maxSpeed = 300
+      entity.position[1] += (entity.size[1] - oldLosePowersHeight) / 2
       entity.backgroundColor = "#b9342e"
 
       api.notify("morph", {

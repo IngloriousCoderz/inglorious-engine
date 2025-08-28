@@ -2,7 +2,6 @@ import { filter } from "@inglorious/utils/data-structures/object.js"
 import * as circle from "@inglorious/utils/math/geometry/circle.js"
 import * as hitmask from "@inglorious/utils/math/geometry/hitmask.js"
 import * as line from "@inglorious/utils/math/geometry/line.js"
-import * as platform from "@inglorious/utils/math/geometry/platform.js"
 import * as point from "@inglorious/utils/math/geometry/point.js"
 import * as rectangle from "@inglorious/utils/math/geometry/rectangle.js"
 import * as segment from "@inglorious/utils/math/geometry/segment.js"
@@ -14,7 +13,6 @@ const Z = 2 // Z-axis index.
 const Shape = {
   circle,
   line,
-  platform,
   point,
   rectangle,
   segment,

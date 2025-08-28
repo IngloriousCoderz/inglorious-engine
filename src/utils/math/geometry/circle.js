@@ -8,7 +8,6 @@
 import { clamp } from "@inglorious/utils/math/linear-algebra/vector.js"
 import { subtract } from "@inglorious/utils/math/linear-algebra/vectors.js"
 
-import { intersectsCircle as platformIntersectsCircle } from "./platform.js"
 import { intersectsCircle as pointIntersectsCircle } from "./point.js"
 import { hypothenuse } from "./triangle.js"
 
@@ -68,14 +67,4 @@ export function intersectsRectangle(circle, rectangle) {
   )
 
   return distanceSquared <= circle.radius ** SQUARED
-}
-
-/**
- * Checks if a circle intersects with a platform.
- * @param {Circle} circle - The circle to check.
- * @param {Platform} platform - The platform to check.
- * @returns {boolean} True if the circle intersects the platform, false otherwise.
- */
-export function intersectsPlatform(circle, platform) {
-  return platformIntersectsCircle(platform, circle)
 }

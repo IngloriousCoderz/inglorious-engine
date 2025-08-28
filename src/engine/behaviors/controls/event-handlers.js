@@ -1,19 +1,15 @@
 export function createMovementEventHandlers(events) {
   return events.reduce((acc, eventName) => {
-    acc[eventName] = (entity, { inputId, value }) => {
-      if (inputId !== entity.associatedInput) {
-        return
+    acc[eventName] = (entity, { entityId, value }) => {
+      if (entityId === entity.id) {
+        entity.movement[eventName] = value ?? true
       }
-
-      entity.movement[eventName] = value ?? true
     }
 
     acc[`${eventName}End`] = (entity, { entityId }) => {
-      if (entityId !== entity.id) {
-        return
+      if (entityId === entity.id) {
+        entity.movement[eventName] = false
       }
-
-      entity.movement[eventName] = false
     }
 
     return acc

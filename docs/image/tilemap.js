@@ -20,9 +20,9 @@ export default {
           src: "/tilemaps/dungeon.png",
           imageSize: [160, 160],
           tileSize: [16, 16],
-          columns: 6,
-          scale: 3,
         },
+        columns: 6,
+        scale: 3,
         layers: [
           {
             tiles: [

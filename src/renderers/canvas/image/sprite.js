@@ -14,8 +14,8 @@ const FLIPPED_VERTICALLY_FLAG = 0x40000000
 // const ROTATED_HEXAGONAL_120_FLAG = 0x10000000
 
 export function renderSprite(entity, ctx) {
-  const { image, frames, state, value } = entity.sprite
-  const { imageSize, tileSize, scale = DEFAULT_SCALE } = image
+  const { image, frames, state, value, scale = DEFAULT_SCALE } = entity.sprite
+  const { imageSize, tileSize } = image
 
   const [imageWidth] = imageSize
   const [tileWidth, tileHeight] = tileSize

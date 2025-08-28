@@ -5,7 +5,6 @@
  */
 
 import { intersectsRectangle as circleIntersectsRectangle } from "./circle.js"
-import { intersectsRectangle as platformIntersectsRectangle } from "./platform.js"
 
 const HALF = 2
 
@@ -63,15 +62,4 @@ export function intersectsRectangle(rectangle1, rectangle2) {
     back1 <= front2 &&
     front1 >= back2
   )
-}
-
-/**
- * Checks if a rectangle intersects with a platform.
- *
- * @param {Rectangle} rectangle - The rectangle to check.
- * @param {Platform} platform - The platform to check.
- * @returns {boolean} True if the rectangle intersects the platform, false otherwise.
- */
-export function intersectsPlatform(rectangle, platform) {
-  return platformIntersectsRectangle(platform, rectangle)
 }
