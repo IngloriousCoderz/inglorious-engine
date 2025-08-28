@@ -10,14 +10,18 @@ import { Sprite } from "@inglorious/engine/animation/sprite.js"
  * @param {Object} api - The game API.
  * @param {Function} api.notify - A function to notify about events.
  */
-export function spriteAnimationSystem(state, dt, api) {
-  for (const id in state.entities) {
-    const entity = state.entities[id]
+export function spriteAnimationSystem() {
+  return {
+    update(state, dt, api) {
+      for (const id in state.entities) {
+        const entity = state.entities[id]
 
-    if (!entity.sprite || !entity.sprite.state) {
-      continue
-    }
+        if (!entity.sprite || !entity.sprite.state) {
+          continue
+        }
 
-    Sprite.play(entity.sprite.state, { entity, dt, notify: api.notify })
+        Sprite.play(entity.sprite.state, { entity, dt, notify: api.notify })
+      }
+    },
   }
 }

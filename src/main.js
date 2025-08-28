@@ -1,5 +1,5 @@
 import { Engine } from "@inglorious/engine/core/engine.js"
-import { CanvasRenderer } from "@inglorious/renderers/canvas.js"
+import { CanvasRenderer } from "@inglorious/renderers/canvas/canvas-renderer.js"
 import game from "game"
 
 const canvas = document.getElementById("canvas")

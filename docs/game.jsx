@@ -1,5 +1,5 @@
 import { Engine } from "@inglorious/engine/core/engine"
-import { CanvasRenderer } from "@inglorious/renderers/canvas"
+import { CanvasRenderer } from "@inglorious/renderers/canvas/canvas-renderer"
 import { useEffect, useRef } from "react"
 
 export default function Game({ config }) {

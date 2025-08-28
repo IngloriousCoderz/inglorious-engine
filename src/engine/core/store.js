@@ -102,9 +102,12 @@ export function createStore({
           const handle = type[event.type]
           handle?.(entity, event.payload, api)
         }
-      }
 
-      systems.forEach((system) => system(state, dt, api))
+        systems.forEach((system) => {
+          const handle = system[event.type]
+          handle?.(state, event.payload, api)
+        })
+      }
     })
 
     listeners.forEach((onUpdate) => onUpdate())

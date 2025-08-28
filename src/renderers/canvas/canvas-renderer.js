@@ -1,6 +1,6 @@
 import { track } from "@inglorious/engine/behaviors/input/mouse.js"
 
-import { createRenderingSystem } from "./canvas/rendering-system.js"
+import { createRenderingSystem } from "./rendering-system.js"
 
 export class CanvasRenderer {
   _onKeyPress = null
