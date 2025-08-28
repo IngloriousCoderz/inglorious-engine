@@ -3,6 +3,7 @@ import { extend } from "@inglorious/utils/data-structures/objects.js"
 import {
   angle,
   magnitude,
+  zero,
 } from "@inglorious/utils/math/linear-algebra/vector.js"
 import { applyGravity } from "@inglorious/utils/physics/gravity.js"
 import { jump } from "@inglorious/utils/physics/jump.js"
@@ -29,11 +30,14 @@ export function jumpable(params) {
       start(entity, api) {
         type.start?.(entity, api)
 
-        entity.maxSpeed = entity.maxSpeed ?? params.maxSpeed
-        entity.maxJump = entity.maxJump ?? params.maxJump
-        entity.maxLeap = entity.maxLeap ?? params.maxLeap
-        entity.maxJumps = entity.maxJumps ?? params.maxJumps
-        entity.jumpsLeft = entity.jumpsLeft ?? entity.maxJumps
+        entity.maxSpeed ??= params.maxSpeed
+        entity.maxJump ??= params.maxJump
+        entity.maxLeap ??= params.maxLeap
+        entity.maxJumps ??= params.maxJumps
+        entity.jumpsLeft ??= entity.maxJumps
+
+        entity.velocity ??= zero()
+        entity.vy ??= 0
       },
 
       jump(entity, { entityId }) {
@@ -49,7 +53,10 @@ export function jumpable(params) {
 
         const entities = api.getEntities()
 
-        // TODO: circles have a radius, not a size! platform.js is broken
+        entity.collisions ??= {}
+        entity.collisions.platform ??= {}
+        entity.collisions.platform.shape ??= "rectangle"
+
         let width, height
         if (entity.collisions.platform.shape === "circle") {
           width = entity.collisions.platform.radius * DOUBLE

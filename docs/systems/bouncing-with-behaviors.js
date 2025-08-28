@@ -27,8 +27,7 @@ export default {
   entities: {
     ball1: {
       type: "ball",
-      position: [200, 32, 0],
-      size: [32, 32, 0],
+      position: [200, 64, 0],
       backgroundColor: "#393664",
       maxJump: 250,
       collisions: { platform: { shape: "circle", radius: 16 } },
@@ -36,8 +35,7 @@ export default {
 
     ball2: {
       type: "ball",
-      position: [400, 32, 0],
-      size: [32, 32, 0],
+      position: [400, 64, 0],
       backgroundColor: "#643639",
       maxJump: 250,
       collisions: { platform: { shape: "circle", radius: 16 } },
@@ -45,8 +43,7 @@ export default {
 
     ball3: {
       type: "ball",
-      position: [600, 32, 0],
-      size: [32, 32, 0],
+      position: [600, 64, 0],
       backgroundColor: "#366439",
       maxJump: 250,
       collisions: { platform: { shape: "circle", radius: 16 } },
@@ -54,8 +51,8 @@ export default {
 
     ground: {
       type: "platform",
-      position: [0, 0, 0],
-      size: [800, 32, 0],
+      position: [400, 24, 0],
+      size: [800, 48, 0],
       backgroundColor: "#654321",
       collisions: { platform: { shape: "rectangle" } },
     },

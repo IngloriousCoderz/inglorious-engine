@@ -9,9 +9,10 @@ import {
 import { sum } from "@inglorious/utils/math/linear-algebra/vectors.js"
 import { abs } from "@inglorious/utils/math/numbers.js"
 
+const DOUBLE = 2
+const HALF = 2
 const X = 0
 const Z = 2
-const HALF = 2
 
 export function bounce(entity, dt, [minX, minZ, maxX, maxZ]) {
   const [x, , z] = entity.position
@@ -83,28 +84,49 @@ export function clampToBounds(
 
 export function flip(entity, [minX, minZ, maxX, maxZ]) {
   const [x, , z] = entity.position
-  const [width, height, depth] = entity.size
-  const rectHeight = height + depth
+
+  entity.collisions ??= {}
+  entity.collisions.bounds ??= {}
+  entity.collisions.bounds.shape ??= "rectangle"
+
+  let width, height, depth
+  if (entity.collisions.bounds.shape === "circle") {
+    width = entity.collisions.bounds.radius * DOUBLE
+    height = entity.collisions.bounds.radius * DOUBLE
+    depth = entity.collisions.bounds.radius * DOUBLE
+  } else {
+    ;[width, height, depth] = entity.collisions.bounds.size ?? entity.size
+  }
   const halfWidth = width / HALF
-  const halfHeight = rectHeight / HALF
+  const halfHeight = height / HALF
+  const halfDepth = depth / HALF
+
+  const left = x - halfWidth
+  const right = x + halfWidth
+  const bottom = z - halfHeight
+  const top = z + halfHeight
+  const back = z - halfDepth
+  const front = z + halfDepth
 
   const direction = fromAngle(entity.orientation)
 
   if (
-    x - halfWidth < minX ||
-    x + halfWidth >= maxX ||
-    z - halfHeight < minZ ||
-    z + halfHeight >= maxZ
+    left < minX ||
+    right >= maxX ||
+    bottom < minZ ||
+    top >= maxZ ||
+    back < minZ ||
+    front >= maxZ
   ) {
-    if (x - halfWidth < minX) {
+    if (left < minX) {
       direction[X] = abs(direction[X])
-    } else if (x + halfWidth >= maxX) {
+    } else if (right >= maxX) {
       direction[X] = -abs(direction[X])
     }
 
-    if (z - halfHeight < minZ) {
+    if (back < minZ) {
       direction[Z] = abs(direction[Z])
-    } else if (z + halfHeight >= maxZ) {
+    } else if (front >= maxZ) {
       direction[Z] = -abs(direction[Z])
     }
 
