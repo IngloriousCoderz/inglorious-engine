@@ -58,9 +58,6 @@ function shapeCollidesWith(entity, target) {
     case "line":
       return shapeFns.intersectsLine(entity, target)
 
-    case "platform":
-      return shapeFns.intersectsPlatform(entity, target)
-
     case "point":
       return shapeFns.intersectsPoint(entity, target)
 

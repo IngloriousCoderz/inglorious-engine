@@ -4,7 +4,7 @@ import { extend } from "@inglorious/utils/data-structures/objects.js"
 import { pipe } from "@inglorious/utils/functions/functions.js"
 import { produce } from "immer"
 
-import { readOnlyStateProxyHandler } from "./proxy"
+import { readOnlyStateProxyHandler } from "./proxy.js"
 
 const DEFAULT_TYPES = {
   game: [game()],

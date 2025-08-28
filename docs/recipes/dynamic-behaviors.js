@@ -10,7 +10,7 @@ import { findCollision } from "@inglorious/engine/collision/detection.js"
 import { renderRectangle } from "@inglorious/renderers/canvas/shapes/rectangle.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
 
-const BASE_MARIO = [
+const BASE_DARIO = [
   { render: renderRectangle },
   modernVelocity(),
   clamped({ depthAxis: "z" }),
@@ -18,30 +18,30 @@ const BASE_MARIO = [
   canCollideWithPowerups,
 ]
 
-const MARIO = [...BASE_MARIO, canCollideWithEnemyAndDie]
+const DARIO = [...BASE_DARIO, canCollideWithEnemyAndDie]
 
-const SUPER_MARIO = [
-  ...BASE_MARIO,
+const SUPER_DARIO = [
+  ...BASE_DARIO,
   canBreakBricks,
   canCollideWithEnemyAndShrink,
 ]
 
-const FIRE_MARIO = [
-  ...BASE_MARIO,
+const FIRE_DARIO = [
+  ...BASE_DARIO,
   canBreakBricks,
   canShoot,
   canCollideWithEnemyAndLosePowers,
 ]
 
-const CAPE_MARIO = [
-  ...BASE_MARIO,
+const CAPE_DARIO = [
+  ...BASE_DARIO,
   canBreakBricks,
   canGlide,
   canCollideWithEnemyAndLosePowers,
 ]
 
-const ULTRA_MARIO = [
-  ...BASE_MARIO,
+const ULTRA_DARIO = [
+  ...BASE_DARIO,
   canBreakBricks,
   canShoot,
   canGlide,
@@ -55,7 +55,7 @@ export default {
   types: {
     ...controls.types,
 
-    mario: MARIO,
+    dario: DARIO,
 
     platform: [{ render: renderRectangle }],
 
@@ -72,7 +72,7 @@ export default {
 
   entities: {
     ...controls.entities,
-    ...controlsEntities("input0", ["mario"], {
+    ...controlsEntities("input0", ["dario"], {
       ArrowLeft: "moveLeft",
       ArrowRight: "moveRight",
       Space: "jump",
@@ -88,8 +88,8 @@ export default {
       Axis0: "moveLeftRight",
     }),
 
-    mario: {
-      type: "mario",
+    dario: {
+      type: "dario",
       layer: 1,
       position: [116, 48, 0],
       size: [32, 32, 0],
@@ -313,7 +313,7 @@ function canCollideWithPowerups(type) {
 
           api.notify("morph", {
             id: entity.type,
-            type: SUPER_MARIO,
+            type: SUPER_DARIO,
           })
           break
 
@@ -325,7 +325,7 @@ function canCollideWithPowerups(type) {
 
           api.notify("morph", {
             id: entity.type,
-            type: FIRE_MARIO,
+            type: FIRE_DARIO,
           })
           break
 
@@ -337,7 +337,7 @@ function canCollideWithPowerups(type) {
 
           api.notify("morph", {
             id: entity.type,
-            type: CAPE_MARIO,
+            type: CAPE_DARIO,
           })
           break
 
@@ -349,7 +349,7 @@ function canCollideWithPowerups(type) {
 
           api.notify("morph", {
             id: entity.type,
-            type: ULTRA_MARIO,
+            type: ULTRA_DARIO,
           })
           break
       }
@@ -395,7 +395,7 @@ function canCollideWithEnemyAndShrink(type) {
 
       api.notify("morph", {
         id: entity.type,
-        type: MARIO,
+        type: DARIO,
       })
 
       api.notify("remove", enemy.id)
@@ -421,7 +421,7 @@ function canCollideWithEnemyAndLosePowers(type) {
 
       api.notify("morph", {
         id: entity.type,
-        type: SUPER_MARIO,
+        type: SUPER_DARIO,
       })
       api.notify("remove", enemy.id)
     },

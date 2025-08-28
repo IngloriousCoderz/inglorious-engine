@@ -5,8 +5,19 @@
  */
 
 import { intersectsRectangle as circleIntersectsRectangle } from "./circle.js"
+import { intersectsRectangle as pointIntersectsRectangle } from "./point.js"
 
 const HALF = 2
+
+/**
+ * Checks if a rectangle intersects with a point.
+ * @param {Rectangle} rectangle - The rectangle to check.
+ * @param {Point} point - The point to check.
+ * @returns {boolean} True if the point intersects the circle, false otherwise.
+ */
+export function intersectsPoint(rectangle, point) {
+  return pointIntersectsRectangle(point, rectangle)
+}
 
 /**
  * Checks if a rectangle intersects with a circle.
