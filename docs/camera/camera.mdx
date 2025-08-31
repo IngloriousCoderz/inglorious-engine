@@ -1,0 +1,25 @@
+import { Canvas, Meta, Source } from '@storybook/addon-docs/blocks'
+import * as Camera from './camera.stories'
+import camera from './camera?raw'
+
+<Meta of={Camera} />
+
+# Camera
+
+This example demonstrates a camera entity that follows a target and allows for zooming.
+
+## Controls
+
+*   **Mouse:** The character will follow the mouse cursor.
+*   **Mouse Wheel:** Scroll up and down to zoom the camera in and out.
+*   **'D' Key:** Toggles `devMode`.
+
+## Development Mode
+
+When `devMode` is active (`true`), you will see an overview of the entire scene. The camera's viewport is rendered as a red rectangle, making it easy to see what area it's covering.
+
+When `devMode` is turned off, the view will switch to the camera's perspective. The scene will be zoomed and panned to follow the camera's target, showing you how the game would look at runtime.
+
+<Canvas of={Camera.Default} />
+
+<Source dark code={camera} />

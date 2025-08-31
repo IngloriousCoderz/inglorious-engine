@@ -1,7 +1,6 @@
 import RendererChooser from "../renderer-chooser.jsx"
 import addAndRemove from "./add-and-remove.js"
 import addEntity from "./add-entity.js"
-import camera from "./camera.js"
 import dynamicBehaviors from "./dynamic-behaviors.js"
 import randomEntities from "./random-entities.js"
 import removeEntity from "./remove-entity.js"
@@ -29,8 +28,4 @@ export const AddAndRemove = {
 
 export const DynamicBehaviors = {
   args: { config: dynamicBehaviors },
-}
-
-export const Camera = {
-  args: { config: camera },
 }
