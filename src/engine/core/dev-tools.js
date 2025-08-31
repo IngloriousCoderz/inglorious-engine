@@ -16,8 +16,14 @@ export const ACTION_BLACKLIST = [
 const LAST_STATE = 1
 
 let devToolsInstance = null
+let unsubscribe = null
 
 export function initDevTools(store) {
+  // Prevent multiple connections
+  if (devToolsInstance) {
+    return
+  }
+
   if (typeof window === "undefined" || !window.__REDUX_DEVTOOLS_EXTENSION__) {
     return
   }
@@ -43,7 +49,7 @@ export function initDevTools(store) {
     },
   })
 
-  devToolsInstance.subscribe((message) => {
+  unsubscribe = devToolsInstance.subscribe((message) => {
     switch (message.type) {
       case "DISPATCH":
         handleDispatch(message, store)
@@ -56,6 +62,19 @@ export function initDevTools(store) {
   })
 
   devToolsInstance.init(store.getState())
+}
+
+export function disconnectDevTools() {
+  // The `disconnect` method on the devToolsInstance is not available in all
+  // environments or versions of the extension.
+  // The safest way to "disconnect" is to unsubscribe from any listeners
+  // and release our reference to the instance, which prevents any further
+  // actions from being sent.
+  if (unsubscribe) {
+    unsubscribe()
+    unsubscribe = null
+    devToolsInstance = null
+  }
 }
 
 export function sendAction(action, state) {

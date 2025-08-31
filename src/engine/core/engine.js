@@ -2,7 +2,12 @@ import { game as gameBehavior } from "@inglorious/engine/behaviors/game.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
 
 import { createApi } from "./api.js"
-import { ACTION_BLACKLIST, initDevTools, sendAction } from "./dev-tools.js"
+import {
+  ACTION_BLACKLIST,
+  disconnectDevTools,
+  initDevTools,
+  sendAction,
+} from "./dev-tools.js"
 import Loop from "./loop.js"
 import { createStore } from "./store.js"
 
@@ -29,6 +34,8 @@ const FINAL_UPDATE_DELTA_TIME = 0 // This ensures any pending events (like 'stop
  * Engine class responsible for managing the game loop, state, and rendering.
  */
 export class Engine {
+  _devMode = false
+
   /**
    * @param {Object} [game] - Game-specific configuration.
    * @param {Object} [renderer] - UI entity responsible for rendering. It must have a `render` method.
@@ -43,6 +50,7 @@ export class Engine {
 
     // Determine devMode from the entities config.
     const devMode = this._config.entities.game?.devMode
+    this._devMode = devMode
 
     this._store = createStore({ ...this._config, systems })
     this._loop = new Loop[this._config.loop.type]()
@@ -81,6 +89,18 @@ export class Engine {
    */
   update(dt) {
     const processedEvents = this._store.update(dt, this._api)
+    const state = this._store.getState()
+
+    // Check for devMode changes and connect/disconnect dev tools accordingly.
+    const newDevMode = state.entities.game?.devMode
+    if (newDevMode !== this._devMode) {
+      if (newDevMode) {
+        initDevTools(this._store)
+      } else {
+        disconnectDevTools()
+      }
+      this._devMode = newDevMode
+    }
 
     const eventsToLog = processedEvents.filter(
       ({ type }) => !ACTION_BLACKLIST.includes(type),
@@ -91,7 +111,7 @@ export class Engine {
         type: eventsToLog.map(({ type }) => type).join("|"),
         payload: eventsToLog,
       }
-      sendAction(action, this._store.getState())
+      sendAction(action, state)
     }
   }
 }
