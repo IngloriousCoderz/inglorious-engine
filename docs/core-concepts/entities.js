@@ -1,5 +1,4 @@
 export default {
-  devMode: true,
   types: {
     character: {
       render(entity, ctx) {
@@ -42,6 +41,11 @@ export default {
   },
 
   entities: {
+    game: {
+      type: "game",
+      devMode: true,
+    },
+
     character: {
       type: "character",
       position: [400, 0, 300],

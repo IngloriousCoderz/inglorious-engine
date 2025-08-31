@@ -2,61 +2,50 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 <Meta title="Engine/Core Concepts/Immutability" />
 
-# State Management and Immutability
+# Immutability
 
-The engine is built around a central principle: **the game state is immutable**. This concept, inspired by state management patterns like Redux, is crucial for writing predictable, maintainable, and easier-to-debug game logic.
+The engine's state is **immutable**. This means that you cannot change the state directly. Instead, you must `notify` the engine of events that describe the changes you want to make.
 
-## What is Immutability?
+## Why Immutability?
 
-Immutability means that once a piece of data (like an entity's state) is created, it cannot be changed. If you need to update an entity, you don't modify the existing entity object. Instead, you create a *new* entity object with the updated properties. The engine's state manager then replaces the old entity with the new one.
+Developing with immutable data encourages you to think differently about how data flows through your application. It leads to:
+-   **Predictable State Changes:** State can only change in response to events, making it easier to reason about and debug.
+-   **Performance Optimizations:** It's easy to detect if the state has changed by simply checking for reference equality (`===`). This is used by UI libraries like React to avoid unnecessary re-renders.
+-   **Time-Travel Debugging:** Since each state is a separate object, you can store a history of states and "travel" back and forth, which is a powerful debugging tool provided by the Redux DevTools.
 
-This might sound inefficient, but the engine uses techniques to make this process fast. The benefits far outweigh the costs:
+## Working with Immutable State
 
--   **Predictability:** State changes only happen in one way: by dispatching actions. This makes the data flow of your game unidirectional and easy to follow.
--   **Debugging:** Since data doesn't change unexpectedly, it's much easier to trace how and when your state updates. You can even implement features like time-travel debugging.
--   **Performance:** Immutability allows for cheap and fast equality checks. The engine can quickly determine if a piece of state has changed by simply checking if its reference has changed (`oldEntity === newEntity`). This is fundamental for performance optimizations like memoized selectors.
+The engine uses the **[Immer](https://immerjs.github.io/immer/)** library to manage its state. This provides a powerful and convenient way to work with immutable data.
 
-## The Read-Only Guard: `devMode`
+### Mutating the Current Entity
 
-To help you adhere to the principle of immutability, the engine provides a `devMode` flag. We strongly recommend enabling it during development.
+Inside an event handler (like `update`, `start`, or `mouseClick`), the **first parameter** is a special, mutable "draft" of the entity handling the event. You can change its properties directly. Immer will safely record these changes and produce a new, immutable state without you having to worry about it.
 
-When `devMode` is enabled, any entity you retrieve from the API via `api.getEntity()` or `api.getEntities()` is wrapped in a special read-only guard. If you accidentally try to mutate one of these entities directly, the engine will throw a descriptive error.
+    ```javascript
+    // Inside a behavior
+    {
+      update(entity, dt, api) {
+        // `entity` is a mutable draft. You can change it directly.
+        entity.position[0] += entity.velocity[0] * dt;
+        entity.position[2] += entity.velocity[2] * dt;
+      }
+    }
+    ```
 
-For example, this code will fail in `devMode`:
+This makes writing update logic feel natural, while still getting all the benefits of immutability.
 
-```javascript
-// This is incorrect and will throw an error in devMode!
-const player = api.getEntity("player");
-player.position.x = 100; // ERROR: Cannot set property "position.x" on entity "player".
-```
+### Interacting with Other Entities
 
-The error message guides you to the correct approach: notifying of an event to update the state.
+When you need to interact with a *different* entity, you retrieve it using the `api`, for example `api.getEntity('player')`.
 
-```javascript
-// This is the correct way to update state
-api.notify("playerMove", { x: 100 });
-```
+**Entities retrieved from the `api` are read-only.**
 
-**Important Note:**  While `devMode` prevents direct mutation when you retrieve entities, keep in mind that within your event handlers (functions with the signature `eventName(entity, eventPayload, api) {}`), the `entity` can still be mutated. In fact, it *appears* mutable because the engine uses Immer under the hood. However, you should still treat any other entities retrieved through `api.getEntity()` or `api.getEntities()` as immutable and avoid direct modifications. Always use `api.notify()` to dispatch actions that update their state.
-
-Directly mutating entities in event handlers can lead to unexpected behavior and make debugging difficult, negating the benefits of immutability.
-
-## How to Enable `devMode`
-
-You can enable `devMode` in your main game configuration file when you initialize the engine.
+Because the state is frozen by Immer, any attempt to directly mutate an entity retrieved from the `api` will fail and throw a `TypeError`.
 
 ```javascript
-// In your game.js file
-export default {
-  devMode: true, // Enable the read-only guard
-  // ... other configurations
-  entities: {
-    // ... your entities
-  },
-  types: {
-    // ... your types and their event handlers
-  }
-}
+// This will throw a TypeError because the state is frozen.
+const player = api.getEntity('player');
+player.health -= 10; // ❌ ERROR!
 ```
 
-By enabling `devMode`, you can catch common bugs early and ensure your game logic follows a clean, predictable pattern. This feature has no performance cost in production builds, as the guards are only active when `devMode` is `true`.
+This built-in protection from Immer ensures that the immutable data flow is always respected, making your game more robust and predictable.

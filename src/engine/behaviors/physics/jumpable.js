@@ -97,11 +97,12 @@ export function jumpable(params) {
         }
 
         // 2. VERTICAL MOVEMENT & RESOLUTION
+        const wasOnGround = entity.groundObject
+        entity.groundObject = undefined
+
         const { vy, position: nextGravityPosition } = applyGravity(entity, dt)
         entity.vy = vy
         entity.position[Y] = nextGravityPosition[Y]
-
-        entity.groundObject = undefined
 
         const collisionY = findCollision(entity, entities, "platform")
         if (collisionY) {
@@ -116,10 +117,14 @@ export function jumpable(params) {
             entity.vy = 0
             entity.groundObject = collisionY
             entity.jumpsLeft = entity.maxJumps
-            api.notify("landed", {
-              entityId: entity.id,
-              targetId: collisionY.id,
-            })
+
+            // Only notify on the frame we actually land, not every frame we're on the ground.
+            if (!wasOnGround) {
+              api.notify("landed", {
+                entityId: entity.id,
+                targetId: collisionY.id,
+              })
+            }
           }
 
           // Hitting head on bottom of a platform

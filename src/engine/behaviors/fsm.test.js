@@ -30,12 +30,6 @@ test("it should add a finite state machine", () => {
   }
   const afterState = {
     entities: {
-      game: {
-        id: "game",
-        type: "game",
-        layer: 0,
-        bounds: [0, 0, 800, 600],
-      },
       entity1: {
         id: "entity1",
         type: "kitty",

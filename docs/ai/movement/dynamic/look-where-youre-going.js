@@ -4,11 +4,11 @@ import {
   DEFAULT_TIME_TO_TARGET,
 } from "@inglorious/engine/ai/movement/dynamic/align.js"
 import { lookWhereYoureGoing } from "@inglorious/engine/ai/movement/dynamic/look-where-youre-going.js"
-import { clamped } from "@inglorious/engine/behaviors/clamped.js"
 import {
   controlsEntities,
   setupControls,
 } from "@inglorious/engine/behaviors/input/controls.js"
+import { clamped } from "@inglorious/engine/behaviors/physics/clamped.js"
 import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { sum } from "@inglorious/utils/math/linear-algebra/vectors.js"
@@ -17,7 +17,6 @@ import { pi } from "@inglorious/utils/math/trigonometry.js"
 const controls = setupControls()
 
 export default {
-  devMode: true,
   types: {
     ...controls.types,
 
@@ -99,8 +98,12 @@ export default {
   },
 
   entities: {
-    ...controls.entities,
+    game: {
+      type: "game",
+      devMode: true,
+    },
 
+    ...controls.entities,
     ...controlsEntities("input0", ["character"], {
       ArrowLeft: "moveLeft",
       ArrowRight: "moveRight",

@@ -4,15 +4,14 @@ import {
   DEFAULT_TIME_TO_TARGET,
 } from "@inglorious/engine/ai/movement/dynamic/align.js"
 import { face } from "@inglorious/engine/ai/movement/dynamic/face.js"
-import { clamped } from "@inglorious/engine/behaviors/clamped.js"
 import { mouse } from "@inglorious/engine/behaviors/input/mouse.js"
+import { clamped } from "@inglorious/engine/behaviors/physics/clamped.js"
 import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
 import { renderMouse } from "@inglorious/renderers/canvas/mouse.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
 export default {
-  devMode: true,
   types: {
     mouse: [{ render: renderMouse }, mouse()],
 
@@ -45,6 +44,11 @@ export default {
   },
 
   entities: {
+    game: {
+      type: "game",
+      devMode: true,
+    },
+
     mouse: {
       type: "mouse",
       position: [400, 0, 300],

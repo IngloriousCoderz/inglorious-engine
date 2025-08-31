@@ -6,7 +6,6 @@ import { random } from "@inglorious/utils/math/rng.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
 export default {
-  devMode: true,
   types: {
     mouse: [
       { render: renderMouse },
@@ -34,6 +33,11 @@ export default {
   },
 
   entities: {
+    game: {
+      type: "game",
+      devMode: true,
+    },
+
     mouse: {
       type: "mouse",
       position: [400, 0, 300],

@@ -73,8 +73,6 @@ const nextState = {
 }
 
 export default {
-  devMode: true,
-
   systems: [spriteAnimationSystem()],
 
   types: {
@@ -151,6 +149,8 @@ export default {
 
   entities: {
     game: {
+      type: "game",
+      devMode: true,
       pixelated: true,
     },
 

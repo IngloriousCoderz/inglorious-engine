@@ -6,7 +6,6 @@ import { mod } from "@inglorious/utils/math/numbers.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
 export default {
-  devMode: true,
   types: {
     character: [
       { render: renderCharacter },
@@ -28,6 +27,11 @@ export default {
   },
 
   entities: {
+    game: {
+      type: "game",
+      devMode: true,
+    },
+
     left: {
       type: "character",
       position: [200, 0, 300],

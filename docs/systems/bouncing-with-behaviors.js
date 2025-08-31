@@ -1,11 +1,9 @@
-import { jumpable } from "@inglorious/engine/behaviors/jumpable.js"
+import { jumpable } from "@inglorious/engine/behaviors/physics/jumpable.js"
 import { renderCircle } from "@inglorious/renderers/canvas/shapes/circle.js"
 import { renderRectangle } from "@inglorious/renderers/canvas/shapes/rectangle.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
 
 export default {
-  devMode: true,
-
   types: {
     ball: [
       { render: renderCircle },
@@ -25,6 +23,11 @@ export default {
   },
 
   entities: {
+    game: {
+      type: "game",
+      devMode: true,
+    },
+
     ball1: {
       type: "ball",
       position: [200, 64, 0],

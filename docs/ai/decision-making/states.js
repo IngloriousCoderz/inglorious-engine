@@ -11,7 +11,6 @@ import { subtract } from "@inglorious/utils/math/linear-algebra/vectors.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
 export default {
-  devMode: true,
   types: {
     mouse: [{ render: renderMouse }, mouse()],
 
@@ -50,6 +49,11 @@ export default {
   },
 
   entities: {
+    game: {
+      type: "game",
+      devMode: true,
+    },
+
     mouse: {
       type: "mouse",
       position: [0, 0, 0],

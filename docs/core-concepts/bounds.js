@@ -1,7 +1,7 @@
 export default {
-  devMode: true,
   entities: {
     game: {
+      devMode: true,
       bounds: [0, 0, 600, 800],
     },
   },

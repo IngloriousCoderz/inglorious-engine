@@ -2,8 +2,6 @@ import { spriteAnimationSystem } from "@inglorious/engine/systems/sprite-animati
 import { renderSprite } from "@inglorious/renderers/canvas/image/sprite.js"
 
 export default {
-  devMode: true,
-
   systems: [spriteAnimationSystem()],
 
   types: {
@@ -19,6 +17,8 @@ export default {
 
   entities: {
     game: {
+      type: "game",
+      devMode: true,
       pixelated: true,
     },
 

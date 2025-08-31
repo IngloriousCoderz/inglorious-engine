@@ -1,11 +1,9 @@
 import { Ticker } from "@inglorious/engine/animation/ticker.js"
-import { jumpable } from "@inglorious/engine/behaviors/jumpable.js"
+import { jumpable } from "@inglorious/engine/behaviors/physics/jumpable.js"
 import { renderCircle } from "@inglorious/renderers/canvas/shapes/circle.js"
 import { renderRectangle } from "@inglorious/renderers/canvas/shapes/rectangle.js"
 
 export default {
-  devMode: true,
-
   systems: [delayedJumpSystem],
 
   types: {
@@ -14,6 +12,11 @@ export default {
   },
 
   entities: {
+    game: {
+      type: "game",
+      devMode: true,
+    },
+
     ball1: {
       type: "ball",
       position: [200, 32, 0],

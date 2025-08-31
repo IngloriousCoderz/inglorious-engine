@@ -3,12 +3,16 @@ import { random } from "@inglorious/utils/math/rng.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
 export default {
-  devMode: true,
   types: {
     character: [{ render: renderCharacter }],
   },
 
   entities: {
+    game: {
+      type: "game",
+      devMode: true,
+    },
+
     ...Object.fromEntries(
       Array(100)
         .fill(null)

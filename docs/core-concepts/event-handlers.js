@@ -1,7 +1,6 @@
 const X = 0
 
 export default {
-  devMode: true,
   types: {
     character: {
       render(entity, ctx) {
@@ -59,6 +58,11 @@ export default {
   },
 
   entities: {
+    game: {
+      type: "game",
+      devMode: true,
+    },
+
     character: {
       type: "character",
       maxSpeed: 250,

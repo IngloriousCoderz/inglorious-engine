@@ -21,8 +21,6 @@ const Z = 2
 const controls = setupControls()
 
 export default {
-  devMode: true,
-
   systems: [spriteAnimationSystem()],
 
   types: {
@@ -41,6 +39,8 @@ export default {
 
   entities: {
     game: {
+      type: "game",
+      devMode: true,
       pixelated: true,
     },
 

@@ -1,19 +1,7 @@
-import { game } from "@inglorious/engine/behaviors/game.js"
 import { map } from "@inglorious/utils/data-structures/object.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
 import { pipe } from "@inglorious/utils/functions/functions.js"
 import { produce } from "immer"
-
-import { readOnlyStateProxyHandler } from "./proxy.js"
-
-const DEFAULT_TYPES = {
-  game: [game()],
-}
-
-const DEFAULT_ENTITIES = {
-  // eslint-disable-next-line no-magic-numbers
-  game: { type: "game", bounds: [0, 0, 800, 600] }, // Default game entity with bounds.
-}
 
 const DEFAULT_LAYER = 0
 
@@ -28,16 +16,12 @@ export function createStore({
   types: originalTypes,
   entities: originalEntities,
   systems = [],
-  devMode = false,
 }) {
   const listeners = new Set()
   let incomingEvents = []
 
-  let types
-  recomputeTypes()
-
-  let entities
-  recomputeEntities()
+  let types = augmentTypes(originalTypes)
+  let entities = augmentEntities(originalEntities)
 
   const initialState = { entities }
   let state = initialState
@@ -52,7 +36,6 @@ export function createStore({
     getState,
     setState,
     reset,
-    getIncomingEvents: () => [...incomingEvents],
   }
 
   /**
@@ -74,16 +57,19 @@ export function createStore({
    * @param {Object} api - The engine's public API.
    */
   function update(dt, api) {
+    const processedEvents = []
+
     state = produce(state, (state) => {
       incomingEvents.push({ type: "update", payload: dt })
 
       while (incomingEvents.length) {
         const event = incomingEvents.shift()
+        processedEvents.push(event)
 
         if (event.type === "morph") {
           const { id, type } = event.payload
           originalTypes[id] = type
-          recomputeTypes()
+          types = augmentTypes(originalTypes)
         }
 
         if (event.type === "add") {
@@ -111,6 +97,8 @@ export function createStore({
     })
 
     listeners.forEach((onUpdate) => onUpdate())
+
+    return processedEvents
   }
 
   /**
@@ -154,14 +142,6 @@ export function createStore({
    * @returns {Object} The current state.
    */
   function getState() {
-    if (devMode) {
-      const proxiedEntities = new Proxy(
-        state.entities,
-        readOnlyStateProxyHandler(),
-      )
-      return { ...state, entities: proxiedEntities }
-    }
-
     return state
   }
 
@@ -170,35 +150,24 @@ export function createStore({
   }
 
   function reset() {
-    state = initialState
-    recomputeEntities()
-  }
-
-  function recomputeTypes() {
-    types = extend(DEFAULT_TYPES, originalTypes)
-    types = augmentTypes(types)
-  }
-
-  function recomputeEntities() {
-    entities = extend(DEFAULT_ENTITIES, originalEntities)
-    entities = augmentEntities(entities)
+    state = initialState // Reset state to its originally computed value
   }
 }
 
 function augmentTypes(types) {
-  return pipe(applyDecorators)(types) //, enableMutability
+  return pipe(applyBehaviors)(types)
 }
 
-function applyDecorators(types) {
+function applyBehaviors(types) {
   return map(types, (_, type) => {
     if (!Array.isArray(type)) {
       return type
     }
 
-    const decorators = type.map((fn) =>
+    const behaviors = type.map((fn) =>
       typeof fn !== "function" ? (type) => extend(type, fn) : fn,
     )
-    return pipe(...decorators)({})
+    return pipe(...behaviors)({})
   })
 }
 

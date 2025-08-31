@@ -8,7 +8,6 @@ import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
 const controls = setupControls()
 
 export default {
-  devMode: true,
   types: {
     ...controls.types,
 
@@ -16,6 +15,11 @@ export default {
   },
 
   entities: {
+    game: {
+      type: "game",
+      devMode: true,
+    },
+
     ...controls.entities,
     ...controlsEntities("input0", ["character"], {
       ArrowUp: "moveUp",

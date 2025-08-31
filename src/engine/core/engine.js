@@ -1,3 +1,4 @@
+import { game as gameBehavior } from "@inglorious/engine/behaviors/game.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
 
 import { createApi } from "./api.js"
@@ -8,10 +9,17 @@ import { createStore } from "./store.js"
 // Default configuration for the engine
 // loop.type specifies the type of loop to use (defaults to "animationFrame").
 const DEFAULT_CONFIG = {
-  devMode: false,
   loop: { type: "animationFrame", fps: 60 },
+  types: {
+    game: [gameBehavior()],
+  },
+  entities: {
+    // eslint-disable-next-line no-magic-numbers
+    game: { type: "game", bounds: [0, 0, 800, 600] },
+  },
   systems: [],
 }
+
 const ONE_SECOND = 1000 // Number of milliseconds in one second.
 
 // Delta time for the final update call when stopping the engine.
@@ -33,6 +41,9 @@ export class Engine {
       systems.push(...this._config.renderer.getSystems())
     }
 
+    // Determine devMode from the entities config.
+    const devMode = this._config.entities.game?.devMode
+
     this._store = createStore({ ...this._config, systems })
     this._loop = new Loop[this._config.loop.type]()
     this._api = createApi(this._store)
@@ -40,7 +51,7 @@ export class Engine {
     // The renderer might need the engine instance to initialize itself (e.g., to set up DOM events).
     this._config.renderer?.init(this)
 
-    if (this._config.devMode) {
+    if (devMode) {
       initDevTools(this._store)
     }
   }
@@ -69,16 +80,16 @@ export class Engine {
    * @param {number} dt - Delta time since the last update in milliseconds.
    */
   update(dt) {
-    const eventsToProcess = this._store
-      .getIncomingEvents()
-      .filter(({ type }) => !ACTION_BLACKLIST.includes(type))
+    const processedEvents = this._store.update(dt, this._api)
 
-    this._store.update(dt, this._api)
+    const eventsToLog = processedEvents.filter(
+      ({ type }) => !ACTION_BLACKLIST.includes(type),
+    )
 
-    if (eventsToProcess.length) {
+    if (eventsToLog.length) {
       const action = {
-        type: eventsToProcess.map(({ type }) => type).join("|"),
-        payload: eventsToProcess,
+        type: eventsToLog.map(({ type }) => type).join("|"),
+        payload: eventsToLog,
       }
       sendAction(action, this._store.getState())
     }

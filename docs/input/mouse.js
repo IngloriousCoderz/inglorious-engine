@@ -3,7 +3,6 @@ import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
 import { renderMouse } from "@inglorious/renderers/canvas/mouse.js"
 
 export default {
-  devMode: true,
   types: {
     mouse: [{ render: renderMouse }, mouse()],
 
@@ -19,6 +18,11 @@ export default {
   },
 
   entities: {
+    game: {
+      type: "game",
+      devMode: true,
+    },
+
     mouse: {
       type: "mouse",
       position: [400, 0, 300],

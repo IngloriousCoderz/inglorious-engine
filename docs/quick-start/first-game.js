@@ -3,8 +3,6 @@ export default {
   // extension. This allows you to inspect the game state, travel back in time
   // through state changes, and dispatch events manually, which is incredibly
   // useful for debugging.
-  devMode: true,
-
   types: {
     character: {
       render(entity, ctx) {
@@ -47,6 +45,11 @@ export default {
   },
 
   entities: {
+    game: {
+      type: "game",
+      devMode: true,
+    },
+
     character: {
       type: "character",
       position: [400, 0, 300],

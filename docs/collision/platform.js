@@ -1,17 +1,16 @@
-import { clamped } from "@inglorious/engine/behaviors/clamped.js"
 import { modernVelocity } from "@inglorious/engine/behaviors/controls/kinematic/modern.js"
 import {
   controlsEntities,
   setupControls,
 } from "@inglorious/engine/behaviors/input/controls.js"
-import { jumpable } from "@inglorious/engine/behaviors/jumpable.js"
+import { clamped } from "@inglorious/engine/behaviors/physics/clamped.js"
+import { jumpable } from "@inglorious/engine/behaviors/physics/jumpable.js"
 import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
 import { renderRectangle } from "@inglorious/renderers/canvas/shapes/rectangle.js"
 
 const controls = setupControls()
 
 export default {
-  devMode: true,
   types: {
     ...controls.types,
 
@@ -26,6 +25,11 @@ export default {
   },
 
   entities: {
+    game: {
+      type: "game",
+      devMode: true,
+    },
+
     ...controls.entities,
     ...controlsEntities("input0", ["character"], {
       ArrowLeft: "moveLeft",

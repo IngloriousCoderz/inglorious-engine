@@ -10,7 +10,7 @@ export function createApi(store) {
 
   const getEntities = () => store.getState().entities
 
-  const getEntity = (id) => store.getState().entities[id]
+  const getEntity = (id) => getEntities()[id]
 
   const notify = (type, payload) => {
     store.notify(type, payload)

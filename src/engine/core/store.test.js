@@ -20,7 +20,6 @@ test("it should process events by mutating state inside handlers", () => {
   }
   const afterState = {
     entities: {
-      game: { id: "game", type: "game", layer: 0, bounds: [0, 0, 800, 600] },
       kitty1: {
         id: "kitty1",
         type: "kitty",
@@ -60,7 +59,6 @@ test("it should send an event from an entity and process it in the same update c
   }
   const afterState = {
     entities: {
-      game: { id: "game", type: "game", layer: 0, bounds: [0, 0, 800, 600] },
       doggo1: { id: "doggo1", type: "doggo", layer: 0 },
       kitty1: { id: "kitty1", type: "kitty", layer: 0, position: "far" },
     },
@@ -90,7 +88,6 @@ test("it should add an entity via an 'add' event", () => {
   const state = store.getState()
   expect(state).toStrictEqual({
     entities: {
-      game: { id: "game", type: "game", layer: 0, bounds: [0, 0, 800, 600] },
       kitty1: { id: "kitty1", type: "kitty", layer: 0 },
     },
   })

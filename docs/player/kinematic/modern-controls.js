@@ -1,15 +1,14 @@
-import { clamped } from "@inglorious/engine/behaviors/clamped.js"
 import { modernControls } from "@inglorious/engine/behaviors/controls/kinematic/modern.js"
 import {
   controlsEntities,
   setupControls,
 } from "@inglorious/engine/behaviors/input/controls.js"
+import { clamped } from "@inglorious/engine/behaviors/physics/clamped.js"
 import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
 
 const controls = setupControls()
 
 export default {
-  devMode: true,
   types: {
     ...controls.types,
 
@@ -19,6 +18,11 @@ export default {
   },
 
   entities: {
+    game: {
+      type: "game",
+      devMode: true,
+    },
+
     ...controls.entities,
     ...controlsEntities("input0", ["character"], {
       ArrowUp: "moveUp",
