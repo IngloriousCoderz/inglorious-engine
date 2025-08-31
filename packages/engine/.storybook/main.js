@@ -12,10 +12,6 @@ const config = {
     "@storybook/addon-docs",
   ],
 
-  typescript: {
-    reactDocgen: "react-docgen-typescript",
-  },
-
   docs: {},
 
   stories: [

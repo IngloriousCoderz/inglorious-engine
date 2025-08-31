@@ -52,4 +52,12 @@ export default defineConfig([
       "no-magic-numbers": "off",
     },
   },
+
+  // Config files are Node.js modules, not browser scripts.
+  {
+    files: ["*.config.js"],
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
 ])

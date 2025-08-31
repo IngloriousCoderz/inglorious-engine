@@ -4,16 +4,8 @@
  * @typedef {import("./types").Circle} Circle
  */
 
-import {
-  magnitude,
-  setMagnitude,
-} from "@inglorious/utils/math/linear-algebra/vector.js"
-import {
-  distance,
-  dot,
-  subtract,
-  sum,
-} from "@inglorious/utils/math/linear-algebra/vectors.js"
+import { magnitude, setMagnitude } from "../linear-algebra/vector.js"
+import { distance, dot, subtract, sum } from "../linear-algebra/vectors.js"
 
 const BEFORE_SEGMENT = 0
 

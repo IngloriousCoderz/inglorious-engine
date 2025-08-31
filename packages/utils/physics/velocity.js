@@ -1,13 +1,9 @@
 /**
- * @typedef {import('@inglorious/utils/math/linear-algebra/types').Vector3} Vector3
+ * @typedef {import('../math/linear-algebra/types').Vector3} Vector3
  */
 
-import {
-  clamp,
-  multiply,
-  zero,
-} from "@inglorious/utils/math/linear-algebra/vector.js"
-import { sum } from "@inglorious/utils/math/linear-algebra/vectors.js"
+import { clamp, multiply, zero } from "../math/linear-algebra/vector.js"
+import { sum } from "../math/linear-algebra/vectors.js"
 
 const DEFAULT_DT = 1 // Default time delta for the applyVelocity function.
 const DEFAULT_MAX_SPEED = 0 // Default maximum speed for velocity clamping.

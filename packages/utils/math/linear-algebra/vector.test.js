@@ -1,7 +1,7 @@
-import { sqrt } from "@inglorious/utils/math/numbers.js"
-import { cos, pi, sin } from "@inglorious/utils/math/trigonometry.js"
 import { expect, test } from "vitest"
 
+import { sqrt } from "../numbers.js"
+import { cos, pi, sin } from "../trigonometry.js"
 import {
   abs,
   angle,

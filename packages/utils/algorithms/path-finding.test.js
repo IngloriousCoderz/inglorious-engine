@@ -1,11 +1,11 @@
+import { expect, test } from "vitest"
+
 import {
   createBoard,
   down,
   downRight,
   right,
-} from "@inglorious/utils/data-structures/board.js"
-import { expect, test } from "vitest"
-
+} from "../data-structures/board.js"
 import { findPath } from "./path-finding.js"
 
 test("it should find the shortest path in a trivial example", () => {

@@ -1,6 +1,9 @@
 {
   "name": "inglorious-engine",
   "private": true,
+  "description": "A JavaScript game engine written with global state, immutability, and pure functions in mind. Have fun(ctional programming) with it!",
+  "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
+  "license": "MIT",
   "scripts": {
     "format": "prettier --write '**/*.{js,jsx}'",
     "lint": "turbo lint",

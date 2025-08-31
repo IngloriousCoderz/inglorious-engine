@@ -1,6 +1,6 @@
-import { cos, pi, sin } from "@inglorious/utils/math/trigonometry.js"
 import { expect, test } from "vitest"
 
+import { cos, pi, sin } from "../trigonometry.js"
 import { quaternion } from "./quaternion.js"
 import { combine } from "./quaternions.js"
 

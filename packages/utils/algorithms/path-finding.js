@@ -3,14 +3,9 @@
  * @typedef {import("./types").Graph} Graph
  */
 
-import {
-  contains,
-  push,
-  remove,
-  root,
-} from "@inglorious/utils/data-structures/heap.js"
-import { abs, magnitude } from "@inglorious/utils/math/linear-algebra/vector.js"
-import { subtract } from "@inglorious/utils/math/linear-algebra/vectors.js"
+import { contains, push, remove, root } from "../data-structures/heap.js"
+import { abs, magnitude } from "../math/linear-algebra/vector.js"
+import { subtract } from "../math/linear-algebra/vectors.js"
 
 const NO_COST = 0
 

@@ -1,12 +1,8 @@
 /**
- * @typedef {import('@inglorious/utils/math/linear-algebra/types').Vector3} Vector3
+ * @typedef {import('../math/linear-algebra/types').Vector3} Vector3
  */
 
-import {
-  magnitude,
-  setMagnitude,
-  zero,
-} from "@inglorious/utils/math/linear-algebra/vector.js"
+import { magnitude, setMagnitude, zero } from "../math/linear-algebra/vector.js"
 
 const DEFAULT_DT = 1 // Default time delta for the applyFriction function.
 const NO_FRICTION = 0 // No friction constant.

@@ -3,7 +3,7 @@
  * @typedef {import('../../../types').Quaternion} Quaternion
  */
 
-import { cos, sin } from "@inglorious/utils/math/trigonometry.js"
+import { cos, sin } from "../trigonometry.js"
 
 const DEFAULT_ANGLE = 0
 const HALF = 2 // Constant representing the divisor for halving an angle.

@@ -3,15 +3,14 @@
  * @typedef {import('./types').Vector3} Vector3
  */
 
-import { hypothenuse } from "@inglorious/utils/math/geometry/triangle.js"
+import { hypothenuse } from "../geometry/triangle.js"
 import {
   abs as nAbs,
   clamp as nClamp,
   mod as nMod,
   snap as nSnap,
-} from "@inglorious/utils/math/numbers.js"
-import { atan2, cos, sin } from "@inglorious/utils/math/trigonometry.js"
-
+} from "../numbers.js"
+import { atan2, cos, sin } from "../trigonometry.js"
 import { from2D, to2D } from "./2d.js"
 import { quaternion } from "./quaternion.js"
 import { cross, sum } from "./vectors.js"

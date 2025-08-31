@@ -5,9 +5,8 @@
  * @typedef {import("./types").Platform} Platform
  */
 
-import { clamp } from "@inglorious/utils/math/linear-algebra/vector.js"
-import { subtract } from "@inglorious/utils/math/linear-algebra/vectors.js"
-
+import { clamp } from "../linear-algebra/vector.js"
+import { subtract } from "../linear-algebra/vectors.js"
 import { intersectsCircle as pointIntersectsCircle } from "./point.js"
 import { hypothenuse } from "./triangle.js"
 
