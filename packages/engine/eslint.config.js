@@ -1,11 +1,12 @@
 import js from "@eslint/js"
-import { defineConfig } from "eslint/config"
+import { defineConfig, globalIgnores } from "eslint/config"
 import reactPlugin from "eslint-plugin-react"
 import simpleImportSortPlugin from "eslint-plugin-simple-import-sort"
 import storybook from "eslint-plugin-storybook"
 import globals from "globals"
 
 export default defineConfig([
+  globalIgnores(["storybook-static"]),
   {
     files: ["**/*.{js,mjs,cjs,jsx}"],
     extends: ["js/recommended"],

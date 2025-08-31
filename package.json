@@ -2,9 +2,9 @@
   "name": "inglorious-engine",
   "private": true,
   "scripts": {
-    "format": "prettier --write \"**/*.{js,md}\"",
-    "build": "turbo build",
+    "format": "prettier --write '**/*.{js,jsx}'",
     "lint": "turbo lint",
+    "build": "turbo build",
     "test": "turbo test",
     "publish-packages": "turbo run build lint test && changeset version && changeset publish",
     "prepare": "husky"
@@ -19,6 +19,7 @@
     "globals": "^16.3.0",
     "husky": "^9.1.7",
     "prettier": "^3.6.2",
+    "serve": "^14.2.4",
     "turbo": "^2.5.6"
   },
   "packageManager": "pnpm@10.15.0",

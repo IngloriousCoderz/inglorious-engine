@@ -48,13 +48,18 @@ Create an HTML file with this structure:
       {
         "imports": {
           "immer": "https://unpkg.com/immer@10.1.1/dist/immer.mjs",
-          "@inglorious/": "https://unpkg.com/@inglorious%2Fengine@0.1.1/src/",
+          "@inglorious/utils/": "https://unpkg.com/@inglorious%2Fengine@0.2.0/src/utils/",
+          "@inglorious/engine/": "https://unpkg.com/@inglorious%2Fengine@0.2.0/src/engine/",
+          "@inglorious/renderers/": "https://unpkg.com/@inglorious%2Fengine@0.2.0/src/renderers/",
           "game": "./my-game.js"
         }
       }
     </script>
-    
-    <script type="module" src="/src/main.js"></script>
+
+    <script
+      type="module"
+      src="https://unpkg.com/@inglorious%2Fengine@0.2.0/src/main.js"
+    ></script>
   </body>
 </html>
 ```

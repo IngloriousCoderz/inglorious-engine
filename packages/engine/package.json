@@ -36,8 +36,7 @@
     "test": "vitest run",
     "start": "serve",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
-    "prepare": "husky"
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "immer": "^10.1.1",
