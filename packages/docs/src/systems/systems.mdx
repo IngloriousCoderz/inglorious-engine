@@ -1,0 +1,49 @@
+import { Canvas, Meta, Source } from '@storybook/addon-docs/blocks'
+import * as SystemStories from './systems.stories.js'
+
+import bouncingWithBehaviors from './bouncing-with-behaviors?raw.js'
+import bouncingWithSystems from './bouncing-with-systems?raw.js'
+
+<Meta title="Engine/Systems" of={SystemStories} />
+
+# Systems
+
+In Inglorious Engine, there are two main ways to implement game logic: **Behaviors** and **Systems**.
+
+-   **Behaviors** are attached to entity types. They are great for logic that is self-contained to an entity. For example, a `jumpable` behavior that makes an entity react to a "jump" event.
+
+-   **Systems** are global functions that run on every frame. They receive the entire game state and can iterate over all entities to implement logic. They are ideal for orchestrating interactions between multiple entities or for implementing game rules that don't belong to a single entity.
+
+Let's explore these two approaches with an example.
+
+## Bouncing Balls Example
+
+We want to create a scene with three balls that jump at the start.
+
+### Approach 1: Using Behaviors
+
+With the behavior-based approach, we can add a custom behavior to our `ball` type. This behavior will trigger a jump action when the entity is created.
+
+This is an **entity-centric** approach. The logic for jumping is encapsulated within the ball's definition.
+
+<Canvas of={SystemStories.BouncingWithBehaviors} />
+
+<Source dark code={bouncingWithBehaviors} />
+
+### Approach 2: Using a System
+
+With the system-based approach, we can create a `delayedJumpSystem` that will manage the jumping of all balls. This system can introduce coordinated behavior, like making the balls jump with different delays.
+
+This is a **system-centric** approach. The logic is centralized and can orchestrate multiple entities.
+
+<Canvas of={SystemStories.BouncingWithSystems} />
+
+<Source dark code={bouncingWithSystems} />
+
+## Conclusion
+
+Both approaches are valid and have their use cases.
+
+-   Use **behaviors** for logic that is inherent to an entity type and doesn't require knowledge of other entities.
+-   Use **systems** for logic that coordinates multiple entities or implements global game rules.
+
