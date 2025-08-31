@@ -1,4 +1,4 @@
-import { extend } from "@inglorious/utils/data-structures/objects.js"
+import { defaults, extend } from "@inglorious/utils/data-structures/objects.js"
 import { jump } from "@inglorious/utils/physics/jump.js"
 
 const DEFAULT_PARAMS = {
@@ -12,7 +12,7 @@ export function bouncy(params) {
     extend(type, {
       start(entity) {
         type.start?.(entity)
-        entity.bounciness ??= params.bounciness
+        defaults(entity, params)
       },
 
       landed(entity, { entityId }) {

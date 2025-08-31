@@ -1,4 +1,4 @@
-import { mouse } from "@inglorious/engine/behaviors/input/mouse.js"
+import { createMouse, mouse } from "@inglorious/engine/behaviors/input/mouse.js"
 import { button } from "@inglorious/engine/behaviors/ui/button.js"
 import { renderMouse } from "@inglorious/renderers/canvas/mouse.js"
 
@@ -22,9 +22,7 @@ export default {
       devMode: true,
     },
 
-    mouse: {
-      type: "mouse",
-    },
+    mouse: createMouse(),
 
     rect1: {
       type: "button",

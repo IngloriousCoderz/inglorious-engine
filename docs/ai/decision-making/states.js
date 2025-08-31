@@ -1,7 +1,7 @@
 import { arrive } from "@inglorious/engine/ai/movement/kinematic/arrive.js"
 import { wander } from "@inglorious/engine/ai/movement/kinematic/wander.js"
 import { fsm } from "@inglorious/engine/behaviors/fsm.js"
-import { mouse } from "@inglorious/engine/behaviors/input/mouse.js"
+import { createMouse, mouse } from "@inglorious/engine/behaviors/input/mouse.js"
 import { clampToBounds, flip } from "@inglorious/engine/physics/bounds.js"
 import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
 import { renderMouse } from "@inglorious/renderers/canvas/mouse.js"
@@ -54,10 +54,7 @@ export default {
       devMode: true,
     },
 
-    mouse: {
-      type: "mouse",
-      position: [0, 0, 0],
-    },
+    mouse: createMouse(),
 
     character: {
       type: "character",

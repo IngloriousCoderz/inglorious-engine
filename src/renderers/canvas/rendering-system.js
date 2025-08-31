@@ -28,7 +28,7 @@ export function createRenderingSystem(ctx) {
   return {
     update(state, dt, api) {
       const types = api.getTypes()
-      const { game, mouse, ...worldEntities } = state.entities
+      const { game, ...worldEntities } = state.entities
 
       // 1. Clear canvas
       const [, , width, height] = game.bounds
@@ -47,10 +47,15 @@ export function createRenderingSystem(ctx) {
         const [cameraX, cameraZ] = to2D(camera.position)
         const zoom = camera.zoom ?? DEFAULT_ZOOM
 
-        // Center the view on the camera and apply zoom
+        // Center the view on the camera and apply zoom.
+        // The order of operations is crucial here.
         ctx.translate(width / HALF, height / HALF)
         ctx.scale(zoom, zoom)
-        ctx.translate(-cameraX, -cameraZ)
+        // This vertical translation compensates for the coordinate system flip
+        // that happens inside the absolutePosition decorator.
+        ctx.translate(ORIGIN, -height)
+        // This translation moves the world relative to the camera.
+        ctx.translate(-cameraX, cameraZ)
       }
 
       Object.values(worldEntities)
@@ -69,12 +74,6 @@ export function createRenderingSystem(ctx) {
         })
 
       ctx.restore()
-
-      // 4. Render UI entities (like mouse) in screen space
-      if (mouse) {
-        const render = getRenderFunction(types, mouse)
-        render && absolutePosition(render)(mouse, ctx, { api })
-      }
     },
   }
 }

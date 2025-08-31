@@ -6,6 +6,7 @@ export class CanvasRenderer {
   _onKeyPress = null
   _onMouseMove = null
   _onClick = null
+  _onWheel = null
 
   constructor(canvas) {
     this.canvas = canvas
@@ -40,12 +41,14 @@ export class CanvasRenderer {
     }
     document.addEventListener("keypress", this._onKeyPress)
 
-    const { onMouseMove, onClick } = track(this.canvas, engine._api)
+    const { onMouseMove, onClick, onWheel } = track(this.canvas, engine._api)
     this._onMouseMove = onMouseMove
     this._onClick = onClick
+    this._onWheel = onWheel
 
     this.canvas.addEventListener("mousemove", this._onMouseMove)
     this.canvas.addEventListener("click", this._onClick)
+    this.canvas.addEventListener("wheel", this._onWheel)
   }
 
   destroy() {
@@ -57,6 +60,9 @@ export class CanvasRenderer {
     }
     if (this._onClick) {
       this.canvas.removeEventListener("click", this._onClick)
+    }
+    if (this._onWheel) {
+      this.canvas.removeEventListener("wheel", this._onWheel)
     }
   }
 }

@@ -1,4 +1,4 @@
-import { mouse } from "@inglorious/engine/behaviors/input/mouse.js"
+import { createMouse, mouse } from "@inglorious/engine/behaviors/input/mouse.js"
 import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
 import { renderMouse } from "@inglorious/renderers/canvas/mouse.js"
 import { filter } from "@inglorious/utils/data-structures/object.js"
@@ -38,9 +38,6 @@ export default {
       devMode: true,
     },
 
-    mouse: {
-      type: "mouse",
-      position: [400, 0, 300],
-    },
+    mouse: createMouse("mouse", { position: [400, 0, 300] }),
   },
 }

@@ -1,5 +1,5 @@
 import { findCollision } from "@inglorious/engine/collision/detection.js"
-import { extend } from "@inglorious/utils/data-structures/objects.js"
+import { defaults, extend } from "@inglorious/utils/data-structures/objects.js"
 import {
   angle,
   magnitude,
@@ -29,11 +29,7 @@ export function jumpable(params) {
     extend(type, {
       start(entity, api) {
         type.start?.(entity, api)
-
-        entity.maxSpeed ??= params.maxSpeed
-        entity.maxJump ??= params.maxJump
-        entity.maxLeap ??= params.maxLeap
-        entity.maxJumps ??= params.maxJumps
+        defaults(entity, params)
         entity.jumpsLeft ??= entity.maxJumps
 
         entity.velocity ??= zero()

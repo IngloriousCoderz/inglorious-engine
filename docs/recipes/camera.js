@@ -1,6 +1,10 @@
 import { arrive } from "@inglorious/engine/ai/movement/dynamic/arrive.js"
 import { camera } from "@inglorious/engine/behaviors/camera.js"
-import { mouse } from "@inglorious/engine/behaviors/input/mouse.js"
+import {
+  createKeyboard,
+  keyboard,
+} from "@inglorious/engine/behaviors/input/keyboard.js"
+import { createMouse, mouse } from "@inglorious/engine/behaviors/input/mouse.js"
 import { renderCamera } from "@inglorious/renderers/canvas/camera.js"
 import { renderCharacter } from "@inglorious/renderers/canvas/character.js"
 import { renderMouse } from "@inglorious/renderers/canvas/mouse.js"
@@ -8,6 +12,7 @@ import { merge } from "@inglorious/utils/data-structures/objects.js"
 
 export default {
   types: {
+    keyboard: [keyboard()],
     mouse: [{ render: renderMouse }, mouse()],
 
     character: {
@@ -27,28 +32,31 @@ export default {
       devMode: true,
     },
 
-    mouse: {
-      type: "mouse",
-      position: [0, 0, 0],
-    },
+    keyboard: createKeyboard(),
+
+    mouse: createMouse(),
 
     player: {
       id: "player",
       type: "character",
       maxSpeed: 250,
+      maxAcceleration: 500,
       position: [0, 0, 0],
     },
 
     camera: {
       type: "camera",
+      layer: 1,
       isActive: true,
       targetId: "player",
-      maxSpeed: 150, // Slower than player for a smooth follow
+      maxSpeed: 350, // Should be faster than the player to allow it to catch up
+      maxAcceleration: 800, // A higher value makes it feel more responsive
+      slowRadius: 120, // Starts slowing down when it's 120 pixels away from the player
       position: [0, 0, 0],
       zoom: 1.5,
       minZoom: 0.5,
-      maxZoom: 4,
       zoomSpeed: 0.05,
+      zoomSensitivity: 5,
       size: [400, 300], // Camera viewport size
       // for dev mode rectangle
       color: "red",
