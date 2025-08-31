@@ -3,8 +3,6 @@ import { extend } from "@inglorious/utils/data-structures/objects.js"
 import { pipe } from "@inglorious/utils/functions/functions.js"
 import { produce } from "immer"
 
-const DEFAULT_LAYER = 0
-
 /**
  * Creates a store to manage state and events.
  * @param {Object} config - Configuration options for the store.
@@ -176,5 +174,5 @@ function augmentEntities(entities) {
 }
 
 function augmentEntity(id, entity) {
-  return { ...entity, layer: entity.layer ?? DEFAULT_LAYER, id }
+  return { ...entity, id }
 }

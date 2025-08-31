@@ -23,7 +23,6 @@ test("it should process events by mutating state inside handlers", () => {
       kitty1: {
         id: "kitty1",
         type: "kitty",
-        layer: 0,
         isFed: true,
         isMeowing: true,
       },
@@ -59,8 +58,8 @@ test("it should send an event from an entity and process it in the same update c
   }
   const afterState = {
     entities: {
-      doggo1: { id: "doggo1", type: "doggo", layer: 0 },
-      kitty1: { id: "kitty1", type: "kitty", layer: 0, position: "far" },
+      doggo1: { id: "doggo1", type: "doggo" },
+      kitty1: { id: "kitty1", type: "kitty", position: "far" },
     },
   }
 
@@ -88,7 +87,7 @@ test("it should add an entity via an 'add' event", () => {
   const state = store.getState()
   expect(state).toStrictEqual({
     entities: {
-      kitty1: { id: "kitty1", type: "kitty", layer: 0 },
+      kitty1: { id: "kitty1", type: "kitty" },
     },
   })
 })

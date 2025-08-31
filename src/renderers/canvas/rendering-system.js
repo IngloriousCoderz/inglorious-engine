@@ -6,6 +6,7 @@ const ORIGIN = 0
 const DEFAULT_ZOOM = 1
 const HALF = 2
 
+const DEFAULT_LAYER = 0
 const Y = 1
 const Z = 2
 
@@ -56,7 +57,7 @@ export function createRenderingSystem(ctx) {
         .filter(({ position }) => position)
         .toSorted(
           (a, b) =>
-            a.layer - b.layer ||
+            (a.layer ?? DEFAULT_LAYER) - (b.layer ?? DEFAULT_LAYER) ||
             a.position[Y] - b.position[Y] ||
             b.position[Z] - a.position[Z],
         )

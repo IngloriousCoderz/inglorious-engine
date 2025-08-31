@@ -33,7 +33,6 @@ test("it should add a finite state machine", () => {
       entity1: {
         id: "entity1",
         type: "kitty",
-        layer: 0,
         state: "meowing",
         treats: 1,
       },
