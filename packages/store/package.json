@@ -1,7 +1,7 @@
 {
-  "name": "@inglorious/engine",
-  "version": "0.4.0",
-  "description": "A JavaScript game engine written with global state, immutability, and pure functions in mind. Have fun(ctional programming) with it!",
+  "name": "@inglorious/store",
+  "version": "1.0.0",
+  "description": "A state manager inspired by Redux, but tailored for the specific needs of game development.",
   "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
   "license": "MIT",
   "repository": {
@@ -13,11 +13,13 @@
     "url": "https://github.com/IngloriousCoderz/inglorious-engine/issues"
   },
   "keywords": [
-    "data-oriented",
-    "ecs",
     "functional-programming",
     "gamedev",
-    "game-engine"
+    "game-engine",
+    "inglorious-engine",
+    "state-manager",
+    "redux",
+    "store"
   ],
   "type": "module",
   "files": [
@@ -38,13 +40,13 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@inglorious/store": "workspace:*",
-    "@inglorious/utils": "workspace:*"
+    "@inglorious/utils": "workspace:*",
+    "immer": "^10.1.1"
   },
   "devDependencies": {
-    "prettier": "^3.5.3",
+    "prettier": "^3.6.2",
     "vite": "^7.1.3",
-    "vitest": "^1.6.0"
+    "vitest": "^1.6.1"
   },
   "packageManager": "pnpm@10.15.0",
   "engines": {

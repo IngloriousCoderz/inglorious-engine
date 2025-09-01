@@ -1,4 +1,4 @@
-# @inglorious/utils
+# Inglorious Utils
 
 [![NPM version](https://img.shields.io/npm/v/@inglorious/utils.svg)](https://www.npmjs.com/package/@inglorious/utils)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)

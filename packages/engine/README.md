@@ -1,5 +1,6 @@
 # Inglorious Engine
 
+[![NPM version](https://img.shields.io/npm/v/@inglorious/engine.svg)](https://www.npmjs.com/package/@inglorious/engine)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A JavaScript game engine written with global state, immutability, and pure functions in mind. Have fun(ctional programming) with it!

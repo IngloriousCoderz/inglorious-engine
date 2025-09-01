@@ -1,7 +1,8 @@
 import { game } from "@inglorious/engine/behaviors/game.js"
+import { createApi } from "@inglorious/store/api.js"
+import { createStore } from "@inglorious/store/store.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
 
-import { createApi } from "./api.js"
 import {
   ACTION_BLACKLIST,
   disconnectDevTools,
@@ -9,7 +10,6 @@ import {
   sendAction,
 } from "./dev-tools.js"
 import Loop from "./loop.js"
-import { createStore } from "./store.js"
 
 // Default game configuration
 // loop.type specifies the type of loop to use (defaults to "animationFrame").
