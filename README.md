@@ -70,6 +70,58 @@ However, there are several key differences that make it unique:
 
     - **A Word of Caution**: This power comes with responsibility. It is possible to create infinite loops (e.g., event A's handler notifies of event B, and event B's handler notifies of event A). Developers should be mindful of this when designing their event chains.
 
+## Dependencies
+
+The core engine relies on a few key, lightweight packages:
+
+- [immer](https://www.npmjs.com/package/immer): For enabling ergonomic immutable updates with structural sharing.
+- [@inglorious/utils](https://www.npmjs.com/package/@inglorious/utils): A collection of small, pure utility functions for things like vector math and data manipulation.
+- [@inglorious/store](https://www.npmjs.com/package/@inglorious/store): The environment-agnostic core state management library.
+
+## Quick Start Example
+
+Since the engine is headless, you must select a renderer to create a game. Below is a simple HTML file demonstrating how to set up a game using the engine and a 2D canvas renderer.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/logo.png" />
+    <link rel="stylesheet" href="/style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Inglorious Engine</title>
+  </head>
+
+  <body>
+    <canvas id="canvas"></canvas>
+
+    <script type="text/javascript">
+      window.process = { env: "development" }
+    </script>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "immer": "https://unpkg.com/immer@10.1.1/dist/immer.mjs",
+          "@inglorious/utils/": "https://unpkg.com/@inglorious%2Futils@1.1.0/",
+          "@inglorious/store/": "https://unpkg.com/@inglorious%2Fstore@0.1.0/",
+          "@inglorious/engine/": "https://unpkg.com/@inglorious%2Fengine@0.4.0/",
+          "@inglorious/renderers/": "https://unpkg.com/@inglorious%2Frenderer-2d@0.2.0/",
+          "game": "/game.js"
+        }
+      }
+    </script>
+
+    <script
+      type="module"
+      src="https://unpkg.com/@inglorious%2Fengine@0.2.0/src/main.js"
+    ></script>
+  </body>
+</html>
+```
+
 ## Contributing
 
 We welcome contributions from the community! Whether you're fixing a bug, adding a feature, or improving the documentation, your help is appreciated. Please read our Contributing Guidelines for details on how to get started.

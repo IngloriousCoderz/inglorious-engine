@@ -16,7 +16,6 @@ const config = {
 
   stories: [
     "../src/quick-start/quick-start.mdx",
-    "../src/engine.mdx",
     "../src/**/*.mdx",
     "../src/**/*.stories.@(js|jsx|ts|tsx)",
   ],

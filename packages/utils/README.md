@@ -24,7 +24,7 @@ Here are a few examples of how you can use the utilities in this package.
 Compose functions together in a readable, left-to-right sequence.
 
 ```javascript
-import { pipe } from "@inglorious/utils/function"
+import { pipe } from "@inglorious/utils/functions/functions"
 
 const add = (a) => (b) => a + b
 const multiply = (a) => (b) => a * b
@@ -43,24 +43,23 @@ const result = calculate(10) // 40
 Perform vector operations on plain objects.
 
 ```javascript
-import { add } from "@inglorious/utils/vector"
+import { add } from "@inglorious/utils/math/linear-algebra/vector"
 
-const position = { x: 10, y: 20 }
-const velocity = { x: 2, y: -1 }
+const position = [10, 20]
+const velocity = [2, -1]
 
 const newPosition = add(position, velocity)
-// => { x: 12, y: 19 }
+// => [12, 19]
 ```
 
 ## API
 
 This package is designed to be used with subpath imports, which helps with tree-shaking.
 
-- **`@inglorious/utils/function`**: Utilities for function composition.
-- **`@inglorious/utils/vector`**: Utilities for 2D vector math on plain objects.
-- **`@inglorious/utils/random`**: Utilities for random number and data generation.
-
-_(This is a sample API. Please update it to reflect the actual exported functions.)_
+- **`@inglorious/utils/algorithms`**: Utilities for AI algorithms, like decision trees and A\*.
+- **`@inglorious/utils/functions`**: Utilities for function composition.
+- **`@inglorious/utils/math`**: Utilities for math operations.
+- **`@inglorious/utils/physics`**: Utilities for calculations on friction, acceleration, and gravity.
 
 ## Contributing
 
