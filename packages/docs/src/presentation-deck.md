@@ -286,7 +286,7 @@ This is my favorite OOP solution and gets very close to what I want to show you.
 
 What if we stopped thinking about "what Mario **is**" (a class) and started thinking about "what he **can do**" (a collection of behaviors)?
 
-This is the core idea of **Data-Oriented Design** and **Functional Programming**.
+This is the core idea of **Data-Oriented Programming** and **Functional Programming**.
 
 In Inglorious Engine, an entity is just data, and its behavior is defined by a collection of functions.
 
