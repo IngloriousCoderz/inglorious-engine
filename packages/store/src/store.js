@@ -4,6 +4,8 @@ import { extend } from "@inglorious/utils/data-structures/objects.js"
 import { pipe } from "@inglorious/utils/functions/functions.js"
 import { produce } from "immer"
 
+import { EventMap } from "./event-map"
+
 /**
  * Creates a store to manage state and events.
  * @param {Object} config - Configuration options for the store.
@@ -20,8 +22,9 @@ export function createStore({
   let incomingEvents = []
 
   const types = augmentTypes(originalTypes)
-  const entities = augmentEntities(originalEntities)
+  const eventMap = new EventMap(types, originalEntities)
 
+  const entities = augmentEntities(originalEntities)
   const initialState = { entities }
   let state = initialState
 
@@ -67,21 +70,37 @@ export function createStore({
 
         if (event.type === "morph") {
           const { id, type } = event.payload
+
+          const entity = state.entities[id]
+          const oldType = types[entity.type]
+
           originalTypes[id] = type
           types[id] = augmentType(originalTypes[id])
+          const newType = types[id]
+
+          eventMap.removeEntity(id, oldType)
+          eventMap.addEntity(id, newType)
         }
 
         if (event.type === "add") {
           const { id, ...entity } = event.payload
           state.entities[id] = augmentEntity(id, entity)
+          const type = types[entity.type]
+
+          eventMap.addEntity(id, type)
         }
 
         if (event.type === "remove") {
           const id = event.payload
+          const entity = state.entities[id]
+          const type = types[entity.type]
           delete state.entities[id]
+
+          eventMap.removeEntity(id, type)
         }
 
-        for (const id in state.entities) {
+        const entityIds = eventMap.getEntitiesForEvent(event.type)
+        for (const id of entityIds) {
           const entity = state.entities[id]
           const type = types[entity.type]
           const handle = type[event.type]
