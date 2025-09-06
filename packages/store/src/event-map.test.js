@@ -25,17 +25,17 @@ test("constructor should initialize the event map from types and entities", () =
 
   const eventMap = new EventMap(types, entities)
 
-  expect(eventMap.getEntitiesForEvent("update")).toEqual(
+  expect(eventMap.getEntitiesForEvent("update")).toStrictEqual(
     new Set(["player1", "player2", "enemy1"]),
   )
-  expect(eventMap.getEntitiesForEvent("fire")).toEqual(
+  expect(eventMap.getEntitiesForEvent("fire")).toStrictEqual(
     new Set(["player1", "player2"]),
   )
 
   // 'item' type has no events, so it shouldn't be in the map
-  expect(eventMap.getEntitiesForEvent("item")).toEqual(new Set())
+  expect(eventMap.getEntitiesForEvent("item")).toStrictEqual(new Set())
   // 'ghost' type doesn't exist, so it should be ignored
-  expect(eventMap.getEntitiesForEvent("ghost")).toEqual(new Set())
+  expect(eventMap.getEntitiesForEvent("ghost")).toStrictEqual(new Set())
 })
 
 test("addEntity should add an entity to the correct event sets", () => {
@@ -49,15 +49,19 @@ test("addEntity should add an entity to the correct event sets", () => {
 
   eventMap.addEntity("player1", types.player)
 
-  expect(eventMap.getEntitiesForEvent("update")).toEqual(new Set(["player1"]))
-  expect(eventMap.getEntitiesForEvent("jump")).toEqual(new Set(["player1"]))
+  expect(eventMap.getEntitiesForEvent("update")).toStrictEqual(
+    new Set(["player1"]),
+  )
+  expect(eventMap.getEntitiesForEvent("jump")).toStrictEqual(
+    new Set(["player1"]),
+  )
 
   // Add another entity of the same type
   eventMap.addEntity("player2", types.player)
-  expect(eventMap.getEntitiesForEvent("update")).toEqual(
+  expect(eventMap.getEntitiesForEvent("update")).toStrictEqual(
     new Set(["player1", "player2"]),
   )
-  expect(eventMap.getEntitiesForEvent("jump")).toEqual(
+  expect(eventMap.getEntitiesForEvent("jump")).toStrictEqual(
     new Set(["player1", "player2"]),
   )
 })
@@ -77,8 +81,12 @@ test("removeEntity should remove an entity from its event sets", () => {
 
   eventMap.removeEntity("player1", types.player)
 
-  expect(eventMap.getEntitiesForEvent("update")).toEqual(new Set(["player2"]))
-  expect(eventMap.getEntitiesForEvent("fire")).toEqual(new Set(["player2"]))
+  expect(eventMap.getEntitiesForEvent("update")).toStrictEqual(
+    new Set(["player2"]),
+  )
+  expect(eventMap.getEntitiesForEvent("fire")).toStrictEqual(
+    new Set(["player2"]),
+  )
 
   // Removing a non-existent entity should not throw an error
   expect(() => eventMap.removeEntity("player3", types.player)).not.toThrow()
@@ -96,10 +104,10 @@ test("getEntitiesForEvent should return the correct set of entities for an event
   const eventMap = new EventMap(types, entities)
 
   const updateEntities = eventMap.getEntitiesForEvent("update")
-  expect(updateEntities).toEqual(new Set(["player1", "enemy1"]))
+  expect(updateEntities).toStrictEqual(new Set(["player1", "enemy1"]))
 
   const fireEntities = eventMap.getEntitiesForEvent("fire")
-  expect(fireEntities).toEqual(new Set())
+  expect(fireEntities).toStrictEqual(new Set())
 })
 
 test("EventMap provides a significant performance benefit for event handling", async () => {

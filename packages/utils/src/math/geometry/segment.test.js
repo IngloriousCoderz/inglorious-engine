@@ -9,7 +9,7 @@ import {
 } from "./segment.js"
 
 expect.extend({
-  toEqualVector(received, expected) {
+  toStrictEqualVector(received, expected) {
     const { isNot } = this
     return {
       pass: received.every((coord, index) => isClose(coord, expected[index])),
@@ -26,7 +26,7 @@ test("it should retrieve values of *a*, *b*, and *c* from a segment, so it looks
   }
   const expectedResult = [-2, 1, 0]
 
-  expect(coefficients(segment)).toEqual(expectedResult)
+  expect(coefficients(segment)).toStrictEqual(expectedResult)
 })
 
 test("it should find the closest point in a segment to a point projectable on it", () => {
@@ -37,7 +37,7 @@ test("it should find the closest point in a segment to a point projectable on it
   const point = [2, 0, 0]
   const expectedResult = [1, 0, 1]
 
-  expect(closestPoint(segment, point)).toEqualVector(expectedResult)
+  expect(closestPoint(segment, point)).toStrictEqualVector(expectedResult)
 })
 
 test("it should find the closest point as the point itself when resting on the segment", () => {
@@ -48,7 +48,7 @@ test("it should find the closest point as the point itself when resting on the s
   const point = [1, 0, 1]
   const expectedResult = [1, 0, 1]
 
-  expect(closestPoint(segment, point)).toEqualVector(expectedResult)
+  expect(closestPoint(segment, point)).toStrictEqualVector(expectedResult)
 })
 
 test("it return the start of a segment when the point is close to its start", () => {
@@ -59,7 +59,7 @@ test("it return the start of a segment when the point is close to its start", ()
   const point = [-2, 0, 0]
   const expectedResult = [0, 0, 0]
 
-  expect(closestPoint(segment, point)).toEqualVector(expectedResult)
+  expect(closestPoint(segment, point)).toStrictEqualVector(expectedResult)
 })
 
 test("it should return the end of a segment when the point is close to its end", () => {
@@ -70,7 +70,7 @@ test("it should return the end of a segment when the point is close to its end",
   const point = [5, 0, 4]
   const expectedResult = [3, 0, 4]
 
-  expect(closestPoint(segment, point)).toEqualVector(expectedResult)
+  expect(closestPoint(segment, point)).toStrictEqualVector(expectedResult)
 })
 
 test("it should compute the distance between a segment and a point projectable on it", () => {

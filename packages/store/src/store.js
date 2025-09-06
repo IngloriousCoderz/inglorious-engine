@@ -1,10 +1,8 @@
-import { ensureArray } from "@inglorious/utils/data-structures/array.js"
-import { map } from "@inglorious/utils/data-structures/object.js"
-import { extend } from "@inglorious/utils/data-structures/objects.js"
-import { pipe } from "@inglorious/utils/functions/functions.js"
 import { produce } from "immer"
 
+import { augmentEntities, augmentEntity } from "./entities"
 import { EventMap } from "./event-map"
+import { augmentType, augmentTypes } from "./types"
 
 /**
  * Creates a store to manage state and events.
@@ -170,24 +168,4 @@ export function createStore({
   function reset() {
     state = initialState
   }
-}
-
-function augmentTypes(types) {
-  return map(types, (_, type) => augmentType(type))
-}
-
-function augmentType(type) {
-  const behaviors = ensureArray(type).map((fn) =>
-    typeof fn !== "function" ? (type) => extend(type, fn) : fn,
-  )
-
-  return pipe(...behaviors)({})
-}
-
-function augmentEntities(entities) {
-  return map(entities, augmentEntity)
-}
-
-function augmentEntity(id, entity) {
-  return { ...entity, id }
 }
