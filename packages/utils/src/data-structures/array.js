@@ -23,6 +23,16 @@ export function contains(arr, item) {
 }
 
 /**
+ * Ensures that the given value is an array. If it's not an array, it wraps it in one.
+ *
+ * @param {*} arr - The value to check.
+ * @returns {Array} - The original array or the value wrapped in a new array.
+ */
+export function ensureArray(arr) {
+  return Array.isArray(arr) ? arr : [arr]
+}
+
+/**
  * Finds the maximum item in an array based on a comparator function.
  *
  * @param {Array} arr - The array to search.

@@ -1,3 +1,4 @@
+import { ensureArray } from "@inglorious/utils/data-structures/array.js"
 import { map } from "@inglorious/utils/data-structures/object.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
 import { pipe } from "@inglorious/utils/functions/functions.js"
@@ -18,8 +19,8 @@ export function createStore({
   const listeners = new Set()
   let incomingEvents = []
 
-  let types = augmentTypes(originalTypes)
-  let entities = augmentEntities(originalEntities)
+  const types = augmentTypes(originalTypes)
+  const entities = augmentEntities(originalEntities)
 
   const initialState = { entities }
   let state = initialState
@@ -67,7 +68,7 @@ export function createStore({
         if (event.type === "morph") {
           const { id, type } = event.payload
           originalTypes[id] = type
-          types = augmentTypes(originalTypes)
+          types[id] = augmentType(originalTypes[id])
         }
 
         if (event.type === "add") {
@@ -148,25 +149,20 @@ export function createStore({
   }
 
   function reset() {
-    state = initialState // Reset state to its originally computed value
+    state = initialState
   }
 }
 
 function augmentTypes(types) {
-  return pipe(applyBehaviors)(types)
+  return map(types, (_, type) => augmentType(type))
 }
 
-function applyBehaviors(types) {
-  return map(types, (_, type) => {
-    if (!Array.isArray(type)) {
-      return type
-    }
+function augmentType(type) {
+  const behaviors = ensureArray(type).map((fn) =>
+    typeof fn !== "function" ? (type) => extend(type, fn) : fn,
+  )
 
-    const behaviors = type.map((fn) =>
-      typeof fn !== "function" ? (type) => extend(type, fn) : fn,
-    )
-    return pipe(...behaviors)({})
-  })
+  return pipe(...behaviors)({})
 }
 
 function augmentEntities(entities) {

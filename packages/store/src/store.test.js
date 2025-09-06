@@ -108,3 +108,45 @@ test("it should remove an entity via a 'remove' event", () => {
   const state = store.getState()
   expect(state.entities.kitty1).toBeUndefined()
 })
+
+test("it should change an entity's behavior via a 'morph' event", () => {
+  const Caterpillar = {
+    eat(entity) {
+      entity.isFull = true
+    },
+  }
+  const Butterfly = {
+    fly(entity) {
+      entity.hasFlown = true
+    },
+  }
+
+  const config = {
+    types: {
+      bug: Caterpillar,
+    },
+
+    entities: {
+      bug: { type: "bug" },
+    },
+  }
+
+  const store = createStore(config)
+
+  store.notify("eat")
+  store.update(0, {})
+  expect(store.getState()).toStrictEqual({
+    entities: {
+      bug: { id: "bug", type: "bug", isFull: true },
+    },
+  })
+
+  store.notify("morph", { id: "bug", type: [Caterpillar, Butterfly] })
+  store.notify("fly")
+  store.update(0, {})
+  expect(store.getState()).toStrictEqual({
+    entities: {
+      bug: { id: "bug", type: "bug", isFull: true, hasFlown: true },
+    },
+  })
+})

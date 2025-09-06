@@ -1,6 +1,6 @@
 import { expect, test } from "vitest"
 
-import { contains, max, min, pop, push, remove } from "./array.js"
+import { contains, ensureArray, max, min, pop, push, remove } from "./array.js"
 
 test("it should check if an array contains a value", () => {
   const arr = [3, 2, 6, 1, 7, 4, 5]
@@ -24,6 +24,18 @@ test("it should check if an array contains an object", () => {
   const expectedResult = true
 
   expect(contains(arr, item)).toBe(expectedResult)
+})
+
+test("it should return the same array if the value is already an array", () => {
+  const arr = [1, "two", { three: 3 }]
+
+  expect(ensureArray(arr)).toBe(arr)
+})
+
+test("it should wrap the value in an array if it is not an array", () => {
+  const str = "hello"
+
+  expect(ensureArray(str)).toStrictEqual([str])
 })
 
 test("it should find the maximum value of an array", () => {
