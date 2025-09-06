@@ -1,8 +1,8 @@
 import { produce } from "immer"
 
-import { augmentEntities, augmentEntity } from "./entities"
-import { EventMap } from "./event-map"
-import { augmentType, augmentTypes } from "./types"
+import { augmentEntities, augmentEntity } from "./entities.js"
+import { EventMap } from "./event-map.js"
+import { augmentType, augmentTypes } from "./types.js"
 
 /**
  * Creates a store to manage state and events.

@@ -20,14 +20,14 @@
     "utils"
   ],
   "type": "module",
+  "exports": {
+    "./*": "./src/*"
+  },
   "files": [
     "src",
     "README.md",
     "LICENSE"
   ],
-  "exports": {
-    "./*": "./src/*"
-  },
   "publishConfig": {
     "access": "public"
   },

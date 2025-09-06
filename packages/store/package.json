@@ -22,14 +22,15 @@
     "store"
   ],
   "type": "module",
+  "exports": {
+    ".": "./src/store.js",
+    "./*": "./src/*"
+  },
   "files": [
     "src",
     "README.md",
     "LICENSE"
   ],
-  "exports": {
-    "./*": "./src/*"
-  },
   "publishConfig": {
     "access": "public"
   },
