@@ -11,39 +11,28 @@ export async function loadGame(gameFilePath, logger) {
   let gameConfig = {}
 
   try {
-    // Dynamically import the game module.
+    if (!gameFilePath) {
+      return gameConfig
+    }
+
     const __filename = fileURLToPath(import.meta.url)
     const __dirname = path.dirname(__filename)
     const modulePath = path.resolve(__dirname, gameFilePath)
-    const { default: config } = await import(`file://${modulePath}`)
-    gameConfig = config
-    gameConfig.types ??= {}
-    gameConfig.entities ??= {}
+    const module = await import(`file://${modulePath}`)
 
     logger.info(`Loaded game data from ${gameFilePath}`)
+    gameConfig = module.default
+    return gameConfig
   } catch (error) {
     logger.error(`Failed to load game module: ${gameFilePath}`)
     logger.error(error)
+
     // Fallback to a basic initial state if loading fails.
-    gameConfig = {
-      types: {
-        player: {
-          move: (entity, payload) => {
-            logger.info(
-              `Player ${entity.id} moved to ${payload.x}, ${payload.y}`,
-            )
-          },
-        },
-        box: {},
-      },
-
-      entities: {
-        player1: { id: "player1", type: "player", x: 0, y: 0 },
-        box1: { id: "box1", type: "box", x: 10, y: 10 },
-      },
-    }
     logger.warn("Using default game state as a fallback.")
+    gameConfig = {}
+    return gameConfig
+  } finally {
+    gameConfig.types ??= {}
+    gameConfig.entities ??= {}
   }
-
-  return gameConfig
 }
