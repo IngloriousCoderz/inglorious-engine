@@ -11,23 +11,6 @@ import { random } from "@inglorious/utils/math/rng.js"
 
 const controls = setupControls()
 
-const playerId = String(Math.round(Math.random() * 1_000_000)).padStart(6, "0")
-
-const mapping =
-  playerId % 2
-    ? {
-        KeyW: "moveUp",
-        KeyS: "moveDown",
-        KeyA: "moveLeft",
-        KeyD: "moveRight",
-      }
-    : {
-        KeyI: "moveUp",
-        KeyK: "moveDown",
-        KeyJ: "moveLeft",
-        KeyL: "moveRight",
-      }
-
 export default {
   types: {
     ...controls.types,
@@ -38,7 +21,7 @@ export default {
       extend(type, {
         start(entity, event, api) {
           api.notify("add", {
-            id: playerId,
+            id: "player1",
             type: "character",
             position: [random(0, 800), 0, random(0, 600)],
             orientation: random(-pi(), pi(), 0.1),
@@ -56,7 +39,12 @@ export default {
 
   entities: {
     ...controls.entities,
-    ...controlsEntities("input0", [playerId], mapping),
+    ...controlsEntities("input0", ["player1"], {
+      KeyW: "moveUp",
+      KeyS: "moveDown",
+      KeyA: "moveLeft",
+      KeyD: "moveRight",
+    }),
 
     game: {
       type: "game",

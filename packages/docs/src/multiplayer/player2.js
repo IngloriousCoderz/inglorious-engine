@@ -10,8 +10,6 @@ import { pi } from "@inglorious/utils/math/trigonometry.js"
 
 const controls = setupControls()
 
-const playerId = String(Math.round(Math.random() * 1_000_000)).padStart(6, "0")
-
 export default {
   types: {
     ...controls.types,
@@ -22,7 +20,7 @@ export default {
       extend(type, {
         start(entity, event, api) {
           api.notify("add", {
-            id: playerId,
+            id: "player2",
             type: "character",
             position: [600, 0, 300],
             orientation: pi(),
@@ -40,7 +38,7 @@ export default {
 
   entities: {
     ...controls.entities,
-    ...controlsEntities("input0", [playerId], {
+    ...controlsEntities("input0", ["player2"], {
       KeyI: "moveUp",
       KeyK: "moveDown",
       KeyJ: "moveLeft",
