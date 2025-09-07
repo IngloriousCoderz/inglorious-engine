@@ -11,8 +11,8 @@ export function clamped(params) {
 
   return (type) =>
     extend(type, {
-      start(entity, api) {
-        type.start?.(entity, api)
+      create(entity, event, api) {
+        type.create?.(entity, event, api)
 
         entity.collisions ??= {}
         entity.collisions[params.collisionGroup] ??= {}

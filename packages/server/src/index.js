@@ -44,8 +44,14 @@ const store = createStore(gameConfig)
 // A small-scale API for your systems and events to interact with the world.
 // This can be expanded as needed.
 const api = {
+  getEntity(name) {
+    return store.getState().entities[name]
+  },
+  getEntities() {
+    return store.getState().entities
+  },
   // A simple broadcast function.
-  broadcast: (event) => {
+  broadcast(event) {
     // Stringify the event for transmission.
     const message = JSON.stringify(event)
     for (const client of clients) {

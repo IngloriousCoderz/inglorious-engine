@@ -3,13 +3,11 @@ import { createApi } from "@inglorious/store/api.js"
 import { createStore } from "@inglorious/store/store.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
 
-import {
-  ACTION_BLACKLIST,
-  disconnectDevTools,
-  initDevTools,
-  sendAction,
-} from "./dev-tools.js"
+import { coreEvents } from "./core-events.js"
+import { disconnectDevTools, initDevTools, sendAction } from "./dev-tools.js"
 import Loop from "./loop.js"
+import { applyMiddlewares } from "./middlewares.js"
+import { multiplayerMiddleware } from "./multiplayer.js"
 
 // Default game configuration
 // loop.type specifies the type of loop to use (defaults to "animationFrame").
@@ -51,7 +49,15 @@ export class Engine {
       systems.push(...this._config.renderer.getSystems())
     }
 
-    this._store = createStore({ ...this._config, systems })
+    let store = createStore({ ...this._config, systems })
+
+    // Apply multiplayer if specified.
+    const multiplayer = this._config.entities.game?.multiplayer
+    if (multiplayer) {
+      store = applyMiddlewares(multiplayerMiddleware(multiplayer))(store)
+    }
+
+    this._store = store
     this._loop = new Loop[this._config.loop.type]()
     this._api = createApi(this._store)
 
@@ -70,7 +76,7 @@ export class Engine {
    * Starts the game engine, initializing the loop and notifying the store.
    */
   start() {
-    this._store.notify("start", this._api)
+    this._store.notify("start")
     this._loop.start(this, ONE_SECOND / this._config.loop.fps)
     this.isRunning = true
   }
@@ -79,7 +85,7 @@ export class Engine {
    * Stops the game engine, halting the loop and notifying the store.
    */
   stop() {
-    this._store.notify("stop", this._api)
+    this._store.notify("stop")
     this._store.update(FINAL_UPDATE_DELTA_TIME, this._api)
     this._loop.stop()
     this.isRunning = false
@@ -105,7 +111,7 @@ export class Engine {
     }
 
     const eventsToLog = processedEvents.filter(
-      ({ type }) => !ACTION_BLACKLIST.includes(type),
+      ({ type }) => !coreEvents.includes(type),
     )
 
     if (eventsToLog.length) {

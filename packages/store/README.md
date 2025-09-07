@@ -90,7 +90,7 @@ Creates a convenient API object that encapsulates the store's methods and provid
 
 - An `api` object with methods for interacting with the store and state, including:
   - `createSelector(inputSelectors, resultFunc)`: A helper function that automatically binds the store's state to a new selector.
-  - `getTypes()`, `getEntities()`, `getEntity(id)`, `getType(id)`: Utility functions for accessing state.
+  - `getTypes()`, `getEntities()`, `getEntity(id)`: Utility functions for accessing state.
   - `notify(type, payload)`, `dispatch(action)`: Aliases to the store's event dispatching methods.
 
 ---

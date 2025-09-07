@@ -27,8 +27,8 @@ export function tankControls(params) {
         "turn",
       ]),
 
-      start(entity, api) {
-        type.start?.(entity, api)
+      create(entity, event, api) {
+        type.create?.(entity, event, api)
 
         entity.maxSpeed ??= params.maxSpeed
         entity.maxAngularSpeed ??= params.maxAngularSpeed

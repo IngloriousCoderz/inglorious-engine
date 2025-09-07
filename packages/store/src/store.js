@@ -6,6 +6,7 @@ import { augmentType, augmentTypes } from "./types.js"
 
 /**
  * Creates a store to manage state and events.
+ *
  * @param {Object} config - Configuration options for the store.
  * @param {Object} [config.types] - The initial types configuration.
  * @param {Object} [config.entities] - The initial entities configuration.
@@ -17,14 +18,11 @@ export function createStore({
   systems = [],
 }) {
   const listeners = new Set()
-  let incomingEvents = []
 
   const types = augmentTypes(originalTypes)
-  const eventMap = new EventMap(types, originalEntities)
 
-  const entities = augmentEntities(originalEntities)
-  const initialState = { entities }
-  let state = initialState
+  let state, eventMap, incomingEvents
+  reset()
 
   return {
     subscribe,
@@ -40,6 +38,7 @@ export function createStore({
 
   /**
    * Subscribes a listener to state updates.
+   *
    * @param {Function} listener - The listener function to call on updates.
    * @returns {Function} A function to unsubscribe the listener.
    */
@@ -53,6 +52,7 @@ export function createStore({
 
   /**
    * Updates the state based on elapsed time and processes events.
+   *
    * @param {number} dt - The delta time since the last update in milliseconds.
    * @param {Object} api - The engine's public API.
    */
@@ -86,6 +86,7 @@ export function createStore({
           const type = types[entity.type]
 
           eventMap.addEntity(id, type)
+          incomingEvents.unshift({ type: "create", payload: id })
         }
 
         if (event.type === "remove") {
@@ -95,6 +96,7 @@ export function createStore({
           delete state.entities[id]
 
           eventMap.removeEntity(id, type)
+          incomingEvents.unshift({ type: "destroy", payload: id })
         }
 
         const entityIds = eventMap.getEntitiesForEvent(event.type)
@@ -102,7 +104,7 @@ export function createStore({
           const entity = state.entities[id]
           const type = types[entity.type]
           const handle = type[event.type]
-          handle?.(entity, event.payload, api)
+          handle(entity, event.payload, api)
         }
 
         systems.forEach((system) => {
@@ -119,6 +121,7 @@ export function createStore({
 
   /**
    * Notifies the store of a new event.
+   *
    * @param {string} type - The event object type to notify.
    * @param {any} payload - The event object payload to notify.
    */
@@ -128,6 +131,7 @@ export function createStore({
 
   /**
    * Dispatches an event to be processed in the next update cycle.
+   *
    * @param {Object} event - The event object.
    * @param {string} event.type - The type of the event.
    * @param {any} [event.payload] - The payload of the event.
@@ -139,6 +143,7 @@ export function createStore({
   /**
    * Retrieves the augmented types configuration.
    * This includes composed behaviors and event handlers wrapped for immutability.
+   *
    * @returns {Object} The augmented types configuration.
    */
   function getTypes() {
@@ -147,6 +152,7 @@ export function createStore({
 
   /**
    * Retrieves the original, un-augmented types configuration.
+   *
    * @returns {Object} The original types configuration.
    */
   function getOriginalTypes() {
@@ -155,17 +161,50 @@ export function createStore({
 
   /**
    * Retrieves the current state.
+   *
    * @returns {Object} The current state.
    */
   function getState() {
     return state
   }
 
-  function setState(newState) {
-    state = newState
+  /**
+   * Sets the entire state of the store.
+   * This is useful for importing state or setting initial state from a server.
+   *
+   * @param {Object} nextState - The new state to set.
+   */
+  function setState(nextState) {
+    const oldEntities = state?.entities ?? {}
+    const newEntities = augmentEntities(nextState.entities)
+
+    state = { entities: newEntities }
+    eventMap = new EventMap(types, nextState.entities)
+    incomingEvents = []
+
+    const oldEntityIds = new Set(Object.keys(oldEntities))
+    const newEntityIds = new Set(Object.keys(newEntities))
+
+    const entitiesToCreate = [...newEntityIds].filter(
+      (id) => !oldEntityIds.has(id),
+    )
+    const entitiesToDestroy = [...oldEntityIds].filter(
+      (id) => !newEntityIds.has(id),
+    )
+
+    entitiesToCreate.forEach((id) => {
+      incomingEvents.push({ type: "create", payload: id })
+    })
+
+    entitiesToDestroy.forEach((id) => {
+      incomingEvents.push({ type: "destroy", payload: id })
+    })
   }
 
+  /**
+   * Resets the store to its initial state.
+   */
   function reset() {
-    state = initialState
+    setState({ entities: originalEntities })
   }
 }

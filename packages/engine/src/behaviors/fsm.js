@@ -9,8 +9,8 @@ export function fsm(states) {
 
   return (type) => {
     return extend(type, {
-      start(entity, api) {
-        type.start?.(entity, api)
+      create(entity, event, api) {
+        type.start?.(entity, event, api)
 
         entity.state ??= DEFAULT_STATE
       },

@@ -1,0 +1,16 @@
+export const coreEvents = [
+  "create",
+  "update",
+  "destroy",
+  "gamepadAxis",
+  "gamepadPress",
+  "gamepadRelease",
+  "keyboardKeyDown",
+  "keyboardKeyUp",
+  "inputAxis",
+  "inputPress",
+  "inputRelease",
+  "mouseMove",
+  "mouseClick",
+  "spriteAnimationEnd",
+]

@@ -22,7 +22,7 @@ export function camera(params) {
   params = extend(DEFAULT_PARAMS, params)
 
   return {
-    start(entity) {
+    create(entity) {
       defaults(entity, params)
       entity.targetZoom = entity.zoom
       // Cache the initial size to calculate the viewport in dev mode

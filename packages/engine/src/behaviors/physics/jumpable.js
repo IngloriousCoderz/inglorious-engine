@@ -27,8 +27,8 @@ export function jumpable(params) {
 
   return (type) =>
     extend(type, {
-      start(entity, api) {
-        type.start?.(entity, api)
+      create(entity, event, api) {
+        type.create?.(entity, event, api)
         defaults(entity, params)
         entity.jumpsLeft ??= entity.maxJumps
 

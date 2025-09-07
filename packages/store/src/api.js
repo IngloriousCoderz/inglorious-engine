@@ -12,23 +12,12 @@ export function createApi(store) {
 
   const getEntity = (id) => getEntities()[id]
 
-  const notify = (type, payload) => {
-    store.notify(type, payload)
-  }
-
-  const dispatch = (action) => {
-    store.dispatch(action)
-  }
-
-  const getType = (id) => store.getOriginalTypes()?.[id]
-
   return {
     createSelector,
     getTypes,
     getEntities,
     getEntity,
-    getType,
-    notify,
-    dispatch,
+    dispatch: store.dispatch,
+    notify: store.notify,
   }
 }

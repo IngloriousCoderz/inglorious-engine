@@ -1,0 +1,42 @@
+import { Canvas, Meta, Source } from "@storybook/addon-docs/blocks"
+import * as MultiplayerStories from "./multiplayer.stories"
+import player1 from './player1?raw'
+import player2 from './player2?raw'
+import server from './server?raw'
+
+<Meta of={MultiplayerStories} />
+
+# Multiplayer
+
+The Inglorious Engine makes it incredibly easy to set up a real-time multiplayer game. The `@inglorious/server` package provides a simple, server-authoritative WebSocket server that handles all communication and state synchronization for you.
+
+To start the example server, navigate to the `packages/server` directory of the `inglorious-engine` monorepo and run the following command. The server will automatically use the `server.js` file for this example.
+
+```sh
+pnpm dev ../../docs/src/multiplayer/server.js
+```
+
+## Controls
+
+Once the game is running, you can control your player using a standard keyboard layout.
+
+Player 1 uses the WASD keys to move.
+
+Player 2 uses the IJKL keys to move.
+
+<Canvas of={MultiplayerStories.Player1} />
+
+<Canvas of={MultiplayerStories.Player2} />
+
+
+## Player 1 Game
+
+<Source dark code={player1} />
+
+## Player 2 Game
+
+<Source dark code={player2} />
+
+## Server Game
+
+<Source dark code={server} />

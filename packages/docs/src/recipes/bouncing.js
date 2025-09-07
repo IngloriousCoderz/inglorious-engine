@@ -10,11 +10,12 @@ export default {
       jumpable(),
       (type) =>
         extend(type, {
-          start(entity) {
-            type.start?.(entity)
+          create(entity) {
+            type.create?.(entity)
 
             entity.jumpTriggered = false
           },
+
           update(entity, dt, api) {
             type.update?.(entity, dt, api)
 

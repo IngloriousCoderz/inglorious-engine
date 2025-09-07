@@ -1,17 +1,4 @@
-export const ACTION_BLACKLIST = [
-  "update",
-  "gamepadAxis",
-  "gamepadPress",
-  "gamepadRelease",
-  "keyboardKeyDown",
-  "keyboardKeyUp",
-  "inputAxis",
-  "inputPress",
-  "inputRelease",
-  "mouseMove",
-  "mouseClick",
-  "spriteAnimationEnd",
-]
+import { coreEvents } from "./core-events.js"
 
 const LAST_STATE = 1
 
@@ -30,7 +17,7 @@ export function initDevTools(store) {
 
   devToolsInstance = window.__REDUX_DEVTOOLS_EXTENSION__.connect({
     name: "Inglorious Engine",
-    predicate: (state, action) => !ACTION_BLACKLIST.includes(action.type),
+    predicate: (state, action) => !coreEvents.includes(action.type),
     actionCreators: {
       jump: () => ({ type: "jump", payload: { inputId: "input0" } }),
     },

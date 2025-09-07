@@ -24,7 +24,7 @@ export default {
       {
         render: renderCharacter,
 
-        start(entity) {
+        create(entity) {
           entity.movement ??= {}
         },
 

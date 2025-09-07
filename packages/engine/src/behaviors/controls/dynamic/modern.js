@@ -24,8 +24,8 @@ export function modernAcceleration(params) {
         "moveUpDown",
       ]),
 
-      start(entity, api) {
-        type.start?.(entity, api)
+      create(entity, event, api) {
+        type.create?.(entity, event, api)
 
         entity.maxAcceleration ??= params.maxAcceleration
         entity.movement ??= {}

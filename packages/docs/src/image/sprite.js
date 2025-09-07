@@ -8,7 +8,7 @@ export default {
     cat: [
       { render: renderSprite },
       {
-        start(entity) {
+        create(entity) {
           entity.sprite.state = "sleepy"
         },
       },

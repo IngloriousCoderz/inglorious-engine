@@ -10,7 +10,7 @@ const NO_Y = 0
 
 export function mouse() {
   return {
-    start(entity) {
+    create(entity) {
       entity.collisions ??= {}
       entity.collisions.bounds ??= { shape: "point" }
     },
