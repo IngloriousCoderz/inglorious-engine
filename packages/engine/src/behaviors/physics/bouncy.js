@@ -11,7 +11,7 @@ export function bouncy(params) {
   return (type) =>
     extend(type, {
       create(entity) {
-        type.start?.(entity)
+        type.create?.(entity)
         defaults(entity, params)
       },
 
