@@ -1,18 +1,15 @@
-const DEFAULT_PADDING = 10
+import { renderText } from "./text"
+
 const ONE_SECOND = 1
 
 export function renderFps(entity, ctx) {
-  const { accuracy, size, value } = entity.dt
+  const { value, accuracy } = entity.dt
 
-  ctx.save()
-
-  ctx.font = `${size}px sans serif`
-  ctx.fillStyle = "black"
-  ctx.fillText(
-    (ONE_SECOND / value).toFixed(accuracy),
-    DEFAULT_PADDING,
-    DEFAULT_PADDING + size,
+  renderText(
+    {
+      ...entity.dt,
+      value: `FPS: ${(ONE_SECOND / value).toFixed(accuracy)}`,
+    },
+    ctx,
   )
-
-  ctx.restore()
 }

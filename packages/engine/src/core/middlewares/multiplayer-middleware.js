@@ -1,6 +1,6 @@
 import { extend } from "@inglorious/utils/data-structures/objects.js"
 
-import { coreEvents } from "./core-events.js"
+import { coreEvents } from "../core-events.js"
 
 // A constant for the server's WebSocket URL.
 const DEFAULT_SERVER_URL = `ws://${window.location.hostname}:3000`

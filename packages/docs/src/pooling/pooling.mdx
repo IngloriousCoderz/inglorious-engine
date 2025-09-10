@@ -1,0 +1,28 @@
+import { Canvas, Meta, Source } from '@storybook/addon-docs/blocks'
+import * as Pooling from './pooling.stories'
+import pooling from './pooling?raw'
+import noPooling from './no-pooling?raw'
+
+<Meta of={Pooling} />
+
+# Entity Pooling
+
+In game development, creating and destroying entities at high frequency can have a significant impact on performance. Each time a new entity is created, memory must be allocated, and when it is destroyed, the garbage collector must eventually reclaim that memory. This process, while seemingly fast, can cause noticeable stuttering and frame rate drops when it happens hundreds or thousands of times a second.
+
+For the sake of performance, the Inglorious Engine is ready to break the rules of pure functional programming and embrace mutable entity pools. Instead of creating a new entity every time an asteroid appears, the engine reuses an existing "dead" asteroid from a pool of pre-allocated entities. When an asteroid despawns, it is simply returned to the pool, ready to be reused again later, bypassing the costly cycle of memory allocation and deallocation.
+
+This approach ensures a more stable and predictable frame rate, as you can see for yourself in the examples below. Notice how the "no pooling" example has a more erratic FPS, while the "pooling" example remains far more stable.
+
+Unlike other examples, we are not displaying both games on the same page. Running them at the same time would cause their performance to interfere with one another, making it impossible to accurately compare their frame rates.
+
+## Without Entity Pooling
+
+This first example shows the game running without the entity pooling middleware. Notice how the FPS fluctuates significantly as entities are continuously created and destroyed, leading to a less stable experience.
+
+<Source dark code={noPooling} />
+
+## With Entity Pooling
+
+In contrast, this second example includes the entity pooling middleware. It's a powerful tool that not only efficiently reuses entities from a pool but also takes on the crucial responsibility of generating unique IDs for both new and recycled entities. As you can see by comparing the code, the only change required to enable pooling is adding `poolable: true` to the entity's factory function. This ensures a stable FPS by avoiding costly memory operations, while also maintaining a clean separation of concerns by keeping ID management within the engine's core system.
+
+<Source dark code={pooling} />

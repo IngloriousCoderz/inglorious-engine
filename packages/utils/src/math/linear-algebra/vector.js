@@ -170,6 +170,14 @@ export function rotate(vector, angle) {
 }
 
 /**
+ * Scales the vector by the given scalar. Alias of `multiply`.
+ * @param {Vector3} vector - The input vector.
+ * @param {number} scalar - The scalar value.
+ * @returns {Vector3} The resulting vector.
+ */
+export const scale = multiply
+
+/**
  * Sets the angle of the vector while maintaining its magnitude.
  * @param {Vector3} vector - The input vector.
  * @param {number} angle - The new angle in radians.
@@ -181,6 +189,9 @@ export function setAngle(vector, angle) {
   return [x, NO_Y, z]
 }
 
+/**
+ * Sets the length of the vector while maintaining its direction. Alias of `setMagnitude`.
+ */
 export const setLength = setMagnitude
 
 /**

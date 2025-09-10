@@ -59,6 +59,7 @@ export function createRenderingSystem(ctx) {
       }
 
       Object.values(worldEntities)
+        .concat(api.getAllActivePoolEntities())
         .filter(({ position }) => position)
         .toSorted(
           (a, b) =>

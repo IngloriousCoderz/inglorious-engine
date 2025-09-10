@@ -56,12 +56,10 @@ export function createStore({
    * @param {number} dt - The delta time since the last update in milliseconds.
    * @param {Object} api - The engine's public API.
    */
-  function update(dt, api) {
+  function update(api) {
     const processedEvents = []
 
     state = produce(state, (state) => {
-      incomingEvents.push({ type: "update", payload: dt })
-
       while (incomingEvents.length) {
         const event = incomingEvents.shift()
         processedEvents.push(event)

@@ -9,7 +9,7 @@ test("it should add a finite state machine", () => {
       kitty: [
         fsm({
           default: {
-            catMeow(entity) {
+            meow(entity) {
               entity.state = "meowing"
             },
           },
@@ -40,8 +40,8 @@ test("it should add a finite state machine", () => {
   }
 
   const store = createStore(config)
-  store.notify("start")
-  store.notify("catMeow")
+  store.notify("meow")
+  store.notify("update")
   store.update()
 
   const state = store.getState()

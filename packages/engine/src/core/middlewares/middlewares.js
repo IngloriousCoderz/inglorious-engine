@@ -16,9 +16,9 @@ export function applyMiddlewares(...middlewares) {
 
     // The middleware API that can be passed to each middleware function.
     const api = {
+      ...store,
       dispatch: (...args) => dispatch(...args),
-      getState: store.getState,
-      setState: store.setState,
+      notify: (type, payload) => dispatch({ type, payload }),
     }
 
     // Create a chain of middleware functions.
@@ -27,10 +27,6 @@ export function applyMiddlewares(...middlewares) {
     // Compose the middleware chain to create the final dispatch function.
     dispatch = compose(...chain)(store.dispatch)
 
-    return {
-      ...store,
-      dispatch,
-      notify: (type, payload) => dispatch({ type, payload }),
-    }
+    return api
   }
 }

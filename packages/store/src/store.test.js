@@ -9,6 +9,37 @@ test("it should process events by mutating state inside handlers", () => {
         feed(entity) {
           entity.isFed = true
         },
+      },
+    },
+    entities: {
+      kitty1: { type: "kitty" },
+    },
+  }
+  const afterState = {
+    entities: {
+      kitty1: {
+        id: "kitty1",
+        type: "kitty",
+        isFed: true,
+      },
+    },
+  }
+
+  const store = createStore(config)
+  store.notify("feed")
+  store.update()
+
+  const state = store.getState()
+  expect(state).toStrictEqual(afterState)
+})
+
+test("it should process an event queue in the same update cycle", () => {
+  const config = {
+    types: {
+      kitty: {
+        feed(entity) {
+          entity.isFed = true
+        },
         update(entity) {
           entity.isMeowing = true
         },
@@ -31,7 +62,8 @@ test("it should process events by mutating state inside handlers", () => {
 
   const store = createStore(config)
   store.notify("feed")
-  store.update(0, {})
+  store.notify("update")
+  store.update()
 
   const state = store.getState()
   expect(state).toStrictEqual(afterState)
@@ -65,7 +97,8 @@ test("it should send an event from an entity and process it in the same update c
 
   const store = createStore(config)
   const api = { notify: store.notify }
-  store.update(0, api)
+  store.notify("update")
+  store.update(api)
 
   const state = store.getState()
   expect(state).toStrictEqual(afterState)
@@ -82,7 +115,7 @@ test("it should add an entity via an 'add' event", () => {
 
   const store = createStore(config)
   store.notify("add", newEntity)
-  store.update(0, {})
+  store.update()
 
   const state = store.getState()
   expect(state).toStrictEqual({
@@ -102,8 +135,7 @@ test("it should remove an entity via a 'remove' event", () => {
   const store = createStore(config)
 
   store.notify("remove", "kitty1")
-
-  store.update(0, {})
+  store.update()
 
   const state = store.getState()
   expect(state.entities.kitty1).toBeUndefined()
@@ -134,7 +166,8 @@ test("it should change an entity's behavior via a 'morph' event", () => {
   const store = createStore(config)
 
   store.notify("eat")
-  store.update(0, {})
+  store.update()
+
   expect(store.getState()).toStrictEqual({
     entities: {
       bug: { id: "bug", type: "bug", isFull: true },
@@ -143,7 +176,7 @@ test("it should change an entity's behavior via a 'morph' event", () => {
 
   store.notify("morph", { id: "bug", type: [Caterpillar, Butterfly] })
   store.notify("fly")
-  store.update(0, {})
+  store.update()
   expect(store.getState()).toStrictEqual({
     entities: {
       bug: { id: "bug", type: "bug", isFull: true, hasFlown: true },
