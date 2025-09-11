@@ -1,28 +1,38 @@
+import { EventMap } from "@inglorious/store/event-map"
+
 export function entityPoolMiddleware(pools) {
-  return (api) => (next) => (event) => {
-    switch (event.type) {
-      case "spawn": {
-        pools.acquire(event.payload)
-        break
-      }
+  return (api) => {
+    const types = api.getTypes()
+    const eventMap = new EventMap()
 
-      case "despawn": {
-        pools.recycle(event.payload)
-        break
-      }
+    return (next) => (event) => {
+      switch (event.type) {
+        case "spawn": {
+          const entity = pools.acquire(event.payload)
+          const type = types[entity.type]
+          eventMap.addEntity(entity.id, type)
+          break
+        }
 
-      default: {
-        const types = api.getTypes()
-        pools._pools.values().forEach((pool) => {
-          pool._activeEntities.forEach((entity) => {
+        case "despawn": {
+          const entity = pools.recycle(event.payload)
+          const type = types[entity.type]
+          eventMap.removeEntity(entity.id, type)
+          break
+        }
+
+        default: {
+          const entityIds = eventMap.getEntitiesForEvent(event.type)
+          for (const id of entityIds) {
+            const entity = pools.activeEntitiesById.get(id)
             const type = types[entity.type]
             const handle = type[event.type]
             handle?.(entity, event.payload, api)
-          })
-        })
+          }
+        }
       }
-    }
 
-    return next(event)
+      return next(event)
+    }
   }
 }

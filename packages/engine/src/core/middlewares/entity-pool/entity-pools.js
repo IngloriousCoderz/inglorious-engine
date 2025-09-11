@@ -2,15 +2,24 @@ import { EntityPool } from "./entity-pool"
 
 export class EntityPools {
   _pools = new Map()
+  _activeEntitiesById = new Map()
 
-  acquire(entity) {
-    this.lazyInit(entity)
-    this._pools.get(entity.type).acquire(entity)
+  get activeEntitiesById() {
+    return this._activeEntitiesById
   }
 
-  recycle(entity) {
-    this.lazyInit(entity)
-    this._pools.get(entity.type).recycle(entity)
+  acquire(props) {
+    this.lazyInit(props)
+    const entity = this._pools.get(props.type).acquire(props)
+    this._activeEntitiesById.set(entity.id, entity)
+    return entity
+  }
+
+  recycle(props) {
+    this.lazyInit(props)
+    const entity = this._pools.get(props.type).recycle(props)
+    this._activeEntitiesById.delete(entity.id)
+    return entity
   }
 
   getStats() {
@@ -28,10 +37,6 @@ export class EntityPools {
   }
 
   getAllActiveEntities() {
-    const activeEntities = []
-    for (const pool of this._pools.values()) {
-      activeEntities.push(...pool._activeEntities)
-    }
-    return activeEntities
+    return Array.from(this._activeEntitiesById.values())
   }
 }

@@ -19,6 +19,7 @@ export class EntityPool {
     }
     Object.assign(entity, props)
     this._activeEntities.push(entity)
+    return entity
   }
 
   recycle(entity) {
@@ -27,6 +28,7 @@ export class EntityPool {
       const [entity] = this._activeEntities.splice(index, ITEMS_TO_REMOVE)
       this._inactiveEntities.push(entity)
     }
+    return entity
   }
 
   getStats() {
