@@ -177,11 +177,11 @@ This immutable approach provides a major performance benefit, especially for ren
 
 This is orders of magnitude faster than the deep, recursive comparisons required to detect changes in a mutable state tree, and it's the secret behind the performance of modern web frameworks like React.
 
-### Pragmatic Optimizations: Object Pooling
+### Pragmatic Optimizations: Entity Pooling
 
 While immutability is the default and preferred approach, the engine's philosophy is pragmatic. For extremely high-frequency, short-lived objects (e.g., hundreds of bullets per second), the overhead of even fast immutable updates can add up.
 
-In these specific, performance-critical scenarios, it's possible to manage a pool of mutable objects outside the main immutable state tree. This is an advanced pattern that provides an "escape hatch" for when raw performance is the absolute top priority, without compromising the stability and predictability of the rest of your game state. A dedicated object pooling system is planned for future versions to make this even easier.
+In these specific, performance-critical scenarios, the engine provides a built-in entity pooling system. This advanced pattern acts as an "escape hatch" for when raw performance is the absolute top priority, allowing you to manage a pool of mutable entities outside the main immutable state tree without compromising the stability and predictability of the rest of your game state. You can see a complete implementation of this pattern in the [Entity Pooling docs](/docs/engine-pooling--docs).
 
 ## Fixed Framerate
 

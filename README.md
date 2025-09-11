@@ -23,7 +23,7 @@ What makes this engine different from all the others is that, instead of Object 
 
 FP has many advantages:
 
-1. **Single Source of Truth**: Your entire game state is a single, plain JavaScript object. This gives you complete control over your game's world at any moment, rather than having state scattered across countless objects. This is the core idea behind the Data-Oriented Programming (DOP) paradigm that many modern engines are now adopting. With this engine, you get that benefit naturally.
+1. **Single Source of Truth**: Your entire game state is a single, plain JavaScript object. This gives you complete control over your game's world at any moment, rather than having state scattered across countless objects. This is the core idea behind the Data-Driven Programming (DDP) paradigm that many modern engines are now adopting, and with this engine, you get that benefit naturally.
 
 2. **Efficient Immutability**: A common misconception is that creating a new state on every change is slow. This engine uses structural sharing (via Immer), meaning only the parts of the state that actually change are copied. The rest of the state tree is shared by reference, making updates extremely fast. This provides a huge benefit:
    - **Optimized Rendering**: Detecting changes becomes trivial and fast. A simple reference check (`prevState === nextState`) is all that's needed to determine if data has changed, enabling highly performant UIs (especially with libraries like React). This is much faster than the deep, recursive comparisons required in mutable systems.
@@ -70,6 +70,79 @@ However, there are several key differences that make it unique:
 
     - **A Word of Caution**: This power comes with responsibility. It is possible to create infinite loops (e.g., event A's handler notifies of event B, and event B's handler notifies of event A). Developers should be mindful of this when designing their event chains.
 
+## Frequently Unsolicited Complaints (FUCs)
+
+A few... recurring themes have popped up in discussions about the engine. Let's address them head-on.
+
+**"You just hate OOP."**
+
+Not at all! OOP is a powerful paradigm, and parts of this engine use it — the `Engine` itself is a class, for example. My main reservation is with deep **inheritance** hierarchies, which can become rigid and fragile. This engine's architecture strongly favors **composition over inheritance** by design, which I believe is a more flexible way to build complex and dynamic behaviors in games.
+
+**"This was made by a vibecoder who doesn't get cache optimization."**
+
+This engine is the product of countless hours of coding, smartly paired with AI assistance. If you're not leveraging AI in your workflow today, you're the one missing out.
+
+Now, let's talk performance. The critique often has two parts: garbage collection (GC) pressure from immutability, and cache performance compared to modern engines.
+
+1.  **Garbage Collection**: The concern is that creating new objects on every state change will flood the GC. This is mitigated by **structural sharing** (via Immer). We don't deep-clone the state; only the changed data paths create new objects. For the most extreme cases (e.g., a bullet hell), the engine provides a dedicated **entity pooling system** as a pragmatic escape hatch, eliminating GC pressure in performance hotspots.
+
+2.  **Cache Performance & ECS**: The other critique is that modern engines like Unity or Godot use an Entity-Component-System (ECS) architecture to avoid deep object graphs (`player.inventory.getItem()`) and achieve better cache performance. **This is absolutely correct!** Those engines solve this problem very well.
+
+This engine achieves a similar architectural goal — separating data from behavior — but through a functional paradigm that is native to JavaScript. Instead of fighting with OOP class hierarchies, you get a data-centric, ECS-like pattern by default. Centralizing state in a single object leverages the JS engine's highly optimized property access, which, while not the same as a C++ SoA layout, is a massive improvement over the pointer-chasing that plagues naive OOP designs.
+
+**"JavaScript isn't a 'real' functional language."**
+
+You're right, it's not Haskell. JavaScript is a multi-paradigm language, and that's one of its strengths! This engine leverages its first-class functions, closures, and native support for data structures (objects and arrays) to enable a functional _style_. We get many of the benefits—pure functions, immutability (with help), and composition—without needing to be dogmatic about it.
+
+**"Data-Driven Programming is not the same as Data-Oriented Design."**
+
+This is a frequent point of confusion, so let's clarify. The engine uses [Data-Driven _Programming_](https://en.wikipedia.org/wiki/Data-driven_programming), but it's important to distinguish it from [Data-Oriented _Design_](https://en.wikipedia.org/wiki/Data-oriented_design).
+
+- **Data-Driven Programming (DDP)**: This is the architectural paradigm the engine is built on. It's about separating the data (your entities) from the logic that operates on it (your systems and event handlers). Your entire game state lives in one place, and your logic is a collection of pure functions that transform that data.
+
+- **Data-Oriented Design (DOD)**: This is a lower-level implementation strategy focused on CPU cache performance, common in ECS architectures. It involves organizing data in contiguous memory blocks (e.g., an array of all positions, an array of all velocities) to minimize cache misses during iteration.
+
+This engine does **not** implement a strict DOD memory layout. However, by centralizing all entities into a single, flat object, we get a pragmatic, "almost-DOD" benefit. We leverage the JavaScript engine's highly optimized internal object layout, which is significantly more cache-friendly than chasing pointers through a deeply nested OOP graph.
+
+**"Functional programming is just painful to read and write."**
+
+This is a common fear, especially for developers coming from a pure OOP background. The goal here isn't to force you to write Lisp in JavaScript. Instead, the API is intentionally designed to feel familiar and ergonomic:
+
+- **`types` are your "classes"**: They act as blueprints for your game objects.
+- **`entities` are your "instances"**: They are the concrete things in your game, created from a `type`.
+- **Composition feels like inheritance**: You can "extend" a type (which is just an array of behaviors) by adding behaviors to it, like `[baseType, someBehavior]`, and you "extend" a behavior by creating a function that composes new event handlers onto a base type, like `(type) => extend(type, { ... })`. You get the code reuse you expect, but with the power and flexibility of composition.
+- **Immutable updates feel mutable**: Thanks to Immer, you don't have to write complex functional updates. Inside your event handlers, you can write simple, direct code like `entity.health -= 10`, and the engine handles creating the new immutable state for you.
+
+The engine provides the benefits of FP (predictability, testability) without the steep learning curve. You get to think in terms of familiar concepts while the engine handles the functional magic for you.
+
+**"A good OOP developer just uses composition anyway. You don't need a new engine for that."**
+
+True, disciplined developers favor composition in any paradigm. The difference is that in many traditional OOP engines, inheritance is often presented as the default, easy path. This engine is designed so that **composition is the path of least resistance**. The architecture doesn't just allow for composition; it's built on it. You don't need discipline to avoid inheritance pitfalls when the framework naturally guides you to a better pattern.
+
+**"This is fine for toy projects, but immutability will never scale."**
+
+This critique usually misunderstands how modern immutability works. The engine uses structural sharing (via Immer), which means we're not deep-copying the entire game state on every change. It's incredibly efficient.
+
+That said, we're pragmatic. For performance-critical scenarios like a bullet hell with thousands of short-lived objects, we provide an **entity pooling** system as an escape hatch. But for 99% of game logic, we believe the massive benefits of a predictable, testable, and debuggable state (hello, time-travel debugging!) are a worthwhile trade-off for a negligible performance cost.
+
+**"My favorite OOP engine can do all this too!"**
+
+You're right. Modern engines like Unity (with DOTS) and Godot offer powerful, composition-based, ECS-like architectures out of the box. They are fantastic tools that have evolved to embrace these patterns.
+
+To provide these features, however, they had to implement them within the constraints of a fundamentally object-oriented foundation. This sometimes results in systems that feel like they are working around the core OOP paradigm — almost to the point where it doesn't feel like OOP anymore.
+
+The difference with this engine is that it was designed with functional and data-oriented principles from the very beginning. Composition, event-driven architecture, and data-centric patterns aren't features layered on top; they are the fundamental, native way of building things. The entire engine speaks one language, making these good practices the most natural and intuitive way to build your game.
+
+**"You'll never compete with Unity/Godot/Unreal."**
+
+You're absolutely right. And we're not trying to.
+
+This engine isn't for developers who want a massive, all-in-one, GUI-driven editor. It's for JavaScript developers who want to build games with the tools and ecosystem they already know and love. It's for those who are curious about applying functional programming principles to game development and who value architectural flexibility over a monolithic, proprietary feature set. It's a different tool for a different kind of developer.
+
+**"Why not just use an existing engine?"**
+
+Because building things is fun! This project is as much an exploration of software architecture as it is a tool for making games. It's for developers who are curious about functional programming and want to see how its principles can be applied to game development in a JavaScript environment.
+
 ## Dependencies
 
 The core engine relies on a few key, lightweight packages:
@@ -106,8 +179,8 @@ Since the engine is headless, you must select a renderer to create a game. Below
         "imports": {
           "immer": "https://unpkg.com/immer@10.1.1/dist/immer.mjs",
           "@inglorious/utils/": "https://unpkg.com/@inglorious%2Futils@1.1.0/",
-          "@inglorious/store/": "https://unpkg.com/@inglorious%2Fstore@0.1.0/",
-          "@inglorious/engine/": "https://unpkg.com/@inglorious%2Fengine@0.4.0/",
+          "@inglorious/store/": "https://unpkg.com/@inglorious%2Fstore@2.0.0/",
+          "@inglorious/engine/": "https://unpkg.com/@inglorious%2Fengine@0.6.1/",
           "@inglorious/renderers/": "https://unpkg.com/@inglorious%2Frenderer-2d@0.2.0/",
           "game": "/game.js"
         }
