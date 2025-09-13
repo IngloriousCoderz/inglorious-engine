@@ -1,6 +1,6 @@
 {
   "name": "@inglorious/utils",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "A set of general-purpose utility functions designed with functional programming principles in mind.",
   "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
   "license": "MIT",
@@ -24,9 +24,7 @@
     "./*": "./src/*"
   },
   "files": [
-    "src",
-    "README.md",
-    "LICENSE"
+    "src"
   ],
   "publishConfig": {
     "access": "public"

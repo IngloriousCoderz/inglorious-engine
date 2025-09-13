@@ -1,6 +1,6 @@
 {
   "name": "@inglorious/renderer-2d",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A renderer for the Inglorious Engine, using the Context2D of the Canvas API.",
   "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
   "license": "MIT",
@@ -18,9 +18,7 @@
     "./*": "./src/*"
   },
   "files": [
-    "src",
-    "README.md",
-    "LICENSE"
+    "src"
   ],
   "publishConfig": {
     "access": "public"

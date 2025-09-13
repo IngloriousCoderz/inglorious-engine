@@ -1,6 +1,6 @@
 {
   "name": "@inglorious/engine",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "A JavaScript game engine written with global state, immutability, and pure functions in mind. Have fun(ctional programming) with it!",
   "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
   "license": "MIT",
@@ -24,9 +24,7 @@
     "./*": "./src/*"
   },
   "files": [
-    "src",
-    "README.md",
-    "LICENSE"
+    "src"
   ],
   "publishConfig": {
     "access": "public"
