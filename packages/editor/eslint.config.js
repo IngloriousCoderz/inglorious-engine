@@ -7,7 +7,7 @@ import tailwind from "eslint-plugin-tailwindcss"
 import globals from "globals"
 
 export default defineConfig([
-  globalIgnores(["storybook-static"]),
+  globalIgnores(["dist", "storybook-static"]),
   {
     files: ["**/*.{js,mjs,cjs,jsx}"],
     extends: ["js/recommended"],

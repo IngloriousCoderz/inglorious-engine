@@ -82,7 +82,7 @@ Here is a complete example showing how to set up and run a game using the engine
       {
         "imports": {
           "immer": "https://unpkg.com/immer@10.1.1/dist/immer.mjs",
-          "@inglorious/utils/": "https://unpkg.com/@inglorious%2Futils@1.1.0/",
+          "@inglorious/utils/": "https://unpkg.com/@inglorious%2Futils@1.2.0/",
           "@inglorious/store/": "https://unpkg.com/@inglorious%2Fstore@2.0.0/",
           "@inglorious/engine/": "https://unpkg.com/@inglorious%2Fengine@0.7.0/",
           "@inglorious/renderers/": "https://unpkg.com/@inglorious%2Frenderer-2d@0.2.0/",

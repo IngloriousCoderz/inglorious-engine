@@ -11,7 +11,8 @@
     "test": "turbo test",
     "build-docs": "pnpm --filter @inglorious/docs build-storybook",
     "publish-packages": "turbo run build lint test && changeset version && changeset publish",
-    "prepare": "husky"
+    "prepare": "husky",
+    "game": "serve game"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.6",
@@ -23,7 +24,7 @@
     "globals": "^16.3.0",
     "husky": "^9.1.7",
     "prettier": "^3.6.2",
-    "serve": "^14.2.4",
+    "serve": "^14.2.5",
     "turbo": "^2.5.6"
   },
   "packageManager": "pnpm@10.15.0",
