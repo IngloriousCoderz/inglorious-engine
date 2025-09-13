@@ -15,6 +15,17 @@ export default {
   types: {
     ...controls.types,
 
+    game: [
+      (type) =>
+        extend(type, {
+          start(entity, event, api) {
+            type.start?.(entity, event, api)
+
+            api.notify("soundPlay", "music")
+          },
+        }),
+    ],
+
     platform: [{ render: renderRectangle }],
 
     character: [
@@ -27,7 +38,7 @@ export default {
             type.jump?.(entity, event, api)
 
             if (entity.groundObject) {
-              api.notify("playSound", "jump")
+              api.notify("soundPlay", "jump")
             }
           },
         }),
@@ -57,7 +68,8 @@ export default {
     audio: {
       type: "audio",
       sounds: {
-        jump: "/sounds/jump.ogg",
+        music: { url: "/sounds/music.mp3", loop: true, volume: 0.25 },
+        jump: { url: "/sounds/jump.ogg" },
       },
     },
 
