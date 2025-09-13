@@ -8,7 +8,9 @@ export default {
     cat: [
       { render: renderSprite },
       {
-        create(entity) {
+        create(entity, entityId) {
+          if (entityId !== entity.id) return
+
           entity.sprite.state = "sleepy"
         },
       },

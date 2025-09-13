@@ -66,7 +66,7 @@ function delayedJumpSystem() {
             target: entity.delayedJump,
             dt,
             onTick: () => {
-              api.notify("jump", { entityId: entity.id })
+              api.notify("jump", entity.id)
             },
           })
         })

@@ -38,9 +38,10 @@
 
       const canvas = document.getElementById("canvas")
 
-      window.addEventListener("load", () => {
+      window.addEventListener("load", async () => {
         const renderer = new Renderer2D(canvas)
         const engine = new Engine({ ...game, renderer })
+        await engine.init()
         engine.start()
       })
     </script>

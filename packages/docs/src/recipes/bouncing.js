@@ -10,8 +10,10 @@ export default {
       jumpable(),
       (type) =>
         extend(type, {
-          create(entity) {
-            type.create?.(entity)
+          create(entity, entityId, api) {
+            type.create?.(entity, entityId, api)
+
+            if (entityId !== entity.id) return
 
             entity.jumpTriggered = false
           },
@@ -20,7 +22,7 @@ export default {
             type.update?.(entity, dt, api)
 
             if (!entity.jumpTriggered) {
-              api.notify("jump", { entityId: entity.id })
+              api.notify("jump", entity.id)
               entity.jumpTriggered = true
             }
           },

@@ -14,7 +14,7 @@ export default {
             type.update?.(entity, dt, api)
 
             if (entity.groundObject) {
-              api.notify("jump", { entityId: entity.id })
+              api.notify("jump", entity.id)
             }
           },
         }),

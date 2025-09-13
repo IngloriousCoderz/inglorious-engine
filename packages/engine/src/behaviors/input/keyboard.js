@@ -7,7 +7,9 @@ export function keyboard() {
   let currentDocument = null
 
   return {
-    create(entity, event, api) {
+    create(entity, entityId, api) {
+      if (entityId !== entity.id) return
+
       currentDocument = document.body.ownerDocument || document
 
       handleKeyDown = createKeyboardHandler("keyboardKeyDown", api)

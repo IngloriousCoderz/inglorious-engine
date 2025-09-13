@@ -24,8 +24,10 @@ export function modernVelocity(params) {
         "moveUpDown",
       ]),
 
-      create(entity, event, api) {
-        type.create?.(entity, event, api)
+      create(entity, entityId, api) {
+        type.create?.(entity, entityId, api)
+
+        if (entityId !== entity.id) return
 
         entity.maxSpeed ??= params.maxSpeed
         entity.movement ??= {}

@@ -50,6 +50,10 @@ Creates a new `Engine` instance.
 
 - A new `Engine` instance.
 
+### `await engine.init()`
+
+An asynchronous function that initializes the resources required for the game to load.
+
 ### `engine.start()`
 
 Starts the game loop, triggering the first `update` and `render` calls.
@@ -65,52 +69,32 @@ Halts the game loop and cleans up any resources. This method also processes a fi
 Here is a complete example showing how to set up and run a game using the engine.
 
 ```html
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-   
-  <head>
-       
-    <meta charset="UTF-8" />
-       
-    <link rel="icon" type="image/svg+xml" href="/logo.png" />
-       
-    <link rel="stylesheet" href="/style.css" />
-       
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-       
-    <title>Inglorious Engine</title>
-     
-  </head>
-   
   <body>
-        <canvas id="canvas"></canvas>
+    <canvas id="canvas"></canvas>
 
-       
     <script type="text/javascript">
       window.process = { env: "development" }
     </script>
 
-       
     <script type="importmap">
       {
         "imports": {
           "immer": "https://unpkg.com/immer@10.1.1/dist/immer.mjs",
           "@inglorious/utils/": "https://unpkg.com/@inglorious%2Futils@1.1.0/",
-          "@inglorious/store/": "https://unpkg.com/@inglorious%2Fstore@0.1.0/",
-          "@inglorious/engine/": "https://unpkg.com/@inglorious%2Fengine@0.4.0/",
+          "@inglorious/store/": "https://unpkg.com/@inglorious%2Fstore@2.0.0/",
+          "@inglorious/engine/": "https://unpkg.com/@inglorious%2Fengine@0.7.0/",
           "@inglorious/renderers/": "https://unpkg.com/@inglorious%2Frenderer-2d@0.2.0/",
           "game": "/game.js"
         }
       }
     </script>
 
-       
     <script
       type="module"
-      src="https://unpkg.com/@inglorious%2Fengine@0.2.0/src/main.js"
+      src="https://unpkg.com/@inglorious%2Fengine@0.7.0/main.js"
     ></script>
-     
   </body>
 </html>
 ```

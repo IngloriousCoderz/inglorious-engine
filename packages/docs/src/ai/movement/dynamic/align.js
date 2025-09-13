@@ -32,19 +32,19 @@ export default {
           }
         },
 
-        turnLeft(entity, { entityId }) {
+        turnLeft(entity, entityId) {
           if (entityId === entity.id) entity.turningLeft = true
         },
 
-        turnLeftEnd(entity, { entityId }) {
+        turnLeftEnd(entity, entityId) {
           if (entityId === entity.id) entity.turningLeft = false
         },
 
-        turnRight(entity, { entityId }) {
+        turnRight(entity, entityId) {
           if (entityId === entity.id) entity.turningRight = true
         },
 
-        turnRightEnd(entity, { entityId }) {
+        turnRightEnd(entity, entityId) {
           if (entityId === entity.id) entity.turningRight = false
         },
 

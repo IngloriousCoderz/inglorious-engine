@@ -8,6 +8,8 @@ import { renderFps } from "@inglorious/renderer-2d/fps.js"
 import { fps } from "@inglorious/engine/behaviors/fps.js"
 import { game } from "@inglorious/engine/behaviors/game.js"
 
+const MAX_BUBBLES = 1000
+
 function velocity() {
   return (type) =>
     extend(type, {
@@ -23,9 +25,11 @@ function spawning() {
   return (type) =>
     extend(type, {
       start(entity, event, api) {
-        for (let i = 0; i < 1000; i++) {
+        type.start?.(entity, event, api)
+
+        for (let i = 0; i < MAX_BUBBLES; i++) {
           api.notify("spawn", {
-            type: "asteroid",
+            type: "bubble",
             position: [random(0, 800), 0, random(0, 600)],
             velocity: [random(-50, 50), 0, random(-50, 50)],
             color: getRandomColor(),
@@ -36,11 +40,11 @@ function spawning() {
       update(entity, dt, api) {
         type.update?.(entity, dt, api)
 
-        const activeAsteroids = api.getEntityPoolsStats().asteroid?.active || 0
+        const activeBubbles = api.getEntityPoolsStats().bubble?.active || 0
 
-        if (activeAsteroids < 1000) {
+        if (activeBubbles < MAX_BUBBLES) {
           api.notify("spawn", {
-            type: "asteroid",
+            type: "bubble",
             position: [random(0, 800), 0, random(0, 600)],
             velocity: [random(-50, 50), 0, random(-50, 50)],
             color: getRandomColor(),
@@ -78,28 +82,27 @@ export default {
   types: {
     game: [game(), spawning()],
 
-    asteroid: [{ render: renderCircle }, velocity(), despawning()],
+    bubble: [{ render: renderCircle }, velocity(), despawning()],
 
     fps: [{ render: renderFps }, fps()],
 
-    activeAsteroids: [
+    activeBubbles: [
       { render: renderText },
       {
         update(entity, dt, api) {
-          const activeAsteroids =
-            api.getEntityPoolsStats().asteroid?.active || 0
-          entity.value = `Active asteroids: ${activeAsteroids}`
+          const activeBubbles = api.getEntityPoolsStats().bubble?.active || 0
+          entity.value = `Active bubbles: ${activeBubbles}`
         },
       },
     ],
 
-    inactiveAsteroids: [
+    inactiveBubbles: [
       { render: renderText },
       {
         update(entity, dt, api) {
-          const inactiveAsteroids =
-            api.getEntityPoolsStats().asteroid?.inactive || 0
-          entity.value = `Inactive asteroids: ${inactiveAsteroids}`
+          const inactiveBubbles =
+            api.getEntityPoolsStats().bubble?.inactive || 0
+          entity.value = `Inactive bubbles: ${inactiveBubbles}`
         },
       },
     ],
@@ -107,21 +110,22 @@ export default {
 
   entities: {
     game: { devMode: true },
-    activeAsteroids: {
-      type: "activeAsteroids",
+
+    fps: {
+      type: "fps",
       position: [0, 0, 600],
       layer: 1,
     },
 
-    inactiveAsteroids: {
-      type: "inactiveAsteroids",
-      position: [0, 0, 572],
+    activeBubbles: {
+      type: "activeBubbles",
+      position: [0, 0, 580],
       layer: 1,
     },
 
-    fps: {
-      type: "fps",
-      position: [0, 0, 550],
+    inactiveBubbles: {
+      type: "inactiveBubbles",
+      position: [0, 0, 560],
       layer: 1,
     },
   },

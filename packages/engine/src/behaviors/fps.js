@@ -12,7 +12,9 @@ export function fps(params) {
   params = extend(DEFAULT_PARAMS, params)
 
   return {
-    create(entity) {
+    create(entity, entityId) {
+      if (entityId !== entity.id) return
+
       entity.dt ??= { ...params }
     },
 

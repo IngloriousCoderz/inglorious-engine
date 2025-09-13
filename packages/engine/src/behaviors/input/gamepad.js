@@ -4,7 +4,9 @@ const DEFAULT_PARAMS = {
 
 export function gamepadsPoller() {
   return {
-    create(entity) {
+    create(entity, entityId) {
+      if (entityId !== entity.id) return
+
       entity.gamepadStateCache ??= {}
     },
 

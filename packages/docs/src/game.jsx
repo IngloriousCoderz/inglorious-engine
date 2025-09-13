@@ -10,12 +10,18 @@ export default function Game({ config }) {
       return
     }
 
-    const renderer = new Renderer2D(canvasRef.current)
-    const engine = new Engine({ ...config, renderer })
-    engine.start()
+    let engine
+    startEngine().then((e) => (engine = e))
+
+    async function startEngine(engine) {
+      const renderer = new Renderer2D(canvasRef.current)
+      engine = new Engine({ ...config, renderer })
+      await engine.init()
+      engine.start()
+      return engine
+    }
 
     return () => {
-      renderer.destroy()
       engine.stop()
     }
   }, [config])

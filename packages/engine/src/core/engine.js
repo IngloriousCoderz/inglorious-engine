@@ -1,3 +1,4 @@
+import { audio } from "@inglorious/engine/behaviors/audio.js"
 import { game } from "@inglorious/engine/behaviors/game.js"
 import { createApi } from "@inglorious/store/api.js"
 import { createStore } from "@inglorious/store/store.js"
@@ -20,11 +21,13 @@ const DEFAULT_GAME_CONFIG = {
 
   types: {
     game: [game()],
+    audio: audio(),
   },
 
   entities: {
     // eslint-disable-next-line no-magic-numbers
     game: { type: "game", bounds: [0, 0, 800, 600] },
+    audio: { type: "audio", sounds: {} },
   },
 }
 
@@ -77,12 +80,16 @@ export class Engine {
 
     this._loop = new Loops[this._config.loop.type]()
 
-    // The renderer might need the engine instance to initialize itself (e.g., to set up DOM events).
-    this._config.renderer?.init(this)
-
     if (this._devMode) {
       initDevTools(this._store)
     }
+  }
+
+  async init() {
+    return Promise.all([
+      this._config.types.audio.init(this._config.entities.audio),
+      this._config.renderer?.init(this),
+    ])
   }
 
   /**
@@ -101,6 +108,7 @@ export class Engine {
     this._api.notify("stop")
     this._store.update(this._api)
     this._loop.stop()
+    this._config.renderer?.destroy()
     this.isRunning = false
   }
 
@@ -117,7 +125,7 @@ export class Engine {
     const newDevMode = state.entities.game?.devMode
     if (newDevMode !== this._devMode) {
       if (newDevMode) {
-        initDevTools(this._api)
+        initDevTools(this._store)
       } else {
         disconnectDevTools()
       }

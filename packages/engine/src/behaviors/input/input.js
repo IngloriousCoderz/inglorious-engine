@@ -22,7 +22,7 @@ export function input() {
       entity[action] = true
 
       entity.targetIds.forEach((targetId) => {
-        api.notify(action, { entityId: targetId })
+        api.notify(action, targetId)
       })
     },
 
@@ -33,7 +33,7 @@ export function input() {
       entity[action] = false
 
       entity.targetIds.forEach((targetId) => {
-        api.notify(`${action}End`, { entityId: targetId })
+        api.notify(`${action}End`, targetId)
       })
     },
   }

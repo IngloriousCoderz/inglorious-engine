@@ -27,8 +27,11 @@ export function jumpable(params) {
 
   return (type) =>
     extend(type, {
-      create(entity, event, api) {
-        type.create?.(entity, event, api)
+      create(entity, entityId, api) {
+        type.create?.(entity, entityId, api)
+
+        if (entityId !== entity.id) return
+
         defaults(entity, params)
         entity.jumpsLeft ??= entity.maxJumps
 
@@ -36,7 +39,9 @@ export function jumpable(params) {
         entity.vy ??= 0
       },
 
-      jump(entity, { entityId }) {
+      jump(entity, entityId, api) {
+        type.jump?.(entity, entityId, api)
+
         if (entityId === entity.id && entity.jumpsLeft) {
           entity.vy = jump(entity)
           entity.groundObject = undefined
@@ -116,7 +121,7 @@ export function jumpable(params) {
 
             // Only notify on the frame we actually land, not every frame we're on the ground.
             if (!wasOnGround) {
-              api.notify("landed", {
+              api.notify("land", {
                 entityId: entity.id,
                 targetId: collisionY.id,
               })

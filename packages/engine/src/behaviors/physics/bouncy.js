@@ -10,12 +10,15 @@ export function bouncy(params) {
 
   return (type) =>
     extend(type, {
-      create(entity) {
-        type.create?.(entity)
+      create(entity, entityId, api) {
+        type.create?.(entity, entityId, api)
+
+        if (entityId !== entity.id) return
+
         defaults(entity, params)
       },
 
-      landed(entity, { entityId }) {
+      land(entity, entityId) {
         if (entity.id === entityId) {
           entity.vy = jump(entity) * entity.bounciness
           entity.groundObject = undefined

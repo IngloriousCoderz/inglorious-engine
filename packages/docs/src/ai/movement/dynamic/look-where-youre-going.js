@@ -24,32 +24,34 @@ export default {
       {
         render: renderCharacter,
 
-        create(entity) {
+        create(entity, entityId) {
+          if (entityId !== entity.id) return
+
           entity.movement ??= {}
         },
 
-        moveLeft(entity, { entityId }) {
+        moveLeft(entity, entityId) {
           if (entityId === entity.id) entity.movement.left = true
         },
-        moveLeftEnd(entity, { entityId }) {
+        moveLeftEnd(entity, entityId) {
           if (entityId === entity.id) entity.movement.left = false
         },
-        moveRight(entity, { entityId }) {
+        moveRight(entity, entityId) {
           if (entityId === entity.id) entity.movement.right = true
         },
-        moveRightEnd(entity, { entityId }) {
+        moveRightEnd(entity, entityId) {
           if (entityId === entity.id) entity.movement.right = false
         },
-        moveUp(entity, { entityId }) {
+        moveUp(entity, entityId) {
           if (entityId === entity.id) entity.movement.up = true
         },
-        moveUpEnd(entity, { entityId }) {
+        moveUpEnd(entity, entityId) {
           if (entityId === entity.id) entity.movement.up = false
         },
-        moveDown(entity, { entityId }) {
+        moveDown(entity, entityId) {
           if (entityId === entity.id) entity.movement.down = true
         },
-        moveDownEnd(entity, { entityId }) {
+        moveDownEnd(entity, entityId) {
           if (entityId === entity.id) entity.movement.down = false
         },
 

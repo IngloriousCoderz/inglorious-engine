@@ -158,15 +158,6 @@ Since the engine is headless, you must select a renderer to create a game. Below
 ```html
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/logo.png" />
-    <link rel="stylesheet" href="/style.css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title>Inglorious Engine</title>
-  </head>
-
   <body>
     <canvas id="canvas"></canvas>
 
@@ -180,7 +171,7 @@ Since the engine is headless, you must select a renderer to create a game. Below
           "immer": "https://unpkg.com/immer@10.1.1/dist/immer.mjs",
           "@inglorious/utils/": "https://unpkg.com/@inglorious%2Futils@1.1.0/",
           "@inglorious/store/": "https://unpkg.com/@inglorious%2Fstore@2.0.0/",
-          "@inglorious/engine/": "https://unpkg.com/@inglorious%2Fengine@0.6.1/",
+          "@inglorious/engine/": "https://unpkg.com/@inglorious%2Fengine@0.7.0/",
           "@inglorious/renderers/": "https://unpkg.com/@inglorious%2Frenderer-2d@0.2.0/",
           "game": "/game.js"
         }
@@ -189,7 +180,7 @@ Since the engine is headless, you must select a renderer to create a game. Below
 
     <script
       type="module"
-      src="https://unpkg.com/@inglorious%2Fengine@0.2.0/src/main.js"
+      src="https://unpkg.com/@inglorious%2Fengine@0.7.0/main.js"
     ></script>
   </body>
 </html>

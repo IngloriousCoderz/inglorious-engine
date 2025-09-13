@@ -10,12 +10,17 @@ export default function Game({ config }) {
   const engine = useMemo(() => new Engine(config), [config])
 
   useEffect(() => {
-    engine.start()
-    setReady(true)
-    window.engine = engine
+    startEngine()
+
+    async function startEngine() {
+      await engine.init()
+      engine.start()
+      setReady(true)
+      return engine
+    }
 
     return () => engine.stop()
-  }, [engine, config])
+  }, [config])
 
   if (!isReady) {
     return null

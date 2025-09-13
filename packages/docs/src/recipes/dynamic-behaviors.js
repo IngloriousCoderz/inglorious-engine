@@ -268,7 +268,7 @@ export default {
 
 function canBreakBricks(type) {
   return extend(type, {
-    break(entity, { entityId }) {
+    break(entity, entityId) {
       if (entityId === entity.id) {
         console.log("Breaking!")
       }
@@ -278,7 +278,7 @@ function canBreakBricks(type) {
 
 function canShoot(type) {
   return extend(type, {
-    shoot(entity, { entityId }) {
+    shoot(entity, entityId) {
       if (entityId === entity.id) {
         console.log("Shooting!")
       }
@@ -288,7 +288,7 @@ function canShoot(type) {
 
 function canGlide(type) {
   return extend(type, {
-    glide(entity, { entityId }) {
+    glide(entity, entityId) {
       if (entityId === entity.id) {
         console.log("Gliding!")
       }

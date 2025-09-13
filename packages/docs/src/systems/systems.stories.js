@@ -5,11 +5,6 @@ import bouncingWithSystems from "./bouncing-with-systems.js"
 export default {
   title: "Engine/Systems",
   component: RendererChooser,
-  parameters: {
-    docs: {
-      page: () => import("./systems.mdx"),
-    },
-  },
 }
 
 export const BouncingWithBehaviors = {

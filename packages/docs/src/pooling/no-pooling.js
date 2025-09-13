@@ -8,6 +8,7 @@ import { renderFps } from "@inglorious/renderer-2d/fps.js"
 import { fps } from "@inglorious/engine/behaviors/fps.js"
 import { game } from "@inglorious/engine/behaviors/game.js"
 
+const MAX_BUBBLES = 1000
 let NEXT_ID = 0
 
 function velocity() {
@@ -25,10 +26,12 @@ function spawning() {
   return (type) =>
     extend(type, {
       start(entity, event, api) {
-        for (let i = 0; i < 1000; i++) {
+        type.start?.(entity, event, api)
+
+        for (let i = 0; i < MAX_BUBBLES; i++) {
           api.notify("add", {
-            id: `asteroid-${NEXT_ID++}`,
-            type: "asteroid",
+            id: `bubble-${NEXT_ID++}`,
+            type: "bubble",
             position: [random(0, 800), 0, random(0, 600)],
             velocity: [random(-50, 50), 0, random(-50, 50)],
             color: getRandomColor(),
@@ -39,14 +42,14 @@ function spawning() {
       update(entity, dt, api) {
         type.update?.(entity, dt, api)
 
-        const activeAsteroids = Object.values(api.getEntities()).filter(
-          (entity) => entity.type === "asteroid",
+        const activeBubbles = Object.values(api.getEntities()).filter(
+          (entity) => entity.type === "bubble",
         )
 
-        if (activeAsteroids.length < 1000) {
+        if (activeBubbles.length < MAX_BUBBLES) {
           api.notify("add", {
-            id: `asteroid-${NEXT_ID++}`,
-            type: "asteroid",
+            id: `bubble-${NEXT_ID++}`,
+            type: "bubble",
             position: [random(0, 800), 0, random(0, 600)],
             velocity: [random(-50, 50), 0, random(-50, 50)],
             color: getRandomColor(),
@@ -84,16 +87,16 @@ export default {
   types: {
     game: [game(), spawning()],
 
-    asteroid: [{ render: renderCircle }, velocity(), despawning()],
+    bubble: [{ render: renderCircle }, velocity(), despawning()],
 
     fps: [{ render: renderFps }, fps()],
 
-    activeAsteroids: [
+    activeBubbles: [
       { render: renderText },
       {
         update(entity, dt, api) {
           const entities = api.getEntities()
-          entity.value = `Active asteroids: ${Object.values(entities).filter(({ type }) => type === "asteroid").length}`
+          entity.value = `Active bubbles: ${Object.values(entities).filter(({ type }) => type === "bubble").length}`
         },
       },
     ],
@@ -108,9 +111,9 @@ export default {
       layer: 1,
     },
 
-    activeAsteroids: {
-      type: "activeAsteroids",
-      position: [0, 0, 572],
+    activeBubbles: {
+      type: "activeBubbles",
+      position: [0, 0, 580],
       layer: 1,
     },
   },
