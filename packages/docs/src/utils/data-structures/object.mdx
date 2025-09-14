@@ -1,12 +1,29 @@
 import { Meta } from '@storybook/addon-docs/blocks'
 
-import { filter, find, map, produce, toString } from '@inglorious/utils/data-structures/object'
+import { toString as bToString } from '@inglorious/utils/data-structures/boolean'
+import {
+  clone,
+  filter,
+  find,
+  isObject,
+  map,
+  produce,
+  toString,
+} from '@inglorious/utils/data-structures/object'
 
 <Meta title="Utils/Data Structures/Object" />
 
 # Object
 
 Functions that deal with a single object.
+
+## Clone
+
+Creates a deep clone of an object. It uses `JSON.parse(JSON.stringify())` internally, so it has the same limitations (e.g., it will not clone functions, `undefined`, or `Symbol` properties).
+
+<code>const obj = \{ a: 1, b: [2, 3], c: \{ d: 4 \} \}</code>&nbsp;
+
+<code>clone(obj) == {toString(clone({ a: 1, b: [2, 3], c: { d: 4 } }))}</code>&nbsp;
 
 ## Filter
 
@@ -37,6 +54,18 @@ Behaves similar to `Array.prototype.map`, returning an object that has values tr
 <code>const obj = \{ key1: 'value1', key2: 'value2', key3: 'value3' \}</code>&nbsp;
 
 <code>map(obj, callback) == {toString(map({ key1: 'value1', key2: 'value2', key3: 'value3' }, (key, value) => value.toUpperCase()))}</code>&nbsp;
+
+## Is Object
+
+Checks if a value is a plain JavaScript object (and not an array, `null`, or other object types like `Date`).
+
+<code>isObject(\{ \}) == {bToString(isObject({}))}</code>&nbsp;
+
+<code>isObject([]) == {bToString(isObject([]))}</code>&nbsp;
+
+<code>isObject(null) == {bToString(isObject(null))}</code>&nbsp;
+
+<code>isObject(new Date()) == {bToString(isObject(new Date()))}</code>&nbsp;
 
 ## Produce
 

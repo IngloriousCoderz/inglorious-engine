@@ -31,9 +31,9 @@ npm install @inglorious/engine
 
 ## API
 
-### `new Engine(gameConfig)`
+### `new Engine(...gameConfigs)`
 
-Creates a new `Engine` instance.
+Creates a new `Engine` instance, given one or more configuration objects.
 
 **Parameters:**
 
@@ -41,10 +41,9 @@ Creates a new `Engine` instance.
   - `loop` (object, optional): Configuration for the game loop.
     - `type` (string, optional): The type of loop to use (`animationFrame` or `fixed`). Defaults to `animationFrame`.
     - `fps` (number, optional): The target frames per second. Only used with the `fixed` loop type. Defaults to `60`.
-  - `systems` (array, optional): An array of system objects, which define behaviors for the whole state.
   - `types` (object, optional): A map of entity types.
   - `entities` (object, optional): A map of initial entities.
-  - `renderer` (object, optional): A renderer entity responsible for drawing the game. It must implement `getSystems()` and `init(engine)` methods.
+  - `systems` (array, optional): An array of system objects, which define behaviors for the whole state.
 
 **Returns:**
 
@@ -81,11 +80,11 @@ Here is a complete example showing how to set up and run a game using the engine
     <script type="importmap">
       {
         "imports": {
-          "immer": "https://unpkg.com/immer@10.1.1/dist/immer.mjs",
-          "@inglorious/utils/": "https://unpkg.com/@inglorious%2Futils@1.2.0/",
-          "@inglorious/store/": "https://unpkg.com/@inglorious%2Fstore@2.0.0/",
-          "@inglorious/engine/": "https://unpkg.com/@inglorious%2Fengine@0.7.0/",
-          "@inglorious/renderers/": "https://unpkg.com/@inglorious%2Frenderer-2d@0.2.0/",
+          "immer": "https://unpkg.com/immer@latest/dist/immer.mjs",
+          "@inglorious/utils/": "https://unpkg.com/@inglorious%2Futils@latest/src/",
+          "@inglorious/store/": "https://unpkg.com/@inglorious%2Fstore@latest/src/",
+          "@inglorious/engine/": "https://unpkg.com/@inglorious%2Fengine@latest/src/",
+          "@inglorious/renderer-2d/": "https://unpkg.com/@inglorious%2Frenderer-2d@latest/src/",
           "game": "/game.js"
         }
       }
@@ -93,7 +92,7 @@ Here is a complete example showing how to set up and run a game using the engine
 
     <script
       type="module"
-      src="https://unpkg.com/@inglorious%2Fengine@0.7.0/main.js"
+      src="https://unpkg.com/@inglorious%2Fengine@latest/src/main.js"
     ></script>
   </body>
 </html>

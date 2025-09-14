@@ -1,6 +1,13 @@
 import { Meta } from '@storybook/addon-docs/blocks'
 
-import { extend, merge } from '@inglorious/utils/data-structures/objects'
+import { isArray } from '@inglorious/utils/data-structures/array'
+import {
+  defaults,
+  extend,
+  extendWith,
+  merge,
+  mergeWith,
+} from '@inglorious/utils/data-structures/objects'
 import { toString } from '@inglorious/utils/data-structures/object'
 
 <Meta title="Utils/Data Structures/Objects" />
@@ -28,3 +35,37 @@ Performs a deep merge between multiple objects, changing the first object in pla
 <code>const obj2 = \{ g: 6, b: [7], c: \{ h: 8 \}, e: [\{ i: 9 \}] \}</code>&nbsp;
 
 <code>merge(obj1, obj2) == {toString(merge({ a: 1, b: [2, 3], c: { d: 4 }, e: [{ f: 5 }] }, { g: 6, b: [7], c: { h: 8 }, e: [{ i: 9 }] }))}</code>&nbsp;
+
+## Extend With
+
+Like `extend`, but with a custom `merger` function to customize the merge behavior for specific properties. The `merger` function receives `(targetValue, sourceValue)`. If it returns `undefined`, the default merge logic is used.
+
+<code>const merger = (targetValue, sourceValue) => isArray(targetValue) && isArray(sourceValue) ? targetValue.concat(sourceValue) : undefined</code>&nbsp;
+
+<code>const obj1 = \{ a: 1, b: [2, 3] \}</code>&nbsp;
+
+<code>const obj2 = \{ b: [4, 5], c: 6 \}</code>&nbsp;
+
+<code>extendWith(merger, obj1, obj2) == {toString(extendWith((targetValue, sourceValue) => isArray(targetValue) && isArray(sourceValue) ? targetValue.concat(sourceValue) : undefined, { a: 1, b: [2, 3] }, { b: [4, 5], c: 6 }))}</code>&nbsp;
+
+## Merge With
+
+Like `merge`, but with a custom `merger` function.
+
+<code>const merger = (targetValue, sourceValue) => isArray(targetValue) && isArray(sourceValue) ? targetValue.concat(sourceValue) : undefined</code>&nbsp;
+
+<code>const obj1 = \{ a: 1, b: [2, 3] \}</code>&nbsp;
+
+<code>const obj2 = \{ b: [4, 5], c: 6 \}</code>&nbsp;
+
+<code>mergeWith(merger, obj1, obj2) == {toString(mergeWith((targetValue, sourceValue) => isArray(targetValue) && isArray(sourceValue) ? targetValue.concat(sourceValue) : undefined, { a: 1, b: [2, 3] }, { b: [4, 5], c: 6 }))}</code>&nbsp;
+
+## Defaults
+
+Assigns default properties to a target object from a source object. For each key in `defaultProps`, if `target[key]` is `null` or `undefined`, it is set to `defaultProps[key]`. This function modifies the target object in place.
+
+<code>const obj = \{ a: 1, b: null \}</code>&nbsp;
+
+<code>const defaultProps = \{ b: 2, c: 3 \}</code>&nbsp;
+
+<code>defaults(obj, defaultProps) == {toString(defaults({ a: 1, b: null }, { b: 2, c: 3 }))}</code>&nbsp;

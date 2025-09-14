@@ -29,7 +29,17 @@ export function contains(arr, item) {
  * @returns {Array} - The original array or the value wrapped in a new array.
  */
 export function ensureArray(arr) {
-  return Array.isArray(arr) ? arr : [arr]
+  return isArray(arr) ? arr : [arr]
+}
+
+/**
+ * Checks if a value is an array.
+ * @param {*} arr - The value to check.
+ *
+ * @returns {boolean} True if the value is an array, false otherwise.
+ */
+export function isArray(arr) {
+  return Array.isArray(arr)
 }
 
 /**

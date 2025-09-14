@@ -2,7 +2,9 @@ import { audio } from "@inglorious/engine/behaviors/audio.js"
 import { game } from "@inglorious/engine/behaviors/game.js"
 import { createApi } from "@inglorious/store/api.js"
 import { createStore } from "@inglorious/store/store.js"
-import { extend } from "@inglorious/utils/data-structures/objects.js"
+import { augmentType } from "@inglorious/store/types.js"
+import { isArray } from "@inglorious/utils/data-structures/array.js"
+import { extendWith } from "@inglorious/utils/data-structures/objects.js"
 
 import { coreEvents } from "./core-events.js"
 import { disconnectDevTools, initDevTools, sendAction } from "./dev-tools.js"
@@ -21,7 +23,7 @@ const DEFAULT_GAME_CONFIG = {
 
   types: {
     game: [game()],
-    audio: audio(),
+    audio: [audio()],
   },
 
   entities: {
@@ -41,8 +43,8 @@ export class Engine {
    * @param {Object} [gameConfig] - Game-specific configuration.
    * @param {Object} [renderer] - UI entity responsible for rendering. It must have a `render` method.
    */
-  constructor(gameConfig) {
-    this._config = extend(DEFAULT_GAME_CONFIG, gameConfig)
+  constructor(...gameConfigs) {
+    this._config = extendWith(merger, DEFAULT_GAME_CONFIG, ...gameConfigs)
 
     // Determine devMode from the entities config.
     const devMode = this._config.entities.game?.devMode
@@ -50,9 +52,6 @@ export class Engine {
 
     // Add user-defined systems
     const systems = [...(this._config.systems ?? [])]
-    if (this._config.renderer) {
-      systems.push(...this._config.renderer.getSystems())
-    }
 
     this._store = createStore({ ...this._config, systems })
 
@@ -86,10 +85,13 @@ export class Engine {
   }
 
   async init() {
-    return Promise.all([
-      this._config.types.audio.init(this._config.entities.audio),
-      this._config.renderer?.init(this),
-    ])
+    return Promise.all(
+      Object.values(this._config.entities).map((entity) => {
+        const originalType = this._config.types[entity.type]
+        const type = augmentType(originalType)
+        return type.init?.(entity, null, this._api)
+      }),
+    )
   }
 
   /**
@@ -108,7 +110,6 @@ export class Engine {
     this._api.notify("stop")
     this._store.update(this._api)
     this._loop.stop()
-    this._config.renderer?.destroy()
     this.isRunning = false
   }
 
@@ -143,5 +144,11 @@ export class Engine {
       }
       sendAction(action, state)
     }
+  }
+}
+
+function merger(targetValue, sourceValue) {
+  if (isArray(targetValue) && isArray(sourceValue)) {
+    return [...targetValue, ...sourceValue]
   }
 }

@@ -10,21 +10,9 @@ const DEFAULT_LAYER = 0
 const Y = 1
 const Z = 2
 
-function getRenderFunction(types, entity) {
-  const typeInfo = types[entity.type]
-  if (!typeInfo) {
-    return null
-  }
+export function renderingSystem(canvas) {
+  const ctx = canvas.getContext("2d")
 
-  // A type can be a single object or an array of behaviors
-  const behaviorWithRender = Array.isArray(typeInfo)
-    ? typeInfo.find((b) => b.render)
-    : typeInfo
-
-  return behaviorWithRender?.render
-}
-
-export function createRenderingSystem(ctx) {
   return {
     update(state, dt, api) {
       const types = api.getTypes()
@@ -68,7 +56,8 @@ export function createRenderingSystem(ctx) {
             b.position[Z] - a.position[Z],
         )
         .forEach((entity) => {
-          const render = getRenderFunction(types, entity)
+          const type = types[entity.type]
+          const { render } = type
           if (render) {
             absolutePosition(render)(entity, ctx, { api })
           }

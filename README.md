@@ -168,11 +168,11 @@ Since the engine is headless, you must select a renderer to create a game. Below
     <script type="importmap">
       {
         "imports": {
-          "immer": "https://unpkg.com/immer@10.1.1/dist/immer.mjs",
-          "@inglorious/utils/": "https://unpkg.com/@inglorious%2Futils@1.2.0/",
-          "@inglorious/store/": "https://unpkg.com/@inglorious%2Fstore@2.0.0/",
-          "@inglorious/engine/": "https://unpkg.com/@inglorious%2Fengine@0.7.0/",
-          "@inglorious/renderers/": "https://unpkg.com/@inglorious%2Frenderer-2d@0.2.0/",
+          "immer": "https://unpkg.com/immer@latest/dist/immer.mjs",
+          "@inglorious/utils/": "https://unpkg.com/@inglorious%2Futils@latest/src/",
+          "@inglorious/store/": "https://unpkg.com/@inglorious%2Fstore@latest/src/",
+          "@inglorious/engine/": "https://unpkg.com/@inglorious%2Fengine@latest/src/",
+          "@inglorious/renderer-2d/": "https://unpkg.com/@inglorious%2Frenderer-2d@latest/src/",
           "game": "/game.js"
         }
       }
@@ -180,7 +180,7 @@ Since the engine is headless, you must select a renderer to create a game. Below
 
     <script
       type="module"
-      src="https://unpkg.com/@inglorious%2Fengine@0.7.0/main.js"
+      src="https://unpkg.com/@inglorious%2Fengine@latest/src/main.js"
     ></script>
   </body>
 </html>

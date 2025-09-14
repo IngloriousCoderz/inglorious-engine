@@ -3,6 +3,7 @@ const NEXT_LEVEL = 2
 
 /**
  * Creates a deep clone of the given object.
+ *
  * @param {Object} obj - The object to clone.
  * @returns {Object} A deep clone of the input object.
  */
@@ -12,6 +13,7 @@ export function clone(obj) {
 
 /**
  * Filters the properties of an object based on a callback function.
+ *
  * @param {Object} obj - The object to filter.
  * @param {Function} callback - A function that determines whether a property should be included.
  *                              Receives (key, value, obj) as arguments.
@@ -27,6 +29,7 @@ export function filter(obj, callback) {
 
 /**
  * Finds the first property in an object that satisfies the callback function.
+ *
  * @param {Object} obj - The object to search.
  * @param {Function} callback - A function that determines whether a property matches.
  *                              Receives (key, value, obj) as arguments.
@@ -40,6 +43,7 @@ export function find(obj, callback) {
 
 /**
  * Checks if a value is a plain object.
+ *
  * @param {*} obj - The value to check.
  * @returns {boolean} True if the value is a plain object, false otherwise.
  */
@@ -49,6 +53,7 @@ export function isObject(obj) {
 
 /**
  * Maps the properties of an object using a callback function.
+ *
  * @param {Object} obj - The object to map.
  * @param {Function} callback - A function that transforms each property.
  *                              Receives (key, value, obj) as arguments.
@@ -99,6 +104,7 @@ export function produce(baseState, recipe, ...args) {
 
 /**
  * Converts an object or array to a formatted string representation.
+ *
  * @param {*} obj - The object or array to convert.
  * @param {number} [indentationLevel=INITIAL_LEVEL] - The current indentation level (used for nested structures).
  * @returns {string} A string representation of the input object or array.

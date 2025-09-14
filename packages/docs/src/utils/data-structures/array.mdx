@@ -1,0 +1,74 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+
+import {
+  contains,
+  ensureArray,
+  isArray,
+  max,
+  min,
+  pop,
+  push,
+  remove,
+} from '@inglorious/utils/data-structures/array'
+import { toString as bToString } from '@inglorious/utils/data-structures/boolean'
+import { toString } from '@inglorious/utils/data-structures/object'
+
+<Meta title="Utils/Data Structures/Array" />
+
+# Array
+
+Functions that deal with a single array.
+
+## Contains
+
+Checks if an array contains a specific item, using `Array.prototype.includes`.
+
+<code>contains([1, 2, 3], 2) == {bToString(contains([1, 2, 3], 2))}</code>&nbsp;
+
+<code>contains([1, 2, 3], 4) == {bToString(contains([1, 2, 3], 4))}</code>&nbsp;
+
+## Ensure Array
+
+Ensures that a given value is an array. If it's not an array, it wraps it in one.
+
+<code>ensureArray([1, 2]) == {toString(ensureArray([1, 2]))}</code>&nbsp;
+
+<code>ensureArray(1) == {toString(ensureArray(1))}</code>&nbsp;
+
+## Is Array
+
+Checks if a value is an array. This is a re-export of `Array.isArray`.
+
+<code>isArray([]) == {bToString(isArray([]))}</code>&nbsp;
+
+<code>isArray(\{ \}) == {bToString(isArray({}))}</code>&nbsp;
+
+## Max
+
+Finds the maximum item in an array of numbers.
+
+<code>max([1, 5, 2, 8, 3]) == {toString(max([1, 5, 2, 8, 3]))}</code>&nbsp;
+
+## Min
+
+Finds the minimum item in an array of numbers.
+
+<code>min([1, 5, 2, 8, 3]) == {toString(min([1, 5, 2, 8, 3]))}</code>&nbsp;
+
+## Pop
+
+Creates a new array with the smallest item removed. This is an immutable operation.
+
+<code>pop([1, 5, 2, 8, 3]) == {toString(pop([1, 5, 2, 8, 3]))}</code>&nbsp;
+
+## Push
+
+Creates a new array with an item added to the end. This is an immutable operation.
+
+<code>push([1, 2], 3) == {toString(push([1, 2], 3))}</code>&nbsp;
+
+## Remove
+
+Creates a new array with a specific item removed. This is an immutable operation.
+
+<code>remove([1, 2, 3, 2], 2) == {toString(remove([1, 2, 3, 2], 2))}</code>&nbsp;
