@@ -159,7 +159,7 @@ Since the engine is headless, you must select a renderer to create a game. Below
 <!DOCTYPE html>
 <html lang="en">
   <body>
-    <canvas id="canvas"></canvas>
+    <canvas id="canvas" width="800" height="600"></canvas>
 
     <script type="text/javascript">
       window.process = { env: "development" }

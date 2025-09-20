@@ -3,6 +3,7 @@
  * @typedef {import('./types').Vector3} Vector3
  */
 
+import { isArray } from "../../data-structures/array.js"
 import { hypothenuse } from "../geometry/triangle.js"
 import {
   abs as nAbs,
@@ -111,6 +112,19 @@ export function fromAngle(angle) {
 }
 
 export const length = magnitude
+
+/**
+ * Checks if a value is a vector.
+ *
+ * @param {*} value - The value to check.
+ * @returns {boolean} True if the value is a vector, false otherwise.
+ */
+export function isVector(value) {
+  return (
+    isArray(value) &&
+    value.every((coordinate) => typeof coordinate === "number")
+  )
+}
 
 /**
  * Calculates the magnitude of the vector.

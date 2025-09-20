@@ -1,3 +1,4 @@
+const ORIGIN = 0
 const X = 0
 
 export default {
@@ -42,12 +43,12 @@ export default {
 
       update(entity, dt, api) {
         const game = api.getEntity("game")
-        const [left, , right] = game.bounds
+        const [gameWidth] = game.size
 
-        if (entity.position[X] > right) {
+        if (entity.position[X] > gameWidth) {
           entity.velocity[X] = -entity.maxSpeed
           entity.orientation = 3.14
-        } else if (entity.position[X] < left) {
+        } else if (entity.position[X] < ORIGIN) {
           entity.velocity[X] = entity.maxSpeed
           entity.orientation = 0
         }

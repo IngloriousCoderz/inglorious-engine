@@ -20,7 +20,7 @@ export default {
             entity.orientation += pi()
             entity.orientation = mod(entity.orientation, 2 * pi())
           }
-          merge(entity, bounce(entity, dt, game.bounds))
+          merge(entity, bounce(entity, dt, game.size))
         },
       },
     ],
@@ -38,11 +38,7 @@ export default {
       orientation: 0,
       maxSpeed: 250,
       collisions: {
-        hitbox: {
-          shape: "circle",
-          offset: [-6, 0, -6],
-          radius: 12,
-        },
+        hitbox: { shape: "circle", offset: [-6, 0, -6], radius: 12 },
       },
     },
 
@@ -52,11 +48,7 @@ export default {
       orientation: pi(),
       maxSpeed: 250,
       collisions: {
-        hitbox: {
-          shape: "circle",
-          offset: [-6, 0, -6],
-          radius: 12,
-        },
+        hitbox: { shape: "circle", offset: [-6, 0, -6], radius: 12 },
       },
     },
   },

@@ -26,7 +26,7 @@ An Inglorious Engine game is defined by a configuration object. The main buildin
 -   **Types & Behaviors**: Reusable templates and logic for your entities.
 -   **Systems**: Global logic that orchestrates entities, like physics or animation.
 
-For a deeper dive into these, check out the **[Core Concepts](/docs/engine--docs)** documentation.
+For a deeper dive into these, check out the **[Core Concepts documentation](/docs/engine-core-concepts--docs)**.
 
 The two main ways to implement game logic are with **Behaviors** and **Systems**. While behaviors are attached to specific entity types, systems operate globally. You can read a detailed comparison in the **[Systems documentation](/docs/engine-systems--docs)**.
 
@@ -42,7 +42,7 @@ Create an HTML file with this structure:
 <!DOCTYPE html>
 <html lang="en">
   <body>
-    <canvas id="canvas"></canvas>
+    <canvas id="canvas" width="800" height="600"></canvas>
 
     <script type="text/javascript">
       window.process = { env: "development" }
@@ -94,11 +94,6 @@ Let's add something to the scene:
 Every game has this structure:
 ```javascript
 export default {
-  // Optional systems - cross-entity behaviors
-  systems: [
-    // List all needed systems, or create your own!
-  ],
-
   // Static definitions - never change
   types: {
     // Define what kinds of objects exist
@@ -107,7 +102,12 @@ export default {
   // Dynamic state - changes during gameplay
   entities: {
     // Actual objects in the scene
-  }
+  },
+
+  // Optional systems - cross-entity behaviors
+  systems: [
+    // List all needed systems, or create your own!
+  ],
 }
 ```
 
@@ -118,16 +118,16 @@ export default {
 
 ### 3. Event Handlers
 
-To make things move and interact, use event handlers:
+To make things move and interact, use event handlers in your types:
 
 ```javascript
 types: {
   character: {
     // Drawing logic here
-    render(entity, ctx) { /* ... */ },
-    
+    render(entity, payload, api) { /* ... */ },
+
     // Event handlers here
-    update(entity, event, { dt, config, entities }) {
+    update(entity, payload, api) {
       // This runs every frame
       // Update position, velocity, etc.
     }
@@ -139,7 +139,7 @@ types: {
 
 Now that you have a basic understanding of the engine, you're ready to dive deeper.
 
-Continue to the **[Core Concepts](/docs/engine--docs)** page to learn about event handlers, code reuse, and other essential features.
+Continue to the **[Core Concepts page](/docs/engine-core-concepts--docs)** to learn about event handlers, code reuse, and other essential features.
 
 ## Why Functional Programming?
 

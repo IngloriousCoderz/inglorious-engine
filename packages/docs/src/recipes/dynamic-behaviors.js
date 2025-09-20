@@ -101,18 +101,10 @@ export default {
       maxSpeed: 250,
       state: "default",
       collisions: {
-        bounds: {
-          shape: "rectangle",
-        },
-        platform: {
-          shape: "rectangle",
-        },
-        powerup: {
-          shape: "rectangle",
-        },
-        enemy: {
-          shape: "rectangle",
-        },
+        bounds: { shape: "rectangle" },
+        platform: { shape: "rectangle" },
+        powerup: { shape: "rectangle" },
+        enemy: { shape: "rectangle" },
       },
     },
 
@@ -122,9 +114,7 @@ export default {
       size: [800, 32, 0],
       backgroundColor: "#654321",
       collisions: {
-        platform: {
-          shape: "rectangle",
-        },
+        platform: { shape: "rectangle" },
       },
     },
 
@@ -134,9 +124,7 @@ export default {
       size: [150, 32, 0],
       backgroundColor: "#654321",
       collisions: {
-        platform: {
-          shape: "rectangle",
-        },
+        platform: { shape: "rectangle" },
       },
     },
 
@@ -147,9 +135,7 @@ export default {
       size: [32, 32, 0],
       backgroundColor: "#dc372f",
       collisions: {
-        powerup: {
-          shape: "rectangle",
-        },
+        powerup: { shape: "rectangle" },
       },
     },
 
@@ -159,9 +145,7 @@ export default {
       size: [150, 32, 0],
       backgroundColor: "#654321",
       collisions: {
-        platform: {
-          shape: "rectangle",
-        },
+        platform: { shape: "rectangle" },
       },
     },
 
@@ -172,9 +156,7 @@ export default {
       size: [32, 32, 0],
       backgroundColor: "#e86c32",
       collisions: {
-        powerup: {
-          shape: "rectangle",
-        },
+        powerup: { shape: "rectangle" },
       },
     },
 
@@ -184,9 +166,7 @@ export default {
       size: [150, 32, 0],
       backgroundColor: "#654321",
       collisions: {
-        platform: {
-          shape: "rectangle",
-        },
+        platform: { shape: "rectangle" },
       },
     },
 
@@ -197,9 +177,7 @@ export default {
       size: [32, 32, 0],
       backgroundColor: "#fdf3f3",
       collisions: {
-        powerup: {
-          shape: "rectangle",
-        },
+        powerup: { shape: "rectangle" },
       },
     },
 
@@ -209,9 +187,7 @@ export default {
       size: [150, 32, 0],
       backgroundColor: "#654321",
       collisions: {
-        platform: {
-          shape: "rectangle",
-        },
+        platform: { shape: "rectangle" },
       },
     },
 
@@ -222,9 +198,7 @@ export default {
       size: [32, 32, 0],
       backgroundColor: "#ca00ff",
       collisions: {
-        powerup: {
-          shape: "rectangle",
-        },
+        powerup: { shape: "rectangle" },
       },
     },
 
@@ -234,9 +208,7 @@ export default {
       size: [32, 32, 0],
       backgroundColor: "#800000",
       collisions: {
-        enemy: {
-          shape: "rectangle",
-        },
+        enemy: { shape: "rectangle" },
       },
     },
 
@@ -246,9 +218,7 @@ export default {
       size: [32, 32, 0],
       backgroundColor: "#800000",
       collisions: {
-        enemy: {
-          shape: "rectangle",
-        },
+        enemy: { shape: "rectangle" },
       },
     },
 
@@ -258,9 +228,7 @@ export default {
       size: [32, 32, 0],
       backgroundColor: "#800000",
       collisions: {
-        enemy: {
-          shape: "rectangle",
-        },
+        enemy: { shape: "rectangle" },
       },
     },
   },

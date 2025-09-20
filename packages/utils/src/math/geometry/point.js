@@ -8,6 +8,7 @@
 const SQUARED = 2
 const HALF = 2
 
+import { isVector } from "../linear-algebra/vector.js"
 import { distanceFromPoint } from "./line.js"
 
 /**
@@ -27,8 +28,8 @@ export function getDistanceFromLine(point, line) {
  * @returns {boolean} True if the points intersect, false otherwise.
  */
 export function intersectsPoint(point1, point2) {
-  const [x1, y1, z1] = point1
-  const [x2, y2, z2] = point2
+  const [x1, y1, z1] = ensurePoint(point1)
+  const [x2, y2, z2] = ensurePoint(point2)
   return x1 === x2 && y1 === y2 && z1 === z2
 }
 
@@ -39,7 +40,7 @@ export function intersectsPoint(point1, point2) {
  * @returns {boolean} True if the point intersects the circle, false otherwise.
  */
 export function intersectsCircle(point, circle) {
-  const [x, y, z] = point
+  const [x, y, z] = ensurePoint(point)
   const [cx, cy, cz] = circle.position
   const radius = circle.radius
 
@@ -56,7 +57,7 @@ export function intersectsCircle(point, circle) {
  * @returns {boolean} True if the point intersects the rectangle, false otherwise.
  */
 export function intersectsRectangle(point, rectangle) {
-  const [x, y, z] = point
+  const [x, y, z] = ensurePoint(point)
   const [rectX, rectY, rectZ] = rectangle.position
   const [width, height, depth] = rectangle.size
 
@@ -75,4 +76,12 @@ export function intersectsRectangle(point, rectangle) {
     z >= back &&
     z <= front
   )
+}
+
+function ensurePoint(value) {
+  if (!isVector(value)) {
+    return value.position
+  }
+
+  return value
 }

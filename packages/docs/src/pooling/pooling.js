@@ -1,13 +1,14 @@
-import { add } from "@inglorious/utils/math/linear-algebra/vectors.js"
-import { scale } from "@inglorious/utils/math/linear-algebra/vector.js"
-import { random } from "@inglorious/utils/math/rng.js"
-import { renderCircle } from "@inglorious/renderer-2d/shapes/circle.js"
-import { extend } from "@inglorious/utils/data-structures/objects.js"
-import { renderText } from "@inglorious/renderer-2d/text.js"
-import { renderFps } from "@inglorious/renderer-2d/fps.js"
 import { fps } from "@inglorious/engine/behaviors/fps.js"
 import { game } from "@inglorious/engine/behaviors/game.js"
+import { renderFps } from "@inglorious/renderer-2d/fps.js"
+import { renderCircle } from "@inglorious/renderer-2d/shapes/circle.js"
+import { renderText } from "@inglorious/renderer-2d/text.js"
+import { extend } from "@inglorious/utils/data-structures/objects.js"
+import { scale } from "@inglorious/utils/math/linear-algebra/vector.js"
+import { add } from "@inglorious/utils/math/linear-algebra/vectors.js"
+import { random } from "@inglorious/utils/math/rng.js"
 
+const ORIGIN = 0
 const MAX_BUBBLES = 1000
 
 function velocity() {
@@ -60,17 +61,17 @@ function despawning() {
       update(entity, dt, api) {
         type.update?.(entity, dt, api)
 
-        const { bounds } = api.getEntity("game")
-        const [minX, minY, maxX, maxY] = bounds
+        const game = api.getEntity("game")
+        const [gameWidth, gameHeight] = game.size
         const [x, y, z] = entity.position
 
         if (
-          x < minX ||
-          x > maxX ||
-          y < minY ||
-          y > maxY ||
-          z < minY ||
-          z > maxY
+          x < ORIGIN ||
+          x > gameWidth ||
+          y < ORIGIN ||
+          y > gameHeight ||
+          z < ORIGIN ||
+          z > gameHeight
         ) {
           api.notify("despawn", entity)
         }

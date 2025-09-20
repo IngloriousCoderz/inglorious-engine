@@ -25,7 +25,7 @@ export default {
               wanderRadius: fields.wanderRadius.value,
             }),
           )
-          flip(entity, game.bounds)
+          flip(entity, game.size)
         },
       },
     ],

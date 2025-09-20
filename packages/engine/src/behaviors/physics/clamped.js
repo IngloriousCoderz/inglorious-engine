@@ -28,7 +28,7 @@ export function clamped(params) {
         merge(entity, {
           position: clampToBounds(
             entity,
-            game.bounds,
+            game.size,
             params.collisionGroup,
             params.depthAxis,
           ),

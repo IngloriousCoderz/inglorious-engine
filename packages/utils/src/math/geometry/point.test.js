@@ -79,3 +79,15 @@ test("it should prove that a point outside of a rectangle does not intersect wit
 
   expect(intersectsRectangle(point, rectangle)).toBe(false)
 })
+
+test("it should work even if the point is an object with a position", () => {
+  const point = {
+    position: [1.5, 1.5, 0],
+  }
+  const rectangle = {
+    position: [1, 1, 0],
+    size: [2, 2, 0],
+  }
+
+  expect(intersectsRectangle(point, rectangle)).toBe(true)
+})

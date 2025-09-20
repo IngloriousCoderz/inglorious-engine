@@ -5,6 +5,7 @@ import { createStore } from "@inglorious/store/store.js"
 import { augmentType } from "@inglorious/store/types.js"
 import { isArray } from "@inglorious/utils/data-structures/array.js"
 import { extendWith } from "@inglorious/utils/data-structures/objects.js"
+import { isVector } from "@inglorious/utils/math/linear-algebra/vector.js"
 
 import { coreEvents } from "./core-events.js"
 import { disconnectDevTools, initDevTools, sendAction } from "./dev-tools.js"
@@ -28,7 +29,7 @@ const DEFAULT_GAME_CONFIG = {
 
   entities: {
     // eslint-disable-next-line no-magic-numbers
-    game: { type: "game", bounds: [0, 0, 800, 600] },
+    game: { type: "game", size: [800, 600] },
     audio: { type: "audio", sounds: {} },
   },
 }
@@ -100,7 +101,6 @@ export class Engine {
   start() {
     this._api.notify("start")
     this._loop.start(this, ONE_SECOND / this._config.loop.fps)
-    this.isRunning = true
   }
 
   /**
@@ -110,7 +110,6 @@ export class Engine {
     this._api.notify("stop")
     this._store.update(this._api)
     this._loop.stop()
-    this.isRunning = false
   }
 
   /**
@@ -148,7 +147,12 @@ export class Engine {
 }
 
 function merger(targetValue, sourceValue) {
-  if (isArray(targetValue) && isArray(sourceValue)) {
+  if (
+    isArray(targetValue) &&
+    !isVector(targetValue) &&
+    isArray(sourceValue) &&
+    !isVector(sourceValue)
+  ) {
     return [...targetValue, ...sourceValue]
   }
 }

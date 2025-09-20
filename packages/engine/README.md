@@ -71,7 +71,7 @@ Here is a complete example showing how to set up and run a game using the engine
 <!DOCTYPE html>
 <html lang="en">
   <body>
-    <canvas id="canvas"></canvas>
+    <canvas id="canvas" width="800" height="600"></canvas>
 
     <script type="text/javascript">
       window.process = { env: "development" }

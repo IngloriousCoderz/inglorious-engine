@@ -21,18 +21,28 @@ The engine uses the **[Immer](https://immerjs.github.io/immer/)** library to man
 
 Inside an event handler (like `update`, `start`, or `mouseClick`), the **first parameter** is a special, mutable "draft" of the entity handling the event. You can change its properties directly. Immer will safely record these changes and produce a new, immutable state without you having to worry about it.
 
-    ```javascript
-    // Inside a behavior
-    {
-      update(entity, dt, api) {
-        // `entity` is a mutable draft. You can change it directly.
-        entity.position[0] += entity.velocity[0] * dt;
-        entity.position[2] += entity.velocity[2] * dt;
-      }
-    }
-    ```
+```javascript
+// Inside a behavior
+{
+  update(entity, dt, api) {
+    // `entity` is a mutable draft. You can change it directly.
+    entity.position[0] += entity.velocity[0] * dt;
+    entity.position[2] += entity.velocity[2] * dt;
+  }
+}
+```
 
 This makes writing update logic feel natural, while still getting all the benefits of immutability.
+
+_(By the way, you can also use vector operations to make your code more readable and concise)_
+
+```javascript
+{
+  update(entity, dt, api) {
+    entity.position = add(entity.position, scale(entity.velocity, dt))
+  }
+}
+```
 
 ### Interacting with Other Entities
 

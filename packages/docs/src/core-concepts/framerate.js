@@ -15,7 +15,7 @@ export default {
       {
         update(entity, dt, api) {
           const game = api.getEntity("game")
-          merge(entity, bounce(entity, dt, game.bounds))
+          merge(entity, bounce(entity, dt, game.size))
         },
       },
     ],

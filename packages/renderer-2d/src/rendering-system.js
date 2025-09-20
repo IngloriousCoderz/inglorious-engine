@@ -19,9 +19,9 @@ export function renderingSystem(canvas) {
       const { game, ...worldEntities } = state.entities
 
       // 1. Clear canvas
-      const [, , width, height] = game.bounds
+      const [gameWidth, gameHeight] = game.size
       ctx.fillStyle = game.backgroundColor || "lightgrey"
-      ctx.fillRect(ORIGIN, ORIGIN, width, height)
+      ctx.fillRect(ORIGIN, ORIGIN, gameWidth, gameHeight)
 
       // 2. Find active camera
       const camera = Object.values(state.entities).find(
@@ -37,11 +37,11 @@ export function renderingSystem(canvas) {
 
         // Center the view on the camera and apply zoom.
         // The order of operations is crucial here.
-        ctx.translate(width / HALF, height / HALF)
+        ctx.translate(gameWidth / HALF, gameHeight / HALF)
         ctx.scale(zoom, zoom)
         // This vertical translation compensates for the coordinate system flip
         // that happens inside the absolutePosition decorator.
-        ctx.translate(ORIGIN, -height)
+        ctx.translate(ORIGIN, -gameHeight)
         // This translation moves the world relative to the camera.
         ctx.translate(-cameraX, cameraZ)
       }

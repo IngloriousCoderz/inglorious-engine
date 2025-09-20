@@ -6,8 +6,8 @@ import {
 import { clamped } from "@inglorious/engine/behaviors/physics/clamped.js"
 import { renderCharacter } from "@inglorious/renderer-2d/character.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
-import { pi } from "@inglorious/utils/math/trigonometry.js"
 import { random } from "@inglorious/utils/math/rng.js"
+import { pi } from "@inglorious/utils/math/trigonometry.js"
 
 const controls = setupControls()
 
@@ -27,10 +27,7 @@ export default {
             orientation: random(-pi(), pi(), 0.1),
             movement: {},
             collisions: {
-              bounds: {
-                shape: "circle",
-                radius: 12,
-              },
+              bounds: { shape: "circle", radius: 12 },
             },
           })
         },

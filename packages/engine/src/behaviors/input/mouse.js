@@ -22,7 +22,7 @@ export function mouse() {
 
       entity.position = position
 
-      clampToBounds(entity, game.bounds)
+      clampToBounds(entity, game.size)
     },
 
     mouseClick(entity, position, api) {
@@ -74,20 +74,17 @@ function createHandler(type, parent, api) {
     }
 
     // For move and click events, the payload is the calculated position.
-    const payload = calculatePosition({
-      clientX: event.clientX,
-      clientY: event.clientY,
-      parent,
-    })
+    const payload = calculatePosition(event, parent)
     api.notify(type, payload)
   }
 }
 
-function calculatePosition({ clientX, clientY, parent }) {
-  const bounds = parent.getBoundingClientRect()
+function calculatePosition(event, parent) {
+  const { clientX, clientY } = event
+  const { left, bottom } = parent.getBoundingClientRect()
 
-  const x = clientX - bounds.left
-  const z = bounds.bottom - clientY
+  const x = clientX - left
+  const z = bottom - clientY
 
   return [x, NO_Y, z]
 }

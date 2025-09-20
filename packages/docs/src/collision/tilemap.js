@@ -146,10 +146,7 @@ export default {
         },
       },
       collisions: {
-        hitbox: {
-          shape: "rectangle",
-          size: [44, 1, 44],
-        },
+        hitbox: { shape: "rectangle", size: [44, 1, 44] },
       },
     },
   },

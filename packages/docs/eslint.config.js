@@ -43,7 +43,7 @@ export default defineConfig([
   },
 
   {
-    files: ["**/*.test.js"],
+    files: ["**/*.test.js", "src/**/*.js"],
     rules: {
       "no-magic-numbers": "off",
     },

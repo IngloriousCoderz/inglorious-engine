@@ -13,7 +13,7 @@ export default {
           const game = api.getEntity("game")
 
           merge(entity, wander(entity, dt))
-          flip(entity, game.bounds)
+          flip(entity, game.size)
         },
       },
     ],

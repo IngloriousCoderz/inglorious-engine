@@ -23,7 +23,7 @@ export default {
             const game = api.getEntity("game")
 
             merge(entity, wander(entity, dt))
-            flip(entity, game.bounds)
+            flip(entity, game.size)
 
             if (length(subtract(entity.position, mouse.position)) < 200) {
               entity.state = "hunting"
@@ -37,7 +37,7 @@ export default {
             const game = api.getEntity("game")
 
             merge(entity, arrive(entity, mouse, dt))
-            clampToBounds(entity, game.bounds)
+            clampToBounds(entity, game.size)
 
             if (length(subtract(entity.position, mouse.position)) >= 200) {
               entity.state = "meandering"

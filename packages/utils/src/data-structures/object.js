@@ -44,11 +44,11 @@ export function find(obj, callback) {
 /**
  * Checks if a value is a plain object.
  *
- * @param {*} obj - The value to check.
+ * @param {*} value - The value to check.
  * @returns {boolean} True if the value is a plain object, false otherwise.
  */
-export function isObject(obj) {
-  return obj != null && obj.constructor === Object
+export function isObject(value) {
+  return value != null && value.constructor === Object
 }
 
 /**

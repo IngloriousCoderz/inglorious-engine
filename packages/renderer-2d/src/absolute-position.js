@@ -6,11 +6,11 @@ export function absolutePosition(render) {
     const [x, y, z] = snap(position)
 
     const game = api.getEntity("game")
-    const [, , , screenHeight] = game.bounds
+    const [, gameHeight] = game.size
 
     ctx.save()
 
-    ctx.translate(x, screenHeight - y - z)
+    ctx.translate(x, gameHeight - y - z)
     render(entity, ctx, api)
 
     ctx.restore()

@@ -28,10 +28,7 @@ export default {
     mouse: createMouse("mouse", {
       position: [400, 0, 300],
       collisions: {
-        hitbox: {
-          shape: "circle",
-          radius: 1,
-        },
+        hitbox: { shape: "point" },
       },
     }),
 
@@ -45,10 +42,7 @@ export default {
             position: [random(0, 800), 0, random(0, 600)],
             orientation: random(0, 2 * pi(), 0.01),
             collisions: {
-              hitbox: {
-                shape: "circle",
-                radius: 12,
-              },
+              hitbox: { shape: "circle", radius: 12 },
             },
           },
         ]),

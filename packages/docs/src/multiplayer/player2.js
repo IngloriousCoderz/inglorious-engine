@@ -26,10 +26,7 @@ export default {
             orientation: pi(),
             movement: {},
             collisions: {
-              bounds: {
-                shape: "circle",
-                radius: 12,
-              },
+              bounds: { shape: "circle", radius: 12 },
             },
           })
         },

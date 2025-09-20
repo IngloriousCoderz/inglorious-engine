@@ -9,20 +9,21 @@ import {
 import { sum } from "@inglorious/utils/math/linear-algebra/vectors.js"
 import { abs } from "@inglorious/utils/math/numbers.js"
 
+const ORIGIN = 0
 const DOUBLE = 2
 const HALF = 2
 const X = 0
 const Z = 2
 
-export function bounce(entity, dt, [minX, minZ, maxX, maxZ]) {
+export function bounce(entity, dt, [maxX, maxZ]) {
   const [x, , z] = entity.position
 
   const velocity = createVector(entity.maxSpeed, entity.orientation)
-  if (x < minX || x >= maxX) {
+  if (x < ORIGIN || x >= maxX) {
     velocity[X] = -velocity[X]
   }
 
-  if (z < minZ || z >= maxZ) {
+  if (z < ORIGIN || z >= maxZ) {
     velocity[Z] = -velocity[Z]
   }
 
@@ -33,7 +34,7 @@ export function bounce(entity, dt, [minX, minZ, maxX, maxZ]) {
 }
 
 const ClampToBoundsByShape = {
-  rectangle(entity, [minX, minZ, maxX, maxZ], collisionGroup) {
+  rectangle(entity, [maxX, maxZ], collisionGroup) {
     const [width, height, depth] =
       entity.collisions[collisionGroup].size ?? entity.size
 
@@ -43,31 +44,31 @@ const ClampToBoundsByShape = {
 
     return clamp(
       entity.position,
-      [minX + halfWidth, minZ + halfHeight, minZ + halfDepth],
+      [halfWidth, halfHeight, halfDepth],
       [maxX - halfWidth, maxZ - halfHeight, maxZ - halfDepth],
     )
   },
 
-  circle(entity, [minX, minY, maxX, maxY], collisionGroup, depthAxis = "y") {
+  circle(entity, [maxX, maxY], collisionGroup, depthAxis = "y") {
     const radius = entity.collisions[collisionGroup].radius ?? entity.radius
 
     if (depthAxis === "z") {
       return clamp(
         entity.position,
-        [minX + radius, minY + radius, minY],
+        [radius, radius, ORIGIN],
         [maxX - radius, maxY - radius, maxY],
       )
     }
 
     return clamp(
       entity.position,
-      [minX + radius, minY, minY + radius],
+      [radius, ORIGIN, radius],
       [maxX - radius, maxY, maxY - radius],
     )
   },
 
-  point(entity, [minX, minZ, maxX, maxZ]) {
-    return clamp(entity.position, [minX, minZ, minZ], [maxX, maxZ, maxZ])
+  point(entity, [maxX, maxZ]) {
+    return clamp(entity.position, zero(), [maxX, maxZ, maxZ])
   },
 }
 
@@ -82,7 +83,7 @@ export function clampToBounds(
   return handler(entity, bounds, collisionGroup, depthAxis)
 }
 
-export function flip(entity, [minX, minZ, maxX, maxZ]) {
+export function flip(entity, [maxX, maxZ]) {
   const [x, , z] = entity.position
 
   entity.collisions ??= {}
@@ -111,20 +112,20 @@ export function flip(entity, [minX, minZ, maxX, maxZ]) {
   const direction = fromAngle(entity.orientation)
 
   if (
-    left < minX ||
+    left < ORIGIN ||
     right >= maxX ||
-    bottom < minZ ||
+    bottom < ORIGIN ||
     top >= maxZ ||
-    back < minZ ||
+    back < ORIGIN ||
     front >= maxZ
   ) {
-    if (left < minX) {
+    if (left < ORIGIN) {
       direction[X] = abs(direction[X])
     } else if (right >= maxX) {
       direction[X] = -abs(direction[X])
     }
 
-    if (back < minZ) {
+    if (back < ORIGIN) {
       direction[Z] = abs(direction[Z])
     } else if (front >= maxZ) {
       direction[Z] = -abs(direction[Z])

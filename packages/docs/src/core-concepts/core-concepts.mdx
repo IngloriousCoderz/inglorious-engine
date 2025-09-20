@@ -18,7 +18,7 @@ The heart of the engine is the game loop, which continuously updates the game st
 
 ## The Configuration Object
 
-You configure your game by passing a configuration object to the `Engine`. This object defines everything about your game: entities, types, systems, and global settings.
+You configure your game by passing a configuration object to the `Engine`. This object defines everything about your game: types, entities, and systems.
 
 ## Entities
 
@@ -42,9 +42,7 @@ Here are a few examples of what you can do.
 
 ## Bounds
 
-We can customize the game's bounds by passing an array of four numbers: these will hold the upper and lower bounds in pixels.
-
-The game is an entity like any other in the game, that we can customize as we please.
+The `game` entity is already defined for you. But if you want to customize its size you can just redefine it: every property will be merged with the defaults. See how redefining the game's size will change its bounds.
 
 <Canvas of={CoreConcepts.Bounds} />
 
@@ -181,7 +179,7 @@ This is orders of magnitude faster than the deep, recursive comparisons required
 
 While immutability is the default and preferred approach, the engine's philosophy is pragmatic. For extremely high-frequency, short-lived objects (e.g., hundreds of bullets per second), the overhead of even fast immutable updates can add up.
 
-In these specific, performance-critical scenarios, the engine provides a built-in entity pooling system. This advanced pattern acts as an "escape hatch" for when raw performance is the absolute top priority, allowing you to manage a pool of mutable entities outside the main immutable state tree without compromising the stability and predictability of the rest of your game state. You can see a complete implementation of this pattern in the [Entity Pooling docs](/docs/engine-pooling--docs).
+In these specific, performance-critical scenarios, the engine provides a built-in entity pooling system. This advanced pattern acts as an "escape hatch" for when raw performance is the absolute top priority, allowing you to manage a pool of mutable entities outside the main immutable state tree without compromising the stability and predictability of the rest of your game state. You can see a complete implementation of this pattern in the **[Entity Pooling docs](/docs/engine-pooling--docs)**.
 
 ## Fixed Framerate
 
@@ -195,8 +193,8 @@ What if you want to provide a more retro feel to your game? You can use a fixed 
 
 You've now seen the core features of the engine. Here's where you can go from here:
 
-- **Add player controls**: See [Input Handling](/docs/engine-input--docs) for keyboard and mouse.
-- **Detect collisions**: Learn about [Collision Detection](/docs/engine-collision-detection--docs).
-- **Build autonomous characters**: Explore [AI Kinematic Movement](/docs/engine-ai-movement-kinematic--docs) and [AI Dynamic Movement](/docs/engine-ai-movement-dynamic--docs).
-- **See complete examples**: Look at our [Recipes](/docs/engine-recipes--docs) for common game patterns.
-- **Explore helper functions**: Check out the [Utilities](/docs/utils-docs--docs) available for common tasks.
+- **Add player controls**: See **[Input Handling](/docs/engine-input--docs)** for keyboard and mouse.
+- **Detect collisions**: Learn about **[Collision Detection](/docs/engine-collision-detection--docs)**.
+- **Build autonomous characters**: Explore **[AI Kinematic Movement](/docs/engine-ai-movement-kinematic--docs)** and **[AI Dynamic Movement](/docs/engine-ai-movement-dynamic--docs)**.
+- **See complete examples**: Look at our **[Recipes](/docs/engine-recipes--docs)** for common game patterns.
+- **Explore helper functions**: Check out the **[Utilities](/docs/utils-docs--docs)** available for common tasks.

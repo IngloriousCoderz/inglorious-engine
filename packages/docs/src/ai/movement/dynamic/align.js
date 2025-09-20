@@ -114,10 +114,7 @@ export default {
       maxAngularAcceleration: 10,
       position: [400, 0, 300],
       collisions: {
-        bounds: {
-          shape: "circle",
-          radius: 12,
-        },
+        bounds: { shape: "circle", radius: 12 },
       },
     },
 

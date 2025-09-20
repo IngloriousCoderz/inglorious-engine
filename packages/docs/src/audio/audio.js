@@ -79,9 +79,7 @@ export default {
       size: [800, 48],
       backgroundColor: "green",
       collisions: {
-        platform: {
-          shape: "rectangle",
-        },
+        platform: { shape: "rectangle" },
       },
     },
 
@@ -90,16 +88,8 @@ export default {
       layer: 1,
       position: [200, 60, 0],
       collisions: {
-        bounds: {
-          shape: "circle",
-          radius: 12,
-          // shape: "rectangle",
-          // size: [24, 24, 0],
-        },
-        platform: {
-          shape: "circle",
-          radius: 12,
-        },
+        bounds: { shape: "circle", radius: 12 },
+        platform: { shape: "circle", radius: 12 },
       },
     },
   },

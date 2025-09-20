@@ -1,5 +1,8 @@
 import { track } from "@inglorious/engine/behaviors/input/mouse.js"
 
+const ORIGIN = 0
+const HALF = 2
+
 export function rendering(canvas) {
   const ctx = canvas.getContext("2d")
 
@@ -10,14 +13,28 @@ export function rendering(canvas) {
   return {
     init(entity, event, api) {
       const game = api.getEntity("game")
-      const [, , width, height] = game.bounds
+      const [gameWidth, gameHeight] = game.size
 
-      canvas.style.width = `${width}px`
-      canvas.style.height = `${height}px`
+      const canvasWidth = canvas.width
+      const canvasHeight = canvas.height
+
+      const scaleX = canvasWidth / gameWidth
+      const scaleY = canvasHeight / gameHeight
+      const scale = Math.min(scaleX, scaleY)
+      const scaledGameWidth = gameWidth * scale
+      const scaledGameHeight = gameHeight * scale
+
+      const offsetX = (canvasWidth - scaledGameWidth) / HALF
+      const offsetY = (canvasHeight - scaledGameHeight) / HALF
+
       const dpi = window.devicePixelRatio
-      canvas.width = width * dpi
-      canvas.height = height * dpi
-      ctx.scale(dpi, dpi)
+
+      ctx.clearRect(ORIGIN, ORIGIN, canvasWidth, canvasHeight)
+      ctx.fillStyle = "black"
+      ctx.fillRect(ORIGIN, ORIGIN, canvasWidth, canvasHeight)
+
+      ctx.translate(offsetX, offsetY)
+      ctx.scale(dpi * scale, dpi * scale)
 
       if (game.pixelated) {
         canvas.style.imageRendering = "pixelated"
@@ -35,7 +52,9 @@ export function rendering(canvas) {
       canvas.addEventListener("wheel", _onWheel)
     },
 
-    destroy() {
+    destroy(entity, id) {
+      if (id !== entity.id) return
+
       if (_onMouseMove) {
         canvas.removeEventListener("mousemove", _onMouseMove)
       }

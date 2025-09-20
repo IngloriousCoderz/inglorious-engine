@@ -1,21 +1,18 @@
 import { Engine } from "@inglorious/engine/core/engine"
 import { createRenderer } from "@inglorious/renderer-2d"
-import { extend } from "@inglorious/utils/data-structures/objects"
 import { useEffect, useRef } from "react"
 
 export default function Game({ config }) {
-  const canvasRef = useRef(null)
+  const canvas = useRef()
 
   useEffect(() => {
-    if (!canvasRef.current) {
-      return
-    }
+    if (!canvas.current) return
 
     let engine
     startEngine().then((e) => (engine = e))
 
     async function startEngine(engine) {
-      const renderer = createRenderer(canvasRef.current)
+      const renderer = createRenderer(canvas.current)
       engine = new Engine(renderer, config)
       await engine.init()
       engine.start()
@@ -25,7 +22,7 @@ export default function Game({ config }) {
     return () => {
       engine.stop()
     }
-  }, [config])
+  }, [canvas, config])
 
-  return <canvas id="canvas" ref={canvasRef} />
+  return <canvas width="800" height="600" ref={canvas} />
 }

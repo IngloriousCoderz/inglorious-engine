@@ -4,7 +4,7 @@ import classes from "./with-absolute-position.module.scss"
 
 export function withAbsolutePosition(Component) {
   return function AbsolutePosition(props) {
-    const [, , , screenHeight] = props.entities.game.bounds
+    const [, gameHeight] = props.entities.game.size
     const { position = zero() } = props.entity
 
     const [x, y, z] = position
@@ -13,7 +13,7 @@ export function withAbsolutePosition(Component) {
       <Component
         {...props}
         className={classes.withAbsolutePosition}
-        style={{ "--x": `${x}px`, "--y": `${screenHeight - y - z}px` }}
+        style={{ "--x": `${x}px`, "--y": `${gameHeight - y - z}px` }}
       />
     )
   }

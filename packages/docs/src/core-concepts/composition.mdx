@@ -95,7 +95,7 @@ export function clamped() {
 
         // Then, it adds its own logic
         const game = api.getEntity("game")
-        merge(entity, { position: clampToBounds(entity, game.bounds) })
+        merge(entity, { position: clampToBounds(entity, game.size) })
       },
     })
 }
