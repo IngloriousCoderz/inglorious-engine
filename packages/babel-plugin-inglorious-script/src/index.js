@@ -1,4 +1,4 @@
-import { addNamed } from "@babel/helper-module-imports"
+const { addNamed } = require("@babel/helper-module-imports")
 
 // The main plugin function.
 module.exports = function (babel) {

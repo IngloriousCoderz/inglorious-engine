@@ -1,0 +1,14 @@
+{
+  "name": "@inglorious/babel-preset-inglorious-script",
+  "version": "0.1.0",
+  "description": "Babel preset for the IngloriousScript language.",
+  "main": "src/index.js",
+  "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@inglorious/babel-plugin-inglorious-script": "workspace:*"
+  }
+}
