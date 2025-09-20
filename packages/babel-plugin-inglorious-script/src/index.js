@@ -102,10 +102,15 @@ function isVector(node, scope) {
   ) {
     return isVector(node.left, scope) && isVector(node.right, scope)
   }
+
   // Case 4: The node is a multiplication that results in a vector.
   // This allows chaining: v1 * s + v2
+  // Fixed: More precise logic - multiplication results in vector only if exactly one operand is a vector
   if (node.type === "BinaryExpression" && node.operator === "*") {
-    return isVector(node.left, scope) || isVector(node.right, scope)
+    const leftIsVector = isVector(node.left, scope)
+    const rightIsVector = isVector(node.right, scope)
+    // Vector multiplication only results in a vector if one operand is vector, one is scalar
+    return (leftIsVector && !rightIsVector) || (!leftIsVector && rightIsVector)
   }
 
   return false
