@@ -1,4 +1,4 @@
-import { EventMap } from "@inglorious/store/event-map"
+import { EventMap } from "@inglorious/store/event-map.js"
 
 export function entityPoolMiddleware(pools) {
   return (api) => {

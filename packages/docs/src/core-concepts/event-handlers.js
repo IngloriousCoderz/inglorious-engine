@@ -1,4 +1,4 @@
-import { v } from "@inglorious/utils/math/linear-algebra/vector.js"
+import { v } from "@inglorious/utils/v.js"
 
 const ORIGIN = 0
 const X = 0

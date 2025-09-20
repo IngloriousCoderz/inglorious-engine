@@ -1,3 +1,4 @@
+import { abs } from "@inglorious/utils/math/numbers.js"
 import {
   angle,
   clamp,
@@ -5,9 +6,8 @@ import {
   fromAngle,
   multiply,
   zero,
-} from "@inglorious/utils/math/linear-algebra/vector.js"
-import { sum } from "@inglorious/utils/math/linear-algebra/vectors.js"
-import { abs } from "@inglorious/utils/math/numbers.js"
+} from "@inglorious/utils/math/vector.js"
+import { sum } from "@inglorious/utils/math/vectors.js"
 
 const ORIGIN = 0
 const DOUBLE = 2

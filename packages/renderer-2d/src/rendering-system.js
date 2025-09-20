@@ -1,4 +1,4 @@
-import { to2D } from "@inglorious/utils/math/linear-algebra/vector.js"
+import { to2D } from "@inglorious/utils/math/vector.js"
 
 import { absolutePosition } from "./absolute-position.js"
 

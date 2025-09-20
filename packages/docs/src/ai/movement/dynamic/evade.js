@@ -7,7 +7,7 @@ import { clamped } from "@inglorious/engine/behaviors/physics/clamped.js"
 import { renderCharacter } from "@inglorious/renderer-2d/character.js"
 import { renderMouse } from "@inglorious/renderer-2d/mouse.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
-import { v } from "@inglorious/utils/math/linear-algebra/vector.js"
+import { v } from "@inglorious/utils/v.js"
 
 export default {
   types: {

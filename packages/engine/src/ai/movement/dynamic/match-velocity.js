@@ -5,8 +5,8 @@ import {
   magnitude,
   multiply,
   zero,
-} from "@inglorious/utils/math/linear-algebra/vector.js"
-import { subtract, sum } from "@inglorious/utils/math/linear-algebra/vectors.js"
+} from "@inglorious/utils/math/vector.js"
+import { subtract, sum } from "@inglorious/utils/math/vectors.js"
 
 export const DEFAULT_TIME_TO_TARGET = 0.1
 

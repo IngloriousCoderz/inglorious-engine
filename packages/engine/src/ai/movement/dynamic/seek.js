@@ -5,8 +5,8 @@ import {
   multiply,
   setMagnitude,
   zero,
-} from "@inglorious/utils/math/linear-algebra/vector.js"
-import { subtract, sum } from "@inglorious/utils/math/linear-algebra/vectors.js"
+} from "@inglorious/utils/math/vector.js"
+import { subtract, sum } from "@inglorious/utils/math/vectors.js"
 
 const DEFAULT_MAX_ACCELERATION = 0
 const DEFAULT_MAX_SPEED = 0

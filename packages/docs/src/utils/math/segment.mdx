@@ -1,0 +1,55 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+
+import { toString } from '@inglorious/utils/data-structures/boolean.js'
+import { toString as vToString } from '@inglorious/utils/math/vector.js'
+import { coefficients, distanceFromPoint, intersectsCircle } from '@inglorious/utils/math/segment.js'
+
+<Meta title="Utils/Math/Segment" />
+
+# Segment
+
+Utility functions for line segments.
+
+## Coefficients
+
+Retrieves values of *a*, *b*, and *c* from a segment, so it looks like a line in the form *ax + by + c = 0*.
+
+<code>coefficients(\{ from: [0, 0, 0], to: [2, 0, 1] \}) == {vToString(coefficients({ from: [0, 0, 0], to: [2, 0, 1] }))}</code>&nbsp;
+
+## Distance from point
+
+Computes the distance between a segment and a point.
+
+<code>distanceFromPoint(\{ from: [0, 0, 0], to: [3, 0, 4] \}, [5, 0, 0]) == {distanceFromPoint({ from: [0, 0, 0], to: [3, 0, 4] }, [5, 0, 0])}</code>&nbsp;
+
+If the point rests on the segment, it will return zero.
+
+<code>distanceFromPoint(\{ from: [0, 0, 0], to: [2, 0, 2] \}, [1, 0, 1]) == {distanceFromPoint({ from: [0, 0, 0], to: [2, 0, 2] }, [1, 0, 1]).toFixed(0)}</code>&nbsp;
+
+If the point does not project on the segment, returns the distance between the point and the closest end of the segment.
+
+<code>distanceFromPoint(\{ from: [0, 0, 0], to: [3, 0, 4] \}, [-2, 0, 0]) == {distanceFromPoint({ from: [0, 0, 0], to: [3, 0, 4] }, [-2, 0, 0])}</code>&nbsp;
+
+<code>distanceFromPoint(\{ from: [0, 0, 0], to: [3, 0, 4] \}, [5, 0, 4]) == {distanceFromPoint({ from: [0, 0, 0], to: [3, 0, 4] }, [5, 0, 4])}</code>&nbsp;
+
+## Intersects circle
+
+Checks if a segment overlaps with a circle.
+
+<code>intersectsCircle(\{ from: [0, 0, 0], to: [2, 0, 2] \}, \{ position: [1, 0, 1], radius: 1 \}) == {toString(intersectsCircle({ from: [0, 0, 0], to: [2, 0, 2] }, { position: [1, 0, 1], radius: 1 }))}</code>&nbsp;
+
+A segment tangent to the circle is considered to be intersecting with it.
+
+<code>intersectsCircle(\{ from: [0, 0, 0], to: [0, 0, 2] \}, \{ position: [1, 0, 1], radius: 1 \}) == {toString(intersectsCircle({ from: [0, 0, 0], to: [0, 0, 2] }, { position: [1, 0, 1], radius: 1 }))}</code>&nbsp;
+
+A segment resting inside of the circle is considered to be intersecting with it.
+
+<code>intersectsCircle(\{ from: [0.5, 0, 0.5], to: [1.5, 0, 1.5] \}, \{ position: [1, 0, 1], radius: 1 \}) == {toString(intersectsCircle({ from: [0.5, 0, 0.5], to: [1.5, 0, 1.5] }, { position: [1, 0, 1], radius: 1 }))}</code>&nbsp;
+
+A segment that does not cross a circle does not intersect with it.
+
+<code>intersectsCircle(\{ from: [0, 0, 0], to: [-2, 0, -2] \}, \{ position: [1, 0, 1], radius: 1 \}) == {toString(intersectsCircle({ from: [0, 0, 0], to: [-2, 0, 2] }, { position: [1, 0, 1], radius: 1 }))}</code>&nbsp;
+
+A segment is different from a line: even if its continuation would cross the circle, the segment itself does not.
+
+<code>intersectsCircle(\{ from: [0, 0, 0], to: [-1, 0, -2] \}, \{ position: [1, 0, 1], radius: 1 \}) == {toString(intersectsCircle({ from: [0, 0, 0], to: [-1, 0, 2] }, { position: [1, 0, 1], radius: 1 }))}</code>&nbsp;

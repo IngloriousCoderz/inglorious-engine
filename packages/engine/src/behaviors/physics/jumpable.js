@@ -1,10 +1,6 @@
 import { findCollision } from "@inglorious/engine/collision/detection.js"
 import { defaults, extend } from "@inglorious/utils/data-structures/objects.js"
-import {
-  angle,
-  magnitude,
-  zero,
-} from "@inglorious/utils/math/linear-algebra/vector.js"
+import { angle, magnitude, zero } from "@inglorious/utils/math/vector.js"
 import { applyGravity } from "@inglorious/utils/physics/gravity.js"
 import { jump } from "@inglorious/utils/physics/jump.js"
 

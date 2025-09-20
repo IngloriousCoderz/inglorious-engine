@@ -3,8 +3,8 @@ import {
   magnitude,
   multiply,
   setMagnitude,
-} from "@inglorious/utils/math/linear-algebra/vector.js"
-import { subtract, sum } from "@inglorious/utils/math/linear-algebra/vectors.js"
+} from "@inglorious/utils/math/vector.js"
+import { subtract, sum } from "@inglorious/utils/math/vectors.js"
 
 const DEFAULT_MAX_SPEED = 0
 

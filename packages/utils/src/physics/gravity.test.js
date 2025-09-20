@@ -1,6 +1,6 @@
 import { expect, test } from "vitest"
 
-import { v } from "../math/linear-algebra/vector.js"
+import { v } from "../v.js"
 import { applyGravity } from "./gravity.js"
 
 test("it should apply gravity based on input parameters", () => {

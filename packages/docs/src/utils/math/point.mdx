@@ -1,0 +1,38 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+
+import { toString } from '@inglorious/utils/data-structures/boolean.js'
+import { intersectsPoint, intersectsCircle, intersectsRectangle } from '@inglorious/utils/math/point.js'
+
+<Meta title="Utils/Math/Point" />
+
+# Point
+
+Intersection functions for a point.
+
+## Intersects Point
+
+Checks if a point is in the same place as another.
+
+<code>intersectsPoint([1.5, 1.5, 0], [1.5, 1.5, 0]) == {toString(intersectsPoint([1.5, 1.5, 0], [1.5, 1.5, 0]))}</code>&nbsp;
+
+<code>intersectsPoint([1.5, 1.5, 0], [2, 1, 0]) == {toString(intersectsPoint([1.5, 1.5, 0], [2, 1, 0]))}</code>&nbsp;
+
+## Intersects Circle
+
+Checks if a point is inside of a circle.
+
+<code>intersectsCircle([1.5, 1.5, 0], \{ position: [1, 1, 0], radius: 1 \}) == {toString(intersectsCircle([1.5, 1.5, 0], { position: [1, 1, 0], radius: 1 }))}</code>&nbsp;
+
+<code>intersectsCircle([2, 1, 0], \{ position: [1, 1, 0], radius: 1 \}) == {toString(intersectsCircle([2, 1, 0], { position: [1, 1, 0], radius: 1 }))}</code>&nbsp;
+
+<code>intersectsCircle([2, 2, 0], \{ position: [1, 1, 0], radius: 1 \}) == {toString(intersectsCircle([2, 2, 0], { position: [1, 1, 0], radius: 1 }))}</code>&nbsp;
+
+## Intersects Rectangle
+
+Checks if a point is inside of a rectangle.
+
+<code>intersectsRectangle([1.5, 1.5, 0], \{ position: [1, 1, 0], size: [2, 2, 0] \}) == {toString(intersectsRectangle([1.5, 1.5, 0], { position: [1, 1, 0], size: [2, 2, 0] }))}</code>&nbsp;
+
+<code>intersectsRectangle([2, 1, 0], \{ position: [1, 1, 0], size: [2, 2, 0] \}) == {toString(intersectsRectangle([2, 1, 0], { position: [1, 1, 0], size: [2, 2, 0] }))}</code>&nbsp;
+
+<code>intersectsRectangle([2.5, 2.5, 0], \{ position: [1, 1, 0], size: [2, 2, 0] \}) == {toString(intersectsRectangle([2.5, 2.5, 0], { position: [1, 1, 0], size: [2, 2, 0] }))}</code>&nbsp;

@@ -1,6 +1,7 @@
 import { expect, test } from "vitest"
 
-import { v, zero } from "../math/linear-algebra/vector.js"
+import { zero } from "../math/vector.js"
+import { v } from "../v.js"
 import { applyFriction } from "./friction.js"
 
 test("it should apply friction to some velocity", () => {

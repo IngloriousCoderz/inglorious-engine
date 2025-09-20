@@ -1,9 +1,6 @@
 import { matchVelocity } from "@inglorious/engine/ai/movement/dynamic/match-velocity.js"
-import {
-  magnitude,
-  setMagnitude,
-} from "@inglorious/utils/math/linear-algebra/vector.js"
-import { subtract } from "@inglorious/utils/math/linear-algebra/vectors.js"
+import { magnitude, setMagnitude } from "@inglorious/utils/math/vector.js"
+import { subtract } from "@inglorious/utils/math/vectors.js"
 
 export const DEFAULT_TARGET_RADIUS = 1
 export const DEFAULT_SLOW_RADIUS = 100

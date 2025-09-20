@@ -101,7 +101,7 @@ Here is a simple example of a player entity that moves based on events.
 
 ```javascript
 import { createStore, createApi } from "@inglorious/store"
-import { add, scale } from "@inglorious/utils/math/linear-algebra/vectors.js"
+import { add, scale } from "@inglorious/utils/math/vectors.js"
 
 // 1. Define the behaviors
 const transform = {

@@ -1,10 +1,10 @@
 /**
- * @typedef {import('../math/linear-algebra/types').Vector3} Vector3
+ * @typedef {import('../math/types.js').Vector3} Vector3
  */
 
 /* eslint-disable no-magic-numbers */
 
-import { zero } from "../math/linear-algebra/vector.js"
+import { zero } from "../math/vector.js"
 
 const DEFAULT_DT = 1 // Default delta time for the applyGravity function.
 const DEFAULT_JUMP = 0 // Default maximum jump height.

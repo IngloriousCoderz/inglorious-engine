@@ -1,5 +1,8 @@
 import { Meta } from '@storybook/addon-docs/blocks'
 
+import { toString } from '@inglorious/utils/math/vector.js'
+import { v } from '@inglorious/utils/v.js'
+
 <Meta title="Utils/Docs" />
 
 # Utilities
@@ -16,17 +19,43 @@ The functions in this section are heavily inspired by the design philosophy of l
 
 We believe this approach leads to more readable, testable, and maintainable code.
 
-## Future Plans
+## Installation & Usage
 
-These utility functions are currently part of the main `@inglorious/engine` package. However, as they grow and mature, we plan to extract them into their own dedicated, scoped NPM packages (e.g., `@inglorious/math`, `@inglorious/utils`).
+All utilities are bundled in the `@inglorious/utils` package. You can install it via npm:
 
-This will make them even easier to reuse across different projects, even those not built with the Inglorious Engine.
+```bash
+npm install @inglorious/utils
+```
+
+Then, you can import the namespaces you need in your project:
+
+```javascript
+import { math, dataStructures } from '@inglorious/utils';
+
+const sum = math.vectors.sum([1, 2], [3, 4]);
+```
+
+Alternatively, you can import individual functions directly. This can be useful for tree-shaking and is often handled automatically by modern IDEs:
+
+```javascript
+import { sum } from '@inglorious/utils/math/vectors';
+
+const result = sum([1, 2], [3, 4]);
+```
 
 ## Available Utilities
 
-Here are some of the utility modules available. Explore them to see what you can use in your own game logic.
+The following namespaces are available. Explore them to see what you can use in your own game logic.
 
 - **[Data Structures](/docs/utils-data-structures-object--docs)**: For specialized data structures like graphs or trees.
 - **[Functions](/docs/utils-functions-functions--docs)**: General-purpose functional programming helpers.
 - **[Math](/docs/utils-math-numbers--docs)**: For vector math, random number generation, and other calculations.
 - **[Physics](/docs/utils-physics-friction--docs)**: For simple physics calculations like collisions.
+
+## v
+
+The `v` function is a special, top-level export for creating vectors. It's a convenient shorthand for `[x, y, z, ...]`.
+
+<code>v(1, 2, 3) == {toString(v(1, 2, 3))}</code>&nbsp;
+
+<code>v() == {toString(v())}</code>&nbsp;

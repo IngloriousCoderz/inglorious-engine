@@ -1,4 +1,4 @@
-import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
+import { zero } from "@inglorious/utils/math/vector.js"
 
 import classes from "./with-absolute-position.module.scss"
 

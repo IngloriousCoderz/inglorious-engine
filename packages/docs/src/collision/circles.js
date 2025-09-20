@@ -2,9 +2,9 @@ import { findCollision } from "@inglorious/engine/collision/detection.js"
 import { bounce } from "@inglorious/engine/physics/bounds.js"
 import { renderCharacter } from "@inglorious/renderer-2d/character.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
-import { v } from "@inglorious/utils/math/linear-algebra/vector.js"
 import { mod } from "@inglorious/utils/math/numbers.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
+import { v } from "@inglorious/utils/v.js"
 
 export default {
   types: {

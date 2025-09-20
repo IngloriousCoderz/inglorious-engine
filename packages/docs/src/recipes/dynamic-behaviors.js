@@ -9,7 +9,7 @@ import { jumpable } from "@inglorious/engine/behaviors/physics/jumpable.js"
 import { findCollision } from "@inglorious/engine/collision/detection.js"
 import { renderRectangle } from "@inglorious/renderer-2d/shapes/rectangle.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
-import { v } from "@inglorious/utils/math/linear-algebra/vector.js"
+import { v } from "@inglorious/utils/v.js"
 
 const BASE_DARIO = [
   { render: renderRectangle },

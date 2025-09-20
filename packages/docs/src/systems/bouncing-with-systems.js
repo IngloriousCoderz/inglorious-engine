@@ -2,7 +2,7 @@ import { Ticker } from "@inglorious/engine/animation/ticker.js"
 import { jumpable } from "@inglorious/engine/behaviors/physics/jumpable.js"
 import { renderCircle } from "@inglorious/renderer-2d/shapes/circle.js"
 import { renderRectangle } from "@inglorious/renderer-2d/shapes/rectangle.js"
-import { v } from "@inglorious/utils/math/linear-algebra/vector.js"
+import { v } from "@inglorious/utils/v.js"
 
 export default {
   systems: [delayedJumpSystem()],

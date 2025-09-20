@@ -1,11 +1,6 @@
-import {
-  clamp,
-  multiply,
-  rotate,
-  zero,
-} from "@inglorious/utils/math/linear-algebra/vector.js"
-import { sum } from "@inglorious/utils/math/linear-algebra/vectors.js"
 import { toRange } from "@inglorious/utils/math/trigonometry.js"
+import { clamp, multiply, rotate, zero } from "@inglorious/utils/math/vector.js"
+import { sum } from "@inglorious/utils/math/vectors.js"
 import { applyFriction } from "@inglorious/utils/physics/friction.js"
 
 const DEFAULT_MAX_ACCELERATION = 0

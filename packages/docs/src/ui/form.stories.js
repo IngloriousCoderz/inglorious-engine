@@ -1,4 +1,4 @@
-import { v } from "@inglorious/utils/math/linear-algebra/vector.js"
+import { v } from "@inglorious/utils/v.js"
 
 import RendererChooser from "../renderer-chooser.jsx"
 

@@ -3,8 +3,9 @@ import { bounce } from "@inglorious/engine/physics/bounds.js"
 import { renderCharacter } from "@inglorious/renderer-2d/character.js"
 import { renderFps } from "@inglorious/renderer-2d/fps.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
-import { v, zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
+import { zero } from "@inglorious/utils/math/vector.js"
+import { v } from "@inglorious/utils/v.js"
 
 export default {
   loop: { type: "fixed", fps: 10 },

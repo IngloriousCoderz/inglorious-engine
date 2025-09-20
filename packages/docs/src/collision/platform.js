@@ -7,7 +7,7 @@ import { clamped } from "@inglorious/engine/behaviors/physics/clamped.js"
 import { jumpable } from "@inglorious/engine/behaviors/physics/jumpable.js"
 import { renderCharacter } from "@inglorious/renderer-2d/character.js"
 import { renderRectangle } from "@inglorious/renderer-2d/shapes/rectangle.js"
-import { v } from "@inglorious/utils/math/linear-algebra/vector.js"
+import { v } from "@inglorious/utils/v.js"
 
 const controls = setupControls()
 

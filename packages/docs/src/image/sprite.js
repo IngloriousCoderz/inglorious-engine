@@ -1,6 +1,6 @@
 import { spriteAnimationSystem } from "@inglorious/engine/systems/sprite-animation.js"
 import { renderSprite } from "@inglorious/renderer-2d/image/sprite.js"
-import { v } from "@inglorious/utils/math/linear-algebra/vector.js"
+import { v } from "@inglorious/utils/v.js"
 
 export default {
   systems: [spriteAnimationSystem()],

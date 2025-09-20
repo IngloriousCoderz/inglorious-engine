@@ -6,9 +6,10 @@ import { clampToBounds, flip } from "@inglorious/engine/physics/bounds.js"
 import { renderCharacter } from "@inglorious/renderer-2d/character.js"
 import { renderMouse } from "@inglorious/renderer-2d/mouse.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
-import { length, v } from "@inglorious/utils/math/linear-algebra/vector.js"
-import { subtract } from "@inglorious/utils/math/linear-algebra/vectors.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
+import { length } from "@inglorious/utils/math/vector.js"
+import { subtract } from "@inglorious/utils/math/vectors.js"
+import { v } from "@inglorious/utils/v.js"
 
 export default {
   types: {

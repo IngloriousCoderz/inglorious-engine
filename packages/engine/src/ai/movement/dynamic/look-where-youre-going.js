@@ -1,9 +1,5 @@
 import { align } from "@inglorious/engine/ai/movement/dynamic/align.js"
-import {
-  angle,
-  magnitude,
-  zero,
-} from "@inglorious/utils/math/linear-algebra/vector.js"
+import { angle, magnitude, zero } from "@inglorious/utils/math/vector.js"
 
 export function lookWhereYoureGoing(entity, dt, options) {
   const velocity = entity.velocity ?? zero()

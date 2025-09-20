@@ -12,11 +12,8 @@ import { renderSprite } from "@inglorious/renderer-2d/image/sprite.js"
 import { renderTilemap } from "@inglorious/renderer-2d/image/tilemap.js"
 import { renderRectangle } from "@inglorious/renderer-2d/shapes/rectangle.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
-import {
-  angle,
-  magnitude,
-  v,
-} from "@inglorious/utils/math/linear-algebra/vector.js"
+import { angle, magnitude } from "@inglorious/utils/math/vector.js"
+import { v } from "@inglorious/utils/v.js"
 
 const X = 0
 const Z = 2

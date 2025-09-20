@@ -4,8 +4,8 @@
  */
 
 import { contains, push, remove, root } from "../data-structures/heap.js"
-import { abs, magnitude } from "../math/linear-algebra/vector.js"
-import { subtract } from "../math/linear-algebra/vectors.js"
+import { abs, magnitude } from "../math/vector.js"
+import { subtract } from "../math/vectors.js"
 
 const NO_COST = 0
 

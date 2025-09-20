@@ -1,7 +1,4 @@
-import {
-  angle,
-  magnitude,
-} from "@inglorious/utils/math/linear-algebra/vector.js"
+import { angle, magnitude } from "@inglorious/utils/math/vector.js"
 import { applyVelocity } from "@inglorious/utils/physics/velocity.js"
 
 const DEFAULT_ORIENTATION = 0

@@ -43,7 +43,7 @@ const result = calculate(10) // 40
 Perform vector operations on plain objects.
 
 ```javascript
-import { add } from "@inglorious/utils/math/linear-algebra/vector"
+import { add } from "@inglorious/utils/math/vector.js"
 
 const position = [10, 20]
 const velocity = [2, -1]

@@ -1,5 +1,5 @@
 import { renderTilemap } from "@inglorious/renderer-2d/image/tilemap.js"
-import { v } from "@inglorious/utils/math/linear-algebra/vector.js"
+import { v } from "@inglorious/utils/v.js"
 
 export default {
   types: {

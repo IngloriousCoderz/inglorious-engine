@@ -1,7 +1,8 @@
 import { expect, test } from "vitest"
 
-import { length, v } from "../math/linear-algebra/vector.js"
-import { subtract } from "../math/linear-algebra/vectors.js"
+import { length } from "../math/vector.js"
+import { subtract } from "../math/vectors.js"
+import { v } from "../v.js"
 import { decide } from "./decision-tree.js"
 
 test("it should make a decision based on a binary decision tree", () => {

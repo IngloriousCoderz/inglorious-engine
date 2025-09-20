@@ -1,6 +1,6 @@
 import { modernMove } from "@inglorious/engine/movement/dynamic/modern.js"
 import { extend, merge } from "@inglorious/utils/data-structures/objects.js"
-import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
+import { zero } from "@inglorious/utils/math/vector.js"
 
 import { createMovementEventHandlers } from "../event-handlers.js"
 
