@@ -3,7 +3,6 @@
  * This is a shorthand for `[x, y, z, ...]`.
  * It also tags the array with a non-enumerable `__isVector__` property for
  * efficient type checking.
- *
  * @param {...number} coords - The coordinates of the vector.
  * @returns {Vector} The created vector.
  */

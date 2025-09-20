@@ -1,0 +1,22 @@
+{
+  "name": "@inglorious/babel-plugin-inglorious-script",
+  "version": "0.1.0",
+  "description": "A Babel plugin for the IngloriousScript language.",
+  "main": "src/index.js",
+  "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test:watch": "vitest",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@babel/helper-module-imports": "^7.24.7"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "vitest": "^2.0.4"
+  }
+}

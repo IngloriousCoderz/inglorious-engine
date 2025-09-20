@@ -7,7 +7,6 @@ import { cross, dot, sum } from "./vectors.js"
 
 /**
  * Combines two quaternions using the Hamilton product.
- *
  * @param {Quaternion} q1 - The first quaternion.
  * @param {Quaternion} q2 - The second quaternion.
  * @returns {Quaternion} - The resulting quaternion after combining q1 and q2.

@@ -12,7 +12,6 @@ const BEFORE_SEGMENT = 0
 /**
  * Calculates the coefficients [a, b, c] of the line equation ax + bz + c = 0
  * for a given segment in 2D space.
- *
  * @param {Segment} segment - The segment defined by its start (`from`) and end (`to`) points.
  * @returns {[number, number, number]} An array [a, b, c] representing the line equation.
  */
@@ -24,7 +23,6 @@ export function coefficients(segment) {
 
 /**
  * Finds the closest point on a segment to a given point in 3D space.
- *
  * @param {Segment} segment - The segment defined by its start (`from`) and end (`to`) points.
  * @param {Point} point - The point in 3D space represented as [x, y, z].
  * @returns {Point} The closest point on the segment to the given point.
@@ -50,7 +48,6 @@ export function closestPoint(segment, point) {
 
 /**
  * Calculates the shortest distance from a point to a segment in 3D space.
- *
  * @param {Segment} segment - The segment defined by its start (`from`) and end (`to`) points.
  * @param {Point} point - The point in 3D space represented as [x, y, z].
  * @returns {number} The shortest distance from the point to the segment.
@@ -62,7 +59,6 @@ export function distanceFromPoint(segment, point) {
 
 /**
  * Determines whether a segment intersects with the perimeter of a circle.
- *
  * @param {Segment} segment - The segment defined by its start (`from`) and end (`to`) points.
  * @param {Circle} circle - The circle defined by its position (center) and radius.
  * @returns {boolean} `true` if the segment intersects the circle's perimeter, otherwise `false`.

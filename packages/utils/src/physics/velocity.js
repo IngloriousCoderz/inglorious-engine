@@ -10,7 +10,6 @@ const DEFAULT_MAX_SPEED = 0 // Default maximum speed for velocity clamping.
 
 /**
  * Applies velocity to a position based on the given parameters and options.
- *
  * @param {Object} params - The parameters for velocity application.
  * @param {number} [params.maxSpeed] - The maximum speed for clamping the velocity. Defaults to 0.
  * @param {Vector3} [params.velocity] - The current velocity vector. Defaults to a zero vector.

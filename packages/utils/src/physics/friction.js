@@ -9,7 +9,6 @@ const NO_FRICTION = 0 // No friction constant.
 
 /**
  * Applies friction to a given velocity vector.
- *
  * @param {Object} params - The parameters for the function.
  * @param {Vector3} params.velocity - The velocity vector. Defaults to a zero vector.
  * @param {number} params.friction - The friction coefficient. Defaults to 0.

@@ -9,7 +9,6 @@ import { hypothenuse } from "./triangle.js"
 
 /**
  * Calculates the shortest distance from a point to a line in 2D space.
- *
  * @param {Line} line - The line represented by the equation ax + bz + c = 0, where `line` is [a, b, c].
  * @param {Point} point - The point in 3D space represented as [x, y, z].
  * @returns {number} The shortest distance from the point to the line.
@@ -24,7 +23,6 @@ export function distanceFromPoint(line, point) {
 // @see https://math.stackexchange.com/questions/275529/check-if-line-intersects-with-circles-perimeter
 /**
  * Determines whether a line intersects with the perimeter of a circle.
- *
  * @param {Line} line - The line represented by the equation ax + bz + c = 0, where `line` is [a, b, c].
  * @param {Circle} circle - The circle defined by its position (center) and radius.
  * @returns {boolean} `true` if the line intersects the circle's perimeter, otherwise `false`.

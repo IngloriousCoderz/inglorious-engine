@@ -21,7 +21,6 @@ export function intersectsPoint(rectangle, point) {
 
 /**
  * Checks if a rectangle intersects with a circle.
- *
  * @param {Rectangle} rectangle - The rectangle to check.
  * @param {Circle} circle - The circle to check.
  * @returns {boolean} True if the rectangle intersects the circle, false otherwise.
@@ -32,7 +31,6 @@ export function intersectsCircle(rectangle, circle) {
 
 /**
  * Determines whether a rectangle intersects another in 3D space.
- *
  * @param {Rectangle} rectangle1 - The first rectangle, defined by its position (x, y, z) and size (width, height, depth).
  * @param {Rectangle} rectangle2 - The second rectangle, defined by its position (x, y, z) and size (width, height, depth).
  * @returns {boolean} True if the two rectangles intersect, false otherwise.

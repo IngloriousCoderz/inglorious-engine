@@ -14,8 +14,8 @@ const HALF_ACCELERATION = 0.5 // Half of the acceleration factor used in positio
  * Applies acceleration to an object using Euler's integration method.
  *
  * Euler's Integration:
- * v += a * dt
- * p += v * dt + 1/2 * a * dt * dt
+ * 1. v += a * dt
+ * 2. p += v * dt + 1/2 * a * dt * dt
  *
  * @param {Object} params - The parameters for the function.
  * @param {number} params.maxAcceleration - The maximum allowed acceleration.

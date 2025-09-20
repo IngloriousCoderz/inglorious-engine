@@ -11,7 +11,6 @@ const DEFAULT_MAX_SPEED = 0 // Default maximum speed.
 /**
  * Calculates the vertical velocity (vy) of a jump
  * based on the provided parameters.
- *
  * @param {Object} params - Parameters for the jump calculation.
  * @param {number} params.maxJump - Maximum jump height. Defaults to 0.
  * @param {number} params.maxLeap - Maximum leap distance. Defaults to 0.

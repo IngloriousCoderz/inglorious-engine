@@ -13,7 +13,6 @@ const Y_AXIS = v(0, 1, 0) // Default axis of rotation (Y-axis).
 
 /**
  * Computes a quaternion representing a rotation around a given axis.
- *
  * @param {number} [angle=0] - The angle of rotation in radians. Defaults to 0.
  * @param {Vector3} [axis=Y_AXIS] - The axis of rotation as a 3D vector Defaults to the Y-axis.
  * @returns {Quaternion} The quaternion as an array [w, x, y, z].
