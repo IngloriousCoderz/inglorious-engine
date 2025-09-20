@@ -1,7 +1,8 @@
 packages:
   - packages/*
+  - inglorious-script
 
 onlyBuiltDependencies:
-  - '@parcel/watcher'
-  - '@tailwindcss/oxide'
+  - "@parcel/watcher"
+  - "@tailwindcss/oxide"
   - esbuild

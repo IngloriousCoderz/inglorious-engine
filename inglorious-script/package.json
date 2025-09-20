@@ -1,0 +1,22 @@
+{
+  "name": "inglorious-script",
+  "version": "0.1.0",
+  "private": true,
+  "description": "An example usage of the IngloriousScript language in action.",
+  "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
+  "license": "MIT",
+  "packageManager": "pnpm@10.15.0",
+  "scripts": {
+    "dev": "pnpm build --watch",
+    "build": "babel src --out-dir dist --extensions \".ijs\" --copy-files"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.24.8",
+    "@babel/core": "^7.25.2",
+    "@inglorious/babel-preset-inglorious-script": "workspace:*",
+    "@inglorious/utils": "workspace:*"
+  },
+  "engines": {
+    "node": ">= 22"
+  }
+}
