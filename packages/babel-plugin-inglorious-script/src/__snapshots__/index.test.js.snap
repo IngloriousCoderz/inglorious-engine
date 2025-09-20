@@ -6,20 +6,20 @@ import { v } from '@inglorious/utils/v.js';
 const v1 = v(1, 2);
 const v2 = v(3, 4);
 const v3 = v(5, 6);
-const result = _sum(_sum2(v1, v2), v3);"
+const result = Array.from(_sum(new Float32Array(Array.from(_sum2(new Float32Array(v1), new Float32Array(v2)))), new Float32Array(v3)));"
 `;
 
 exports[`it should handle direct v() calls 1`] = `
 "import { sum as _sum } from "@inglorious/utils/math/vectors.js";
 import { v } from '@inglorious/utils/v.js';
-const result = _sum(v(1, 2), v(3, 4));"
+const result = Array.from(_sum(new Float32Array(v(1, 2)), new Float32Array(v(3, 4))));"
 `;
 
 exports[`it should handle imported vectors 1`] = `
 "import { sum as _sum } from "@inglorious/utils/math/vectors.js";
 import { v } from '@inglorious/utils/v.js';
 import { initialPosition } from './vectors.js';
-const result = _sum(initialPosition, v(1, 2));"
+const result = Array.from(_sum(new Float32Array(initialPosition), new Float32Array(v(1, 2))));"
 `;
 
 exports[`it should handle mixed addition and scaling 1`] = `
@@ -29,7 +29,7 @@ import { v } from '@inglorious/utils/v.js';
 const v1 = v(1, 2);
 const v2 = v(3, 4);
 const s = 2;
-const result = _sum(v1, _scale(v2, s));"
+const result = Array.from(_sum(new Float32Array(v1), new Float32Array(Array.from(_scale(new Float32Array(v2), s)))));"
 `;
 
 exports[`it should not transform vector * vector multiplication 1`] = `
@@ -44,7 +44,7 @@ exports[`it should trace variable declarations 1`] = `
 import { v } from '@inglorious/utils/v.js';
 const pos = v(1, 2);
 const vel = v(3, 4);
-const newPos = _sum(pos, vel);"
+const newPos = Array.from(_sum(new Float32Array(pos), new Float32Array(vel)));"
 `;
 
 exports[`it should transform scalar * vector multiplication 1`] = `
@@ -52,7 +52,7 @@ exports[`it should transform scalar * vector multiplication 1`] = `
 import { v } from '@inglorious/utils/v.js';
 const v1 = v(1, 2);
 const s = 2;
-const result = _scale(v1, s);"
+const result = Array.from(_scale(new Float32Array(v1), s));"
 `;
 
 exports[`it should transform vector * scalar multiplication 1`] = `
@@ -60,7 +60,7 @@ exports[`it should transform vector * scalar multiplication 1`] = `
 import { v } from '@inglorious/utils/v.js';
 const v1 = v(1, 2);
 const s = 2;
-const result = _scale(v1, s);"
+const result = Array.from(_scale(new Float32Array(v1), s));"
 `;
 
 exports[`it should transform vector + vector addition 1`] = `
@@ -68,5 +68,5 @@ exports[`it should transform vector + vector addition 1`] = `
 import { v } from '@inglorious/utils/v.js';
 const v1 = v(1, 2);
 const v2 = v(3, 4);
-const result = _sum(v1, v2);"
+const result = Array.from(_sum(new Float32Array(v1), new Float32Array(v2)));"
 `;

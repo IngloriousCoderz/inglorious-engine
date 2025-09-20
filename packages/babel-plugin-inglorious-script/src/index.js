@@ -23,15 +23,33 @@ module.exports = function (babel) {
           const functionName = operator === "+" ? "sum" : "subtract"
           const importSource = "@inglorious/utils/math/vectors.js"
 
-          // Import the 'sum' or 'subtract' function.
+          // Import the function
           const funcIdentifier = addNamed(path, functionName, importSource)
 
-          // Replace the expression with a function call.
-          path.replaceWith(t.callExpression(funcIdentifier, [left, right]))
+          // Convert vectors to Float32Array, perform operation, convert back to Array
+          const leftFloat32 = t.newExpression(t.identifier("Float32Array"), [
+            left,
+          ])
+          const rightFloat32 = t.newExpression(t.identifier("Float32Array"), [
+            right,
+          ])
+
+          const operationCall = t.callExpression(funcIdentifier, [
+            leftFloat32,
+            rightFloat32,
+          ])
+
+          // Wrap the result in Array.from()
+          const arrayFromCall = t.callExpression(
+            t.memberExpression(t.identifier("Array"), t.identifier("from")),
+            [operationCall],
+          )
+
+          path.replaceWith(arrayFromCall)
         }
 
         // --- Vector Scaling: v1 * s  or  s * v1 ---
-        if (operator === "*") {
+        else if (operator === "*") {
           let vector, scalar
 
           if (isLeftVector && !isRightVector) {
@@ -45,15 +63,30 @@ module.exports = function (babel) {
             return
           }
 
-          // Import the 'scale' function.
+          // Import the 'scale' function
           const scaleIdentifier = addNamed(
             path,
             "scale",
             "@inglorious/utils/math/vector.js",
           )
 
-          // Replace the `*` expression with a call to `scale(vector, scalar)`.
-          path.replaceWith(t.callExpression(scaleIdentifier, [vector, scalar]))
+          // Convert vector to Float32Array, perform scaling, convert back to Array
+          const vectorFloat32 = t.newExpression(t.identifier("Float32Array"), [
+            vector,
+          ])
+
+          const scaleCall = t.callExpression(scaleIdentifier, [
+            vectorFloat32,
+            scalar,
+          ])
+
+          // Wrap the result in Array.from()
+          const arrayFromCall = t.callExpression(
+            t.memberExpression(t.identifier("Array"), t.identifier("from")),
+            [scaleCall],
+          )
+
+          path.replaceWith(arrayFromCall)
         }
       },
     },
