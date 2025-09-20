@@ -5,6 +5,7 @@ import {
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { clamped } from "@inglorious/engine/behaviors/physics/clamped.js"
 import { renderCharacter } from "@inglorious/renderer-2d/character.js"
+import { v } from "@inglorious/utils/math/linear-algebra/vector.js"
 
 const controls = setupControls()
 
@@ -46,7 +47,7 @@ export default {
       maxAcceleration: 500,
       maxSpeed: 250,
       friction: 250,
-      position: [400, 0, 300],
+      position: v(400, 0, 300),
       collisions: {
         bounds: { shape: "circle", radius: 12 },
       },

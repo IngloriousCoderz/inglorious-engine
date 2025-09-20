@@ -3,7 +3,7 @@ import { bounce } from "@inglorious/engine/physics/bounds.js"
 import { renderCharacter } from "@inglorious/renderer-2d/character.js"
 import { renderFps } from "@inglorious/renderer-2d/fps.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
-import { zero } from "@inglorious/utils/math/linear-algebra/vector.js"
+import { v, zero } from "@inglorious/utils/math/linear-algebra/vector.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
 export default {
@@ -38,7 +38,7 @@ export default {
 
     fps: {
       type: "fps",
-      position: [0, 0, 600],
+      position: v(0, 0, 600),
     },
   },
 }

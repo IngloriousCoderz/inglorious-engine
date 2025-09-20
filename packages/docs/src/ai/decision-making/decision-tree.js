@@ -7,7 +7,7 @@ import { renderSprite } from "@inglorious/renderer-2d/image/sprite.js"
 import { renderMouse } from "@inglorious/renderer-2d/mouse.js"
 import { decide } from "@inglorious/utils/algorithms/decision-tree.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
-import { length } from "@inglorious/utils/math/linear-algebra/vector.js"
+import { length, v } from "@inglorious/utils/math/linear-algebra/vector.js"
 import { subtract } from "@inglorious/utils/math/linear-algebra/vectors.js"
 
 // A reusable decision tree node
@@ -160,24 +160,24 @@ export default {
       type: "cat",
       state: "idle",
       maxSpeed: 250,
-      position: [400, 0, 300],
+      position: v(400, 0, 300),
       sprite: {
         image: {
           id: "neko",
           src: "/sprites/neko.png",
-          imageSize: [192, 192],
-          tileSize: [32, 32],
+          imageSize: v(192, 192),
+          tileSize: v(32, 32),
         },
         scale: 2,
         speed: 0.2,
         frames: {
           idle: [4],
-          aware: [0, 4],
+          aware: v(0, 4),
           leftUp: [0x80000000 + 23, 0x80000000 + 29],
           up: [28, 30, 28, 31],
-          rightUp: [23, 29],
-          right: [16, 22],
-          rightDown: [13, 14],
+          rightUp: v(23, 29),
+          right: v(16, 22),
+          rightDown: v(13, 14),
           down: [1, 2, 1, 7],
           leftDown: [0x80000000 + 13, 0x80000000 + 14],
           left: [0x80000000 + 16, 0x80000000 + 22],

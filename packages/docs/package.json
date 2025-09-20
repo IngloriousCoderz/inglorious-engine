@@ -1,6 +1,6 @@
 {
   "name": "@inglorious/docs",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "private": true,
   "description": "Online documentation for the Inglorious Engine and its ecosystem.",
   "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
@@ -15,6 +15,8 @@
   },
   "type": "module",
   "scripts": {
+    "format": "prettier --write '**/*.{js,jsx}'",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "start": "serve"

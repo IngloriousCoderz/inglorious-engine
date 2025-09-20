@@ -7,6 +7,7 @@ import {
 import { clamped } from "@inglorious/engine/behaviors/physics/clamped.js"
 import { jumpable } from "@inglorious/engine/behaviors/physics/jumpable.js"
 import { renderCharacter } from "@inglorious/renderer-2d/character.js"
+import { v } from "@inglorious/utils/math/linear-algebra/vector.js"
 
 const Y = 1
 
@@ -67,14 +68,14 @@ export default {
 
     stats: {
       type: "stats",
-      position: [600, 0, 600],
+      position: v(600, 0, 600),
       target: "character",
     },
 
     character: {
       type: "character",
       maxSpeed: 250,
-      position: [400, 0, 300],
+      position: v(400, 0, 300),
       maxJump: 100,
       maxLeap: 100,
       maxJumps: 2,

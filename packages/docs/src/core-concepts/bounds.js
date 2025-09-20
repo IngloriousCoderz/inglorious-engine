@@ -1,8 +1,10 @@
+import { v } from "@inglorious/utils/math/linear-algebra/vector.js"
+
 export default {
   entities: {
     game: {
       devMode: true,
-      size: [600, 800],
+      size: v(600, 800),
     },
   },
 }

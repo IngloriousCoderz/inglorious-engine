@@ -1,3 +1,5 @@
+import { v } from "@inglorious/utils/math/linear-algebra/vector.js"
+
 export default {
   types: {
     character: {
@@ -48,7 +50,7 @@ export default {
 
     character: {
       type: "character",
-      position: [400, 0, 300],
+      position: v(400, 0, 300),
     },
   },
 }

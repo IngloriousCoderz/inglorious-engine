@@ -6,6 +6,7 @@ import {
 import { clamped } from "@inglorious/engine/behaviors/physics/clamped.js"
 import { renderCharacter } from "@inglorious/renderer-2d/character.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
+import { v } from "@inglorious/utils/math/linear-algebra/vector.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
 const controls = setupControls()
@@ -22,7 +23,7 @@ export default {
           api.notify("add", {
             id: "player2",
             type: "character",
-            position: [600, 0, 300],
+            position: v(600, 0, 300),
             orientation: pi(),
             movement: {},
             collisions: {

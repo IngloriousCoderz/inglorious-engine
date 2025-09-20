@@ -2,6 +2,7 @@ import { createMouse, mouse } from "@inglorious/engine/behaviors/input/mouse.js"
 import { renderCharacter } from "@inglorious/renderer-2d/character.js"
 import { renderMouse } from "@inglorious/renderer-2d/mouse.js"
 import { filter } from "@inglorious/utils/data-structures/object.js"
+import { v } from "@inglorious/utils/math/linear-algebra/vector.js"
 import { random } from "@inglorious/utils/math/rng.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
@@ -51,7 +52,7 @@ export default {
     },
 
     mouse: createMouse("mouse", {
-      position: [400, 0, 300],
+      position: v(400, 0, 300),
       collisions: {
         hitbox: { shape: "point" },
       },

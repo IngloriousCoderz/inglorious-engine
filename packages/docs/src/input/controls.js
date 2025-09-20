@@ -4,6 +4,7 @@ import {
   setupControls,
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { renderCharacter } from "@inglorious/renderer-2d/character.js"
+import { v } from "@inglorious/utils/math/linear-algebra/vector.js"
 
 const controls = setupControls()
 
@@ -41,7 +42,7 @@ export default {
     character: {
       type: "character",
       maxSpeed: 250,
-      position: [400, 0, 300],
+      position: v(400, 0, 300),
     },
   },
 }

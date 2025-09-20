@@ -5,6 +5,7 @@ import {
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { clamped } from "@inglorious/engine/behaviors/physics/clamped.js"
 import { renderCharacter } from "@inglorious/renderer-2d/character.js"
+import { v } from "@inglorious/utils/math/linear-algebra/vector.js"
 
 const controls = setupControls()
 
@@ -43,7 +44,7 @@ export default {
 
     stats: {
       type: "stats",
-      position: [600, 0, 600],
+      position: v(600, 0, 600),
       target: "character",
     },
 
@@ -51,7 +52,7 @@ export default {
       type: "character",
       maxAcceleration: 500,
       friction: 250,
-      position: [400, 0, 300],
+      position: v(400, 0, 300),
       maxJump: 100,
       maxLeap: 100,
       collisions: {

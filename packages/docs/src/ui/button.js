@@ -1,6 +1,7 @@
 import { createMouse, mouse } from "@inglorious/engine/behaviors/input/mouse.js"
 import { button } from "@inglorious/engine/behaviors/ui/button.js"
 import { renderMouse } from "@inglorious/renderer-2d/mouse.js"
+import { v } from "@inglorious/utils/math/linear-algebra/vector.js"
 
 export default {
   types: {
@@ -9,7 +10,7 @@ export default {
     button: [
       button(),
       {
-        size: [100, 50, 0],
+        size: v(100, 50, 0),
         color: "black",
         backgroundColor: "darkgrey",
       },
@@ -26,7 +27,7 @@ export default {
 
     rect1: {
       type: "button",
-      position: [400, 0, 300],
+      position: v(400, 0, 300),
     },
   },
 }

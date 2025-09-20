@@ -2,6 +2,7 @@ import { Ticker } from "@inglorious/engine/animation/ticker.js"
 import { jumpable } from "@inglorious/engine/behaviors/physics/jumpable.js"
 import { renderCircle } from "@inglorious/renderer-2d/shapes/circle.js"
 import { renderRectangle } from "@inglorious/renderer-2d/shapes/rectangle.js"
+import { v } from "@inglorious/utils/math/linear-algebra/vector.js"
 
 export default {
   systems: [delayedJumpSystem],
@@ -19,8 +20,8 @@ export default {
 
     ball1: {
       type: "ball",
-      position: [200, 32, 0],
-      size: [32, 32, 0],
+      position: v(200, 32, 0),
+      size: v(32, 32, 0),
       backgroundColor: "#393664",
       delayedJump: { delay: 0 },
       collisions: { platform: { shape: "circle", radius: 16 } },
@@ -28,8 +29,8 @@ export default {
 
     ball2: {
       type: "ball",
-      position: [400, 32, 0],
-      size: [32, 32, 0],
+      position: v(400, 32, 0),
+      size: v(32, 32, 0),
       backgroundColor: "#643639",
       delayedJump: { delay: 0.5 },
       collisions: { platform: { shape: "circle", radius: 16 } },
@@ -37,8 +38,8 @@ export default {
 
     ball3: {
       type: "ball",
-      position: [600, 32, 0],
-      size: [32, 32, 0],
+      position: v(600, 32, 0),
+      size: v(32, 32, 0),
       backgroundColor: "#366439",
       delayedJump: { delay: 1 },
       collisions: { platform: { shape: "circle", radius: 16 } },
@@ -46,8 +47,8 @@ export default {
 
     ground: {
       type: "platform",
-      position: [400, 16, 0],
-      size: [800, 32, 0],
+      position: v(400, 16, 0),
+      size: v(800, 32, 0),
       backgroundColor: "#654321",
       collisions: { platform: { shape: "rectangle" } },
     },

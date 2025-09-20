@@ -1,6 +1,6 @@
 import RendererChooser from "../renderer-chooser.jsx"
-import pooling from "./pooling.js"
 import noPooling from "./no-pooling.js"
+import pooling from "./pooling.js"
 
 export default {
   title: "Engine/Pooling",

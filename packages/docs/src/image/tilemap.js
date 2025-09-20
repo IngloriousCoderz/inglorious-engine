@@ -1,4 +1,5 @@
 import { renderTilemap } from "@inglorious/renderer-2d/image/tilemap.js"
+import { v } from "@inglorious/utils/math/linear-algebra/vector.js"
 
 export default {
   types: {
@@ -14,13 +15,13 @@ export default {
 
     dungeon: {
       type: "tilemap",
-      position: [400, 0, 300],
+      position: v(400, 0, 300),
       tilemap: {
         image: {
           id: "dungeon",
           src: "/tilemaps/dungeon.png",
-          imageSize: [160, 160],
-          tileSize: [16, 16],
+          imageSize: v(160, 160),
+          tileSize: v(16, 16),
         },
         columns: 6,
         scale: 3,

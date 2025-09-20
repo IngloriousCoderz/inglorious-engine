@@ -9,6 +9,7 @@ import { renderCamera } from "@inglorious/renderer-2d/camera.js"
 import { renderCharacter } from "@inglorious/renderer-2d/character.js"
 import { renderMouse } from "@inglorious/renderer-2d/mouse.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
+import { v } from "@inglorious/utils/math/linear-algebra/vector.js"
 
 export default {
   types: {
@@ -41,7 +42,7 @@ export default {
       type: "character",
       maxSpeed: 250,
       maxAcceleration: 500,
-      position: [400, 0, 300],
+      position: v(400, 0, 300),
     },
 
     camera: {
@@ -52,12 +53,12 @@ export default {
       maxSpeed: 350, // Should be faster than the player to allow it to catch up
       maxAcceleration: 800, // A higher value makes it feel more responsive
       slowRadius: 120, // Starts slowing down when it's 120 pixels away from the player
-      position: [400, 0, 300],
+      position: v(400, 0, 300),
       zoom: 1.5,
       minZoom: 0.5,
       zoomSpeed: 0.05,
       zoomSensitivity: 5,
-      size: [400, 300], // Camera viewport size
+      size: v(400, 300), // Camera viewport size
       // for dev mode rectangle
       color: "red",
       backgroundColor: "rgba(255, 0, 0, 0.1)",

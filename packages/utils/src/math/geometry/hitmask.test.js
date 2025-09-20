@@ -1,5 +1,6 @@
 import { expect, test } from "vitest"
 
+import { v } from "../linear-algebra/vector"
 import { findCollisions } from "./hitmask"
 
 /**
@@ -17,7 +18,7 @@ import { findCollisions } from "./hitmask"
  */
 test("it should prove that a rectangle touching a wall intersects with it", () => {
   const hitmask = {
-    position: [2, 0, 1.5],
+    position: v(2, 0, 1.5),
     tileSize: [1, 1],
     columns: 4,
     // The top row (indices 0, 1, 2, 3) now has the walls.
@@ -25,8 +26,8 @@ test("it should prove that a rectangle touching a wall intersects with it", () =
   }
   const rectangle = {
     shape: "rectangle",
-    position: [1.5, 0, 2.5],
-    size: [1, 1, 1],
+    position: v(1.5, 0, 2.5),
+    size: v(1, 1, 1),
   }
 
   expect(findCollisions(hitmask, rectangle)).toBe(true)
@@ -57,8 +58,8 @@ test("it should prove that shifting operands does not change the outcome", () =>
   }
   const rectangle = {
     shape: "rectangle",
-    position: [11.5, 0, 12.5],
-    size: [1, 1, 1],
+    position: v(11.5, 0, 12.5),
+    size: v(1, 1, 1),
   }
 
   expect(findCollisions(hitmask, rectangle)).toBe(true)
@@ -79,7 +80,7 @@ test("it should prove that shifting operands does not change the outcome", () =>
  */
 test("it should prove that a rectangle not touching a wall does not intersect with it", () => {
   const hitmask = {
-    position: [2, 0, 1.5],
+    position: v(2, 0, 1.5),
     tileSize: [1, 1],
     columns: 4,
     // The top row (indices 0, 1, 2, 3) now has the walls.
@@ -87,8 +88,8 @@ test("it should prove that a rectangle not touching a wall does not intersect wi
   }
   const rectangle = {
     shape: "rectangle",
-    position: [0.5, 0, 0.5],
-    size: [1, 1, 1],
+    position: v(0.5, 0, 0.5),
+    size: v(1, 1, 1),
   }
 
   expect(findCollisions(hitmask, rectangle)).toBe(false)
@@ -109,7 +110,7 @@ test("it should prove that a rectangle not touching a wall does not intersect wi
  */
 test("it should prove that a rectangle above the tile of a hitmask does not intersect with it", () => {
   const hitmask = {
-    position: [2, 0, 1.5],
+    position: v(2, 0, 1.5),
     tileSize: [1, 1],
     columns: 4,
     // The top row (indices 0, 1, 2, 3) now has the walls.
@@ -117,8 +118,8 @@ test("it should prove that a rectangle above the tile of a hitmask does not inte
   }
   const rectangle = {
     shape: "rectangle",
-    position: [1.5, 1.6, 2.5],
-    size: [1, 1, 1],
+    position: v(1.5, 1.6, 2.5),
+    size: v(1, 1, 1),
   }
 
   expect(findCollisions(hitmask, rectangle)).toBe(false)
@@ -139,7 +140,7 @@ test("it should prove that a rectangle above the tile of a hitmask does not inte
  */
 test("it should prove that a rectangle outside of a hitmask does not intersect with it", () => {
   const hitmask = {
-    position: [2, 0, 1.5],
+    position: v(2, 0, 1.5),
     tileSize: [1, 1],
     columns: 4,
     // The top row (indices 0, 1, 2, 3) now has the walls.
@@ -147,8 +148,8 @@ test("it should prove that a rectangle outside of a hitmask does not intersect w
   }
   const rectangle = {
     shape: "rectangle",
-    position: [5.5, 0.5, 1.5],
-    size: [1, 1, 1],
+    position: v(5.5, 0.5, 1.5),
+    size: v(1, 1, 1),
   }
 
   expect(findCollisions(hitmask, rectangle)).toBe(false)

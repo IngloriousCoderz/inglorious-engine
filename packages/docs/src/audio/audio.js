@@ -8,6 +8,7 @@ import { jumpable } from "@inglorious/engine/behaviors/physics/jumpable.js"
 import { renderCharacter } from "@inglorious/renderer-2d/character.js"
 import { renderRectangle } from "@inglorious/renderer-2d/shapes/rectangle.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
+import { v } from "@inglorious/utils/math/linear-algebra/vector.js"
 
 const controls = setupControls()
 
@@ -75,8 +76,8 @@ export default {
 
     ground: {
       type: "platform",
-      position: [400, 24, 0],
-      size: [800, 48],
+      position: v(400, 24, 0),
+      size: v(800, 48),
       backgroundColor: "green",
       collisions: {
         platform: { shape: "rectangle" },
@@ -86,7 +87,7 @@ export default {
     character: {
       type: "character",
       layer: 1,
-      position: [200, 60, 0],
+      position: v(200, 60, 0),
       collisions: {
         bounds: { shape: "circle", radius: 12 },
         platform: { shape: "circle", radius: 12 },

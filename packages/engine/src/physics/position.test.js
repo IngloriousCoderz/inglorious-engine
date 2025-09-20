@@ -1,3 +1,4 @@
+import { v } from "@inglorious/utils/math/linear-algebra/vector.js"
 import { expect, test } from "vitest"
 
 import { calculateLandingPosition } from "./position.js"
@@ -9,9 +10,9 @@ test("it should calculate the landing position for a point entity on a platform"
     },
   }
   const target = {
-    position: [0, 0, 0],
+    position: v(0, 0, 0),
     collisions: {
-      platform: { size: [20, 10, 0] },
+      platform: { size: v(20, 10, 0) },
     },
   }
   const collisionGroup = "platform"
@@ -28,9 +29,9 @@ test("it should calculate the landing position for a circular entity on a platfo
     },
   }
   const target = {
-    position: [0, 0, 0],
+    position: v(0, 0, 0),
     collisions: {
-      platform: { size: [20, 10, 0] },
+      platform: { size: v(20, 10, 0) },
     },
   }
   const collisionGroup = "platform"
@@ -42,15 +43,15 @@ test("it should calculate the landing position for a circular entity on a platfo
 
 test("it should calculate the landing position for a rectangular entity on a platform", () => {
   const entity = {
-    size: [10, 10, 0],
+    size: v(10, 10, 0),
     collisions: {
       platform: { shape: "rectangle" },
     },
   }
   const target = {
-    position: [0, 0, 0],
+    position: v(0, 0, 0),
     collisions: {
-      platform: { size: [20, 10, 0] },
+      platform: { size: v(20, 10, 0) },
     },
   }
   const collisionGroup = "platform"
@@ -67,9 +68,9 @@ test("it should fallback to a rectangular calculation for an unknown entity shap
     },
   }
   const target = {
-    position: [0, 0, 0],
+    position: v(0, 0, 0),
     collisions: {
-      platform: { size: [20, 10, 0] },
+      platform: { size: v(20, 10, 0) },
     },
   }
   const collisionGroup = "platform"

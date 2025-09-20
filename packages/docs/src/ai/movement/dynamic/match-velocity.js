@@ -9,6 +9,7 @@ import {
 import { clamped } from "@inglorious/engine/behaviors/physics/clamped.js"
 import { renderCharacter } from "@inglorious/renderer-2d/character.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
+import { v } from "@inglorious/utils/math/linear-algebra/vector.js"
 
 const controls = setupControls()
 
@@ -51,7 +52,7 @@ export default {
           const SPEED = entity.maxSpeed
 
           entity.movement ??= {}
-          const target = { velocity: [0, 0, 0] }
+          const target = { velocity: v(0, 0, 0) }
 
           if (entity.movement.left) {
             target.velocity[0] = -SPEED
@@ -102,7 +103,7 @@ export default {
       type: "character",
       maxAcceleration: 1000,
       maxSpeed: 250,
-      position: [400, 0, 300],
+      position: v(400, 0, 300),
       collisions: {
         bounds: { shape: "circle", radius: 12 },
       },
@@ -110,7 +111,7 @@ export default {
 
     parameters: {
       type: "form",
-      position: [800 - 328, 0, 600],
+      position: v(800 - 328, 0, 600),
       groups: {
         matchVelocity: {
           title: "Match Velocity",

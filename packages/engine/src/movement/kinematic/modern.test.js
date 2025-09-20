@@ -1,13 +1,14 @@
+import { v } from "@inglorious/utils/math/linear-algebra/vector.js"
 import { expect, test } from "vitest"
 
 import { modernMove } from "./modern.js"
 
 test("it should move following its velocity", () => {
-  const entity = { maxSpeed: 1, velocity: [1, 0, 0], position: [0, 0, 0] }
+  const entity = { maxSpeed: 1, velocity: v(1, 0, 0), position: v(0, 0, 0) }
   const dt = 1
   const expectedResult = {
-    velocity: [1, 0, 0],
-    position: [1, 0, 0],
+    velocity: v(1, 0, 0),
+    position: v(1, 0, 0),
     orientation: 0,
   }
 
@@ -15,11 +16,11 @@ test("it should move following its velocity", () => {
 })
 
 test("it should limit the velocity to the max speed", () => {
-  const entity = { maxSpeed: 1, velocity: [10, 0, 0], position: [0, 0, 0] }
+  const entity = { maxSpeed: 1, velocity: v(10, 0, 0), position: v(0, 0, 0) }
   const dt = 1
   const expectedResult = {
-    velocity: [1, 0, 0],
-    position: [1, 0, 0],
+    velocity: v(1, 0, 0),
+    position: v(1, 0, 0),
     orientation: 0,
   }
 

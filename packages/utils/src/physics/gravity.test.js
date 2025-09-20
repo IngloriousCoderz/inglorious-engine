@@ -1,5 +1,6 @@
 import { expect, test } from "vitest"
 
+import { v } from "../math/linear-algebra/vector.js"
 import { applyGravity } from "./gravity.js"
 
 test("it should apply gravity based on input parameters", () => {
@@ -8,13 +9,13 @@ test("it should apply gravity based on input parameters", () => {
     maxLeap: 10,
     maxSpeed: 10,
     vy: 10,
-    position: [0, 10, 0],
+    position: v(0, 10, 0),
   }
 
   expect(applyGravity(params)).toStrictEqual({
     ay: -20,
     vy: -10,
-    position: [0, -10, 0],
+    position: v(0, -10, 0),
   })
 })
 
@@ -23,13 +24,13 @@ test("it should compute no gravity when max jump height is not set", () => {
     maxLeap: 10,
     maxSpeed: 10,
     vy: 10,
-    position: [0, 10, 0],
+    position: v(0, 10, 0),
   }
 
   expect(applyGravity(params)).toStrictEqual({
     ay: -0,
     vy: 10,
-    position: [0, 20, 0],
+    position: v(0, 20, 0),
   })
 })
 
@@ -38,13 +39,13 @@ test("it should compute no gravity when max movement speed is not set", () => {
     maxJump: 10,
     maxLeap: 10,
     vy: 10,
-    position: [0, 10, 0],
+    position: v(0, 10, 0),
   }
 
   expect(applyGravity(params)).toStrictEqual({
     ay: -0,
     vy: 10,
-    position: [0, 20, 0],
+    position: v(0, 20, 0),
   })
 })
 
@@ -54,14 +55,14 @@ test("it should apply no gravity when no time has passed", () => {
     maxLeap: 10,
     maxSpeed: 10,
     vy: 10,
-    position: [0, 10, 0],
+    position: v(0, 10, 0),
   }
   const dt = 0
 
   expect(applyGravity(params, dt)).toStrictEqual({
     ay: -20,
     vy: 10,
-    position: [0, 10, 0],
+    position: v(0, 10, 0),
   })
 })
 
@@ -70,7 +71,7 @@ test("it should throw an error when max leap distance is not set", () => {
     maxJump: 10,
     maxSpeed: 10,
     vy: 10,
-    position: [0, 10, 0],
+    position: v(0, 10, 0),
   }
 
   expect(() => applyGravity(params)).toThrow()

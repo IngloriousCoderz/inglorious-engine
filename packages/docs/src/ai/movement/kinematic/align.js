@@ -12,6 +12,7 @@ import { clamped } from "@inglorious/engine/behaviors/physics/clamped.js"
 import { renderCharacter } from "@inglorious/renderer-2d/character.js"
 import { renderMouse } from "@inglorious/renderer-2d/mouse.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
+import { v } from "@inglorious/utils/math/linear-algebra/vector.js"
 import { clamp } from "@inglorious/utils/math/numbers.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
@@ -89,7 +90,7 @@ export default {
 
     mouse: {
       type: "mouse",
-      position: [400, 0, 300],
+      position: v(400, 0, 300),
       orientation: 0,
     },
 
@@ -104,7 +105,7 @@ export default {
     character: {
       type: "character",
       maxAngularSpeed: pi() / 4,
-      position: [400, 0, 300],
+      position: v(400, 0, 300),
       collisions: {
         bounds: { shape: "circle", radius: 12 },
       },
@@ -112,7 +113,7 @@ export default {
 
     parameters: {
       type: "form",
-      position: [800 - 328, 0, 600],
+      position: v(800 - 328, 0, 600),
       groups: {
         align: {
           title: "Kinematic Align",

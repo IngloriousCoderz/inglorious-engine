@@ -5,7 +5,7 @@ import { createStore } from "@inglorious/store/store.js"
 import { augmentType } from "@inglorious/store/types.js"
 import { isArray } from "@inglorious/utils/data-structures/array.js"
 import { extendWith } from "@inglorious/utils/data-structures/objects.js"
-import { isVector } from "@inglorious/utils/math/linear-algebra/vector.js"
+import { isVector, v } from "@inglorious/utils/math/linear-algebra/vector.js"
 
 import { coreEvents } from "./core-events.js"
 import { disconnectDevTools, initDevTools, sendAction } from "./dev-tools.js"
@@ -29,7 +29,7 @@ const DEFAULT_GAME_CONFIG = {
 
   entities: {
     // eslint-disable-next-line no-magic-numbers
-    game: { type: "game", size: [800, 600] },
+    game: { type: "game", size: v(800, 600) },
     audio: { type: "audio", sounds: {} },
   },
 }

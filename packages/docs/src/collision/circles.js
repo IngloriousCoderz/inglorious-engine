@@ -2,6 +2,7 @@ import { findCollision } from "@inglorious/engine/collision/detection.js"
 import { bounce } from "@inglorious/engine/physics/bounds.js"
 import { renderCharacter } from "@inglorious/renderer-2d/character.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
+import { v } from "@inglorious/utils/math/linear-algebra/vector.js"
 import { mod } from "@inglorious/utils/math/numbers.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
@@ -34,21 +35,21 @@ export default {
 
     left: {
       type: "character",
-      position: [200, 0, 300],
+      position: v(200, 0, 300),
       orientation: 0,
       maxSpeed: 250,
       collisions: {
-        hitbox: { shape: "circle", offset: [-6, 0, -6], radius: 12 },
+        hitbox: { shape: "circle", offset: v(-6, 0, -6), radius: 12 },
       },
     },
 
     right: {
       type: "character",
-      position: [600, 0, 300],
+      position: v(600, 0, 300),
       orientation: pi(),
       maxSpeed: 250,
       collisions: {
-        hitbox: { shape: "circle", offset: [-6, 0, -6], radius: 12 },
+        hitbox: { shape: "circle", offset: v(-6, 0, -6), radius: 12 },
       },
     },
   },

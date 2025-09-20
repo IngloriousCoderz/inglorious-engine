@@ -7,6 +7,7 @@ import { createMouse, mouse } from "@inglorious/engine/behaviors/input/mouse.js"
 import { clamped } from "@inglorious/engine/behaviors/physics/clamped.js"
 import { renderCharacter } from "@inglorious/renderer-2d/character.js"
 import { renderMouse } from "@inglorious/renderer-2d/mouse.js"
+import { v } from "@inglorious/utils/math/linear-algebra/vector.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
 const controls = setupControls()
@@ -25,7 +26,7 @@ export default {
       devMode: true,
     },
 
-    mouse: createMouse("mouse", { position: [400, 0, 300] }),
+    mouse: createMouse("mouse", { position: v(400, 0, 300) }),
 
     ...controls.entities,
     ...controlsEntities("input0", ["character"], {
@@ -53,7 +54,7 @@ export default {
       maxAcceleration: 500,
       maxSpeed: 250,
       friction: 250,
-      position: [400, 0, 300],
+      position: v(400, 0, 300),
       collisions: {
         bounds: { shape: "circle", radius: 12 },
       },

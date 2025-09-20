@@ -4,7 +4,7 @@ import { renderFps } from "@inglorious/renderer-2d/fps.js"
 import { renderCircle } from "@inglorious/renderer-2d/shapes/circle.js"
 import { renderText } from "@inglorious/renderer-2d/text.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
-import { scale } from "@inglorious/utils/math/linear-algebra/vector.js"
+import { scale, v } from "@inglorious/utils/math/linear-algebra/vector.js"
 import { add } from "@inglorious/utils/math/linear-algebra/vectors.js"
 import { random } from "@inglorious/utils/math/rng.js"
 
@@ -108,13 +108,13 @@ export default {
 
     fps: {
       type: "fps",
-      position: [0, 0, 600],
+      position: v(0, 0, 600),
       layer: 1,
     },
 
     activeBubbles: {
       type: "activeBubbles",
-      position: [0, 0, 580],
+      position: v(0, 0, 580),
       layer: 1,
     },
   },

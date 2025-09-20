@@ -1,3 +1,5 @@
+import { v } from "@inglorious/utils/math/linear-algebra/vector.js"
+
 import RendererChooser from "../renderer-chooser.jsx"
 
 export default {
@@ -16,7 +18,7 @@ export const Default = {
       entities: {
         login: {
           type: "form",
-          position: [150, 0, 600 - 160],
+          position: v(150, 0, 600 - 160),
           fields: {
             username: {
               label: "Username",

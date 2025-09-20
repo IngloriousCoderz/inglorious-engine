@@ -11,6 +11,7 @@ import {
 import { clamped } from "@inglorious/engine/behaviors/physics/clamped.js"
 import { renderCharacter } from "@inglorious/renderer-2d/character.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
+import { v } from "@inglorious/utils/math/linear-algebra/vector.js"
 import { sum } from "@inglorious/utils/math/linear-algebra/vectors.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 
@@ -59,7 +60,7 @@ export default {
           const parameters = api.getEntity("parameters")
           const { fields } = parameters.groups.lookWhereYoureGoing
 
-          const target = { velocity: [0, 0, 0] }
+          const target = { velocity: v(0, 0, 0) }
 
           if (entity.movement.left) {
             target.velocity[0] = -1
@@ -117,7 +118,7 @@ export default {
       type: "character",
       maxAngularAcceleration: 1000,
       maxAngularSpeed: pi() / 4,
-      position: [400, 0, 300],
+      position: v(400, 0, 300),
       collisions: {
         bounds: { shape: "circle", radius: 12 },
       },
@@ -125,7 +126,7 @@ export default {
 
     parameters: {
       type: "form",
-      position: [800 - 328, 0, 600],
+      position: v(800 - 328, 0, 600),
       groups: {
         lookWhereYoureGoing: {
           title: "Look Where You're Going",

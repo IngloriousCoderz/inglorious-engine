@@ -1,3 +1,5 @@
+import { v } from "@inglorious/utils/math/linear-algebra/vector.js"
+
 const ORIGIN = 0
 const X = 0
 
@@ -67,8 +69,8 @@ export default {
     character: {
       type: "character",
       maxSpeed: 250,
-      position: [400, 0, 300],
-      velocity: [250, 0, 0],
+      position: v(400, 0, 300),
+      velocity: v(250, 0, 0),
       orientation: 0,
     },
   },

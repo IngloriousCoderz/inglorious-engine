@@ -4,11 +4,12 @@
  */
 
 import { cos, sin } from "../trigonometry.js"
+import { v } from "./vector.js"
 
 const DEFAULT_ANGLE = 0
 const HALF = 2 // Constant representing the divisor for halving an angle.
 // eslint-disable-next-line no-magic-numbers
-const Y_AXIS = [0, 1, 0] // Default axis of rotation (Y-axis).
+const Y_AXIS = v(0, 1, 0) // Default axis of rotation (Y-axis).
 
 /**
  * Computes a quaternion representing a rotation around a given axis.

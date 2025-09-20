@@ -1,12 +1,12 @@
 import { expect, test } from "vitest"
 
-import { length } from "../math/linear-algebra/vector.js"
+import { length, v } from "../math/linear-algebra/vector.js"
 import { subtract } from "../math/linear-algebra/vectors.js"
 import { decide } from "./decision-tree.js"
 
 test("it should make a decision based on a binary decision tree", () => {
-  const entity = { state: "sleeping", position: [0, 0, 0] }
-  const target = { position: [10, 0, 0] }
+  const entity = { state: "sleeping", position: v(0, 0, 0) }
+  const target = { position: v(10, 0, 0) }
   const tree = {
     test({ entity }) {
       return entity.state === "idle"
@@ -83,8 +83,8 @@ test("it should make a decision based on a binary decision tree", () => {
 })
 
 test("it should make a decision on a multi-child tree", () => {
-  const entity = { state: "sleeping", position: [0, 0, 0] }
-  const target = { position: [10, 0, 0] }
+  const entity = { state: "sleeping", position: v(0, 0, 0) }
+  const target = { position: v(10, 0, 0) }
   const wakeUp = () => ({
     test({ entity, target }) {
       const distance = length(subtract(target.position, entity.position))

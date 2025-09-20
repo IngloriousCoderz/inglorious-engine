@@ -21,7 +21,7 @@ npm install @inglorious/store
 
 The state management is built on a few simple principles:
 
-1.  **Entities and Properties**: The state is composed of **entities**, which are unique objects. Each entity has a **type** and a set of properties (e.g., `position: [0, 0, 0]`, `health: 100`). Unlike a traditional ECS, properties are not grouped into explicit components.
+1.  **Entities and Properties**: The state is composed of **entities**, which are unique objects. Each entity has a **type** and a set of properties (e.g., `position: v(0, 0, 0)`, `health: 100`). Unlike a traditional ECS, properties are not grouped into explicit components.
 
 2.  **Types and Behaviors**: The logic for how entities and the overall state change is defined in **types** and **systems**.
     - **Types** are arrays of **behaviors**. A behavior is an object that contains event handlers (e.g., `update(entity, dt) { ... }`). Behaviors are composable, allowing you to define a type by combining multiple sets of properties and event handlers.
@@ -133,8 +133,8 @@ const types = {
 const entities = {
   player1: {
     type: "player",
-    position: [0, 0, 0],
-    velocity: [0.0625, 0, 0],
+    position: v(0, 0, 0),
+    velocity: v(0.0625, 0, 0),
   },
 }
 
@@ -154,17 +154,17 @@ store.subscribe(() => {
 })
 
 // 7. Notify the store of an event
-console.log("Initial player position:", selectPlayerPosition()) // => [0, 0, 0]
+console.log("Initial player position:", selectPlayerPosition()) // => v(0, 0, 0)
 
 // Dispatch a custom `move` event with a payload
 api.notify("move", { id: "player1", dx: 5, dz: 5 })
 
 // Events are queued but not yet processed
-console.log("Position after notify:", selectPlayerPosition()) // => [0, 0, 0]
+console.log("Position after notify:", selectPlayerPosition()) // => v(0, 0, 0)
 
 // 8. Run the update loop to process the queue and trigger `update` behaviors
 store.update(16) // Pass delta time
-// Console output from subscriber: "State updated! [6, 0, 5]"
+// Console output from subscriber: "State updated! v(6, 0, 5)"
 
-console.log("Final position:", selectPlayerPosition()) // => [6, 0, 5]
+console.log("Final position:", selectPlayerPosition()) // => v(6, 0, 5)
 ```

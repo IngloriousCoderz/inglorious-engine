@@ -9,6 +9,7 @@ import { clamped } from "@inglorious/engine/behaviors/physics/clamped.js"
 import { renderCharacter } from "@inglorious/renderer-2d/character.js"
 import { renderMouse } from "@inglorious/renderer-2d/mouse.js"
 import { merge } from "@inglorious/utils/data-structures/objects.js"
+import { v } from "@inglorious/utils/math/linear-algebra/vector.js"
 
 export default {
   types: {
@@ -48,13 +49,13 @@ export default {
       devMode: true,
     },
 
-    mouse: createMouse("mouse", { position: [400, 0, 300] }),
+    mouse: createMouse("mouse", { position: v(400, 0, 300) }),
 
     character: {
       type: "character",
       maxAcceleration: 1000,
       maxSpeed: 250,
-      position: [400, 0, 300],
+      position: v(400, 0, 300),
       collisions: {
         bounds: { shape: "circle", radius: 12 },
       },
@@ -62,7 +63,7 @@ export default {
 
     parameters: {
       type: "form",
-      position: [800 - 328, 0, 600],
+      position: v(800 - 328, 0, 600),
       groups: {
         arrive: {
           title: "Dynamic Arrive",

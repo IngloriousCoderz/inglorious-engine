@@ -16,8 +16,8 @@ import { atan2, cos, sin } from "../trigonometry.js"
 import { quaternion } from "./quaternion.js"
 import { cross, sum } from "./vectors.js"
 
-const ZERO_VECTOR = [0, 0, 0] // eslint-disable-line no-magic-numbers
-const UNIT_VECTOR = [1, 0, 0] // eslint-disable-line no-magic-numbers
+const ZERO_VECTOR = v(0, 0, 0) // eslint-disable-line no-magic-numbers
+const UNIT_VECTOR = v(1, 0, 0) // eslint-disable-line no-magic-numbers
 
 const X = 0
 const Y = 1

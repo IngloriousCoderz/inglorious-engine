@@ -15,6 +15,7 @@ import { extend } from "@inglorious/utils/data-structures/objects.js"
 import {
   angle,
   magnitude,
+  v,
 } from "@inglorious/utils/math/linear-algebra/vector.js"
 
 const X = 0
@@ -64,13 +65,13 @@ export default {
 
     dungeon: {
       type: "tilemap",
-      position: [400, 0, 300],
+      position: v(400, 0, 300),
       tilemap: {
         image: {
           id: "dungeon",
           src: "/tilemaps/dungeon.png",
-          imageSize: [160, 160],
-          tileSize: [16, 16],
+          imageSize: v(160, 160),
+          tileSize: v(16, 16),
         },
         columns: 6,
         scale: 3,
@@ -108,7 +109,7 @@ export default {
       collisions: {
         hitbox: {
           shape: "hitmask",
-          tileSize: [48, 48],
+          tileSize: v(48, 48),
           columns: 6,
           heights: [
             // first row
@@ -129,14 +130,14 @@ export default {
     player: {
       type: "player",
       layer: 1,
-      position: [400 - 48, 0, 300 - 48 / 2],
+      position: v(400 - 48, 0, 300 - 48 / 2),
       maxSpeed: 250,
       sprite: {
         image: {
           id: "dungeon_character",
           src: "/sprites/dungeon_character.png",
-          imageSize: [112, 64],
-          tileSize: [16, 16],
+          imageSize: v(112, 64),
+          tileSize: v(16, 16),
         },
         scale: 3,
         speed: 0.2,
@@ -146,7 +147,7 @@ export default {
         },
       },
       collisions: {
-        hitbox: { shape: "rectangle", size: [44, 1, 44] },
+        hitbox: { shape: "rectangle", size: v(44, 1, 44) },
       },
     },
   },
