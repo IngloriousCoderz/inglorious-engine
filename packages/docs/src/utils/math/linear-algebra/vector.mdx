@@ -1,25 +1,31 @@
 import { Meta } from '@storybook/addon-docs/blocks'
 
 import {
-angle,
-clamp,
-conjugate,
-divide,
-fromAngle,
-magnitude,
-mod,
-multiply,
-normalize,
-rotate,
-setAngle,
-setMagnitude,
-shift,
-toCartesian,
-toCylindrical,
-toSpherical,
-toPolar,
-toString,
-unit,
+  abs,
+  angle,
+  clamp,
+  conjugate,
+  divide,
+  from2D,
+  fromAngle,
+  isVector,
+  magnitude,
+  mod,
+  multiply,
+  normalize,
+  rotate,
+  setAngle,
+  setMagnitude,
+  shift,
+  to2D,
+  toCartesian,
+  toCylindrical,
+  toPolar,
+  toSpherical,
+  toString,
+  unit,
+  v,
+  zero,
 } from '@inglorious/utils/math/linear-algebra/vector'
 import { pi, cos, sin } from '@inglorious/utils/math/trigonometry'
 
@@ -28,6 +34,12 @@ import { pi, cos, sin } from '@inglorious/utils/math/trigonometry'
 # Vector
 
 Functions that deal with a single vector.
+
+## Abs
+
+Returns the absolute value of each component in the vector.
+
+<code>abs([-2, 0, 3]) == {toString(abs([-2, 0, 3]))}</code>&nbsp;
 
 ## Angle
 
@@ -61,11 +73,25 @@ Divides any vector by a scalar.
 
 <code>divide([4, 8, 12], 4) == {toString(divide([4, 8, 12], 4))}</code>&nbsp;
 
+## From 2D
+
+Builds a 3D vector from a 2D one.
+
+<code>from2D([3, 4]) == {toString(from2D([3, 4]))}</code>&nbsp;
+
 ## From Angle
 
 Creates a 3D unit vector from a given angle.
 
 <code>fromAngle(pi() / 4) == {toString(fromAngle(pi() / 4))}</code>&nbsp;
+
+## Is Vector
+
+Checks if a value is a vector (an array of numbers). For performance, vectors created with `v()` are tagged and can be identified more quickly.
+
+<code>isVector([1, 2, 3]) == {isVector([1, 2, 3]).toString()}</code>&nbsp;
+
+<code>isVector([1, 'a', 3]) == {isVector([1, 'a', 3]).toString()}</code>&nbsp;
 
 ## Length
 
@@ -139,6 +165,12 @@ Moves coordinates around by a certain index.
 
 Alias of `multiply`.
 
+## To 2D
+
+Builds a 2D vector from a 3D one.
+
+<code>to2D([3, 0, 4]) == {toString(to2D([3, 0, 4]))}</code>&nbsp;
+
 ## To Cartesian
 
 Converts a 2D polar vector into cartesian coordinates.
@@ -178,3 +210,17 @@ Returns a unit 3D vector at a given optional angle.
 <code>unit() == {toString(unit())}</code>&nbsp;
 
 <code>unit(pi() / 2) == {toString(unit(pi() / 2))}</code>&nbsp;
+
+## V
+
+A utility function to create a vector from a list of coordinates. This is a shorthand for `[x, y, z, ...]`. It also tags the array with a non-enumerable `__isVector__` property for efficient type checking.
+
+<code>v(1, 2, 3) == {toString(v(1, 2, 3))}</code>&nbsp;
+
+<code>v() == {toString(v())}</code>&nbsp;
+
+## Zero
+
+Creates a zero vector of 3 dimensions.
+
+<code>zero() == {toString(zero())}</code>&nbsp;

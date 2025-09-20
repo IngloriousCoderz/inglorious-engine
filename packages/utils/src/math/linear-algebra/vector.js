@@ -1,4 +1,5 @@
 /**
+ * @typedef {import('./types').Vector} Vector
  * @typedef {import('./types').Vector2} Vector2
  * @typedef {import('./types').Vector3} Vector3
  */
@@ -12,7 +13,6 @@ import {
   snap as nSnap,
 } from "../numbers.js"
 import { atan2, cos, sin } from "../trigonometry.js"
-import { from2D, to2D } from "./2d.js"
 import { quaternion } from "./quaternion.js"
 import { cross, sum } from "./vectors.js"
 
@@ -30,8 +30,9 @@ const DEFAULT_DECIMALS = 0
 
 /**
  * Returns the absolute value of each component in the vector.
- * @param {Vector3} vector - The input vector.
- * @returns {Vector3} The vector with absolute values.
+ *
+ * @param {Vector} vector - The input vector.
+ * @returns {Vector} The vector with absolute values.
  */
 export function abs(vector) {
   return vector.map(nAbs)
@@ -39,8 +40,9 @@ export function abs(vector) {
 
 /**
  * Calculates the angle of the vector in radians.
- * @param {Vector3} vector - The input vector.
- * @returns {number} The angle in radians.
+ *
+ * @param {Vector} vector - The input vector.
+ * @returns {number} The angle of the vector in the XZ plane (for 3D) or XY plane (for 2D), in radians.
  */
 export function angle(vector) {
   return atan2(vector[vector.length - LAST_COORDINATE], vector[X])
@@ -48,10 +50,11 @@ export function angle(vector) {
 
 /**
  * Clamps the magnitude of the vector between the given min and max values.
- * @param {Vector3} vector - The input vector.
- * @param {number} min - The minimum magnitude.
- * @param {number} max - The maximum magnitude.
- * @returns {Vector3} The clamped vector.
+ *
+ * @param {Vector} vector - The input vector.
+ * @param {number|Vector} min - The minimum magnitude or a vector representing the lower bounds for each component.
+ * @param {number|Vector} max - The maximum magnitude or a vector representing the upper bounds for each component.
+ * @returns {Vector} The clamped vector.
  */
 export function clamp(vector, min, max) {
   const length = magnitude(vector)
@@ -75,18 +78,20 @@ export function clamp(vector, min, max) {
 
 /**
  * Returns the conjugate of the vector.
- * @param {Vector3} vector - The input vector.
- * @returns {Vector3} The conjugated vector.
+ *
+ * @param {Vector} vector - The input vector.
+ * @returns {Vector} The conjugated vector.
  */
 export function conjugate(vector) {
   return vector.map((coordinate, index) => (index ? -coordinate : coordinate))
 }
 
 /**
- * Creates a vector with the given magnitude and angle.
+ * Creates a 3D vector with the given magnitude and angle.
+ *
  * @param {number} magnitude - The magnitude of the vector.
  * @param {number} angle - The angle of the vector in radians.
- * @returns {Vector3} The created vector.
+ * @returns {Vector3} The created 3D vector.
  */
 export function createVector(magnitude, angle) {
   return multiply(fromAngle(angle), magnitude)
@@ -94,16 +99,28 @@ export function createVector(magnitude, angle) {
 
 /**
  * Divides each component of the vector by the given scalar.
- * @param {Vector3} vector - The input vector.
+ *
+ * @param {Vector} vector - The input vector.
  * @param {number} scalar - The scalar value.
- * @returns {Vector3} The resulting vector.
+ * @returns {Vector} The resulting vector.
  */
 export function divide(vector, scalar) {
   return vector.map((coordinate) => coordinate / scalar)
 }
 
 /**
- * Creates a unit vector from the given angle.
+ * Converts a 2D vector [x, z] into a 3D vector [x, 0, z].
+ *
+ * @param {Vector2} vector - A 2D vector represented as [x, z].
+ * @returns {Vector3} A 3D vector represented as [x, 0, z].
+ */
+export function from2D(vector) {
+  const [x, z] = vector
+  return [x, NO_Y, z]
+}
+
+/**
+ * Creates a 3D unit vector from the given angle in the XZ plane.
  * @param {number} angle - The angle in radians.
  * @returns {Vector3} The unit vector.
  */
@@ -111,35 +128,42 @@ export function fromAngle(angle) {
   return rotate(UNIT_VECTOR, angle)
 }
 
-export const length = magnitude
-
 /**
  * Checks if a value is a vector.
+ * A vector is an array of numbers. For performance, vectors created with `v()`
+ * are tagged and can be identified more quickly.
  *
  * @param {*} value - The value to check.
  * @returns {boolean} True if the value is a vector, false otherwise.
  */
 export function isVector(value) {
   return (
-    isArray(value) &&
-    value.every((coordinate) => typeof coordinate === "number")
+    value?.__isVector__ ||
+    (isArray(value) &&
+      value.every((coordinate) => typeof coordinate === "number"))
   )
 }
 
 /**
- * Calculates the magnitude of the vector.
- * @param {Vector3} vector - The input vector.
+ * Calculates the magnitude (length) of the vector.
+ * Alias: `length`.
+ *
+ * @param {Vector} vector - The input vector.
  * @returns {number} The magnitude of the vector.
  */
 export function magnitude(vector) {
   return hypothenuse(...vector)
 }
 
+export const length = magnitude
+
 /**
  * Calculates the modulus of each component in the vector with the given divisor.
- * @param {Vector3} vector - The input vector.
+ * Alias: `remainder`.
+ *
+ * @param {Vector} vector - The input vector.
  * @param {number} divisor - The divisor value.
- * @returns {Vector3} The resulting vector.
+ * @returns {Vector} The resulting vector.
  */
 export function mod(vector, divisor) {
   return vector.map((coordinate) => nMod(coordinate, divisor))
@@ -147,18 +171,25 @@ export function mod(vector, divisor) {
 
 /**
  * Multiplies each component of the vector by the given scalar.
- * @param {Vector3} vector - The input vector.
+ * Aliases: `scale`, `times`.
+ *
+ * @param {Vector} vector - The input vector.
  * @param {number} scalar - The scalar value.
- * @returns {Vector3} The resulting vector.
+ * @returns {Vector} The resulting vector.
  */
 export function multiply(vector, scalar) {
   return vector.map((coordinate) => coordinate * scalar)
 }
 
+export const scale = multiply
+
+export const times = multiply
+
 /**
  * Normalizes the vector to have a magnitude of 1.
- * @param {Vector3} vector - The input vector.
- * @returns {Vector3} The normalized vector.
+ *
+ * @param {Vector} vector - The input vector.
+ * @returns {Vector} The normalized vector.
  */
 export function normalize(vector) {
   const length = magnitude(vector)
@@ -168,10 +199,12 @@ export function normalize(vector) {
 export const remainder = mod
 
 /**
- * Rotates the vector by the given angle.
- * @param {Vector3} vector - The input vector.
+ * Rotates the vector by the given angle. Handles 2D and 3D vectors.
+ * For 3D vectors, rotation is around the Y-axis.
+ *
+ * @param {Vector} vector - The input vector (2D or 3D).
  * @param {number} angle - The angle in radians.
- * @returns {Vector3} The rotated vector.
+ * @returns {Vector} The rotated vector.
  */
 export function rotate(vector, angle) {
   const is2D = vector.length === TWO_COORDINATES
@@ -184,16 +217,9 @@ export function rotate(vector, angle) {
 }
 
 /**
- * Scales the vector by the given scalar. Alias of `multiply`.
- * @param {Vector3} vector - The input vector.
- * @param {number} scalar - The scalar value.
- * @returns {Vector3} The resulting vector.
- */
-export const scale = multiply
-
-/**
- * Sets the angle of the vector while maintaining its magnitude.
- * @param {Vector3} vector - The input vector.
+ * Sets the angle of the vector in the XZ plane while maintaining its magnitude.
+ *
+ * @param {Vector} vector - The input vector.
  * @param {number} angle - The new angle in radians.
  * @returns {Vector3} The vector with the updated angle.
  */
@@ -205,14 +231,17 @@ export function setAngle(vector, angle) {
 
 /**
  * Sets the length of the vector while maintaining its direction. Alias of `setMagnitude`.
+ * Alias: `setLength`.
  */
 export const setLength = setMagnitude
 
 /**
  * Sets the magnitude of the vector while maintaining its direction.
- * @param {Vector3} vector - The input vector.
+ * Alias: `setLength`.
+ *
+ * @param {Vector} vector - The input vector.
  * @param {number} length - The new magnitude.
- * @returns {Vector3} The vector with the updated magnitude.
+ * @returns {Vector} The vector with the updated magnitude.
  */
 export function setMagnitude(vector, length) {
   const normalized = normalize(vector)
@@ -221,9 +250,10 @@ export function setMagnitude(vector, length) {
 
 /**
  * Shifts the components of the vector by the given index.
- * @param {Vector3} vector - The input vector.
+ *
+ * @param {Vector} vector - The input vector.
  * @param {number} index - The index to shift by.
- * @returns {Vector3} The shifted vector.
+ * @returns {Vector} The shifted vector.
  */
 export function shift(vector, index) {
   return [...vector.slice(index), ...vector.slice(X, index)]
@@ -231,18 +261,29 @@ export function shift(vector, index) {
 
 /**
  * Snaps each component of the vector to the nearest multiple of the given precision.
- * @param {Vector3} vector - The input vector.
+ *
+ * @param {Vector} vector - The input vector.
  * @param {number} [precision=DEFAULT_PRECISION] - The precision value.
- * @returns {Vector3} The snapped vector.
+ * @returns {Vector} The snapped vector.
  */
 export function snap(vector, precision = DEFAULT_PRECISION) {
   return vector.map((coordinate) => nSnap(coordinate, -precision, precision))
 }
 
-export const times = multiply
+/**
+ * Converts a 3D vector [x, y, z] into a 2D vector [x, z].
+ *
+ * @param {Vector3} vector - A 3D vector represented as [x, y, z].
+ * @returns {Vector2} A 2D vector represented as [x, z].
+ */
+export function to2D(vector) {
+  const [x, , z] = vector
+  return [x, z]
+}
 
 /**
- * Converts polar coordinates to Cartesian coordinates.
+ * Converts 2D polar coordinates to 2D Cartesian coordinates.
+ *
  * @param {Vector2} vector - The polar coordinates [magnitude, angle].
  * @returns {Vector2} The Cartesian coordinates [x, y].
  */
@@ -251,9 +292,10 @@ export function toCartesian([magnitude, angle]) {
 }
 
 /**
- * Converts a vector to cylindrical coordinates.
- * @param {Vector2} vector - The input vector.
- * @returns {Vector2} The cylindrical coordinates [radius, theta, z].
+ * Converts a 3D cartesian vector to cylindrical coordinates.
+ *
+ * @param {Vector3} vector - The input vector [x, y, z].
+ * @returns {Vector3} The cylindrical coordinates [radius, theta, z].
  */
 export function toCylindrical(vector) {
   const radius = magnitude(vector)
@@ -262,8 +304,9 @@ export function toCylindrical(vector) {
 }
 
 /**
- * Converts a vector to polar coordinates.
- * @param {Vector2} vector - The input vector.
+ * Converts a 2D cartesian vector to 2D polar coordinates.
+ *
+ * @param {Vector2} vector - The input vector [x, y].
  * @returns {Vector2} The polar coordinates [magnitude, angle].
  */
 export function toPolar(vector) {
@@ -272,7 +315,8 @@ export function toPolar(vector) {
 
 /**
  * Converts a vector to a string representation.
- * @param {Vector3} vector - The input vector.
+ *
+ * @param {Vector} vector - The input vector.
  * @param {number} [decimals=DEFAULT_DECIMALS] - The number of decimal places.
  * @returns {string} The string representation of the vector.
  */
@@ -309,8 +353,9 @@ export function toSpherical(vector) {
 }
 
 /**
- * Creates a unit vector with the given angle.
- * @param {number} angle - The angle in radians.
+ * Creates a 3D unit vector in the XZ plane with the given angle.
+ *
+ * @param {number} [angle=0] - The angle in radians.
  * @returns {Vector3} The unit vector.
  */
 export function unit(angle) {
@@ -322,7 +367,27 @@ export function unit(angle) {
 }
 
 /**
- * Creates a zero vector.
+ * A utility function to create a vector from a list of coordinates.
+ * This is a shorthand for `[x, y, z, ...]`.
+ * It also tags the array with a non-enumerable `__isVector__` property for
+ * efficient type checking.
+ *
+ * @param {...number} coords - The coordinates of the vector.
+ * @returns {Vector} The created vector.
+ */
+export function v(...coords) {
+  Object.defineProperty(coords, "__isVector__", {
+    value: true,
+    enumerable: false,
+    configurable: false,
+    writable: false,
+  })
+  return coords
+}
+
+/**
+ * Creates a zero vector of 3 dimensions.
+ *
  * @returns {Vector3} The zero vector.
  */
 export function zero() {
@@ -330,7 +395,8 @@ export function zero() {
 }
 
 /**
- * Rotates the vector using a quaternion.
+ * Rotates a 3D vector around the Y-axis using a quaternion.
+ *
  * @param {Vector3} vector - The input vector.
  * @param {number} angle - The angle in radians.
  * @returns {Vector3} The rotated vector.

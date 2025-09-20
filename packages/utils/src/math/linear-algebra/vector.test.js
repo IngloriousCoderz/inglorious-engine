@@ -9,7 +9,9 @@ import {
   conjugate,
   createVector,
   divide,
+  from2D,
   fromAngle,
+  isVector,
   magnitude,
   mod,
   multiply,
@@ -19,12 +21,15 @@ import {
   setMagnitude,
   shift,
   snap,
+  to2D,
   toCartesian,
   toCylindrical,
   toPolar,
   toSpherical,
   toString,
   unit,
+  v,
+  zero,
 } from "./vector.js"
 
 test("it should compute the absolute value of a vector's coordinates", () => {
@@ -98,6 +103,13 @@ test("it should divide a vector by a scalar", () => {
   expect(divide(vector, scalar)).toStrictEqual(expectedResult)
 })
 
+test("it should build a 3D vector from a 2D one", () => {
+  const vector = [3, 4]
+  const expectedResult = [3, 0, 4]
+
+  expect(from2D(vector)).toStrictEqual(expectedResult)
+})
+
 test("it should create a 3D unit vector from an angle", () => {
   const angle = pi() / 4
   const expectedResult = [0.7071067811865475, -0, 0.7071067811865476] // close to [cos(angle), 0, sin(angle)]
@@ -110,6 +122,20 @@ test("it should compute the magnitude of a vector (aka length)", () => {
   const expectedResult = 5
 
   expect(magnitude(vector)).toBe(expectedResult)
+})
+
+test("it should check if a value is a vector", () => {
+  expect(isVector([1, 2, 3])).toBe(true)
+  expect(isVector([])).toBe(true)
+  expect(isVector(v(1, 2, 3))).toBe(true)
+})
+
+test("it should check if a value is not a vector", () => {
+  expect(isVector([1, "a", 3])).toBe(false)
+  expect(isVector({ x: 1, y: 2 })).toBe(false)
+  expect(isVector(null)).toBe(false)
+  expect(isVector("vector")).toBe(false)
+  expect(isVector(123)).toBe(false)
 })
 
 test("it should apply the mod operator (aka remainder) on a vector", () => {
@@ -213,6 +239,13 @@ test("it should snap a floating vector to a certain precision", () => {
   expect(snap(vector, precision)).toStrictEqual(expectedResult)
 })
 
+test("it should build a 2D vector from a 3D one", () => {
+  const vector = [3, 0, 4]
+  const expectedResult = [3, 4]
+
+  expect(to2D(vector)).toStrictEqual(expectedResult)
+})
+
 test("it should convert a 2D polar vector to cartesian coordinates", () => {
   const vector = [sqrt(2), pi() / 4]
   const expectedResult = [1.0000000000000002, 1]
@@ -262,4 +295,22 @@ test("it should create a unit vector oriented on the X-axis", () => {
 
 test("it should create a unit vector oriented on the Z-axis", () => {
   expect(unit(pi() / 2)).toStrictEqual([6.123233995736766e-17, 0, 1]) // close to [0, 0, 1]
+})
+
+test("it should create a vector from a list of coordinates", () => {
+  expect(v(1, 2, 3)).toStrictEqual([1, 2, 3])
+  expect(v()).toStrictEqual([])
+  expect(v(0, -5.5)).toStrictEqual([0, -5.5])
+})
+
+test("it should create a vector with a __isVector__ property", () => {
+  const vector = v(1, 2, 3)
+  expect(vector).toStrictEqual([1, 2, 3])
+  expect(vector.__isVector__).toBe(true)
+})
+
+test("it should create a 3D zero vector", () => {
+  const expectedResult = [0, 0, 0]
+
+  expect(zero()).toStrictEqual(expectedResult)
 })
