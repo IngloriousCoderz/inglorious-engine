@@ -1,12 +1,26 @@
-const { addNamed } = require("@babel/helper-module-imports")
+import { ensureHelper, injectHelpers } from "./helpers.js"
+import { isVector } from "./static-check.js"
 
-// The main plugin function.
-module.exports = function (babel) {
+const VECTORS_MODULE = "@inglorious/utils/math/vectors.js"
+const VECTOR_MODULE = "@inglorious/utils/math/vector.js"
+
+const UNARY_MINUS = -1
+
+export default function (babel) {
   const { types: t } = babel
 
   return {
     name: "inglorious-script",
     visitor: {
+      Program: {
+        exit(path) {
+          // Only inject helpers if we've used any vector operations
+          if (this.hasVectorOperations) {
+            injectHelpers(babel, path, this.vectorHelpers)
+          }
+        },
+      },
+
       BinaryExpression(path) {
         const { operator, left, right } = path.node
         const scope = path.scope
@@ -14,137 +28,183 @@ module.exports = function (babel) {
         const isLeftVector = isVector(left, scope)
         const isRightVector = isVector(right, scope)
 
-        // --- Vector Addition / Subtraction: v1 + v2 or v1 - v2 ---
-        if (
-          (operator === "+" || operator === "-") &&
-          isLeftVector &&
-          isRightVector
-        ) {
-          const functionName = operator === "+" ? "sum" : "subtract"
-          const importSource = "@inglorious/utils/math/vectors.js"
+        // --- Vector Addition / Subtraction: v1 + v2 or v1 - v2 or mixed operations ---
+        if (operator === "+" || operator === "-") {
+          // Transform any expression that might involve vectors
+          if (isLeftVector || isRightVector) {
+            const helperName =
+              operator === "+" ? "__vectorSum" : "__vectorSubtract"
+            ensureHelper(
+              this,
+              helperName,
+              operator === "+" ? "sum" : "subtract",
+              VECTORS_MODULE,
+            )
 
-          // Import the function
-          const funcIdentifier = addNamed(path, functionName, importSource)
-
-          // Convert vectors to Float32Array, perform operation, convert back to Array
-          const leftFloat32 = t.newExpression(t.identifier("Float32Array"), [
-            left,
-          ])
-          const rightFloat32 = t.newExpression(t.identifier("Float32Array"), [
-            right,
-          ])
-
-          const operationCall = t.callExpression(funcIdentifier, [
-            leftFloat32,
-            rightFloat32,
-          ])
-
-          // Wrap the result in Array.from()
-          const arrayFromCall = t.callExpression(
-            t.memberExpression(t.identifier("Array"), t.identifier("from")),
-            [operationCall],
-          )
-
-          path.replaceWith(arrayFromCall)
-        }
-
-        // --- Vector Scaling: v1 * s  or  s * v1 ---
-        else if (operator === "*") {
-          let vector, scalar
-
-          if (isLeftVector && !isRightVector) {
-            vector = left
-            scalar = right
-          } else if (!isLeftVector && isRightVector) {
-            vector = right
-            scalar = left
-          } else {
-            // Not a vector-scalar multiplication, so we do nothing.
-            return
+            const operationCall = t.callExpression(t.identifier(helperName), [
+              left,
+              right,
+            ])
+            path.replaceWith(operationCall)
           }
-
-          // Import the 'scale' function
-          const scaleIdentifier = addNamed(
-            path,
-            "scale",
-            "@inglorious/utils/math/vector.js",
-          )
-
-          // Convert vector to Float32Array, perform scaling, convert back to Array
-          const vectorFloat32 = t.newExpression(t.identifier("Float32Array"), [
-            vector,
-          ])
-
-          const scaleCall = t.callExpression(scaleIdentifier, [
-            vectorFloat32,
-            scalar,
-          ])
-
-          // Wrap the result in Array.from()
-          const arrayFromCall = t.callExpression(
-            t.memberExpression(t.identifier("Array"), t.identifier("from")),
-            [scaleCall],
-          )
-
-          path.replaceWith(arrayFromCall)
         }
+
+        // --- Vector Scaling: v1 * s  or  s * v1 or potential mixed operations ---
+        else if (operator === "*") {
+          if (isLeftVector && isRightVector) {
+            // ERROR: Both operands are vectors
+            throw path.buildCodeFrameError(
+              "Cannot multiply two vectors. Did you mean dot product (dot(v1, v2)) or cross product (cross(v1, v2))?",
+            )
+          } else if (isLeftVector || isRightVector) {
+            // Handle vector * scalar, scalar * vector, or uncertain mixed cases
+            ensureHelper(this, "__vectorScale", "scale", VECTOR_MODULE)
+            const scaleCall = t.callExpression(t.identifier("__vectorScale"), [
+              left,
+              right,
+            ])
+            path.replaceWith(scaleCall)
+          }
+        }
+
+        // --- Vector Division: v1 / s or potential mixed operations ---
+        else if (operator === "/") {
+          if (isLeftVector || isRightVector) {
+            ensureHelper(this, "__vectorDivide", "divide", VECTOR_MODULE)
+            const divideCall = t.callExpression(
+              t.identifier("__vectorDivide"),
+              [left, right],
+            )
+            path.replaceWith(divideCall)
+          }
+        }
+
+        // --- Vector Modulus: v1 % s or potential mixed operations ---
+        else if (operator === "%") {
+          if (isLeftVector || isRightVector) {
+            ensureHelper(this, "__vectorMod", "mod", VECTOR_MODULE)
+            const modCall = t.callExpression(t.identifier("__vectorMod"), [
+              left,
+              right,
+            ])
+            path.replaceWith(modCall)
+          }
+        }
+
+        // --- Vector Exponentiation: v1 ** s (power operator) ---
+        else if (operator === "**") {
+          if (isLeftVector && isRightVector) {
+            throw path.buildCodeFrameError(
+              "Cannot raise vector to vector power. Use pow(vector, scalar) for component-wise power operations.",
+            )
+          } else if (isLeftVector && !isRightVector) {
+            // This would require a pow function in your vector.js
+            throw path.buildCodeFrameError(
+              "Vector exponentiation not yet supported. Use pow(vector, scalar) function instead.",
+            )
+          } else if (!isLeftVector && isRightVector) {
+            throw path.buildCodeFrameError(
+              "Cannot raise scalar to vector power. This operation is mathematically ambiguous.",
+            )
+          }
+        }
+      },
+
+      // Handle compound assignment operators: v1 += v2, v1 -= v2, v1 *= s, v1 /= s, v1 %= s
+      AssignmentExpression(path) {
+        const { operator, left, right } = path.node
+        const scope = path.scope
+
+        if (!isVector(left, scope)) {
+          return
+        }
+
+        // Vector compound assignment: v1 += v2, v1 -= v2
+        if (operator === "+=" || operator === "-=") {
+          const helperName =
+            operator === "+=" ? "__vectorSum" : "__vectorSubtract"
+          const functionName = operator === "+=" ? "sum" : "subtract"
+          ensureHelper(this, helperName, functionName, VECTORS_MODULE)
+
+          // Transform: v1 += v2  ->  v1 = __vectorSum(v1, v2)
+          // Let wrapper function handle vector vs scalar logic
+          path.replaceWith(
+            t.assignmentExpression(
+              "=",
+              left,
+              t.callExpression(t.identifier(helperName), [left, right]),
+            ),
+          )
+        }
+
+        // Vector scaling assignment: v1 *= s
+        else if (operator === "*=") {
+          ensureHelper(this, "__vectorScale", "scale", VECTOR_MODULE)
+
+          // Transform: v1 *= s  ->  v1 = __vectorScale(v1, s)
+          // Let wrapper function handle vector vs scalar logic
+          path.replaceWith(
+            t.assignmentExpression(
+              "=",
+              left,
+              t.callExpression(t.identifier("__vectorScale"), [left, right]),
+            ),
+          )
+        }
+
+        // Vector division assignment: v1 /= s
+        else if (operator === "/=") {
+          ensureHelper(this, "__vectorDivide", "divide", VECTOR_MODULE)
+
+          // Transform: v1 /= s  ->  v1 = __vectorDivide(v1, s)
+          path.replaceWith(
+            t.assignmentExpression(
+              "=",
+              left,
+              t.callExpression(t.identifier("__vectorDivide"), [left, right]),
+            ),
+          )
+        }
+
+        // Vector modulus assignment: v1 %= s
+        else if (operator === "%=") {
+          ensureHelper(this, "__vectorMod", "mod", VECTOR_MODULE)
+
+          // Transform: v1 %= s  ->  v1 = __vectorMod(v1, s)
+          path.replaceWith(
+            t.assignmentExpression(
+              "=",
+              left,
+              t.callExpression(t.identifier("__vectorMod"), [left, right]),
+            ),
+          )
+        }
+      },
+
+      // Handle unary operators: -v1, +v1
+      UnaryExpression(path) {
+        const { operator, argument } = path.node
+        const scope = path.scope
+
+        if (!isVector(argument, scope)) {
+          return
+        }
+
+        // Unary minus: -v1 -> __vectorScale(v1, -1)
+        if (operator === "-") {
+          ensureHelper(this, "__vectorScale", "scale", VECTOR_MODULE)
+
+          const negateCall = t.callExpression(t.identifier("__vectorScale"), [
+            argument,
+            t.numericLiteral(UNARY_MINUS),
+          ])
+
+          path.replaceWith(negateCall)
+        }
+
+        // Unary plus: +v1 -> v1 (no transformation needed, but could add abs() if desired)
+        // For now, we'll leave +v1 as-is since it's already a no-op
       },
     },
   }
-}
-
-// Helper function to check if a node is a vector.
-// It traces a variable back to its declaration to see if it was created with `v()`.
-function isVector(node, scope) {
-  if (!node) {
-    return false
-  }
-
-  // Case 1: The node is a direct call to v(), e.g., v(1, 2) + v(3, 4)
-  if (node.type === "CallExpression" && node.callee.name === "v") {
-    return true
-  }
-
-  // Case 2: The node is an identifier (a variable).
-  if (node.type === "Identifier") {
-    const binding = scope.getBinding(node.name)
-    if (!binding) {
-      return false
-    }
-
-    const bindingNode = binding.path.node
-
-    // Case 2a: The variable is an import. We can't know its type for sure,
-    // but we can infer it from how it's used in an expression.
-    if (bindingNode.type === "ImportSpecifier") {
-      return true // Assume it could be a vector.
-    }
-
-    // Case 2b: The variable is a local declaration, e.g., `const myVec = v(1, 2)`.
-    // We recursively check its initializer.
-    if (bindingNode.init) {
-      return isVector(bindingNode.init, scope)
-    }
-  }
-
-  // Case 3: The node is a binary expression that results in a vector.
-  // This allows chaining: v1 + v2 + v3
-  if (
-    node.type === "BinaryExpression" &&
-    (node.operator === "+" || node.operator === "-")
-  ) {
-    return isVector(node.left, scope) && isVector(node.right, scope)
-  }
-
-  // Case 4: The node is a multiplication that results in a vector.
-  // This allows chaining: v1 * s + v2
-  // Fixed: More precise logic - multiplication results in vector only if exactly one operand is a vector
-  if (node.type === "BinaryExpression" && node.operator === "*") {
-    const leftIsVector = isVector(node.left, scope)
-    const rightIsVector = isVector(node.right, scope)
-    // Vector multiplication only results in a vector if one operand is vector, one is scalar
-    return (leftIsVector && !rightIsVector) || (!leftIsVector && rightIsVector)
-  }
-
-  return false
 }
