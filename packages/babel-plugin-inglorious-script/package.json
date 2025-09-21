@@ -1,11 +1,32 @@
 {
   "name": "@inglorious/babel-plugin-inglorious-script",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "description": "A Babel plugin for the IngloriousScript language.",
-  "main": "src/index.js",
   "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
   "license": "MIT",
+  "main": "src/index.js",
   "type": "module",
+  "homepage": "https://github.com/IngloriousCoderz/inglorious-engine/tree/main/packages/babel-plugin-inglorious-script#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IngloriousCoderz/inglorious-engine.git",
+    "directory": "packages/babel-plugin-inglorious-script"
+  },
+  "bugs": {
+    "url": "https://github.com/IngloriousCoderz/inglorious-engine/issues"
+  },
+  "keywords": [
+    "babel",
+    "babel-plugin",
+    "inglorious",
+    "inglorious-script",
+    "inglorious-engine",
+    "vector",
+    "math",
+    "gamedev",
+    "dsl",
+    "operator-overloading"
+  ],
   "publishConfig": {
     "access": "public"
   },
@@ -21,5 +42,8 @@
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "vitest": "^2.0.4"
+  },
+  "engines": {
+    "node": ">= 22"
   }
 }

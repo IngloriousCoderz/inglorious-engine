@@ -1,10 +1,30 @@
 {
   "name": "@inglorious/babel-preset-inglorious-script",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Babel preset for the IngloriousScript language.",
-  "main": "src/index.js",
   "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
   "license": "MIT",
+  "main": "src/index.js",
+  "homepage": "https://github.com/IngloriousCoderz/inglorious-engine/tree/main/packages/babel-preset-inglorious-script#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IngloriousCoderz/inglorious-engine.git",
+    "directory": "packages/babel-preset-inglorious-script"
+  },
+  "bugs": {
+    "url": "https://github.com/IngloriousCoderz/inglorious-engine/issues"
+  },
+  "keywords": [
+    "babel",
+    "babel-preset",
+    "inglorious",
+    "inglorious-script",
+    "inglorious-engine",
+    "vector",
+    "math",
+    "gamedev",
+    "dsl"
+  ],
   "publishConfig": {
     "access": "public"
   },

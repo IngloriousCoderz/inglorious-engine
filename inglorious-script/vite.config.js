@@ -8,7 +8,7 @@ export default defineConfig({
       filter: /\.(js|jsx|ts|tsx|ijs)$/,
 
       babelConfig: {
-        presets: ["@inglorious/babel-preset-inglorious-script"],
+        presets: ["@inglorious/inglorious-script"],
       },
     }),
   ],
