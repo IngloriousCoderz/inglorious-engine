@@ -18,5 +18,5 @@ const Y_AXIS = v(0, 1, 0) // Default axis of rotation (Y-axis).
  * @returns {Quaternion} The quaternion as an array [w, x, y, z].
  */
 export function quaternion(angle = DEFAULT_ANGLE, axis = Y_AXIS) {
-  return [cos(angle / HALF), ...axis.map((coord) => coord * sin(angle / HALF))]
+  return v(cos(angle / HALF), ...axis.map((coord) => coord * sin(angle / HALF)))
 }

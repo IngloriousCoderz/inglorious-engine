@@ -35,7 +35,7 @@ const DEFAULT_DECIMALS = 0
  * @returns {Vector} The vector with absolute values.
  */
 export function abs(vector) {
-  return vector.map(nAbs)
+  return v(...vector.map(nAbs))
 }
 
 /**
@@ -66,8 +66,10 @@ export function clamp(vector, min, max) {
   }
 
   if (typeof min !== "number" && typeof max !== "number") {
-    return vector.map((coordinate, index) =>
-      nClamp(coordinate, min[index], max[index]),
+    return v(
+      ...vector.map((coordinate, index) =>
+        nClamp(coordinate, min[index], max[index]),
+      ),
     )
   }
 
@@ -80,7 +82,9 @@ export function clamp(vector, min, max) {
  * @returns {Vector} The conjugated vector.
  */
 export function conjugate(vector) {
-  return vector.map((coordinate, index) => (index ? -coordinate : coordinate))
+  return v(
+    ...vector.map((coordinate, index) => (index ? -coordinate : coordinate)),
+  )
 }
 
 /**
@@ -100,7 +104,7 @@ export function createVector(magnitude, angle) {
  * @returns {Vector} The resulting vector.
  */
 export function divide(vector, scalar) {
-  return vector.map((coordinate) => coordinate / scalar)
+  return v(...vector.map((coordinate) => coordinate / scalar))
 }
 
 /**
@@ -110,7 +114,7 @@ export function divide(vector, scalar) {
  */
 export function from2D(vector) {
   const [x, z] = vector
-  return [x, NO_Y, z]
+  return v(x, NO_Y, z)
 }
 
 /**
@@ -155,7 +159,7 @@ export const length = magnitude
  * @returns {Vector} The resulting vector.
  */
 export function mod(vector, divisor) {
-  return vector.map((coordinate) => nMod(coordinate, divisor))
+  return v(...vector.map((coordinate) => nMod(coordinate, divisor)))
 }
 
 /**
@@ -165,7 +169,23 @@ export function mod(vector, divisor) {
  * @returns {Vector} The resulting vector.
  */
 export function multiply(vector, scalar) {
-  return vector.map((coordinate) => coordinate * scalar)
+  return v(...vector.map((coordinate) => coordinate * scalar))
+}
+
+/**
+ * Alias for the power function.
+ * @type {typeof power}
+ */
+export const pow = power
+
+/**
+ * Raises each component of the vector to the given exponent.
+ * @param {Vector} vector - The input vector.
+ * @param {number} exponent - The exponent value.
+ * @returns {Vector} The resulting vector.
+ */
+export function power(vector, exponent) {
+  return v(...vector.map((coordinate) => coordinate ** exponent))
 }
 
 /**
@@ -187,7 +207,7 @@ export const times = multiply
  */
 export function normalize(vector) {
   const length = magnitude(vector)
-  return vector.map((coordinate) => coordinate / length)
+  return v(...vector.map((coordinate) => coordinate / length))
 }
 
 /**
@@ -222,7 +242,7 @@ export function rotate(vector, angle) {
 export function setAngle(vector, angle) {
   const length = magnitude(vector)
   const [x, z] = toCartesian([length, angle])
-  return [x, NO_Y, z]
+  return v(x, NO_Y, z)
 }
 
 /**
@@ -249,7 +269,7 @@ export function setMagnitude(vector, length) {
  * @returns {Vector} The shifted vector.
  */
 export function shift(vector, index) {
-  return [...vector.slice(index), ...vector.slice(X, index)]
+  return v(...vector.slice(index), ...vector.slice(X, index))
 }
 
 /**
@@ -259,7 +279,9 @@ export function shift(vector, index) {
  * @returns {Vector} The snapped vector.
  */
 export function snap(vector, precision = DEFAULT_PRECISION) {
-  return vector.map((coordinate) => nSnap(coordinate, -precision, precision))
+  return v(
+    ...vector.map((coordinate) => nSnap(coordinate, -precision, precision)),
+  )
 }
 
 /**
@@ -269,7 +291,7 @@ export function snap(vector, precision = DEFAULT_PRECISION) {
  */
 export function to2D(vector) {
   const [x, , z] = vector
-  return [x, z]
+  return v(x, z)
 }
 
 /**
@@ -278,7 +300,7 @@ export function to2D(vector) {
  * @returns {Vector2} The Cartesian coordinates [x, y].
  */
 export function toCartesian([magnitude, angle]) {
-  return [magnitude * cos(angle), magnitude * sin(angle)]
+  return v(magnitude * cos(angle), magnitude * sin(angle))
 }
 
 /**
@@ -289,7 +311,7 @@ export function toCartesian([magnitude, angle]) {
 export function toCylindrical(vector) {
   const radius = magnitude(vector)
   const theta = angle(vector)
-  return [radius * cos(theta), radius * sin(theta), vector[Z]]
+  return v(radius * cos(theta), radius * sin(theta), vector[Z])
 }
 
 /**
@@ -298,7 +320,7 @@ export function toCylindrical(vector) {
  * @returns {Vector2} The polar coordinates [magnitude, angle].
  */
 export function toPolar(vector) {
-  return [magnitude(vector), angle(vector)]
+  return v(magnitude(vector), angle(vector))
 }
 
 /**
@@ -333,7 +355,7 @@ export function toSpherical(vector) {
   // Azimuth is the angle in the XZ plane, which `angle()` calculates.
   const azimuth = angle(vector)
 
-  return [r, inclination, azimuth]
+  return v(r, inclination, azimuth)
 }
 
 /**
@@ -343,7 +365,7 @@ export function toSpherical(vector) {
  */
 export function unit(angle) {
   if (!angle) {
-    return [...UNIT_VECTOR]
+    return v(...UNIT_VECTOR)
   }
 
   return setAngle(UNIT_VECTOR, angle)
@@ -354,7 +376,7 @@ export function unit(angle) {
  * @returns {Vector3} The zero vector.
  */
 export function zero() {
-  return [...ZERO_VECTOR]
+  return v(...ZERO_VECTOR)
 }
 
 /**

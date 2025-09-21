@@ -4,6 +4,7 @@
  * @typedef {import('./types').Vector7} Vector7
  */
 
+import { v } from "../v.js"
 import { magnitude, shift } from "./vector.js"
 
 /**
@@ -18,7 +19,7 @@ export const add = sum
  * @returns {Vector3 | Vector7} The resulting vector after the cross product.
  */
 export function cross(...vectors) {
-  return vectors.reduce(crossMultiplyCoordinates)
+  return v(...vectors.reduce(crossMultiplyCoordinates))
 }
 
 /**
@@ -53,7 +54,7 @@ export const scalarProduct = dot
  * @returns {Vector2 | Vector3} The resulting vector after subtraction.
  */
 export function subtract(...vectors) {
-  return vectors.reduce(subtractCoordinates)
+  return v(...vectors.reduce(subtractCoordinates))
 }
 
 /**
@@ -62,7 +63,7 @@ export function subtract(...vectors) {
  * @returns {Vector2 | Vector3} The resulting vector after summation.
  */
 export function sum(...vectors) {
-  return vectors.reduce(sumCoordinates)
+  return v(...vectors.reduce(sumCoordinates))
 }
 
 /**
@@ -78,7 +79,7 @@ export const vectorProduct = cross
  * @returns {Vector2 | Vector3} The resulting vector after addition.
  */
 function sumCoordinates(vector1, vector2) {
-  return vector1.map((coordinate, index) => coordinate + vector2[index])
+  return v(...vector1.map((coordinate, index) => coordinate + vector2[index]))
 }
 
 /**
@@ -88,7 +89,7 @@ function sumCoordinates(vector1, vector2) {
  * @returns {Vector2 | Vector3} The resulting vector after subtraction.
  */
 function subtractCoordinates(vector1, vector2) {
-  return vector1.map((coordinate, index) => coordinate - vector2[index])
+  return v(...vector1.map((coordinate, index) => coordinate - vector2[index]))
 }
 
 /**
@@ -102,13 +103,17 @@ function crossMultiplyCoordinates(vector1, vector2) {
     .fill(null)
     .map((_, index) => index)
 
-  return indexes.map((_, index) => {
-    const [index1, index2] = shift(
-      indexes.filter((_, i) => i !== index),
-      index,
-    )
-    return vector1[index1] * vector2[index2] - vector1[index2] * vector2[index1]
-  })
+  return v(
+    ...indexes.map((_, index) => {
+      const [index1, index2] = shift(
+        indexes.filter((_, i) => i !== index),
+        index,
+      )
+      return (
+        vector1[index1] * vector2[index2] - vector1[index2] * vector2[index1]
+      )
+    }),
+  )
 }
 
 /**
@@ -118,5 +123,5 @@ function crossMultiplyCoordinates(vector1, vector2) {
  * @returns {Vector2 | Vector3} The resulting vector containing multiplied coordinates.
  */
 function dotMultiplyCoordinates(vector1, vector2) {
-  return vector1.map((coordinate, index) => coordinate * vector2[index])
+  return v(...vector1.map((coordinate, index) => coordinate * vector2[index]))
 }

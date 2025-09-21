@@ -2,6 +2,7 @@
  * @typedef {import('./types').Quaternion} Quaternion
  */
 
+import { v } from "../v.js"
 import { times } from "./vector.js"
 import { cross, dot, sum } from "./vectors.js"
 
@@ -12,8 +13,11 @@ import { cross, dot, sum } from "./vectors.js"
  * @returns {Quaternion} - The resulting quaternion after combining q1 and q2.
  */
 export function combine(q1, q2) {
-  const [s, ...v] = q1
-  const [t, ...w] = q2
+  const [s1, ...v1] = q1
+  const [s2, ...v2] = q2
 
-  return [s * t - dot(v, w), ...sum(times(w, s), times(v, t), cross(v, w))]
+  return v(
+    s1 * s2 - dot(v1, v2),
+    ...sum(times(v2, s1), times(v1, s2), cross(v1, v2)),
+  )
 }

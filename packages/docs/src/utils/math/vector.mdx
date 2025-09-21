@@ -13,6 +13,7 @@ import {
   mod,
   multiply,
   normalize,
+  power,
   rotate,
   setAngle,
   setMagnitude,
@@ -121,6 +122,12 @@ Gives the vector unit length while maintaining its angle.
 <code>normalize([3, 4]) == {toString(normalize([3, 4]), 1)}</code>&nbsp;
 
 <code>normalize([-3, -4]) == {toString(normalize([-3, -4]), 1)}</code>&nbsp;
+
+## Power
+
+Raises each component of the vector to the given exponent.
+
+<code>power([1, 2, 3], 2) == {toString(power([1, 2, 3], 2), 0)}</code>&nbsp;
 
 ## Remainder
 
