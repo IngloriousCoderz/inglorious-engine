@@ -36,49 +36,38 @@ export function isVector(node, scope) {
     }
   }
 
-  // Case 2c: Member expressions (obj.prop, obj['prop'])
+  // Case 3: Member expressions (obj.prop, obj['prop'])
   // We assume that if we can't determine the type, it might be a vector
   if (node.type === "MemberExpression") {
     return true // Conservative assumption - treat as potential vector, let runtime handle it
   }
 
-  // Case 3: The node is a binary expression that results in a vector.
-  // This allows chaining: v1 + v2 + v3
-  if (
-    node.type === "BinaryExpression" &&
-    (node.operator === "+" || node.operator === "-")
-  ) {
-    return isVector(node.left, scope) && isVector(node.right, scope)
+  // Case 4: The node is a binary expression. We check the rules for each operator
+  // to see if the result would be a vector. This allows for chaining operations.
+  if (node.type === "BinaryExpression") {
+    const { operator, left, right } = node
+    const leftIsVector = isVector(left, scope)
+    const rightIsVector = isVector(right, scope)
+
+    // vec + vec -> vec, vec - vec -> vec
+    if (operator === "+" || operator === "-") {
+      return leftIsVector && rightIsVector
+    }
+
+    // vec * scalar -> vec, scalar * vec -> vec
+    if (operator === "*") {
+      return (
+        (leftIsVector && !rightIsVector) || (!leftIsVector && rightIsVector)
+      )
+    }
+
+    // vec / scalar -> vec, vec % scalar -> vec, vec ** scalar -> vec
+    if (["/", "%", "**"].includes(operator)) {
+      return leftIsVector && !rightIsVector
+    }
   }
 
-  // Case 4: The node is a multiplication that results in a vector.
-  // This allows chaining: v1 * s + v2
-  if (node.type === "BinaryExpression" && node.operator === "*") {
-    const leftIsVector = isVector(node.left, scope)
-    const rightIsVector = isVector(node.right, scope)
-    // Vector multiplication only results in a vector if one operand is vector, one is scalar
-    return (leftIsVector && !rightIsVector) || (!leftIsVector && rightIsVector)
-  }
-
-  // Case 5: The node is a division that results in a vector.
-  // This allows chaining: v1 / s + v2
-  if (node.type === "BinaryExpression" && node.operator === "/") {
-    return isVector(node.left, scope) && !isVector(node.right, scope)
-  }
-
-  // Case 6: The node is a modulus that results in a vector.
-  // This allows chaining: v1 % s + v2
-  if (node.type === "BinaryExpression" && node.operator === "%") {
-    return isVector(node.left, scope) && !isVector(node.right, scope)
-  }
-
-  // Case 7: The node is a power that results in a vector.
-  // This allows chaining: v1 ** s + v2
-  if (node.type === "BinaryExpression" && node.operator === "**") {
-    return isVector(node.left, scope) && !isVector(node.right, scope)
-  }
-
-  // Case 8: The node is a unary expression that results in a vector.
+  // Case 5: The node is a unary expression that results in a vector.
   // This allows chaining: -v1 + v2
   if (node.type === "UnaryExpression" && node.operator === "-") {
     return isVector(node.argument, scope)

@@ -1,8 +1,8 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`it should handle array element assignment 1`] = `
-"import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
-import { sum as _sum } from "@inglorious/utils/math/vectors.js";
+"import { sum as _sum } from "@inglorious/utils/math/vectors.js";
+import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
 function __vectorSum(a, b) {
   if (a && _isVector(a) && b && _isVector(b)) return _sum(a, b);
   return a + b;
@@ -14,8 +14,8 @@ positions[0] = __vectorSum(positions[0], velocity);"
 `;
 
 exports[`it should handle assignment to object properties 1`] = `
-"import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
-import { sum as _sum } from "@inglorious/utils/math/vectors.js";
+"import { sum as _sum } from "@inglorious/utils/math/vectors.js";
+import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
 function __vectorSum(a, b) {
   if (a && _isVector(a) && b && _isVector(b)) return _sum(a, b);
   return a + b;
@@ -29,8 +29,8 @@ obj.pos = __vectorSum(obj.pos, velocity);"
 `;
 
 exports[`it should handle chained additions 1`] = `
-"import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
-import { sum as _sum } from "@inglorious/utils/math/vectors.js";
+"import { sum as _sum } from "@inglorious/utils/math/vectors.js";
+import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
 function __vectorSum(a, b) {
   if (a && _isVector(a) && b && _isVector(b)) return _sum(a, b);
   return a + b;
@@ -43,14 +43,15 @@ const result = __vectorSum(__vectorSum(v1, v2), v3);"
 `;
 
 exports[`it should handle chaining with division 1`] = `
-"import { isVector as _isVector, divide as _divide, isVector as _isVector2 } from "@inglorious/utils/math/vector.js";
+"import { divide as _divide } from "@inglorious/utils/math/vector.js";
 import { sum as _sum } from "@inglorious/utils/math/vectors.js";
+import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
 function __vectorSum(a, b) {
   if (a && _isVector(a) && b && _isVector(b)) return _sum(a, b);
   return a + b;
 }
 function __vectorDivide(a, b) {
-  if (a && _isVector2(a) && typeof b === "number") return _divide(a, b);
+  if (a && _isVector(a) && typeof b === "number") return _divide(a, b);
   return a / b;
 }
 import { v } from '@inglorious/utils/v.js';
@@ -60,14 +61,15 @@ const result = __vectorSum(__vectorDivide(v1, 2), v2);"
 `;
 
 exports[`it should handle chaining with modulus 1`] = `
-"import { isVector as _isVector, mod as _mod, isVector as _isVector2 } from "@inglorious/utils/math/vector.js";
+"import { mod as _mod } from "@inglorious/utils/math/vector.js";
 import { sum as _sum } from "@inglorious/utils/math/vectors.js";
+import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
 function __vectorSum(a, b) {
   if (a && _isVector(a) && b && _isVector(b)) return _sum(a, b);
   return a + b;
 }
 function __vectorMod(a, b) {
-  if (a && _isVector2(a) && typeof b === "number") return _mod(a, b);
+  if (a && _isVector(a) && typeof b === "number") return _mod(a, b);
   return a % b;
 }
 import { v } from '@inglorious/utils/v.js';
@@ -77,15 +79,16 @@ const result = __vectorSum(__vectorMod(v1, 10), v2);"
 `;
 
 exports[`it should handle chaining with unary minus 1`] = `
-"import { isVector as _isVector, scale as _scale, isVector as _isVector2 } from "@inglorious/utils/math/vector.js";
+"import { scale as _scale } from "@inglorious/utils/math/vector.js";
 import { sum as _sum } from "@inglorious/utils/math/vectors.js";
+import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
 function __vectorSum(a, b) {
   if (a && _isVector(a) && b && _isVector(b)) return _sum(a, b);
   return a + b;
 }
 function __vectorScale(a, b) {
-  if (a && _isVector2(a) && typeof b === "number") return _scale(a, b);
-  if (typeof a === "number" && b && _isVector2(b)) return _scale(b, a);
+  if (a && _isVector(a) && typeof b === "number") return _scale(a, b);
+  if (typeof a === "number" && b && _isVector(b)) return _scale(b, a);
   return a * b;
 }
 import { v } from '@inglorious/utils/v.js';
@@ -95,20 +98,20 @@ const result = __vectorSum(__vectorScale(v1, -1), v2);"
 `;
 
 exports[`it should handle complex mixed operations 1`] = `
-"import { isVector as _isVector2, scale as _scale, isVector as _isVector3 } from "@inglorious/utils/math/vector.js";
+"import { scale as _scale } from "@inglorious/utils/math/vector.js";
 import { sum as _sum } from "@inglorious/utils/math/vectors.js";
-import { mod as _mod, isVector as _isVector } from "@inglorious/utils/math/vector.js";
+import { isVector as _isVector, mod as _mod } from "@inglorious/utils/math/vector.js";
 function __vectorMod(a, b) {
   if (a && _isVector(a) && typeof b === "number") return _mod(a, b);
   return a % b;
 }
 function __vectorSum(a, b) {
-  if (a && _isVector2(a) && b && _isVector2(b)) return _sum(a, b);
+  if (a && _isVector(a) && b && _isVector(b)) return _sum(a, b);
   return a + b;
 }
 function __vectorScale(a, b) {
-  if (a && _isVector3(a) && typeof b === "number") return _scale(a, b);
-  if (typeof a === "number" && b && _isVector3(b)) return _scale(b, a);
+  if (a && _isVector(a) && typeof b === "number") return _scale(a, b);
+  if (typeof a === "number" && b && _isVector(b)) return _scale(b, a);
   return a * b;
 }
 import { v } from '@inglorious/utils/v.js';
@@ -120,8 +123,8 @@ const newPosition = __vectorMod(__vectorSum(position, __vectorScale(velocity, dt
 `;
 
 exports[`it should handle direct v() calls 1`] = `
-"import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
-import { sum as _sum } from "@inglorious/utils/math/vectors.js";
+"import { sum as _sum } from "@inglorious/utils/math/vectors.js";
+import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
 function __vectorSum(a, b) {
   if (a && _isVector(a) && b && _isVector(b)) return _sum(a, b);
   return a + b;
@@ -131,8 +134,8 @@ const result = __vectorSum(v(1, 2), v(3, 4));"
 `;
 
 exports[`it should handle function call results in vector operations 1`] = `
-"import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
-import { sum as _sum } from "@inglorious/utils/math/vectors.js";
+"import { sum as _sum } from "@inglorious/utils/math/vectors.js";
+import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
 function __vectorSum(a, b) {
   if (a && _isVector(a) && b && _isVector(b)) return _sum(a, b);
   return a + b;
@@ -148,8 +151,8 @@ const result = __vectorSum(getVec() * getScalar(), v(3, 4));"
 `;
 
 exports[`it should handle imported vectors 1`] = `
-"import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
-import { sum as _sum } from "@inglorious/utils/math/vectors.js";
+"import { sum as _sum } from "@inglorious/utils/math/vectors.js";
+import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
 function __vectorSum(a, b) {
   if (a && _isVector(a) && b && _isVector(b)) return _sum(a, b);
   return a + b;
@@ -160,15 +163,16 @@ const result = __vectorSum(initialPosition, v(1, 2));"
 `;
 
 exports[`it should handle mixed addition and scaling 1`] = `
-"import { isVector as _isVector, scale as _scale, isVector as _isVector2 } from "@inglorious/utils/math/vector.js";
+"import { scale as _scale } from "@inglorious/utils/math/vector.js";
 import { sum as _sum } from "@inglorious/utils/math/vectors.js";
+import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
 function __vectorSum(a, b) {
   if (a && _isVector(a) && b && _isVector(b)) return _sum(a, b);
   return a + b;
 }
 function __vectorScale(a, b) {
-  if (a && _isVector2(a) && typeof b === "number") return _scale(a, b);
-  if (typeof a === "number" && b && _isVector2(b)) return _scale(b, a);
+  if (a && _isVector(a) && typeof b === "number") return _scale(a, b);
+  if (typeof a === "number" && b && _isVector(b)) return _scale(b, a);
   return a * b;
 }
 import { v } from '@inglorious/utils/v.js';
@@ -179,21 +183,20 @@ const result = __vectorSum(v1, __vectorScale(v2, s));"
 `;
 
 exports[`it should handle mixed vector/scalar operations in complex expressions 1`] = `
-"import { isVector as _isVector2, scale as _scale, isVector as _isVector3 } from "@inglorious/utils/math/vector.js";
-import { sum as _sum } from "@inglorious/utils/math/vectors.js";
+"import { scale as _scale } from "@inglorious/utils/math/vector.js";
+import { subtract as _subtract, sum as _sum } from "@inglorious/utils/math/vectors.js";
 import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
-import { subtract as _subtract } from "@inglorious/utils/math/vectors.js";
 function __vectorSubtract(a, b) {
   if (a && _isVector(a) && b && _isVector(b)) return _subtract(a, b);
   return a - b;
 }
 function __vectorSum(a, b) {
-  if (a && _isVector2(a) && b && _isVector2(b)) return _sum(a, b);
+  if (a && _isVector(a) && b && _isVector(b)) return _sum(a, b);
   return a + b;
 }
 function __vectorScale(a, b) {
-  if (a && _isVector3(a) && typeof b === "number") return _scale(a, b);
-  if (typeof a === "number" && b && _isVector3(b)) return _scale(b, a);
+  if (a && _isVector(a) && typeof b === "number") return _scale(a, b);
+  if (typeof a === "number" && b && _isVector(b)) return _scale(b, a);
   return a * b;
 }
 import { v } from '@inglorious/utils/v.js';
@@ -204,21 +207,21 @@ const result = __vectorSubtract(__vectorSum(a, __vectorScale(b, c)), 2);"
 `;
 
 exports[`it should handle nested expressions 1`] = `
-"import { isVector as _isVector3 } from "@inglorious/utils/math/vector.js";
-import { subtract as _subtract } from "@inglorious/utils/math/vectors.js";
-import { isVector as _isVector, scale as _scale, isVector as _isVector2 } from "@inglorious/utils/math/vector.js";
+"import { subtract as _subtract } from "@inglorious/utils/math/vectors.js";
+import { scale as _scale } from "@inglorious/utils/math/vector.js";
 import { sum as _sum } from "@inglorious/utils/math/vectors.js";
+import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
 function __vectorSum(a, b) {
   if (a && _isVector(a) && b && _isVector(b)) return _sum(a, b);
   return a + b;
 }
 function __vectorScale(a, b) {
-  if (a && _isVector2(a) && typeof b === "number") return _scale(a, b);
-  if (typeof a === "number" && b && _isVector2(b)) return _scale(b, a);
+  if (a && _isVector(a) && typeof b === "number") return _scale(a, b);
+  if (typeof a === "number" && b && _isVector(b)) return _scale(b, a);
   return a * b;
 }
 function __vectorSubtract(a, b) {
-  if (a && _isVector3(a) && b && _isVector3(b)) return _subtract(a, b);
+  if (a && _isVector(a) && b && _isVector(b)) return _subtract(a, b);
   return a - b;
 }
 import { v } from '@inglorious/utils/v.js';
@@ -229,8 +232,8 @@ const result = __vectorSum(v1, __vectorScale(__vectorSubtract(v2, v3), 2));"
 `;
 
 exports[`it should handle vector operations with potentially undefined values 1`] = `
-"import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
-import { sum as _sum } from "@inglorious/utils/math/vectors.js";
+"import { sum as _sum } from "@inglorious/utils/math/vectors.js";
+import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
 function __vectorSum(a, b) {
   if (a && _isVector(a) && b && _isVector(b)) return _sum(a, b);
   return a + b;
@@ -243,8 +246,8 @@ const result = __vectorSum(maybeVector, maybeScalar);"
 exports[`it should throw an error for vector ** vector 1`] = `[Function]`;
 
 exports[`it should trace variable declarations 1`] = `
-"import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
-import { sum as _sum } from "@inglorious/utils/math/vectors.js";
+"import { sum as _sum } from "@inglorious/utils/math/vectors.js";
+import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
 function __vectorSum(a, b) {
   if (a && _isVector(a) && b && _isVector(b)) return _sum(a, b);
   return a + b;
@@ -256,15 +259,16 @@ const newPos = __vectorSum(pos, vel);"
 `;
 
 exports[`it should transform array element operations (runtime check) 1`] = `
-"import { isVector as _isVector, scale as _scale, isVector as _isVector2 } from "@inglorious/utils/math/vector.js";
+"import { scale as _scale } from "@inglorious/utils/math/vector.js";
 import { sum as _sum } from "@inglorious/utils/math/vectors.js";
+import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
 function __vectorSum(a, b) {
   if (a && _isVector(a) && b && _isVector(b)) return _sum(a, b);
   return a + b;
 }
 function __vectorScale(a, b) {
-  if (a && _isVector2(a) && typeof b === "number") return _scale(a, b);
-  if (typeof a === "number" && b && _isVector2(b)) return _scale(b, a);
+  if (a && _isVector(a) && typeof b === "number") return _scale(a, b);
+  if (typeof a === "number" && b && _isVector(b)) return _scale(b, a);
   return a * b;
 }
 const numbers = [1, 2, 3];
@@ -274,15 +278,16 @@ const sum = __vectorSum(numbers[0], numbers[1]);"
 `;
 
 exports[`it should transform member expression operations (runtime check) 1`] = `
-"import { isVector as _isVector, scale as _scale, isVector as _isVector2 } from "@inglorious/utils/math/vector.js";
+"import { scale as _scale } from "@inglorious/utils/math/vector.js";
 import { sum as _sum } from "@inglorious/utils/math/vectors.js";
+import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
 function __vectorSum(a, b) {
   if (a && _isVector(a) && b && _isVector(b)) return _sum(a, b);
   return a + b;
 }
 function __vectorScale(a, b) {
-  if (a && _isVector2(a) && typeof b === "number") return _scale(a, b);
-  if (typeof a === "number" && b && _isVector2(b)) return _scale(b, a);
+  if (a && _isVector(a) && typeof b === "number") return _scale(a, b);
+  if (typeof a === "number" && b && _isVector(b)) return _scale(b, a);
   return a * b;
 }
 const obj = {
@@ -295,7 +300,7 @@ const result = __vectorSum(obj.count, obj.speed);"
 `;
 
 exports[`it should transform scalar % vector (runtime check) 1`] = `
-"import { mod as _mod, isVector as _isVector } from "@inglorious/utils/math/vector.js";
+"import { isVector as _isVector, mod as _mod } from "@inglorious/utils/math/vector.js";
 function __vectorMod(a, b) {
   if (a && _isVector(a) && typeof b === "number") return _mod(a, b);
   return a % b;
@@ -306,7 +311,7 @@ const result = __vectorMod(5, v1);"
 `;
 
 exports[`it should transform scalar * vector multiplication 1`] = `
-"import { scale as _scale, isVector as _isVector } from "@inglorious/utils/math/vector.js";
+"import { isVector as _isVector, scale as _scale } from "@inglorious/utils/math/vector.js";
 function __vectorScale(a, b) {
   if (a && _isVector(a) && typeof b === "number") return _scale(a, b);
   if (typeof a === "number" && b && _isVector(b)) return _scale(b, a);
@@ -321,7 +326,7 @@ const result = __vectorScale(s, v1);"
 exports[`it should transform scalar ** vector (runtime check) 1`] = `[Function]`;
 
 exports[`it should transform scalar / vector (runtime check) 1`] = `
-"import { divide as _divide, isVector as _isVector } from "@inglorious/utils/math/vector.js";
+"import { isVector as _isVector, divide as _divide } from "@inglorious/utils/math/vector.js";
 function __vectorDivide(a, b) {
   if (a && _isVector(a) && typeof b === "number") return _divide(a, b);
   return a / b;
@@ -332,8 +337,8 @@ const result = __vectorDivide(5, v1);"
 `;
 
 exports[`it should transform scalar - vector (runtime check) 1`] = `
-"import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
-import { subtract as _subtract } from "@inglorious/utils/math/vectors.js";
+"import { subtract as _subtract } from "@inglorious/utils/math/vectors.js";
+import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
 function __vectorSubtract(a, b) {
   if (a && _isVector(a) && b && _isVector(b)) return _subtract(a, b);
   return a - b;
@@ -342,7 +347,7 @@ const result = __vectorSubtract(5, v(1, 2));"
 `;
 
 exports[`it should transform unary minus on vector 1`] = `
-"import { scale as _scale, isVector as _isVector } from "@inglorious/utils/math/vector.js";
+"import { isVector as _isVector, scale as _scale } from "@inglorious/utils/math/vector.js";
 function __vectorScale(a, b) {
   if (a && _isVector(a) && typeof b === "number") return _scale(a, b);
   if (typeof a === "number" && b && _isVector(b)) return _scale(b, a);
@@ -354,7 +359,7 @@ const result = __vectorScale(v1, -1);"
 `;
 
 exports[`it should transform vector % scalar modulus 1`] = `
-"import { mod as _mod, isVector as _isVector } from "@inglorious/utils/math/vector.js";
+"import { isVector as _isVector, mod as _mod } from "@inglorious/utils/math/vector.js";
 function __vectorMod(a, b) {
   if (a && _isVector(a) && typeof b === "number") return _mod(a, b);
   return a % b;
@@ -366,7 +371,7 @@ const result = __vectorMod(v1, s);"
 `;
 
 exports[`it should transform vector %= scalar 1`] = `
-"import { mod as _mod, isVector as _isVector } from "@inglorious/utils/math/vector.js";
+"import { isVector as _isVector, mod as _mod } from "@inglorious/utils/math/vector.js";
 function __vectorMod(a, b) {
   if (a && _isVector(a) && typeof b === "number") return _mod(a, b);
   return a % b;
@@ -378,7 +383,7 @@ v1 = __vectorMod(v1, s);"
 `;
 
 exports[`it should transform vector * scalar multiplication 1`] = `
-"import { scale as _scale, isVector as _isVector } from "@inglorious/utils/math/vector.js";
+"import { isVector as _isVector, scale as _scale } from "@inglorious/utils/math/vector.js";
 function __vectorScale(a, b) {
   if (a && _isVector(a) && typeof b === "number") return _scale(a, b);
   if (typeof a === "number" && b && _isVector(b)) return _scale(b, a);
@@ -393,7 +398,7 @@ const result = __vectorScale(v1, s);"
 exports[`it should transform vector ** scalar 1`] = `[Function]`;
 
 exports[`it should transform vector *= scalar 1`] = `
-"import { scale as _scale, isVector as _isVector } from "@inglorious/utils/math/vector.js";
+"import { isVector as _isVector, scale as _scale } from "@inglorious/utils/math/vector.js";
 function __vectorScale(a, b) {
   if (a && _isVector(a) && typeof b === "number") return _scale(a, b);
   if (typeof a === "number" && b && _isVector(b)) return _scale(b, a);
@@ -406,7 +411,7 @@ v1 = __vectorScale(v1, s);"
 `;
 
 exports[`it should transform vector *= vector (runtime check) 1`] = `
-"import { scale as _scale, isVector as _isVector } from "@inglorious/utils/math/vector.js";
+"import { isVector as _isVector, scale as _scale } from "@inglorious/utils/math/vector.js";
 function __vectorScale(a, b) {
   if (a && _isVector(a) && typeof b === "number") return _scale(a, b);
   if (typeof a === "number" && b && _isVector(b)) return _scale(b, a);
@@ -419,8 +424,8 @@ v1 = __vectorScale(v1, v2);"
 `;
 
 exports[`it should transform vector + scalar (runtime check) 1`] = `
-"import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
-import { sum as _sum } from "@inglorious/utils/math/vectors.js";
+"import { sum as _sum } from "@inglorious/utils/math/vectors.js";
+import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
 function __vectorSum(a, b) {
   if (a && _isVector(a) && b && _isVector(b)) return _sum(a, b);
   return a + b;
@@ -429,8 +434,8 @@ const result = __vectorSum(v(1, 2), 5);"
 `;
 
 exports[`it should transform vector + vector addition 1`] = `
-"import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
-import { sum as _sum } from "@inglorious/utils/math/vectors.js";
+"import { sum as _sum } from "@inglorious/utils/math/vectors.js";
+import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
 function __vectorSum(a, b) {
   if (a && _isVector(a) && b && _isVector(b)) return _sum(a, b);
   return a + b;
@@ -442,8 +447,8 @@ const result = __vectorSum(v1, v2);"
 `;
 
 exports[`it should transform vector += scalar (runtime check) 1`] = `
-"import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
-import { sum as _sum } from "@inglorious/utils/math/vectors.js";
+"import { sum as _sum } from "@inglorious/utils/math/vectors.js";
+import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
 function __vectorSum(a, b) {
   if (a && _isVector(a) && b && _isVector(b)) return _sum(a, b);
   return a + b;
@@ -454,8 +459,8 @@ v1 = __vectorSum(v1, 5);"
 `;
 
 exports[`it should transform vector += vector 1`] = `
-"import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
-import { sum as _sum } from "@inglorious/utils/math/vectors.js";
+"import { sum as _sum } from "@inglorious/utils/math/vectors.js";
+import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
 function __vectorSum(a, b) {
   if (a && _isVector(a) && b && _isVector(b)) return _sum(a, b);
   return a + b;
@@ -467,7 +472,7 @@ v1 = __vectorSum(v1, v2);"
 `;
 
 exports[`it should transform vector / scalar division 1`] = `
-"import { divide as _divide, isVector as _isVector } from "@inglorious/utils/math/vector.js";
+"import { isVector as _isVector, divide as _divide } from "@inglorious/utils/math/vector.js";
 function __vectorDivide(a, b) {
   if (a && _isVector(a) && typeof b === "number") return _divide(a, b);
   return a / b;
@@ -479,7 +484,7 @@ const result = __vectorDivide(v1, s);"
 `;
 
 exports[`it should transform vector /= scalar 1`] = `
-"import { divide as _divide, isVector as _isVector } from "@inglorious/utils/math/vector.js";
+"import { isVector as _isVector, divide as _divide } from "@inglorious/utils/math/vector.js";
 function __vectorDivide(a, b) {
   if (a && _isVector(a) && typeof b === "number") return _divide(a, b);
   return a / b;
@@ -491,8 +496,8 @@ v1 = __vectorDivide(v1, s);"
 `;
 
 exports[`it should transform vector - vector subtraction 1`] = `
-"import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
-import { subtract as _subtract } from "@inglorious/utils/math/vectors.js";
+"import { subtract as _subtract } from "@inglorious/utils/math/vectors.js";
+import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
 function __vectorSubtract(a, b) {
   if (a && _isVector(a) && b && _isVector(b)) return _subtract(a, b);
   return a - b;
@@ -504,8 +509,8 @@ const result = __vectorSubtract(v1, v2);"
 `;
 
 exports[`it should transform vector -= scalar (runtime check) 1`] = `
-"import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
-import { subtract as _subtract } from "@inglorious/utils/math/vectors.js";
+"import { subtract as _subtract } from "@inglorious/utils/math/vectors.js";
+import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
 function __vectorSubtract(a, b) {
   if (a && _isVector(a) && b && _isVector(b)) return _subtract(a, b);
   return a - b;
@@ -516,8 +521,8 @@ v1 = __vectorSubtract(v1, 5);"
 `;
 
 exports[`it should transform vector -= vector 1`] = `
-"import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
-import { subtract as _subtract } from "@inglorious/utils/math/vectors.js";
+"import { subtract as _subtract } from "@inglorious/utils/math/vectors.js";
+import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
 function __vectorSubtract(a, b) {
   if (a && _isVector(a) && b && _isVector(b)) return _subtract(a, b);
   return a - b;
