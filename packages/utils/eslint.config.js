@@ -27,7 +27,7 @@ export default defineConfig([
   },
 
   {
-    files: ["**/*.test.js", "docs/**/*.js"],
+    files: ["**/*.test.js"],
     rules: {
       "no-magic-numbers": "off",
     },
