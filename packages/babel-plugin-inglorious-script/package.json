@@ -1,6 +1,6 @@
 {
   "name": "@inglorious/babel-plugin-inglorious-script",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A Babel plugin for the IngloriousScript language.",
   "main": "src/index.js",
   "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",

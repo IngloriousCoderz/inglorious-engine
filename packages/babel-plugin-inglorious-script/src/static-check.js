@@ -72,7 +72,13 @@ export function isVector(node, scope) {
     return isVector(node.left, scope) && !isVector(node.right, scope)
   }
 
-  // Case 7: The node is a unary expression that results in a vector.
+  // Case 7: The node is a power that results in a vector.
+  // This allows chaining: v1 ** s + v2
+  if (node.type === "BinaryExpression" && node.operator === "**") {
+    return isVector(node.left, scope) && !isVector(node.right, scope)
+  }
+
+  // Case 8: The node is a unary expression that results in a vector.
   // This allows chaining: -v1 + v2
   if (node.type === "UnaryExpression" && node.operator === "-") {
     return isVector(node.argument, scope)

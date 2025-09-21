@@ -93,19 +93,13 @@ export default function (babel) {
 
         // --- Vector Exponentiation: v1 ** s (power operator) ---
         else if (operator === "**") {
-          if (isLeftVector && isRightVector) {
-            throw path.buildCodeFrameError(
-              "Cannot raise vector to vector power. Use pow(vector, scalar) for component-wise power operations.",
-            )
-          } else if (isLeftVector && !isRightVector) {
-            // This would require a pow function in your vector.js
-            throw path.buildCodeFrameError(
-              "Vector exponentiation not yet supported. Use pow(vector, scalar) function instead.",
-            )
-          } else if (!isLeftVector && isRightVector) {
-            throw path.buildCodeFrameError(
-              "Cannot raise scalar to vector power. This operation is mathematically ambiguous.",
-            )
+          if (isLeftVector || isRightVector) {
+            ensureHelper(this, "__vectorPower", "power", VECTOR_MODULE)
+            const powerCall = t.callExpression(t.identifier("__vectorPower"), [
+              left,
+              right,
+            ])
+            path.replaceWith(powerCall)
           }
         }
       },
@@ -176,6 +170,20 @@ export default function (babel) {
               "=",
               left,
               t.callExpression(t.identifier("__vectorMod"), [left, right]),
+            ),
+          )
+        }
+
+        // Vector power assignment: v1 **= s
+        else if (operator === "**=") {
+          ensureHelper(this, "__vectorPower", "power", VECTOR_MODULE)
+
+          // Transform: v1 **= s  ->  v1 = __vectorPower(v1, s)
+          path.replaceWith(
+            t.assignmentExpression(
+              "=",
+              left,
+              t.callExpression(t.identifier("__vectorPower"), [left, right]),
             ),
           )
         }

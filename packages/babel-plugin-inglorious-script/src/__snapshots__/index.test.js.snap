@@ -240,6 +240,8 @@ import { maybeVector, maybeScalar } from './utils.js';
 const result = __vectorSum(maybeVector, maybeScalar);"
 `;
 
+exports[`it should throw an error for vector ** vector 1`] = `[Function]`;
+
 exports[`it should trace variable declarations 1`] = `
 "import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
 import { sum as _sum } from "@inglorious/utils/math/vectors.js";
@@ -316,6 +318,8 @@ const s = 2;
 const result = __vectorScale(s, v1);"
 `;
 
+exports[`it should transform scalar ** vector (runtime check) 1`] = `[Function]`;
+
 exports[`it should transform scalar / vector (runtime check) 1`] = `
 "import { divide as _divide, isVector as _isVector } from "@inglorious/utils/math/vector.js";
 function __vectorDivide(a, b) {
@@ -385,6 +389,8 @@ const v1 = v(1, 2);
 const s = 2;
 const result = __vectorScale(v1, s);"
 `;
+
+exports[`it should transform vector ** scalar 1`] = `[Function]`;
 
 exports[`it should transform vector *= scalar 1`] = `
 "import { scale as _scale, isVector as _isVector } from "@inglorious/utils/math/vector.js";

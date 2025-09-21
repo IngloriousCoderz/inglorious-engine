@@ -246,16 +246,12 @@ const result = 5 % v1;`
   expect(transform(code)).toMatchSnapshot()
 })
 
-// Exponentiation error cases (these still throw errors)
-
-test("it should throw an error for vector ** scalar", () => {
+test("it should transform vector ** scalar", () => {
   const code = `import { v } from '@inglorious/utils/v.js';
 const v1 = v(1, 2);
 const result = v1 ** 2;`
 
-  expect(() => transform(code)).toThrow(
-    "Vector exponentiation not yet supported. Use pow(vector, scalar) function instead.",
-  )
+  expect(() => transform(code)).toMatchSnapshot()
 })
 
 test("it should throw an error for vector ** vector", () => {
@@ -264,19 +260,15 @@ const v1 = v(1, 2);
 const v2 = v(3, 4);
 const result = v1 ** v2;`
 
-  expect(() => transform(code)).toThrow(
-    "Cannot raise vector to vector power. Use pow(vector, scalar) for component-wise power operations.",
-  )
+  expect(() => transform(code)).toMatchSnapshot()
 })
 
-test("it should throw an error for scalar ** vector", () => {
+test("it should transform scalar ** vector (runtime check)", () => {
   const code = `import { v } from '@inglorious/utils/v.js';
 const v1 = v(1, 2);
 const result = 2 ** v1;`
 
-  expect(() => transform(code)).toThrow(
-    "Cannot raise scalar to vector power. This operation is mathematically ambiguous.",
-  )
+  expect(() => transform(code)).toMatchSnapshot()
 })
 
 // Complex chaining tests

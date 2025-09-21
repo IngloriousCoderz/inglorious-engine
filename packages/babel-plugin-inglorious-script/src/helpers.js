@@ -206,6 +206,37 @@ export function injectHelpers(babel, programPath, helpers) {
           ),
         ]),
       )
+    } else if (helperName === "__vectorPow") {
+      helperFunction = t.functionDeclaration(
+        t.identifier(helperName),
+        [t.identifier("a"), t.identifier("b")],
+        t.blockStatement([
+          t.ifStatement(
+            t.logicalExpression(
+              "&&",
+              t.logicalExpression(
+                "&&",
+                t.identifier("a"),
+                t.callExpression(isVectorId, [t.identifier("a")]),
+              ),
+              t.binaryExpression(
+                "===",
+                t.unaryExpression("typeof", t.identifier("b")),
+                t.stringLiteral("number"),
+              ),
+            ),
+            t.returnStatement(
+              t.callExpression(importId, [
+                t.identifier("a"),
+                t.identifier("b"),
+              ]),
+            ),
+          ),
+          t.returnStatement(
+            t.binaryExpression("**", t.identifier("a"), t.identifier("b")),
+          ),
+        ]),
+      )
     }
 
     helperMap.set(helperName, helperFunction)
