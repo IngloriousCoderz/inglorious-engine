@@ -9,10 +9,20 @@ import player2 from './player2?raw'
 
 The Inglorious Engine makes it incredibly easy to set up a real-time multiplayer game. The `@inglorious/server` package provides a simple, server-authoritative WebSocket server that handles all communication and state synchronization for you.
 
-To start the example server, navigate to the `packages/server` directory of the `inglorious-engine` monorepo and run the following command:
+The server for this example is hosted on render.com with a free plan, so it might take a minute for it to wake up before you see the players moving.
+
+If you want to use your own server, just navigate to the `packages/server` directory of the `inglorious-engine` monorepo and run the following command:
 
 ```sh
 pnpm dev
+```
+
+The two client games then should point to the local server by changing the `multiplayer` configuration like so:
+
+```javascript
+multiplayer: {
+  serverUrl: "ws://localhost:3000",
+},
 ```
 
 ## Controls

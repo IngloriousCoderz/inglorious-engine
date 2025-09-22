@@ -1,12 +1,13 @@
 import { produce } from "immer"
 
+import { createApi } from "./api.js"
 import { augmentEntities, augmentEntity } from "./entities.js"
 import { EventMap } from "./event-map.js"
+import { applyMiddlewares } from "./middlewares.js"
 import { augmentType, augmentTypes } from "./types.js"
 
 /**
  * Creates a store to manage state and events.
- *
  * @param {Object} config - Configuration options for the store.
  * @param {Object} [config.types] - The initial types configuration.
  * @param {Object} [config.entities] - The initial entities configuration.
@@ -16,6 +17,7 @@ export function createStore({
   types: originalTypes,
   entities: originalEntities,
   systems = [],
+  middlewares = [],
 }) {
   const listeners = new Set()
 
@@ -24,11 +26,12 @@ export function createStore({
   let state, eventMap, incomingEvents
   reset()
 
-  return {
+  const baseStore = {
     subscribe,
     update,
     notify,
     dispatch, // needed for compatibility with Redux
+    getApi,
     getTypes,
     getOriginalTypes,
     getState,
@@ -36,9 +39,16 @@ export function createStore({
     reset,
   }
 
+  const baseApi = createApi(baseStore)
+
+  const api = middlewares.length
+    ? applyMiddlewares(...middlewares)(baseStore, baseApi)
+    : baseApi
+
+  return baseStore
+
   /**
    * Subscribes a listener to state updates.
-   *
    * @param {Function} listener - The listener function to call on updates.
    * @returns {Function} A function to unsubscribe the listener.
    */
@@ -52,14 +62,12 @@ export function createStore({
 
   /**
    * Updates the state based on elapsed time and processes events.
-   *
    * @param {number} dt - The delta time since the last update in milliseconds.
-   * @param {Object} api - The engine's public API.
    */
-  function update(api) {
+  function update() {
     const processedEvents = []
 
-    state = produce(state, (state) => {
+    state = produce(state, (draft) => {
       while (incomingEvents.length) {
         const event = incomingEvents.shift()
         processedEvents.push(event)
@@ -67,7 +75,7 @@ export function createStore({
         if (event.type === "morph") {
           const { id, type } = event.payload
 
-          const entity = state.entities[id]
+          const entity = draft.entities[id]
           const oldType = types[entity.type]
 
           originalTypes[id] = type
@@ -80,7 +88,7 @@ export function createStore({
 
         if (event.type === "add") {
           const { id, ...entity } = event.payload
-          state.entities[id] = augmentEntity(id, entity)
+          draft.entities[id] = augmentEntity(id, entity)
           const type = types[entity.type]
 
           eventMap.addEntity(id, type)
@@ -89,9 +97,9 @@ export function createStore({
 
         if (event.type === "remove") {
           const id = event.payload
-          const entity = state.entities[id]
+          const entity = draft.entities[id]
           const type = types[entity.type]
-          delete state.entities[id]
+          delete draft.entities[id]
 
           eventMap.removeEntity(id, type)
           incomingEvents.unshift({ type: "destroy", payload: id })
@@ -99,7 +107,7 @@ export function createStore({
 
         const entityIds = eventMap.getEntitiesForEvent(event.type)
         for (const id of entityIds) {
-          const entity = state.entities[id]
+          const entity = draft.entities[id]
           const type = types[entity.type]
           const handle = type[event.type]
           handle(entity, event.payload, api)
@@ -107,7 +115,7 @@ export function createStore({
 
         systems.forEach((system) => {
           const handle = system[event.type]
-          handle?.(state, event.payload, api)
+          handle?.(draft, event.payload, api)
         })
       }
     })
@@ -119,7 +127,6 @@ export function createStore({
 
   /**
    * Notifies the store of a new event.
-   *
    * @param {string} type - The event object type to notify.
    * @param {any} payload - The event object payload to notify.
    */
@@ -129,7 +136,6 @@ export function createStore({
 
   /**
    * Dispatches an event to be processed in the next update cycle.
-   *
    * @param {Object} event - The event object.
    * @param {string} event.type - The type of the event.
    * @param {any} [event.payload] - The payload of the event.
@@ -139,9 +145,16 @@ export function createStore({
   }
 
   /**
+   * Retrieves the store's API, which includes methods for interacting with the store.
+   * @returns {Object} The API object for the store.
+   */
+  function getApi() {
+    return api
+  }
+
+  /**
    * Retrieves the augmented types configuration.
    * This includes composed behaviors and event handlers wrapped for immutability.
-   *
    * @returns {Object} The augmented types configuration.
    */
   function getTypes() {
@@ -150,7 +163,6 @@ export function createStore({
 
   /**
    * Retrieves the original, un-augmented types configuration.
-   *
    * @returns {Object} The original types configuration.
    */
   function getOriginalTypes() {
@@ -159,7 +171,6 @@ export function createStore({
 
   /**
    * Retrieves the current state.
-   *
    * @returns {Object} The current state.
    */
   function getState() {
@@ -169,7 +180,6 @@ export function createStore({
   /**
    * Sets the entire state of the store.
    * This is useful for importing state or setting initial state from a server.
-   *
    * @param {Object} nextState - The new state to set.
    */
   function setState(nextState) {

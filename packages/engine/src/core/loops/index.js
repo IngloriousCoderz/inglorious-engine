@@ -6,7 +6,7 @@ import { LagLoop } from "./lag.js"
 
 // @see https://gameprogrammingpatterns.com/game-loop.html
 
-export const Loops = {
+export const Loop = {
   flash: FlashLoop,
   fixed: FixedLoop,
   elapsed: ElapsedLoop,

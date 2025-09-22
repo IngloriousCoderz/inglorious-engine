@@ -1,6 +1,5 @@
 import { audio } from "@inglorious/engine/behaviors/audio.js"
 import { game } from "@inglorious/engine/behaviors/game.js"
-import { createApi } from "@inglorious/store/api.js"
 import { createStore } from "@inglorious/store/store.js"
 import { augmentType } from "@inglorious/store/types.js"
 import { isArray } from "@inglorious/utils/data-structures/array.js"
@@ -10,10 +9,8 @@ import { v } from "@inglorious/utils/v.js"
 
 import { coreEvents } from "./core-events.js"
 import { disconnectDevTools, initDevTools, sendAction } from "./dev-tools.js"
-import { Loops } from "./loops/loops.js"
+import { Loop } from "./loops/index.js"
 import { entityPoolMiddleware } from "./middlewares/entity-pool/entity-pool-middleware.js"
-import { EntityPools } from "./middlewares/entity-pool/entity-pools.js"
-import { applyMiddlewares } from "./middlewares/middlewares.js"
 import { multiplayerMiddleware } from "./middlewares/multiplayer-middleware.js"
 
 // Default game configuration
@@ -42,44 +39,29 @@ const ONE_SECOND = 1000 // Number of milliseconds in one second.
  */
 export class Engine {
   /**
-   * @param {Object} [gameConfig] - Game-specific configuration.
-   * @param {Object} [renderer] - UI entity responsible for rendering. It must have a `render` method.
+   * @param {...Object} gameConfigs - Game-specific configurations.
    */
   constructor(...gameConfigs) {
     this._config = extendWith(merger, DEFAULT_GAME_CONFIG, ...gameConfigs)
 
-    // Determine devMode from the entities config.
+    // Determine devMode from the entities config
     const devMode = this._config.entities.game?.devMode
     this._devMode = devMode
 
-    // Add user-defined systems
-    const systems = [...(this._config.systems ?? [])]
+    const middlewares = []
 
-    this._store = createStore({ ...this._config, systems })
+    // Always add entity pool middleware
+    middlewares.push(entityPoolMiddleware())
 
-    // Create API layer, with optional methods for debugging
-    this._api = createApi(this._store)
-
-    this._entityPools = new EntityPools()
-    this._api = applyMiddlewares(entityPoolMiddleware(this._entityPools))(
-      this._api,
-    )
-    this._api.getAllActivePoolEntities = () =>
-      this._entityPools.getAllActiveEntities()
-
-    if (this._devMode) {
-      this._api.getEntityPoolsStats = () => this._entityPools.getStats()
-    }
-
-    // Apply multiplayer if specified.
+    // Add multiplayer middleware if needed
     const multiplayer = this._config.entities.game?.multiplayer
     if (multiplayer) {
-      this._api = applyMiddlewares(multiplayerMiddleware(multiplayer))(
-        this._api,
-      )
+      middlewares.push(multiplayerMiddleware(multiplayer))
     }
 
-    this._loop = new Loops[this._config.loop.type]()
+    this._store = createStore({ ...this._config, middlewares })
+    this._api = this._store.getApi()
+    this._loop = new Loop[this._config.loop.type]()
 
     if (this._devMode) {
       initDevTools(this._store)
@@ -109,7 +91,7 @@ export class Engine {
    */
   stop() {
     this._api.notify("stop")
-    this._store.update(this._api)
+    this._store.update()
     this._loop.stop()
   }
 
@@ -119,7 +101,7 @@ export class Engine {
    */
   update(dt) {
     this._api.notify("update", dt)
-    const processedEvents = this._store.update(this._api)
+    const processedEvents = this._store.update()
     const state = this._store.getState()
 
     // Check for devMode changes and connect/disconnect dev tools accordingly.

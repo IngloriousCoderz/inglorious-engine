@@ -19,14 +19,14 @@ export function multiplayerMiddleware(config = {}) {
   const localQueue = []
 
   // The middleware function that will be applied to the store.
-  return (api) => (next) => (event) => {
+  return (store) => (next) => (event) => {
     if (coreEvents.includes(event.type)) {
       return next(event)
     }
 
     // Establish the connection on the first event.
     if (!ws) {
-      establishConnection(api)
+      establishConnection(store)
     }
 
     // Only send the event to the server if it didn't come from the server.
@@ -48,7 +48,7 @@ export function multiplayerMiddleware(config = {}) {
   /**
    * Attempts to establish a WebSocket connection to the server.
    */
-  function establishConnection(api) {
+  function establishConnection(store) {
     // If a connection already exists, close it first.
     if (ws) {
       ws.close()
@@ -71,17 +71,17 @@ export function multiplayerMiddleware(config = {}) {
 
       if (serverEvent.type === "initialState") {
         // Merge the server's initial state with the client's local state.
-        const nextState = extend(api.getState(), serverEvent.payload)
-        api.setState(nextState)
+        const nextState = extend(store.getState(), serverEvent.payload)
+        store.setState(nextState)
       } else {
         // Dispatch the event to the local store to update the client's state.
-        api.dispatch({ ...serverEvent, fromServer: true })
+        store.dispatch({ ...serverEvent, fromServer: true })
       }
     }
 
     ws.onclose = () => {
       // Attempt to reconnect after a short delay.
-      setTimeout(() => establishConnection(api), reconnectionDelay)
+      setTimeout(() => establishConnection(store), reconnectionDelay)
     }
 
     ws.onerror = () => {

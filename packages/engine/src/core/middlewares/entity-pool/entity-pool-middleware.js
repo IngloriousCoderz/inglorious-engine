@@ -1,9 +1,19 @@
 import { EventMap } from "@inglorious/store/event-map.js"
 
-export function entityPoolMiddleware(pools) {
-  return (api) => {
+import { EntityPools } from "./entity-pools"
+
+export function entityPoolMiddleware() {
+  return (store, api) => {
+    const pools = new EntityPools()
     const types = api.getTypes()
     const eventMap = new EventMap()
+
+    api.getAllActivePoolEntities = () => pools.getAllActiveEntities()
+
+    const game = api.getEntity("game")
+    if (game.devMode) {
+      api.getEntityPoolsStats = () => pools.getStats()
+    }
 
     return (next) => (event) => {
       switch (event.type) {
