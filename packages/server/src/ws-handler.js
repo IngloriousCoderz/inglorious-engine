@@ -1,3 +1,4 @@
+import { serialize } from "@inglorious/utils/data-structures/object.js"
 import { WebSocketServer } from "ws"
 
 /**
@@ -13,7 +14,7 @@ export function setup(httpServer, store, logger) {
   wss.on("connection", (ws) => {
     logger.info("A new client has connected.")
 
-    ws.send(JSON.stringify({ type: "initialState", payload: store.getState() }))
+    ws.send(serialize({ type: "initialState", payload: store.getState() }))
 
     ws.on("message", (rawData) => {
       try {

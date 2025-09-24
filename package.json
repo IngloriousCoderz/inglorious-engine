@@ -27,7 +27,7 @@
     "serve": "^14.2.5",
     "turbo": "^2.5.6"
   },
-  "packageManager": "pnpm@10.15.0",
+  "packageManager": "pnpm@10.17.1",
   "engines": {
     "node": ">= 22"
   }

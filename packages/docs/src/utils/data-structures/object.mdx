@@ -5,11 +5,14 @@ import {
   clone,
   filter,
   find,
+  deserialize,
   isObject,
   map,
   produce,
+  serialize,
   toString,
 } from '@inglorious/utils/data-structures/object'
+import { v } from '@inglorious/utils/v'
 
 <Meta title="Utils/Data Structures/Object" />
 
@@ -19,11 +22,32 @@ Functions that deal with a single object.
 
 ## Clone
 
-Creates a deep clone of an object. It uses `JSON.parse(JSON.stringify())` internally, so it has the same limitations (e.g., it will not clone functions, `undefined`, or `Symbol` properties).
+Creates a deep clone of an object. It uses `deserialize(serialize())` internally, so it has the same limitations (e.g., it will not clone functions, `undefined`, or `Symbol` properties).
 
 <code>const obj = \{ a: 1, b: [2, 3], c: \{ d: 4 \} \}</code>&nbsp;
 
 <code>clone(obj) == {toString(clone({ a: 1, b: [2, 3], c: { d: 4 } }))}</code>&nbsp;
+
+## Deserialize
+
+Recursively converts a JSON string back into a JavaScript object, automatically re-hydrating any `_type: 'vector'` objects into `v()` vectors. This is the counterpart to the `serialize` function, ensuring that the original functionality of the vectors is restored after network transfer.
+
+### Usage
+
+```javascript
+import { deserialize } from '@inglorious/utils/data-structures/object';
+
+const packet = '{"position":{"_type":"vector","coords":[10,20,30]},"color":{"_type":"vector","coords":[255,0,0,1]},"inventory":["sword","shield"]}';
+
+const player = deserialize(packet);
+
+// player.position is now a v() vector object
+console.log(player.position.__isVector__); // true
+
+// You can now perform vector operations in IngloriousScript
+const newPos = player.position + v(1, 1, 1);
+console.log(newPos); // [11, 21, 31]
+```
 
 ## Filter
 
@@ -45,6 +69,18 @@ Behaves similar to `Array.prototype.find`, returning an object that contains onl
 
 <code>find(obj, predicate) == {toString(find({ key1: 'value1', key2: 'value2', key3: 'value3' }, (key) => ['key2', 'key3'].includes(key)))}</code>&nbsp;
 
+## Is Object
+
+Checks if a value is a plain JavaScript object. This function returns false for arrays, null, and other object types like Date.
+
+<code>isObject(\{\}) == {bToString(isObject({}))}</code>&nbsp;
+
+<code>isObject([]) == {bToString(isObject([]))}</code>&nbsp;
+
+<code>isObject(null) == {bToString(isObject(null))}</code>&nbsp;
+
+<code>isObject(new Date()) == {bToString(isObject(new Date()))}</code>&nbsp;
+
 ## Map
 
 Behaves similar to `Array.prototype.map`, returning an object that has values transformed according to the given callback.
@@ -55,25 +91,13 @@ Behaves similar to `Array.prototype.map`, returning an object that has values tr
 
 <code>map(obj, callback) == {toString(map({ key1: 'value1', key2: 'value2', key3: 'value3' }, (key, value) => value.toUpperCase()))}</code>&nbsp;
 
-## Is Object
-
-Checks if a value is a plain JavaScript object (and not an array, `null`, or other object types like `Date`).
-
-<code>isObject(\{ \}) == {bToString(isObject({}))}</code>&nbsp;
-
-<code>isObject([]) == {bToString(isObject([]))}</code>&nbsp;
-
-<code>isObject(null) == {bToString(isObject(null))}</code>&nbsp;
-
-<code>isObject(new Date()) == {bToString(isObject(new Date()))}</code>&nbsp;
-
 ## Produce
 
 A utility function inspired by Immer's `produce` API. It provides a convenient way to work with immutable data structures by allowing "mutations" on a temporary draft.
 
 ### Important Performance Note
 
-Unlike Immer, which uses structural sharing via proxies for high performance, this implementation performs a **full deep clone** of the base state on every call using `JSON.parse(JSON.stringify())`.
+Unlike Immer, which uses structural sharing via proxies for high performance, this implementation performs a **full deep clone** of the base state on every call using `deserialize(serialize())`.
 
 This can be very inefficient for large or complex states. It is intended for simple use cases where the convenience of the API outweighs the performance cost. For performance-critical state updates, consider using a library like Immer directly.
 
@@ -120,4 +144,48 @@ const state2 = incrementAge(state1);
 
 console.log(state2.user.age); // 31
 console.log(state1.user.age); // 30
+```
+
+## Serialize
+
+Recursively converts an object containing `v()` vectors into a JSON string suitable for network transfer. This process replaces `v()` vector objects (which are arrays with a `__isVector__` property) with a plain object containing a `_type` and `coords` property.
+
+This ensures that the vector's type information is preserved during serialization, preventing bugs in networked applications.
+
+### Usage
+
+```javascript
+import { serialize } from '@inglorious/utils/data-structures/object';
+import { v } from '@inglorious/utils/v';
+
+const player = {
+  position: v(10, 20, 30),
+  color: v(255, 0, 0, 1),
+  inventory: ['sword', 'shield']
+};
+
+const packet = serialize(player);
+
+console.log(packet);
+// Expected output (as a string)
+// '{"position":{"_type":"vector","coords":[10,20,30]},"color":{"_type":"vector","coords":[255,0,0,1]},"inventory":["sword","shield"]}'
+```
+
+## To String
+
+Converts an object or array to a formatted string representation with indentation. This is useful for pretty-printing data for debugging or logging.
+
+<code>const obj = \{ a: 1, b: [2, 3], c: \{ d: 4 \} \}</code>&nbsp;
+
+```javascript
+toString(obj) === `{
+  a: 1,
+  b: [
+    2,
+    3
+  ],
+  c: {
+    d: 4
+  }
+}`
 ```

@@ -1,3 +1,6 @@
+import { v } from "../v.js"
+import { isArray } from "./array.js"
+
 const INITIAL_LEVEL = 0
 const NEXT_LEVEL = 2
 
@@ -8,7 +11,46 @@ const NEXT_LEVEL = 2
  * @returns {Object} A deep clone of the input object.
  */
 export function clone(obj) {
-  return JSON.parse(JSON.stringify(obj))
+  return deserialize(serialize(obj))
+}
+
+/**
+ * Deserializes an object, converting plain object representations back into
+ * their original types, such as vector-like objects. This is the inverse
+ * operation of `serialize`.
+ *
+ * - Recursively deserializes nested objects.
+ * - Converts objects with a `_type: "vector"` property and `coords` array
+ *   back into a vector-like object using the `v` factory function.
+ * - Copies all other property values as-is.
+ *
+ * @param {string} str - The JSON string to deserialize.
+ * @returns {Object} The deserialized object.
+ */
+export function deserialize(str) {
+  const data = JSON.parse(str)
+
+  return revive(data)
+
+  function revive(value) {
+    if (isArray(value)) {
+      return value.map(revive)
+    }
+    if (isObject(value)) {
+      if (value._type === "vector" && value.coords) {
+        return v(...value.coords)
+      }
+
+      const deserialized = {}
+      for (const key in value) {
+        if (Object.prototype.hasOwnProperty.call(value, key)) {
+          deserialized[key] = revive(value[key])
+        }
+      }
+      return deserialized
+    }
+    return value
+  }
 }
 
 /**
@@ -73,7 +115,7 @@ export function map(obj, callback) {
  *
  * **Important:** Unlike Immer, which uses structural sharing via proxies for
  * high performance, this implementation performs a full deep clone of the base
- * state on every call using `JSON.parse(JSON.stringify())`. This can be
+ * state on every call using `deserialize(serialize())`. This can be
  * inefficient for large or complex states. It is intended for simple use cases
  * where the convenience of the API outweighs the performance cost.
  *
@@ -100,6 +142,47 @@ export function produce(baseState, recipe, ...args) {
   const draft = clone(baseState)
   const result = recipe(draft, ...args)
   return result === undefined ? draft : result
+}
+
+/**
+ * Serializes an object, converting special types like vectors into a plain
+ * object representation. This is useful for processes like saving state to a
+ * file or sending it over a network.
+ *
+ * - Recursively serializes nested objects.
+ * - Converts objects with a `__isVector__` property into a serializable
+ *   format: `{ _type: "vector", coords: [...] }`.
+ * - Copies all other property values as-is.
+ *
+ * @param {Object} obj - The object to serialize.
+ * @returns {string} The serialized JSON string.
+ */
+export function serialize(obj) {
+  function replacer(key, value) {
+    // Handle top-level vector
+    if (value?.__isVector__) {
+      return {
+        _type: "vector",
+        coords: Array.from(value),
+      }
+    }
+
+    if (isObject(value)) {
+      const serialized = {}
+
+      for (const k in value) {
+        if (Object.prototype.hasOwnProperty.call(value, k)) {
+          serialized[k] = replacer(undefined, value[k])
+        }
+      }
+
+      return serialized
+    }
+
+    return value
+  }
+
+  return JSON.stringify(obj, replacer)
 }
 
 /**

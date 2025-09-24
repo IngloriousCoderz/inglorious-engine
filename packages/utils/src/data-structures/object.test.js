@@ -1,12 +1,15 @@
 import { expect, test } from "vitest"
 
+import { v } from "../v.js"
 import {
   clone,
+  deserialize,
   filter,
   find,
   isObject,
   map,
   produce,
+  serialize,
   toString,
 } from "./object.js"
 
@@ -112,7 +115,7 @@ test("it should produce a new state without mutating the original", () => {
     g: 6,
   }
 
-  const originalBaseState = JSON.parse(JSON.stringify(baseState))
+  const originalBaseState = deserialize(serialize(baseState))
 
   const nextState = produce(baseState, recipe)
 
@@ -215,4 +218,118 @@ test("it should return a string representation of a nested object", () => {
   ],
   g: 6
 }`)
+})
+
+test("it should serialize a basic object with primitive values", () => {
+  const obj = { a: 1, b: "hello", c: true }
+  const expected = `{"a":1,"b":"hello","c":true}`
+
+  expect(serialize(obj)).toBe(expected)
+})
+
+test("it should serialize an object with nested objects", () => {
+  const obj = { a: 1, b: { c: "nested", d: { e: false } } }
+  const expected = `{"a":1,"b":{"c":"nested","d":{"e":false}}}`
+
+  expect(serialize(obj)).toBe(expected)
+})
+
+test("it should serialize an object containing a vector-like object", () => {
+  const obj = { position: v(1, 2, 3) }
+  const expected = `{"position":{"_type":"vector","coords":[1,2,3]}}`
+
+  expect(serialize(obj)).toBe(expected)
+})
+
+test("it should serialize an object with nested vector-like objects", () => {
+  const obj = {
+    entity: {
+      id: "player",
+      pos: v(10, 20),
+      vel: v(1, 0),
+      stats: { health: 100 },
+    },
+  }
+  const expected = `{"entity":{"id":"player","pos":{"_type":"vector","coords":[10,20]},"vel":{"_type":"vector","coords":[1,0]},"stats":{"health":100}}}`
+
+  expect(serialize(obj)).toBe(expected)
+})
+
+test("it should serialize an empty object", () => {
+  const obj = {}
+  const expected = `{}`
+
+  expect(serialize(obj)).toBe(expected)
+})
+
+test("it should serialize an object with null and undefined values (undefined should be omitted)", () => {
+  const obj = { a: null, b: undefined, c: 1 }
+  const expected = `{"a":null,"c":1}` // JSON.stringify omits undefined properties
+
+  expect(serialize(obj)).toBe(expected)
+})
+
+test("it should deserialize a basic object with primitive values", () => {
+  const serialized = `{"a":1,"b":"hello","c":true}`
+  const expected = { a: 1, b: "hello", c: true }
+
+  expect(deserialize(serialized)).toStrictEqual(expected)
+})
+
+test("it should deserialize an object with nested objects", () => {
+  const serialized = `{"a":1,"b":{"c":"nested","d":{"e":false}}}`
+  const expected = { a: 1, b: { c: "nested", d: { e: false } } }
+
+  expect(deserialize(serialized)).toStrictEqual(expected)
+})
+
+test("it should deserialize an object containing a vector representation", () => {
+  const serialized = `{"position":{"_type":"vector","coords":[1,2,3]}}`
+  const expected = { position: v(1, 2, 3) }
+
+  const result = deserialize(serialized)
+
+  expect(result).toStrictEqual(expected)
+  expect(result.position.__isVector__).toBe(true)
+})
+
+test("it should deserialize an object with nested vector representations", () => {
+  const serialized = `{"entity":{"id":"player","pos":{"_type":"vector","coords":[10,20]},"vel":{"_type":"vector","coords":[1,0]},"stats":{"health":100}}}`
+  const expected = {
+    entity: {
+      id: "player",
+      pos: v(10, 20),
+      vel: v(1, 0),
+      stats: { health: 100 },
+    },
+  }
+  const result = deserialize(serialized)
+
+  expect(result).toStrictEqual(expected)
+  expect(result.entity.pos.__isVector__).toBe(true)
+  expect(result.entity.vel.__isVector__).toBe(true)
+})
+
+test("it should deserialize an empty object", () => {
+  const serialized = `{}`
+  const expected = {}
+
+  expect(deserialize(serialized)).toStrictEqual(expected)
+})
+
+test("it should correctly round-trip a complex object through serialize and deserialize", () => {
+  const original = {
+    id: "game1",
+    player: { name: "Alice", score: 100, position: v(10, 20) },
+    enemies: [{ type: "goblin", pos: v(5, 5) }],
+    settings: { volume: 0.8, mute: false },
+  }
+  const jsonString = serialize(original)
+  const deserialized = deserialize(jsonString)
+
+  expect(deserialized).toStrictEqual(original)
+  expect(deserialized.player.position.__isVector__).toBe(true)
+  expect(deserialized.enemies[0].pos.__isVector__).toBe(true)
+  // Ensure that non-vector objects are still distinct references if they were originally
+  expect(deserialized.player).not.toBe(original.player)
 })

@@ -1,3 +1,7 @@
+import {
+  deserialize,
+  serialize,
+} from "@inglorious/utils/data-structures/object.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
 
 import { coreEvents } from "../core-events.js"
@@ -33,7 +37,7 @@ export function multiplayerMiddleware(config = {}) {
     if (!event.fromServer) {
       if (ws?.readyState === WebSocket.OPEN) {
         // If the connection is open, send the event immediately.
-        ws.send(JSON.stringify(event))
+        ws.send(serialize(event))
       } else {
         // If the connection is not open, queue the event for later.
         localQueue.push(event)
@@ -62,12 +66,12 @@ export function multiplayerMiddleware(config = {}) {
     ws.onopen = () => {
       // Send any queued events to the server.
       while (localQueue.length) {
-        ws.send(JSON.stringify(localQueue.shift()))
+        ws.send(serialize(localQueue.shift()))
       }
     }
 
     ws.onmessage = (event) => {
-      const serverEvent = JSON.parse(event.data)
+      const serverEvent = deserialize(event.data)
 
       if (serverEvent.type === "initialState") {
         // Merge the server's initial state with the client's local state.

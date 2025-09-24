@@ -242,6 +242,9 @@ importers:
       '@inglorious/store':
         specifier: workspace:*
         version: link:../store
+      '@inglorious/utils':
+        specifier: workspace:*
+        version: link:../utils
       pino:
         specifier: ^9.9.4
         version: 9.9.4

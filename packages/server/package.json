@@ -1,6 +1,6 @@
 {
   "name": "@inglorious/server",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A real-time, lightweight server designed to enable multiplayer experiences for games built with the Inglorious Engine.",
   "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
   "license": "MIT",
@@ -44,6 +44,7 @@
   },
   "dependencies": {
     "@inglorious/store": "workspace:*",
+    "@inglorious/utils": "workspace:*",
     "pino": "^9.9.4",
     "ws": "^8.18.3"
   },
