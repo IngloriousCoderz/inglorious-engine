@@ -8,18 +8,56 @@
   <body>
     <h1>IngloriousScript in action!</h1>
 
+    <p>
+      IngloriousScript is as superset of JavaScript that allows you to define
+      vectors and perform operations on them:
+    </p>
+
     <pre>
       <code>
 const position = v(10, 20, 30)
 const velocity = v(1, 1.5, 2)
 const deltaTime = 0.16
+const worldSize = 20
 
-// This is IngloriousScript!
-const newPosition = position + velocity * deltaTime
+const newPosition = (position + velocity * deltaTime) % worldSize
       </code>
     </pre>
 
-    <div id="result"></div>
+    <div id="vectors"></div>
+
+    <p>
+      Vectors are just plain number arrays, but with a special property that
+      tells them apart:
+    </p>
+
+    <pre>
+      <code>
+const position = v(10, 20, 30)
+const [x, y, z] = position
+position.__isVector__
+      </code>
+    </pre>
+
+    <div id="is-vector"></div>
+
+    <p>
+      Even though vectors are basically just number arrays, operations on plain
+      number arrays will work the same as in JavaScript for compatibility:
+    </p>
+
+    <pre>
+  <code>
+const position = [10, 20, 30]
+const velocity = [1, 1.5, 2]
+const deltaTime = 0.16
+const worldSize = 20
+
+const newPosition = (position + velocity * deltaTime) % worldSize
+  </code>
+</pre>
+
+    <div id="arrays"></div>
 
     <script type="module" src="./src/main.js"></script>
   </body>

@@ -1,6 +1,7 @@
 import { addNamed } from "@babel/helper-module-imports"
 
 const VECTOR_MODULE = "@inglorious/utils/math/vector.js"
+const V_MODULE = "@inglorious/utils/v.js"
 
 /**
  * Ensures that a helper for a vector operation is tracked and will be injected into the program.
@@ -45,7 +46,16 @@ export function injectHelpers(babel, programPath, helpers) {
   const { types: t } = babel
   const helperMap = new Map()
 
+  const vId = addNamed(programPath, "v", V_MODULE)
   const isVectorId = addNamed(programPath, "isVector", VECTOR_MODULE)
+
+  programPath.traverse({
+    CallExpression(path) {
+      if (t.isIdentifier(path.node.callee, { name: "v" })) {
+        path.node.callee = t.cloneNode(vId)
+      }
+    },
+  })
 
   for (const { helperName, originalFunction, module } of helpers) {
     if (helperMap.has(helperName)) {

@@ -126,8 +126,7 @@ test("it should compute the magnitude of a vector (aka length)", () => {
 })
 
 test("it should check if a value is a vector", () => {
-  expect(isVector([1, 2, 3])).toBe(true)
-  expect(isVector([])).toBe(true)
+  expect(isVector([1, 2, 3])).toBe(false)
   expect(isVector(v(1, 2, 3))).toBe(true)
 })
 

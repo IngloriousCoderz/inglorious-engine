@@ -12,8 +12,7 @@ function transform(code) {
 
 // Existing tests
 test("it should transform vector + vector addition", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-const v1 = v(1, 2);
+  const code = `const v1 = v(1, 2);
 const v2 = v(3, 4);
 const result = v1 + v2;`
 
@@ -21,8 +20,7 @@ const result = v1 + v2;`
 })
 
 test("it should transform vector * scalar multiplication", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-const v1 = v(1, 2);
+  const code = `const v1 = v(1, 2);
 const s = 2;
 const result = v1 * s;`
 
@@ -30,8 +28,7 @@ const result = v1 * s;`
 })
 
 test("it should transform scalar * vector multiplication", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-const v1 = v(1, 2);
+  const code = `const v1 = v(1, 2);
 const s = 2;
 const result = s * v1;`
 
@@ -39,15 +36,13 @@ const result = s * v1;`
 })
 
 test("it should handle direct v() calls", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-const result = v(1, 2) + v(3, 4);`
+  const code = `const result = v(1, 2) + v(3, 4);`
 
   expect(transform(code)).toMatchSnapshot()
 })
 
 test("it should handle chained additions", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-const v1 = v(1, 2);
+  const code = `const v1 = v(1, 2);
 const v2 = v(3, 4);
 const v3 = v(5, 6);
 const result = v1 + v2 + v3;`
@@ -56,8 +51,7 @@ const result = v1 + v2 + v3;`
 })
 
 test("it should handle mixed addition and scaling", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-const v1 = v(1, 2);
+  const code = `const v1 = v(1, 2);
 const v2 = v(3, 4);
 const s = 2;
 const result = v1 + v2 * s;`
@@ -72,8 +66,7 @@ test("it should not transform scalar + scalar addition", () => {
 })
 
 test("it should throw an error for vector * vector multiplication", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-const v1 = v(1, 2);
+  const code = `const v1 = v(1, 2);
 const v2 = v(3, 4);
 const result = v1 * v2;`
 
@@ -83,8 +76,7 @@ const result = v1 * v2;`
 })
 
 test("it should trace variable declarations", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-const pos = v(1, 2);
+  const code = `const pos = v(1, 2);
 const vel = v(3, 4);
 const newPos = pos + vel;`
 
@@ -92,8 +84,7 @@ const newPos = pos + vel;`
 })
 
 test("it should handle imported vectors", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-import { initialPosition } from './vectors.js';
+  const code = `import { initialPosition } from './vectors.js';
 const result = initialPosition + v(1, 2);`
 
   expect(transform(code)).toMatchSnapshot()
@@ -113,8 +104,7 @@ test("it should transform scalar - vector (runtime check)", () => {
 // New tests for additional operations
 
 test("it should transform vector - vector subtraction", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-const v1 = v(5, 6);
+  const code = `const v1 = v(5, 6);
 const v2 = v(1, 2);
 const result = v1 - v2;`
 
@@ -122,8 +112,7 @@ const result = v1 - v2;`
 })
 
 test("it should transform vector / scalar division", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-const v1 = v(10, 20);
+  const code = `const v1 = v(10, 20);
 const s = 2;
 const result = v1 / s;`
 
@@ -131,8 +120,7 @@ const result = v1 / s;`
 })
 
 test("it should transform vector % scalar modulus", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-const v1 = v(15, 25);
+  const code = `const v1 = v(15, 25);
 const s = 10;
 const result = v1 % s;`
 
@@ -140,16 +128,14 @@ const result = v1 % s;`
 })
 
 test("it should transform unary minus on vector", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-const v1 = v(1, 2);
+  const code = `const v1 = v(1, 2);
 const result = -v1;`
 
   expect(transform(code)).toMatchSnapshot()
 })
 
 test("it should not transform unary plus on vector", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-const v1 = v(1, 2);
+  const code = `const v1 = v(1, 2);
 const result = +v1;`
 
   expect(transform(code)).toBe(code)
@@ -158,8 +144,7 @@ const result = +v1;`
 // Compound assignment tests
 
 test("it should transform vector += vector", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-let v1 = v(1, 2);
+  const code = `let v1 = v(1, 2);
 const v2 = v(3, 4);
 v1 += v2;`
 
@@ -167,8 +152,7 @@ v1 += v2;`
 })
 
 test("it should transform vector -= vector", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-let v1 = v(5, 6);
+  const code = `let v1 = v(5, 6);
 const v2 = v(1, 2);
 v1 -= v2;`
 
@@ -176,8 +160,7 @@ v1 -= v2;`
 })
 
 test("it should transform vector *= scalar", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-let v1 = v(1, 2);
+  const code = `let v1 = v(1, 2);
 const s = 2;
 v1 *= s;`
 
@@ -185,8 +168,7 @@ v1 *= s;`
 })
 
 test("it should transform vector /= scalar", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-let v1 = v(10, 20);
+  const code = `let v1 = v(10, 20);
 const s = 2;
 v1 /= s;`
 
@@ -194,8 +176,7 @@ v1 /= s;`
 })
 
 test("it should transform vector %= scalar", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-let v1 = v(15, 25);
+  const code = `let v1 = v(15, 25);
 const s = 10;
 v1 %= s;`
 
@@ -204,24 +185,21 @@ v1 %= s;`
 
 // UPDATED: These now transform safely with runtime checks
 test("it should transform vector += scalar (runtime check)", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-let v1 = v(1, 2);
+  const code = `let v1 = v(1, 2);
 v1 += 5;`
 
   expect(transform(code)).toMatchSnapshot()
 })
 
 test("it should transform vector -= scalar (runtime check)", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-let v1 = v(1, 2);
+  const code = `let v1 = v(1, 2);
 v1 -= 5;`
 
   expect(transform(code)).toMatchSnapshot()
 })
 
 test("it should transform vector *= vector (runtime check)", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-let v1 = v(1, 2);
+  const code = `let v1 = v(1, 2);
 const v2 = v(3, 4);
 v1 *= v2;`
 
@@ -231,32 +209,28 @@ v1 *= v2;`
 // Division and modulus operations (now transform safely)
 
 test("it should transform scalar / vector (runtime check)", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-const v1 = v(1, 2);
+  const code = `const v1 = v(1, 2);
 const result = 5 / v1;`
 
   expect(transform(code)).toMatchSnapshot()
 })
 
 test("it should transform scalar % vector (runtime check)", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-const v1 = v(1, 2);
+  const code = `const v1 = v(1, 2);
 const result = 5 % v1;`
 
   expect(transform(code)).toMatchSnapshot()
 })
 
 test("it should transform vector ** scalar", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-const v1 = v(1, 2);
+  const code = `const v1 = v(1, 2);
 const result = v1 ** 2;`
 
   expect(() => transform(code)).toMatchSnapshot()
 })
 
 test("it should throw an error for vector ** vector", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-const v1 = v(1, 2);
+  const code = `const v1 = v(1, 2);
 const v2 = v(3, 4);
 const result = v1 ** v2;`
 
@@ -264,8 +238,7 @@ const result = v1 ** v2;`
 })
 
 test("it should transform scalar ** vector (runtime check)", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-const v1 = v(1, 2);
+  const code = `const v1 = v(1, 2);
 const result = 2 ** v1;`
 
   expect(() => transform(code)).toMatchSnapshot()
@@ -274,8 +247,7 @@ const result = 2 ** v1;`
 // Complex chaining tests
 
 test("it should handle chaining with division", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-const v1 = v(10, 20);
+  const code = `const v1 = v(10, 20);
 const v2 = v(1, 2);
 const result = v1 / 2 + v2;`
 
@@ -283,8 +255,7 @@ const result = v1 / 2 + v2;`
 })
 
 test("it should handle chaining with modulus", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-const v1 = v(15, 25);
+  const code = `const v1 = v(15, 25);
 const v2 = v(1, 2);
 const result = v1 % 10 + v2;`
 
@@ -292,8 +263,7 @@ const result = v1 % 10 + v2;`
 })
 
 test("it should handle chaining with unary minus", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-const v1 = v(1, 2);
+  const code = `const v1 = v(1, 2);
 const v2 = v(3, 4);
 const result = -v1 + v2;`
 
@@ -301,8 +271,7 @@ const result = -v1 + v2;`
 })
 
 test("it should handle complex mixed operations", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-const position = v(10, 20);
+  const code = `const position = v(10, 20);
 const velocity = v(1, 2);
 const dt = 0.16;
 const worldSize = 100;
@@ -314,8 +283,7 @@ const newPosition = (position + velocity * dt) % worldSize;`
 // Edge cases
 
 test("it should handle nested expressions", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-const v1 = v(1, 2);
+  const code = `const v1 = v(1, 2);
 const v2 = v(3, 4);
 const v3 = v(5, 6);
 const result = v1 + (v2 - v3) * 2;`
@@ -324,8 +292,7 @@ const result = v1 + (v2 - v3) * 2;`
 })
 
 test("it should handle assignment to object properties", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-const obj = { pos: v(0, 0) };
+  const code = `const obj = { pos: v(0, 0) };
 const velocity = v(1, 2);
 obj.pos += velocity;`
 
@@ -333,8 +300,7 @@ obj.pos += velocity;`
 })
 
 test("it should handle array element assignment", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-const positions = [v(0, 0), v(1, 1)];
+  const code = `const positions = [v(0, 0), v(1, 1)];
 const velocity = v(1, 2);
 positions[0] += velocity;`
 
@@ -406,8 +372,7 @@ const sum = numbers[0] + numbers[1];`
 // NEW: Additional runtime safety tests
 
 test("it should handle mixed vector/scalar operations in complex expressions", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-const a = v(1, 2);
+  const code = `const a = v(1, 2);
 const b = 3;
 const c = v(4, 5);
 const result = a + b * c - 2;`
@@ -416,16 +381,14 @@ const result = a + b * c - 2;`
 })
 
 test("it should handle vector operations with potentially undefined values", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-import { maybeVector, maybeScalar } from './utils.js';
+  const code = `import { maybeVector, maybeScalar } from './utils.js';
 const result = maybeVector + maybeScalar;`
 
   expect(transform(code)).toMatchSnapshot()
 })
 
 test("it should handle function call results in vector operations", () => {
-  const code = `import { v } from '@inglorious/utils/v.js';
-function getVec() { return v(1, 2); }
+  const code = `function getVec() { return v(1, 2); }
 function getScalar() { return 5; }
 const result = getVec() * getScalar() + v(3, 4);`
 

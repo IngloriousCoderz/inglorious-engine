@@ -4,7 +4,6 @@
  * @typedef {import('./types').Vector3} Vector3
  */
 
-import { isArray } from "../data-structures/array.js"
 import { v } from "../v.js"
 import {
   abs as nAbs,
@@ -128,17 +127,13 @@ export function fromAngle(angle) {
 
 /**
  * Checks if a value is a vector.
- * A vector is an array of numbers. For performance, vectors created with `v()`
- * are tagged and can be identified more quickly.
+ * This is determined by checking for the `__isVector__` property, which is
+ * added by the `v()` factory function for efficient type checking.
  * @param {*} value - The value to check.
  * @returns {boolean} True if the value is a vector, false otherwise.
  */
 export function isVector(value) {
-  return (
-    value?.__isVector__ ||
-    (isArray(value) &&
-      value.every((coordinate) => typeof coordinate === "number"))
-  )
+  return !!value?.__isVector__
 }
 
 /**
