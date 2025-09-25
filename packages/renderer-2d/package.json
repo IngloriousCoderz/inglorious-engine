@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@inglorious/engine": "workspace:*",
+    "@inglorious/eslint-config": "workspace:*",
     "@inglorious/utils": "workspace:*"
   },
   "devDependencies": {

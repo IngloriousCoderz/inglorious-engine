@@ -48,5 +48,3 @@ lerna-debug.log*
 *.sln
 *.sw?
 .qodo
-
-*storybook.log

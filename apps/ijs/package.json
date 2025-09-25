@@ -1,17 +1,21 @@
 {
   "name": "inglorious-script",
   "version": "0.2.0",
+  "type": "module",
   "private": true,
   "description": "An example usage of the IngloriousScript language in action.",
   "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
   "license": "MIT",
   "packageManager": "pnpm@10.15.0",
   "scripts": {
+    "format": "prettier --write '**/*.{js,jsx}'",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "dev": "vite",
     "build": "vite build"
   },
   "devDependencies": {
     "@inglorious/babel-preset-inglorious-script": "workspace:*",
+    "@inglorious/eslint-config": "workspace:*",
     "@inglorious/utils": "workspace:*",
     "globals": "^16.3.0",
     "vite": "^7.1.6",

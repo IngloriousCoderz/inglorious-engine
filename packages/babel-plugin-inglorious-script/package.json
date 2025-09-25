@@ -41,6 +41,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
+    "@inglorious/eslint-config": "workspace:*",
     "vitest": "^2.0.4"
   },
   "engines": {

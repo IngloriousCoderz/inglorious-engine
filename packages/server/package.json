@@ -49,6 +49,7 @@
     "ws": "^8.18.3"
   },
   "devDependencies": {
+    "@inglorious/eslint-config": "workspace:*",
     "globals": "^16.3.0",
     "nodemon": "^3.1.10",
     "prettier": "^3.6.2"

@@ -1,6 +1,6 @@
 packages:
-  - packages/*
-  - inglorious-script
+  - "apps/*"
+  - "packages/*"
 
 onlyBuiltDependencies:
   - "@parcel/watcher"

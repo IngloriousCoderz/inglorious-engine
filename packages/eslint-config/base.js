@@ -1,18 +1,13 @@
 import js from "@eslint/js"
-import { defineConfig } from "eslint/config"
+import { defineConfig, globalIgnores } from "eslint/config"
 import simpleImportSortPlugin from "eslint-plugin-simple-import-sort"
-import globals from "globals"
 
 export default defineConfig([
+  globalIgnores(["dist"]),
   {
-    files: ["**/*.{js,mjs,cjs,jsx,ijs}"],
+    files: ["**/*.{js,mjs,cjs,jsx}"],
     extends: ["js/recommended"],
     plugins: { js },
-    languageOptions: {
-      globals: {
-        ...globals.browser,
-      },
-    },
   },
   {
     rules: {

@@ -36,6 +36,7 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@inglorious/eslint-config": "workspace:*",
     "@inglorious/store": "workspace:*",
     "@inglorious/utils": "workspace:*"
   },

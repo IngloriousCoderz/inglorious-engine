@@ -7,12 +7,12 @@
   "scripts": {
     "format": "prettier --write '**/*.{js,jsx}'",
     "lint": "turbo lint",
-    "build": "turbo build",
     "test": "turbo test",
+    "build": "turbo build",
     "build-docs": "pnpm --filter @inglorious/docs build-storybook",
+    "dev": "turbo dev",
     "publish-packages": "turbo run build lint test && changeset version && changeset publish",
-    "prepare": "husky",
-    "game": "serve game"
+    "prepare": "husky"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.6",
@@ -24,7 +24,6 @@
     "globals": "^16.3.0",
     "husky": "^9.1.7",
     "prettier": "^3.6.2",
-    "serve": "^14.2.5",
     "turbo": "^2.5.8"
   },
   "packageManager": "pnpm@10.17.1",
