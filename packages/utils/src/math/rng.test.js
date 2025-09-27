@@ -38,6 +38,15 @@ test("it should create a random even number in the range [2, 6]", () => {
   expect(randomNumber % 2).toBe(0)
 })
 
+test("it should create a random float in the range [1.5, 6.5)", () => {
+  const from = 1.5
+  const to = 6.5
+  const randomNumber = random(from, to)
+
+  expect(randomNumber).toBeGreaterThanOrEqual(from)
+  expect(randomNumber).toBeLessThan(to)
+})
+
 test("it should create a random number in the range (-1, 1)", () => {
   const randomNumber = randomBinomial()
 

@@ -16,19 +16,31 @@ export function choose(...values) {
 /**
  * Generates a random number.
  * - If no arguments are provided, returns a random float between 0 (inclusive) and 1 (exclusive).
- * - If one argument is provided, returns a random integer between 0 and the given number (inclusive).
- * - If two or more arguments are provided, returns a random integer within the specified range and step.
- * @param {number} [to] - The upper bound (inclusive) if one argument is provided.
- * @param {number} [from] - The lower bound (inclusive) if two arguments are provided.
+ * - If one argument (`to`) is provided, returns a random integer between 0 and `to` (inclusive).
+ * - If two arguments (`from`, `to`) are provided:
+ *   - If they are integers, returns a random integer between `from` and `to` (inclusive).
+ *   - If they are floats, returns a random float between `from` (inclusive) and `to` (exclusive).
+ * - If three arguments (`from`, `to`, `step`) are provided, returns a random integer within the specified range and step.
+ * @param {number} [to] - The upper bound.
+ * @param {number} [from] - The lower bound.
  * @param {number} [step=1] - The step size if two or more arguments are provided.
  * @returns {number} A random number based on the provided arguments.
  */
 export function random(...args) {
-  let step, from, to
-
   if (!args.length) {
     return Math.random()
   }
+
+  if (
+    args.length > 1 &&
+    !Number.isInteger(args[0]) &&
+    !Number.isInteger(args[1])
+  ) {
+    const [from, to] = args
+    return Math.random() * (to - from) + from
+  }
+
+  let step, from, to
 
   if (args.length === 1) {
     step = 1

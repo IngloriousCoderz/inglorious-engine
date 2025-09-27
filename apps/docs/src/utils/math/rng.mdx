@@ -26,13 +26,17 @@ A parameter `n` means the random number will be an integer in the range `[0, n]`
 
 <code>random(6) == {random(6)}</code>&nbsp;
 
-Two parameters `n` and `m` means the random number will be an integer in the range `[n, m]` (both numbers included).
+Two integer parameters `n` and `m` means the random number will be an integer in the range `[n, m]` (both numbers included).
 
 <code>random(1, 6) == {random(1, 6)}</code>&nbsp;
 
 A third parameter allows to specify the step.
 
 <code>random(2, 6, 2) == {random(2, 6, 2)}</code>&nbsp;
+
+If the two parameters are floats, the random number will be a float in the range `[n, m)` (`n` included, `m` excluded).
+
+<code>random(1.5, 6.5) == {random(1.5, 6.5)}</code>&nbsp;
 
 ## Random Binomial
 

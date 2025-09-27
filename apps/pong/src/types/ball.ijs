@@ -2,7 +2,7 @@
 import { findCollision } from "@inglorious/engine/collision/detection"
 import { renderRectangle } from "@inglorious/renderer-2d/shapes/rectangle"
 import { extend } from "@inglorious/utils/data-structures/objects"
-import { choose } from "@inglorious/utils/math/rng"
+import { choose, random } from "@inglorious/utils/math/rng"
 import { pi } from "@inglorious/utils/math/trigonometry"
 import { fromAngle } from "@inglorious/utils/math/vector"
 
@@ -46,7 +46,6 @@ export const ball = [
 
         if (entity.position[Z] < 0 || entity.position[Z] > gameHeight) {
           entity.orientation *= REVERSE
-          entity.velocity = fromAngle(entity.orientation) * entity.maxSpeed
         }
 
         const entities = api.getEntities()
@@ -57,21 +56,22 @@ export const ball = [
 
           const isMovingLeft = entity.velocity[X] < 0
 
+          let targetX
           if (isMovingLeft) {
-            const targetX =
+            entity.orientation = random((-1 / 6) * pi(), (1 / 6) * pi())
+            targetX =
               collidingEntity.position[X] + paddleHalfWidth + ballHalfWidth
-            entity.position[X] = targetX
           } else {
-            const targetX =
+            entity.orientation = random((5 / 6) * pi(), (7 / 6) * pi())
+            targetX =
               collidingEntity.position[X] - paddleHalfWidth - ballHalfWidth
-            entity.position[X] = targetX
           }
 
-          entity.orientation = pi() - entity.orientation
+          entity.position[X] = targetX
           entity.maxSpeed *= SPEED_INCREASE
-          entity.velocity = fromAngle(entity.orientation) * entity.maxSpeed
         }
 
+        entity.velocity = fromAngle(entity.orientation) * entity.maxSpeed
         entity.position += entity.velocity * dt
       },
     }),
