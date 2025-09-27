@@ -45,12 +45,12 @@ export default {
       size: 8,
       color: "white",
       textAlign: "center",
-      value: "Hello Pong!",
+      value: "Welcome to Pong!\nPress Enter to begin!",
     },
 
     score: {
       type: "score",
-      position: v(WIDTH / 2, 0, HEIGHT - 20),
+      position: v(WIDTH / 2, 0, HEIGHT / 2 + 32),
       font: "'Press Start 2P'",
       size: 32,
       color: "white",

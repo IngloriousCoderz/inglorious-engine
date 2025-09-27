@@ -42,7 +42,19 @@ export const ball = [
         entity.velocity = fromAngle(entity.orientation) * entity.maxSpeed
 
         const game = api.getEntity("game")
-        const [, gameHeight] = game.size
+        const [gameWidth, gameHeight] = game.size
+
+        if (entity.position[X] < 0 || entity.position[X] > gameWidth) {
+          if (entity.position[X] < 0) {
+            api.notify("playerScore", "player2")
+          }
+
+          if (entity.position[X] > gameWidth) {
+            api.notify("playerScore", "player1")
+          }
+
+          api.notify("reset")
+        }
 
         if (entity.position[Z] < 0 || entity.position[Z] > gameHeight) {
           entity.orientation *= REVERSE

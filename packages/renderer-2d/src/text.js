@@ -1,5 +1,6 @@
 const DEFAULT_SIZE = 16
 const DEFAULT_PADDING = 10
+const LINE_NUMBER_OFFSET = 1
 
 export function renderText(entity, ctx) {
   const {
@@ -16,7 +17,15 @@ export function renderText(entity, ctx) {
   ctx.font = `${size}px ${font}`
   ctx.fillStyle = color
   ctx.textAlign = textAlign
-  ctx.fillText(value, padding, padding + size)
+
+  const tokens = value.split("\n")
+  tokens.forEach((token, index) => {
+    ctx.fillText(
+      token,
+      padding,
+      (padding + size) * (index + LINE_NUMBER_OFFSET),
+    )
+  })
 
   ctx.restore()
 }

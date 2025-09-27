@@ -5,6 +5,10 @@ export const score = [
   { render: renderText },
   (type) =>
     extend(type, {
+      playerScore(entity, entityId) {
+        entity[entityId]++
+      },
+
       update(entity, dt, api) {
         type.update?.(entity, dt, api)
 
