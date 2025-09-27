@@ -1,4 +1,4 @@
-import { ensureHelper, injectHelpers } from "./helpers.js"
+import { injectHelpers } from "./helpers.js"
 import { isVector } from "./static-check.js"
 
 const VECTORS_MODULE = "@inglorious/utils/math/vectors.js"
@@ -13,11 +13,11 @@ export default function (babel) {
     name: "inglorious-script",
     visitor: {
       Program: {
+        enter() {
+          this.vectorHelpers = new Map()
+        },
         exit(path) {
-          // Only inject helpers if we've used any vector operations
-          if (this.hasVectorOperations) {
-            injectHelpers(babel, path, this.vectorHelpers)
-          }
+          injectHelpers(babel, path, this.vectorHelpers)
         },
       },
 
@@ -34,12 +34,11 @@ export default function (babel) {
           if (isLeftVector || isRightVector) {
             const helperName =
               operator === "+" ? "__vectorSum" : "__vectorSubtract"
-            ensureHelper(
-              this,
+            this.vectorHelpers.set(helperName, {
               helperName,
-              operator === "+" ? "sum" : "subtract",
-              VECTORS_MODULE,
-            )
+              originalFunction: operator === "+" ? "sum" : "subtract",
+              module: VECTORS_MODULE,
+            })
 
             const operationCall = t.callExpression(t.identifier(helperName), [
               left,
@@ -58,7 +57,10 @@ export default function (babel) {
             )
           } else if (isLeftVector || isRightVector) {
             // Handle vector * scalar, scalar * vector, or uncertain mixed cases
-            ensureHelper(this, "__vectorScale", "scale", VECTOR_MODULE)
+            this.vectorHelpers.set("__vectorScale", {
+              originalFunction: "scale",
+              module: VECTOR_MODULE,
+            })
             const scaleCall = t.callExpression(t.identifier("__vectorScale"), [
               left,
               right,
@@ -70,7 +72,10 @@ export default function (babel) {
         // --- Vector Division: v1 / s or potential mixed operations ---
         else if (operator === "/") {
           if (isLeftVector || isRightVector) {
-            ensureHelper(this, "__vectorDivide", "divide", VECTOR_MODULE)
+            this.vectorHelpers.set("__vectorDivide", {
+              originalFunction: "divide",
+              module: VECTOR_MODULE,
+            })
             const divideCall = t.callExpression(
               t.identifier("__vectorDivide"),
               [left, right],
@@ -82,7 +87,10 @@ export default function (babel) {
         // --- Vector Modulus: v1 % s or potential mixed operations ---
         else if (operator === "%") {
           if (isLeftVector || isRightVector) {
-            ensureHelper(this, "__vectorMod", "mod", VECTOR_MODULE)
+            this.vectorHelpers.set("__vectorMod", {
+              originalFunction: "mod",
+              module: VECTOR_MODULE,
+            })
             const modCall = t.callExpression(t.identifier("__vectorMod"), [
               left,
               right,
@@ -94,7 +102,10 @@ export default function (babel) {
         // --- Vector Exponentiation: v1 ** s (power operator) ---
         else if (operator === "**") {
           if (isLeftVector || isRightVector) {
-            ensureHelper(this, "__vectorPower", "power", VECTOR_MODULE)
+            this.vectorHelpers.set("__vectorPower", {
+              originalFunction: "power",
+              module: VECTOR_MODULE,
+            })
             const powerCall = t.callExpression(t.identifier("__vectorPower"), [
               left,
               right,
@@ -118,7 +129,10 @@ export default function (babel) {
           const helperName =
             operator === "+=" ? "__vectorSum" : "__vectorSubtract"
           const functionName = operator === "+=" ? "sum" : "subtract"
-          ensureHelper(this, helperName, functionName, VECTORS_MODULE)
+          this.vectorHelpers.set(helperName, {
+            originalFunction: functionName,
+            module: VECTORS_MODULE,
+          })
 
           // Transform: v1 += v2  ->  v1 = __vectorSum(v1, v2)
           // Let wrapper function handle vector vs scalar logic
@@ -133,7 +147,10 @@ export default function (babel) {
 
         // Vector scaling assignment: v1 *= s
         else if (operator === "*=") {
-          ensureHelper(this, "__vectorScale", "scale", VECTOR_MODULE)
+          this.vectorHelpers.set("__vectorScale", {
+            originalFunction: "scale",
+            module: VECTOR_MODULE,
+          })
 
           // Transform: v1 *= s  ->  v1 = __vectorScale(v1, s)
           // Let wrapper function handle vector vs scalar logic
@@ -148,7 +165,10 @@ export default function (babel) {
 
         // Vector division assignment: v1 /= s
         else if (operator === "/=") {
-          ensureHelper(this, "__vectorDivide", "divide", VECTOR_MODULE)
+          this.vectorHelpers.set("__vectorDivide", {
+            originalFunction: "divide",
+            module: VECTOR_MODULE,
+          })
 
           // Transform: v1 /= s  ->  v1 = __vectorDivide(v1, s)
           path.replaceWith(
@@ -162,7 +182,10 @@ export default function (babel) {
 
         // Vector modulus assignment: v1 %= s
         else if (operator === "%=") {
-          ensureHelper(this, "__vectorMod", "mod", VECTOR_MODULE)
+          this.vectorHelpers.set("__vectorMod", {
+            originalFunction: "mod",
+            module: VECTOR_MODULE,
+          })
 
           // Transform: v1 %= s  ->  v1 = __vectorMod(v1, s)
           path.replaceWith(
@@ -176,7 +199,10 @@ export default function (babel) {
 
         // Vector power assignment: v1 **= s
         else if (operator === "**=") {
-          ensureHelper(this, "__vectorPower", "power", VECTOR_MODULE)
+          this.vectorHelpers.set("__vectorPower", {
+            originalFunction: "power",
+            module: VECTOR_MODULE,
+          })
 
           // Transform: v1 **= s  ->  v1 = __vectorPower(v1, s)
           path.replaceWith(
@@ -200,7 +226,10 @@ export default function (babel) {
 
         // Unary minus: -v1 -> __vectorScale(v1, -1)
         if (operator === "-") {
-          ensureHelper(this, "__vectorScale", "scale", VECTOR_MODULE)
+          this.vectorHelpers.set("__vectorScale", {
+            originalFunction: "scale",
+            module: VECTOR_MODULE,
+          })
 
           const negateCall = t.callExpression(t.identifier("__vectorScale"), [
             argument,

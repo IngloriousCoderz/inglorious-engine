@@ -48,6 +48,10 @@
     "pino": "^9.9.4",
     "ws": "^8.18.3"
   },
+  "peerDependencies": {
+    "@inglorious/store": "workspace:*",
+    "@inglorious/utils": "workspace:*"
+  },
   "devDependencies": {
     "@inglorious/eslint-config": "workspace:*",
     "globals": "^16.3.0",

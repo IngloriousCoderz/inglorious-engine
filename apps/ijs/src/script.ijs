@@ -1,6 +1,4 @@
-/* eslint-disable no-magic-numbers */
 import { toString } from "@inglorious/utils/math/vector.js"
-import { v } from "@inglorious/utils/v.js"
 
 {
   const position = v(10, 20, 30)

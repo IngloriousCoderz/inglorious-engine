@@ -138,7 +138,7 @@ test("it should not transform unary plus on vector", () => {
   const code = `const v1 = v(1, 2);
 const result = +v1;`
 
-  expect(transform(code)).toBe(code)
+  expect(transform(code)).toMatchSnapshot()
 })
 
 // Compound assignment tests

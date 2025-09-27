@@ -29,10 +29,14 @@
   },
   "dependencies": {
     "@inglorious/engine": "workspace:*",
-    "@inglorious/eslint-config": "workspace:*",
+    "@inglorious/utils": "workspace:*"
+  },
+  "peerDependencies": {
+    "@inglorious/engine": "workspace:*",
     "@inglorious/utils": "workspace:*"
   },
   "devDependencies": {
+    "@inglorious/eslint-config": "workspace:*",
     "eslint": "^9.34.0",
     "prettier": "^3.6.2",
     "vitest": "^1.6.0"

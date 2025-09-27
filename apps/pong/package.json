@@ -1,9 +1,9 @@
 {
-  "name": "inglorious-script",
-  "version": "0.2.0",
+  "name": "inglorious-pong",
+  "version": "0.1.0",
   "type": "module",
   "private": true,
-  "description": "An example usage of the IngloriousScript language in action.",
+  "description": "The game of Pong, re-implemented with the Inglorious Engine.",
   "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
   "license": "MIT",
   "scripts": {
@@ -11,6 +11,11 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "dev": "vite",
     "build": "vite build"
+  },
+  "dependencies": {
+    "@inglorious/engine": "workspace:*",
+    "@inglorious/renderer-2d": "workspace:*",
+    "@inglorious/utils": "workspace:*"
   },
   "devDependencies": {
     "@inglorious/babel-preset-inglorious-script": "workspace:*",

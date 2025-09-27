@@ -3,29 +3,6 @@ import { addNamed } from "@babel/helper-module-imports"
 const VECTOR_MODULE = "@inglorious/utils/math/vector.js"
 const V_MODULE = "@inglorious/utils/v.js"
 
-/**
- * Ensures that a helper for a vector operation is tracked and will be injected into the program.
- * It adds the helper details to a Set on the plugin state.
- * @param {object} pluginState The Babel plugin state.
- * @param {string} helperName The name of the helper function to generate (e.g., `__vectorSum`).
- * @param {string} originalFunction The original function name to import from the module (e.g., `sum`).
- * @param {string} module The module from which to import the original function.
- */
-export function ensureHelper(
-  pluginState,
-  helperName,
-  originalFunction,
-  module,
-) {
-  if (!pluginState.vectorHelpers) {
-    pluginState.vectorHelpers = new Set()
-  }
-  if (!pluginState.hasVectorOperations) {
-    pluginState.hasVectorOperations = true
-  }
-  pluginState.vectorHelpers.add({ helperName, originalFunction, module })
-}
-
 const helperConfig = {
   __vectorSum: { operator: "+", type: "vec_op_vec" },
   __vectorSubtract: { operator: "-", type: "vec_op_vec" },
@@ -40,47 +17,57 @@ const helperConfig = {
  * This function is called at the end of the program traversal.
  * @param {import("@babel/core")} babel The Babel core object.
  * @param {import("@babel/traverse").NodePath<import("@babel/types").Program>} programPath The path to the Program node.
- * @param {Set<{helperName: string, originalFunction: string, module: string}>} helpers A set of helper configurations to be injected.
+ * @param {Map<string, {originalFunction: string, module: string}>} helpers A map of helper configurations to be injected.
  */
 export function injectHelpers(babel, programPath, helpers) {
   const { types: t } = babel
-  const helperMap = new Map()
 
-  const vId = addNamed(programPath, "v", V_MODULE)
-  const isVectorId = addNamed(programPath, "isVector", VECTOR_MODULE)
+  let hasVCalls = false
 
   programPath.traverse({
     CallExpression(path) {
       if (t.isIdentifier(path.node.callee, { name: "v" })) {
-        path.node.callee = t.cloneNode(vId)
+        hasVCalls = true
+        path.stop()
       }
     },
   })
 
-  for (const { helperName, originalFunction, module } of helpers) {
-    if (helperMap.has(helperName)) {
-      continue
-    }
+  if (hasVCalls) {
+    const vId = addNamed(programPath, "v", V_MODULE)
 
-    const config = helperConfig[helperName]
-    if (!config) {
-      continue
-    }
-
-    const importId = addNamed(programPath, originalFunction, module)
-
-    const helperFunction = createHelper(
-      t,
-      helperName,
-      config.operator,
-      importId,
-      isVectorId,
-      config.type,
-    )
-    helperMap.set(helperName, helperFunction)
+    programPath.traverse({
+      CallExpression(path) {
+        if (t.isIdentifier(path.node.callee, { name: "v" })) {
+          path.node.callee = t.cloneNode(vId)
+        }
+      },
+    })
   }
 
-  programPath.unshiftContainer("body", Array.from(helperMap.values()))
+  let isVectorId = null
+
+  if (helpers.size) {
+    isVectorId = addNamed(programPath, "isVector", VECTOR_MODULE)
+  }
+
+  const helperFunctions = Array.from(helpers.entries()).map(
+    ([helperName, { originalFunction, module }]) => {
+      const importId = addNamed(programPath, originalFunction, module)
+      const config = helperConfig[helperName]
+
+      return createHelper(
+        t,
+        helperName,
+        config.operator,
+        importId,
+        isVectorId,
+        config.type,
+      )
+    },
+  )
+
+  programPath.unshiftContainer("body", helperFunctions)
 }
 
 /**

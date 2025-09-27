@@ -1,0 +1,24 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+canvas {
+  max-width: 100%;
+  max-height: 100%;
+  cursor: none;
+}
+
+img {
+  display: none;
+}

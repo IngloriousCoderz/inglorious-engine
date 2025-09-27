@@ -234,13 +234,18 @@ const result = __vectorSum(v1, __vectorScale(__vectorSubtract(v2, v3), 2));"
 exports[`it should handle vector operations with potentially undefined values 1`] = `
 "import { sum as _sum } from "@inglorious/utils/math/vectors.js";
 import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
-import { v as _v } from "@inglorious/utils/v.js";
 function __vectorSum(a, b) {
   if (a && _isVector(a) && b && _isVector(b)) return _sum(a, b);
   return a + b;
 }
 import { maybeVector, maybeScalar } from './utils.js';
 const result = __vectorSum(maybeVector, maybeScalar);"
+`;
+
+exports[`it should not transform unary plus on vector 1`] = `
+"import { v as _v } from "@inglorious/utils/v.js";
+const v1 = _v(1, 2);
+const result = +v1;"
 `;
 
 exports[`it should throw an error for vector ** vector 1`] = `[Function]`;
@@ -262,7 +267,6 @@ exports[`it should transform array element operations (runtime check) 1`] = `
 "import { scale as _scale } from "@inglorious/utils/math/vector.js";
 import { sum as _sum } from "@inglorious/utils/math/vectors.js";
 import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
-import { v as _v } from "@inglorious/utils/v.js";
 function __vectorSum(a, b) {
   if (a && _isVector(a) && b && _isVector(b)) return _sum(a, b);
   return a + b;
@@ -282,7 +286,6 @@ exports[`it should transform member expression operations (runtime check) 1`] = 
 "import { scale as _scale } from "@inglorious/utils/math/vector.js";
 import { sum as _sum } from "@inglorious/utils/math/vectors.js";
 import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
-import { v as _v } from "@inglorious/utils/v.js";
 function __vectorSum(a, b) {
   if (a && _isVector(a) && b && _isVector(b)) return _sum(a, b);
   return a + b;
