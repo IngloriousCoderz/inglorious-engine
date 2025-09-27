@@ -93,7 +93,7 @@ export function conjugate(vector) {
  * @returns {Vector3} The created 3D vector.
  */
 export function createVector(magnitude, angle) {
-  return multiply(fromAngle(angle), magnitude)
+  return scale(fromAngle(angle), magnitude)
 }
 
 /**
@@ -221,9 +221,9 @@ export const remainder = mod
 export function rotate(vector, angle) {
   const is2D = vector.length === TWO_COORDINATES
 
-  let v = is2D ? from2D(vector) : vector
+  const vector3 = is2D ? from2D(vector) : vector
 
-  let result = rotateWithQuaternion(v, angle)
+  const result = rotateWithQuaternion(vector3, angle)
 
   return is2D ? to2D(result) : result
 }
@@ -254,7 +254,7 @@ export const setLength = setMagnitude
  */
 export function setMagnitude(vector, length) {
   const normalized = normalize(vector)
-  return multiply(normalized, length)
+  return scale(normalized, length)
 }
 
 /**
@@ -389,7 +389,7 @@ function rotateWithQuaternion(vector, angle) {
   const [w, ...r] = quaternion(angle)
   const result = sum(
     vector,
-    cross(multiply(r, 2), sum(cross(r, vector), multiply(vector, w))), // eslint-disable-line no-magic-numbers
+    cross(scale(r, 2), sum(cross(r, vector), scale(vector, w))), // eslint-disable-line no-magic-numbers
   )
 
   return conjugate(result) // HACK: not really sure why I should invert the result, it just works this way

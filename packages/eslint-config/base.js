@@ -5,9 +5,10 @@ import simpleImportSortPlugin from "eslint-plugin-simple-import-sort"
 export default defineConfig([
   globalIgnores(["dist"]),
   {
-    files: ["**/*.{js,mjs,cjs,jsx}"],
+    files: ["**/*.{js,mjs,cjs,jsx,ijs}"],
     extends: ["js/recommended"],
     plugins: { js },
+    languageOptions: { globals: { v: true } },
   },
   {
     rules: {

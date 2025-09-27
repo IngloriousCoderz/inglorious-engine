@@ -90,15 +90,18 @@ const result = initialPosition + v(1, 2);`
   expect(transform(code)).toMatchSnapshot()
 })
 
-// UPDATED: These now transform safely with runtime checks
-test("it should transform vector + scalar (runtime check)", () => {
+test("it should throw an error for vector + scalar", () => {
   const code = `const result = v(1, 2) + 5;`
-  expect(transform(code)).toMatchSnapshot()
+
+  expect(() => transform(code)).toThrow("Cannot add a vector and a non-vector.")
 })
 
-test("it should transform scalar - vector (runtime check)", () => {
+test("it should throw an error for scalar - vector", () => {
   const code = `const result = 5 - v(1, 2);`
-  expect(transform(code)).toMatchSnapshot()
+
+  expect(() => transform(code)).toThrow(
+    "Cannot subtract a vector and a non-vector.",
+  )
 })
 
 // New tests for additional operations
@@ -183,50 +186,57 @@ v1 %= s;`
   expect(transform(code)).toMatchSnapshot()
 })
 
-// UPDATED: These now transform safely with runtime checks
-test("it should transform vector += scalar (runtime check)", () => {
+test("it should throw an error for vector += scalar", () => {
   const code = `let v1 = v(1, 2);
 v1 += 5;`
 
-  expect(transform(code)).toMatchSnapshot()
+  expect(() => transform(code)).toThrow("Cannot add a vector and a non-vector.")
 })
 
-test("it should transform vector -= scalar (runtime check)", () => {
+test("it should throw an error for vector -= scalar", () => {
   const code = `let v1 = v(1, 2);
 v1 -= 5;`
 
-  expect(transform(code)).toMatchSnapshot()
+  expect(() => transform(code)).toThrow(
+    "Cannot subtract a vector and a non-vector.",
+  )
 })
 
-test("it should transform vector *= vector (runtime check)", () => {
+test("it should throw an error for vector *= vector", () => {
   const code = `let v1 = v(1, 2);
 const v2 = v(3, 4);
 v1 *= v2;`
 
-  expect(transform(code)).toMatchSnapshot()
+  expect(() => transform(code)).toThrow(
+    "Cannot multiply two vectors. Did you mean dot product (dot(v1, v2)) or cross product (cross(v1, v2))?",
+  )
 })
 
-// Division and modulus operations (now transform safely)
+// Division and modulus operations
 
-test("it should transform scalar / vector (runtime check)", () => {
+test("it should throw an error for scalar / vector", () => {
   const code = `const v1 = v(1, 2);
 const result = 5 / v1;`
 
-  expect(transform(code)).toMatchSnapshot()
+  expect(() => transform(code)).toThrow(
+    "Cannot divide a non-vector by a vector.",
+  )
 })
 
-test("it should transform scalar % vector (runtime check)", () => {
+test("it should throw an error for scalar % vector", () => {
   const code = `const v1 = v(1, 2);
 const result = 5 % v1;`
 
-  expect(transform(code)).toMatchSnapshot()
+  expect(() => transform(code)).toThrow(
+    "Cannot compute the modulus between a non-vector and a vector.",
+  )
 })
 
 test("it should transform vector ** scalar", () => {
   const code = `const v1 = v(1, 2);
 const result = v1 ** 2;`
 
-  expect(() => transform(code)).toMatchSnapshot()
+  expect(transform(code)).toMatchSnapshot()
 })
 
 test("it should throw an error for vector ** vector", () => {
@@ -234,14 +244,18 @@ test("it should throw an error for vector ** vector", () => {
 const v2 = v(3, 4);
 const result = v1 ** v2;`
 
-  expect(() => transform(code)).toMatchSnapshot()
+  expect(() => transform(code)).toThrow(
+    "Cannot raise a vector to the power of another vector.",
+  )
 })
 
-test("it should transform scalar ** vector (runtime check)", () => {
+test("it should throw an error for scalar ** vector", () => {
   const code = `const v1 = v(1, 2);
 const result = 2 ** v1;`
 
-  expect(() => transform(code)).toMatchSnapshot()
+  expect(() => transform(code)).toThrow(
+    "Cannot raise a non-vector by the power of a vector.",
+  )
 })
 
 // Complex chaining tests
@@ -369,15 +383,17 @@ const sum = numbers[0] + numbers[1];`
   expect(transform(code)).toMatchSnapshot()
 })
 
-// NEW: Additional runtime safety tests
+// Additional runtime safety tests
 
-test("it should handle mixed vector/scalar operations in complex expressions", () => {
+test("it should throw an error for mixed vector/scalar subtraction", () => {
   const code = `const a = v(1, 2);
 const b = 3;
 const c = v(4, 5);
 const result = a + b * c - 2;`
 
-  expect(transform(code)).toMatchSnapshot()
+  expect(() => transform(code)).toThrow(
+    "Cannot subtract a vector and a non-vector.",
+  )
 })
 
 test("it should handle vector operations with potentially undefined values", () => {

@@ -1,12 +1,18 @@
 import { Meta } from '@storybook/addon-docs/blocks'
 
-import { random, randomBinomial } from '@inglorious/utils/math/rng'
+import { choose, random, randomBinomial } from '@inglorious/utils/math/rng'
 
 <Meta title="Utils/Math/Rng" />
 
 # Rng
 
 Random number generators.
+
+## Choose
+
+Chooses a random value from the given arguments.
+
+<code>choose('a', 'b', 'c') == "{choose('a', 'b', 'c')}"</code>&nbsp;
 
 ## Random
 

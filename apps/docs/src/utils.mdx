@@ -1,7 +1,7 @@
 import { Meta } from '@storybook/addon-docs/blocks'
 
 import { toString } from '@inglorious/utils/math/vector.js'
-import { v } from '@inglorious/utils/v.js'
+import { v, ensureV } from '@inglorious/utils/v.js'
 
 <Meta title="Utils/Docs" />
 
@@ -59,3 +59,26 @@ The `v` function is a special, top-level export for creating vectors. It's a con
 <code>v(1, 2, 3) == {toString(v(1, 2, 3))}</code>&nbsp;
 
 <code>v() == {toString(v())}</code>&nbsp;
+
+## ensureV
+
+The `ensureV` function is a utility to guarantee that a value is a vector. It's especially useful after performing standard array operations on a vector, like `.map()` or `.filter()`, which return a new, plain array. `ensureV` will re-tag this array as a vector.
+
+- If the value is an array of numbers but not a vector, it's converted to one.
+- If the value is already a vector, it's returned as is.
+- If the value is not a numeric array (e.g., a string, number, or an array of other types), it's returned unchanged.
+
+Here's an example of how you might use it:
+
+```javascript
+import { v, ensureV } from '@inglorious/utils/v';
+
+const vector = v(1, 2, 3);
+const plainArray = vector.map(x => x * 2); // [2, 4, 6]
+const newVector = ensureV(plainArray); // v(2, 4, 6)
+
+console.log(plainArray.__isVector__); // undefined
+console.log(newVector.__isVector__); // true
+```
+
+<code>ensureV([1, 2, 3]) == {toString(ensureV([1, 2, 3]))}</code>

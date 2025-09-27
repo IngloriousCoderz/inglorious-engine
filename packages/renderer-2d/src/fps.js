@@ -7,7 +7,7 @@ export function renderFps(entity, ctx) {
 
   renderText(
     {
-      ...entity.dt,
+      ...entity,
       value: `FPS: ${(ONE_SECOND / value).toFixed(accuracy)}`,
     },
     ctx,

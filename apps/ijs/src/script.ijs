@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 import { toString } from "@inglorious/utils/math/vector.js"
 
 {

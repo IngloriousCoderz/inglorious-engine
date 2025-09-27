@@ -1,6 +1,19 @@
 /* eslint-disable no-magic-numbers */
 
 /**
+ * Chooses a random value from the given arguments.
+ * @param {...*} values - The values to choose from.
+ * @returns {*} A randomly selected value.
+ */
+export function choose(...values) {
+  if (!values.length) {
+    return undefined
+  }
+  const index = random(values.length - 1)
+  return values[index]
+}
+
+/**
  * Generates a random number.
  * - If no arguments are provided, returns a random float between 0 (inclusive) and 1 (exclusive).
  * - If one argument is provided, returns a random integer between 0 and the given number (inclusive).

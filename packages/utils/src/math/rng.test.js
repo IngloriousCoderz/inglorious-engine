@@ -1,6 +1,13 @@
 import { expect, test } from "vitest"
 
-import { random, randomBinomial } from "./rng.js"
+import { choose, random, randomBinomial } from "./rng.js"
+
+test("it should choose a random value from the given arguments", () => {
+  const values = ["a", "b", "c"]
+  const chosenValue = choose(...values)
+
+  expect(values).toContain(chosenValue)
+})
 
 test("it should create a random number in the range [0, 1)", () => {
   const randomNumber = random()

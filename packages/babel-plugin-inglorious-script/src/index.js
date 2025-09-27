@@ -1,246 +1,224 @@
+import { addNamed } from "@babel/helper-module-imports"
+
+import { Config } from "./config.js"
 import { injectHelpers } from "./helpers.js"
-import { isVector } from "./static-check.js"
+import {
+  couldBeVector,
+  isCertainlyScalar,
+  isCertainlyVector,
+} from "./static-check.js"
 
-const VECTORS_MODULE = "@inglorious/utils/math/vectors.js"
-const VECTOR_MODULE = "@inglorious/utils/math/vector.js"
-
+const V_MODULE = "@inglorious/utils/v.js"
 const UNARY_MINUS = -1
 
 export default function (babel) {
-  const { types: t } = babel
+  const t = babel.types
 
   return {
     name: "inglorious-script",
     visitor: {
       Program: {
         enter() {
-          this.vectorHelpers = new Map()
+          this.vectorOperators = new Set()
+          this.needsEnsureV = false
         },
         exit(path) {
-          injectHelpers(babel, path, this.vectorHelpers)
+          // Import ensureV if we detected component assignments
+          if (this.needsEnsureV) {
+            const ensureVId = addNamed(path, "ensureV", V_MODULE)
+            // Replace all ensureV calls with the imported identifier
+            path.traverse({
+              CallExpression(innerPath) {
+                if (
+                  t.isIdentifier(innerPath.node.callee, { name: "ensureV" })
+                ) {
+                  innerPath.node.callee = t.cloneNode(ensureVId)
+                }
+              },
+            })
+          }
+
+          injectHelpers(t, path, this.vectorOperators)
         },
       },
 
       BinaryExpression(path) {
         const { operator, left, right } = path.node
-        const scope = path.scope
 
-        const isLeftVector = isVector(left, scope)
-        const isRightVector = isVector(right, scope)
+        // Check if either operand could be a vector
+        const leftCould = couldBeVector(left, path.scope)
+        const rightCould = couldBeVector(right, path.scope)
 
-        // --- Vector Addition / Subtraction: v1 + v2 or v1 - v2 or mixed operations ---
-        if (operator === "+" || operator === "-") {
-          // Transform any expression that might involve vectors
-          if (isLeftVector || isRightVector) {
-            const helperName =
-              operator === "+" ? "__vectorSum" : "__vectorSubtract"
-            this.vectorHelpers.set(helperName, {
-              helperName,
-              originalFunction: operator === "+" ? "sum" : "subtract",
-              module: VECTORS_MODULE,
-            })
+        // If neither could be a vector, skip transformation
+        if (!leftCould && !rightCould) return
 
-            const operationCall = t.callExpression(t.identifier(helperName), [
-              left,
-              right,
-            ])
-            path.replaceWith(operationCall)
+        const config = Config[operator]
+        if (!config) return
+
+        // Perform static validation when we're certain about types
+        const leftCertain = isCertainlyVector(left, path.scope)
+        const rightCertain = isCertainlyVector(right, path.scope)
+        const leftScalar = isCertainlyScalar(left, path.scope)
+        const rightScalar = isCertainlyScalar(right, path.scope)
+
+        // Static error checking for certain cases
+        if (config.type === "vec_op_vec") {
+          if ((leftCertain && rightScalar) || (leftScalar && rightCertain)) {
+            throw path.buildCodeFrameError(config.error_scalar)
+          }
+        } else if (config.type === "vec_op_scalar") {
+          if (leftCertain && rightCertain) {
+            throw path.buildCodeFrameError(config.error_vectors)
+          }
+          if (leftScalar && rightCertain) {
+            throw path.buildCodeFrameError(config.error_scalar)
+          }
+        } else if (config.type === "vec_op_scalar_commutative") {
+          if (leftCertain && rightCertain) {
+            throw path.buildCodeFrameError(config.error_vectors)
           }
         }
 
-        // --- Vector Scaling: v1 * s  or  s * v1 or potential mixed operations ---
-        else if (operator === "*") {
-          if (isLeftVector && isRightVector) {
-            // ERROR: Both operands are vectors
-            throw path.buildCodeFrameError(
-              "Cannot multiply two vectors. Did you mean dot product (dot(v1, v2)) or cross product (cross(v1, v2))?",
-            )
-          } else if (isLeftVector || isRightVector) {
-            // Handle vector * scalar, scalar * vector, or uncertain mixed cases
-            this.vectorHelpers.set("__vectorScale", {
-              originalFunction: "scale",
-              module: VECTOR_MODULE,
-            })
-            const scaleCall = t.callExpression(t.identifier("__vectorScale"), [
-              left,
-              right,
-            ])
-            path.replaceWith(scaleCall)
-          }
-        }
-
-        // --- Vector Division: v1 / s or potential mixed operations ---
-        else if (operator === "/") {
-          if (isLeftVector || isRightVector) {
-            this.vectorHelpers.set("__vectorDivide", {
-              originalFunction: "divide",
-              module: VECTOR_MODULE,
-            })
-            const divideCall = t.callExpression(
-              t.identifier("__vectorDivide"),
-              [left, right],
-            )
-            path.replaceWith(divideCall)
-          }
-        }
-
-        // --- Vector Modulus: v1 % s or potential mixed operations ---
-        else if (operator === "%") {
-          if (isLeftVector || isRightVector) {
-            this.vectorHelpers.set("__vectorMod", {
-              originalFunction: "mod",
-              module: VECTOR_MODULE,
-            })
-            const modCall = t.callExpression(t.identifier("__vectorMod"), [
-              left,
-              right,
-            ])
-            path.replaceWith(modCall)
-          }
-        }
-
-        // --- Vector Exponentiation: v1 ** s (power operator) ---
-        else if (operator === "**") {
-          if (isLeftVector || isRightVector) {
-            this.vectorHelpers.set("__vectorPower", {
-              originalFunction: "power",
-              module: VECTOR_MODULE,
-            })
-            const powerCall = t.callExpression(t.identifier("__vectorPower"), [
-              left,
-              right,
-            ])
-            path.replaceWith(powerCall)
-          }
-        }
+        // Transform the expression - runtime will handle uncertain cases
+        this.vectorOperators.add(operator)
+        const operationCall = t.callExpression(
+          t.identifier(config.helperName),
+          [left, right],
+        )
+        path.replaceWith(operationCall)
       },
 
-      // Handle compound assignment operators: v1 += v2, v1 -= v2, v1 *= s, v1 /= s, v1 %= s
       AssignmentExpression(path) {
         const { operator, left, right } = path.node
-        const scope = path.scope
 
-        if (!isVector(left, scope)) {
+        // Skip if this assignment is part of a generated sequence
+        if (path.node._skipTransform) {
           return
         }
 
-        // Vector compound assignment: v1 += v2, v1 -= v2
-        if (operator === "+=" || operator === "-=") {
-          const helperName =
-            operator === "+=" ? "__vectorSum" : "__vectorSubtract"
-          const functionName = operator === "+=" ? "sum" : "subtract"
-          this.vectorHelpers.set(helperName, {
-            originalFunction: functionName,
-            module: VECTORS_MODULE,
-          })
+        // Handle component assignments to potential vectors (e.g., vector[0] = value)
+        if (operator === "=" && t.isMemberExpression(left) && left.computed) {
+          const object = left.object
+          if (couldBeVector(object, path.scope)) {
+            // Create the original assignment (marked to skip further transformation)
+            const originalAssignment = t.cloneNode(path.node)
+            originalAssignment._skipTransform = true
 
-          // Transform: v1 += v2  ->  v1 = __vectorSum(v1, v2)
-          // Let wrapper function handle vector vs scalar logic
-          path.replaceWith(
-            t.assignmentExpression(
+            // Create the ensureV assignment (marked to skip transformation)
+            const ensureVCall = t.assignmentExpression(
               "=",
-              left,
-              t.callExpression(t.identifier(helperName), [left, right]),
-            ),
-          )
+              t.cloneNode(object),
+              t.callExpression(t.identifier("ensureV"), [t.cloneNode(object)]),
+            )
+            ensureVCall._skipTransform = true
+
+            // Create sequence expression
+            const sequence = t.sequenceExpression([
+              originalAssignment,
+              ensureVCall,
+            ])
+
+            // Replace with the sequence and skip further processing
+            path.replaceWith(sequence)
+            path.skip()
+
+            // Track that we need ensureV
+            this.needsEnsureV = true
+            return
+          }
         }
 
-        // Vector scaling assignment: v1 *= s
-        else if (operator === "*=") {
-          this.vectorHelpers.set("__vectorScale", {
-            originalFunction: "scale",
-            module: VECTOR_MODULE,
-          })
-
-          // Transform: v1 *= s  ->  v1 = __vectorScale(v1, s)
-          // Let wrapper function handle vector vs scalar logic
-          path.replaceWith(
-            t.assignmentExpression(
+        // Handle compound assignments to potential vectors (e.g., vector[0] += value)
+        if (operator !== "=" && t.isMemberExpression(left) && left.computed) {
+          const object = left.object
+          if (couldBeVector(object, path.scope)) {
+            // First, convert compound assignment to regular assignment
+            const realOperator = operator.replace("=", "")
+            const regularAssignment = t.assignmentExpression(
               "=",
-              left,
-              t.callExpression(t.identifier("__vectorScale"), [left, right]),
-            ),
-          )
+              t.cloneNode(left),
+              t.binaryExpression(realOperator, t.cloneNode(left), right),
+            )
+            regularAssignment._skipTransform = true
+
+            // Create the ensureV assignment (marked to skip transformation)
+            const ensureVCall = t.assignmentExpression(
+              "=",
+              t.cloneNode(object),
+              t.callExpression(t.identifier("ensureV"), [t.cloneNode(object)]),
+            )
+            ensureVCall._skipTransform = true
+
+            // Create sequence expression
+            const sequence = t.sequenceExpression([
+              regularAssignment,
+              ensureVCall,
+            ])
+
+            // Replace with sequence and skip further processing
+            path.replaceWith(sequence)
+            path.skip()
+
+            // Track that we need ensureV
+            this.needsEnsureV = true
+            return
+          }
         }
 
-        // Vector division assignment: v1 /= s
-        else if (operator === "/=") {
-          this.vectorHelpers.set("__vectorDivide", {
-            originalFunction: "divide",
-            module: VECTOR_MODULE,
-          })
+        // Original vector operation logic for non-component assignments
+        const leftCould = couldBeVector(left, path.scope)
+        if (!leftCould) return
 
-          // Transform: v1 /= s  ->  v1 = __vectorDivide(v1, s)
-          path.replaceWith(
-            t.assignmentExpression(
-              "=",
-              left,
-              t.callExpression(t.identifier("__vectorDivide"), [left, right]),
-            ),
-          )
+        const realOperator = operator.replace("=", "")
+        const config = Config[realOperator]
+        if (!config) return
+
+        // Static validation for certain cases
+        const leftCertain = isCertainlyVector(left, path.scope)
+        const rightCertain = isCertainlyVector(right, path.scope)
+        const rightScalar = isCertainlyScalar(right, path.scope)
+
+        if (config.type === "vec_op_vec" && leftCertain && rightScalar) {
+          throw path.buildCodeFrameError(config.error_scalar)
+        }
+        if (
+          config.type === "vec_op_scalar_commutative" &&
+          leftCertain &&
+          rightCertain
+        ) {
+          throw path.buildCodeFrameError(config.error_vectors)
         }
 
-        // Vector modulus assignment: v1 %= s
-        else if (operator === "%=") {
-          this.vectorHelpers.set("__vectorMod", {
-            originalFunction: "mod",
-            module: VECTOR_MODULE,
-          })
-
-          // Transform: v1 %= s  ->  v1 = __vectorMod(v1, s)
-          path.replaceWith(
-            t.assignmentExpression(
-              "=",
-              left,
-              t.callExpression(t.identifier("__vectorMod"), [left, right]),
-            ),
-          )
-        }
-
-        // Vector power assignment: v1 **= s
-        else if (operator === "**=") {
-          this.vectorHelpers.set("__vectorPower", {
-            originalFunction: "power",
-            module: VECTOR_MODULE,
-          })
-
-          // Transform: v1 **= s  ->  v1 = __vectorPower(v1, s)
-          path.replaceWith(
-            t.assignmentExpression(
-              "=",
-              left,
-              t.callExpression(t.identifier("__vectorPower"), [left, right]),
-            ),
-          )
-        }
+        // Transform the assignment - let runtime handle validation
+        this.vectorOperators.add(realOperator)
+        path.replaceWith(
+          t.assignmentExpression(
+            "=",
+            left,
+            t.callExpression(t.identifier(config.helperName), [left, right]),
+          ),
+        )
       },
 
-      // Handle unary operators: -v1, +v1
       UnaryExpression(path) {
         const { operator, argument } = path.node
-        const scope = path.scope
 
-        if (!isVector(argument, scope)) {
+        // Only handle unary minus on potential vectors
+        if (operator !== "-" || !couldBeVector(argument, path.scope)) {
           return
         }
 
-        // Unary minus: -v1 -> __vectorScale(v1, -1)
-        if (operator === "-") {
-          this.vectorHelpers.set("__vectorScale", {
-            originalFunction: "scale",
-            module: VECTOR_MODULE,
-          })
+        const realOperator = "*"
+        const config = Config[realOperator]
+        if (!config) return
 
-          const negateCall = t.callExpression(t.identifier("__vectorScale"), [
+        this.vectorOperators.add(realOperator)
+        path.replaceWith(
+          t.callExpression(t.identifier(config.helperName), [
             argument,
             t.numericLiteral(UNARY_MINUS),
-          ])
-
-          path.replaceWith(negateCall)
-        }
-
-        // Unary plus: +v1 -> v1 (no transformation needed, but could add abs() if desired)
-        // For now, we'll leave +v1 as-is since it's already a no-op
+          ]),
+        )
       },
     },
   }

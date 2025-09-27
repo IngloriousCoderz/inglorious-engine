@@ -7,10 +7,6 @@ export default defineConfig([
   ...baseConfig,
 
   {
-    languageOptions: {
-      globals: {
-        ...globals.node,
-      },
-    },
+    languageOptions: { globals: globals.node },
   },
 ])
