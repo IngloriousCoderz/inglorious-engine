@@ -36,13 +36,16 @@ export default {
       pixelated: true,
       size: [WIDTH, HEIGHT],
       backgroundColor: "rgb(40, 45, 52)",
+      state: "start",
+      servingPlayer: "player1",
     },
 
     message: {
       type: "text",
-      position: v(WIDTH / 2, 0, HEIGHT),
+      position: v(WIDTH / 2, 0, HEIGHT - 10),
       font: "'Press Start 2P'",
       size: 8,
+      lineHeight: 12,
       color: "white",
       textAlign: "center",
       value: "Welcome to Pong!\nPress Enter to begin!",
@@ -50,7 +53,7 @@ export default {
 
     score: {
       type: "score",
-      position: v(WIDTH / 2, 0, HEIGHT / 2 + 32),
+      position: v(WIDTH / 2, 0, HEIGHT / 2 + 28),
       font: "'Press Start 2P'",
       size: 32,
       color: "white",
@@ -84,18 +87,18 @@ export default {
     ball: {
       type: "ball",
       initialSpeed: magnitude(v(100, 0, 50)),
-      initialPosition: v(WIDTH / 2 - 2, 0, HEIGHT / 2 - 2),
+      initialPosition: v(WIDTH / 2, 0, HEIGHT / 2),
       size: v(4, 0, 4),
       color: "transparent",
       backgroundColor: "white",
       collisions: { hitbox: { shape: "rectangle" } },
-      position: v(WIDTH / 2 - 2, 0, HEIGHT / 2 - 2),
+      position: v(WIDTH / 2, 0, HEIGHT / 2),
       maxSpeed: magnitude(v(100, 0, 50)),
     },
 
     fps: {
       type: "fps",
-      position: v(0, HEIGHT),
+      position: v(10, 0, HEIGHT - 10),
       font: "'Press Start 2P'",
       size: 8,
       color: "rgb(0, 255, 0)",

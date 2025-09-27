@@ -1,11 +1,10 @@
 const DEFAULT_SIZE = 16
-const DEFAULT_PADDING = 10
-const LINE_NUMBER_OFFSET = 1
+const DEFAULT_PADDING = 0
 
 export function renderText(entity, ctx) {
   const {
     size = DEFAULT_SIZE,
-    padding = DEFAULT_PADDING,
+    lineHeight = size,
     color = "black",
     font = "sans-serif",
     textAlign = "left",
@@ -20,11 +19,7 @@ export function renderText(entity, ctx) {
 
   const tokens = value.split("\n")
   tokens.forEach((token, index) => {
-    ctx.fillText(
-      token,
-      padding,
-      (padding + size) * (index + LINE_NUMBER_OFFSET),
-    )
+    ctx.fillText(token, DEFAULT_PADDING, size + lineHeight * index)
   })
 
   ctx.restore()

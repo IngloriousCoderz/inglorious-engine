@@ -23,25 +23,30 @@ export const ball = [
         api.notify("reset", entityId)
       },
 
-      reset(entity, entityId) {
+      reset(entity, entityId, api) {
         if (entityId != null && entityId !== entity.id) return
+
+        const game = api.getEntity("game")
 
         entity.position = entity.initialPosition
         entity.maxSpeed = entity.initialSpeed
-        entity.orientation = choose(
-          (1 / 6) * pi(),
-          (5 / 6) * pi(),
-          (7 / 6) * pi(),
-          (11 / 6) * pi(),
-        )
+        switch (game.servingPlayer) {
+          case "player1":
+            entity.orientation = choose((-1 / 6) * pi(), (1 / 6) * pi())
+            break
+
+          case "player2":
+            entity.orientation = choose((5 / 6) * pi(), (7 / 6) * pi())
+            break
+        }
       },
 
       update(entity, dt, api) {
         type.update?.(entity, dt, api)
 
-        entity.velocity = fromAngle(entity.orientation) * entity.maxSpeed
-
         const game = api.getEntity("game")
+        if (game.state !== "play") return
+
         const [gameWidth, gameHeight] = game.size
 
         if (entity.position[X] < 0 || entity.position[X] > gameWidth) {
