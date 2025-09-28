@@ -24,6 +24,7 @@ export default {
     ...controlsEntities("input1", ["player1"], {
       KeyW: "moveUp",
       KeyS: "moveDown",
+      Space: "action",
     }),
     ...controlsEntities("input2", ["player2"], {
       KeyI: "moveUp",
@@ -48,7 +49,7 @@ export default {
       lineHeight: 12,
       color: "white",
       textAlign: "center",
-      value: "Welcome to Pong!\nPress Enter to begin!",
+      value: "Welcome to Pong!\nPress Spacebar to begin!",
     },
 
     score: {

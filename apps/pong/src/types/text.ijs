@@ -13,11 +13,11 @@ export const text = [
 
       switch (game.state) {
         case "start":
-          entity.value = "Welcome to Pong!\nPress Enter to begin!"
+          entity.value = "Welcome to Pong!\nPress Spacebar to begin!"
           break
 
         case "serve":
-          entity.value = `${PlayerName[game.servingPlayer]}'s serve!\nPress Enter to serve!`
+          entity.value = `${PlayerName[game.servingPlayer]}'s serve!\nPress Spacebar to serve!`
           break
 
         case "play":
