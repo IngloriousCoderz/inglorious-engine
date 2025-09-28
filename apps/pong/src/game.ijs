@@ -33,8 +33,8 @@ export default {
       Space: "action",
     }),
     ...createControls("player2", {
-      KeyI: "moveUp",
-      KeyK: "moveDown",
+      ArrowUp: "moveUp",
+      ArrowDown: "moveDown",
     }),
 
     game: {
@@ -109,6 +109,15 @@ export default {
       font: "'Press Start 2P'",
       size: 8,
       color: "rgb(0, 255, 0)",
+    },
+
+    audio: {
+      type: "audio",
+      sounds: {
+        paddleHit: { url: "/sounds/paddle_hit.ogg" },
+        score: { url: "/sounds/score.ogg" },
+        wallHit: { url: "/sounds/wall_hit.ogg" },
+      },
     },
   },
 }

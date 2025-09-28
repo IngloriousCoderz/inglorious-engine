@@ -1,29 +1,26 @@
 import { renderText } from "@inglorious/renderer-2d/text"
-import { extend } from "@inglorious/utils/data-structures/objects"
 
-const WINNING_SCORE = 3
+const WINNING_SCORE = 10
 
 export const score = [
-  { render: renderText },
-  (type) =>
-    extend(type, {
-      reset(entity) {
-        entity.player1 = 0
-        entity.player2 = 0
-      },
+  {
+    render: renderText,
 
-      playerScore(entity, scoringPlayer, api) {
-        entity[scoringPlayer]++
+    reset(entity) {
+      entity.player1 = 0
+      entity.player2 = 0
+    },
 
-        if (entity[scoringPlayer] >= WINNING_SCORE) {
-          api.notify("winner", scoringPlayer)
-        }
-      },
+    playerScore(entity, scoringPlayer, api) {
+      entity[scoringPlayer]++
 
-      update(entity, dt, api) {
-        type.update?.(entity, dt, api)
+      if (entity[scoringPlayer] >= WINNING_SCORE) {
+        api.notify("winner", scoringPlayer)
+      }
+    },
 
-        entity.value = `${entity.player1} - ${entity.player2}`
-      },
-    }),
+    update(entity) {
+      entity.value = `${entity.player1} - ${entity.player2}`
+    },
+  },
 ]

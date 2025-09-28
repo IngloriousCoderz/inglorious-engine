@@ -6,8 +6,9 @@ const PlayerName = {
 }
 
 export const text = [
-  { render: renderText },
   {
+    render: renderText,
+
     start(entity) {
       entity.value = "Welcome to Pong!\nPress Spacebar to begin!"
     },

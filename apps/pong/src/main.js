@@ -1,5 +1,3 @@
-import "./style.css"
-
 import { Engine } from "@inglorious/engine/core/engine.js"
 import { createRenderer } from "@inglorious/renderer-2d/index.js"
 
