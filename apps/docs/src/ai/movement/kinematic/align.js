@@ -4,8 +4,8 @@ import {
   DEFAULT_TIME_TO_TARGET,
 } from "@inglorious/engine/ai/movement/kinematic/align.js"
 import {
-  controlsEntities,
-  setupControls,
+  controls,
+  createControls,
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { mouse } from "@inglorious/engine/behaviors/input/mouse.js"
 import { clamped } from "@inglorious/engine/behaviors/physics/clamped.js"
@@ -16,11 +16,10 @@ import { clamp } from "@inglorious/utils/math/numbers.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 import { v } from "@inglorious/utils/v.js"
 
-const controls = setupControls()
-
 export default {
   types: {
-    ...controls.types,
+    ...controls("character"),
+
     mouse: [
       { render: renderMouse },
       mouse(),
@@ -94,8 +93,7 @@ export default {
       orientation: 0,
     },
 
-    ...controls.entities,
-    ...controlsEntities("input0", ["mouse"], {
+    ...createControls("mouse", {
       ArrowLeft: "turnLeft",
       ArrowRight: "turnRight",
       ArrowDown: "turnRight",

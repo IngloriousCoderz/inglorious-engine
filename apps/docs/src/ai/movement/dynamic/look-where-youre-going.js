@@ -5,8 +5,8 @@ import {
 } from "@inglorious/engine/ai/movement/dynamic/align.js"
 import { lookWhereYoureGoing } from "@inglorious/engine/ai/movement/dynamic/look-where-youre-going.js"
 import {
-  controlsEntities,
-  setupControls,
+  controls,
+  createControls,
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { clamped } from "@inglorious/engine/behaviors/physics/clamped.js"
 import { renderCharacter } from "@inglorious/renderer-2d/character.js"
@@ -15,11 +15,9 @@ import { pi } from "@inglorious/utils/math/trigonometry.js"
 import { sum } from "@inglorious/utils/math/vectors.js"
 import { v } from "@inglorious/utils/v.js"
 
-const controls = setupControls()
-
 export default {
   types: {
-    ...controls.types,
+    ...controls("character"),
 
     character: [
       {
@@ -106,8 +104,7 @@ export default {
       devMode: true,
     },
 
-    ...controls.entities,
-    ...controlsEntities("input0", ["character"], {
+    ...createControls("character", {
       ArrowLeft: "moveLeft",
       ArrowRight: "moveRight",
       ArrowDown: "moveDown",

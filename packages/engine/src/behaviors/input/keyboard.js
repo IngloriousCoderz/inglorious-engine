@@ -1,7 +1,3 @@
-const DEFAULT_PARAMS = {
-  name: "keyboard0",
-}
-
 export function keyboard() {
   let handleKeyDown, handleKeyUp
   let currentDocument = null
@@ -26,36 +22,28 @@ export function keyboard() {
 
     keyboardKeyDown(entity, keyCode, api) {
       const action = entity.mapping[keyCode]
-      if (!action) {
-        return
-      }
+      if (!action) return
 
       if (!entity[action]) {
         entity[action] = true
-        api.notify("inputPress", { controlId: entity.id, action })
+        api.notify("inputPress", { targetId: entity.targetId, action })
       }
     },
 
     keyboardKeyUp(entity, keyCode, api) {
       const action = entity.mapping[keyCode]
-      if (!action) {
-        return
-      }
+      if (!action) return
 
       if (entity[action]) {
         entity[action] = false
-        api.notify("inputRelease", { controlId: entity.id, action })
+        api.notify("inputRelease", { targetId: entity.targetId, action })
       }
     },
   }
 }
 
-export function createKeyboard(
-  name = DEFAULT_PARAMS.name,
-  targetInput,
-  mapping = {},
-) {
-  return { id: name, type: "keyboard", targetInput, mapping }
+export function createKeyboard(targetId, mapping = {}) {
+  return { type: "keyboard", targetId, mapping }
 }
 
 function createKeyboardHandler(id, api) {

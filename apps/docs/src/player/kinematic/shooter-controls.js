@@ -1,7 +1,7 @@
 import { shooterControls } from "@inglorious/engine/behaviors/controls/kinematic/shooter.js"
 import {
-  controlsEntities,
-  setupControls,
+  controls,
+  createControls,
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { mouse } from "@inglorious/engine/behaviors/input/mouse.js"
 import { clamped } from "@inglorious/engine/behaviors/physics/clamped.js"
@@ -10,11 +10,10 @@ import { renderMouse } from "@inglorious/renderer-2d/mouse.js"
 import { pi } from "@inglorious/utils/math/trigonometry.js"
 import { v } from "@inglorious/utils/v.js"
 
-const controls = setupControls()
-
 export default {
   types: {
-    ...controls.types,
+    ...controls("character"),
+
     mouse: [{ render: renderMouse }, mouse()],
 
     character: [{ render: renderCharacter }, shooterControls(), clamped()],
@@ -31,8 +30,7 @@ export default {
       position: v(400, 0, 300),
     },
 
-    ...controls.entities,
-    ...controlsEntities("input0", ["character"], {
+    ...createControls("character", {
       ArrowLeft: "moveLeft",
       ArrowRight: "moveRight",
       ArrowDown: "moveDown",

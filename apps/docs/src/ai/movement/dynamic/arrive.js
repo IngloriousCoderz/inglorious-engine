@@ -49,7 +49,7 @@ export default {
       devMode: true,
     },
 
-    mouse: createMouse("mouse", { position: v(400, 0, 300) }),
+    mouse: createMouse({ position: v(400, 0, 300) }),
 
     character: {
       type: "character",

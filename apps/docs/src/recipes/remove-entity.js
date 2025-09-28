@@ -26,7 +26,7 @@ export default {
       devMode: true,
     },
 
-    mouse: createMouse("mouse", {
+    mouse: createMouse({
       position: v(400, 0, 300),
       collisions: {
         hitbox: { shape: "point" },

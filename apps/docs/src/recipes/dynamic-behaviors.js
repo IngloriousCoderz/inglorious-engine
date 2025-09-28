@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 import { modernVelocity } from "@inglorious/engine/behaviors/controls/kinematic/modern.js"
 import {
-  controlsEntities,
-  setupControls,
+  controls,
+  createControls,
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { clamped } from "@inglorious/engine/behaviors/physics/clamped.js"
 import { jumpable } from "@inglorious/engine/behaviors/physics/jumpable.js"
@@ -49,11 +49,9 @@ const ULTRA_DARIO = [
   canCollideWithEnemyAndLosePowers,
 ]
 
-const controls = setupControls()
-
 export default {
   types: {
-    ...controls.types,
+    ...controls("dario"),
 
     dario: DARIO,
 
@@ -76,8 +74,7 @@ export default {
       devMode: true,
     },
 
-    ...controls.entities,
-    ...controlsEntities("input0", ["dario"], {
+    ...createControls("dario", {
       ArrowLeft: "moveLeft",
       ArrowRight: "moveRight",
       Space: "jump",

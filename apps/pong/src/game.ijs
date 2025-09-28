@@ -1,7 +1,7 @@
 /* eslint-disable no-magic-numbers */
 import {
-  controlsEntities,
-  setupControls,
+  controls,
+  createControls,
 } from "@inglorious/engine/behaviors/input/controls"
 import { magnitude } from "@inglorious/utils/math/vector"
 
@@ -15,18 +15,24 @@ import { text } from "./types/text.ijs"
 const WIDTH = 432
 const HEIGHT = 243
 
-const controls = setupControls()
 export default {
-  types: { ...controls.types, game, text, score, paddle, ball, fps },
+  types: {
+    ...controls("player1", "player2"),
+    game,
+    text,
+    score,
+    paddle,
+    ball,
+    fps,
+  },
 
   entities: {
-    ...controls.entities,
-    ...controlsEntities("input1", ["player1"], {
+    ...createControls("player1", {
       KeyW: "moveUp",
       KeyS: "moveDown",
       Space: "action",
     }),
-    ...controlsEntities("input2", ["player2"], {
+    ...createControls("player2", {
       KeyI: "moveUp",
       KeyK: "moveDown",
     }),

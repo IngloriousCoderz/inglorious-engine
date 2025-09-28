@@ -1,17 +1,15 @@
 import { tankControls } from "@inglorious/engine/behaviors/controls/kinematic/tank.js"
 import {
-  controlsEntities,
-  setupControls,
+  controls,
+  createControls,
 } from "@inglorious/engine/behaviors/input/controls.js"
 import { clamped } from "@inglorious/engine/behaviors/physics/clamped.js"
 import { renderCharacter } from "@inglorious/renderer-2d/character.js"
 import { v } from "@inglorious/utils/v.js"
 
-const controls = setupControls()
-
 export default {
   types: {
-    ...controls.types,
+    ...controls("character"),
 
     character: [{ render: renderCharacter }, tankControls(), clamped()],
   },
@@ -22,8 +20,7 @@ export default {
       devMode: true,
     },
 
-    ...controls.entities,
-    ...controlsEntities("input0", ["character"], {
+    ...createControls("character", {
       ArrowUp: "moveForward",
       ArrowDown: "moveBackward",
       ArrowLeft: "turnLeft",

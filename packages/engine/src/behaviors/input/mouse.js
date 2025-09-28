@@ -2,10 +2,6 @@ import { findCollision } from "@inglorious/engine/collision/detection.js"
 import { clampToBounds } from "@inglorious/engine/physics/bounds.js"
 import { zero } from "@inglorious/utils/math/vector.js"
 
-const DEFAULT_PARAMS = {
-  name: "mouse",
-}
-
 const NO_Y = 0
 
 export function mouse() {
@@ -49,9 +45,8 @@ export function track(parent, options) {
   }
 }
 
-export function createMouse(name = DEFAULT_PARAMS.name, overrides = {}) {
+export function createMouse(overrides = {}) {
   return {
-    id: name,
     type: "mouse",
     layer: 999, // A high layer value to ensure it's always rendered on top
     position: zero(),

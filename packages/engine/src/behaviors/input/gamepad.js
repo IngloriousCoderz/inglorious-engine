@@ -1,8 +1,4 @@
-const DEFAULT_PARAMS = {
-  name: "gamepad_input0",
-}
-
-export function gamepadsPoller() {
+export function gamepadsPoller(targetIds = []) {
   return {
     create(entity, entityId) {
       if (entityId !== entity.id) return
@@ -12,9 +8,7 @@ export function gamepadsPoller() {
 
     update(entity, dt, api) {
       navigator.getGamepads().forEach((gamepad) => {
-        if (gamepad == null) {
-          return
-        }
+        if (gamepad == null) return
 
         const cache = (entity.gamepadStateCache[gamepad.index] ??= {
           axes: [],
@@ -22,12 +16,10 @@ export function gamepadsPoller() {
         })
 
         gamepad.axes.forEach((axis, index) => {
-          if (axis === cache.axes[index]) {
-            return
-          }
+          if (axis === cache.axes[index]) return
 
           api.notify("gamepadAxis", {
-            gamepadIndex: gamepad.index,
+            targetId: targetIds[gamepad.index],
             axis: `Axis${index}`,
             value: axis,
           })
@@ -40,12 +32,12 @@ export function gamepadsPoller() {
 
           if (isPressed && !wasPressed) {
             api.notify("gamepadPress", {
-              gamepadIndex: gamepad.index,
+              targetId: targetIds[gamepad.index],
               button: `Btn${index}`,
             })
           } else if (!isPressed && wasPressed) {
             api.notify("gamepadRelease", {
-              gamepadIndex: gamepad.index,
+              targetId: targetIds[gamepad.index],
               button: `Btn${index}`,
             })
           }
@@ -59,58 +51,42 @@ export function gamepadsPoller() {
 
 export function gamepadListener() {
   return {
-    gamepadAxis(entity, { gamepadIndex, axis, value }, api) {
-      if (entity.id !== `gamepad_input${gamepadIndex}`) {
-        return
-      }
+    gamepadAxis(entity, { targetId, axis, value }, api) {
+      if (targetId !== entity.targetId) return
 
       const action = entity.mapping[axis]
-      if (!action) {
-        return
-      }
+      if (!action) return
 
       entity[action] = value
-      api.notify("inputAxis", { controlId: entity.id, action, value })
+      api.notify("inputAxis", { targetId, action, value })
     },
 
-    gamepadPress(entity, { gamepadIndex, button }, api) {
-      if (entity.id !== `gamepad_input${gamepadIndex}`) {
-        return
-      }
+    gamepadPress(entity, { targetId, button }, api) {
+      if (targetId !== entity.targetId) return
 
       const action = entity.mapping[button]
-      if (!action) {
-        return
-      }
+      if (!action) return
 
       if (!entity[action]) {
         entity[action] = true
-        api.notify("inputPress", { controlId: entity.id, action })
+        api.notify("inputPress", { targetId, action })
       }
     },
 
-    gamepadRelease(entity, { gamepadIndex, button }, api) {
-      if (entity.id !== `gamepad_input${gamepadIndex}`) {
-        return
-      }
+    gamepadRelease(entity, { targetId, button }, api) {
+      if (targetId !== entity.targetId) return
 
       const action = entity.mapping[button]
-      if (!action) {
-        return
-      }
+      if (!action) return
 
       if (entity[action]) {
         entity[action] = false
-        api.notify("inputRelease", { controlId: entity.id, action })
+        api.notify("inputRelease", { targetId, action })
       }
     },
   }
 }
 
-export function createGamepad(
-  name = DEFAULT_PARAMS.name,
-  targetInput,
-  mapping = {},
-) {
-  return { id: name, type: "gamepad_listener", targetInput, mapping }
+export function createGamepad(targetId, mapping = {}) {
+  return { type: "gamepad_listener", targetId, mapping }
 }
