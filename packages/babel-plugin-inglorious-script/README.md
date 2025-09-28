@@ -4,7 +4,7 @@
 
 `@inglorious/babel-plugin-inglorious-script` is a Babel plugin that transforms your JavaScript code into **IngloriousScript**, a superset of JavaScript that provides intuitive, operator-overloaded vector math.
 
-This allows you to write vector operations using familiar arithmetic operators (`+`, `-`, `*`, `/`, etc.), making your game logic cleaner, more readable, and less error-prone. The plugin compiles these operations into highly optimized function calls at build time.
+This allows you to write vector operations using familiar arithmetic operators (`+`, `-`, `*`, `/`, etc.), making your game logic cleaner, more readable, and less error-prone. The plugin uses hybrid static/runtime analysis to provide both compile-time optimizations and runtime safety for complex scenarios.
 
 ## Why IngloriousScript?
 
@@ -24,14 +24,16 @@ With IngloriousScript, you can write the same logic as a natural mathematical ex
 const newPosition = (position + velocity * dt) % worldSize
 ```
 
-The plugin handles the transformation, giving you the best of both worlds: elegant syntax in your source code and efficient execution in the browser.
+The plugin handles the transformation, giving you clean syntax with efficient execution and automatic type safety.
 
 ## Features
 
-- **Intuitive Syntax**: Use standard math operators for vector arithmetic.
-- **Compile-Time Transformation**: No runtime overhead. Your code is converted to efficient function calls during your build process.
-- **Static Type-Checking**: The plugin traces variable assignments to identify vectors, catching errors like vector-on-vector multiplication at compile time.
-- **Operator Support**: A wide range of binary, unary, and compound assignment operators are supported.
+- **Intuitive Syntax**: Use standard math operators for vector arithmetic
+- **Hybrid Analysis**: Static optimization when types are certain, runtime safety when they're not
+- **Automatic Vector Preservation**: Maintains vector properties through component assignments and array operations
+- **Immer Integration**: Works seamlessly with state management libraries that modify object properties
+- **Comprehensive Operator Support**: Binary, unary, and compound assignment operators
+- **Smart Error Detection**: Catches mathematical errors at compile-time when possible
 
 ## Installation
 
@@ -55,17 +57,16 @@ Then, add it to your Babel configuration file (e.g., `.babelrc.json`):
 
 ## Usage
 
-The plugin automatically detects vectors created with the `v` function from `@inglorious/utils/v.js` and transforms the operations they are involved in.
+The plugin automatically detects vectors created with the `v` function and transforms the operations they are involved in. You don't need to manually import the `v` function - the plugin will automatically inject the import when it detects usage.
 
 ### Supported Operations
 
 #### Vector-Vector Operations
 
-Addition and subtraction between two vectors work as you'd expect.
+Addition and subtraction between two vectors work as you'd expect:
 
 ```javascript
-import { v } from "@inglorious/utils/v.js"
-
+// No import needed - the plugin automatically adds it
 const v1 = v(10, 20)
 const v2 = v(1, 2)
 
@@ -75,7 +76,7 @@ const difference = v1 - v2 // Becomes subtract(v1, v2)
 
 #### Vector-Scalar Operations
 
-You can use `*`, `/`, `%`, and `**` to operate on a vector with a scalar. The order of operands does not matter.
+You can use `*`, `/`, `%`, and `**` to operate on a vector with a scalar. The order of operands does not matter for multiplication:
 
 ```javascript
 const v1 = v(10, 20)
@@ -86,13 +87,13 @@ const divided = v1 / s // Becomes divide(v1, s)
 const modulo = v1 % s // Becomes mod(v1, s)
 const power = v1 ** s // Becomes power(v1, s)
 
-// Scalar-first works too!
-const scaled2 = s * v1 // Becomes scale(s, v1)
+// Scalar-first works for multiplication too!
+const scaled2 = s * v1 // Becomes scale(v1, s)
 ```
 
-#### Unary Minus
+#### Unary Operations
 
-Negate a vector using the unary minus operator.
+Negate a vector using the unary minus operator:
 
 ```javascript
 const v1 = v(5, -10)
@@ -101,7 +102,7 @@ const negated = -v1 // Becomes scale(v1, -1)
 
 #### Compound Assignments
 
-Compound assignment operators are fully supported for in-place modifications.
+Compound assignment operators are fully supported for in-place modifications:
 
 ```javascript
 let position = v(0, 0)
@@ -113,39 +114,152 @@ position *= 2 // position = scale(position, 2)
 
 Supported assignment operators: `+=`, `-=`, `*=`, `/=`, `%=`, `**=`.
 
-### Compile-Time Safety
+### Component-Wise Operations
 
-The plugin helps prevent common mistakes. For example, multiplying two vectors is mathematically ambiguous. IngloriousScript will throw a compile-time error and guide you toward the correct function.
+You can modify individual vector components, and the plugin automatically preserves the vector's type properties:
+
+```javascript
+const entity = { position: v(10, 20) }
+
+// Modify a single component
+entity.position[0] += deltaX
+// Automatically becomes: (entity.position[0] += deltaX, entity.position = ensureV(entity.position))
+
+// Works with any computed access
+entity.position[X] = newX
+entity.position[Y] *= scaleFactor
+```
+
+This is especially useful when working with Immer or other libraries that might strip custom properties from objects.
+
+### Array Method Support
+
+Vector objects support standard array methods, and the plugin automatically preserves their vector nature:
+
+```javascript
+const velocity = v(1, 2, 3)
+
+// These all maintain vector properties:
+const doubled = velocity.map((x) => x * 2) // ensureV(velocity.map(x => x * 2))
+const positive = velocity.filter((x) => x > 0) // ensureV(velocity.filter(x => x > 0))
+const xy = velocity.slice(0, 2) // ensureV(velocity.slice(0, 2))
+const extended = velocity.concat([4]) // ensureV(velocity.concat([4]))
+
+// Even reduce operations are handled intelligently:
+const magnitude = velocity.reduce((sum, x) => sum + x * x, 0) // Returns scalar (no wrapping)
+const doubled2 = velocity.reduce((acc, x) => [...acc, x * 2], []) // Returns vector (wrapped)
+```
+
+### Hybrid Static/Runtime Analysis
+
+The plugin uses intelligent analysis to optimize your code:
+
+#### Compile-Time Optimization
+
+When variable types are certain, operations are optimized at compile-time and invalid operations are caught early:
 
 ```javascript
 const v1 = v(1, 2)
 const v2 = v(3, 4)
 
-// This will throw an error during compilation:
+// This throws a compile-time error:
 const result = v1 * v2
-// error: Cannot multiply two vectors. Did you mean dot product (dot(v1, v2)) or cross product (cross(v1, v2))?
+// Error: Cannot multiply two vectors. Did you mean dot product (dot(v1, v2)) or cross product (cross(v1, v2))?
+
+// This is optimized to a direct function call:
+const sum = v1 + v2 // Directly becomes sum(v1, v2)
 ```
 
-### Runtime Safety for Mixed Operations
+#### Runtime Safety
 
-In cases where an operand's type cannot be determined at compile time (e.g., it comes from a function call or a complex expression), the plugin transforms the code into a helper function that performs a runtime check. This ensures that your code is both flexible and safe.
+When operand types can't be determined at compile-time (function returns, complex expressions, etc.), the plugin generates runtime helpers that handle all valid combinations:
 
 ```javascript
 import { getForce } from "./physics.js"
 
 let velocity = v(0, 0)
-const force = getForce() // 'force' could be a vector or a scalar
+const force = getForce() // Could return vector or scalar
 
-// The plugin can't know the type of 'force', so it wraps the operation.
+// The plugin generates runtime type checking:
 velocity += force
+// Becomes: velocity = __vectorSum(velocity, force)
+// The helper handles vector+vector, but throws error for vector+scalar
+```
 
-// Transformed to:
-// velocity = __vectorSum(velocity, force);
-// The __vectorSum helper will handle both vector-vector and vector-scalar addition at runtime.
+#### Function Call Integration
+
+The plugin handles complex expressions involving function calls:
+
+```javascript
+function getVector() {
+  return v(1, 2)
+}
+function getScalar() {
+  return 5
+}
+
+// This works correctly with runtime type checking:
+const result = getVector() * getScalar() + v(3, 4)
+```
+
+### Immer and State Management Integration
+
+The plugin works seamlessly with Immer and other state management libraries:
+
+```javascript
+import { produce } from "immer"
+
+const gameState = {
+  player: {
+    position: v(10, 20),
+    velocity: v(1, 2),
+  },
+}
+
+const newState = produce(gameState, (draft) => {
+  // Even though Immer creates plain objects, these operations work:
+  draft.player.position += draft.player.velocity
+  draft.player.position[0] *= 1.1 // Component assignment with auto-restoration
+})
+```
+
+## Error Handling
+
+The plugin provides helpful error messages for common mistakes:
+
+```javascript
+const velocity = v(5, 10)
+const position = v(0, 0)
+
+// Compile-time errors (when types are certain):
+position + 5 // Error: Cannot add a vector and a non-vector
+velocity * position // Error: Cannot multiply two vectors
+
+// Runtime errors (when types are uncertain):
+someFunction() + anotherFunction() // Runtime type checking with appropriate errors
 ```
 
 ## How It Works
 
-`@inglorious/babel-plugin-inglorious-script` traverses the Abstract Syntax Tree (AST) of your code. It performs static analysis to track variables that hold vector values. When it finds an arithmetic operator being used with at least one vector operand, it replaces that expression with a call to a corresponding helper function from the `@inglorious/utils` package.
+`@inglorious/babel-plugin-inglorious-script` uses sophisticated AST analysis to:
 
-All helper functions are automatically injected into your code, so you don't need to import them manually.
+1. **Auto-Import Management**: Automatically detects when `v()` is used and injects the necessary imports
+2. **Track Vector Types**: Follows variable assignments and function calls to understand when values are vectors
+3. **Static Optimization**: When types are certain, generates optimized function calls and catches errors early
+4. **Runtime Safety**: When types are uncertain, generates helpers that perform runtime type checking
+5. **Property Preservation**: Automatically maintains vector properties through component assignments and array operations
+6. **Helper Injection**: Automatically imports and injects necessary helper functions and utilities
+
+The plugin generates efficient code that balances performance with safety, ensuring your vector math is both fast and correct without requiring manual imports.
+
+## Requirements
+
+This plugin requires:
+
+- `@inglorious/utils` package for vector operations and utilities
+- Babel 7.x or higher
+- Node.js 16 or higher
+
+## License
+
+MIT

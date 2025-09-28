@@ -14,6 +14,28 @@ const velocity = _v(1, 2);
 positions[0] = __vectorSum(positions[0], velocity);"
 `;
 
+exports[`it should handle array methods in component assignments 1`] = `
+"import { ensureV as _ensureV, v as _v } from "@inglorious/utils/v.js";
+const entity = {
+  position: _v(0, 0)
+};
+entity.position[0] = entity.position.map(x => x + 1)[0], entity.position = _ensureV(entity.position);"
+`;
+
+exports[`it should handle array methods in vector operations 1`] = `
+"import { sum as _sum } from "@inglorious/utils/math/vectors.js";
+import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
+import { ensureV as _ensureV, v as _v } from "@inglorious/utils/v.js";
+function __vectorSum(a, b) {
+  if (_isVector(a) && _isVector(b)) return _sum(a, b);
+  if (!_isVector(a) && !_isVector(b)) return a + b;
+  throw new Error("Cannot add a vector and a non-vector.");
+}
+const velocity = _v(1, 2);
+const acceleration = _v(0.1, 0.2);
+const result = __vectorSum(_ensureV(velocity.map(x => x * 2)), _ensureV(acceleration.map(x => x * 10)));"
+`;
+
 exports[`it should handle assignment to object properties 1`] = `
 "import { sum as _sum } from "@inglorious/utils/math/vectors.js";
 import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
@@ -149,6 +171,12 @@ function __vectorSum(a, b) {
 const result = __vectorSum(_v(1, 2), _v(3, 4));"
 `;
 
+exports[`it should handle find() method 1`] = `
+"import { v as _v } from "@inglorious/utils/v.js";
+const velocity = _v(1, 2, 3);
+const found = velocity.find(x => x > 1);"
+`;
+
 exports[`it should handle function call results in vector operations 1`] = `
 "import { scale as _scale } from "@inglorious/utils/math/vector.js";
 import { sum as _sum } from "@inglorious/utils/math/vectors.js";
@@ -187,6 +215,42 @@ import { initialPosition } from './vectors.js';
 const result = __vectorSum(initialPosition, _v(1, 2));"
 `;
 
+exports[`it should handle method calls with computed property names 1`] = `
+"import { v as _v } from "@inglorious/utils/v.js";
+const velocity = _v(1, 2);
+const method = 'map';
+const doubled = velocity[method](x => x * 2);"
+`;
+
+exports[`it should handle method chains with vector operations 1`] = `
+"import { sum as _sum } from "@inglorious/utils/math/vectors.js";
+import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
+import { ensureV as _ensureV, v as _v } from "@inglorious/utils/v.js";
+function __vectorSum(a, b) {
+  if (_isVector(a) && _isVector(b)) return _sum(a, b);
+  if (!_isVector(a) && !_isVector(b)) return a + b;
+  throw new Error("Cannot add a vector and a non-vector.");
+}
+const velocity = _v(1, 2);
+const position = _v(10, 20);
+const result = __vectorSum(_ensureV(velocity.map(x => x * 2)), position);"
+`;
+
+exports[`it should handle methods called on function results 1`] = `
+"import { ensureV as _ensureV, v as _v } from "@inglorious/utils/v.js";
+function getVector() {
+  return _v(1, 2);
+}
+const doubled = _ensureV(getVector().map(x => x * 2));"
+`;
+
+exports[`it should handle methods with complex arguments 1`] = `
+"import { ensureV as _ensureV, v as _v } from "@inglorious/utils/v.js";
+const velocity = _v(1, 2);
+const scaled = _ensureV(velocity.map((x, i) => x * (i + 1)));
+const filtered = _ensureV(velocity.filter((x, i) => i === 0 || x > 1));"
+`;
+
 exports[`it should handle mixed addition and scaling 1`] = `
 "import { scale as _scale } from "@inglorious/utils/math/vector.js";
 import { sum as _sum } from "@inglorious/utils/math/vectors.js";
@@ -207,6 +271,12 @@ const v1 = _v(1, 2);
 const v2 = _v(3, 4);
 const s = 2;
 const result = __vectorSum(v1, __vectorScale(v2, s));"
+`;
+
+exports[`it should handle nested array method calls 1`] = `
+"import { v as _v } from "@inglorious/utils/v.js";
+const matrix = [_v(1, 2), _v(3, 4)];
+const result = matrix.map(row => row.map(x => x * 2));"
 `;
 
 exports[`it should handle nested expressions 1`] = `
@@ -237,6 +307,28 @@ const v3 = _v(5, 6);
 const result = __vectorSum(v1, __vectorScale(__vectorSubtract(v2, v3), 2));"
 `;
 
+exports[`it should handle reduce returning non-numeric arrays 1`] = `
+"import { ensureV as _ensureV, v as _v } from "@inglorious/utils/v.js";
+const velocity = _v(1, 2);
+const strings = _ensureV(velocity.reduce((acc, x) => [...acc, x.toString()], []));"
+`;
+
+exports[`it should handle reduce returning objects 1`] = `
+"import { ensureV as _ensureV, v as _v } from "@inglorious/utils/v.js";
+const velocity = _v(1, 2);
+const obj = _ensureV(velocity.reduce((acc, val, i) => ({
+  ...acc,
+  [i]: val
+}), {}));"
+`;
+
+exports[`it should handle reduce returning scalars 1`] = `
+"import { ensureV as _ensureV, v as _v } from "@inglorious/utils/v.js";
+const velocity = _v(1, 2);
+const sum = _ensureV(velocity.reduce((a, b) => a + b, 0));
+const magnitude = _ensureV(velocity.reduce((sum, x) => sum + x * x, 0));"
+`;
+
 exports[`it should handle vector operations with potentially undefined values 1`] = `
 "import { sum as _sum } from "@inglorious/utils/math/vectors.js";
 import { isVector as _isVector } from "@inglorious/utils/math/vector.js";
@@ -247,6 +339,12 @@ function __vectorSum(a, b) {
 }
 import { maybeVector, maybeScalar } from './utils.js';
 const result = __vectorSum(maybeVector, maybeScalar);"
+`;
+
+exports[`it should handle very long method chains 1`] = `
+"import { ensureV as _ensureV, v as _v } from "@inglorious/utils/v.js";
+const velocity = _v(1, 2, 3, 4);
+const result = _ensureV(velocity.map(x => x * 2).filter(x => x > 2).slice(1).concat([10]).reduce((acc, x) => [...acc, x + 1], []));"
 `;
 
 exports[`it should not transform unary plus on vector 1`] = `
@@ -290,6 +388,12 @@ numbers[1] = __vectorScale(numbers[1], 2);
 const sum = __vectorSum(numbers[0], numbers[1]);"
 `;
 
+exports[`it should transform chained array methods 1`] = `
+"import { ensureV as _ensureV, v as _v } from "@inglorious/utils/v.js";
+const velocity = _v(1, 2, 3);
+const result = _ensureV(velocity.map(x => x * 2).filter(x => x > 3));"
+`;
+
 exports[`it should transform member expression operations (runtime check) 1`] = `
 "import { scale as _scale } from "@inglorious/utils/math/vector.js";
 import { sum as _sum } from "@inglorious/utils/math/vectors.js";
@@ -312,6 +416,44 @@ const obj = {
 obj.count = __vectorSum(obj.count, 3);
 obj.speed = __vectorScale(obj.speed, 2);
 const result = __vectorSum(obj.count, obj.speed);"
+`;
+
+exports[`it should transform methods on array elements 1`] = `
+"import { ensureV as _ensureV, v as _v } from "@inglorious/utils/v.js";
+const velocities = [_v(1, 2), _v(3, 4)];
+const doubled = _ensureV(velocities[0].map(x => x * 2));"
+`;
+
+exports[`it should transform methods on direct v() calls 1`] = `
+"import { ensureV as _ensureV, v as _v } from "@inglorious/utils/v.js";
+const doubled = _ensureV(_v(1, 2).map(x => x * 2));"
+`;
+
+exports[`it should transform methods on imported vectors 1`] = `
+"import { ensureV as _ensureV } from "@inglorious/utils/v.js";
+import { initialPosition } from './vectors.js';
+const scaled = _ensureV(initialPosition.map(x => x * 0.5));"
+`;
+
+exports[`it should transform methods on member expressions 1`] = `
+"import { ensureV as _ensureV, v as _v } from "@inglorious/utils/v.js";
+const entity = {
+  velocity: _v(1, 2)
+};
+const doubled = _ensureV(entity.velocity.map(x => x * 2));"
+`;
+
+exports[`it should transform methods on vector operations 1`] = `
+"import { ensureV as _ensureV, v as _v } from "@inglorious/utils/v.js";
+const v1 = _v(1, 2);
+const v2 = _v(3, 4);
+const summed = _ensureV((v1 + v2).map(x => x / 2));"
+`;
+
+exports[`it should transform methods on vector variables 1`] = `
+"import { ensureV as _ensureV, v as _v } from "@inglorious/utils/v.js";
+const pos = _v(1, 2);
+const doubled = _ensureV(pos.map(x => x * 2));"
 `;
 
 exports[`it should transform scalar * vector multiplication 1`] = `
@@ -492,4 +634,52 @@ function __vectorSubtract(a, b) {
 let v1 = _v(5, 6);
 const v2 = _v(1, 2);
 v1 = __vectorSubtract(v1, v2);"
+`;
+
+exports[`it should transform vector.concat() calls 1`] = `
+"import { ensureV as _ensureV, v as _v } from "@inglorious/utils/v.js";
+const velocity = _v(1, 2);
+const extended = _ensureV(velocity.concat([3]));"
+`;
+
+exports[`it should transform vector.filter() calls 1`] = `
+"import { ensureV as _ensureV, v as _v } from "@inglorious/utils/v.js";
+const velocity = _v(-1, 2);
+const positive = _ensureV(velocity.filter(x => x > 0));"
+`;
+
+exports[`it should transform vector.flat() calls 1`] = `
+"import { ensureV as _ensureV, v as _v } from "@inglorious/utils/v.js";
+const nested = _v([1, 2], [3, 4]);
+const flattened = _ensureV(nested.flat());"
+`;
+
+exports[`it should transform vector.flatMap() calls 1`] = `
+"import { ensureV as _ensureV, v as _v } from "@inglorious/utils/v.js";
+const velocity = _v(1, 2);
+const duplicated = _ensureV(velocity.flatMap(x => [x, x]));"
+`;
+
+exports[`it should transform vector.map() calls 1`] = `
+"import { ensureV as _ensureV, v as _v } from "@inglorious/utils/v.js";
+const velocity = _v(1, 2);
+const doubled = _ensureV(velocity.map(x => x * 2));"
+`;
+
+exports[`it should transform vector.reduce() calls 1`] = `
+"import { ensureV as _ensureV, v as _v } from "@inglorious/utils/v.js";
+const velocity = _v(1, 2);
+const doubled = _ensureV(velocity.reduce((acc, x) => [...acc, x * 2], []));"
+`;
+
+exports[`it should transform vector.reduceRight() calls 1`] = `
+"import { ensureV as _ensureV, v as _v } from "@inglorious/utils/v.js";
+const velocity = _v(1, 2);
+const reversed = _ensureV(velocity.reduceRight((acc, x) => [...acc, x], []));"
+`;
+
+exports[`it should transform vector.slice() calls 1`] = `
+"import { ensureV as _ensureV, v as _v } from "@inglorious/utils/v.js";
+const position = _v(10, 20, 30);
+const xy = _ensureV(position.slice(0, 2));"
 `;

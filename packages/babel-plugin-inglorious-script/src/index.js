@@ -23,10 +23,9 @@ export default function (babel) {
           this.needsEnsureV = false
         },
         exit(path) {
-          // Import ensureV if we detected component assignments
           if (this.needsEnsureV) {
             const ensureVId = addNamed(path, "ensureV", V_MODULE)
-            // Replace all ensureV calls with the imported identifier
+
             path.traverse({
               CallExpression(innerPath) {
                 if (
@@ -219,6 +218,42 @@ export default function (babel) {
             t.numericLiteral(UNARY_MINUS),
           ]),
         )
+      },
+
+      CallExpression(path) {
+        const { callee } = path.node
+
+        if (t.isMemberExpression(callee) && !callee.computed) {
+          const object = callee.object
+          const methodName = callee.property.name
+
+          const arrayMethods = [
+            "map",
+            "filter",
+            "slice",
+            "concat",
+            "flat",
+            "flatMap",
+            "reduce",
+            "reduceRight",
+          ]
+
+          if (
+            arrayMethods.includes(methodName) &&
+            couldBeVector(object, path.scope)
+          ) {
+            const ensureVCall = t.callExpression(t.identifier("ensureV"), [
+              t.cloneNode(path.node),
+            ])
+            ensureVCall._skipTransform = true
+
+            path.replaceWith(ensureVCall)
+            path.skip()
+
+            this.needsEnsureV = true
+            return
+          }
+        }
       },
     },
   }
