@@ -17,6 +17,10 @@ export function rendering(canvas) {
 
       const canvasWidth = canvas.width
       const canvasHeight = canvas.height
+      const dpi = window.devicePixelRatio
+
+      canvas.width = canvasWidth * dpi
+      canvas.height = canvasHeight * dpi
 
       const scaleX = canvasWidth / gameWidth
       const scaleY = canvasHeight / gameHeight
@@ -24,17 +28,15 @@ export function rendering(canvas) {
       const scaledGameWidth = gameWidth * scale
       const scaledGameHeight = gameHeight * scale
 
-      const offsetX = (canvasWidth - scaledGameWidth) / HALF
-      const offsetY = (canvasHeight - scaledGameHeight) / HALF
+      const offsetX = (canvas.width - scaledGameWidth * dpi) / HALF
+      const offsetY = (canvas.height - scaledGameHeight * dpi) / HALF
 
-      const dpi = window.devicePixelRatio
-
-      ctx.clearRect(ORIGIN, ORIGIN, canvasWidth, canvasHeight)
+      ctx.clearRect(ORIGIN, ORIGIN, canvas.width, canvas.height)
       ctx.fillStyle = "black"
-      ctx.fillRect(ORIGIN, ORIGIN, canvasWidth, canvasHeight)
+      ctx.fillRect(ORIGIN, ORIGIN, canvas.width, canvas.height)
 
       ctx.translate(offsetX, offsetY)
-      ctx.scale(dpi * scale, dpi * scale)
+      ctx.scale(scale * dpi, scale * dpi)
 
       if (game.pixelated) {
         canvas.style.imageRendering = "pixelated"
