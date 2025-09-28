@@ -15,22 +15,11 @@ export const ball = [
   { render: renderRectangle },
   (type) =>
     extend(type, {
-      create(entity, entityId, api) {
-        type.create?.(entity, entityId, api)
-
-        if (entityId !== entity.id) return
-
-        api.notify("reset", entityId)
-      },
-
-      reset(entity, entityId, api) {
-        if (entityId != null && entityId !== entity.id) return
-
-        const game = api.getEntity("game")
-
+      serve(entity, servingPlayer) {
         entity.position = entity.initialPosition
         entity.maxSpeed = entity.initialSpeed
-        switch (game.servingPlayer) {
+
+        switch (servingPlayer) {
           case "player1":
             entity.orientation = choose((-1 / 6) * pi(), (1 / 6) * pi())
             break
@@ -57,8 +46,7 @@ export const ball = [
           if (entity.position[X] > gameWidth) {
             api.notify("playerScore", "player1")
           }
-
-          api.notify("reset")
+          return
         }
 
         if (entity.position[Z] < 0 || entity.position[Z] > gameHeight) {

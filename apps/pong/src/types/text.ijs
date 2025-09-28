@@ -8,22 +8,20 @@ const PlayerName = {
 export const text = [
   { render: renderText },
   {
-    update(entity, dt, api) {
-      const game = api.getEntity("game")
+    start(entity) {
+      entity.value = "Welcome to Pong!\nPress Spacebar to begin!"
+    },
 
-      switch (game.state) {
-        case "start":
-          entity.value = "Welcome to Pong!\nPress Spacebar to begin!"
-          break
+    serve(entity, servingPlayer) {
+      entity.value = `${PlayerName[servingPlayer]}'s serve!\nPress Spacebar to serve!`
+    },
 
-        case "serve":
-          entity.value = `${PlayerName[game.servingPlayer]}'s serve!\nPress Spacebar to serve!`
-          break
+    play(entity) {
+      entity.value = ""
+    },
 
-        case "play":
-          entity.value = ""
-          break
-      }
+    winner(entity, winningPlayer) {
+      entity.value = `${PlayerName[winningPlayer]} wins!\nPress Spacebar to restart!`
     },
   },
 ]
