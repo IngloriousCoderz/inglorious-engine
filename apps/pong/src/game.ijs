@@ -1,16 +1,19 @@
 /* eslint-disable no-magic-numbers */
+import { modernControls } from "@inglorious/engine/behaviors/controls/kinematic/modern"
+import { fps } from "@inglorious/engine/behaviors/fps"
 import {
   controls,
   createControls,
 } from "@inglorious/engine/behaviors/input/controls"
+import { clamped } from "@inglorious/engine/behaviors/physics/clamped"
+import { renderFps } from "@inglorious/renderer-2d/fps"
+import { renderRectangle } from "@inglorious/renderer-2d/shapes/rectangle"
 import { magnitude } from "@inglorious/utils/math/vector"
 
-import { ball } from "./types/ball.ijs"
-import { fps } from "./types/fps.ijs"
-import { game } from "./types/game.ijs"
-import { paddle } from "./types/paddle.ijs"
-import { score } from "./types/score.ijs"
-import { text } from "./types/text.ijs"
+import { ball } from "./behaviors/ball.ijs"
+import { game } from "./behaviors/game.ijs"
+import { score } from "./behaviors/score.ijs"
+import { text } from "./behaviors/text.ijs"
 
 const WIDTH = 432
 const HEIGHT = 243
@@ -21,9 +24,9 @@ export default {
     game,
     text,
     score,
-    paddle,
+    paddle: [{ render: renderRectangle }, modernControls(), clamped()],
     ball,
-    fps,
+    fps: [{ render: renderFps }, fps({ accuracy: 0 })],
   },
 
   entities: {
