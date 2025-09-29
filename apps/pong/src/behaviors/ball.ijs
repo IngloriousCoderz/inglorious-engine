@@ -13,6 +13,13 @@ const SPEED_INCREASE = 1.03
 export const ball = {
   render: renderRectangle,
 
+  create(entity, entityId) {
+    if (entityId !== entity.id) return
+
+    entity.initialSpeed = entity.maxSpeed
+    entity.initialPosition = entity.position
+  },
+
   serve(entity, servingPlayer) {
     entity.position = entity.initialPosition
     entity.maxSpeed = entity.initialSpeed

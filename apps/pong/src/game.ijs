@@ -12,6 +12,7 @@ import { magnitude } from "@inglorious/utils/math/vector"
 
 import { ball } from "./behaviors/ball.ijs"
 import { game } from "./behaviors/game.ijs"
+import { paddle } from "./behaviors/paddle.ijs"
 import { score } from "./behaviors/score.ijs"
 import { text } from "./behaviors/text.ijs"
 
@@ -24,7 +25,7 @@ export default {
     game,
     text,
     score,
-    paddle: [{ render: renderRectangle }, modernControls(), clamped()],
+    paddle: [{ render: renderRectangle }, paddle, modernControls(), clamped()],
     ball,
     fps: [{ render: renderFps }, fps({ accuracy: 0 })],
   },
@@ -74,7 +75,6 @@ export default {
 
     player1: {
       type: "paddle",
-      initialPosition: v(10, 0, HEIGHT - 50),
       size: v(5, 0, 20),
       color: "transparent",
       backgroundColor: "white",
@@ -85,25 +85,22 @@ export default {
 
     player2: {
       type: "paddle",
-      maxSpeed: 200,
-      initialPosition: v(WIDTH - 10, 0, 30),
       size: v(5, 0, 20),
       color: "transparent",
       backgroundColor: "white",
       collisions: { hitbox: { shape: "rectangle" } },
+      maxSpeed: 200,
       position: v(WIDTH - 10, 0, 30),
     },
 
     ball: {
       type: "ball",
-      initialSpeed: magnitude(v(100, 0, 50)),
-      initialPosition: v(WIDTH / 2, 0, HEIGHT / 2),
       size: v(4, 0, 4),
       color: "transparent",
       backgroundColor: "white",
       collisions: { hitbox: { shape: "rectangle" } },
-      position: v(WIDTH / 2, 0, HEIGHT / 2),
       maxSpeed: magnitude(v(100, 0, 50)),
+      position: v(WIDTH / 2, 0, HEIGHT / 2),
     },
 
     fps: {
