@@ -1,4 +1,5 @@
-import { track } from "@inglorious/engine/behaviors/input/mouse.js"
+import { trackMouse } from "@inglorious/engine/behaviors/input/mouse.js"
+import { trackTouch } from "@inglorious/engine/behaviors/input/touch.js"
 
 const ORIGIN = 0
 const HALF = 2
@@ -9,6 +10,10 @@ export function rendering(canvas) {
   let _onMouseMove = null
   let _onClick = null
   let _onWheel = null
+
+  let _onTouchStart = null
+  let _onTouchMove = null
+  let _onTouchEnd = null
 
   return {
     init(entity, event, api) {
@@ -44,7 +49,7 @@ export function rendering(canvas) {
         ctx.imageSmoothingEnabled = false
       }
 
-      const { onMouseMove, onClick, onWheel } = track(canvas, api)
+      const { onMouseMove, onClick, onWheel } = trackMouse(canvas, api)
       _onMouseMove = onMouseMove
       _onClick = onClick
       _onWheel = onWheel
@@ -52,6 +57,15 @@ export function rendering(canvas) {
       canvas.addEventListener("mousemove", _onMouseMove)
       canvas.addEventListener("click", _onClick)
       canvas.addEventListener("wheel", _onWheel)
+
+      const { onTouchStart, onTouchMove, onTouchEnd } = trackTouch(canvas, api)
+      _onTouchStart = onTouchStart
+      _onTouchMove = onTouchMove
+      _onTouchEnd = onTouchEnd
+
+      canvas.addEventListener("touchstart", _onTouchStart)
+      canvas.addEventListener("touchmove", _onTouchMove)
+      canvas.addEventListener("touchend", _onTouchEnd)
     },
 
     destroy(entity, id) {
@@ -65,6 +79,16 @@ export function rendering(canvas) {
       }
       if (_onWheel) {
         canvas.removeEventListener("wheel", _onWheel)
+      }
+
+      if (_onTouchStart) {
+        canvas.removeEventListener("touchstart", _onTouchStart)
+      }
+      if (_onTouchMove) {
+        canvas.removeEventListener("touchmove", _onTouchMove)
+      }
+      if (_onTouchEnd) {
+        canvas.removeEventListener("touchend", _onTouchEnd)
       }
     },
   }

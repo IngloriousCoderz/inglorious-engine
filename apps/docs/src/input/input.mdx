@@ -2,6 +2,7 @@ import { Canvas, Meta, Source } from '@storybook/addon-docs/blocks'
 import * as Input from './input.stories'
 
 import mouse from "./mouse?raw"
+import touch from "./touch?raw"
 import controls from "./controls?raw"
 
 <Meta of={Input} />
@@ -12,13 +13,25 @@ It's pretty easy to add input controls to your game. Let's have a look.
 
 ## Mouse
 
-If you need mouse support, it's as easy as using the `mouse()` behavior. It automatically detects movement and clicks on any entity in the scene.
+The `mouse()` behavior provides mouse support for your game. It automatically detects movement and clicks.
 
-You can get a reference to any entity in the scene by invoking the `api.getEntity(id)` method. The `api` object is a property of the context parameter, which is always the third parameter of an event handler.
+When you click on an entity, it will trigger an `entityClick` event with the entity's ID. If you click on an empty area of the scene, a `sceneClick` event is triggered with the position of the click. Mouse movement will continuously update the `mouse` entity's position.
 
 <Canvas of={Input.Mouse} />
 
 <Source dark code={mouse} />
+
+## Touch
+
+The `touch()` behavior provides touch support for your game. It can distinguish between taps and swipes.
+
+When you tap on an entity, it will trigger an `entityTouch` event with the entity's ID. If you tap on an empty area of the scene, a `sceneTouch` event is triggered with the position of the tap.
+
+If you drag your finger across the screen, it will be detected as a swipe, and a `swipe` event will be triggered when you lift your finger.
+
+<Canvas of={Input.Touch} />
+
+<Source dark code={touch} />
 
 ## Keyboard and Gamepad
 

@@ -1,3 +1,5 @@
+import "../public/style.css"
+
 import { Engine } from "@inglorious/engine/core/engine"
 import { createRenderer } from "@inglorious/renderer-2d"
 import { useEffect, useRef } from "react"

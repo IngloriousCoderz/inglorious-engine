@@ -12,5 +12,8 @@ export const coreEvents = [
   "inputRelease",
   "mouseMove",
   "mouseClick",
+  "touchStart",
+  "touchMove",
+  "touchEnd",
   "spriteAnimationEnd",
 ]

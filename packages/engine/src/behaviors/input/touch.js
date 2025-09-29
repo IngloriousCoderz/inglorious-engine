@@ -1,12 +1,14 @@
 import { findCollision } from "@inglorious/engine/collision/detection.js"
 import { clampToBounds } from "@inglorious/engine/physics/bounds.js"
-import { zero } from "@inglorious/utils/math/vector.js"
+import { magnitude, zero } from "@inglorious/utils/math/vector.js"
+import { subtract } from "@inglorious/utils/math/vectors.js"
 import { v } from "@inglorious/utils/v.js"
 
 const NO_Y = 0
+const MOVEMENT_THRESHOLD = 5
 const HALF = 2
 
-export function mouse() {
+export function touch() {
   return {
     create(entity, entityId) {
       if (entityId !== entity.id) return
@@ -15,41 +17,58 @@ export function mouse() {
       entity.collisions.bounds ??= { shape: "point" }
     },
 
-    mouseMove(entity, position, api) {
+    touchStart(entity, position) {
+      entity.isSwiping = false
+      entity.position = position
+    },
+
+    touchMove(entity, position, api) {
       const game = api.getEntity("game")
+
+      const delta = subtract(position, entity.position)
+
+      if (magnitude(delta) > MOVEMENT_THRESHOLD) {
+        entity.isSwiping = true
+      }
 
       entity.position = position
 
       clampToBounds(entity, game.size)
     },
 
-    mouseClick(entity, position, api) {
+    touchEnd(entity, _, api) {
+      if (entity.isSwiping) {
+        api.notify("swipe", v(...entity.position))
+        entity.isSwiping = false
+        return
+      }
+
       const entities = api.getEntities()
       const clickedEntity = findCollision(entity, entities)
       if (clickedEntity) {
-        api.notify("entityClick", clickedEntity.id)
+        api.notify("entityTouch", clickedEntity.id)
       } else {
-        api.notify("sceneClick", position)
+        api.notify("sceneTouch", v(...entity.position))
       }
     },
   }
 }
 
-export function trackMouse(parent, api) {
-  const handleMouseMove = createHandler("mouseMove", parent, api)
-  const handleClick = createHandler("mouseClick", parent, api)
-  const handleWheel = createHandler("mouseWheel", parent, api)
+export function trackTouch(parent, api) {
+  const handleTouchStart = createHandler("touchStart", parent, api)
+  const handleTouchMove = createHandler("touchMove", parent, api)
+  const handleTouchEnd = createHandler("touchEnd", parent, api)
 
   return {
-    onMouseMove: handleMouseMove,
-    onClick: handleClick,
-    onWheel: handleWheel,
+    onTouchStart: handleTouchStart,
+    onTouchMove: handleTouchMove,
+    onTouchEnd: handleTouchEnd,
   }
 }
 
-export function createMouse(overrides = {}) {
+export function createTouch(overrides = {}) {
   return {
-    type: "mouse",
+    type: "touch",
     layer: 999, // A high layer value to ensure it's always rendered on top
     position: zero(),
     ...overrides,
@@ -65,8 +84,8 @@ function createHandler(type, parent, api) {
       return
     }
 
-    if (type === "mouseWheel") {
-      api.notify(type, event.deltaY)
+    if (type === "touchEnd") {
+      api.notify(type)
       return
     }
 
@@ -76,7 +95,8 @@ function createHandler(type, parent, api) {
 }
 
 function calculatePosition(event, parent, api) {
-  const { clientX, clientY } = event
+  const [touch] = event.touches
+  const { clientX, clientY } = touch
   const {
     left,
     bottom,

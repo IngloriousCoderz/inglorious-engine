@@ -57,7 +57,7 @@ export function camera(params) {
       }
     },
 
-    mouseWheel(entity, { deltaY }) {
+    mouseWheel(entity, deltaY) {
       const delta = Math.sign(deltaY)
       // Scrolling down (positive deltaY) should zoom out (decrease zoom value)
       entity.targetZoom -= delta * entity.zoomSpeed * entity.zoomSensitivity
