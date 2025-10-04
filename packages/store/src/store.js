@@ -67,7 +67,15 @@ export function createStore({
   function update() {
     const processedEvents = []
 
-    state = create(state, (draft) => {
+    state = create(state, patcher, {
+      enableAutoFreeze: state.entities.game?.devMode,
+    })
+
+    listeners.forEach((onUpdate) => onUpdate())
+
+    return processedEvents
+
+    function patcher(draft) {
       while (incomingEvents.length) {
         const event = incomingEvents.shift()
         processedEvents.push(event)
@@ -118,11 +126,7 @@ export function createStore({
           handle?.(draft, event.payload, api)
         })
       }
-    })
-
-    listeners.forEach((onUpdate) => onUpdate())
-
-    return processedEvents
+    }
   }
 
   /**
