@@ -4,14 +4,15 @@ import { v } from "@inglorious/utils/v.js"
 
 export default {
   types: {
-    touch: [touch()],
+    touch: touch(),
 
     character: [
       { render: renderCharacter },
       {
-        update(entity, dt, api) {
-          const touch = api.getEntity("touch")
-          entity.position = touch.position
+        entityTouchMove(entity, { targetId, position }) {
+          if (targetId !== entity.id) return
+
+          entity.position = position
         },
       },
     ],
@@ -23,12 +24,13 @@ export default {
       devMode: true,
     },
 
-    touch: createTouch({ position: v(400, 0, 300) }),
+    touch: createTouch(),
 
     character: {
       type: "character",
       velocity: v(0, 0, 0),
       position: v(400, 0, 300),
+      collisions: { touch: { shape: "circle", radius: 12 } },
     },
   },
 }

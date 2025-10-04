@@ -71,7 +71,7 @@ function createHandler(type, parent, api, toGamePosition) {
       return
     }
 
-    const payload = toGamePosition(event.clientX, event.clientY)
-    api.notify(type, payload)
+    const position = toGamePosition(event.clientX, event.clientY)
+    api.notify(type, position)
   }
 }

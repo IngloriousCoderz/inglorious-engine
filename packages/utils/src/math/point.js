@@ -9,6 +9,7 @@ const SQUARED = 2
 const HALF = 2
 
 import { distanceFromPoint } from "./line.js"
+import { isBetween } from "./numbers.js"
 import { isVector } from "./vector.js"
 
 /**
@@ -69,12 +70,9 @@ export function intersectsRectangle(point, rectangle) {
   const front = rectZ + depth / HALF
 
   return (
-    x >= left &&
-    x <= right &&
-    y >= bottom &&
-    y <= top &&
-    z >= back &&
-    z <= front
+    isBetween(x, left, right) &&
+    isBetween(y, bottom, top) &&
+    isBetween(z, back, front)
   )
 }
 

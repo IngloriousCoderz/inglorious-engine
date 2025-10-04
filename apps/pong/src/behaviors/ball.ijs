@@ -20,6 +20,12 @@ export const ball = {
     entity.initialPosition = entity.position
   },
 
+  entityTouchEnd(entity, { targetId }, api) {
+    if (targetId !== entity.id) return
+
+    api.notify("action")
+  },
+
   serve(entity, servingPlayer) {
     entity.position = entity.initialPosition
     entity.maxSpeed = entity.initialSpeed

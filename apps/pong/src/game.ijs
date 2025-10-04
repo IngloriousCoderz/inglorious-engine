@@ -5,6 +5,7 @@ import {
   controls,
   createControls,
 } from "@inglorious/engine/behaviors/input/controls"
+import { createTouch, touch } from "@inglorious/engine/behaviors/input/touch.js"
 import { clamped } from "@inglorious/engine/behaviors/physics/clamped"
 import { renderFps } from "@inglorious/renderer-2d/fps"
 import { renderRectangle } from "@inglorious/renderer-2d/shapes/rectangle"
@@ -21,6 +22,8 @@ const HEIGHT = 243
 
 export default {
   types: {
+    touch: touch(),
+
     ...controls("player1", "player2"),
     game,
     text,
@@ -31,6 +34,8 @@ export default {
   },
 
   entities: {
+    touch: createTouch(),
+
     ...createControls("player1", {
       KeyW: "moveUp",
       KeyS: "moveDown",
@@ -78,7 +83,10 @@ export default {
       size: v(5, 0, 20),
       color: "transparent",
       backgroundColor: "white",
-      collisions: { hitbox: { shape: "rectangle" } },
+      collisions: {
+        hitbox: { shape: "rectangle" },
+        touch: { shape: "rectangle" },
+      },
       maxSpeed: 200,
       position: v(10, 0, HEIGHT - 50),
     },
@@ -88,7 +96,10 @@ export default {
       size: v(5, 0, 20),
       color: "transparent",
       backgroundColor: "white",
-      collisions: { hitbox: { shape: "rectangle" } },
+      collisions: {
+        hitbox: { shape: "rectangle" },
+        touch: { shape: "rectangle" },
+      },
       maxSpeed: 200,
       position: v(WIDTH - 10, 0, 30),
     },
@@ -98,7 +109,10 @@ export default {
       size: v(4, 0, 4),
       color: "transparent",
       backgroundColor: "white",
-      collisions: { hitbox: { shape: "rectangle" } },
+      collisions: {
+        hitbox: { shape: "rectangle" },
+        touch: { shape: "circle", radius: 12 },
+      },
       maxSpeed: magnitude(v(100, 0, 50)),
       position: v(WIDTH / 2, 0, HEIGHT / 2),
     },

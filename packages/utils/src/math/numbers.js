@@ -31,6 +31,17 @@ export function clamp(num, min, max) {
 }
 
 /**
+ * Checks if a number is between a minimum and maximum value, inclusive.
+ * @param {number} num - The number to check.
+ * @param {number} min - The minimum value.
+ * @param {number} max - The maximum value.
+ * @returns {boolean} True if the number is between min and max, false otherwise.
+ */
+export function isBetween(num, min, max) {
+  return num >= min && num <= max
+}
+
+/**
  * Checks if two numbers are close to each other within a given tolerance.
  * @param {number} num1 - The first number.
  * @param {number} num2 - The second number.

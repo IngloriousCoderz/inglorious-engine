@@ -1,10 +1,11 @@
 // @see https://jonathanwhiting.com/tutorial/collision/
 
+import { isBetween } from "./numbers.js"
 import { intersectsRectangle } from "./rectangle.js"
 
-const FIRST_TILE = 0
+const FIRST = 0
 const HALF = 2
-const LAST_ROW = 1
+const LAST = 1
 
 export function findCollisions(hitmask, target) {
   const [tilemapX, tilemapY, tilemapZ] = hitmask.position
@@ -37,15 +38,13 @@ export function findCollisions(hitmask, target) {
   for (let i = minTileX; i <= maxTileX; i++) {
     for (let j = minTileZ; j <= maxTileZ; j++) {
       if (
-        i < FIRST_TILE ||
-        i >= hitmask.columns ||
-        j < FIRST_TILE ||
-        j >= dRows
+        !isBetween(i, FIRST, hitmask.columns - LAST) ||
+        !isBetween(j, FIRST, dRows - LAST)
       ) {
         continue
       }
 
-      const invertedRow = dRows - LAST_ROW - j
+      const invertedRow = dRows - LAST - j
       const tileIndex = invertedRow * hitmask.columns + i
       const tileHeightValue = hitmask.heights[tileIndex]
 

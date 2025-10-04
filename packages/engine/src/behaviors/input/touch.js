@@ -1,6 +1,6 @@
 import { findCollision } from "@inglorious/engine/collision/detection.js"
 import { clampToBounds } from "@inglorious/engine/physics/bounds.js"
-import { magnitude, zero } from "@inglorious/utils/math/vector.js"
+import { magnitude } from "@inglorious/utils/math/vector.js"
 import { subtract } from "@inglorious/utils/math/vectors.js"
 import { v } from "@inglorious/utils/v.js"
 
@@ -8,45 +8,56 @@ const MOVEMENT_THRESHOLD = 5
 
 export function touch() {
   return {
-    create(entity, entityId) {
-      if (entityId !== entity.id) return
-
-      entity.collisions ??= {}
-      entity.collisions.bounds ??= { shape: "point" }
-    },
-
-    touchStart(entity, position) {
+    touchStart(entity, { index, position }, api) {
       entity.isSwiping = false
-      entity.position = position
+      entity.positions[index] = position
+
+      const entities = api.getEntities()
+      const touchedEntity = findCollision(
+        { ...entity, position: entity.positions[index] },
+        entities,
+        "touch",
+      )
+      if (touchedEntity) {
+        entity.targetIds[index] = touchedEntity.id
+        api.notify("entityTouchStart", entity.targetIds[index])
+      } else {
+        api.notify("sceneTouchStart", v(...entity.positions[index]))
+      }
     },
 
-    touchMove(entity, position, api) {
-      const game = api.getEntity("game")
-
-      const delta = subtract(position, entity.position)
+    touchMove(entity, { index, position }, api) {
+      const delta = subtract(position, entity.positions[index])
 
       if (magnitude(delta) > MOVEMENT_THRESHOLD) {
         entity.isSwiping = true
       }
 
-      entity.position = position
+      entity.positions[index] = position
+      const game = api.getEntity("game")
+      clampToBounds({ ...entity, position: entity.positions[index] }, game.size)
 
-      clampToBounds(entity, game.size)
+      if (entity.targetIds[index]) {
+        api.notify("entityTouchMove", {
+          targetId: entity.targetIds[index],
+          position: v(...entity.positions[index]),
+        })
+      }
     },
 
-    touchEnd(entity, _, api) {
+    touchEnd(entity, { index }, api) {
       if (entity.isSwiping) {
-        api.notify("swipe", v(...entity.position))
         entity.isSwiping = false
-        return
       }
 
-      const entities = api.getEntities()
-      const clickedEntity = findCollision(entity, entities)
-      if (clickedEntity) {
-        api.notify("entityTouch", clickedEntity.id)
+      if (entity.targetIds[index]) {
+        api.notify("entityTouchEnd", {
+          targetId: entity.targetIds[index],
+          position: v(...entity.positions[index]),
+        })
+        entity.targetIds[index] = undefined
       } else {
-        api.notify("sceneTouch", v(...entity.position))
+        api.notify("sceneTouchEnd", v(...entity.positions[index]))
       }
     },
   }
@@ -70,16 +81,21 @@ export function trackTouch(parent, api, toGamePosition) {
   return {
     onTouchStart: handleTouchStart,
     onTouchMove: handleTouchMove,
+    onTouchCancel: handleTouchEnd,
     onTouchEnd: handleTouchEnd,
   }
 }
 
-export function createTouch(overrides = {}) {
+export function createTouch() {
   return {
     type: "touch",
     layer: 999, // A high layer value to ensure it's always rendered on top
-    position: zero(),
-    ...overrides,
+    positions: [],
+    collisions: {
+      bounds: { shape: "point" },
+      touch: { shape: "circle", radius: 44 },
+    },
+    targetIds: [],
   }
 }
 
@@ -92,15 +108,14 @@ function createHandler(type, parent, api, toGamePosition) {
       return
     }
 
-    if (type === "touchEnd") {
-      api.notify(type)
-      return
-    }
+    // touchend doesn't have touches anymore, but it has changedTouches
+    const touches = event.touches.length ? event.touches : event.changedTouches
 
-    const [touch] = event.touches
-    const { clientX, clientY } = touch
+    Array.from(touches).forEach((touch, index) => {
+      const { clientX, clientY } = touch
 
-    const payload = toGamePosition(clientX, clientY)
-    api.notify(type, payload)
+      const position = toGamePosition(clientX, clientY)
+      api.notify(type, { index, position })
+    })
   }
 }

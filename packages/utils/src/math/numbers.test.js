@@ -1,6 +1,15 @@
 import { expect, test } from "vitest"
 
-import { abs, clamp, isClose, mod, sign, snap, sqrt } from "./numbers.js"
+import {
+  abs,
+  clamp,
+  isBetween,
+  isClose,
+  mod,
+  sign,
+  snap,
+  sqrt,
+} from "./numbers.js"
 
 test("it should return the same number if already positive", () => {
   const num = 42
@@ -41,6 +50,51 @@ test("it should clamp a number too big", () => {
   const expectedResult = 100
 
   expect(clamp(num, min, max)).toBe(expectedResult)
+})
+
+test("it should return true if a number is between min and max", () => {
+  const num = 50
+  const min = 0
+  const max = 100
+  const expectedResult = true
+
+  expect(isBetween(num, min, max)).toBe(expectedResult)
+})
+
+test("it should return true if a number is equal to min", () => {
+  const num = 0
+  const min = 0
+  const max = 100
+  const expectedResult = true
+
+  expect(isBetween(num, min, max)).toBe(expectedResult)
+})
+
+test("it should return true if a number is equal to max", () => {
+  const num = 100
+  const min = 0
+  const max = 100
+  const expectedResult = true
+
+  expect(isBetween(num, min, max)).toBe(expectedResult)
+})
+
+test("it should return false if a number is lower than min", () => {
+  const num = -1
+  const min = 0
+  const max = 100
+  const expectedResult = false
+
+  expect(isBetween(num, min, max)).toBe(expectedResult)
+})
+
+test("it should return false if a number is greater than max", () => {
+  const num = 101
+  const min = 0
+  const max = 100
+  const expectedResult = false
+
+  expect(isBetween(num, min, max)).toBe(expectedResult)
 })
 
 test("it should check if two numbers are close given some tolerance", () => {
