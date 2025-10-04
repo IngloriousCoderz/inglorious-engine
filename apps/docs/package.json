@@ -17,6 +17,7 @@
   "scripts": {
     "format": "prettier --write '**/*.{js,jsx}'",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "dev": "storybook dev -p 6006",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "start": "serve"

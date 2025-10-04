@@ -1,6 +1,8 @@
 import { trackMouse } from "@inglorious/engine/behaviors/input/mouse.js"
 import { trackTouch } from "@inglorious/engine/behaviors/input/touch.js"
 
+import { createCoordinateConverter } from "./coordinates.js"
+
 const ORIGIN = 0
 const HALF = 2
 
@@ -49,7 +51,13 @@ export function rendering(canvas) {
         ctx.imageSmoothingEnabled = false
       }
 
-      const { onMouseMove, onClick, onWheel } = trackMouse(canvas, api)
+      const toGamePosition = createCoordinateConverter(canvas, api)
+
+      const { onMouseMove, onClick, onWheel } = trackMouse(
+        canvas,
+        api,
+        toGamePosition,
+      )
       _onMouseMove = onMouseMove
       _onClick = onClick
       _onWheel = onWheel
@@ -58,7 +66,11 @@ export function rendering(canvas) {
       canvas.addEventListener("click", _onClick)
       canvas.addEventListener("wheel", _onWheel)
 
-      const { onTouchStart, onTouchMove, onTouchEnd } = trackTouch(canvas, api)
+      const { onTouchStart, onTouchMove, onTouchEnd } = trackTouch(
+        canvas,
+        api,
+        toGamePosition,
+      )
       _onTouchStart = onTouchStart
       _onTouchMove = onTouchMove
       _onTouchEnd = onTouchEnd

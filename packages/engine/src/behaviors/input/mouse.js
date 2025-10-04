@@ -1,10 +1,6 @@
 import { findCollision } from "@inglorious/engine/collision/detection.js"
 import { clampToBounds } from "@inglorious/engine/physics/bounds.js"
 import { zero } from "@inglorious/utils/math/vector.js"
-import { v } from "@inglorious/utils/v.js"
-
-const NO_Y = 0
-const HALF = 2
 
 export function mouse() {
   return {
@@ -35,10 +31,15 @@ export function mouse() {
   }
 }
 
-export function trackMouse(parent, api) {
-  const handleMouseMove = createHandler("mouseMove", parent, api)
-  const handleClick = createHandler("mouseClick", parent, api)
-  const handleWheel = createHandler("mouseWheel", parent, api)
+export function trackMouse(parent, api, toGamePosition) {
+  const handleMouseMove = createHandler(
+    "mouseMove",
+    parent,
+    api,
+    toGamePosition,
+  )
+  const handleClick = createHandler("mouseClick", parent, api, toGamePosition)
+  const handleWheel = createHandler("mouseWheel", parent, api, toGamePosition)
 
   return {
     onMouseMove: handleMouseMove,
@@ -56,7 +57,7 @@ export function createMouse(overrides = {}) {
   }
 }
 
-function createHandler(type, parent, api) {
+function createHandler(type, parent, api, toGamePosition) {
   return (event) => {
     event.preventDefault()
     event.stopPropagation()
@@ -70,38 +71,7 @@ function createHandler(type, parent, api) {
       return
     }
 
-    const payload = calculatePosition(event, parent, api)
+    const payload = toGamePosition(event.clientX, event.clientY)
     api.notify(type, payload)
   }
-}
-
-function calculatePosition(event, parent, api) {
-  const { clientX, clientY } = event
-  const {
-    left,
-    bottom,
-    width: canvasWidth,
-    height: canvasHeight,
-  } = parent.getBoundingClientRect()
-
-  const x = clientX - left
-  const y = bottom - clientY
-
-  const game = api.getEntity("game")
-  const [gameWidth, gameHeight] = game.size
-
-  const scaleX = canvasWidth / gameWidth
-  const scaleY = canvasHeight / gameHeight
-  const scale = Math.min(scaleX, scaleY)
-
-  const scaledGameWidth = gameWidth * scale
-  const scaledGameHeight = gameHeight * scale
-
-  const offsetX = (canvasWidth - scaledGameWidth) / HALF
-  const offsetY = (canvasHeight - scaledGameHeight) / HALF
-
-  const gameX = (x - offsetX) / scale
-  const gameY = (y - offsetY) / scale
-
-  return v(gameX, NO_Y, gameY)
 }
