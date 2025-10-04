@@ -58,7 +58,7 @@ An event handler accepts the following arguments:
 - The event's `payload`, which contains data relevant to the event. For the special `update` event, this is the delta time (`dt`).
 - The engine's `api` object, which provides safe access to engine functionalities like `getEntity(id)`, `getEntities()`, and `notify(type, payload)`.
 
-You might notice the code directly changes properties on the `entity`. While this looks like a direct mutation, the engine uses [Immer](https://immerjs.github.io/immer/) under the hood. This allows you to write simple, mutable-style code while Immer handles the complexity of producing a new, immutable state object for you. It's the best of both worlds: simple code and the safety of immutability.
+You might notice the code directly changes properties on the `entity`. While this looks like a direct mutation, the engine uses [Mutative](https://mutative.js.org/) under the hood. This allows you to write simple, mutable-style code while Mutative handles the complexity of producing a new, immutable state object for you. It's the best of both worlds: simple code and the safety of immutability.
 
 ### Naming Conventions
 
@@ -108,7 +108,7 @@ entity.powerUp = { type: 'speed', duration: 10 }; // 10 seconds
 // Later, in the 'game:update' event handler for the player...
 if (entity.powerUp?.type === 'speed') {
     // This function would increase the player's speed
-    // (Remember, Immer handles immutability for you!)
+    // (Remember, Mutative handles immutability for you!)
     entity.velocity[0] *= 1.5;
     entity.velocity[1] *= 1.5;
 
@@ -162,7 +162,7 @@ This pattern keeps entity objects clean and centralizes behavior logic within ty
 
 A common concern with immutable architectures is the perceived overhead of creating a new state object for every single change. In practice, this is a misconception.
 
-Inglorious Engine uses modern techniques (specifically, the Immer library) to implement **structural sharing**. When you modify the state, only the parts of the data tree that are affected are actually copied. All other parts of the tree are shared by reference with the previous state.
+Inglorious Engine uses modern techniques (specifically, the Mutative library) to implement **structural sharing**. When you modify the state, only the parts of the data tree that are affected are actually copied. All other parts of the tree are shared by reference with the previous state.
 
 This means that state updates are incredibly cheap and fast, regardless of the total size of your game state.
 

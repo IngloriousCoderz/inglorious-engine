@@ -1,6 +1,6 @@
 {
   "name": "@inglorious/store",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "A state manager inspired by Redux, but tailored for the specific needs of game development.",
   "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
   "license": "MIT",
@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "@inglorious/utils": "workspace:*",
-    "immer": "^10.1.1"
+    "mutative": "^1.3.0"
   },
   "peerDependencies": {
     "@inglorious/utils": "workspace:*"

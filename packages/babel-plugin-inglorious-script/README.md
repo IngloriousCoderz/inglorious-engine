@@ -31,7 +31,7 @@ The plugin handles the transformation, giving you clean syntax with efficient ex
 - **Intuitive Syntax**: Use standard math operators for vector arithmetic
 - **Hybrid Analysis**: Static optimization when types are certain, runtime safety when they're not
 - **Automatic Vector Preservation**: Maintains vector properties through component assignments and array operations
-- **Immer Integration**: Works seamlessly with state management libraries that modify object properties
+- **Mutative Integration**: Works seamlessly with state management libraries that modify object properties
 - **Comprehensive Operator Support**: Binary, unary, and compound assignment operators
 - **Smart Error Detection**: Catches mathematical errors at compile-time when possible
 
@@ -130,7 +130,7 @@ entity.position[X] = newX
 entity.position[Y] *= scaleFactor
 ```
 
-This is especially useful when working with Immer or other libraries that might strip custom properties from objects.
+This is especially useful when working with Mutative or other libraries that might strip custom properties from objects.
 
 ### Array Method Support
 
@@ -202,12 +202,12 @@ function getScalar() {
 const result = getVector() * getScalar() + v(3, 4)
 ```
 
-### Immer and State Management Integration
+### Mutative and State Management Integration
 
-The plugin works seamlessly with Immer and other state management libraries:
+The plugin works seamlessly with Mutative and other state management libraries:
 
 ```javascript
-import { produce } from "immer"
+import { create } from "mutative"
 
 const gameState = {
   player: {
@@ -216,8 +216,8 @@ const gameState = {
   },
 }
 
-const newState = produce(gameState, (draft) => {
-  // Even though Immer creates plain objects, these operations work:
+const newState = create(gameState, (draft) => {
+  // Even though Mutative creates plain objects, these operations work:
   draft.player.position += draft.player.velocity
   draft.player.position[0] *= 1.1 // Component assignment with auto-restoration
 })

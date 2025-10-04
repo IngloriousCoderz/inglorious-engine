@@ -372,7 +372,7 @@ The architecture of Inglorious Engine is heavily inspired by [Redux](https://red
 
 <!-- slide -->
 
-- **Simple Logic, Safe Updates:** You write simple code that _looks_ like you're mutating objects. The engine uses [Immer](https://immerjs.github.io/immer/) to handle the complex immutable updates for you, giving you simple code and the safety of immutability.
+- **Simple Logic, Safe Updates:** You write simple code that _looks_ like you're mutating objects. The engine uses [Mutative](https://mutativejs.github.io/mutative/) to handle the complex immutable updates for you, giving you simple code and the safety of immutability.
 
 <!-- slide -->
 

@@ -97,9 +97,9 @@ A utility function inspired by Immer's `produce` API. It provides a convenient w
 
 ### Important Performance Note
 
-Unlike Immer, which uses structural sharing via proxies for high performance, this implementation performs a **full deep clone** of the base state on every call using `deserialize(serialize())`.
+Unlike Mutative, which uses structural sharing via proxies for high performance, this implementation performs a **full deep clone** of the base state on every call using `deserialize(serialize())`.
 
-This can be very inefficient for large or complex states. It is intended for simple use cases where the convenience of the API outweighs the performance cost. For performance-critical state updates, consider using a library like Immer directly.
+This can be very inefficient for large or complex states. It is intended for simple use cases where the convenience of the API outweighs the performance cost. For performance-critical state updates, consider using a library like Mutative directly.
 
 ### How It Works
 
@@ -112,14 +112,14 @@ The function can be called in two ways:
 #### Standard Call
 
 ```javascript
-import { produce } from '@inglorious/utils/data-structures/object';
+import { create } from '@inglorious/utils/data-structures/object';
 
 const baseState = {
   user: { name: 'Alice', age: 30 },
   posts: [],
 };
 
-const nextState = produce(baseState, (draft) => {
+const nextState = create(baseState, (draft) => {
   draft.user.age += 1;
   draft.posts.push({ id: 1, title: 'Hello World' });
 });
@@ -133,9 +133,9 @@ console.log(baseState.user.age); // 30 (original state is untouched)
 You can also create a reusable producer function by passing only the recipe.
 
 ```javascript
-import { produce } from '@inglorious/utils/data-structures/object';
+import { create } from '@inglorious/utils/data-structures/object';
 
-const incrementAge = produce((draft) => {
+const incrementAge = create((draft) => {
   draft.user.age += 1;
 });
 

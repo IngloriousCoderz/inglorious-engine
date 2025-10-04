@@ -80,7 +80,7 @@ Here is a complete example showing how to set up and run a game using the engine
     <script type="importmap">
       {
         "imports": {
-          "immer": "https://unpkg.com/immer@latest/dist/immer.mjs",
+          "mutative": "https://unpkg.com/mutative@latest/dist/mutative.esm.mjs",
           "@inglorious/utils/": "https://unpkg.com/@inglorious%2Futils@latest/src/",
           "@inglorious/store/": "https://unpkg.com/@inglorious%2Fstore@latest/src/",
           "@inglorious/engine/": "https://unpkg.com/@inglorious%2Fengine@latest/src/",

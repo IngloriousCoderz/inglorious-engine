@@ -25,7 +25,7 @@ FP has many advantages:
 
 1. **Single Source of Truth**: Your entire game state is a single, plain JavaScript object. This gives you complete control over your game's world at any moment, rather than having state scattered across countless objects. This is the core idea behind the Data-Driven Programming (DDP) paradigm that many modern engines are now adopting, and with this engine, you get that benefit naturally.
 
-2. **Efficient Immutability**: A common misconception is that creating a new state on every change is slow. This engine uses structural sharing (via Immer), meaning only the parts of the state that actually change are copied. The rest of the state tree is shared by reference, making updates extremely fast. This provides a huge benefit:
+2. **Efficient Immutability**: A common misconception is that creating a new state on every change is slow. This engine uses structural sharing (via Mutative), meaning only the parts of the state that actually change are copied. The rest of the state tree is shared by reference, making updates extremely fast. This provides a huge benefit:
    - **Optimized Rendering**: Detecting changes becomes trivial and fast. A simple reference check (`prevState === nextState`) is all that's needed to determine if data has changed, enabling highly performant UIs (especially with libraries like React). This is much faster than the deep, recursive comparisons required in mutable systems.
 
 3. **Pure Functions**: Game logic is built with pure functions — functions that return a value based only on their inputs, with no side effects. This makes your game logic predictable, easy to test in isolation, and highly reusable, freeing you from the complexity of class methods with hidden side effects.
@@ -61,7 +61,7 @@ However, there are several key differences that make it unique:
     - `remove`: Used to remove an entity from the game state.
     - `morph`: Used to dynamically change the behaviors associated with an entity's type.
 
-4.  **Ergonomic Immutability with Immer**: The state is immutable, but to make this easy to work with, we use Immer. Inside your event handlers, you can write code that looks like it's mutating the state directly. Immer handles the magic behind the scenes, producing a new, updated state with structural sharing, giving you the performance benefits of immutability with the developer experience of mutable code.
+4.  **Ergonomic Immutability with Mutative**: The state is immutable, but to make this easy to work with, we use Mutative. Inside your event handlers, you can write code that looks like it's mutating the state directly. Mutative handles the magic behind the scenes, producing a new, updated state with structural sharing, giving you the performance benefits of immutability with the developer experience of mutable code.
 
 5.  **Composable Handlers via Function Piping**: Instead of large, monolithic "reducers," you build event handlers by composing smaller, pure functions. The engine encourages a pipeline pattern where an event and the current state are passed through a series of decorators or transformations. This makes your logic highly modular, reusable, and easy to test in isolation.
 
@@ -84,7 +84,7 @@ This engine is the product of countless hours of coding, smartly paired with AI 
 
 Now, let's talk performance. The critique often has two parts: garbage collection (GC) pressure from immutability, and cache performance compared to modern engines.
 
-1.  **Garbage Collection**: The concern is that creating new objects on every state change will flood the GC. This is mitigated by **structural sharing** (via Immer). We don't deep-clone the state; only the changed data paths create new objects. For the most extreme cases (e.g., a bullet hell), the engine provides a dedicated **entity pooling system** as a pragmatic escape hatch, eliminating GC pressure in performance hotspots.
+1.  **Garbage Collection**: The concern is that creating new objects on every state change will flood the GC. This is mitigated by **structural sharing** (via Mutative). We don't deep-clone the state; only the changed data paths create new objects. For the most extreme cases (e.g., a bullet hell), the engine provides a dedicated **entity pooling system** as a pragmatic escape hatch, eliminating GC pressure in performance hotspots.
 
 2.  **Cache Performance & ECS**: The other critique is that modern engines like Unity or Godot use an Entity-Component-System (ECS) architecture to avoid deep object graphs (`player.inventory.getItem()`) and achieve better cache performance. **This is absolutely correct!** Those engines solve this problem very well.
 
@@ -111,7 +111,7 @@ This is a common fear, especially for developers coming from a pure OOP backgrou
 - **`types` are your "classes"**: They act as blueprints for your game objects.
 - **`entities` are your "instances"**: They are the concrete things in your game, created from a `type`.
 - **Composition feels like inheritance**: You can "extend" a type (which is just an array of behaviors) by adding behaviors to it, like `[baseType, someBehavior]`, and you "extend" a behavior by creating a function that composes new event handlers onto a base type, like `(type) => extend(type, { ... })`. You get the code reuse you expect, but with the power and flexibility of composition.
-- **Immutable updates feel mutable**: Thanks to Immer, you don't have to write complex functional updates. Inside your event handlers, you can write simple, direct code like `entity.health -= 10`, and the engine handles creating the new immutable state for you.
+- **Immutable updates feel mutable**: Thanks to Mutative, you don't have to write complex functional updates. Inside your event handlers, you can write simple, direct code like `entity.health -= 10`, and the engine handles creating the new immutable state for you.
 
 The engine provides the benefits of FP (predictability, testability) without the steep learning curve. You get to think in terms of familiar concepts while the engine handles the functional magic for you.
 
@@ -121,7 +121,7 @@ True, disciplined developers favor composition in any paradigm. The difference i
 
 **"This is fine for toy projects, but immutability will never scale."**
 
-This critique usually misunderstands how modern immutability works. The engine uses structural sharing (via Immer), which means we're not deep-copying the entire game state on every change. It's incredibly efficient.
+This critique usually misunderstands how modern immutability works. The engine uses structural sharing (via Mutative), which means we're not deep-copying the entire game state on every change. It's incredibly efficient.
 
 That said, we're pragmatic. For performance-critical scenarios like a bullet hell with thousands of short-lived objects, we provide an **entity pooling** system as an escape hatch. But for 99% of game logic, we believe the massive benefits of a predictable, testable, and debuggable state (hello, time-travel debugging!) are a worthwhile trade-off for a negligible performance cost.
 
@@ -147,7 +147,7 @@ Because building things is fun! This project is as much an exploration of softwa
 
 The core engine relies on a few key, lightweight packages:
 
-- [immer](https://www.npmjs.com/package/immer): For enabling ergonomic immutable updates with structural sharing.
+- [mutative](https://www.npmjs.com/package/mutative): For enabling ergonomic immutable updates with structural sharing.
 - [@inglorious/utils](https://www.npmjs.com/package/@inglorious/utils): A collection of small, pure utility functions for things like vector math and data manipulation.
 - [@inglorious/store](https://www.npmjs.com/package/@inglorious/store): The environment-agnostic core state management library.
 
@@ -168,7 +168,7 @@ Since the engine is headless, you must select a renderer to create a game. Below
     <script type="importmap">
       {
         "imports": {
-          "immer": "https://unpkg.com/immer@latest/dist/immer.mjs",
+          "mutative": "https://unpkg.com/mutative@latest/dist/mutative.esm.mjs",
           "@inglorious/utils/": "https://unpkg.com/@inglorious%2Futils@latest/src/",
           "@inglorious/store/": "https://unpkg.com/@inglorious%2Fstore@latest/src/",
           "@inglorious/engine/": "https://unpkg.com/@inglorious%2Fengine@latest/src/",

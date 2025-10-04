@@ -1,4 +1,4 @@
-import { produce } from "immer"
+import { create } from "mutative"
 
 import { createApi } from "./api.js"
 import { augmentEntities, augmentEntity } from "./entities.js"
@@ -67,7 +67,7 @@ export function createStore({
   function update() {
     const processedEvents = []
 
-    state = produce(state, (draft) => {
+    state = create(state, (draft) => {
       while (incomingEvents.length) {
         const event = incomingEvents.shift()
         processedEvents.push(event)

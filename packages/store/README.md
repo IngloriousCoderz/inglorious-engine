@@ -31,7 +31,7 @@ The state management is built on a few simple principles:
     - The store processes events by first applying behaviors defined on an entity's type, and then running the logic in the systems.
     - An `update` event with a `dt` (delta time) payload is automatically dispatched on every `store.update()` call, making it suitable for a game loop.
 
-4.  **Immutability**: The state is immutable. Updates are handled internally by **[Immer](https://immerjs.github.io/immer/)**, so you can "mutate" the state directly within a type's or system's behavior function, and a new, immutable state will be produced.
+4.  **Immutability**: The state is immutable. Updates are handled internally by **[Mutative](https://mutative.js.org/)**, so you can "mutate" the state directly within a type's or system's behavior function, and a new, immutable state will be created.
 
 ---
 

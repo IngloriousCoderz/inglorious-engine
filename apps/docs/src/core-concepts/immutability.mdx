@@ -15,11 +15,11 @@ Developing with immutable data encourages you to think differently about how dat
 
 ## Working with Immutable State
 
-The engine uses the **[Immer](https://immerjs.github.io/immer/)** library to manage its state. This provides a powerful and convenient way to work with immutable data.
+The engine uses the **[Mutative](https://mutative.js.org/)** library to manage its state. This provides a powerful and convenient way to work with immutable data.
 
 ### Mutating the Current Entity
 
-Inside an event handler (like `update`, `start`, or `mouseClick`), the **first parameter** is a special, mutable "draft" of the entity handling the event. You can change its properties directly. Immer will safely record these changes and produce a new, immutable state without you having to worry about it.
+Inside an event handler (like `update`, `start`, or `mouseClick`), the **first parameter** is a special, mutable "draft" of the entity handling the event. You can change its properties directly. Mutative will safely record these changes and produce a new, immutable state without you having to worry about it.
 
 ```javascript
 // Inside a behavior
@@ -50,7 +50,7 @@ When you need to interact with a *different* entity, you retrieve it using the `
 
 **Entities retrieved from the `api` are read-only.**
 
-Because the state is frozen by Immer, any attempt to directly mutate an entity retrieved from the `api` will fail and throw a `TypeError`.
+Because the state is frozen by Mutative, any attempt to directly mutate an entity retrieved from the `api` will fail and throw a `TypeError`.
 
 ```javascript
 // This will throw a TypeError because the state is frozen.
@@ -58,4 +58,4 @@ const player = api.getEntity('player');
 player.health -= 10; // ❌ ERROR!
 ```
 
-This built-in protection from Immer ensures that the immutable data flow is always respected, making your game more robust and predictable.
+This built-in protection from Mutative ensures that the immutable data flow is always respected, making your game more robust and predictable.
