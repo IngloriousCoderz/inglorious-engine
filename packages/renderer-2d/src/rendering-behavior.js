@@ -7,6 +7,8 @@ const ORIGIN = 0
 const HALF = 2
 
 export function rendering(canvas) {
+  canvas.style.touchAction = "none"
+
   const ctx = canvas.getContext("2d")
 
   let _onMouseMove = null

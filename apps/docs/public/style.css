@@ -19,6 +19,13 @@ canvas {
   width: 100vw;
   height: auto;
   cursor: none;
+
+  @media (orientation: landscape) {
+    canvas {
+      width: auto;
+      height: 100vh;
+    }
+  }
 }
 
 img {

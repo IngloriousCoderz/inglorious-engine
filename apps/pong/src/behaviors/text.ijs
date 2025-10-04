@@ -8,19 +8,25 @@ const PlayerName = {
 export const text = {
   render: renderText,
 
-  start(entity) {
-    entity.value = "Welcome to Pong!\nPress Spacebar to begin!"
+  start(entity, _, { getEntity }) {
+    const { isMobile } = getEntity("game")
+    const actionText = isMobile ? "Tap the ball" : "Press Spacebar"
+    entity.value = `Welcome to Pong!\n${actionText} to begin!`
   },
 
-  serve(entity, servingPlayer) {
-    entity.value = `${PlayerName[servingPlayer]}'s serve!\nPress Spacebar to serve!`
+  serve(entity, servingPlayer, { getEntity }) {
+    const { isMobile } = getEntity("game")
+    const actionText = isMobile ? "Tap the ball" : "Press Spacebar"
+    entity.value = `${PlayerName[servingPlayer]}'s serve!\n${actionText} to serve!`
   },
 
   play(entity) {
     entity.value = ""
   },
 
-  winner(entity, winningPlayer) {
-    entity.value = `${PlayerName[winningPlayer]} wins!\nPress Spacebar to restart!`
+  winner(entity, winningPlayer, { getEntity }) {
+    const { isMobile } = getEntity("game")
+    const actionText = isMobile ? "Tap the ball" : "Press Spacebar"
+    entity.value = `${PlayerName[winningPlayer]} wins!\n${actionText} to restart!`
   },
 }

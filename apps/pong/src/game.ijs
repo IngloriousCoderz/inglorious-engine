@@ -111,7 +111,7 @@ export default {
       backgroundColor: "white",
       collisions: {
         hitbox: { shape: "rectangle" },
-        touch: { shape: "circle", radius: 12 },
+        touch: { shape: "point" },
       },
       maxSpeed: magnitude(v(100, 0, 50)),
       position: v(WIDTH / 2, 0, HEIGHT / 2),
