@@ -5,17 +5,17 @@ import {
   controls,
   createControls,
 } from "@inglorious/engine/behaviors/input/controls"
-import { createTouch, touch } from "@inglorious/engine/behaviors/input/touch.js"
+import { createTouch, touch } from "@inglorious/engine/behaviors/input/touch"
 import { clamped } from "@inglorious/engine/behaviors/physics/clamped"
 import { renderFps } from "@inglorious/renderer-2d/fps"
 import { renderRectangle } from "@inglorious/renderer-2d/shapes/rectangle"
 import { magnitude } from "@inglorious/utils/math/vector"
 
-import { ball } from "./behaviors/ball.ijs"
-import { game } from "./behaviors/game.ijs"
-import { paddle } from "./behaviors/paddle.ijs"
-import { score } from "./behaviors/score.ijs"
-import { text } from "./behaviors/text.ijs"
+import { ball } from "./behaviors/ball"
+import { game } from "./behaviors/game"
+import { paddle } from "./behaviors/paddle"
+import { score } from "./behaviors/score"
+import { text } from "./behaviors/text"
 
 const WIDTH = 432
 const HEIGHT = 243

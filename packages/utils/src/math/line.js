@@ -1,7 +1,7 @@
 /**
- * @typedef {import("./geometry/types.js").Line} Line
- * @typedef {import("./geometry/types.js").Point} Point
- * @typedef {import("./geometry/types.js").Circle} Circle
+ * @typedef {import("../../types/math").Line} Line
+ * @typedef {import("../../types/math").Point} Point
+ * @typedef {import("../../types/math").Circle} Circle
  */
 
 import { abs } from "./numbers.js"

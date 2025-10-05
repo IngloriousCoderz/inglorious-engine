@@ -21,10 +21,18 @@
   ],
   "type": "module",
   "exports": {
-    "./*": "./src/*"
+    ".": {
+      "types": "./types/index.d.ts",
+      "import": "./src/index.js"
+    },
+    "./*": {
+      "types": "./types/*.d.ts",
+      "import": "./src/*"
+    }
   },
   "files": [
-    "src"
+    "src",
+    "types"
   ],
   "publishConfig": {
     "access": "public"

@@ -1,3 +1,7 @@
+/**
+ * @typedef {import("../types/math").Vector} Vector
+ */
+
 import { isArray } from "./data-structures/array"
 
 /**

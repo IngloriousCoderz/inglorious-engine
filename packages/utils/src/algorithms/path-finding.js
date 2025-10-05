@@ -1,6 +1,6 @@
 /**
- * @typedef {import("./types").Node} Node
- * @typedef {import("./types").Graph} Graph
+ * @typedef {import("../../types/data-structures").Node} Node
+ * @typedef {import("../../types/data-structures").Graph} Graph
  */
 
 import { contains, push, remove, root } from "../data-structures/heap.js"

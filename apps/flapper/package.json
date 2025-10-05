@@ -1,9 +1,9 @@
 {
-  "name": "inglorious-pong",
-  "version": "1.0.0",
+  "name": "inglorious-flapper",
+  "version": "0.1.0",
   "type": "module",
   "private": true,
-  "description": "A Pong clone, re-implemented with the Inglorious Engine.",
+  "description": "A Flappy Bird clone, re-implemented with the Inglorious Engine.",
   "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
   "license": "MIT",
   "scripts": {

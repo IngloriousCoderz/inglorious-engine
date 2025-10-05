@@ -1,8 +1,8 @@
 /**
- * @typedef {import("./geometry/types.js").Point} Point
- * @typedef {import("./geometry/types.js").Line} Line
- * @typedef {import("./geometry/types.js").Circle} Circle
- * @typedef {import("./geometry/types.js").Rectangle} Rectangle
+ * @typedef {import("../../types/math").Point} Point
+ * @typedef {import("../../types/math").Line} Line
+ * @typedef {import("../../types/math").Circle} Circle
+ * @typedef {import("../../types/math").Rectangle} Rectangle
  */
 
 const SQUARED = 2

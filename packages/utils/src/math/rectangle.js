@@ -1,7 +1,7 @@
 /**
- * @typedef {import("./geometry/types.js").Circle} Circle
- * @typedef {import("./geometry/types.js").Rectangle} Rectangle
- * @typedef {import("./geometry/types.js").Platform} Platform
+ * @typedef {import("../../types/math").Circle} Circle
+ * @typedef {import("../../types/math").Rectangle} Rectangle
+ * @typedef {import("../../types/math").Platform} Platform
  */
 
 import { intersectsRectangle as circleIntersectsRectangle } from "./circle.js"

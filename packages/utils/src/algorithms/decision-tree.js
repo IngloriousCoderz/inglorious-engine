@@ -1,7 +1,7 @@
 /**
- * @typedef {import("./types").Conditions} Conditions
- * @typedef {import("./types").Outcome} Outcome
- * @typedef {import("./types").DecisionTree} DecisionTree
+ * @typedef {import("../../types/algorithms").Conditions} Conditions
+ * @typedef {import("../../types/algorithms").Outcome} Outcome
+ * @typedef {import("../../types/algorithms").DecisionTree} DecisionTree
  */
 
 /**

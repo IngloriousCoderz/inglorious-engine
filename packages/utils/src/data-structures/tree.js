@@ -1,4 +1,4 @@
-/** @typedef {import('./types').Tree} Tree */
+/** @typedef {import('../../types/data-structures').Tree} Tree */
 
 /**
  * Performs a breadth-first search (BFS) traversal on a tree structure.
