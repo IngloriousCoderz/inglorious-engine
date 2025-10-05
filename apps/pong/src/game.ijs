@@ -76,6 +76,7 @@ export default {
       textAlign: "center",
       player1: 0,
       player2: 0,
+      maxScore: 10,
     },
 
     player1: {
@@ -114,6 +115,7 @@ export default {
         touch: { shape: "point" },
       },
       maxSpeed: magnitude(v(100, 0, 50)),
+      speedIncrease: 1.03,
       position: v(WIDTH / 2, 0, HEIGHT / 2),
     },
 

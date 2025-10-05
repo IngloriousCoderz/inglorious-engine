@@ -1,5 +1,6 @@
 export const game = {
   action(entity, _, api) {
+    // NOTE: we could use the fsm behavior here, but let's keep it for some more complex game.
     switch (entity.state) {
       case "start":
         entity.state = "serve"
@@ -12,7 +13,7 @@ export const game = {
         api.notify("play")
         break
 
-      case "done":
+      case "gameOver":
         entity.state = "serve"
         api.notify("reset")
         api.notify("serve", entity.servingPlayer)
@@ -26,8 +27,8 @@ export const game = {
     api.notify("serve", entity.servingPlayer)
   },
 
-  winner(entity, winningPlayer) {
-    entity.state = "done"
+  playerWin(entity, winningPlayer) {
+    entity.state = "gameOver"
     entity.servingPlayer = winningPlayer === "player1" ? "player2" : "player1"
   },
 }

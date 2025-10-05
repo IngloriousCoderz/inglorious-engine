@@ -7,7 +7,7 @@ export const paddle = {
     entity.initialPosition = entity.position
   },
 
-  done(entity) {
+  gameOver(entity) {
     entity.position = entity.initialPosition
   },
 

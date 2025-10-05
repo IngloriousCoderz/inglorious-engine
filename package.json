@@ -11,8 +11,9 @@
     "build": "turbo build",
     "build-docs": "pnpm --filter @inglorious/docs build-storybook",
     "dev": "turbo dev",
-    "publish-packages": "turbo run build lint test && changeset version && changeset publish",
-    "prepare": "husky"
+    "prepare": "husky",
+    "version": "pnpm run build && pnpm run lint && pnpm run test && changeset version",
+    "release": "pnpm run build && changeset publish"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.6",

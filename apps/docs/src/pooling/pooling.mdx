@@ -19,6 +19,8 @@ Unlike other examples, we are not displaying both games on the same page. Runnin
 
 This first example shows the game running without the entity pooling middleware. Notice how the FPS fluctuates significantly as entities are continuously created and destroyed, leading to a less stable experience.
 
+_**Update:** After switching from Immer to Mutative, the performance benefits were so significant that FPS fluctuations in this demo have largely disappeared. While pooling may still be a valuable optimization for more complex scenarios, we now recommend sticking with standard immutable entities unless you specifically encounter performance bottlenecks._
+
 <Source dark code={noPooling} />
 
 ## With Entity Pooling

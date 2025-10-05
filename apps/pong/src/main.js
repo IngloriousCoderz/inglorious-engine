@@ -13,6 +13,8 @@ window.addEventListener("load", async () => {
   await engine.init()
   engine.start()
 
+  const prompt = document.getElementById("fullscreen-prompt")
+  if (isMobile) prompt.style.display = "block"
   window.addEventListener("click", goFullscreen)
 })
 
