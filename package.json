@@ -13,7 +13,7 @@
     "dev": "turbo dev",
     "prepare": "husky",
     "ci:version": "pnpm run build && pnpm run lint && pnpm run test && changeset version",
-    "ci:release": "changeset publish"
+    "ci:publish": "changeset publish"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.6",

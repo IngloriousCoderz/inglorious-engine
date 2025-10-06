@@ -1,5 +1,15 @@
 # @inglorious/docs
 
+## 1.7.2
+
+### Patch Changes
+
+- Updated dependencies [84025bf]
+  - @inglorious/utils@3.5.2
+  - @inglorious/engine@2.1.2
+  - @inglorious/renderer-2d@0.8.2
+  - @inglorious/renderer-react-dom@0.6.2
+
 ## 1.7.1
 
 ### Patch Changes

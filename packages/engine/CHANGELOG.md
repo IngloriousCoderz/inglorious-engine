@@ -1,5 +1,13 @@
 # @inglorious/engine
 
+## 2.1.2
+
+### Patch Changes
+
+- Updated dependencies [84025bf]
+  - @inglorious/utils@3.5.2
+  - @inglorious/store@4.0.4
+
 ## 2.1.1
 
 ### Patch Changes
