@@ -39,33 +39,32 @@ This playground is part of the Inglorious Engine monorepo.
 
 3.  **Run the playground**:
     ```bash
-    pnpm --filter inglorious-script dev
+    pnpm --filter ijs dev
     ```
 
 This will start a Vite development server. Open your browser to the local URL provided to see it in action.
 
 ## Project Setup
 
-The magic happens in just a few key places:
-
 #### `vite.config.js`
 
 We use `vite-plugin-babel` to run Babel during Vite's build process. The configuration is straightforward:
 
 ```javascript
-// vite.config.js
-export default {
+export default defineConfig({
   plugins: [
     babel({
+      include: "src/**",
+      filter: /\.(js|ijs)$/,
       babelConfig: {
         presets: ["@inglorious/inglorious-script"],
       },
     }),
   ],
-}
+})
 ```
 
-#### `src/main.ijs`
+#### `src/script.ijs`
 
 This is where the game logic lives. We use the `.ijs` (Inglorious JavaScript) extension to clearly separate files that use the special syntax. Notice how vector operations are simple, readable expressions.
 

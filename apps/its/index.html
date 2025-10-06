@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>IngloriousScript with TypeScript</title>
+  </head>
+
+  <body>
+    <h1>IngloriousScript with TypeScript!</h1>
+
+    <p>
+      IngloriousScript is a superset of JavaScript that allows you to define
+      vectors and perform operations on them. This demo shows how to use it with
+      TypeScript:
+    </p>
+
+    <pre>
+      <code>
+const position: Vector = v(10, 20, 30)
+const velocity: Vector = v(1, 1.5, 2)
+const deltaTime = 0.16
+const worldSize = 20
+
+// @ts-expect-error - IngloriousScript operators transformed by Babel
+const newPosition = (position + velocity * deltaTime) % worldSize
+      </code>
+    </pre>
+
+    <div id="vectors"></div>
+
+    <p>
+      Vectors are just plain number arrays with full TypeScript type safety,
+      plus a special property that tells them apart:
+    </p>
+
+    <pre>
+      <code>
+const position: Vector = v(10, 20, 30)
+const [x, y, z] = position  // TypeScript knows these are numbers
+position.__isVector__       // true
+      </code>
+    </pre>
+
+    <div id="is-vector"></div>
+
+    <p>
+      TypeScript ensures that plain arrays don't accidentally use vector
+      operators. Without the Vector type, operators work as standard JavaScript:
+    </p>
+
+    <pre>
+  <code>
+const position: number[] = [10, 20, 30]
+const velocity: number[] = [1, 1.5, 2]
+const deltaTime = 0.16
+const worldSize = 20
+
+const newPosition = (position + velocity * deltaTime) % worldSize
+// Standard JS concatenation, not vector math
+  </code>
+</pre>
+
+    <div id="arrays"></div>
+
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>

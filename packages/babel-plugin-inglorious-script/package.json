@@ -1,11 +1,11 @@
 {
   "name": "@inglorious/babel-plugin-inglorious-script",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A Babel plugin for the IngloriousScript language.",
   "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
   "license": "MIT",
   "type": "module",
-  "main": "src/index.js",
+  "main": "./src/index.js",
   "homepage": "https://github.com/IngloriousCoderz/inglorious-engine/tree/main/packages/babel-plugin-inglorious-script#readme",
   "repository": {
     "type": "git",
@@ -42,6 +42,7 @@
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@inglorious/eslint-config": "workspace:*",
+    "@inglorious/utils": "workspace:*",
     "vitest": "^2.0.4"
   },
   "engines": {

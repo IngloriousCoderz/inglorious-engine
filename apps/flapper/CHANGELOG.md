@@ -1,5 +1,15 @@
 # inglorious-flapper
 
+## 0.1.3
+
+### Patch Changes
+
+- Add an example of IngloriousScript with TypeScript
+- Updated dependencies
+  - @inglorious/utils@3.5.3
+  - @inglorious/engine@2.1.3
+  - @inglorious/renderer-2d@0.8.3
+
 ## 0.1.2
 
 ### Patch Changes

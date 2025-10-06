@@ -1,9 +1,9 @@
 {
-  "name": "inglorious-pong",
-  "version": "1.0.3",
+  "name": "its",
+  "version": "0.2.0",
   "type": "module",
   "private": true,
-  "description": "A Pong clone, re-implemented with the Inglorious Engine.",
+  "description": "An example of using IngloriousScript with TypeScript.",
   "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
   "license": "MIT",
   "scripts": {
@@ -12,15 +12,13 @@
     "dev": "vite",
     "build": "vite build"
   },
-  "dependencies": {
-    "@inglorious/engine": "workspace:*",
-    "@inglorious/renderer-2d": "workspace:*",
-    "@inglorious/utils": "workspace:*"
-  },
   "devDependencies": {
+    "@babel/preset-typescript": "^7.27.1",
+    "@inglorious/babel-plugin-inglorious-script": "workspace:*",
     "@inglorious/babel-preset-inglorious-script": "workspace:*",
     "@inglorious/eslint-config": "workspace:*",
     "@inglorious/utils": "workspace:*",
+    "typescript": "^5.9.2",
     "vite": "^7.1.6",
     "vite-plugin-babel": "^1.3.2"
   },

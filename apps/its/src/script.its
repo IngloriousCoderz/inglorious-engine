@@ -1,0 +1,41 @@
+/* eslint-disable no-magic-numbers */
+import type { Vector } from "@inglorious/utils"
+import { toString } from "@inglorious/utils/math/vector.js"
+
+{
+  const position: Vector = v(10, 20, 30)
+  const velocity: Vector = v(1, 1.5, 2)
+  const deltaTime = 0.16
+  const worldSize = 20
+
+  // @ts-expect-error - IngloriousScript operators are transformed by Babel
+  const newPosition: Vector = (position + velocity * deltaTime) % worldSize
+
+  document.querySelector<HTMLDivElement>("#vectors")!.innerHTML =
+    `<div>Original Position: <code>${toString(position)}</code></div>
+  <div>New Position: <code>${toString(newPosition, 2)}</code></div>`
+}
+
+{
+  const position: Vector = v(10, 20, 30)
+  const [x, y, z] = position
+
+  document.querySelector<HTMLDivElement>("#is-vector")!.innerHTML =
+    `<div>x: <code>${x}</code> y: <code>${y.toFixed(2)}</code> z: <code>${z}</code></div>
+<div><code>position.__isVector__ === ${position.__isVector__}</code></div>`
+}
+
+{
+  // TypeScript correctly prevents vector operations on plain arrays
+  const position: number[] = [10, 20, 30]
+  const velocity: number[] = [1, 1.5, 2]
+  const deltaTime = 0.16
+  const worldSize = 20
+
+  // @ts-expect-error This demonstrates that plain arrays DON'T get the vector operators
+  const newPosition = (position + velocity * deltaTime) % worldSize
+
+  document.querySelector<HTMLDivElement>("#arrays")!.innerHTML =
+    `<div>Original Position: <code>${toString(position as unknown as Vector)}</code></div>
+<div>New Position: <code>"${newPosition}"</code></div>`
+}

@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [
     babel({
       include: "src/**",
-      filter: /\.(js|jsx|ts|tsx|ijs)$/,
+      filter: /\.(js|ijs)$/,
 
       babelConfig: {
         presets: ["@inglorious/inglorious-script"],
