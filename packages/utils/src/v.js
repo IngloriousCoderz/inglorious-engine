@@ -2,7 +2,7 @@
  * @typedef {import("../types/math").Vector} Vector
  */
 
-import { isArray } from "./data-structures/array"
+import { isArray } from "./data-structures/array.js"
 
 /**
  * Ensures that a given value is a vector.
