@@ -2,7 +2,8 @@ import { defineConfig } from "vite"
 import babel from "vite-plugin-babel"
 
 export default defineConfig({
-  define: { "process.env.BABEL_TYPES_8_BREAKING": "false" },
+  // @see https://github.com/vitejs/vite/issues/1973
+  define: { "process.env": {} },
 
   plugins: [
     babel({

@@ -128,3 +128,7 @@ The `.its` extension clearly signals that these files use IngloriousScript opera
 - **`.its` files:** TypeScript with IngloriousScript operators. Full type safety with `@ts-expect-error` on operator expressions.
 
 Choose `.ijs` for pure JavaScript projects, and `.its` when you want TypeScript's type safety.
+
+### Troubleshooting
+
+If you find that VS Code is not recognizing the global `v()` function, it might be because the TypeScript server hasn't loaded the global type definitions yet. A simple workaround is to open the `node_modules/@inglorious/babel-plugin-inglorious-script/types/globals.d.ts` file in your editor. This action typically prompts the TypeScript server to discover and load the global types, which should resolve the issue.
