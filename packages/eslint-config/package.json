@@ -2,7 +2,14 @@
   "name": "@inglorious/eslint-config",
   "version": "1.0.0",
   "type": "module",
-  "private": true,
+  "files": [
+    "base.js",
+    "browser.js",
+    "node.js",
+    "react.js",
+    "storybook.js",
+    "tailwind.js"
+  ],
   "exports": {
     "./base": "./base.js",
     "./browser": "./browser.js",
@@ -11,15 +18,24 @@
     "./storybook": "./storybook.js",
     "./tailwind": "./tailwind.js"
   },
-  "devDependencies": {
-    "@eslint/js": "^9.34.0",
-    "eslint": "^9.34.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-only-warn": "^1.1.0",
+    "globals": "^16.3.0"
+  },
+  "peerDependencies": {
+    "@eslint/js": "^9.34.0",
+    "eslint": "^9.34.0",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-tailwindcss": "4.0.0-beta.0",
-    "eslint-plugin-turbo": "^2.5.0",
-    "globals": "^16.3.0"
+    "eslint-plugin-turbo": "^2.5.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.34.0",
+    "eslint": "^9.34.0"
   }
 }
