@@ -1,6 +1,6 @@
 {
   "files.associations": {
-    "*.ijs": "javascriptreact",
-    "*.its": "typescriptreact"
+    "*.ijs": "javascript",
+    "*.its": "typescript"
   }
 }

@@ -4,6 +4,3 @@ overrides:
   - files: "*.ijs"
     options:
       parser: babel
-  - files: "*.its"
-    options:
-      parser: typescript

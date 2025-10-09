@@ -38,8 +38,6 @@ pnpm-debug.log*
 lerna-debug.log*
 
 # Editor directories and files
-# .vscode/* # actually we want to share .ijs file associations!
-# !.vscode/extensions.json
 .idea
 .DS_Store
 *.suo

@@ -12,7 +12,6 @@ const INDENTATION = 2
 async function main() {
   const __dirname = path.dirname(fileURLToPath(import.meta.url))
   const templatesRoot = path.join(__dirname, "../templates")
-  const templateNames = fs.readdirSync(templatesRoot)
 
   let canceled = false
 
@@ -33,7 +32,35 @@ async function main() {
         type: "select",
         name: "template",
         message: "Select a template",
-        choices: templateNames.map((name) => ({ title: name, value: name })),
+        choices: [
+          {
+            title: "Minimal",
+            description: "A single HTML file for a zero-build setup",
+            value: "minimal",
+          },
+          {
+            title: "JavaScript",
+            description: "A vanilla JavaScript setup with Vite",
+            value: "js",
+          },
+          {
+            title: "TypeScript",
+            description: "A TypeScript setup with Vite",
+            value: "ts",
+          },
+          {
+            title: "IngloriousScript (JS)",
+            description:
+              "A JS superset with built-in vector math, powered by Vite",
+            value: "ijs",
+          },
+          {
+            title: "IngloriousScript (TS)",
+            description:
+              "A TS superset with built-in vector math, powered by Vite",
+            value: "its",
+          },
+        ],
       },
     ],
     { onCancel },
@@ -50,50 +77,58 @@ async function main() {
   // Create project directory and copy template files
   copyDir(templateDir, targetDir)
 
-  // Update package.json with project name
-  const pkgPath = path.join(targetDir, "package.json")
-  const pkg = JSON.parse(fs.readFileSync(pkgPath, "utf-8"))
-  pkg.name = projectName
-
-  function getLatestVersion(packageName) {
-    try {
-      const version = execSync(`npm view ${packageName} version`, {
-        encoding: "utf-8",
-      }).trim()
-      return `^${version}`
-    } catch {
-      return "latest" // fallback
-    }
-  }
-
-  for (const depType of ["dependencies", "devDependencies"]) {
-    if (pkg[depType]) {
-      for (const [name, version] of Object.entries(pkg[depType])) {
-        if (version.startsWith("workspace:")) {
-          pkg[depType][name] = getLatestVersion(name)
-        }
-      }
-    }
-  }
-
-  fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, INDENTATION) + EOL)
-
   // Update README.md with project name
   const readmePath = path.join(targetDir, "README.md")
   if (fs.existsSync(readmePath)) {
     let readme = fs.readFileSync(readmePath, "utf-8")
-    readme = readme.replace(/^# .*/, `# ${projectName}`)
+    readme = readme.replace(/# my-game/, `# ${projectName}`)
     fs.writeFileSync(readmePath, readme)
   }
 
-  console.log(`✅ Created ${projectName} at ${targetDir}`)
-  console.log(`\nNext steps:`)
-  console.log(`  cd ${projectName}`)
-  console.log(`  pnpm install`)
-  console.log(`  pnpm dev`)
+  if (template === "minimal") {
+    console.log(`✅ Created ${projectName} at ${targetDir}`)
+    console.log(`\nNext steps:`)
+    console.log(`  cd ${projectName}`)
+    console.log(`  Open index.html in your browser`)
+  } else {
+    // Update package.json with project name
+    const pkgPath = path.join(targetDir, "package.json")
+    const pkg = JSON.parse(fs.readFileSync(pkgPath, "utf-8"))
+    pkg.name = projectName
+
+    function getLatestVersion(packageName) {
+      try {
+        const version = execSync(`npm view ${packageName} version`, {
+          encoding: "utf-8",
+        }).trim()
+        return `^${version}`
+      } catch {
+        return "latest" // fallback
+      }
+    }
+
+    for (const depType of ["dependencies", "devDependencies"]) {
+      if (pkg[depType]) {
+        for (const [name, version] of Object.entries(pkg[depType])) {
+          if (version.startsWith("workspace:")) {
+            pkg[depType][name] = getLatestVersion(name)
+          }
+        }
+      }
+    }
+
+    fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, INDENTATION) + EOL)
+
+    console.log(`✅ Created ${projectName} at ${targetDir}`)
+    console.log(`\nNext steps:`)
+    console.log(`  cd ${projectName}`)
+    console.log(`  pnpm install`)
+    console.log(`  pnpm dev`)
+  }
 
   function copyDir(src, dest) {
     fs.mkdirSync(dest, { recursive: true })
+
     const entries = fs.readdirSync(src, { withFileTypes: true })
 
     for (const entry of entries) {

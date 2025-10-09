@@ -1,0 +1,6 @@
+# Editor directories and files
+
+.idea
+.vscode
+_.suo
+_.ntvs\*

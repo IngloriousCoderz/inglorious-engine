@@ -7,10 +7,14 @@
   "author": "",
   "license": "MIT",
   "scripts": {
-    "format": "prettier --write '**/*.{js,jsx}'",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "format": "prettier --write '**/*.{js,ijs}'",
+    "lint": "eslint . --ext js,ijs --report-unused-disable-directives --max-warnings 0",
     "dev": "vite",
     "build": "vite build"
+  },
+  "dependencies": {
+    "@inglorious/engine": "workspace:*",
+    "@inglorious/renderer-2d": "workspace:*"
   },
   "devDependencies": {
     "@inglorious/babel-preset-inglorious-script": "workspace:*",

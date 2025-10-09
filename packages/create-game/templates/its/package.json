@@ -7,10 +7,14 @@
   "author": "",
   "license": "MIT",
   "scripts": {
-    "format": "prettier --write '**/*.{js,jsx}'",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "format": "prettier --write '**/*.{ts,its}'",
+    "lint": "eslint . --ext ts,its --report-unused-disable-directives --max-warnings 0",
     "dev": "vite",
     "build": "vite build"
+  },
+  "dependencies": {
+    "@inglorious/engine": "workspace:*",
+    "@inglorious/renderer-2d": "workspace:*"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.27.1",
