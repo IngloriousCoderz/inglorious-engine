@@ -4,12 +4,28 @@
 
 A JavaScript game engine written with global state, immutability, and pure functions in mind. Have fun(ctional programming) with it!
 
+## Quick Start
+
+The fastest way to start a new Inglorious Engine project is by using the official scaffolding tool.
+
+Run the following command in your terminal and follow the prompts to create a new game from a variety of templates (including plain JavaScript, TypeScript, and IngloriousScript):
+
+```bash
+# with npm
+npm create @inglorious/game@latest
+
+# with pnpm
+pnpm create @inglorious/game
+```
+
+This will set up a complete project with a development server ready to go.
+
 ## Features
 
 - **Functional & Data-Oriented**: Uses a single, immutable state object as the source of truth, inspired by functional programming principles.
 - **Composable by Design**: Build complex behaviors by composing pure functions and decorators, offering a powerful alternative to inheritance.
 - **Renderer Agnostic**: The engine is headless. You can use any rendering technology you like, from Canvas2D and HTML to React components.
-- **Zero Build Step**: Write plain JavaScript and run it directly in the browser. No complex build configurations to worry about.
+- **Zero Build Step Option**: Write plain JavaScript and run it directly in the browser. No complex build configurations required.
 
 ## Documentation
 
@@ -153,7 +169,9 @@ The core engine relies on a few key, lightweight packages:
 
 ## Quick Start Example
 
-Since the engine is headless, you must select a renderer to create a game. Below is a simple HTML file demonstrating how to set up a game using the engine and a 2D canvas renderer.
+## Usage without a Build Step
+
+If you prefer to avoid a build step, you can run the engine directly in the browser. The example below demonstrates how to set up a minimal game using ES modules, an `importmap`, and the 2D canvas renderer.
 
 ```html
 <!DOCTYPE html>
@@ -188,4 +206,4 @@ Since the engine is headless, you must select a renderer to create a game. Below
 
 ## Contributing
 
-We welcome contributions from the community! Whether you're fixing a bug, adding a feature, or improving the documentation, your help is appreciated. Please read our Contributing Guidelines for details on how to get started.
+We welcome contributions from the community! Whether you're fixing a bug, adding a feature, or improving the documentation, your help is appreciated. Please read our [Contributing Guidelines](./CONTRIBUTING.md) for details on how to get started.

@@ -32,10 +32,15 @@ We love pull requests! If you're ready to contribute code, here's how to do it:
     pnpm install
     ```
 3.  Run the Storybook documentation locally:
+    This will start the Storybook server, which is the primary development environment for the engine's components and documentation.
     ```bash
-    pnpm storybook
+    pnpm --filter @inglorious/docs storybook
     ```
-4.  Run the unit tests:
+4.  Run the linter to check for code style issues:
+    ```bash
+    pnpm lint
+    ```
+5.  Run the unit tests to ensure everything is working as expected:
     ```bash
     pnpm test
     ```
