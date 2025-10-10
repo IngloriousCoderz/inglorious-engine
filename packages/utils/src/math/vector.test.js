@@ -10,14 +10,17 @@ import {
   conjugate,
   createVector,
   divide,
+  divideBy,
   from2D,
   fromAngle,
   isVector,
   magnitude,
   mod,
+  modOf,
   multiply,
   normalize,
   power,
+  powerOf,
   rotate,
   setAngle,
   setMagnitude,
@@ -104,6 +107,14 @@ test("it should divide a vector by a scalar", () => {
   expect(divide(vector, scalar)).toStrictEqual(expectedResult)
 })
 
+test("it should divide a scalar by a vector", () => {
+  const scalar = 12
+  const vector = v(4, 8, 12)
+  const expectedResult = v(3, 1.5, 1)
+
+  expect(divideBy(scalar, vector)).toStrictEqual(expectedResult)
+})
+
 test("it should build a 3D vector from a 2D one", () => {
   const vector = v(3, 4)
   const expectedResult = v(3, 0, 4)
@@ -146,6 +157,14 @@ test("it should apply the mod operator (aka remainder) on a vector", () => {
   expect(mod(vector, divisor)).toStrictEqual(expectedResult)
 })
 
+test("it should apply the mod operator of a scalar with a vector", () => {
+  const scalar = 18
+  const vector = v(10, 12, -18)
+  const expectedResult = v(8, 6, -0)
+
+  expect(modOf(scalar, vector)).toStrictEqual(expectedResult)
+})
+
 test("it should multiply a vector with a scalar (aka times)", () => {
   const vector = v(1, 2, 3)
   const scalar = 4
@@ -174,6 +193,14 @@ test("it should raise each component of a vector to the given exponent (aka pow)
   const expectedResult = v(1, 4, 9)
 
   expect(power(vector, exponent)).toStrictEqual(expectedResult)
+})
+
+test("it should raise a scalar to the power of each component of a vector", () => {
+  const scalar = 2
+  const vector = v(1, 2, 3)
+  const expectedResult = v(2, 4, 8)
+
+  expect(powerOf(scalar, vector)).toStrictEqual(expectedResult)
 })
 
 test("it should rotate a 2D vector by a certain angle", () => {

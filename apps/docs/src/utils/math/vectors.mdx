@@ -2,7 +2,14 @@ import { Meta } from '@storybook/addon-docs/blocks'
 
 import {
 cross,
+  add,
+  divide,
+  distance,
 dot,
+  mod,
+  multiply,
+  hadamard,
+  power,
 scalarProduct,
 subtract,
 sum,
@@ -15,7 +22,11 @@ import { pi, cos, sin } from '@inglorious/utils/math/trigonometry'
 
 # Vectors
 
-Functions that deal with a multiple vectors.
+Functions that deal with multiple vectors.
+
+## Add
+
+Alias of `sum`.
 
 ## Cross
 
@@ -25,6 +36,18 @@ Performs the cross product between multiple vectors (alias `vectorProduct`).
 
 <code>cross([1, 2, 3], [4, 5, 6], [7, 8, 9]) == {toString(cross([1, 2, 3], [4, 5, 6], [7, 8, 9]))}</code>&nbsp;
 
+## Distance
+
+Computes the distance between multiple vectors.
+
+<code>distance([0, 0, 0], [4, 0, 3]) == {distance([0, 0, 0], [4, 0, 3])}</code>&nbsp;
+
+## Divide
+
+Computes the component-wise division of multiple vectors.
+
+<code>divide([80, 40, 20], [2, 4, 5], [2, 2, 2]) == {toString(divide([80, 40, 20], [2, 4, 5], [2, 2, 2]))}</code>&nbsp;
+
 ## Dot
 
 Performs the dot product between multiple vectors (alias `scalarProduct`).
@@ -32,6 +55,28 @@ Performs the dot product between multiple vectors (alias `scalarProduct`).
 <code>dot([1, 2, 3], [4, 5, 6]) == {dot([1, 2, 3], [4, 5, 6])}</code>&nbsp;
 
 <code>dot([1, 2, 3], [4, 5, 6], [7, 8, 9]) == {dot([1, 2, 3], [4, 5, 6], [7, 8, 9])}</code>&nbsp;
+
+## Mod
+
+Computes the component-wise modulus of multiple vectors.
+
+<code>mod([15, 25], [10, 10]) == {toString(mod([15, 25], [10, 10]))}</code>&nbsp;
+
+## Hadamard
+
+Alias of `multiply`.
+
+## Multiply
+
+Computes the component-wise multiplication of multiple vectors (Hadamard product).
+
+<code>multiply([1, 2, 3], [4, 5, 6], [2, 2, 2]) == {toString(multiply([1, 2, 3], [4, 5, 6], [2, 2, 2]))}</code>&nbsp;
+
+## Power
+
+Computes the component-wise power of multiple vectors.
+
+<code>power([2, 3, 4], [4, 3, 2]) == {toString(power([2, 3, 4], [4, 3, 2]))}</code>&nbsp;
 
 ## Scalar Product
 
@@ -47,7 +92,7 @@ Subtracts all other vectors from the first one.
 
 ## Sum
 
-Sums all coordinates together.
+Sums all vectors together, component-wise (alias `add`).
 
 <code>sum([1, 2, 3], [4, 5, 6]) == {toString(sum([1, 2, 3], [4, 5, 6]))}</code>&nbsp;
 

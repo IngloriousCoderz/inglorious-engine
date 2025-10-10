@@ -154,6 +154,13 @@ test("it should convert a negative float number to a range between -1 and 1", ()
   expect(mod(num, divisor)).toBe(expectedResult)
 })
 
+test("it should return the dividend if the divisor is zero", () => {
+  const num = 42
+  const divisor = 0
+
+  expect(mod(num, divisor)).toBe(num)
+})
+
 test("it should return one if number is positive", () => {
   const num = 42
   const expectedResult = 1

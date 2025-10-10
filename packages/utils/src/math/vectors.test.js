@@ -1,7 +1,16 @@
 import { expect, test } from "vitest"
 
 import { v } from "../v.js"
-import { cross, distance, dot, subtract, sum } from "./vectors.js"
+import {
+  cross,
+  distance,
+  divide,
+  dot,
+  multiply,
+  power,
+  subtract,
+  sum,
+} from "./vectors.js"
 
 test("it should compute the cross product between two vectors (aka vectorProduct)", () => {
   const vector1 = v(1, 2, 3)
@@ -25,11 +34,32 @@ test("it should compute the distance between multiple vectors", () => {
   expect(distance(...vectors)).toStrictEqual(expectedResult)
 })
 
+test("it should divide multiple vectors component-wise", () => {
+  const vectors = [v(80, 40, 20), v(2, 4, 5), v(2, 2, 2)]
+  const expectedResult = v(20, 5, 2)
+
+  expect(divide(...vectors)).toStrictEqual(expectedResult)
+})
+
 test("it should compute the dot product of multiple vectors (aka scalarProduct)", () => {
   const vectors = [v(1, 2, 3), v(4, 5, 6), v(7, 8, 9)]
   const expectedResult = 270
 
   expect(dot(...vectors)).toStrictEqual(expectedResult)
+})
+
+test("it should multiply multiple vectors component-wise (Hadamard product)", () => {
+  const vectors = [v(1, 2, 3), v(4, 5, 6), v(2, 2, 2)]
+  const expectedResult = v(8, 20, 36)
+
+  expect(multiply(...vectors)).toStrictEqual(expectedResult)
+})
+
+test("it should raise a vector to the power of another vector", () => {
+  const vectors = [v(2, 3, 4), v(4, 3, 2)]
+  const expectedResult = v(16, 27, 16)
+
+  expect(power(...vectors)).toStrictEqual(expectedResult)
 })
 
 test("it should subtract multiple vectors", () => {

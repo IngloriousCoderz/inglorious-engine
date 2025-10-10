@@ -74,21 +74,33 @@ const sum = v1 + v2 // Becomes sum(v1, v2)
 const difference = v1 - v2 // Becomes subtract(v1, v2)
 ```
 
+Component-wise multiplication is also supported:
+
+```javascript
+const v1 = v(2, 3)
+const v2 = v(4, 5)
+const hadamardProduct = v1 * v2 // Becomes multiply(v1, v2) -> v(8, 15)
+```
+
 #### Vector-Scalar Operations
 
-You can use `*`, `/`, `%`, and `**` to operate on a vector with a scalar. The order of operands does not matter for multiplication:
+You can use \*, /, %, and \*\* to operate on a vector with a scalar. The order of operands is flexible for all operators:
 
 ```javascript
 const v1 = v(10, 20)
 const s = 2
 
-const scaled = v1 * s // Becomes scale(v1, s)
-const divided = v1 / s // Becomes divide(v1, s)
-const modulo = v1 % s // Becomes mod(v1, s)
-const power = v1 ** s // Becomes power(v1, s)
+// Vector-first operations
+const r1 = v1 * s // scale(v1, s)
+const r2 = v1 / s // divide(v1, s)
+const r3 = v1 % s // mod(v1, s)
+const r4 = v1 ** s // power(v1, s)
 
-// Scalar-first works for multiplication too!
-const scaled2 = s * v1 // Becomes scale(v1, s)
+// Scalar-first operations
+const r5 = s * v1 // scale(v1, s)
+const r6 = s / v1 // divideBy(s, v1)
+const r7 = s % v1 // modOf(s, v1)
+const r8 = s ** v1 // powerOf(s, v1)
 ```
 
 #### Unary Operations

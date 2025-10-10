@@ -1,7 +1,7 @@
 import { snap, zero } from "@inglorious/utils/math/vector.js"
 
 export function absolutePosition(render) {
-  return (entity, ctx, { api }) => {
+  return (entity, ctx, api) => {
     const { position = zero() } = entity
     const [x, y, z] = snap(position)
 

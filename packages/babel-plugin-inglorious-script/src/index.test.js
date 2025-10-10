@@ -65,14 +65,12 @@ test("it should not transform scalar + scalar addition", () => {
   expect(transform(code)).toBe(code)
 })
 
-test("it should throw an error for vector * vector multiplication", () => {
+test("it should transform vector * vector multiplication", () => {
   const code = `const v1 = v(1, 2);
 const v2 = v(3, 4);
 const result = v1 * v2;`
 
-  expect(() => transform(code)).toThrow(
-    "Cannot multiply two vectors. Did you mean dot product (dot(v1, v2)) or cross product (cross(v1, v2))?",
-  )
+  expect(transform(code)).toMatchSnapshot()
 })
 
 test("it should trace variable declarations", () => {
@@ -122,10 +120,26 @@ const result = v1 / s;`
   expect(transform(code)).toMatchSnapshot()
 })
 
+test("it should transform vector / vector division", () => {
+  const code = `const v1 = v(10, 20);
+const v2 = v(2, 4);
+const result = v1 / v2;`
+
+  expect(transform(code)).toMatchSnapshot()
+})
+
 test("it should transform vector % scalar modulus", () => {
   const code = `const v1 = v(15, 25);
 const s = 10;
 const result = v1 % s;`
+
+  expect(transform(code)).toMatchSnapshot()
+})
+
+test("it should transform vector % vector modulus", () => {
+  const code = `const v1 = v(15, 25);
+const v2 = v(10, 10);
+const result = v1 % v2;`
 
   expect(transform(code)).toMatchSnapshot()
 })
@@ -202,34 +216,28 @@ v1 -= 5;`
   )
 })
 
-test("it should throw an error for vector *= vector", () => {
+test("it should transform vector *= vector", () => {
   const code = `let v1 = v(1, 2);
 const v2 = v(3, 4);
 v1 *= v2;`
 
-  expect(() => transform(code)).toThrow(
-    "Cannot multiply two vectors. Did you mean dot product (dot(v1, v2)) or cross product (cross(v1, v2))?",
-  )
+  expect(transform(code)).toMatchSnapshot()
 })
 
 // Division and modulus operations
 
-test("it should throw an error for scalar / vector", () => {
+test("it should transform scalar / vector", () => {
   const code = `const v1 = v(1, 2);
 const result = 5 / v1;`
 
-  expect(() => transform(code)).toThrow(
-    "Cannot divide a non-vector by a vector.",
-  )
+  expect(transform(code)).toMatchSnapshot()
 })
 
-test("it should throw an error for scalar % vector", () => {
+test("it should transform scalar % vector", () => {
   const code = `const v1 = v(1, 2);
 const result = 5 % v1;`
 
-  expect(() => transform(code)).toThrow(
-    "Cannot compute the modulus between a non-vector and a vector.",
-  )
+  expect(transform(code)).toMatchSnapshot()
 })
 
 test("it should transform vector ** scalar", () => {
@@ -239,23 +247,19 @@ const result = v1 ** 2;`
   expect(transform(code)).toMatchSnapshot()
 })
 
-test("it should throw an error for vector ** vector", () => {
+test("it should transform vector ** vector", () => {
   const code = `const v1 = v(1, 2);
 const v2 = v(3, 4);
 const result = v1 ** v2;`
 
-  expect(() => transform(code)).toThrow(
-    "Cannot raise a vector to the power of another vector.",
-  )
+  expect(transform(code)).toMatchSnapshot()
 })
 
-test("it should throw an error for scalar ** vector", () => {
+test("it should transform scalar ** vector", () => {
   const code = `const v1 = v(1, 2);
 const result = 2 ** v1;`
 
-  expect(() => transform(code)).toThrow(
-    "Cannot raise a non-vector by the power of a vector.",
-  )
+  expect(transform(code)).toMatchSnapshot()
 })
 
 // Complex chaining tests

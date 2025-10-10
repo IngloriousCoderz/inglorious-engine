@@ -5,12 +5,15 @@ import {
   angle,
   clamp,
   conjugate,
+  divideBy,
   divide,
   from2D,
   fromAngle,
   isVector,
   magnitude,
+  modOf,
   mod,
+  powerOf,
   multiply,
   normalize,
   power,
@@ -73,6 +76,12 @@ Divides any vector by a scalar.
 
 <code>divide([4, 8, 12], 4) == {toString(divide([4, 8, 12], 4))}</code>&nbsp;
 
+## Divide By
+
+Divides a scalar by a vector.
+
+<code>divideBy(12, [4, 8, 12]) == {toString(divideBy(12, [4, 8, 12]))}</code>&nbsp;
+
 ## From 2D
 
 Builds a 3D vector from a 2D one.
@@ -109,11 +118,23 @@ Applies the `mod` operator on any vector (alias `remainder`).
 
 <code>mod([10, 12, -18], 12) == {toString(mod([10, 12, -18], 12))}</code>&nbsp;
 
+## Mod Of
+
+Applies the `mod` operator of a scalar with a vector.
+
+<code>modOf(18, [10, 12, -18]) == {toString(modOf(18, [10, 12, -18]))}</code>&nbsp;
+
 ## Multiply
 
-Multiplies a vector with a scalar (alias `times`).
+Multiplies a vector with a scalar (aliases `multiply`, `times`).
 
 <code>multiply([1, 2, 3], 4) == {toString(multiply([1, 2, 3], 4))}</code>&nbsp;
+
+## Normalize
+
+Gives the vector unit length while maintaining its angle.
+
+<code>normalize([3, 4]) == {toString(normalize([3, 4]), 1)}</code>&nbsp;
 
 ## Normalize
 
@@ -128,6 +149,12 @@ Gives the vector unit length while maintaining its angle.
 Raises each component of the vector to the given exponent.
 
 <code>power([1, 2, 3], 2) == {toString(power([1, 2, 3], 2), 0)}</code>&nbsp;
+
+## Power Of
+
+Raises a scalar to the power of each component of a vector.
+
+<code>powerOf(2, [1, 2, 3]) == {toString(powerOf(2, [1, 2, 3]))}</code>&nbsp;
 
 ## Remainder
 
@@ -166,6 +193,10 @@ Changes the magnitude of any vector, keeping its angle.
 Moves coordinates around by a certain index.
 
 <code>shift([1, 2, 3, 4, 5], 2) == {toString(shift([1, 2, 3, 4, 5], 2))}</code>&nbsp;
+
+## Scale
+
+Alias of `multiply`.
 
 ## Times
 

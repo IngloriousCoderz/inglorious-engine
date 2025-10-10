@@ -61,7 +61,7 @@ Checks if two numbers are close to each other, given some tolerance (which is *0
 
 ## Mod
 
-Computes the remainder of the integer division, always giving a positive value (alias `remainder`).
+Computes the remainder of the integer division, always giving a positive value (alias `remainder`). If the divisor is zero, it returns the dividend.
 
 <code>mod(2, 2) == {mod(2, 2)}</code>&nbsp;
 
@@ -74,6 +74,8 @@ Computes the remainder of the integer division, always giving a positive value (
 <code>mod(13 / 4, 1) == {mod(13 / 4, 1)}</code> (=1/4)&nbsp;
 
 <code>mod(-5 / 4, 1) == {mod(-5 / 4, 1)}</code> (=3/4)&nbsp;
+
+<code>mod(42, 0) == {mod(42, 0)}</code>&nbsp;
 
 ## Remainder
 

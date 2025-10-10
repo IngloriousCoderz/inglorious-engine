@@ -1,5 +1,12 @@
 # @inglorious/store
 
+## 5.0.0
+
+### Patch Changes
+
+- Updated dependencies
+  - @inglorious/utils@3.6.0
+
 ## 4.0.5
 
 ### Patch Changes

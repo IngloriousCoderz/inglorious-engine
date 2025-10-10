@@ -97,6 +97,16 @@ export function createVector(magnitude, angle) {
 }
 
 /**
+ * Divides a scalar by each component of the vector.
+ * @param {number} scalar - The dividend.
+ * @param {Vector} vector - The divisor vector.
+ * @returns {Vector} The resulting vector.
+ */
+export function divideBy(scalar, vector) {
+  return v(...vector.map((coordinate) => scalar / coordinate))
+}
+
+/**
  * Divides each component of the vector by the given scalar.
  * @param {Vector} vector - The input vector.
  * @param {number} scalar - The scalar value.
@@ -158,6 +168,16 @@ export function mod(vector, divisor) {
 }
 
 /**
+ * Calculates the modulus of a scalar with each component of the vector.
+ * @param {number} scalar - The dividend.
+ * @param {Vector} vector - The divisor vector.
+ * @returns {Vector} The resulting vector.
+ */
+export function modOf(scalar, vector) {
+  return v(...vector.map((coordinate) => nMod(scalar, coordinate)))
+}
+
+/**
  * Multiplies each component of the vector by the given scalar.
  * @param {Vector} vector - The input vector.
  * @param {number} scalar - The scalar value.
@@ -184,16 +204,14 @@ export function power(vector, exponent) {
 }
 
 /**
- * Alias for the multiply function.
- * @type {typeof multiply}
+ * Raises a scalar to the power of each component of the vector.
+ * @param {number} scalar - The base value.
+ * @param {Vector} vector - The exponent vector.
+ * @returns {Vector} The resulting vector.
  */
-export const scale = multiply
-
-/**
- * Alias for the multiply function.
- * @type {typeof multiply}
- */
-export const times = multiply
+export function powerOf(scalar, vector) {
+  return v(...vector.map((coordinate) => scalar ** coordinate))
+}
 
 /**
  * Normalizes the vector to have a magnitude of 1.
@@ -227,6 +245,12 @@ export function rotate(vector, angle) {
 
   return is2D ? to2D(result) : result
 }
+
+/**
+ * Alias for the multiply function.
+ * @type {typeof multiply}
+ */
+export const scale = multiply
 
 /**
  * Sets the angle of the vector in the XZ plane while maintaining its magnitude.
@@ -278,6 +302,12 @@ export function snap(vector, precision = DEFAULT_PRECISION) {
     ...vector.map((coordinate) => nSnap(coordinate, -precision, precision)),
   )
 }
+
+/**
+ * Alias for the multiply function.
+ * @type {typeof multiply}
+ */
+export const times = multiply
 
 /**
  * Converts a 3D vector [x, y, z] into a 2D vector [x, z].

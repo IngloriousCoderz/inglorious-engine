@@ -1,5 +1,17 @@
 # @inglorious/renderer-2d
 
+## 2.0.0
+
+### Minor Changes
+
+- Add infinite scroll and more vector operations
+
+### Patch Changes
+
+- Updated dependencies
+  - @inglorious/engine@3.0.0
+  - @inglorious/utils@3.6.0
+
 ## 1.0.0
 
 ### Patch Changes

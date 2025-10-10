@@ -1,6 +1,8 @@
+import { pipe } from "@inglorious/utils/functions/functions.js"
 import { to2D } from "@inglorious/utils/math/vector.js"
 
 import { absolutePosition } from "./absolute-position.js"
+import { infiniteLoop } from "./infinite-loop.js"
 
 const ORIGIN = 0
 const DEFAULT_ZOOM = 1
@@ -9,6 +11,8 @@ const HALF = 2
 const DEFAULT_LAYER = 0
 const Y = 1
 const Z = 2
+
+const augmentRender = pipe(absolutePosition, infiniteLoop)
 
 export function renderingSystem(canvas) {
   const ctx = canvas.getContext("2d")
@@ -59,7 +63,8 @@ export function renderingSystem(canvas) {
           const type = types[entity.type]
           const { render } = type
           if (render) {
-            absolutePosition(render)(entity, ctx, { api })
+            const augmentedRender = augmentRender(render)
+            augmentedRender(entity, ctx, api)
           }
         })
 

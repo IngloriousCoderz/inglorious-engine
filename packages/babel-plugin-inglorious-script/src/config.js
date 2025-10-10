@@ -3,6 +3,7 @@ const VECTOR_MODULE = "@inglorious/utils/math/vector.js"
 
 /**
  * @typedef {'vec_op_vec' | 'vec_op_scalar' | 'vec_op_scalar_commutative'} HelperType
+ * @typedef {'vec_op_vec' | 'vec_op_scalar' | 'vec_op_scalar_commutative' | 'vec_op_mixed'} HelperType
  * The type of vector operation, which determines the runtime checks and logic of the generated helper function.
  * - `vec_op_vec`: Vector-vector operation (e.g., `v + v`).
  * - `vec_op_scalar`: Vector-scalar operation where the vector must be the left operand (e.g., `v / s`).
@@ -35,36 +36,42 @@ export const Config = {
     error_scalar: "Cannot subtract a vector and a non-vector.",
   },
   "*": {
-    helperName: "__vectorScale",
-    type: "vec_op_scalar_commutative",
-    originalFunction: "scale",
-    module: VECTOR_MODULE,
-    error_vectors:
-      "Cannot multiply two vectors. Did you mean dot product (dot(v1, v2)) or cross product (cross(v1, v2))?",
+    helperName: "__vectorMultiply",
+    type: "vec_op_mixed",
+    originalFunctionVec: "multiply",
+    moduleVec: VECTORS_MODULE,
+    originalFunctionScalar: "scale",
+    moduleScalar: VECTOR_MODULE,
+    error_scalar: "Cannot multiply a non-vector by a vector.",
   },
   "/": {
     helperName: "__vectorDivide",
-    type: "vec_op_scalar",
-    originalFunction: "divide",
-    module: VECTOR_MODULE,
-    error_vectors: "Cannot divide two vectors.",
+    type: "vec_op_mixed",
+    originalFunctionVec: "divide",
+    moduleVec: VECTORS_MODULE,
+    originalFunctionScalar: "divide",
+    originalFunctionScalarReverse: "divideBy",
+    moduleScalar: VECTOR_MODULE,
     error_scalar: "Cannot divide a non-vector by a vector.",
   },
   "%": {
     helperName: "__vectorMod",
-    type: "vec_op_scalar",
-    originalFunction: "mod",
-    module: VECTOR_MODULE,
-    error_vectors: "Cannot compute the modulus between two vectors.",
-    error_scalar:
-      "Cannot compute the modulus between a non-vector and a vector.",
+    type: "vec_op_mixed",
+    originalFunctionVec: "mod",
+    moduleVec: VECTORS_MODULE,
+    originalFunctionScalar: "mod",
+    originalFunctionScalarReverse: "modOf",
+    moduleScalar: VECTOR_MODULE,
+    error_scalar: "Cannot compute the modulus of a non-vector by a vector.",
   },
   "**": {
     helperName: "__vectorPower",
-    type: "vec_op_scalar",
-    originalFunction: "power",
-    module: VECTOR_MODULE,
-    error_vectors: "Cannot raise a vector to the power of another vector.",
-    error_scalar: "Cannot raise a non-vector by the power of a vector.",
+    type: "vec_op_mixed",
+    originalFunctionVec: "power",
+    moduleVec: VECTORS_MODULE,
+    originalFunctionScalar: "power",
+    originalFunctionScalarReverse: "powerOf",
+    moduleScalar: VECTOR_MODULE,
+    error_scalar: "Cannot raise a non-vector to the power of a vector.",
   },
 }

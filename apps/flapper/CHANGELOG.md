@@ -1,5 +1,18 @@
 # inglorious-flapper
 
+## 0.2.0
+
+### Minor Changes
+
+- Add infinite scroll and more vector operations
+
+### Patch Changes
+
+- Updated dependencies
+  - @inglorious/renderer-2d@2.0.0
+  - @inglorious/engine@3.0.0
+  - @inglorious/utils@3.6.0
+
 ## 0.1.4
 
 ### Patch Changes

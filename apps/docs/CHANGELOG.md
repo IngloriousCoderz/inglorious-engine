@@ -1,5 +1,19 @@
 # @inglorious/docs
 
+## 1.9.0
+
+### Minor Changes
+
+- Add infinite scroll and more vector operations
+
+### Patch Changes
+
+- Updated dependencies
+  - @inglorious/renderer-2d@2.0.0
+  - @inglorious/engine@3.0.0
+  - @inglorious/utils@3.6.0
+  - @inglorious/renderer-react-dom@2.0.0
+
 ## 1.8.0
 
 ### Minor Changes

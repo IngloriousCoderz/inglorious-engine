@@ -1,5 +1,6 @@
 /* eslint-disable no-magic-numbers */
 import { fps } from "@inglorious/engine/behaviors/fps"
+import { infiniteScroll } from "@inglorious/engine/behaviors/infinite-scroll"
 import { createTouch, touch } from "@inglorious/engine/behaviors/input/touch"
 import { renderFps } from "@inglorious/renderer-2d/fps"
 import { renderImage } from "@inglorious/renderer-2d/image/image"
@@ -17,8 +18,8 @@ export default {
     game,
     fps: [{ render: renderFps }, fps({ accuracy: 0 })],
 
-    background: { render: renderImage },
-    ground: { render: renderImage },
+    background: [{ render: renderImage }, infiniteScroll()],
+    ground: [{ render: renderImage }, infiniteScroll()],
   },
 
   entities: {
@@ -61,20 +62,24 @@ export default {
     background: {
       type: "background",
       position: zero(),
+      velocity: v(-30, 0, 0),
       image: {
         id: "background",
         imageSize: [WIDTH, HEIGHT],
         anchor: [0, 1],
+        loop: v(413, 0, 0),
       },
     },
 
     ground: {
       type: "ground",
       position: zero(),
+      velocity: v(-60, 0, 0),
       image: {
         id: "ground",
         imageSize: [WIDTH, 16],
         anchor: [0, 1],
+        loop: v(WIDTH, 0, 0),
       },
     },
   },

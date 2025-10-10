@@ -1,5 +1,17 @@
 # @inglorious/engine
 
+## 3.0.0
+
+### Minor Changes
+
+- Add infinite scroll and more vector operations
+
+### Patch Changes
+
+- Updated dependencies
+  - @inglorious/utils@3.6.0
+  - @inglorious/store@5.0.0
+
 ## 2.2.0
 
 ### Minor Changes

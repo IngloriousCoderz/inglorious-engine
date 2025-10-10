@@ -67,9 +67,6 @@ export default function (babel) {
           }
         } else if (config.type === "vec_op_scalar") {
           if (leftCertain && rightCertain) {
-            throw path.buildCodeFrameError(config.error_vectors)
-          }
-          if (leftScalar && rightCertain) {
             throw path.buildCodeFrameError(config.error_scalar)
           }
         } else if (config.type === "vec_op_scalar_commutative") {

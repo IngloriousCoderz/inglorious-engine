@@ -45,12 +45,36 @@ export function injectHelpers(t, programPath, operators) {
 
   const helperFunctions = Array.from(operators).map((operator) => {
     const config = Config[operator]
+    if (config.type === "vec_op_mixed") {
+      const vecOpVecId = addNamed(
+        programPath,
+        config.originalFunctionVec,
+        config.moduleVec,
+      )
+      const vecOpScalarId = addNamed(
+        programPath,
+        config.originalFunctionScalar,
+        config.moduleScalar,
+      )
+      const vecOpScalarReverseId = config.originalFunctionScalarReverse
+        ? addNamed(
+            programPath,
+            config.originalFunctionScalarReverse,
+            config.moduleScalar,
+          )
+        : null
+      return helper(operator, config, {
+        vecOpVecId,
+        vecOpScalarId,
+        vecOpScalarReverseId,
+      })
+    }
     const importId = addNamed(
       programPath,
       config.originalFunction,
       config.module,
     )
-    return helper(operator, config, importId)
+    return helper(operator, config, { importId })
   })
 
   programPath.unshiftContainer("body", helperFunctions)
@@ -66,7 +90,7 @@ function createHelper(t, isVectorId) {
   return (
     operator,
     { helperName, type, error_vectors, error_scalar },
-    importId,
+    { importId, vecOpVecId, vecOpScalarId, vecOpScalarReverseId },
   ) => {
     const a = t.identifier("a")
     const b = t.identifier("b")
@@ -160,6 +184,55 @@ function createHelper(t, isVectorId) {
           t.throwStatement(
             t.newExpression(t.identifier("Error"), [
               t.stringLiteral(error_vectors),
+            ]),
+          ),
+        ),
+      )
+
+      // If both are scalars, fall through to regular operation
+      statements.push(t.returnStatement(t.binaryExpression(operator, a, b)))
+    } else if (type === "vec_op_mixed") {
+      // For mixed operations (%, **), we accept vec-vec and vec-scalar
+      statements.push(
+        t.ifStatement(
+          t.logicalExpression("&&", isAVector, isBVector),
+          t.returnStatement(t.callExpression(vecOpVecId, [a, b])),
+        ),
+      )
+
+      statements.push(
+        t.ifStatement(
+          t.logicalExpression("&&", isAVector, isBScalar),
+          t.returnStatement(t.callExpression(vecOpScalarId, [a, b])),
+        ),
+      )
+
+      if (operator === "*") {
+        // Commutative scalar multiplication
+        statements.push(
+          t.ifStatement(
+            t.logicalExpression("&&", isAScalar, isBVector),
+            t.returnStatement(t.callExpression(vecOpScalarId, [b, a])),
+          ),
+        )
+      } else if (
+        (operator === "**" || operator === "%" || operator === "/") &&
+        vecOpScalarReverseId
+      ) {
+        statements.push(
+          t.ifStatement(
+            t.logicalExpression("&&", isAScalar, isBVector),
+            t.returnStatement(t.callExpression(vecOpScalarReverseId, [a, b])),
+          ),
+        )
+      }
+      // Throw error for scalar-vec
+      statements.push(
+        t.ifStatement(
+          t.logicalExpression("&&", isAScalar, isBVector),
+          t.throwStatement(
+            t.newExpression(t.identifier("Error"), [
+              t.stringLiteral(error_scalar),
             ]),
           ),
         ),

@@ -1,5 +1,11 @@
 # @inglorious/utils
 
+## 3.6.0
+
+### Minor Changes
+
+- Add infinite scroll and more vector operations
+
 ## 3.5.3
 
 ### Patch Changes

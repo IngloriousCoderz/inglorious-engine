@@ -54,11 +54,15 @@ export function isClose(num1, num2, tolerance = DEFAULT_TOLERANCE) {
 
 /**
  * Computes the modulus of two numbers, ensuring a positive result.
+ * If the divisor is zero, it returns the dividend to avoid `NaN`.
  * @param {number} dividend - The number to be divided.
  * @param {number} divisor - The number to divide by.
  * @returns {number} The modulus result.
  */
 export function mod(dividend, divisor) {
+  if (!divisor) {
+    return dividend
+  }
   return ((dividend % divisor) + divisor) % divisor
 }
 

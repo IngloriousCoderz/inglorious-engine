@@ -131,6 +131,20 @@ This is a common fear, especially for developers coming from a pure OOP backgrou
 
 The engine provides the benefits of FP (predictability, testability) without the steep learning curve. You get to think in terms of familiar concepts while the engine handles the functional magic for you.
 
+**"But I like my operators!"**
+
+We do too! That's why the engine includes **IngloriousScript**, an optional Babel plugin that overloads standard JavaScript operators for intuitive vector math.
+
+```javascript
+// Without IngloriousScript
+const newPosition = mod(add(position, scale(velocity, dt)), worldSize)
+
+// With IngloriousScript
+const newPosition = (position + velocity * dt) % worldSize
+```
+
+It supports vector-vector, vector-scalar, and scalar-vector operations for `+`, `-`, `*`, `/`, `%`, and `**`, making your game logic clean, readable, and expressive.
+
 **"A good OOP developer just uses composition anyway. You don't need a new engine for that."**
 
 True, disciplined developers favor composition in any paradigm. The difference is that in many traditional OOP engines, inheritance is often presented as the default, easy path. This engine is designed so that **composition is the path of least resistance**. The architecture doesn't just allow for composition; it's built on it. You don't need discipline to avoid inheritance pitfalls when the framework naturally guides you to a better pattern.
