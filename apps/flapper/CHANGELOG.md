@@ -1,5 +1,15 @@
 # inglorious-flapper
 
+## 0.1.4
+
+### Patch Changes
+
+- Support eager and lazy loading of images
+- Updated dependencies
+  - @inglorious/engine@2.2.0
+  - @inglorious/renderer-2d@1.0.0
+  - @inglorious/utils@3.5.3
+
 ## 0.1.3
 
 ### Patch Changes

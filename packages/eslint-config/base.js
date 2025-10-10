@@ -12,7 +12,7 @@ export default defineConfig([
   },
   {
     rules: {
-      "no-console": "error",
+      "no-console": ["error", { allow: ["warn", "error"] }],
       "no-magic-numbers": "warn",
       "no-unused-vars": "warn",
     },

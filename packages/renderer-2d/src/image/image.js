@@ -1,10 +1,18 @@
 const DEFAULT_POSITION = 0
+const DEFAULT_ANCHOR = [DEFAULT_POSITION, DEFAULT_POSITION]
 
-export function renderImage(entity, ctx) {
+export function renderImage(entity, ctx, api) {
   const { image, sx = DEFAULT_POSITION, sy = DEFAULT_POSITION } = entity
-  const { id, src, imageSize, tileSize = imageSize } = image
+  const {
+    id,
+    src,
+    imageSize,
+    tileSize = imageSize,
+    anchor = DEFAULT_ANCHOR,
+  } = image
 
   const [tileWidth, tileHeight] = tileSize
+  const [anchorX, anchorY] = anchor
 
   const imgParams = [
     sx * tileWidth,
@@ -19,15 +27,15 @@ export function renderImage(entity, ctx) {
 
   ctx.save()
 
-  const img = document.getElementById(id)
+  ctx.translate(-tileWidth * anchorX, -tileHeight * anchorY)
+
+  const img = api.getTypes().images.get(id) || document.getElementById(id)
   if (img) {
     ctx.drawImage(img, ...imgParams)
+  } else if (src) {
+    api.getTypes().images.load(id, src)
   } else {
-    const newImg = new Image()
-    newImg.id = id
-    newImg.style.display = "none"
-    newImg.src = src
-    document.body.appendChild(newImg)
+    console.warn(`Image '${id}' not found and no src provided for lazy loading`)
   }
 
   ctx.restore()

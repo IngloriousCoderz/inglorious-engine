@@ -11,7 +11,7 @@ const FLIPPED_VERTICALLY_FLAG = 0x40000000
 // const FLIPPED_DIAGONALLY_FLAG = 0x20000000
 // const ROTATED_HEXAGONAL_120_FLAG = 0x10000000
 
-export function renderTilemap(entity, ctx) {
+export function renderTilemap(entity, ctx, api) {
   const { image, columns, scale = DEFAULT_SCALE, layers } = entity.tilemap
   const { imageSize, tileSize } = image
 
@@ -51,12 +51,14 @@ export function renderTilemap(entity, ctx) {
 
       ctx.translate(dx, dy)
 
+      ctx.translate(tileWidth / HALF, tileHeight / HALF)
       ctx.scale(
         isFlippedHorizontally ? FLIP : NO_FLIP,
         isFlippedVertically ? FLIP : NO_FLIP,
       )
+      ctx.translate(-tileWidth / HALF, -tileHeight / HALF)
 
-      renderImage({ image, sx, sy }, ctx)
+      renderImage({ image, sx, sy }, ctx, api)
 
       ctx.restore()
     })

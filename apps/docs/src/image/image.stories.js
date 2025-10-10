@@ -1,5 +1,6 @@
 import RendererChooser from "../renderer-chooser.jsx"
 import image from "./image.js"
+import lazyLoading from "./lazy-loading.js"
 import sprite from "./sprite.js"
 import tilemap from "./tilemap.js"
 
@@ -18,4 +19,8 @@ export const Tilemap = {
 
 export const Sprite = {
   args: { config: sprite },
+}
+
+export const LazyLoading = {
+  args: { config: lazyLoading },
 }

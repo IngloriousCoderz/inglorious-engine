@@ -58,13 +58,20 @@ export default {
       Axis1: "moveUpDown",
     }),
 
+    images: {
+      type: "images",
+      images: {
+        dungeon: { url: "/tilemaps/dungeon.png" },
+        dungeonCharacter: { url: "/sprites/dungeon_character.png" },
+      },
+    },
+
     dungeon: {
       type: "tilemap",
       position: v(400, 0, 300),
       tilemap: {
         image: {
           id: "dungeon",
-          src: "/tilemaps/dungeon.png",
           imageSize: v(160, 160),
           tileSize: v(16, 16),
         },
@@ -99,6 +106,45 @@ export default {
               -1, -1, 66, 67, -1, -1,
             ],
           },
+          {
+            tiles: [
+              // first row
+              -1,
+              -1,
+              -1,
+              -1,
+              -1,
+              -1,
+              // second row
+              -1,
+              91,
+              -1,
+              -1,
+              0x80000000 + 91,
+              -1,
+              // third row
+              -1,
+              -1,
+              -1,
+              -1,
+              -1,
+              -1,
+              // fourth row
+              -1,
+              91,
+              -1,
+              -1,
+              0x80000000 + 91,
+              -1,
+              // fifht row
+              -1,
+              -1,
+              -1,
+              -1,
+              -1,
+              -1,
+            ],
+          },
         ],
       },
       collisions: {
@@ -129,8 +175,7 @@ export default {
       maxSpeed: 250,
       sprite: {
         image: {
-          id: "dungeon_character",
-          src: "/sprites/dungeon_character.png",
+          id: "dungeonCharacter",
           imageSize: v(112, 64),
           tileSize: v(16, 16),
         },

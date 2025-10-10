@@ -25,13 +25,19 @@ export default {
       pixelated: true,
     },
 
+    images: {
+      type: "images",
+      images: {
+        neko: { url: "/sprites/neko.png" },
+      },
+    },
+
     neko: {
       type: "cat",
       position: v(400, 0, 300),
       sprite: {
         image: {
           id: "neko",
-          src: "/sprites/neko.png",
           imageSize: v(192, 192),
           tileSize: v(32, 32),
         },

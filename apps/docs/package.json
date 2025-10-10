@@ -1,6 +1,6 @@
 {
   "name": "@inglorious/docs",
-  "version": "1.7.4",
+  "version": "1.8.0",
   "private": true,
   "description": "Online documentation for the Inglorious Engine and its ecosystem.",
   "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
@@ -29,13 +29,13 @@
     "@inglorious/renderer-2d": "workspace:*",
     "@inglorious/renderer-react-dom": "workspace:*",
     "@inglorious/utils": "workspace:*",
-    "@storybook/addon-docs": "^9.1.7",
-    "@storybook/addon-links": "^9.1.7",
-    "@storybook/react-vite": "^9.1.7",
+    "@storybook/addon-docs": "^9.1.10",
+    "@storybook/addon-links": "^9.1.10",
+    "@storybook/react-vite": "^9.1.10",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-redux": "^9.2.0",
-    "storybook": "^9.1.7"
+    "storybook": "^9.1.10"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.7.0",

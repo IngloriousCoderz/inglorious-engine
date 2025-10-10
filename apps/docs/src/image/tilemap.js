@@ -13,13 +13,19 @@ export default {
       pixelated: true,
     },
 
+    images: {
+      type: "images",
+      images: {
+        dungeon: { url: "/tilemaps/dungeon.png" },
+      },
+    },
+
     dungeon: {
       type: "tilemap",
       position: v(400, 0, 300),
       tilemap: {
         image: {
           id: "dungeon",
-          src: "/tilemaps/dungeon.png",
           imageSize: v(160, 160),
           tileSize: v(16, 16),
         },
@@ -43,6 +49,20 @@ export default {
           {
             tiles: [
               // first row
+              -1, -1, -1, -1, -1, -1,
+              // second row
+              -1, -1, 83, -1, -1, -1,
+              // third row
+              -1, -1, -1, 97, -1, -1,
+              // fourth row
+              -1, -1, -1, -1, -1, -1,
+              // fifth row
+              -1, -1, 66, 67, -1, -1,
+            ],
+          },
+          {
+            tiles: [
+              // first row
               -1,
               -1,
               -1,
@@ -52,7 +72,7 @@ export default {
               // second row
               -1,
               91,
-              83,
+              -1,
               -1,
               0x80000000 + 91,
               -1,
@@ -60,7 +80,7 @@ export default {
               -1,
               -1,
               -1,
-              97,
+              -1,
               -1,
               -1,
               // fourth row
@@ -70,12 +90,11 @@ export default {
               -1,
               0x80000000 + 91,
               -1,
-              // fifth row
-              // -1, -1, 36, 37, -1, -1,
+              // fifht row
               -1,
               -1,
-              66,
-              67,
+              -1,
+              -1,
               -1,
               -1,
             ],

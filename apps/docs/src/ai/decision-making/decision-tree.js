@@ -157,6 +157,13 @@ export default {
 
     mouse: createMouse(),
 
+    images: {
+      type: "images",
+      images: {
+        neko: { url: "/sprites/neko.png" },
+      },
+    },
+
     neko: {
       type: "cat",
       state: "idle",
@@ -165,7 +172,6 @@ export default {
       sprite: {
         image: {
           id: "neko",
-          src: "/sprites/neko.png",
           imageSize: v(192, 192),
           tileSize: v(32, 32),
         },

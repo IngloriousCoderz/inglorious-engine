@@ -1,5 +1,16 @@
 # @inglorious/engine
 
+## 2.2.0
+
+### Minor Changes
+
+- Support eager and lazy loading of images
+
+### Patch Changes
+
+- @inglorious/store@4.0.5
+- @inglorious/utils@3.5.3
+
 ## 2.1.3
 
 ### Patch Changes

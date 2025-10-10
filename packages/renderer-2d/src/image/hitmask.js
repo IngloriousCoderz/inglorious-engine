@@ -5,7 +5,7 @@ const HALF = 2
 const NO_Y = 0
 const MAX_HUE = 255
 
-export function renderHitmask(entity, ctx) {
+export function renderHitmask(entity, ctx, api) {
   const { tileSize, columns, heights } = entity
 
   const [tileWidth, tileHeight] = tileSize
@@ -42,7 +42,7 @@ export function renderHitmask(entity, ctx) {
       backgroundColor: `hsla(${hue}, 100%, 50%, 0.2)`,
     }
 
-    renderRectangle(entity, ctx)
+    renderRectangle(entity, ctx, api)
 
     ctx.restore()
   })

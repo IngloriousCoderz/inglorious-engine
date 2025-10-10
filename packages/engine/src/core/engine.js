@@ -1,5 +1,6 @@
 import { audio } from "@inglorious/engine/behaviors/audio.js"
 import { game } from "@inglorious/engine/behaviors/game.js"
+import { images } from "@inglorious/engine/behaviors/images.js"
 import { createStore } from "@inglorious/store/store.js"
 import { augmentType } from "@inglorious/store/types.js"
 import { isArray } from "@inglorious/utils/data-structures/array.js"
@@ -23,12 +24,14 @@ const DEFAULT_GAME_CONFIG = {
   types: {
     game: [game()],
     audio: [audio()],
+    images: [images()],
   },
 
   entities: {
     // eslint-disable-next-line no-magic-numbers
     game: { type: "game", size: v(800, 600) },
     audio: { type: "audio", sounds: {} },
+    images: { type: "images", images: {} },
   },
 }
 

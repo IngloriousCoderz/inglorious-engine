@@ -6,7 +6,6 @@ body {
   font-family: "Press Start 2P", system-ui;
   width: 100vw;
   height: 100vh;
-  overflow: hidden;
   margin: 0;
   display: flex;
   flex-direction: column;
@@ -24,7 +23,7 @@ canvas {
   cursor: none;
 }
 
-@media (orientation: landscape) {
+@media (orientation: landscape) and (pointer: coarse) and (hover: none) {
   canvas {
     width: auto;
     height: 100vh;

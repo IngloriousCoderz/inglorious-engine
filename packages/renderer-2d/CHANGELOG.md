@@ -1,5 +1,14 @@
 # @inglorious/renderer-2d
 
+## 1.0.0
+
+### Patch Changes
+
+- Support eager and lazy loading of images
+- Updated dependencies
+  - @inglorious/engine@2.2.0
+  - @inglorious/utils@3.5.3
+
 ## 0.8.3
 
 ### Patch Changes

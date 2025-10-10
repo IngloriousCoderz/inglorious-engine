@@ -1,5 +1,11 @@
 # @inglorious/create-game
 
+## 1.0.2
+
+### Patch Changes
+
+- Support eager and lazy loading of images
+
 ## 1.0.1
 
 ### Patch Changes

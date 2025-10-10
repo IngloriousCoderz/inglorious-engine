@@ -12,18 +12,12 @@ export default {
       devMode: true,
     },
 
-    images: {
-      type: "images",
-      images: {
-        logo: { url: "/logo.png" },
-      },
-    },
-
     logo: {
       type: "image",
       position: v(400 - 128 / 2, 0, 300 + 128 / 2),
       image: {
         id: "logo",
+        src: "/logo.png",
         imageSize: v(128, 128),
       },
     },

@@ -1,5 +1,20 @@
 # @inglorious/docs
 
+## 1.8.0
+
+### Minor Changes
+
+- Support eager and lazy loading of images
+
+### Patch Changes
+
+- Updated dependencies
+  - @inglorious/engine@2.2.0
+  - @inglorious/eslint-config@1.0.1
+  - @inglorious/renderer-2d@1.0.0
+  - @inglorious/renderer-react-dom@1.0.0
+  - @inglorious/utils@3.5.3
+
 ## 1.7.4
 
 ### Patch Changes
