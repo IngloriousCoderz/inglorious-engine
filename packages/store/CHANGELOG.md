@@ -1,5 +1,11 @@
 # @inglorious/store
 
+## 5.0.1
+
+### Patch Changes
+
+- Document store as a standalone state manager
+
 ## 5.0.0
 
 ### Patch Changes

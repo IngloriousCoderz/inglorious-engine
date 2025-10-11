@@ -3,9 +3,100 @@
 [![NPM version](https://img.shields.io/npm/v/@inglorious/store.svg)](https://www.npmjs.com/package/@inglorious/store)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-The core, environment-agnostic state management library for the [Inglorious Engine](https://github.com/IngloriousCoderz/inglorious-engine).
+**State management inspired by video games.**
 
-This package provides a powerful and predictable state container based on an **Entity-Component-System (ECS)** architecture, inspired by **[Redux](https://redux.js.org/)** but tailored for game development. It can be used in any JavaScript environment, including Node.js servers and browsers.
+Inglorious Store brings battle-tested patterns from game development to modern web applications. If your app needs real-time updates, multiplayer features, or complex interactive state, you'll benefit from the same techniques that power multiplayer games and collaborative tools like Figma.
+
+Perfect for: real-time collaboration, live dashboards, chat apps, interactive visualizations, and any application where state synchronization matters.
+
+---
+
+## Why Video Game Patterns?
+
+Video games solved distributed state synchronization decades ago. They handle:
+
+- **60fps updates** with thousands of entities
+- **Multiplayer** with lag compensation and state sync
+- **Deterministic simulation** for replays and debugging
+- **Complex interactions** between many objects
+
+If it works for games, it'll handle your app's state with ease.
+
+---
+
+## Key Features
+
+### 🎮 **Entity-Based State**
+
+Define behavior once, reuse it across all instances of the same type. Perfect for managing collections (todos, messages, cart items).
+
+```javascript
+// Define behavior for ALL todos
+const todoType = {
+  toggle(todo, id) {
+    if (todo.id !== id) return
+    todo.completed = !todo.completed
+  },
+}
+
+// Toggle specific todos
+store.notify("toggle", "todo-1")
+store.notify("toggle", "todo-2")
+```
+
+> **Important:** `toggle` is not a method—it's an **event handler**. When you notify an event, it's broadcast to **all entities** that have that handler (pub/sub pattern). Use the payload to filter which entities should respond.
+
+### 🔄 **Event Queue with Batching**
+
+Events are queued and processed together, preventing cascading updates and enabling predictable state changes.
+
+```javascript
+// Dispatch multiple events
+store.notify("increment", "counter-1")
+store.notify("increment", "counter-2")
+store.notify("increment", "counter-3")
+
+// Process all at once (single React re-render)
+store.update()
+```
+
+### ⏱️ **Time-Travel Debugging**
+
+Save and replay state at any point—built-in, not an afterthought.
+
+```javascript
+const snapshot = store.getState()
+// ... user makes changes ...
+store.setState(snapshot) // Instant undo
+```
+
+### 🌐 **Multiplayer-Ready**
+
+Synchronize state across clients by sending serializable events. Same events + same handlers = guaranteed sync.
+
+```javascript
+socket.on("userAction", (event) => {
+  store.notify(event.type, event.payload)
+  // All clients stay in perfect sync
+})
+```
+
+### ✍️ **Ergonomic Immutability**
+
+Write code that looks mutable, get immutable updates automatically via [Mutative](https://mutative.js.org/).
+
+```javascript
+// Looks like mutation, but creates new immutable state
+const todoType = {
+  rename(todo, text) {
+    todo.text = text // So clean!
+  },
+}
+```
+
+### 🔗 **Redux-Compatible**
+
+Works with `react-redux` and Redux DevTools. Provides both `notify()` and `dispatch()` for compatibility.
 
 ---
 
@@ -17,154 +108,474 @@ npm install @inglorious/store
 
 ---
 
-## Core Concepts
+## Quick Start
 
-The state management is built on a few simple principles:
+### Simple Counter Example
 
-1.  **Entities and Properties**: The state is composed of **entities**, which are unique objects. Each entity has a **type** and a set of properties (e.g., `position: v(0, 0, 0)`, `health: 100`). Unlike a traditional ECS, properties are not grouped into explicit components.
+```javascript
+import { createStore } from "@inglorious/store"
 
-2.  **Types and Behaviors**: The logic for how entities and the overall state change is defined in **types** and **systems**.
-    - **Types** are arrays of **behaviors**. A behavior is an object that contains event handlers (e.g., `update(entity, dt) { ... }`). Behaviors are composable, allowing you to define a type by combining multiple sets of properties and event handlers.
-    - **Systems** are objects that contain event handlers to operate on the global state or manage interactions between entities.
+// Types can be a single behavior (not an array) for simplicity
+const types = {
+  counter: {
+    increment(counter) {
+      counter.value++
+    },
+    decrement(counter) {
+      counter.value--
+    },
+  },
+}
 
-3.  **Events and State Updates**: The only way to change the state is by issuing an **event**. An event is a plain object describing what happened (e.g., `{ type: 'move', payload: { id: 'player1', dx: 1 } }`).
-    - The store processes events by first applying behaviors defined on an entity's type, and then running the logic in the systems.
-    - An `update` event with a `dt` (delta time) payload is automatically dispatched on every `store.update()` call, making it suitable for a game loop.
+const entities = {
+  "counter-1": { type: "counter", value: 0 },
+  "counter-2": { type: "counter", value: 10 },
+}
 
-4.  **Immutability**: The state is immutable. Updates are handled internally by **[Mutative](https://mutative.js.org/)**, so you can "mutate" the state directly within a type's or system's behavior function, and a new, immutable state will be created.
+const store = createStore({ types, entities })
+
+// One event updates ALL counters
+store.notify("increment")
+store.update()
+
+console.log(store.getState().entities["counter-1"].value) // => 1
+console.log(store.getState().entities["counter-2"].value) // => 11
+
+// To update just one counter, add filtering logic in the handler
+```
+
+### Complete Todo App Example
+
+```javascript
+import { createStore } from "@inglorious/store"
+import { createSelector } from "@inglorious/store/select"
+
+// 1. Define types (can be a single behavior or array of behaviors)
+const types = {
+  form: {
+    inputChange(entity, value) {
+      entity.value = value
+    },
+    formSubmit(entity) {
+      entity.value = ""
+    },
+  },
+
+  list: {
+    formSubmit(entity, value) {
+      entity.tasks.push({
+        id: entity.tasks.length + 1,
+        text: value,
+        completed: false,
+      })
+    },
+    toggleClick(entity, id) {
+      const task = entity.tasks.find((task) => task.id === id)
+      task.completed = !task.completed
+    },
+    deleteClick(entity, id) {
+      const index = entity.tasks.findIndex((task) => task.id === id)
+      entity.tasks.splice(index, 1)
+    },
+    clearClick(entity) {
+      entity.tasks = entity.tasks.filter((task) => !task.completed)
+    },
+  },
+
+  footer: {
+    filterClick(entity, filter) {
+      entity.activeFilter = filter
+    },
+  },
+}
+
+// 2. Define initial entities
+const entities = {
+  form: {
+    type: "form",
+    value: "",
+  },
+  list: {
+    type: "list",
+    tasks: [],
+  },
+  footer: {
+    type: "footer",
+    activeFilter: "all",
+  },
+}
+
+// 3. Create store
+const store = createStore({ types, entities })
+
+// 4. Create selectors
+const selectTasks = ({ entities }) => entities.list.tasks
+const selectActiveFilter = ({ entities }) => entities.footer.activeFilter
+
+const selectFilteredTasks = createSelector(
+  [selectTasks, selectActiveFilter],
+  (tasks, activeFilter) => {
+    switch (activeFilter) {
+      case "active":
+        return tasks.filter((t) => !t.completed)
+      case "completed":
+        return tasks.filter((t) => t.completed)
+      default:
+        return tasks
+    }
+  },
+)
+
+// 5. Subscribe to changes
+store.subscribe(() => {
+  console.log("Filtered tasks:", selectFilteredTasks(store.getState()))
+})
+
+// 6. Dispatch events (use notify or dispatch - both work!)
+store.notify("inputChange", "Buy milk")
+store.notify("formSubmit", store.getState().entities.form.value)
+store.notify("toggleClick", 1) // Only todo with id=1 will respond
+store.notify("filterClick", "active")
+
+// 7. Process event queue
+store.update()
+```
 
 ---
 
-## API
+## Core Concepts
+
+### Pub/Sub Event Architecture
+
+**This is not OOP with methods—it's a pub/sub (publish/subscribe) event system.**
+
+When you call `store.notify('toggle', 'todo-1')`, the `toggle` event is broadcast to **all entities**. Any entity that has a `toggle` handler will process the event and decide whether to respond based on the payload.
+
+```javascript
+const todoType = {
+  // This handler runs for EVERY todo when 'toggle' is notified
+  toggle(todo, id) {
+    if (todo.id !== id) return // Filter: only this todo responds
+    todo.completed = !todo.completed
+  },
+}
+
+// This broadcasts 'toggle' to all entities
+store.notify("toggle", "todo-1") // Only todo-1 actually updates
+```
+
+**Why this matters:**
+
+- ✅ Multiple entities of different types can respond to the same event
+- ✅ Enables reactive, decoupled behavior
+- ✅ Perfect for coordinating related entities
+- ✅ Natural fit for multiplayer/real-time sync
+
+**Example of multiple entities responding:**
+
+```javascript
+const types = {
+  player: {
+    gameOver(player) {
+      player.active = false
+    },
+  },
+  enemy: {
+    gameOver(enemy) {
+      enemy.active = false
+    },
+  },
+  ui: {
+    gameOver(ui) {
+      ui.showGameOverScreen = true
+    },
+  },
+}
+
+// One event, all three entity types respond (if they have the handler)
+store.notify("gameOver")
+```
+
+### Entities and Types
+
+Your state is a collection of **entities** (instances) organized by **type** (like classes or models).
+
+```javascript
+const entities = {
+  "item-1": { type: "cartItem", name: "Shoes", quantity: 1, price: 99 },
+  "item-2": { type: "cartItem", name: "Shirt", quantity: 2, price: 29 },
+}
+```
+
+### Behaviors
+
+Define how entities respond to events. Behaviors can be a single object or an array of composable objects.
+
+```javascript
+// Single behavior (simple)
+const counterType = {
+  increment(counter) {
+    counter.value++
+  },
+  decrement(counter) {
+    counter.value--
+  },
+}
+
+// Array of behaviors (composable)
+const cartItemType = [
+  {
+    incrementQuantity(item) {
+      item.quantity++
+    },
+    decrementQuantity(item) {
+      if (item.quantity > 1) item.quantity--
+    },
+  },
+  {
+    applyDiscount(item, percent) {
+      item.price = item.price * (1 - percent / 100)
+    },
+  },
+]
+```
+
+### Events
+
+Events are broadcast to all relevant handlers in a pub/sub pattern.
+
+```javascript
+// Simplest form - just the entity ID
+store.notify("increment", "counter-1")
+
+// With additional data
+store.notify("applyDiscount", { id: "item-1", percent: 10 })
+
+// Also supports dispatch() for Redux compatibility
+store.dispatch({ type: "increment", payload: "counter-1" })
+
+// Process the queue - this is when handlers actually run
+store.update()
+```
+
+**Key insight:** Events go into a queue and are processed together during `update()`. This enables batching and prevents cascading updates within a single frame.
+
+### Systems (Optional)
+
+For global state logic that doesn't belong to a specific entity type.
+
+```javascript
+const systems = [
+  {
+    calculateTotal(state) {
+      state.cartTotal = Object.values(state.entities)
+        .filter((e) => e.type === "cartItem")
+        .reduce((sum, item) => sum + item.price * item.quantity, 0)
+    },
+  },
+]
+```
+
+---
+
+## API Reference
 
 ### `createStore(options)`
 
 Creates a new store instance.
 
-**Parameters:**
+**Options:**
 
-- `options` (object):
-  - `types` (object): A map of entity types. Keys are type names (e.g., `'player'`), and values are arrays of behaviors.
-  - `entities` (object): A map of initial entities. Keys are entity IDs, and values are objects containing the entity's properties.
-  - `systems` (array, optional): An array of system objects, which define behaviors for the whole state.
-
-**Returns:**
-
-- A `store` object with the following methods:
-  - `subscribe(listener)`: Subscribes a `listener` to state changes. The listener is called after `store.update()` is complete. Returns an `unsubscribe` function.
-  - `update(dt, api)`: Processes the event queue and updates the state. This is typically called once per frame. `dt` is the time elapsed since the last frame, and `api` is the engine's public API.
-  - `notify(type, payload)`: Adds a new event to the queue to be processed on the next `update` call.
-  - `dispatch(event)`: A Redux-compatible alias for `notify`.
-  - `getState()`: Returns the current, immutable state.
-  - `setState(newState)`: Replaces the entire state with a new one. Use with caution.
-  - `getTypes()`: Returns the augmented types configuration. Augmenting here means that the array of behaviors is merged into one single behavior.
-  - `getOriginalTypes()`: Returns the original, un-augmented behavior arrays.
-  - `reset()`: Resets the state to its initial configuration.
-
----
-
-### `createSelector(inputSelectors, resultFunc)`
-
-Creates a memoized selector to efficiently compute derived data from the state. It only recomputes the result if the inputs to the `resultFunc` have changed.
-
-**Parameters:**
-
-- `inputSelectors` (array of functions): An array of selector functions that take the state and return a slice of it.
-- `resultFunc` (function): A function that takes the results of the `inputSelectors` and returns the final computed value.
+- `types` (object): Map of type names to behaviors (single object or array)
+- `entities` (object): Initial entities by ID
+- `systems` (array, optional): Global event handlers
 
 **Returns:**
 
-- A memoized selector function that takes the `state` as its only argument and returns the selected data.
-
----
+- `subscribe(listener)`: Subscribe to state changes
+- `update(dt)`: Process event queue (optional `dt` for time-based logic)
+- `notify(type, payload)`: Queue an event
+- `dispatch(event)`: Redux-compatible event dispatch
+- `getState()`: Get current immutable state
+- `setState(newState)`: Replace entire state
+- `reset()`: Reset to initial state
 
 ### `createApi(store)`
 
-Creates a convenient API object that encapsulates the store's methods and provides common utility functions for accessing state.
-
-**Parameters:**
-
-- `store` (object): The store instance created with `createStore`.
+Creates a convenience wrapper with utility methods.
 
 **Returns:**
 
-- An `api` object with methods for interacting with the store and state, including:
-  - `createSelector(inputSelectors, resultFunc)`: A helper function that automatically binds the store's state to a new selector.
-  - `getTypes()`, `getEntities()`, `getEntity(id)`: Utility functions for accessing state.
-  - `notify(type, payload)`, `dispatch(action)`: Aliases to the store's event dispatching methods.
+- `createSelector(inputSelectors, resultFunc)`: Memoized selectors
+- `getTypes()`, `getEntities()`, `getEntity(id)`: State accessors
+- `notify(type, payload)`: Dispatch events
+
+### `createSelector(inputSelectors, resultFunc)`
+
+Create memoized, performant selectors.
+
+```javascript
+const selectCompletedTodos = createSelector(
+  [(state) => state.entities],
+  (entities) => Object.values(entities).filter((e) => e.completed),
+)
+```
 
 ---
 
-## Basic Usage
+## Use Cases
 
-Here is a simple example of a player entity that moves based on events.
+### ✅ Perfect For
+
+- **Real-time collaboration** (like Figma, Google Docs)
+- **Chat and messaging apps**
+- **Live dashboards and monitoring**
+- **Interactive data visualizations**
+- **Apps with undo/redo**
+- **Multiplayer features**
+- **Collection-based UIs** (lists, feeds, boards)
+- **...and games!**
+
+### 🤔 Maybe Overkill For
+
+- Simple forms with local state
+- Static marketing pages
+- Basic CRUD with no real-time needs
+
+---
+
+## Comparison
+
+| Feature                     | Inglorious Store  | Redux               | Redux Toolkit    | Zustand       | Jotai         | Pinia           | MobX            |
+| --------------------------- | ----------------- | ------------------- | ---------------- | ------------- | ------------- | --------------- | --------------- |
+| **Integrated Immutability** | ✅ Mutative       | ❌ Manual           | ✅ Immer         | ❌ Manual     | ✅ Optional   | ✅ Built-in     | ✅ Observables  |
+| **Event Queue/Batching**    | ✅ Built-in       | ❌                  | ❌               | ❌            | ❌            | ❌              | ✅ Automatic    |
+| **Dispatch from Handlers**  | ✅ Safe (queued)  | ❌ Not allowed      | ❌ Not allowed   | ✅            | ✅            | ✅              | ✅              |
+| **Redux DevTools**          | ⚠️ Limited        | ✅ Native           | ✅ Native        | ✅ Middleware | ⚠️ Limited    | ✅ Vue DevTools | ⚠️ Limited      |
+| **react-redux Compatible**  | ✅ Yes            | ✅ Yes              | ✅ Yes           | ❌            | ❌            | ❌ Vue only     | ❌              |
+| **Time-Travel Debug**       | ✅ Built-in       | ✅ Via DevTools     | ✅ Via DevTools  | ⚠️ Manual     | ❌            | ⚠️ Limited      | ❌              |
+| **Entity-Based State**      | ✅ First-class    | ⚠️ Manual normalize | ✅ EntityAdapter | ❌            | ❌            | ❌              | ❌              |
+| **Pub/Sub Events**          | ✅ Core pattern   | ❌                  | ❌               | ❌            | ❌            | ❌              | ❌              |
+| **Multiplayer-Ready**       | ✅ Deterministic  | ⚠️ With work        | ⚠️ With work     | ⚠️ With work  | ❌            | ❌              | ❌              |
+| **Testability**             | ✅ Pure functions | ✅ Pure reducers    | ✅ Pure reducers | ⚠️ With mocks | ⚠️ With mocks | ⚠️ With mocks   | ❌ Side effects |
+| **Learning Curve**          | Medium            | High                | Medium           | Low           | Medium        | Low             | Medium          |
+| **Bundle Size**             | Small             | Small               | Medium           | Tiny          | Small         | Medium          | Medium          |
+
+### Key Differences
+
+**vs Redux/RTK:**
+
+- Integrated immutability (no manual spreads)
+- Event queue with automatic batching
+- Can dispatch from handlers safely
+- Entity-based architecture built-in
+- Reusable handlers across instances
+
+**vs Zustand:**
+
+- Deterministic event processing (better for multiplayer)
+- Built-in time-travel debugging
+- Entity/type architecture for collections
+- Event queue prevents cascading updates
+- Redux DevTools compatible
+
+**vs Jotai:**
+
+- Different paradigm (events vs atoms)
+- Better for entity collections
+- Built-in normalization
+- Explicit event flow
+
+**vs Pinia:**
+
+- React-compatible (Pinia is Vue-only)
+- Event queue system
+- Deterministic updates for multiplayer
+
+**vs MobX:**
+
+- Explicit events (less magic)
+- Serializable state (easier persistence/sync)
+- Deterministic (better for debugging)
+- Redux DevTools compatible
+
+---
+
+**When to choose Inglorious Store:**
+
+- Building real-time/collaborative features
+- Managing collections of similar items
+- Need deterministic state for multiplayer
+- Want built-in time-travel debugging
+- Coming from Redux and want better DX
+
+**When to choose alternatives:**
+
+- **Zustand/Jotai**: Simple apps, prefer minimal API
+- **Redux Toolkit**: Large team, established Redux patterns
+- **Pinia**: Vue ecosystem
+- **MobX**: Prefer reactive/observable patterns
+
+---
+
+## Advanced: Real-Time Sync
 
 ```javascript
-import { createStore, createApi } from "@inglorious/store"
-import { add, scale } from "@inglorious/utils/math/vectors.js"
+// Client-side
+socket.on("server-event", (event) => {
+  store.notify(event.type, event.payload)
+  store.update()
+})
 
-// 1. Define the behaviors
-const transform = {
-  // The second parameter of an event handler is the payload
-  move: (entity, payload) => {
-    entity.position[0] += payload.dx || 0
-    entity.position[1] += payload.dy || 0
-    entity.position[2] += payload.dz || 0
-  },
-}
+// Send local events to server
+store.subscribe(() => {
+  const state = store.getState()
+  socket.emit("state-update", serializeState(state))
+})
+```
 
-const kinematic = {
-  update: (entity, dt) => {
-    // You can use utility functions for easy vector operations
-    entity.position = add(entity.position, scale(entity.velocity, dt))
-  },
-}
+---
 
-// 2. Define the entity types by composing behaviors
+## Advanced: Time-Based Updates
+
+For animations or continuous updates (like in games):
+
+```javascript
 const types = {
-  player: [
-    // Composed behaviors
-    transform,
-    kinematic,
+  particle: [
+    {
+      update(particle, dt) {
+        // dt = delta time in milliseconds
+        particle.x += particle.velocityX * dt
+        particle.y += particle.velocityY * dt
+        particle.life -= dt
+      },
+    },
   ],
 }
 
-// 3. Define the initial entities
-const entities = {
-  player1: {
-    type: "player",
-    position: v(0, 0, 0),
-    velocity: v(0.0625, 0, 0),
-  },
+// In your game/animation loop
+function loop(timestamp) {
+  const dt = timestamp - lastTime
+  store.update(dt)
+  requestAnimationFrame(loop)
 }
-
-// 4. Create the store and a unified API
-const store = createStore({ types, entities })
-const api = createApi(store)
-
-// 5. Create selectors to get data from the state
-const selectPlayerPosition = api.createSelector(
-  [(state) => state.entities.player1],
-  (player) => player.position,
-)
-
-// 6. Subscribe to changes
-store.subscribe(() => {
-  console.log("State updated!", selectPlayerPosition())
-})
-
-// 7. Notify the store of an event
-console.log("Initial player position:", selectPlayerPosition()) // => v(0, 0, 0)
-
-// Dispatch a custom `move` event with a payload
-api.notify("move", { id: "player1", dx: 5, dz: 5 })
-
-// Events are queued but not yet processed
-console.log("Position after notify:", selectPlayerPosition()) // => v(0, 0, 0)
-
-// 8. Run the update loop to process the queue and trigger `update` behaviors
-store.update(16) // Pass delta time
-// Console output from subscriber: "State updated! v(6, 0, 5)"
-
-console.log("Final position:", selectPlayerPosition()) // => v(6, 0, 5)
 ```
+
+---
+
+## Part of the Inglorious Engine
+
+This store powers the [Inglorious Engine](https://github.com/IngloriousCoderz/inglorious-engine), a functional game engine. But you don't need to build games to benefit from game development patterns!
+
+---
+
+## License
+
+MIT
+
+---
+
+## Contributing
+
+Contributions welcome! Please read our [Contributing Guidelines](../../CONTRIBUTING.md) first.

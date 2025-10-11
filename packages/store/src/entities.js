@@ -1,7 +1,7 @@
 import { map } from "@inglorious/utils/data-structures/object.js"
 
 /**
- * @typedef {Object.<string, any>} Entity - An object representing a game entity.
+ * @typedef {Object.<string, any>} Entity - An object representing an entity.
  * @typedef {Object.<string, Entity>} Entities - A collection of named entities.
  */
 

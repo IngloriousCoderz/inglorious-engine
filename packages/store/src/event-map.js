@@ -1,18 +1,18 @@
 /**
  * @typedef {Object.<string, any>} Type - An object representing an augmented entity type.
- * @typedef {Object.<string, any>} Entity - An object representing a game entity.
+ * @typedef {Object.<string, any>} Entity - An object representing a entity.
  */
 
 /**
  * A class to manage the mapping of event names to the entity IDs that handle them.
- * This is used for optimized event handling in a game loop.
+ * This is used for optimized event handling.
  */
 export class EventMap {
   /**
    * Creates an instance of EventMap and initializes it with entities and their types.
    *
    * @param {Object.<string, Type>} types - An object containing all augmented type definitions.
-   * @param {Object.<string, Entity>} entities - An object containing all game entities.
+   * @param {Object.<string, Entity>} entities - An object containing all entities.
    */
   constructor(types, entities) {
     /**
