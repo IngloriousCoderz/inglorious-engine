@@ -19,7 +19,7 @@ canvas {
   height: auto;
   cursor: none;
 
-  @media (orientation: landscape) and (pointer: coarse) and (hover: none) {
+  @media (orientation: landscape) and (pointer: coarse) {
     canvas {
       width: auto;
       height: 100vh;

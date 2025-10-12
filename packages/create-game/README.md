@@ -27,10 +27,11 @@ The CLI will guide you through the setup process, asking for a project name and 
 
 The following templates are available to get you started:
 
-- **js**: A minimal starter for a plain JavaScript project.
-- **ts**: A minimal starter for a plain TypeScript project.
-- **ijs** (IngloriousScript): A starter template for a JavaScript project using IngloriousScript via Babel.
-- **its** (IngloriousScript w/ TypeScript): A starter template for a TypeScript project that uses IngloriousScript.
+- **minimal**: A minimal starter template that requires no bundling: just HTML, CSS, and JS.
+- **js**: A starter template for a plain JavaScript project, bundled with Vite.
+- **ts**: A starter template for a plain TypeScript project, bundled with Vite.
+- **ijs** (IngloriousScript): A starter template for a JavaScript project using IngloriousScript, bundled with Vite.
+- **its** (IngloriousScript w/ TypeScript): A starter template for a TypeScript project that uses IngloriousScript, bundled with Vite.
 
 ## What it does
 
