@@ -1,5 +1,5 @@
 import { sendAction } from "@inglorious/store/client/dev-tools"
-import { Provider as BaseProvider, useDispatch, useSelector } from "react-redux"
+import { Provider, useDispatch, useSelector } from "react-redux"
 
 const DEFAULT_CONFIG = { mode: "eager" }
 const ONE_SECOND = 1000
@@ -10,10 +10,10 @@ export function createReactStore(store, config = DEFAULT_CONFIG) {
     loop(store, config)
   }
 
-  return { Provider, useSelector, useNotify }
+  return { Provider: StoreProvider, useSelector, useNotify }
 
-  function Provider({ children }) {
-    return <BaseProvider store={store}>{children}</BaseProvider>
+  function StoreProvider({ children }) {
+    return <Provider store={store}>{children}</Provider>
   }
 
   function useNotify() {

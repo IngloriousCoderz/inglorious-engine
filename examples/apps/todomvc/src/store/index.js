@@ -3,7 +3,7 @@ import { connectDevTools } from "@inglorious/store/client/dev-tools"
 
 import { entities } from "./entities"
 import { types } from "./types"
-import { createReactStore } from "./react-store"
+import { createReactStore } from "@inglorious/react-store"
 
 export const store = createStore({ types, entities })
 

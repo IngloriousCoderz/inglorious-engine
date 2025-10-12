@@ -1,6 +1,6 @@
 {
   "name": "@inglorious/react-store",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Official React bindings for @inglorious/store. Provides hooks and a Provider to connect your React components to the store.",
   "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
   "license": "MIT",
@@ -40,11 +40,11 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {
-    "react-redux": "^9.1.2"
+    "react-redux": "^9.2.0"
   },
   "peerDependencies": {
     "@inglorious/store": "workspace:*",
-    "react": "^18.2.0"
+    "react": "^19.2.0"
   },
   "devDependencies": {
     "@inglorious/eslint-config": "workspace:*",
