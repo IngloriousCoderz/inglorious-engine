@@ -35,20 +35,17 @@ export function createStore({
     update,
     notify,
     dispatch, // needed for compatibility with Redux
-    getApi,
     getTypes,
     getState,
     setState,
     reset,
   }
 
-  const baseApi = createApi(baseStore)
-
-  const api = middlewares.length
-    ? applyMiddlewares(...middlewares)(baseStore, baseApi)
-    : baseApi
-
-  return baseStore
+  const store = middlewares.length
+    ? applyMiddlewares(...middlewares)(baseStore)
+    : baseStore
+  const api = createApi(store, store.extras)
+  return store
 
   /**
    * Subscribes a listener to state updates.
@@ -152,14 +149,6 @@ export function createStore({
     if (mode === "eager") {
       update()
     }
-  }
-
-  /**
-   * Retrieves the store's API, which includes methods for interacting with the store.
-   * @returns {Object} The API object for the store.
-   */
-  function getApi() {
-    return api
   }
 
   /**

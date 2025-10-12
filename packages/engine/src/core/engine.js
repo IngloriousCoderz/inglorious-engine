@@ -1,6 +1,7 @@
 import { audio } from "@inglorious/engine/behaviors/audio.js"
 import { game } from "@inglorious/engine/behaviors/game.js"
 import { images } from "@inglorious/engine/behaviors/images.js"
+import { createApi } from "@inglorious/store/api.js"
 import {
   connectDevTools,
   disconnectDevTools,
@@ -69,7 +70,6 @@ export class Engine {
     }
 
     this._store = createStore({ ...this._config, middlewares, mode: "batched" })
-    this._api = this._store.getApi()
     this._loop = new Loop[this._config.loop.type]()
 
     if (this._devMode) {
@@ -78,11 +78,12 @@ export class Engine {
   }
 
   async init() {
+    const api = createApi(this._store)
     return Promise.all(
       Object.values(this._config.entities).map((entity) => {
         const originalType = this._config.types[entity.type]
         const type = augmentType(originalType)
-        return type.init?.(entity, null, this._api)
+        return type.init?.(entity, null, api)
       }),
     )
   }
@@ -91,7 +92,7 @@ export class Engine {
    * Starts the game engine, initializing the loop and notifying the store.
    */
   start() {
-    this._api.notify("start")
+    this._store.notify("start")
     this._loop.start(this, ONE_SECOND / this._config.loop.fps)
   }
 
@@ -99,7 +100,7 @@ export class Engine {
    * Stops the game engine, halting the loop and notifying the store.
    */
   stop() {
-    this._api.notify("stop")
+    this._store.notify("stop")
     this._store.update()
     this._loop.stop()
   }
@@ -109,7 +110,7 @@ export class Engine {
    * @param {number} dt - Delta time since the last update in milliseconds.
    */
   update(dt) {
-    this._api.notify("update", dt)
+    this._store.notify("update", dt)
     const processedEvents = this._store.update()
     const entities = this._store.getState()
 

@@ -1,5 +1,11 @@
 # @inglorious/store
 
+## 5.4.1
+
+### Patch Changes
+
+- Cleanup API augmentation with middlewares
+
 ## 5.4.0
 
 ### Minor Changes

@@ -1,6 +1,6 @@
 import { createSelector as _createSelector } from "./select.js"
 
-export function createApi(store) {
+export function createApi(store, extras) {
   const createSelector = (inputSelectors, resultFunc) => {
     const selector = _createSelector(inputSelectors, resultFunc)
     return () => selector(store.getState())
@@ -19,5 +19,6 @@ export function createApi(store) {
     getEntity,
     dispatch: store.dispatch,
     notify: store.notify,
+    ...extras,
   }
 }

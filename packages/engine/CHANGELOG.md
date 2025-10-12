@@ -1,5 +1,13 @@
 # @inglorious/engine
 
+## 7.0.1
+
+### Patch Changes
+
+- Cleanup API augmentation with middlewares
+- Updated dependencies
+  - @inglorious/store@5.4.1
+
 ## 7.0.0
 
 ### Minor Changes
