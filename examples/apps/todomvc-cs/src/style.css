@@ -1,0 +1,22 @@
+body {
+  display: flex;
+  justify-content: center;
+}
+
+button {
+  cursor: pointer;
+}
+
+.completed {
+  opacity: 0.5;
+  text-decoration: line-through;
+}
+
+footer {
+  display: flex;
+  justify-content: space-between;
+
+  button.selected {
+    border-color: red;
+  }
+}

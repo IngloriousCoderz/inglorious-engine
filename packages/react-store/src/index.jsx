@@ -1,5 +1,6 @@
 import { sendAction } from "@inglorious/store/client/dev-tools"
-import { Provider, useDispatch, useSelector } from "react-redux"
+import { useCallback } from "react"
+import { Provider, useSelector } from "react-redux"
 
 const DEFAULT_CONFIG = { mode: "eager" }
 const ONE_SECOND = 1000
@@ -17,17 +18,14 @@ export function createReactStore(store, config = DEFAULT_CONFIG) {
   }
 
   function useNotify() {
-    const dispatch = useDispatch()
-
-    return (type, payload) => {
-      const action = { type, payload }
-      dispatch(action)
+    return useCallback((type, payload) => {
+      store.notify(type, payload)
 
       if (config.mode === "eager") {
         store.update()
-        sendAction(action, store.getState())
+        sendAction({ type, payload }, store.getState())
       }
-    }
+    }, [])
   }
 }
 
