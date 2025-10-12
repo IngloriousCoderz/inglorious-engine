@@ -1,4 +1,6 @@
 packages:
+  - docs
+  - "examples/games/*"
   - "packages/*"
 
 onlyBuiltDependencies:

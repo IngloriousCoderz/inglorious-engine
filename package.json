@@ -9,7 +9,6 @@
     "lint": "turbo lint",
     "test": "turbo test",
     "build": "turbo build",
-    "build-docs": "pnpm --filter @inglorious/docs build-storybook",
     "dev": "turbo dev",
     "prepare": "husky",
     "ci:version": "pnpm run build && pnpm run lint && pnpm run test && changeset version",
