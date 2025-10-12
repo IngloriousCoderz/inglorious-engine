@@ -65,10 +65,10 @@ import { store } from "./store"
 // Eager mode (default) - updates process immediately
 export const { Provider, useSelector, useNotify } = createReactStore(store)
 
-// Or batched mode - updates process at 30 FPS
+// Or batched mode - updates process at 20 FPS
 // export const { Provider, useSelector, useNotify } = createReactStore(store, {
 //   mode: "batched",
-//   fps: 30
+//   fps: 20
 // })
 ```
 
@@ -120,7 +120,7 @@ Creates React bindings for an Inglorious Store.
 - `store` (required): An Inglorious Store instance
 - `config` (optional): Configuration object
   - `mode`: `"eager"` (default) or `"batched"`
-  - `fps`: Frame rate for batched mode (default: 30)
+  - `fps`: Frame rate for batched mode (default: 20)
   - `skippedEvents`: Array of event types to exclude from DevTools logging
 
 **Returns:**
@@ -135,7 +135,7 @@ Creates React bindings for an Inglorious Store.
 // Eager mode (immediate updates)
 const { Provider, useSelector, useNotify } = createReactStore(store)
 
-// Batched mode (30 FPS)
+// Batched mode for real-time apps
 const { Provider, useSelector, useNotify } = createReactStore(store, {
   mode: "batched",
   fps: 30,
@@ -234,7 +234,7 @@ Best for performance-critical apps. Updates process on a fixed timer (FPS).
 ```javascript
 const { Provider, useSelector, useNotify } = createReactStore(store, {
   mode: "batched",
-  fps: 30, // Process events 30 times per second
+  fps: 20, // Process events 20 times per second
 })
 ```
 
@@ -248,8 +248,8 @@ const { Provider, useSelector, useNotify } = createReactStore(store, {
 **FPS Guidelines:**
 
 - **60 FPS** - Smooth animations, games
-- **30 FPS (default)** - Good balance for most real-time apps
-- **15-20 FPS** - Live dashboards, lower CPU usage
+- **30 FPS** - Good balance for most real-time apps
+- **20 FPS (default)** - Input handling, live dashboards, lower CPU usage
 - **5-10 FPS** - Background updates, status polling
 
 ---
@@ -268,7 +268,7 @@ Redux DevTools work automatically! Install the [browser extension](https://githu
 // Skip noisy events from DevTools
 const { Provider, useSelector, useNotify } = createReactStore(store, {
   mode: "batched",
-  fps: 30,
+  fps: 20,
   skippedEvents: ["mousemove", "update"], // Don't log these
 })
 ```

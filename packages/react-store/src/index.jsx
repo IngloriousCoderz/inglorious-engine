@@ -4,7 +4,7 @@ import { Provider, useSelector } from "react-redux"
 
 const DEFAULT_CONFIG = { mode: "eager" }
 const ONE_SECOND = 1000
-const DEFAULT_FPS = 30
+const DEFAULT_FPS = 20
 
 export function createReactStore(store, config = DEFAULT_CONFIG) {
   if (config.mode === "batched") {

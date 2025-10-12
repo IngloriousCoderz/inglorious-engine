@@ -1,5 +1,11 @@
 # @inglorious/react-store
 
+## 3.0.2
+
+### Patch Changes
+
+- Lower default fps for apps
+
 ## 3.0.1
 
 ### Patch Changes
