@@ -1,5 +1,16 @@
 # @inglorious/engine
 
+## 4.0.0
+
+### Minor Changes
+
+- Move multiplayer middleware and devtools to store
+
+### Patch Changes
+
+- Updated dependencies
+  - @inglorious/store@5.1.0
+
 ## 3.0.1
 
 ### Patch Changes

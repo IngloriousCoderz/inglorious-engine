@@ -4,8 +4,6 @@ import {
 } from "@inglorious/utils/data-structures/object.js"
 import { extend } from "@inglorious/utils/data-structures/objects.js"
 
-import { coreEvents } from "../core-events.js"
-
 // A constant for the server's WebSocket URL.
 const DEFAULT_SERVER_URL = `ws://${window.location.hostname}:3000`
 const DEFAULT_RECONNECTION_DELAY = 1000
@@ -18,13 +16,14 @@ export function multiplayerMiddleware(config = {}) {
   const serverUrl = config.serverUrl ?? DEFAULT_SERVER_URL
   const reconnectionDelay =
     config.reconnectionDelay ?? DEFAULT_RECONNECTION_DELAY
+  const skippedEvents = config.skippedEvents ?? []
 
   let ws = null
   const localQueue = []
 
   // The middleware function that will be applied to the store.
   return (store) => (next) => (event) => {
-    if (coreEvents.includes(event.type)) {
+    if (skippedEvents.includes(event.type)) {
       return next(event)
     }
 

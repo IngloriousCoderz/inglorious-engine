@@ -1,6 +1,12 @@
 import { audio } from "@inglorious/engine/behaviors/audio.js"
 import { game } from "@inglorious/engine/behaviors/game.js"
 import { images } from "@inglorious/engine/behaviors/images.js"
+import {
+  connectDevTools,
+  disconnectDevTools,
+  sendAction,
+} from "@inglorious/store/client/dev-tools.js"
+import { multiplayerMiddleware } from "@inglorious/store/client/multiplayer-middleware.js"
 import { createStore } from "@inglorious/store/store.js"
 import { augmentType } from "@inglorious/store/types.js"
 import { isArray } from "@inglorious/utils/data-structures/array.js"
@@ -9,10 +15,8 @@ import { isVector } from "@inglorious/utils/math/vector.js"
 import { v } from "@inglorious/utils/v.js"
 
 import { coreEvents } from "./core-events.js"
-import { disconnectDevTools, initDevTools, sendAction } from "./dev-tools.js"
 import { Loop } from "./loops/index.js"
 import { entityPoolMiddleware } from "./middlewares/entity-pool/entity-pool-middleware.js"
-import { multiplayerMiddleware } from "./middlewares/multiplayer-middleware.js"
 
 // Default game configuration
 // loop.type specifies the type of loop to use (defaults to "animationFrame").
@@ -59,7 +63,9 @@ export class Engine {
     // Add multiplayer middleware if needed
     const multiplayer = this._config.entities.game?.multiplayer
     if (multiplayer) {
-      middlewares.push(multiplayerMiddleware(multiplayer))
+      middlewares.push(
+        multiplayerMiddleware({ ...multiplayer, skippedEvents: coreEvents }),
+      )
     }
 
     this._store = createStore({ ...this._config, middlewares })
@@ -67,7 +73,7 @@ export class Engine {
     this._loop = new Loop[this._config.loop.type]()
 
     if (this._devMode) {
-      initDevTools(this._store)
+      connectDevTools(this._store, { skippedEvents: coreEvents })
     }
   }
 
@@ -111,7 +117,7 @@ export class Engine {
     const newDevMode = state.entities.game?.devMode
     if (newDevMode !== this._devMode) {
       if (newDevMode) {
-        initDevTools(this._store)
+        connectDevTools(this._store, { skippedEvents: coreEvents })
       } else {
         disconnectDevTools()
       }

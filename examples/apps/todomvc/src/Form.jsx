@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 
-import { selectValue } from "./store"
+import { selectValue } from "./store/selectors"
 
 export default function Form() {
   const dispatch = useDispatch()

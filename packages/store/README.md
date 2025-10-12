@@ -3,11 +3,11 @@
 [![NPM version](https://img.shields.io/npm/v/@inglorious/store.svg)](https://www.npmjs.com/package/@inglorious/store)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**State management inspired by video games.**
+**Build apps that are already multiplayer-ready.**
 
-Inglorious Store brings battle-tested patterns from game development to modern web applications. If your app needs real-time updates, multiplayer features, or complex interactive state, you'll benefit from the same techniques that power multiplayer games and collaborative tools like Figma.
+Inglorious Store uses battle-tested patterns from game development to give you an architecture that scales from simple solo apps to real-time collaboration—without refactoring. Start with a basic todo list today. Add collaborative features next year. Same code, zero rewrites.
 
-Perfect for: real-time collaboration, live dashboards, chat apps, interactive visualizations, and any application where state synchronization matters.
+Why settle for state management that wasn't designed for real-time sync? Games solved distributed state synchronization decades ago. Now you can use the same proven patterns for your apps.
 
 ---
 
@@ -572,7 +572,7 @@ This store powers the [Inglorious Engine](https://github.com/IngloriousCoderz/in
 
 ## License
 
-MIT
+MIT © [Matteo Antony Mistretta]
 
 ---
 

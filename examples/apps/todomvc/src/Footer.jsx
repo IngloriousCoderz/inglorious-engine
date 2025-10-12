@@ -1,7 +1,7 @@
 import clsx from "clsx"
 import { useDispatch, useSelector } from "react-redux"
 
-import { selectActiveFilter, selectTasksCount } from "./store"
+import { selectActiveFilter, selectTasksCount } from "./store/selectors"
 
 const SINGLE_TASK = 1
 

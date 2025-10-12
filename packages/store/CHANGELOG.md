@@ -1,5 +1,11 @@
 # @inglorious/store
 
+## 5.1.0
+
+### Minor Changes
+
+- Move multiplayer middleware and devtools to store
+
 ## 5.0.1
 
 ### Patch Changes

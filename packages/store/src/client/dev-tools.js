@@ -1,11 +1,9 @@
-import { coreEvents } from "./core-events.js"
-
 const LAST_STATE = 1
 
 let devToolsInstance = null
 let unsubscribe = null
 
-export function initDevTools(store) {
+export function connectDevTools(store, config = {}) {
   // Prevent multiple connections
   if (devToolsInstance) {
     return
@@ -15,9 +13,11 @@ export function initDevTools(store) {
     return
   }
 
+  const skippedEvents = config.skippedEvents ?? []
+
   devToolsInstance = window.__REDUX_DEVTOOLS_EXTENSION__.connect({
     name: "Inglorious Engine",
-    predicate: (state, action) => !coreEvents.includes(action.type),
+    predicate: (state, action) => !skippedEvents.includes(action.type),
     actionCreators: {
       jump: () => ({ type: "jump", payload: { inputId: "input0" } }),
     },

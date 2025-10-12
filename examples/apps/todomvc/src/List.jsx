@@ -1,7 +1,7 @@
 import { clsx } from "clsx"
 import { useDispatch, useSelector } from "react-redux"
 
-import { selectFilteredTasks } from "./store"
+import { selectFilteredTasks } from "./store/selectors"
 
 export default function List() {
   const dispatch = useDispatch()
