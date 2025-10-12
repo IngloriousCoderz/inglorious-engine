@@ -1,5 +1,14 @@
 # @inglorious/server
 
+## 3.0.0
+
+### Patch Changes
+
+- Create react-store package
+- Updated dependencies
+  - @inglorious/store@5.2.0
+  - @inglorious/utils@3.6.1
+
 ## 2.0.0
 
 ### Patch Changes

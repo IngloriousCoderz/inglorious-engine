@@ -29,13 +29,11 @@ test("it should add a finite state machine", () => {
     },
   }
   const afterState = {
-    entities: {
-      entity1: {
-        id: "entity1",
-        type: "kitty",
-        state: "meowing",
-        treats: 1,
-      },
+    entity1: {
+      id: "entity1",
+      type: "kitty",
+      state: "meowing",
+      treats: 1,
     },
   }
 

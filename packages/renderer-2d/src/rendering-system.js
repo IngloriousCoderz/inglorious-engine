@@ -18,9 +18,9 @@ export function renderingSystem(canvas) {
   const ctx = canvas.getContext("2d")
 
   return {
-    update(state, dt, api) {
+    update(entities, dt, api) {
       const types = api.getTypes()
-      const { game, ...worldEntities } = state.entities
+      const { game, ...worldEntities } = entities
 
       // 1. Clear canvas
       const [gameWidth, gameHeight] = game.size
@@ -28,7 +28,7 @@ export function renderingSystem(canvas) {
       ctx.fillRect(ORIGIN, ORIGIN, gameWidth, gameHeight)
 
       // 2. Find active camera
-      const camera = Object.values(state.entities).find(
+      const camera = Object.values(entities).find(
         (entity) => entity.type === "camera" && entity.isActive,
       )
 

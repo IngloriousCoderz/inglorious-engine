@@ -13,14 +13,12 @@ export function connectDevTools(store, config = {}) {
     return
   }
 
+  const name = config.name ?? document.title
   const skippedEvents = config.skippedEvents ?? []
 
   devToolsInstance = window.__REDUX_DEVTOOLS_EXTENSION__.connect({
-    name: "Inglorious Engine",
+    name,
     predicate: (state, action) => !skippedEvents.includes(action.type),
-    actionCreators: {
-      jump: () => ({ type: "jump", payload: { inputId: "input0" } }),
-    },
     // @see https://github.com/reduxjs/redux-devtools/blob/main/extension/docs/API/Arguments.md#features
     features: {
       pause: true, // start/pause recording of dispatched actions

@@ -68,7 +68,7 @@ export function createStore({
     const processedEvents = []
 
     state = create(state, patcher, {
-      enableAutoFreeze: state.entities.game?.devMode,
+      enableAutoFreeze: state.game?.devMode,
     })
 
     listeners.forEach((onUpdate) => onUpdate())
@@ -83,7 +83,7 @@ export function createStore({
         if (event.type === "morph") {
           const { id, type } = event.payload
 
-          const entity = draft.entities[id]
+          const entity = draft[id]
           const oldType = types[entity.type]
 
           originalTypes[id] = type
@@ -96,7 +96,7 @@ export function createStore({
 
         if (event.type === "add") {
           const { id, ...entity } = event.payload
-          draft.entities[id] = augmentEntity(id, entity)
+          draft[id] = augmentEntity(id, entity)
           const type = types[entity.type]
 
           eventMap.addEntity(id, type)
@@ -105,9 +105,9 @@ export function createStore({
 
         if (event.type === "remove") {
           const id = event.payload
-          const entity = draft.entities[id]
+          const entity = draft[id]
           const type = types[entity.type]
-          delete draft.entities[id]
+          delete draft[id]
 
           eventMap.removeEntity(id, type)
           incomingEvents.unshift({ type: "destroy", payload: id })
@@ -115,7 +115,7 @@ export function createStore({
 
         const entityIds = eventMap.getEntitiesForEvent(event.type)
         for (const id of entityIds) {
-          const entity = draft.entities[id]
+          const entity = draft[id]
           const type = types[entity.type]
           const handle = type[event.type]
           handle(entity, event.payload, api)
@@ -187,11 +187,11 @@ export function createStore({
    * @param {Object} nextState - The new state to set.
    */
   function setState(nextState) {
-    const oldEntities = state?.entities ?? {}
-    const newEntities = augmentEntities(nextState.entities)
+    const oldEntities = state ?? {}
+    const newEntities = augmentEntities(nextState)
 
-    state = { entities: newEntities }
-    eventMap = new EventMap(types, nextState.entities)
+    state = newEntities
+    eventMap = new EventMap(types, nextState)
     incomingEvents = []
 
     const oldEntityIds = new Set(Object.keys(oldEntities))
@@ -217,6 +217,6 @@ export function createStore({
    * Resets the store to its initial state.
    */
   function reset() {
-    setState({ entities: originalEntities })
+    setState(originalEntities)
   }
 }

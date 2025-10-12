@@ -1,5 +1,16 @@
 # @inglorious/store
 
+## 5.2.0
+
+### Minor Changes
+
+- Create react-store package
+
+### Patch Changes
+
+- Updated dependencies
+  - @inglorious/utils@3.6.1
+
 ## 5.1.0
 
 ### Minor Changes

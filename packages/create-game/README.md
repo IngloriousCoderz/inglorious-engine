@@ -51,4 +51,6 @@ pnpm dev
 
 ## License
 
-This package is MIT licensed.
+MIT © [Matteo Antony Mistretta](https://github.com/IngloriousCoderz)
+
+This is free and open-source software. Use it however you want!

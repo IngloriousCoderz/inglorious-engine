@@ -218,6 +218,16 @@ If you prefer to avoid a build step, you can run the engine directly in the brow
 </html>
 ```
 
+---
+
+## License
+
+MIT © [Matteo Antony Mistretta](https://github.com/IngloriousCoderz)
+
+This is free and open-source software. Use it however you want!
+
+---
+
 ## Contributing
 
 We welcome contributions from the community! Whether you're fixing a bug, adding a feature, or improving the documentation, your help is appreciated. Please read our [Contributing Guidelines](./CONTRIBUTING.md) for details on how to get started.

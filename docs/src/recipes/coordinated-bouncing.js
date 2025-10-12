@@ -55,8 +55,8 @@ export default {
   },
 }
 
-function delayedJumpSystem(state, dt, api) {
-  Object.values(state.entities)
+function delayedJumpSystem(entities, dt, api) {
+  Object.values(entities)
     .filter(
       ({ delayedJump, groundObject }) =>
         delayedJump && !delayedJump.triggered && groundObject,

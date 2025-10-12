@@ -100,6 +100,14 @@ Here is a complete example showing how to set up and run a game using the engine
 
 ---
 
+## License
+
+MIT © [Matteo Antony Mistretta](https://github.com/IngloriousCoderz)
+
+This is free and open-source software. Use it however you want!
+
+---
+
 ## Contributing
 
 We welcome contributions from the community\! Whether you're fixing a bug, adding a feature, or improving the documentation, your help is appreciated. Please read our [Contributing Guidelines](https://github.com/IngloriousCoderz/inglorious-engine/blob/main/CONTRIBUTING.md) for details on how to get started.

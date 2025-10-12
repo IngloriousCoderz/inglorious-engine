@@ -82,4 +82,6 @@ The server's code is split into several files to maintain a clear separation of 
 
 ## License
 
-This project is licensed under the MIT License.
+MIT © [Matteo Antony Mistretta](https://github.com/IngloriousCoderz)
+
+This is free and open-source software. Use it however you want!

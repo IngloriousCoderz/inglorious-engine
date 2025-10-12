@@ -1,5 +1,11 @@
 # @inglorious/utils
 
+## 3.6.1
+
+### Patch Changes
+
+- Create react-store package
+
 ## 3.6.0
 
 ### Minor Changes

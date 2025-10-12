@@ -1,5 +1,11 @@
 # @inglorious/create-game
 
+## 1.0.3
+
+### Patch Changes
+
+- Create react-store package
+
 ## 1.0.2
 
 ### Patch Changes

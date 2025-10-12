@@ -57,4 +57,6 @@ The **Inglorious Engine** is built on an event-driven, Publish-Subscribe (Pub/Su
 
 ## License
 
-This project is licensed under the MIT License. See the LICENSE file for details.
+MIT © [Matteo Antony Mistretta](https://github.com/IngloriousCoderz)
+
+This is free and open-source software. Use it however you want!

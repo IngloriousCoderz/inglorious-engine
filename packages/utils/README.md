@@ -5,15 +5,21 @@
 
 A set of general-purpose utility functions designed with functional programming principles in mind. This package is part of the [Inglorious Engine](https://github.com/IngloriousCoderz/inglorious-engine) monorepo.
 
+---
+
 ## Overview
 
 This package provides a collection of pure, composable helper functions to streamline development in any JavaScript or TypeScript project. It embraces a data-oriented and functional approach, operating on plain data structures like objects and arrays.
+
+---
 
 ## Installation
 
 ```bash
 npm install @inglorious/utils
 ```
+
+---
 
 ## Usage
 
@@ -52,6 +58,8 @@ const newPosition = add(position, velocity)
 // => [12, 19]
 ```
 
+---
+
 ## API
 
 This package is designed to be used with subpath imports, which helps with tree-shaking.
@@ -61,10 +69,16 @@ This package is designed to be used with subpath imports, which helps with tree-
 - **`@inglorious/utils/math`**: Utilities for math operations.
 - **`@inglorious/utils/physics`**: Utilities for calculations on friction, acceleration, and gravity.
 
-## Contributing
-
-We welcome contributions! Please see the root `CONTRIBUTING.md` file for more details.
+---
 
 ## License
 
-This project is licensed under the MIT License.
+MIT © [Matteo Antony Mistretta](https://github.com/IngloriousCoderz)
+
+This is free and open-source software. Use it however you want!
+
+---
+
+## Contributing
+
+We welcome contributions! Please see the root `CONTRIBUTING.md` file for more details.

@@ -111,10 +111,10 @@ export class Engine {
   update(dt) {
     this._api.notify("update", dt)
     const processedEvents = this._store.update()
-    const state = this._store.getState()
+    const entities = this._store.getState()
 
     // Check for devMode changes and connect/disconnect dev tools accordingly.
-    const newDevMode = state.entities.game?.devMode
+    const newDevMode = entities.game?.devMode
     if (newDevMode !== this._devMode) {
       if (newDevMode) {
         connectDevTools(this._store, { skippedEvents: coreEvents })
@@ -133,7 +133,7 @@ export class Engine {
         type: eventsToLog.map(({ type }) => type).join("|"),
         payload: eventsToLog,
       }
-      sendAction(action, state)
+      sendAction(action, entities)
     }
   }
 }

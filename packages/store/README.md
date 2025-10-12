@@ -128,8 +128,8 @@ const types = {
 }
 
 const entities = {
-  "counter-1": { type: "counter", value: 0 },
-  "counter-2": { type: "counter", value: 10 },
+  counter1: { type: "counter", value: 0 },
+  counter2: { type: "counter", value: 10 },
 }
 
 const store = createStore({ types, entities })
@@ -138,8 +138,8 @@ const store = createStore({ types, entities })
 store.notify("increment")
 store.update()
 
-console.log(store.getState().entities["counter-1"].value) // => 1
-console.log(store.getState().entities["counter-2"].value) // => 11
+console.log(store.getState().counter1.value) // => 1
+console.log(store.getState().counter2.value) // => 11
 
 // To update just one counter, add filtering logic in the handler
 ```
@@ -233,7 +233,7 @@ store.subscribe(() => {
 
 // 6. Dispatch events (use notify or dispatch - both work!)
 store.notify("inputChange", "Buy milk")
-store.notify("formSubmit", store.getState().entities.form.value)
+store.notify("formSubmit", store.getState().form.value)
 store.notify("toggleClick", 1) // Only todo with id=1 will respond
 store.notify("filterClick", "active")
 
@@ -302,8 +302,8 @@ Your state is a collection of **entities** (instances) organized by **type** (li
 
 ```javascript
 const entities = {
-  "item-1": { type: "cartItem", name: "Shoes", quantity: 1, price: 99 },
-  "item-2": { type: "cartItem", name: "Shirt", quantity: 2, price: 29 },
+  item1: { type: "cartItem", name: "Shoes", quantity: 1, price: 99 },
+  item2: { type: "cartItem", name: "Shirt", quantity: 2, price: 29 },
 }
 ```
 
@@ -346,13 +346,13 @@ Events are broadcast to all relevant handlers in a pub/sub pattern.
 
 ```javascript
 // Simplest form - just the entity ID
-store.notify("increment", "counter-1")
+store.notify("increment", "counter1")
 
 // With additional data
-store.notify("applyDiscount", { id: "item-1", percent: 10 })
+store.notify("applyDiscount", { id: "item1", percent: 10 })
 
 // Also supports dispatch() for Redux compatibility
-store.dispatch({ type: "increment", payload: "counter-1" })
+store.dispatch({ type: "increment", payload: "counter1" })
 
 // Process the queue - this is when handlers actually run
 store.update()
@@ -367,8 +367,8 @@ For global state logic that doesn't belong to a specific entity type.
 ```javascript
 const systems = [
   {
-    calculateTotal(state) {
-      state.cartTotal = Object.values(state.entities)
+    calculateTotal(entities) {
+      state.cartTotal = Object.values(entities)
         .filter((e) => e.type === "cartItem")
         .reduce((sum, item) => sum + item.price * item.quantity, 0)
     },
@@ -415,9 +415,8 @@ Creates a convenience wrapper with utility methods.
 Create memoized, performant selectors.
 
 ```javascript
-const selectCompletedTodos = createSelector(
-  [(state) => state.entities],
-  (entities) => Object.values(entities).filter((e) => e.completed),
+const selectCompletedTasks = createSelector([(state) => state.tasks], (tasks) =>
+  tasks.filter((task) => task.completed),
 )
 ```
 
@@ -572,7 +571,9 @@ This store powers the [Inglorious Engine](https://github.com/IngloriousCoderz/in
 
 ## License
 
-MIT © [Matteo Antony Mistretta]
+MIT © [Matteo Antony Mistretta](https://github.com/IngloriousCoderz)
+
+This is free and open-source software. Use it however you want!
 
 ---
 

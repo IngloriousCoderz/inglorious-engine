@@ -1,5 +1,11 @@
 # @inglorious/babel-plugin-inglorious-script
 
+## 1.3.1
+
+### Patch Changes
+
+- Create react-store package
+
 ## 1.3.0
 
 ### Minor Changes

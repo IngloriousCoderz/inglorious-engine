@@ -1,7 +1,7 @@
 {
   "name": "@inglorious/store",
-  "version": "5.1.0",
-  "description": "A state manager inspired by Redux, but tailored for the specific needs of game development.",
+  "version": "5.2.0",
+  "description": "A state manager for real-time, collaborative apps, inspired by game development patterns and compatible with Redux.",
   "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
   "license": "MIT",
   "repository": {
@@ -13,12 +13,17 @@
     "url": "https://github.com/IngloriousCoderz/inglorious-engine/issues"
   },
   "keywords": [
+    "state",
+    "state-management",
+    "store",
+    "redux",
+    "redux-alternative",
+    "mutative",
+    "immer",
     "collaborative",
     "multiplayer",
     "realtime",
-    "redux",
-    "state-manager",
-    "store"
+    "event-batching"
   ],
   "type": "module",
   "exports": {

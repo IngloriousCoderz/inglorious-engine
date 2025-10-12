@@ -8,7 +8,7 @@ export function createApi(store) {
 
   const getTypes = () => store.getTypes()
 
-  const getEntities = () => store.getState().entities
+  const getEntities = () => store.getState()
 
   const getEntity = (id) => getEntities()[id]
 

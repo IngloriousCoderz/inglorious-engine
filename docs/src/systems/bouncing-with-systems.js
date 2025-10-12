@@ -57,8 +57,8 @@ export default {
 
 function delayedJumpSystem() {
   return {
-    update(state, dt, api) {
-      Object.values(state.entities)
+    update(entities, dt, api) {
+      Object.values(entities)
         .filter(({ delayedJump, groundObject }) => delayedJump && groundObject)
         .forEach((entity) => {
           entity.delayedJump.speed = entity.delayedJump.delay

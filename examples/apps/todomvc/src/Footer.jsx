@@ -1,12 +1,12 @@
 import clsx from "clsx"
-import { useDispatch, useSelector } from "react-redux"
 
+import { useNotify, useSelector } from "./store"
 import { selectActiveFilter, selectTasksCount } from "./store/selectors"
 
 const SINGLE_TASK = 1
 
 export default function Footer() {
-  const dispatch = useDispatch()
+  const notify = useNotify()
 
   const tasksCount = useSelector(selectTasksCount())
   const completedTasksCount = useSelector(selectTasksCount("completed"))
@@ -25,21 +25,19 @@ export default function Footer() {
       <span>
         <button
           className={clsx({ selected: activeFilter === "all" })}
-          onClick={() => dispatch({ type: "filterClick", payload: "all" })}
+          onClick={() => notify("filterClick", "all")}
         >
           All
         </button>
         <button
           className={clsx({ selected: activeFilter === "active" })}
-          onClick={() => dispatch({ type: "filterClick", payload: "active" })}
+          onClick={() => notify("filterClick", "active")}
         >
           Active
         </button>
         <button
           className={clsx({ selected: activeFilter === "completed" })}
-          onClick={() =>
-            dispatch({ type: "filterClick", payload: "completed" })
-          }
+          onClick={() => notify("filterClick", "completed")}
         >
           Completed
         </button>
@@ -48,9 +46,7 @@ export default function Footer() {
       {!completedTasksCount && <span></span>}
 
       {!!completedTasksCount && (
-        <button onClick={() => dispatch({ type: "clearClick" })}>
-          Clear Completed
-        </button>
+        <button onClick={() => notify("clearClick")}>Clear Completed</button>
       )}
     </footer>
   )
