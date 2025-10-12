@@ -1,5 +1,11 @@
 # @inglorious/utils
 
+## 3.6.2
+
+### Patch Changes
+
+- Add eager mode by default on store
+
 ## 3.6.1
 
 ### Patch Changes

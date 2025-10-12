@@ -1,5 +1,11 @@
 # @inglorious/create-game
 
+## 1.0.4
+
+### Patch Changes
+
+- Add eager mode by default on store
+
 ## 1.0.3
 
 ### Patch Changes

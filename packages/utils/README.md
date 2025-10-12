@@ -73,9 +73,11 @@ This package is designed to be used with subpath imports, which helps with tree-
 
 ## License
 
-MIT © [Matteo Antony Mistretta](https://github.com/IngloriousCoderz)
+**MIT License - Free and open source**
 
-This is free and open-source software. Use it however you want!
+Created by [Matteo Antony Mistretta](https://github.com/IngloriousCoderz)
+
+You're free to use, modify, and distribute this software. See [LICENSE](./LICENSE) for details.
 
 ---
 

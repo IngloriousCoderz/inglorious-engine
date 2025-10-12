@@ -43,6 +43,7 @@ test("it should process an event queue in the same update cycle", () => {
         },
       },
     },
+
     entities: {
       kitty1: { type: "kitty" },
     },
@@ -65,7 +66,7 @@ test("it should process an event queue in the same update cycle", () => {
   expect(state).toStrictEqual(afterState)
 })
 
-test("it should send an event from an entity and process it in the same update cycle", () => {
+test("it should send an event from an entity and process it in the same update cycle in batched mode", () => {
   const config = {
     types: {
       doggo: {
@@ -79,10 +80,13 @@ test("it should send an event from an entity and process it in the same update c
         },
       },
     },
+
     entities: {
       doggo1: { type: "doggo" },
       kitty1: { type: "kitty", position: "near" },
     },
+
+    mode: "batched",
   }
   const afterState = {
     doggo1: { id: "doggo1", type: "doggo" },

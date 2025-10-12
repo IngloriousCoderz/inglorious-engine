@@ -13,14 +13,100 @@ Why settle for state management that wasn't designed for real-time sync? Games s
 
 ## Why Video Game Patterns?
 
-Video games solved distributed state synchronization decades ago. They handle:
+Games solved the hardest real-time problems: syncing state across laggy networks with hundreds of players at 60fps. They use:
 
-- **60fps updates** with thousands of entities
-- **Multiplayer** with lag compensation and state sync
-- **Deterministic simulation** for replays and debugging
-- **Complex interactions** between many objects
+- **Deterministic event processing** - same events + same handlers = guaranteed identical state
+- **Event queues** - natural ordering and conflict resolution
+- **Serializable state** - trivial to send over the network
+- **Client-side prediction** - responsive UIs that stay in sync
 
-If it works for games, it'll handle your app's state with ease.
+These patterns aren't just for games. They're perfect for any app that might need:
+
+- Real-time collaboration (like Notion, Figma)
+- Live updates (dashboards, chat)
+- Undo/redo and time-travel debugging
+- Multiplayer features
+
+**The best part?** You get this architecture from day one, even for simple apps. When you need these features later, they're already built-in.
+
+---
+
+## Installation
+
+```bash
+npm install @inglorious/store
+```
+
+**For React apps**, also install the React bindings:
+
+```bash
+npm install @inglorious/react-store
+```
+
+See [@inglorious/react-store](https://github.com/IngloriousCoderz/inglorious-engine/tree/main/packages/react-store) for React-specific documentation.
+
+---
+
+## Update Modes
+
+Inglorious Store supports two update modes:
+
+### Eager Mode (default) - Like Redux
+
+```javascript
+const store = createStore({ types, entities }) // mode: "eager" is default
+store.notify("addTodo", { text: "Buy milk" })
+// State updates immediately, no need to call update()
+```
+
+**Best for:** Simple apps with synchronous logic.
+
+**Limitation:** If an event handler needs to dispatch another event, only the first event processes. Use batched mode for event chains.
+
+### Batched Mode - Like game engines
+
+```javascript
+const store = createStore({ types, entities, mode: "batched" })
+store.notify("addTodo", { text: "Buy milk" })
+store.notify("toggleTodo", "todo1")
+store.update() // Process all queued events at once
+```
+
+**Best for:**
+
+- Apps with async operations (API calls, data fetching)
+- Event handlers that dispatch other events
+- Games, animations, or high-frequency updates
+- Explicit control over when state updates
+
+**Why batched mode for async?**
+
+When fetching data from an API, you typically need two events: one to initiate the fetch, and another to store the result. Batched mode allows this pattern:
+
+```javascript
+const types = {
+  todoList: {
+    async fetchTodos(entity, payload, api) {
+      const response = await fetch("/api/todos")
+      const todos = await response.json()
+
+      // This event will be processed in the same update cycle
+      api.notify("todosReceived", todos)
+    },
+
+    todosReceived(entity, todos) {
+      entity.todos = todos
+      entity.loading = false
+    },
+  },
+}
+
+// In your app
+store.notify("fetchTodos")
+await store.update() // Both fetchTodos AND todosReceived process together
+```
+
+In eager mode, only `fetchTodos` would process, and `todosReceived` would be ignored.
 
 ---
 
@@ -40,21 +126,23 @@ const todoType = {
 }
 
 // Toggle specific todos
-store.notify("toggle", "todo-1")
-store.notify("toggle", "todo-2")
+store.notify("toggle", "todo1")
+store.notify("toggle", "todo2")
 ```
 
 > **Important:** `toggle` is not a method—it's an **event handler**. When you notify an event, it's broadcast to **all entities** that have that handler (pub/sub pattern). Use the payload to filter which entities should respond.
 
 ### 🔄 **Event Queue with Batching**
 
-Events are queued and processed together, preventing cascading updates and enabling predictable state changes.
+Events are queued and processed together in batched mode, preventing cascading updates and enabling predictable state changes.
 
 ```javascript
+const store = createStore({ types, entities, mode: "batched" })
+
 // Dispatch multiple events
-store.notify("increment", "counter-1")
-store.notify("increment", "counter-2")
-store.notify("increment", "counter-3")
+store.notify("increment", "counter1")
+store.notify("increment", "counter2")
+store.notify("increment", "counter3")
 
 // Process all at once (single React re-render)
 store.update()
@@ -75,9 +163,13 @@ store.setState(snapshot) // Instant undo
 Synchronize state across clients by sending serializable events. Same events + same handlers = guaranteed sync.
 
 ```javascript
-socket.on("userAction", (event) => {
+// Start building solo
+store.notify("addTodo", { text: "Buy milk" })
+
+// Add multiplayer later in ~10 lines
+socket.on("remote-event", (event) => {
   store.notify(event.type, event.payload)
-  // All clients stay in perfect sync
+  // States stay perfectly in sync across all clients
 })
 ```
 
@@ -97,14 +189,6 @@ const todoType = {
 ### 🔗 **Redux-Compatible**
 
 Works with `react-redux` and Redux DevTools. Provides both `notify()` and `dispatch()` for compatibility.
-
----
-
-## Installation
-
-```bash
-npm install @inglorious/store
-```
 
 ---
 
@@ -209,8 +293,8 @@ const entities = {
 const store = createStore({ types, entities })
 
 // 4. Create selectors
-const selectTasks = ({ entities }) => entities.list.tasks
-const selectActiveFilter = ({ entities }) => entities.footer.activeFilter
+const selectTasks = (state) => state.list.tasks
+const selectActiveFilter = (state) => state.footer.activeFilter
 
 const selectFilteredTasks = createSelector(
   [selectTasks, selectActiveFilter],
@@ -234,10 +318,10 @@ store.subscribe(() => {
 // 6. Dispatch events (use notify or dispatch - both work!)
 store.notify("inputChange", "Buy milk")
 store.notify("formSubmit", store.getState().form.value)
-store.notify("toggleClick", 1) // Only todo with id=1 will respond
+store.notify("toggleClick", 1) // Only task with id=1 will respond
 store.notify("filterClick", "active")
 
-// 7. Process event queue
+// 7. Process event queue (in eager mode this happens automatically)
 store.update()
 ```
 
@@ -249,7 +333,7 @@ store.update()
 
 **This is not OOP with methods—it's a pub/sub (publish/subscribe) event system.**
 
-When you call `store.notify('toggle', 'todo-1')`, the `toggle` event is broadcast to **all entities**. Any entity that has a `toggle` handler will process the event and decide whether to respond based on the payload.
+When you call `store.notify('toggle', 'todo1')`, the `toggle` event is broadcast to **all entities**. Any entity that has a `toggle` handler will process the event and decide whether to respond based on the payload.
 
 ```javascript
 const todoType = {
@@ -261,7 +345,7 @@ const todoType = {
 }
 
 // This broadcasts 'toggle' to all entities
-store.notify("toggle", "todo-1") // Only todo-1 actually updates
+store.notify("toggle", "todo1") // Only todo1 actually updates
 ```
 
 **Why this matters:**
@@ -355,6 +439,7 @@ store.notify("applyDiscount", { id: "item1", percent: 10 })
 store.dispatch({ type: "increment", payload: "counter1" })
 
 // Process the queue - this is when handlers actually run
+// (In eager mode, this happens automatically)
 store.update()
 ```
 
@@ -362,19 +447,105 @@ store.update()
 
 ### Systems (Optional)
 
-For global state logic that doesn't belong to a specific entity type.
+Systems are global event handlers that can coordinate updates across **multiple entities at once**. Unlike entity handlers (which run once per entity), a system runs **once per event** and has write-access to the entire state.
+
+**When you need a system:**
+
+- Multiple entities need to update based on relationships between them
+- Updates require looking at all entities together (not individually)
+- Logic that can't be expressed as independent entity handlers
+
+**Example: Inventory Weight Limits**
+
+When adding an item to inventory, you need to check if the **total weight** of all items exceeds the limit. This can't be done in individual item handlers because each item only knows about itself.
 
 ```javascript
+const types = {
+  item: {
+    addToInventory(item, newItemData) {
+      // Individual items don't know about other items
+      // Can't check total weight here!
+    },
+  },
+}
+
 const systems = [
   {
-    calculateTotal(entities) {
-      state.cartTotal = Object.values(entities)
-        .filter((e) => e.type === "cartItem")
-        .reduce((sum, item) => sum + item.price * item.quantity, 0)
+    addToInventory(state, newItemData) {
+      // Calculate total weight across ALL items
+      const items = Object.values(state).filter((e) => e.type === "item")
+      const currentWeight = items.reduce((sum, item) => sum + item.weight, 0)
+      const maxWeight = state.player.maxCarryWeight
+
+      // Check if adding this item would exceed the limit
+      if (currentWeight + newItemData.weight > maxWeight) {
+        // Reject the add - drop the heaviest item instead
+        const heaviestItem = items.reduce((max, item) =>
+          item.weight > max.weight ? item : max,
+        )
+        delete state[heaviestItem.id]
+        state.ui.message = `Dropped ${heaviestItem.name} (too heavy!)`
+      }
+
+      // Add the new item
+      const newId = `item${Date.now()}`
+      state[newId] = {
+        id: newId,
+        type: "item",
+        ...newItemData,
+      }
     },
   },
 ]
 ```
+
+**Why this needs a system:**
+
+- Requires reading **all items** to calculate total weight
+- Must make a **coordinated decision** (which item to drop)
+- Updates **multiple entities** based on aggregate state (delete one, add another)
+- Can't be split into independent entity handlers
+
+**Another example: Multiplayer Turn System**
+
+```javascript
+const systems = [
+  {
+    endTurn(state, playerId) {
+      // Find current player
+      const players = Object.values(state).filter((e) => e.type === "player")
+      const currentPlayer = players.find((p) => p.id === playerId)
+
+      // Mark current player's turn as ended
+      currentPlayer.isTurn = false
+      currentPlayer.actionsRemaining = 0
+
+      // Find next player
+      const nextPlayerIndex =
+        (players.indexOf(currentPlayer) + 1) % players.length
+      const nextPlayer = players[nextPlayerIndex]
+
+      // Give turn to next player
+      nextPlayer.isTurn = true
+      nextPlayer.actionsRemaining = 3
+
+      // Update round counter if we've cycled through all players
+      if (nextPlayerIndex === 0) {
+        state.gameState.round++
+      }
+    },
+  },
+]
+```
+
+**This requires a system because:**
+
+- Must coordinate between multiple player entities
+- Needs to maintain turn order across all players
+- Updates multiple entities in a specific sequence
+- Logic can't be split per-player
+
+**For most apps, you won't need systems.** Use selectors for derived data and entity handlers for individual entity logic.
 
 ---
 
@@ -389,6 +560,8 @@ Creates a new store instance.
 - `types` (object): Map of type names to behaviors (single object or array)
 - `entities` (object): Initial entities by ID
 - `systems` (array, optional): Global event handlers
+- `middlewares` (array, optional): Middleware functions that enhance store behavior
+- `mode` (`"eager"|"batched"`, optional): Whether `store.update()` is invoked automatically at every `store.notify()` or manually. Defaults to `"eager"`, which makes the store behave like Redux
 
 **Returns:**
 
@@ -396,6 +569,7 @@ Creates a new store instance.
 - `update(dt)`: Process event queue (optional `dt` for time-based logic)
 - `notify(type, payload)`: Queue an event
 - `dispatch(event)`: Redux-compatible event dispatch
+- `getTypes()`: Returns the augmented types configuration
 - `getState()`: Get current immutable state
 - `setState(newState)`: Replace entire state
 - `reset()`: Reset to initial state
@@ -415,8 +589,9 @@ Creates a convenience wrapper with utility methods.
 Create memoized, performant selectors.
 
 ```javascript
-const selectCompletedTasks = createSelector([(state) => state.tasks], (tasks) =>
-  tasks.filter((task) => task.completed),
+const selectCompletedTasks = createSelector(
+  [(state) => state.list.tasks],
+  (tasks) => tasks.filter((task) => task.completed),
 )
 ```
 
@@ -426,39 +601,42 @@ const selectCompletedTasks = createSelector([(state) => state.tasks], (tasks) =>
 
 ### ✅ Perfect For
 
-- **Real-time collaboration** (like Figma, Google Docs)
+- **Apps with async operations** (API calls, data fetching - use batched mode)
+- **Apps that might need collaboration someday** (start simple, scale without refactoring)
+- **Real-time collaboration** (like Figma, Notion, Google Docs)
 - **Chat and messaging apps**
 - **Live dashboards and monitoring**
 - **Interactive data visualizations**
 - **Apps with undo/redo**
-- **Multiplayer features**
 - **Collection-based UIs** (lists, feeds, boards)
 - **...and games!**
 
 ### 🤔 Maybe Overkill For
 
-- Simple forms with local state
+- Simple forms with local state only
 - Static marketing pages
-- Basic CRUD with no real-time needs
+- Apps that will **definitely never** need real-time features
+
+**But here's the thing:** Most successful apps eventually need collaboration, undo/redo, or live updates. With Inglorious Store, you're ready when that happens.
 
 ---
 
 ## Comparison
 
-| Feature                     | Inglorious Store  | Redux               | Redux Toolkit    | Zustand       | Jotai         | Pinia           | MobX            |
-| --------------------------- | ----------------- | ------------------- | ---------------- | ------------- | ------------- | --------------- | --------------- |
-| **Integrated Immutability** | ✅ Mutative       | ❌ Manual           | ✅ Immer         | ❌ Manual     | ✅ Optional   | ✅ Built-in     | ✅ Observables  |
-| **Event Queue/Batching**    | ✅ Built-in       | ❌                  | ❌               | ❌            | ❌            | ❌              | ✅ Automatic    |
-| **Dispatch from Handlers**  | ✅ Safe (queued)  | ❌ Not allowed      | ❌ Not allowed   | ✅            | ✅            | ✅              | ✅              |
-| **Redux DevTools**          | ⚠️ Limited        | ✅ Native           | ✅ Native        | ✅ Middleware | ⚠️ Limited    | ✅ Vue DevTools | ⚠️ Limited      |
-| **react-redux Compatible**  | ✅ Yes            | ✅ Yes              | ✅ Yes           | ❌            | ❌            | ❌ Vue only     | ❌              |
-| **Time-Travel Debug**       | ✅ Built-in       | ✅ Via DevTools     | ✅ Via DevTools  | ⚠️ Manual     | ❌            | ⚠️ Limited      | ❌              |
-| **Entity-Based State**      | ✅ First-class    | ⚠️ Manual normalize | ✅ EntityAdapter | ❌            | ❌            | ❌              | ❌              |
-| **Pub/Sub Events**          | ✅ Core pattern   | ❌                  | ❌               | ❌            | ❌            | ❌              | ❌              |
-| **Multiplayer-Ready**       | ✅ Deterministic  | ⚠️ With work        | ⚠️ With work     | ⚠️ With work  | ❌            | ❌              | ❌              |
-| **Testability**             | ✅ Pure functions | ✅ Pure reducers    | ✅ Pure reducers | ⚠️ With mocks | ⚠️ With mocks | ⚠️ With mocks   | ❌ Side effects |
-| **Learning Curve**          | Medium            | High                | Medium           | Low           | Medium        | Low             | Medium          |
-| **Bundle Size**             | Small             | Small               | Medium           | Tiny          | Small         | Medium          | Medium          |
+| Feature                     | Inglorious Store  | Redux            | Redux Toolkit    | Zustand       | Jotai         | Pinia           | MobX            |
+| --------------------------- | ----------------- | ---------------- | ---------------- | ------------- | ------------- | --------------- | --------------- |
+| **Integrated Immutability** | ✅ Mutative       | ❌ Manual        | ✅ Immer         | ❌ Manual     | ✅ Optional   | ✅ Built-in     | ✅ Observables  |
+| **Event Queue/Batching**    | ✅ Built-in       | ❌               | ❌               | ❌            | ❌            | ❌              | ✅ Automatic    |
+| **Dispatch from Handlers**  | ✅ Safe (queued)  | ❌ Not allowed   | ❌ Not allowed   | ✅            | ✅            | ✅              | ✅              |
+| **Redux DevTools**          | ⚠️ Limited        | ✅ Native        | ✅ Native        | ✅ Middleware | ⚠️ Limited    | ✅ Vue DevTools | ⚠️ Limited      |
+| **react-redux Compatible**  | ✅ Yes            | ✅ Yes           | ✅ Yes           | ❌            | ❌            | ❌ Vue only     | ❌              |
+| **Time-Travel Debug**       | ✅ Built-in       | ✅ Via DevTools  | ✅ Via DevTools  | ⚠️ Manual     | ❌            | ⚠️ Limited      | ❌              |
+| **Entity-Based State**      | ✅ First-class    | ⚠️ Manual        | ✅ EntityAdapter | ❌            | ❌            | ❌              | ❌              |
+| **Pub/Sub Events**          | ✅ Core pattern   | ❌               | ❌               | ❌            | ❌            | ❌              | ❌              |
+| **Multiplayer-Ready**       | ✅ Deterministic  | ⚠️ With work     | ⚠️ With work     | ⚠️ With work  | ❌            | ❌              | ❌              |
+| **Testability**             | ✅ Pure functions | ✅ Pure reducers | ✅ Pure reducers | ⚠️ With mocks | ⚠️ With mocks | ⚠️ With mocks   | ❌ Side effects |
+| **Learning Curve**          | Medium            | High             | Medium           | Low           | Medium        | Low             | Medium          |
+| **Bundle Size**             | Small             | Small            | Medium           | Tiny          | Small         | Medium          | Medium          |
 
 ### Key Differences
 
@@ -519,25 +697,59 @@ const selectCompletedTasks = createSelector([(state) => state.tasks], (tasks) =>
 
 ## Advanced: Real-Time Sync
 
+Adding multiplayer to an existing app is usually a massive refactor. With Inglorious Store, it's an afternoon project.
+
+### Step 1: Your app already works locally
+
 ```javascript
-// Client-side
-socket.on("server-event", (event) => {
+store.notify("movePlayer", { x: 10, y: 20 })
+store.update()
+```
+
+### Step 2: Add WebSocket (literally ~10 lines)
+
+```javascript
+// Receive events from other clients
+socket.on("remote-event", (event) => {
   store.notify(event.type, event.payload)
-  store.update()
 })
 
-// Send local events to server
-store.subscribe(() => {
-  const state = store.getState()
-  socket.emit("state-update", serializeState(state))
+// Send your events to other clients
+const processedEvents = store.update()
+processedEvents.forEach((event) => {
+  socket.emit("event", event)
 })
 ```
+
+**That's it.** Because your event handlers are pure functions and the state is deterministic, all clients stay perfectly in sync.
+
+### Why This Works
+
+1. **Deterministic:** Same events + same state = same result (always)
+2. **Serializable:** Events are plain objects (easy to send over network)
+3. **Ordered:** Event queue ensures predictable processing
+4. **Conflict-free:** Last write wins, or implement custom merge logic
+
+### Example: Collaborative Todo List
+
+```javascript
+// Client A adds a todo
+store.notify("addTodo", { id: "todo1", text: "Buy milk" })
+
+// Event gets broadcast to all clients
+// All clients process the same event
+// All clients end up with identical state
+
+// Even works offline! Events queue up, sync when reconnected
+```
+
+This is exactly how multiplayer games work. Now your app can too.
 
 ---
 
 ## Advanced: Time-Based Updates
 
-For animations or continuous updates (like in games):
+For animations, games, or any time-dependent logic, you can run a continuous update loop:
 
 ```javascript
 const types = {
@@ -553,13 +765,50 @@ const types = {
   ],
 }
 
-// In your game/animation loop
-function loop(timestamp) {
-  const dt = timestamp - lastTime
-  store.update(dt)
+// Run at 30 FPS (good for most UIs)
+setInterval(() => store.update(), 1000 / 30)
+
+// Or 60 FPS (for smooth animations/games)
+function loop() {
+  store.update()
   requestAnimationFrame(loop)
 }
+loop()
 ```
+
+**For typical apps (todos, forms, dashboards):** Use eager mode (default). No loop needed.
+
+**For real-time apps (games, animations, live data):** Use batched mode with a loop for smooth, consistent updates.
+
+---
+
+## The Path from Solo to Multiplayer
+
+### Week 1: Build a simple todo app
+
+```javascript
+store.notify("addTodo", { text: "Buy milk" })
+```
+
+_Works great. Clean architecture. Nothing fancy._
+
+### Month 6: Users love it, ask for undo/redo
+
+```javascript
+const snapshot = store.getState()
+// ... user makes changes ...
+store.setState(snapshot) // Undo!
+```
+
+_Already built-in. No refactoring needed._
+
+### Year 1: Competitor launches with real-time collaboration
+
+```javascript
+socket.on("remote-event", (e) => store.notify(e.type, e.payload))
+```
+
+_Add multiplayer in an afternoon. You win._
 
 ---
 
@@ -569,11 +818,22 @@ This store powers the [Inglorious Engine](https://github.com/IngloriousCoderz/in
 
 ---
 
+## What's Next?
+
+- 📖 **[@inglorious/react-store](https://github.com/IngloriousCoderz/inglorious-engine/tree/main/packages/react-store)** - React integration with hooks
+- 🎮 **[@inglorious/engine](https://github.com/IngloriousCoderz/inglorious-engine)** - Full game engine built on this store
+- 🌐 **[@inglorious/server](https://github.com/IngloriousCoderz/inglorious-engine/tree/main/packages/server)** - Server-side multiplayer support
+- 💬 **[GitHub Discussions](https://github.com/IngloriousCoderz/inglorious-engine/discussions)** - Get help and share what you're building
+
+---
+
 ## License
 
-MIT © [Matteo Antony Mistretta](https://github.com/IngloriousCoderz)
+**MIT License - Free and open source**
 
-This is free and open-source software. Use it however you want!
+Created by [Matteo Antony Mistretta](https://github.com/IngloriousCoderz)
+
+You're free to use, modify, and distribute this software. See [LICENSE](../../LICENSE) for details.
 
 ---
 

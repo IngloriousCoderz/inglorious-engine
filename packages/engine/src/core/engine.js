@@ -68,7 +68,7 @@ export class Engine {
       )
     }
 
-    this._store = createStore({ ...this._config, middlewares })
+    this._store = createStore({ ...this._config, middlewares, mode: "batched" })
     this._api = this._store.getApi()
     this._loop = new Loop[this._config.loop.type]()
 

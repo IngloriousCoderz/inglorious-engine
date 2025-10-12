@@ -22,7 +22,6 @@ export function createReactStore(store, config = DEFAULT_CONFIG) {
       store.notify(type, payload)
 
       if (config.mode === "eager") {
-        store.update()
         sendAction({ type, payload }, store.getState())
       }
     }, [])

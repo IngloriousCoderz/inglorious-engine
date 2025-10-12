@@ -1,5 +1,22 @@
 # @inglorious/store
 
+## 5.4.0
+
+### Minor Changes
+
+- Add eager mode by default on store
+
+### Patch Changes
+
+- Updated dependencies
+  - @inglorious/utils@3.6.2
+
+## 5.3.0
+
+### Minor Changes
+
+- Enable eager mode by default on store
+
 ## 5.2.0
 
 ### Minor Changes

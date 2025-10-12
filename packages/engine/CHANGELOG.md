@@ -1,5 +1,28 @@
 # @inglorious/engine
 
+## 7.0.0
+
+### Minor Changes
+
+- Add eager mode by default on store
+
+### Patch Changes
+
+- Updated dependencies
+  - @inglorious/store@5.4.0
+  - @inglorious/utils@3.6.2
+
+## 6.0.0
+
+### Minor Changes
+
+- Enable eager mode by default on store
+
+### Patch Changes
+
+- Updated dependencies
+  - @inglorious/store@5.3.0
+
 ## 5.0.0
 
 ### Minor Changes

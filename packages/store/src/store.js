@@ -11,6 +11,9 @@ import { augmentType, augmentTypes } from "./types.js"
  * @param {Object} config - Configuration options for the store.
  * @param {Object} [config.types] - The initial types configuration.
  * @param {Object} [config.entities] - The initial entities configuration.
+ * @param {Array} [config.systens] - The initial systems configuration.
+ * @param {Array} [config.middlewares] - The initial middlewares configuration.
+ * @param {"eager" | "batched"} [config.mode] - The dispatch mode (defaults to "eager").
  * @returns {Object} The store with methods to interact with state and events.
  */
 export function createStore({
@@ -18,6 +21,7 @@ export function createStore({
   entities: originalEntities,
   systems = [],
   middlewares = [],
+  mode = "eager",
 }) {
   const listeners = new Set()
 
@@ -33,7 +37,6 @@ export function createStore({
     dispatch, // needed for compatibility with Redux
     getApi,
     getTypes,
-    getOriginalTypes,
     getState,
     setState,
     reset,
@@ -146,6 +149,9 @@ export function createStore({
    */
   function dispatch(event) {
     incomingEvents.push(event)
+    if (mode === "eager") {
+      update()
+    }
   }
 
   /**
@@ -163,14 +169,6 @@ export function createStore({
    */
   function getTypes() {
     return types
-  }
-
-  /**
-   * Retrieves the original, un-augmented types configuration.
-   * @returns {Object} The original types configuration.
-   */
-  function getOriginalTypes() {
-    return originalTypes
   }
 
   /**

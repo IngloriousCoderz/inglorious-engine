@@ -1,5 +1,11 @@
 # @inglorious/babel-plugin-inglorious-script
 
+## 1.3.2
+
+### Patch Changes
+
+- Add eager mode by default on store
+
 ## 1.3.1
 
 ### Patch Changes

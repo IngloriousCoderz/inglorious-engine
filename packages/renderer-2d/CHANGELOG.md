@@ -1,5 +1,21 @@
 # @inglorious/renderer-2d
 
+## 6.0.0
+
+### Patch Changes
+
+- Add eager mode by default on store
+- Updated dependencies
+  - @inglorious/engine@7.0.0
+  - @inglorious/utils@3.6.2
+
+## 5.0.0
+
+### Patch Changes
+
+- Updated dependencies
+  - @inglorious/engine@6.0.0
+
 ## 4.0.0
 
 ### Patch Changes
