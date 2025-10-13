@@ -1,15 +1,16 @@
-import { useNotify, useSelector } from "./store"
+import { useDispatch, useSelector } from "react-redux"
 import { selectValue } from "./store/selectors"
 
 export default function Form() {
-  const notify = useNotify()
+  const dispatch = useDispatch()
 
   const value = useSelector(selectValue)
-  const handleChange = (event) => notify("inputChange", event.target.value)
+  const handleChange = (event) =>
+    dispatch({ type: "inputChange", payload: event.target.value })
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    notify("formSubmit", value)
+    dispatch({ type: "formSubmit", payload: value })
   }
 
   return (

@@ -1,10 +1,10 @@
 import { clsx } from "clsx"
 
-import { useNotify, useSelector } from "./store"
+import { useDispatch, useSelector } from "react-redux"
 import { selectFilteredTasks } from "./store/selectors"
 
 export default function List() {
-  const notify = useNotify()
+  const dispatch = useDispatch()
 
   const tasks = useSelector(selectFilteredTasks)
 
@@ -14,11 +14,15 @@ export default function List() {
         <li key={task.id}>
           <span
             className={clsx({ completed: task.completed })}
-            onClick={() => notify("toggleClick", task.id)}
+            onClick={() => dispatch({ type: "toggleClick", payload: task.id })}
           >
             {task.text}
           </span>{" "}
-          <button onClick={() => notify("deleteClick", task.id)}>x</button>
+          <button
+            onClick={() => dispatch({ type: "deleteClick", payload: task.id })}
+          >
+            x
+          </button>
         </li>
       ))}
     </ul>
