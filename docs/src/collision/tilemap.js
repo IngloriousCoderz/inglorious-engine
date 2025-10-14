@@ -11,7 +11,6 @@ import { renderHitmask } from "@inglorious/renderer-2d/image/hitmask.js"
 import { renderSprite } from "@inglorious/renderer-2d/image/sprite.js"
 import { renderTilemap } from "@inglorious/renderer-2d/image/tilemap.js"
 import { renderRectangle } from "@inglorious/renderer-2d/shapes/rectangle.js"
-import { extend } from "@inglorious/utils/data-structures/objects.js"
 import { angle, magnitude } from "@inglorious/utils/math/vector.js"
 import { v } from "@inglorious/utils/v.js"
 
@@ -194,7 +193,7 @@ export default {
 }
 
 function tilemapCollider(type) {
-  return extend(type, {
+  return {
     update(entity, dt, api) {
       type.update?.(entity, dt, api)
 
@@ -216,11 +215,11 @@ function tilemapCollider(type) {
         entity.position[Z] = newPositionZ[Z]
       }
     },
-  })
+  }
 }
 
 function animated(type) {
-  return extend(type, {
+  return {
     update(entity, dt, api) {
       type.update?.(entity, dt, api)
 
@@ -231,5 +230,5 @@ function animated(type) {
       const animation = Sprite.move2(entity)
       entity.sprite.state = animation
     },
-  })
+  }
 }

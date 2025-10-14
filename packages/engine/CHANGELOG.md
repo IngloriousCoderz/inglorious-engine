@@ -1,5 +1,13 @@
 # @inglorious/engine
 
+## 8.0.0
+
+### Patch Changes
+
+- Simplify behavior definition
+- Updated dependencies
+  - @inglorious/store@5.5.0
+
 ## 7.0.1
 
 ### Patch Changes

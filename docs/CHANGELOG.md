@@ -1,5 +1,15 @@
 # @inglorious/docs
 
+## 1.9.1
+
+### Patch Changes
+
+- Simplify behavior definition
+- Updated dependencies
+  - @inglorious/renderer-2d@7.0.0
+  - @inglorious/engine@8.0.0
+  - @inglorious/renderer-react-dom@7.0.0
+
 ## 1.9.0
 
 ### Minor Changes

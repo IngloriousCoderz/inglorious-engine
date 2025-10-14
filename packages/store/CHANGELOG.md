@@ -1,5 +1,11 @@
 # @inglorious/store
 
+## 5.5.0
+
+### Minor Changes
+
+- Simplify behavior definition
+
 ## 5.4.1
 
 ### Patch Changes

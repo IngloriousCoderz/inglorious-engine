@@ -7,7 +7,6 @@ import { clamped } from "@inglorious/engine/behaviors/physics/clamped.js"
 import { jumpable } from "@inglorious/engine/behaviors/physics/jumpable.js"
 import { renderCharacter } from "@inglorious/renderer-2d/character.js"
 import { renderRectangle } from "@inglorious/renderer-2d/shapes/rectangle.js"
-import { extend } from "@inglorious/utils/data-structures/objects.js"
 import { v } from "@inglorious/utils/v.js"
 
 export default {
@@ -15,14 +14,13 @@ export default {
     ...controls("character"),
 
     game: [
-      (type) =>
-        extend(type, {
-          start(entity, event, api) {
-            type.start?.(entity, event, api)
+      (type) => ({
+        start(entity, event, api) {
+          type.start?.(entity, event, api)
 
-            api.notify("soundPlay", "music")
-          },
-        }),
+          api.notify("soundPlay", "music")
+        },
+      }),
     ],
 
     platform: [{ render: renderRectangle }],
@@ -31,16 +29,15 @@ export default {
       { render: renderCharacter },
       modernVelocity(),
       clamped({ depthAxis: "z" }),
-      (type) =>
-        extend(type, {
-          jump(entity, event, api) {
-            type.jump?.(entity, event, api)
+      (type) => ({
+        jump(entity, event, api) {
+          type.jump?.(entity, event, api)
 
-            if (entity.groundObject) {
-              api.notify("soundPlay", "jump")
-            }
-          },
-        }),
+          if (entity.groundObject) {
+            api.notify("soundPlay", "jump")
+          }
+        },
+      }),
       jumpable(),
     ],
   },

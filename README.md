@@ -126,7 +126,7 @@ This is a common fear, especially for developers coming from a pure OOP backgrou
 
 - **`types` are your "classes"**: They act as blueprints for your game objects.
 - **`entities` are your "instances"**: They are the concrete things in your game, created from a `type`.
-- **Composition feels like inheritance**: You can "extend" a type (which is just an array of behaviors) by adding behaviors to it, like `[baseType, someBehavior]`, and you "extend" a behavior by creating a function that composes new event handlers onto a base type, like `(type) => extend(type, { ... })`. You get the code reuse you expect, but with the power and flexibility of composition.
+- **Composition feels like inheritance**: You can "extend" a type (which is just an array of behaviors) by adding behaviors to it, like `[baseType, someBehavior]`, and you "extend" a behavior by creating a function that composes new event handlers onto a base type, like `(type) => ({ eventName(...args) { type.eventName?.(...args) } })`. You get the code reuse you expect, but with the power and flexibility of composition.
 - **Immutable updates feel mutable**: Thanks to Mutative, you don't have to write complex functional updates. Inside your event handlers, you can write simple, direct code like `entity.health -= 10`, and the engine handles creating the new immutable state for you.
 
 The engine provides the benefits of FP (predictability, testability) without the steep learning curve. You get to think in terms of familiar concepts while the engine handles the functional magic for you.

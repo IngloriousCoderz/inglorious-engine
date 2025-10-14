@@ -1,11 +1,4 @@
-import { createSelector as _createSelector } from "./select.js"
-
 export function createApi(store, extras) {
-  const createSelector = (inputSelectors, resultFunc) => {
-    const selector = _createSelector(inputSelectors, resultFunc)
-    return () => selector(store.getState())
-  }
-
   const getTypes = () => store.getTypes()
 
   const getEntities = () => store.getState()
@@ -13,7 +6,6 @@ export function createApi(store, extras) {
   const getEntity = (id) => getEntities()[id]
 
   return {
-    createSelector,
     getTypes,
     getEntities,
     getEntity,

@@ -8,7 +8,6 @@ import { clamped } from "@inglorious/engine/behaviors/physics/clamped.js"
 import { jumpable } from "@inglorious/engine/behaviors/physics/jumpable.js"
 import { findCollision } from "@inglorious/engine/collision/detection.js"
 import { renderRectangle } from "@inglorious/renderer-2d/shapes/rectangle.js"
-import { extend } from "@inglorious/utils/data-structures/objects.js"
 import { v } from "@inglorious/utils/v.js"
 
 const BASE_DARIO = [
@@ -232,38 +231,38 @@ export default {
   },
 }
 
-function canBreakBricks(type) {
-  return extend(type, {
+function canBreakBricks() {
+  return {
     break(entity, entityId) {
       if (entityId === entity.id) {
         console.log("Breaking!")
       }
     },
-  })
+  }
 }
 
-function canShoot(type) {
-  return extend(type, {
+function canShoot() {
+  return {
     shoot(entity, entityId) {
       if (entityId === entity.id) {
         console.log("Shooting!")
       }
     },
-  })
+  }
 }
 
-function canGlide(type) {
-  return extend(type, {
+function canGlide() {
+  return {
     glide(entity, entityId) {
       if (entityId === entity.id) {
         console.log("Gliding!")
       }
     },
-  })
+  }
 }
 
 function canCollideWithPowerups(type) {
-  return extend(type, {
+  return {
     update(entity, dt, api) {
       type.update?.(entity, dt, api)
 
@@ -326,11 +325,11 @@ function canCollideWithPowerups(type) {
 
       api.notify("remove", powerup.id)
     },
-  })
+  }
 }
 
 function canCollideWithEnemyAndDie(type) {
-  return extend(type, {
+  return {
     update(entity, dt, api) {
       type.update?.(entity, dt, api)
 
@@ -344,11 +343,11 @@ function canCollideWithEnemyAndDie(type) {
 
       console.log("Game over!")
     },
-  })
+  }
 }
 
 function canCollideWithEnemyAndShrink(type) {
-  return extend(type, {
+  return {
     update(entity, dt, api) {
       type.update?.(entity, dt, api)
 
@@ -370,11 +369,11 @@ function canCollideWithEnemyAndShrink(type) {
 
       api.notify("remove", enemy.id)
     },
-  })
+  }
 }
 
 function canCollideWithEnemyAndLosePowers(type) {
-  return extend(type, {
+  return {
     update(entity, dt, api) {
       type.update?.(entity, dt, api)
 
@@ -395,5 +394,5 @@ function canCollideWithEnemyAndLosePowers(type) {
       })
       api.notify("remove", enemy.id)
     },
-  })
+  }
 }

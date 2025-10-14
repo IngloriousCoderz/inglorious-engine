@@ -87,7 +87,7 @@ export function clamped() {
   // This function receives the type composed so far
   return (type) =>
     // It returns a new, extended behavior object
-    extend(type, {
+    ({
       // It defines its own update handler
       update(entity, dt, api) {
         // Crucially, it calls the original update handler first

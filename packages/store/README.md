@@ -424,6 +424,52 @@ const cartItemType = [
 ]
 ```
 
+### Behavior Composition with Functions
+
+Behaviors can also be functions that wrap and extend other behaviors. This enables decorator-like patterns and middleware:
+
+```javascript
+// Base behaviors
+const baseHandlers = {
+  formSubmit(entity, value) {
+    entity.value = value
+  },
+}
+
+// Function that adds validation
+const validated = (behavior) => ({
+  formSubmit(entity, value, api) {
+    if (!value.trim()) return // Validate first
+    behavior.formSubmit?.(entity, value, api)
+  },
+})
+
+// Function that adds loading state to async handlers
+const withLoading = (behavior) => ({
+  async fetchData(entity, payload, api) {
+    entity.loading = true
+    try {
+      await behavior.fetchData?.(entity, payload, api)
+    } finally {
+      entity.loading = false
+    }
+  },
+})
+
+// Compose behaviors
+const types = {
+  form: [baseHandlers, validated(baseHandlers), withLoading(baseHandlers)],
+}
+```
+
+**Why function composition for behaviors:**
+
+- ✅ Add cross-cutting concerns (validation, logging, error handling)
+- ✅ Reuse behavior logic across entities
+- ✅ Create middleware-like wrappers
+- ✅ Cleaner than deep inheritance hierarchies
+- ✅ Works for both apps and games
+
 ### Events
 
 Events are broadcast to all relevant handlers in a pub/sub pattern.
@@ -580,7 +626,6 @@ Creates a convenience wrapper with utility methods.
 
 **Returns:**
 
-- `createSelector(inputSelectors, resultFunc)`: Memoized selectors
 - `getTypes()`, `getEntities()`, `getEntity(id)`: State accessors
 - `notify(type, payload)`: Dispatch events
 

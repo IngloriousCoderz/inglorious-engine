@@ -29,11 +29,12 @@ export function renderImage(entity, ctx, api) {
 
   ctx.translate(-tileWidth * anchorX, -tileHeight * anchorY)
 
-  const img = api.getTypes().images.get(id) || document.getElementById(id)
+  const { images } = api.getTypes()
+  const img = images.get(id) || document.getElementById(id)
   if (img) {
     ctx.drawImage(img, ...imgParams)
   } else if (src) {
-    api.getTypes().images.load(id, src)
+    images.load(id, src)
   } else {
     console.warn(`Image '${id}' not found and no src provided for lazy loading`)
   }

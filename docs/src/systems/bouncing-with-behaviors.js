@@ -1,7 +1,6 @@
 import { jumpable } from "@inglorious/engine/behaviors/physics/jumpable.js"
 import { renderCircle } from "@inglorious/renderer-2d/shapes/circle.js"
 import { renderRectangle } from "@inglorious/renderer-2d/shapes/rectangle.js"
-import { extend } from "@inglorious/utils/data-structures/objects.js"
 import { v } from "@inglorious/utils/v.js"
 
 export default {
@@ -9,16 +8,15 @@ export default {
     ball: [
       { render: renderCircle },
       jumpable(),
-      (type) =>
-        extend(type, {
-          update(entity, dt, api) {
-            type.update?.(entity, dt, api)
+      (type) => ({
+        update(entity, dt, api) {
+          type.update?.(entity, dt, api)
 
-            if (entity.groundObject) {
-              api.notify("jump", entity.id)
-            }
-          },
-        }),
+          if (entity.groundObject) {
+            api.notify("jump", entity.id)
+          }
+        },
+      }),
     ],
     platform: [{ render: renderRectangle }],
   },

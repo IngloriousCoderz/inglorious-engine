@@ -12,8 +12,9 @@ import { pipe } from "@inglorious/utils/functions/functions.js"
  * @returns {Type} The fully composed and augmented type object.
  */
 export function augmentType(type) {
-  const behaviors = ensureArray(type).map((fn) =>
-    typeof fn !== "function" ? (type) => extend(type, fn) : fn,
+  const behaviors = ensureArray(type).map(
+    (behavior) => (type) =>
+      extend(type, typeof behavior === "function" ? behavior(type) : behavior),
   )
 
   return pipe(...behaviors)({})

@@ -9,30 +9,29 @@ const DEFAULT_PARAMS = {
 export function clamped(params) {
   params = extend(DEFAULT_PARAMS, params)
 
-  return (type) =>
-    extend(type, {
-      create(entity, entityId, api) {
-        type.create?.(entity, entityId, api)
+  return (type) => ({
+    create(entity, entityId, api) {
+      type.create?.(entity, entityId, api)
 
-        if (entityId !== entity.id) return
+      if (entityId !== entity.id) return
 
-        entity.collisions ??= {}
-        entity.collisions[params.collisionGroup] ??= {}
-        entity.collisions[params.collisionGroup].shape ??= "rectangle"
-      },
+      entity.collisions ??= {}
+      entity.collisions[params.collisionGroup] ??= {}
+      entity.collisions[params.collisionGroup].shape ??= "rectangle"
+    },
 
-      update(entity, dt, api) {
-        type.update?.(entity, dt, api)
+    update(entity, dt, api) {
+      type.update?.(entity, dt, api)
 
-        const game = api.getEntity("game")
-        merge(entity, {
-          position: clampToBounds(
-            entity,
-            game.size,
-            params.collisionGroup,
-            params.depthAxis,
-          ),
-        })
-      },
-    })
+      const game = api.getEntity("game")
+      merge(entity, {
+        position: clampToBounds(
+          entity,
+          game.size,
+          params.collisionGroup,
+          params.depthAxis,
+        ),
+      })
+    },
+  })
 }

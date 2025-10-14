@@ -1,5 +1,12 @@
 # @inglorious/renderer-react-dom
 
+## 7.0.0
+
+### Patch Changes
+
+- Updated dependencies
+  - @inglorious/engine@8.0.0
+
 ## 6.0.1
 
 ### Patch Changes

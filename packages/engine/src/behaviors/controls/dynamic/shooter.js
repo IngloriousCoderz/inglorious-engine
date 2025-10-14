@@ -21,66 +21,65 @@ export function shooterControls(params) {
   const DEADZONE = 0.1
   const NO_MOVEMENT = 0
 
-  return (type) =>
-    extend(type, {
-      ...createMovementEventHandlers([
-        "moveLeft",
-        "moveRight",
-        "moveUp",
-        "moveDown",
-        "strafe",
-        "move",
-        "turn",
-      ]),
+  return (type) => ({
+    ...createMovementEventHandlers([
+      "moveLeft",
+      "moveRight",
+      "moveUp",
+      "moveDown",
+      "strafe",
+      "move",
+      "turn",
+    ]),
 
-      create(entity, entityId, api) {
-        type.create?.(entity, entityId, api)
+    create(entity, entityId, api) {
+      type.create?.(entity, entityId, api)
 
-        if (entityId !== entity.id) return
+      if (entityId !== entity.id) return
 
-        entity.maxSpeed ??= params.maxSpeed
-        entity.maxAngularSpeed ??= params.maxAngularSpeed
-        entity.maxAcceleration ??= params.maxAcceleration
-        entity.movement ??= {}
-      },
+      entity.maxSpeed ??= params.maxSpeed
+      entity.maxAngularSpeed ??= params.maxAngularSpeed
+      entity.maxAcceleration ??= params.maxAcceleration
+      entity.movement ??= {}
+    },
 
-      update(entity, dt, api) {
-        const mouse = api.getEntity("mouse")
+    update(entity, dt, api) {
+      const mouse = api.getEntity("mouse")
 
-        const { movement, maxAngularSpeed, maxAcceleration } = entity
-        entity.acceleration = zero()
+      const { movement, maxAngularSpeed, maxAcceleration } = entity
+      entity.acceleration = zero()
 
-        if (movement.moveLeft) {
-          entity.acceleration[Z] = -maxAcceleration
-        }
-        if (movement.moveRight) {
-          entity.acceleration[Z] = maxAcceleration
-        }
-        if (movement.moveUp) {
-          entity.acceleration[X] = maxAcceleration
-        }
-        if (movement.moveDown) {
-          entity.acceleration[X] = -maxAcceleration
-        }
+      if (movement.moveLeft) {
+        entity.acceleration[Z] = -maxAcceleration
+      }
+      if (movement.moveRight) {
+        entity.acceleration[Z] = maxAcceleration
+      }
+      if (movement.moveUp) {
+        entity.acceleration[X] = maxAcceleration
+      }
+      if (movement.moveDown) {
+        entity.acceleration[X] = -maxAcceleration
+      }
 
-        if (movement.strafe) {
-          entity.acceleration[Z] += movement.strafe * maxAcceleration
-        }
-        if (movement.move) {
-          entity.acceleration[X] += -movement.move * maxAcceleration
-        }
-        if (movement.turn) {
-          entity.orientation += -movement.turn * maxAngularSpeed * dt
-        }
+      if (movement.strafe) {
+        entity.acceleration[Z] += movement.strafe * maxAcceleration
+      }
+      if (movement.move) {
+        entity.acceleration[X] += -movement.move * maxAcceleration
+      }
+      if (movement.turn) {
+        entity.orientation += -movement.turn * maxAngularSpeed * dt
+      }
 
-        const isUsingAnalogMovement =
-          Math.abs(movement.move ?? NO_MOVEMENT) > DEADZONE ||
-          Math.abs(movement.strafe ?? NO_MOVEMENT) > DEADZONE
+      const isUsingAnalogMovement =
+        Math.abs(movement.move ?? NO_MOVEMENT) > DEADZONE ||
+        Math.abs(movement.strafe ?? NO_MOVEMENT) > DEADZONE
 
-        if (!isUsingAnalogMovement) {
-          merge(entity, face(entity, mouse, dt))
-        }
-        merge(entity, tankMove(entity, dt))
-      },
-    })
+      if (!isUsingAnalogMovement) {
+        merge(entity, face(entity, mouse, dt))
+      }
+      merge(entity, tankMove(entity, dt))
+    },
+  })
 }

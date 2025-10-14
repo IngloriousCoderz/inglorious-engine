@@ -1,5 +1,13 @@
 # inglorious-flapper
 
+## 0.2.1
+
+### Patch Changes
+
+- Updated dependencies
+  - @inglorious/renderer-2d@7.0.0
+  - @inglorious/engine@8.0.0
+
 ## 0.2.0
 
 ### Minor Changes

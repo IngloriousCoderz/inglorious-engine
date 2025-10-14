@@ -1,5 +1,13 @@
 # @inglorious/renderer-2d
 
+## 7.0.0
+
+### Patch Changes
+
+- Simplify behavior definition
+- Updated dependencies
+  - @inglorious/engine@8.0.0
+
 ## 6.0.1
 
 ### Patch Changes

@@ -14,56 +14,55 @@ const Z = 2
 export function tankControls(params) {
   params = extend(DEFAULT_PARAMS, params)
 
-  return (type) =>
-    extend(type, {
-      ...createMovementEventHandlers([
-        "turnLeft",
-        "turnRight",
-        "moveForward",
-        "moveBackward",
-        "strafe",
-        "move",
-        "turn",
-      ]),
+  return (type) => ({
+    ...createMovementEventHandlers([
+      "turnLeft",
+      "turnRight",
+      "moveForward",
+      "moveBackward",
+      "strafe",
+      "move",
+      "turn",
+    ]),
 
-      create(entity, entityId, api) {
-        type.create?.(entity, entityId, api)
+    create(entity, entityId, api) {
+      type.create?.(entity, entityId, api)
 
-        if (entityId !== entity.id) return
+      if (entityId !== entity.id) return
 
-        entity.maxSpeed ??= params.maxSpeed
-        entity.maxAngularSpeed ??= params.maxAngularSpeed
-        entity.movement ??= {}
-      },
+      entity.maxSpeed ??= params.maxSpeed
+      entity.maxAngularSpeed ??= params.maxAngularSpeed
+      entity.movement ??= {}
+    },
 
-      update(entity, dt) {
-        const { movement, maxSpeed, maxAngularSpeed } = entity
-        entity.velocity = zero()
+    update(entity, dt) {
+      const { movement, maxSpeed, maxAngularSpeed } = entity
+      entity.velocity = zero()
 
-        if (movement.turnLeft) {
-          entity.orientation += maxAngularSpeed * dt
-        }
-        if (movement.turnRight) {
-          entity.orientation -= maxAngularSpeed * dt
-        }
-        if (movement.moveForward) {
-          entity.velocity[X] = maxSpeed
-        }
-        if (movement.moveBackward) {
-          entity.velocity[X] = -maxSpeed
-        }
+      if (movement.turnLeft) {
+        entity.orientation += maxAngularSpeed * dt
+      }
+      if (movement.turnRight) {
+        entity.orientation -= maxAngularSpeed * dt
+      }
+      if (movement.moveForward) {
+        entity.velocity[X] = maxSpeed
+      }
+      if (movement.moveBackward) {
+        entity.velocity[X] = -maxSpeed
+      }
 
-        if (movement.strafe) {
-          entity.velocity[Z] += movement.strafe * maxSpeed
-        }
-        if (movement.move) {
-          entity.velocity[X] += -movement.move * maxSpeed
-        }
-        if (movement.turn) {
-          entity.orientation += -movement.turn * maxAngularSpeed * dt
-        }
+      if (movement.strafe) {
+        entity.velocity[Z] += movement.strafe * maxSpeed
+      }
+      if (movement.move) {
+        entity.velocity[X] += -movement.move * maxSpeed
+      }
+      if (movement.turn) {
+        entity.orientation += -movement.turn * maxAngularSpeed * dt
+      }
 
-        merge(entity, tankMove(entity, dt))
-      },
-    })
+      merge(entity, tankMove(entity, dt))
+    },
+  })
 }

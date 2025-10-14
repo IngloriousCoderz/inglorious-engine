@@ -1,5 +1,3 @@
-import { extend } from "@inglorious/utils/data-structures/objects.js"
-
 const DEFAULT_STATE = "default"
 
 export function fsm(states) {
@@ -8,7 +6,7 @@ export function fsm(states) {
   ]
 
   return (type) => {
-    return extend(type, {
+    return {
       create(entity, entityId, api) {
         type.create?.(entity, entityId, api)
 
@@ -30,6 +28,6 @@ export function fsm(states) {
         }),
         {},
       ),
-    })
+    }
   }
 }

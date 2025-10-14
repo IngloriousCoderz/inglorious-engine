@@ -13,53 +13,52 @@ const Z = 2
 export function modernVelocity(params) {
   params = extend(DEFAULT_PARAMS, params)
 
-  return (type) =>
-    extend(type, {
-      ...createMovementEventHandlers([
-        "moveLeft",
-        "moveRight",
-        "moveUp",
-        "moveDown",
-        "moveLeftRight",
-        "moveUpDown",
-      ]),
+  return (type) => ({
+    ...createMovementEventHandlers([
+      "moveLeft",
+      "moveRight",
+      "moveUp",
+      "moveDown",
+      "moveLeftRight",
+      "moveUpDown",
+    ]),
 
-      create(entity, entityId, api) {
-        type.create?.(entity, entityId, api)
+    create(entity, entityId, api) {
+      type.create?.(entity, entityId, api)
 
-        if (entityId !== entity.id) return
+      if (entityId !== entity.id) return
 
-        entity.maxSpeed ??= params.maxSpeed
-        entity.movement ??= {}
-      },
+      entity.maxSpeed ??= params.maxSpeed
+      entity.movement ??= {}
+    },
 
-      update(entity, dt, api) {
-        type.update?.(entity, dt, api)
+    update(entity, dt, api) {
+      type.update?.(entity, dt, api)
 
-        const { movement, maxSpeed } = entity
-        entity.velocity = zero()
+      const { movement, maxSpeed } = entity
+      entity.velocity = zero()
 
-        if (movement.moveLeft) {
-          entity.velocity[X] = -maxSpeed
-        }
-        if (movement.moveRight) {
-          entity.velocity[X] = maxSpeed
-        }
-        if (movement.moveUp) {
-          entity.velocity[Z] = maxSpeed
-        }
-        if (movement.moveDown) {
-          entity.velocity[Z] = -maxSpeed
-        }
+      if (movement.moveLeft) {
+        entity.velocity[X] = -maxSpeed
+      }
+      if (movement.moveRight) {
+        entity.velocity[X] = maxSpeed
+      }
+      if (movement.moveUp) {
+        entity.velocity[Z] = maxSpeed
+      }
+      if (movement.moveDown) {
+        entity.velocity[Z] = -maxSpeed
+      }
 
-        if (movement.moveLeftRight) {
-          entity.velocity[X] += movement.moveLeftRight * maxSpeed
-        }
-        if (movement.moveUpDown) {
-          entity.velocity[Z] += -movement.moveUpDown * maxSpeed
-        }
-      },
-    })
+      if (movement.moveLeftRight) {
+        entity.velocity[X] += movement.moveLeftRight * maxSpeed
+      }
+      if (movement.moveUpDown) {
+        entity.velocity[Z] += -movement.moveUpDown * maxSpeed
+      }
+    },
+  })
 }
 
 export function modernControls(params) {

@@ -8,21 +8,20 @@ const DEFAULT_PARAMS = {
 export function bouncy(params) {
   params = extend(DEFAULT_PARAMS, params)
 
-  return (type) =>
-    extend(type, {
-      create(entity, entityId, api) {
-        type.create?.(entity, entityId, api)
+  return (type) => ({
+    create(entity, entityId, api) {
+      type.create?.(entity, entityId, api)
 
-        if (entityId !== entity.id) return
+      if (entityId !== entity.id) return
 
-        defaults(entity, params)
-      },
+      defaults(entity, params)
+    },
 
-      land(entity, entityId) {
-        if (entity.id === entityId) {
-          entity.vy = jump(entity) * entity.bounciness
-          entity.groundObject = undefined
-        }
-      },
-    })
+    land(entity, entityId) {
+      if (entity.id === entityId) {
+        entity.vy = jump(entity) * entity.bounciness
+        entity.groundObject = undefined
+      }
+    },
+  })
 }
