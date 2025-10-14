@@ -1,0 +1,22 @@
+{
+  "tasks": [
+    {
+      "id": "1",
+      "text": "Use Inglorious Store",
+      "completed": true
+    },
+    {
+      "id": "2",
+      "text": "...",
+      "completed": false
+    },
+    {
+      "id": "3",
+      "text": "Profit!"
+    },
+    {
+      "id": "ed54",
+      "text": "Ciao"
+    }
+  ]
+}

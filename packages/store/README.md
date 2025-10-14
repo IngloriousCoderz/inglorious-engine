@@ -437,19 +437,19 @@ const baseHandlers = {
 }
 
 // Function that adds validation
-const validated = (behavior) => ({
+const validated = (type) => ({
   formSubmit(entity, value, api) {
     if (!value.trim()) return // Validate first
-    behavior.formSubmit?.(entity, value, api)
+    type.formSubmit?.(entity, value, api)
   },
 })
 
 // Function that adds loading state to async handlers
-const withLoading = (behavior) => ({
+const withLoading = (type) => ({
   async fetchData(entity, payload, api) {
     entity.loading = true
     try {
-      await behavior.fetchData?.(entity, payload, api)
+      await type.fetchData?.(entity, payload, api)
     } finally {
       entity.loading = false
     }
