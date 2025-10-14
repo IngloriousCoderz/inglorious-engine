@@ -1,14 +1,8 @@
 export function createApi(store, extras) {
-  const getTypes = () => store.getTypes()
-
-  const getEntities = () => store.getState()
-
-  const getEntity = (id) => getEntities()[id]
-
   return {
-    getTypes,
-    getEntities,
-    getEntity,
+    getTypes: store.getTypes,
+    getEntities: store.getState,
+    getEntity: (id) => store.getState()[id],
     dispatch: store.dispatch,
     notify: store.notify,
     ...extras,

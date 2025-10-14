@@ -1,5 +1,11 @@
 # @inglorious/store
 
+## 6.0.0
+
+### Major Changes
+
+- Move all eager logic to store and devtools
+
 ## 5.5.0
 
 ### Minor Changes

@@ -5,14 +5,9 @@ import { entities } from "./entities"
 import { types } from "./types"
 import { createReactStore } from "@inglorious/react-store"
 
-const config = { mode: "batched", skippedEvents: ["create"] }
+export const store = createStore({ types, entities })
 
-export const store = createStore({ ...config, types, entities })
-
-export const { Provider, useSelector, useNotify } = createReactStore(
-  store,
-  config,
-)
+export const { Provider, useSelector, useNotify } = createReactStore(store)
 
 if (import.meta.env.DEV) {
   connectDevTools(store)

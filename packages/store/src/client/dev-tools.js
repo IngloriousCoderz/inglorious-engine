@@ -16,6 +16,16 @@ export function connectDevTools(store, config = {}) {
   const name = config.name ?? document.title
   const skippedEvents = config.skippedEvents ?? []
 
+  if (config.mode !== "batched") {
+    const baseDispatch = store.dispatch
+    store.dispatch = (action) => {
+      baseDispatch(action)
+      if (!skippedEvents.includes(action.type)) {
+        sendAction(action, store.getState())
+      }
+    }
+  }
+
   devToolsInstance = window.__REDUX_DEVTOOLS_EXTENSION__.connect({
     name,
     predicate: (state, action) => !skippedEvents.includes(action.type),

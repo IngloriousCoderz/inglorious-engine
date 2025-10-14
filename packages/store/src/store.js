@@ -45,6 +45,7 @@ export function createStore({
     ? applyMiddlewares(...middlewares)(baseStore)
     : baseStore
   const api = createApi(store, store.extras)
+  store._api = api
   return store
 
   /**
@@ -135,7 +136,8 @@ export function createStore({
    * @param {any} payload - The event object payload to notify.
    */
   function notify(type, payload) {
-    dispatch({ type, payload })
+    // NOTE: it's important to invoke store.dispatch instead of dispatch, otherwise we cannot override it
+    store.dispatch({ type, payload })
   }
 
   /**

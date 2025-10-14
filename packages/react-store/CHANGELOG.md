@@ -1,5 +1,16 @@
 # @inglorious/react-store
 
+## 5.0.0
+
+### Major Changes
+
+- Move all eager logic to store and devtools
+
+### Patch Changes
+
+- Updated dependencies
+  - @inglorious/store@6.0.0
+
 ## 4.0.0
 
 ### Patch Changes
