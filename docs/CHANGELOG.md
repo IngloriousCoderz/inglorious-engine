@@ -1,5 +1,13 @@
 # @inglorious/docs
 
+## 1.9.3
+
+### Patch Changes
+
+- @inglorious/engine@9.0.1
+- @inglorious/renderer-2d@8.0.1
+- @inglorious/renderer-react-dom@8.0.1
+
 ## 1.9.2
 
 ### Patch Changes

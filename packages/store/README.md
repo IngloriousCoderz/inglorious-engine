@@ -3,9 +3,16 @@
 [![NPM version](https://img.shields.io/npm/v/@inglorious/store.svg)](https://www.npmjs.com/package/@inglorious/store)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A Redux-compatible state management library inspired by game development architecture.
+A Redux-compatible, ECS-inspired state library that makes state management as elegant as game logic.
 
-**Drop-in replacement for Redux.** Works with `react-redux` and Redux DevTools. Adds entity-based state management (ECS) for simpler, more predictable code.
+**Drop-in replacement for Redux.** Works with `react-redux` and Redux DevTools. Adds **entity-based state management (ECS)** for simpler, more predictable code.
+
+```javascript
+// from redux
+import { createStore } from "redux"
+// to
+import { createStore } from "@inglorious/store"
+```
 
 ---
 
@@ -14,6 +21,8 @@ A Redux-compatible state management library inspired by game development archite
 Redux is powerful but verbose. You need action creators, reducers, middleware for async operations, and a bunch of decisions about where logic should live. Redux Toolkit cuts the boilerplate, but you're still writing a lot of ceremony.
 
 Inglorious Store ditches the ceremony entirely with **entity-based architecture** inspired by game engines. The same ECS patterns that power AAA games power your state management.
+
+Game engines solved state complexity years ago — Inglorious Store brings those lessons to web development.
 
 **Key benefits:**
 
@@ -49,6 +58,10 @@ const todosReducer = (state = [], action) => {
   switch (action.type) {
     case "ADD_TODO":
       return [...state, { id: Date.now(), text: action.payload }]
+
+    case "OTHER_ACTION":
+    // Handle other action
+
     default:
       return state
   }
@@ -56,13 +69,21 @@ const todosReducer = (state = [], action) => {
 
 // Store setup
 const store = configureStore({
-  reducer: { todos: todosReducer },
+  reducer: {
+    work: todosReducer,
+    personal: todosReducer,
+  },
 })
+
+store.dispatch({ type: "ADD_TODO", payload: "Buy groceries" })
+store.dispatch({ type: "OTHER_ACTION" })
 ```
 
 ### Redux Toolkit
 
 ```javascript
+const otherAction = createAction("app:otherAction")
+
 const todosSlice = createSlice({
   name: "todos",
   initialState: [],
@@ -73,14 +94,20 @@ const todosSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(otherAction, (state, action) => {
-      // Handle action from other slice
+      // Handle external action
     })
   },
 })
 
 const store = configureStore({
-  reducer: { todos: todosSlice.reducer },
+  reducer: {
+    work: todosSlice.reducer,
+    personal: todosSlice.reducer,
+  },
 })
+
+store.dispatch(slice.actions.addTodo("Buy groceries"))
+store.dispatch(otherAction())
 ```
 
 ### Inglorious Store
@@ -91,6 +118,10 @@ const types = {
   todoList: {
     addTodo(entity, text) {
       entity.todos.push({ id: Date.now(), text })
+    },
+
+    otherAction(entity) {
+      // Handle other action
     },
   },
 }
@@ -103,6 +134,15 @@ const entities = {
 
 // Create store
 const store = createStore({ types, entities })
+
+store.dispatch({ type: "addTodo", payload: "Buy groceries" })
+store.dispatch({ type: "otherAction" })
+
+// or, even better:
+store.notify("addTodo", "Buy groceries")
+store.notify("otherAction")
+
+// same result, 10x simpler
 ```
 
 **Key differences:**
@@ -138,6 +178,7 @@ const types = {
       if (todo) todo.completed = !todo.completed
     },
   },
+
   settings: {
     setTheme(entity, theme) {
       entity.theme = theme
@@ -152,15 +193,31 @@ const types = {
 - No need to write separate code for each instance
 - Your mental model matches your code structure
 
-### 🔄 Event Handlers (Not Reducers)
+### 🔄 Event Handlers (Not Methods)
 
-Unlike Redux reducers, Inglorious Store uses **event handlers** that mutate directly. Immutability is guaranteed under the hood by Mutative (10x faster than Immer):
+Even though it looks like types expose methods, they are actually **event handlers**, very similar to reducers. There are a few differences though:
+
+1. Just like RTK reducers, you can mutate the entity directly since they are using an immutability library under the hood. Not Immer, but Mutative, which claims to be 10x faster than Immer.
 
 ```javascript
 const types = {
   counter: {
     increment(counter) {
       counter.value++ // Looks like mutation, immutable in reality
+    },
+  },
+}
+```
+
+2. Event handlers accept as arguments the current entity, the event payload, and an API object that exposes a few convenient methods:
+
+```javascript
+const types = {
+  counter: {
+    increment(counter, value, api) {
+      api.getEntities() // access the whole state in read-only mode
+      api.getEntity(id) // access some other entity in read-only mode
+      api.notify(type, payload) // similar to dispatch. Yes, you can dispatch inside of a reducer!
     },
   },
 }
@@ -228,14 +285,15 @@ export const { Provider, useSelector, useNotify } = createReactStore(store)
 
 function App() {
   return (
+    // No store prop needed!
     <Provider>
       <Counter />
     </Provider>
-  ) // No store prop needed
+  )
 }
 
 function Counter() {
-  const notify = useNotify()
+  const notify = useNotify() // less verbose than dispatch
   const count = useSelector((state) => state.counter1.value)
 
   return (
@@ -256,73 +314,70 @@ function Counter() {
 
 The real power: add entities dynamically without code changes.
 
-**Redux/RTK:** To manage three todo lists, you can reuse a reducer, but you're still managing multiple slices manually:
+**Redux/RTK:** To manage three counters, you can reuse a reducer. But what if you want to add a new counter at runtime? Your best options is probably to reshape the whole state.
 
 ```javascript
-// Redux - manual management
+// The original list of counters:
 const store = configureStore({
   reducer: {
-    workTodos: todosReducer,
-    personalTodos: todosReducer,
-    shoppingTodos: todosReducer,
+    counter1: counterReducer,
+    counter2: counterReducer,
+    counter3: counterReducer,
   },
 })
+
+// becomes:
+const store = configureStore({
+  reducer: {
+    counters: countersReducer,
+  },
+})
+
+// with extra actions to manage adding/removing counters:
+store.dispatch({ type: "addCounter", payload: "counter4" })
 ```
 
-**Inglorious Store:** Same behavior, no duplication:
+**Inglorious Store** makes it trivial:
 
 ```javascript
 const types = {
-  todoList: {
-    addTodo(entity, text) {
-      entity.todos.push({ id: Date.now(), text })
+  counter: {
+    increment(entity) {
+      entity.value++
     },
   },
 }
 
 const entities = {
-  work: { type: "todoList", todos: [] },
-  personal: { type: "todoList", todos: [] },
-  shopping: { type: "todoList", todos: [] },
+  counter1: { type: "counter", value: 0 },
+  counter2: { type: "counter", value: 0 },
+  counter3: { type: "counter", value: 0 },
 }
+
+store.notify("add", { id: "counter4", type: "counter", value: 0 })
 ```
 
-**The kicker:** Add a new list at runtime:
+Inglorious Store has a few built-in events that you can use:
 
-```javascript
-// Redux/RTK - would need to restructure the store
-// Inglorious Store - just notify the built-in 'add' event
-store.notify("add", { id: "archive", type: "todoList", todos: [] })
+- `add`: adds a new entity to the state. Triggers a `create` lifecycle event.
+- `remove`: removes an entity from the state. Triggers a `destroy` lifecycle event.
+- `morph`: changes the behavior of a type (advanced, used by middlewares/rendering systems)
 
-// This triggers the 'create' lifecycle event for the new entity
-```
+The lifecycle events can be used to define event handlers similar to constructor and destructor methods in OOP:
 
-**Lifecycle events:**
-
-Inglorious Store provides three built-in lifecycle events that are broadcast like any other event:
-
-- **`create`** - triggered when a new entity is added via the `add` event
-- **`destroy`** - triggered when an entity is removed via the `remove` event
-- **`morph`** - change an entity's type on the fly (like Redux's `replaceReducer` for individual entities)
-
-Remember: events are broadcast to all entities. Each handler decides if it should respond:
+> Remember: events are broadcast to all entities, just like with reducers! Each handler decides if it should respond. More on that in the section below.
 
 ```javascript
 const types = {
-  todoList: {
-    // Every todoList receives the 'create' event, but only the new one should act on it
+  counter: {
     create(entity, id) {
-      if (entity.id !== id) return
+      if (entity.id !== id) return // "are you talking to me?"
       entity.createdAt = Date.now()
     },
 
     destroy(entity, id) {
-      if (entity.id !== id) return
-      console.log(`Archived list: ${entity.id}`)
-    },
-
-    addTodo(entity, text) {
-      entity.todos.push({ id: Date.now(), text })
+      if (entity.id !== id) return // "are you talking to me?"
+      entity.destroyedAt = Date.now()
     },
   },
 }
@@ -330,26 +385,7 @@ const types = {
 
 ### 🔊 Event Broadcasting
 
-Events are broadcast to all entities via pub/sub. Every entity handler receives every event of that type. Each handler decides whether to respond based on the payload:
-
-```javascript
-const types = {
-  todoList: {
-    toggle(entity, id) {
-      // This runs for EVERY todoList entity, but only acts if it's the right one
-      if (entity.id !== id) return
-      const todo = entity.todos.find((t) => t.id === id)
-      if (todo) todo.completed = !todo.completed
-    },
-  },
-}
-
-// Broadcast to all todo lists
-store.notify("toggle", "todo1")
-// Each list's toggle handler runs; only the one with todo1 actually updates
-```
-
-**Multiple types responding to the same event:**
+Events are broadcast to all entities via pub/sub. Every entity handler receives every event of that type, just like in Redux.
 
 ```javascript
 const types = {
@@ -375,23 +411,44 @@ const types = {
 store.notify("taskCompleted", "task123")
 ```
 
-In Redux, you handle this by making multiple reducers listen to the same action—it works by design, but you wire it up manually in each reducer. In RTK, you use `extraReducers` with `builder.addCase()`. In Inglorious Store, it's automatic: if a type has a handler for the event, it receives and processes it.
+In RTK, such action would have be to be defined outside of the slice with `createAction` and then processed with the builder callback notation inside of the `extraReducers` section.
+
+- What if you want to notify the event only to entities of one specific type? Define an event handler for that event only on that type.
+- What if you want to notify the event only on one entity of that type? Add an if that checks if the entity should be bothered or not by it.
+
+```javascript
+const types = {
+  todoList: {
+    toggle(entity, id) {
+      // This runs for EVERY todoList entity, but only acts if it's the right one
+      if (entity.id !== id) return
+
+      const todo = entity.todos.find((t) => t.id === id)
+      if (todo) todo.completed = !todo.completed
+    },
+  },
+}
+
+// Broadcast to all todo lists
+store.notify("toggle", "todo1")
+// Each list's toggle handler runs; only the one with todo1 actually updates
+```
 
 ### ⚡ Async Operations
 
-This is where the choice of "where does my logic live?" matters.
+In **Redux/RTK**, logic should be written inside of pure functions as much as possible. Not even action creators, just in the reducers. But what if I need to access some other part of the state that is not visible to the reducer? What if I need to combine async behavior with sync behavior? This is where the choice of "where does my logic live?" matters.
 
-**Redux/RTK:** Should async logic live in a thunk (where it can access other slices) or in a reducer (where it's pure)? This is a design question you have to answer. Redux thunks are outside the reducer, so they're not deterministic. RTK's `createAsyncThunk` generates pending/fulfilled/rejected actions, spreading your logic across multiple places.
-
-**Inglorious Store:** Your event handlers can be async, and you get deterministic behavior automatically. Inside an async handler, you can access other parts of state (read-only), and you can trigger other events via `api.notify()`. Everything still maintains predictability because of the underlying event queue:
+In **Inglorious Store:** your event handlers can be async, and you get deterministic behavior automatically. Inside an async handler, you can access other parts of state (read-only), and you can trigger other events via `api.notify()`. Even if we give up on some purity, everything still maintains predictability because of the underlying **event queue**:
 
 ```javascript
 const types = {
   todoList: {
     async loadTodos(entity, payload, api) {
-      entity.loading = true
       try {
-        const todos = await fetch("/api/todos").then((r) => r.json())
+        entity.loading = true
+        const { name } = api.getEntity("user")
+        const response = await fetch(`/api/todos/${name}`)
+        const data = await response.json()
         // Trigger another event—it goes in the queue and runs after this handler
         api.notify("todosLoaded", todos)
       } catch (error) {
@@ -412,7 +469,7 @@ const types = {
 }
 ```
 
-Notice: you don't need pending/fulfilled/rejected actions. You control the flow directly. The `api` object passed to handlers provides:
+Notice: you don't need pending/fulfilled/rejected actions. You stay in control of the flow — no hidden action chains. The `api` object passed to handlers provides:
 
 - **`api.getEntities()`** - read entire state
 - **`api.getEntity(id)`** - read one entity
@@ -423,7 +480,7 @@ All events triggered via `api.notify()` enter the queue and process together, ma
 
 ### 🌍 Systems for Global Logic
 
-When you need to coordinate updates across multiple entities (not just respond to individual events), use systems. A system runs once per event and has write access to the entire state:
+When you need to coordinate updates across multiple entities (not just respond to individual events), use systems. Systems run after all entity handlers for the same event, ensuring global consistency, and have write access to the entire state. This concept is the 'S' in the ECS Architecture (Entity-Component-System)!
 
 ```javascript
 const systems = [
@@ -448,44 +505,67 @@ Systems receive the entire state and can modify any entity. They're useful for c
 
 ### 🔗 Behavior Composition
 
-A type can be a single behavior object, or an array of behaviors. A behavior is either an object with event handlers, or a function that takes a behavior and returns an enhanced behavior (decorator pattern):
+A type can be a single behavior object, or an array of behaviors.
+
+```javascript
+// single-behavior type
+const counter = {
+  increment(entity) {
+    entity.value++
+  },
+
+  decrement(entity) {
+    entity.value--
+  },
+}
+
+// multiple behavior type
+const resettableCounter = [
+  counter,
+  {
+    reset(entity) {
+      entity.value = 0
+    },
+  },
+]
+```
+
+A behavior is defined as either an object with event handlers, or a function that takes a type and returns an enhanced behavior (decorator pattern):
 
 ```javascript
 // Base behavior
-const handlers = {
+const resettable = {
   submit(entity, value) {
     entity.value = ""
   },
 }
 
 // Function that wraps and enhances a behavior
-const validated = (behavior) => ({
+const validated = (type) => ({
   submit(entity, value, api) {
     if (!value.trim()) return
-    behavior.submit?.(entity, value, api)
+    type.submit?.(entity, value, api) // remember to always pass all args!
   },
 })
 
 // Another wrapper
-const withLoading = (behavior) => ({
+const withLoading = (type) => ({
   submit(entity, value, api) {
     entity.loading = true
-    behavior.submit?.(entity, value, api)
+    type.submit?.(entity, value, api)
     entity.loading = false
   },
 })
 
-// Compose them together
-const types = {
-  form: [handlers, validated, withLoading],
-}
+// Compose them together to form a type
+const form = [resettable, validated, withLoading]
 ```
 
 When multiple behaviors define the same event, they all run in order. This allows you to build middleware-like patterns: validation, logging, error handling, loading states, etc.
 
 ### ⏱️ Batched Mode
 
-Process multiple events together before re-rendering:
+The Inglorious Store is based on the concept of **event queueing**. This allows you to process multiple events together before re-rendering:
 
 ```javascript
 const store = createStore({ types, entities, mode: "batched" })
@@ -494,10 +574,10 @@ store.notify("playerMoved", { x: 100, y: 50 })
 store.notify("enemyAttacked", { damage: 10 })
 store.notify("particleCreated", { type: "explosion" })
 
-requestAnimationFrame(() => store.update())
+store.update()
 ```
 
-Instead of re-rendering after each event, batch them and re-render once. This is what powers high-performance game engines and smooth animations.
+Instead of re-rendering after each event, you can batch them and re-render once. This is what powers high-performance game engines and smooth animations.
 
 ---
 
@@ -574,12 +654,39 @@ Each handler receives three arguments:
 
 ### Notify vs Dispatch
 
-Both work (dispatch for Redux compatibility), but `notify` is cleaner:
+Both work (`dispatch` is provided just for Redux compatibility), but `notify` is cleaner (and uses `dispatch` internally):
 
 ```javascript
 store.notify("eventName", payload)
 store.dispatch({ type: "eventName", payload }) // Redux-compatible alternative
 ```
+
+### 🧩 Type Safety (WIP)
+
+Inglorious Store aims for **type inference similar to Redux Toolkit** — but without verbose builder callbacks.
+
+You’ll soon be able to infer payload types and entity shapes directly from the `types` definition.
+
+```ts
+const types = {
+  counter: {
+    increment(entity: { value: number }, value: number) {
+      entity.value += value
+    },
+  },
+}
+
+const entities = {
+  c1: { type: "counter", value: 0 },
+}
+
+const store = createStore({ types, entities })
+
+store.notify("increment", 1) // ✅ type-checked
+store.notify("decrement", "oops") // ❌ type error
+```
+
+RTK added the builder callback syntax mostly for type safety — Inglorious Store aims to provide the same guarantees with a cleaner API.
 
 ---
 
@@ -599,6 +706,13 @@ store.dispatch({ type: "eventName", payload }) // Redux-compatible alternative
 - Migration path from Redux (keep using react-redux)
 
 ---
+
+### Demos
+
+Check out the following demos to see the Inglorious Store in action on real-case scenarios:
+
+- **[TodoMVC](https://github.com/IngloriousCoderz/inglorious-engine/tree/main/examples/apps/todomvc)** - An (ugly) clone of Kent Dodds [TodoMVC](https://todomvc.com/) experiments, showing the full compatibility with react-redux and The Redux DevTools.
+- **[TodoMVC-CS](https://github.com/IngloriousCoderz/inglorious-engine/tree/main/examples/apps/todomvc-cs)** - A client-server version of the TodoMVC, which showcases the use of `notify` as a cleaner alternative to `dispatch` and async event handlers.
 
 ## Part of the Inglorious Engine
 

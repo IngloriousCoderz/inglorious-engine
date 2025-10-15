@@ -1,5 +1,11 @@
 # @inglorious/renderer-2d
 
+## 8.0.1
+
+### Patch Changes
+
+- @inglorious/engine@9.0.1
+
 ## 8.0.0
 
 ### Patch Changes

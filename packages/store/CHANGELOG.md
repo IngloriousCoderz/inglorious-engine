@@ -1,5 +1,11 @@
 # @inglorious/store
 
+## 6.0.1
+
+### Patch Changes
+
+- Improve store's README docs
+
 ## 6.0.0
 
 ### Major Changes

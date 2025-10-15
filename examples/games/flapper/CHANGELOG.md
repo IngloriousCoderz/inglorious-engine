@@ -1,5 +1,12 @@
 # inglorious-flapper
 
+## 0.2.3
+
+### Patch Changes
+
+- @inglorious/engine@9.0.1
+- @inglorious/renderer-2d@8.0.1
+
 ## 0.2.2
 
 ### Patch Changes
