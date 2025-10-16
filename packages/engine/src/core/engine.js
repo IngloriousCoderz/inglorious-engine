@@ -2,11 +2,7 @@ import { audio } from "@inglorious/engine/behaviors/audio.js"
 import { game } from "@inglorious/engine/behaviors/game.js"
 import { images } from "@inglorious/engine/behaviors/images.js"
 import { createApi } from "@inglorious/store/api.js"
-import {
-  connectDevTools,
-  disconnectDevTools,
-  sendAction,
-} from "@inglorious/store/client/dev-tools.js"
+import { createDevtools } from "@inglorious/store/client/devtools.js"
 import { multiplayerMiddleware } from "@inglorious/store/client/multiplayer-middleware.js"
 import { createStore } from "@inglorious/store/store.js"
 import { augmentType } from "@inglorious/store/types.js"
@@ -65,15 +61,16 @@ export class Engine {
     const multiplayer = this._config.entities.game?.multiplayer
     if (multiplayer) {
       middlewares.push(
-        multiplayerMiddleware({ ...multiplayer, skippedEvents: coreEvents }),
+        multiplayerMiddleware({ ...multiplayer, blacklist: coreEvents }),
       )
     }
 
     this._store = createStore({ ...this._config, middlewares, mode: "batched" })
     this._loop = new Loop[this._config.loop.type]()
 
+    this._devtools = createDevtools({ blacklist: coreEvents, mode: "batched" })
     if (this._devMode) {
-      connectDevTools(this._store, { skippedEvents: coreEvents })
+      this._devtools.connect(this._store)
     }
   }
 
@@ -118,9 +115,9 @@ export class Engine {
     const newDevMode = entities.game?.devMode
     if (newDevMode !== this._devMode) {
       if (newDevMode) {
-        connectDevTools(this._store, { skippedEvents: coreEvents })
+        this._devtools.connect(this._store)
       } else {
-        disconnectDevTools()
+        this._devtools.disconnect()
       }
       this._devMode = newDevMode
     }
@@ -134,7 +131,7 @@ export class Engine {
         type: eventsToLog.map(({ type }) => type).join("|"),
         payload: eventsToLog,
       }
-      sendAction(action, entities)
+      this._devtools.send(action, entities)
     }
   }
 }

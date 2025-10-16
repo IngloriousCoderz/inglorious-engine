@@ -20,7 +20,7 @@ import { createStore } from "@inglorious/store"
 
 Redux is powerful but verbose. You need action creators, reducers, middleware for async operations, and a bunch of decisions about where logic should live. Redux Toolkit cuts the boilerplate, but you're still writing a lot of ceremony.
 
-Inglorious Store ditches the ceremony entirely with **entity-based architecture** inspired by game engines. The same ECS patterns that power AAA games power your state management.
+Inglorious Store ditches the ceremony entirely with an **entity-based architecture** inspired by game engines. The same ECS patterns that power AAA games power your state management.
 
 Game engines solved state complexity years ago — Inglorious Store brings those lessons to web development.
 
@@ -32,16 +32,6 @@ Game engines solved state complexity years ago — Inglorious Store brings those
 - ✅ Predictable, testable, purely functional code
 - ✅ Built-in lifecycle events (`add`, `remove`, `morph`)
 - ✅ 10x faster immutability than Redux Toolkit (Mutative vs Immer)
-
----
-
-## Installation
-
-```bash
-npm install @inglorious/store react-redux
-```
-
-**For React:** Works with standard `react-redux` without any extra packages.
 
 ---
 
@@ -159,15 +149,9 @@ store.notify("otherAction")
 
 ### 🎮 Entities and Types
 
-State consists of **entities** (instances) that have a **type** (behavior definition). Think of type as a class and entities as instances:
+State consists of **entities** (instances) that have a **type** (behavior definition). Think of a type as a class and entities as instances:
 
 ```javascript
-const entities = {
-  workTodos: { type: "todoList", todos: [], priority: "high" },
-  personalTodos: { type: "todoList", todos: [], priority: "low" },
-  settings: { type: "settings", theme: "dark", language: "en" },
-}
-
 const types = {
   todoList: {
     addTodo(entity, text) {
@@ -185,6 +169,12 @@ const types = {
     },
   },
 }
+
+const entities = {
+  workTodos: { type: "todoList", todos: [], priority: "high" },
+  personalTodos: { type: "todoList", todos: [], priority: "low" },
+  settings: { type: "settings", theme: "dark", language: "en" },
+}
 ```
 
 **Why this matters:**
@@ -195,9 +185,9 @@ const types = {
 
 ### 🔄 Event Handlers (Not Methods)
 
-Even though it looks like types expose methods, they are actually **event handlers**, very similar to reducers. There are a few differences though:
+Even though it looks like types expose methods, they are actually **event handlers**, very similar to Redux reducers. There are a few differences though:
 
-1. Just like RTK reducers, you can mutate the entity directly since they are using an immutability library under the hood. Not Immer, but Mutative, which claims to be 10x faster than Immer.
+1. Just like RTK reducers, you can mutate the entity directly since event handlers are using an immutability library under the hood. Not Immer, but Mutative, which claims to be 10x faster than Immer.
 
 ```javascript
 const types = {
@@ -218,6 +208,7 @@ const types = {
       api.getEntities() // access the whole state in read-only mode
       api.getEntity(id) // access some other entity in read-only mode
       api.notify(type, payload) // similar to dispatch. Yes, you can dispatch inside of a reducer!
+      api.dispatch(action) // optional, if you prefer Redux-style dispatching
     },
   },
 }
@@ -227,7 +218,9 @@ const types = {
 
 ## Installation & Setup
 
-### Basic Setup (React)
+The Inglorious store, just like Redux, can be used standalone. But a common usage is together with a component library such as React.
+
+### Basic Setup with `react-redux`
 
 ```javascript
 import { createStore } from "@inglorious/store"
@@ -250,10 +243,10 @@ const entities = {
   counter1: { type: "counter", value: 0 },
 }
 
-// 3. Create store
+// 3. Create the store
 const store = createStore({ types, entities })
 
-// 4. Use with react-redux
+// 4. Provide the store with react-redux
 function App() {
   return (
     <Provider store={store}>
@@ -262,6 +255,7 @@ function App() {
   )
 }
 
+// 5. Wire components to the store
 function Counter() {
   const dispatch = useDispatch()
   const count = useSelector((state) => state.counter1.value)
@@ -276,10 +270,13 @@ function Counter() {
 }
 ```
 
-### With @inglorious/react-store (Recommended)
+### With `@inglorious/react-store` (Recommended)
 
 ```javascript
+import { createStore } from "@inglorious/store"
 import { createReactStore } from "@inglorious/react-store"
+
+const store = createStore({ types, entities })
 
 export const { Provider, useSelector, useNotify } = createReactStore(store)
 
@@ -314,7 +311,7 @@ function Counter() {
 
 The real power: add entities dynamically without code changes.
 
-**Redux/RTK:** To manage three counters, you can reuse a reducer. But what if you want to add a new counter at runtime? Your best options is probably to reshape the whole state.
+**Redux/RTK:** To manage three counters, you can reuse a reducer. But what if you want to add a new counter at runtime? Your best option is probably to reshape the whole state.
 
 ```javascript
 // The original list of counters:
@@ -449,7 +446,6 @@ const types = {
         const { name } = api.getEntity("user")
         const response = await fetch(`/api/todos/${name}`)
         const data = await response.json()
-        // Trigger another event—it goes in the queue and runs after this handler
         api.notify("todosLoaded", todos)
       } catch (error) {
         api.notify("loadFailed", error.message)
@@ -474,6 +470,7 @@ Notice: you don't need pending/fulfilled/rejected actions. You stay in control o
 - **`api.getEntities()`** - read entire state
 - **`api.getEntity(id)`** - read one entity
 - **`api.notify(type, payload)`** - trigger other events (queued, not immediate)
+- **`api.dispatch(action)`** - optional, if you prefer Redux-style dispatching
 - **`api.getTypes()`** - access type definitions (mainly for middleware/plugins)
 
 All events triggered via `api.notify()` enter the queue and process together, maintaining predictability and testability.
@@ -565,15 +562,17 @@ When multiple behaviors define the same event, they all run in order. This allow
 
 ### ⏱️ Batched Mode
 
-The Inglorious Store is based on the concept of **event queueing**. This allows you to process multiple events together before re-rendering:
+The Inglorious Store features an **event queue**. In the default `eager` mode, each notified event will trigger and update of the state (same as Redux). But in `batched` mode, you can process multiple events together before re-rendering:
 
 ```javascript
 const store = createStore({ types, entities, mode: "batched" })
 
+// add events to the event queue
 store.notify("playerMoved", { x: 100, y: 50 })
 store.notify("enemyAttacked", { damage: 10 })
 store.notify("particleCreated", { type: "explosion" })
 
+// process them all in batch
 store.update()
 ```
 
@@ -609,7 +608,7 @@ const store = createStore({
 })
 ```
 
-**Returns:** Redux-compatible store
+**Returns:** A Redux-compatible store
 
 ### Types Definition
 
@@ -643,7 +642,8 @@ Each handler receives three arguments:
 - **`api`** - access to store methods:
   - `getEntities()` - entire state (read-only)
   - `getEntity(id)` - single entity (read-only)
-  - `notify(type, payload)` - trigger other events (queued)
+  - `notify(type, payload)` - trigger other events
+  - `dispatch(action)` - optional, if you prefer Redux-style dispatching
   - `getTypes()` - type definitions (for middleware)
 
 ### Built-in Lifecycle Events
@@ -711,8 +711,9 @@ RTK added the builder callback syntax mostly for type safety — Inglorious Stor
 
 Check out the following demos to see the Inglorious Store in action on real-case scenarios:
 
-- **[TodoMVC](https://github.com/IngloriousCoderz/inglorious-engine/tree/main/examples/apps/todomvc)** - An (ugly) clone of Kent Dodds [TodoMVC](https://todomvc.com/) experiments, showing the full compatibility with react-redux and The Redux DevTools.
+- **[TodoMVC](https://github.com/IngloriousCoderz/inglorious-engine/tree/main/examples/apps/todomvc)** - An (ugly) clone of Kent Dodds' [TodoMVC](https://todomvc.com/) experiments, showing the full compatibility with react-redux and The Redux DevTools.
 - **[TodoMVC-CS](https://github.com/IngloriousCoderz/inglorious-engine/tree/main/examples/apps/todomvc-cs)** - A client-server version of the TodoMVC, which showcases the use of `notify` as a cleaner alternative to `dispatch` and async event handlers.
+- **[TodoMVC-RT](https://github.com/IngloriousCoderz/inglorious-engine/tree/main/examples/apps/todomvc-rt)** - A "multiplayer" version, in which multiple clients are able to synchronize through a real-time server.
 
 ## Part of the Inglorious Engine
 

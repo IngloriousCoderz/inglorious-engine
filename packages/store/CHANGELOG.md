@@ -1,5 +1,15 @@
 # @inglorious/store
 
+## 6.1.0
+
+### Minor Changes
+
+- Turn devtools enhancer into a middleware
+
+### Patch Changes
+
+- Add real-time app example
+
 ## 6.0.1
 
 ### Patch Changes

@@ -67,12 +67,13 @@ pnpm build
 
 State management files are in `src/store/`:
 
-| File                     | Purpose                                    |
-| ------------------------ | ------------------------------------------ |
-| `src/store/index.js`     | Store setup and react-redux integration    |
-| `src/store/entities.js`  | Initial state for all entities             |
-| `src/store/types.js`     | Event handlers (like reducers, but better) |
-| `src/store/selectors.js` | Memoized selectors for derived state       |
+| File                       | Purpose                                           |
+| -------------------------- | ------------------------------------------------- |
+| `src/store/index.js`       | Store setup and react-redux integration           |
+| `src/store/entities.js`    | Initial state for all entities                    |
+| `src/store/types.js`       | Event handlers (like reducers, but more powerful) |
+| `src/store/middlewares.js` | Functions that augment the store's behavior       |
+| `src/store/selectors.js`   | Memoized selectors for derived state              |
 
 ---
 
@@ -222,7 +223,9 @@ const clearInput = () => ({ type: "CLEAR_INPUT" })
 function todosReducer(state, action) {
   switch (action.type) {
     case "ADD_TODO":
+      // Manual immutability
       return [...state, { id: Date.now(), text: action.payload }]
+
     default:
       return state
   }
@@ -232,15 +235,14 @@ function inputReducer(state, action) {
   switch (action.type) {
     case "CLEAR_INPUT":
       return ""
+
     case "INPUT_CHANGE":
       return action.payload
+
     default:
       return state
   }
 }
-
-// Manual immutability
-return [...state, newItem]
 ```
 
 ### Redux Toolkit (RTK):
@@ -341,60 +343,27 @@ entity.tasks.push(newItem)
 
 ## 🐛 Debugging with Redux DevTools
 
-This demo includes Redux DevTools integration:
+This demo includes Redux DevTools integration with the `devtoolsMiddleware`:
 
 1. Install **[Redux DevTools Extension](https://github.com/reduxjs/redux-devtools)**
 2. Open the app and launch DevTools
 3. See every event as an Action
 4. Time-travel through state changes
 
----
+The middleware can ignore certain events using three optional configuration parameters:
 
-## ⚠️ Limitations of This Approach
-
-This demo uses **eager mode** with `react-redux`, which has one limitation:
-
-**Event chaining doesn't work.** If an event handler dispatches another event, only the first event processes.
-
-```javascript
-// This won't work in eager mode:
-const types = {
-  list: {
-    async fetchTodos(entity, payload, api) {
-      const todos = await fetch("/api/todos").then((r) => r.json())
-      api.notify("todosReceived", todos) // ❌ This event is ignored
-    },
-  },
-}
-```
-
-**Solution:** Use batched mode with `@inglorious/react-store`. See the `todomvc-cs` example for this pattern.
-
----
-
-## 🔄 When to Use This Approach
-
-**✅ Use this (react-redux) version if:**
-
-- Migrating from Redux
-- Team familiar with Redux patterns
-- Synchronous operations only
-- Want minimal changes to existing code
-
-**⚠️ Consider todomvc-cs (@inglorious/react-store) if you need:**
-
-- Async operations (API calls)
-- Event chaining (events triggering other events)
-- Batched updates
-- Full @inglorious/store feature set
+- `whitelist`: an array of event types that specifies which events to log
+- `blacklist`: an array of event types that specifies which events to ignore
+- `filter`: a predicate that, given the event, specifies if it should be logged
 
 ---
 
 ## 📚 Learn More
 
 - **[@inglorious/store](https://github.com/IngloriousCoderz/inglorious-engine/tree/main/packages/store)** - Core state management docs
-- **[todomvc-cs](../todomvc-cs)** - Same app with `@inglorious/react-store` (batched mode, event chaining)
 - **[@inglorious/react-store](https://github.com/IngloriousCoderz/inglorious-engine/tree/main/packages/react-store)** - React bindings with additional features
+- **[todomvc-cs](../todomvc-cs)** - Same app as this one, but with `@inglorious/react-store` and async requests towards a RESTful service
+- **[todomvc-rt](../todomvc-rt)** - Same app as this one, but with real-time collaboration through the `multiplayerMiddleware`
 
 ---
 

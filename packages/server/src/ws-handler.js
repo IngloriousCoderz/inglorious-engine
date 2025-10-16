@@ -14,7 +14,7 @@ export function setup(httpServer, store, logger) {
   wss.on("connection", (ws) => {
     logger.info("A new client has connected.")
 
-    ws.send(serialize({ type: "initialState", payload: store.getState() }))
+    ws.send(serialize({ type: "stateInit", payload: store.getState() }))
 
     ws.on("message", (rawData) => {
       try {

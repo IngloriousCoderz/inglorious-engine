@@ -16,14 +16,21 @@ export function multiplayerMiddleware(config = {}) {
   const serverUrl = config.serverUrl ?? DEFAULT_SERVER_URL
   const reconnectionDelay =
     config.reconnectionDelay ?? DEFAULT_RECONNECTION_DELAY
-  const skippedEvents = config.skippedEvents ?? []
+
+  const blacklist = config.blacklist ?? []
+  const whitelist = config.whitelist ?? []
+  const filter = config.filter ?? null
 
   let ws = null
   const localQueue = []
 
   // The middleware function that will be applied to the store.
   return (store) => (next) => (event) => {
-    if (skippedEvents.includes(event.type)) {
+    const shouldBeSent =
+      (!blacklist.length || !blacklist.includes(event.type)) &&
+      (!whitelist.length || whitelist.includes(event.type)) &&
+      (!filter || filter(event))
+    if (!shouldBeSent) {
       return next(event)
     }
 
@@ -32,13 +39,10 @@ export function multiplayerMiddleware(config = {}) {
       establishConnection(store)
     }
 
-    // Only send the event to the server if it didn't come from the server.
     if (!event.fromServer) {
       if (ws?.readyState === WebSocket.OPEN) {
-        // If the connection is open, send the event immediately.
         ws.send(serialize(event))
       } else {
-        // If the connection is not open, queue the event for later.
         localQueue.push(event)
       }
     }
@@ -72,7 +76,7 @@ export function multiplayerMiddleware(config = {}) {
     ws.onmessage = (event) => {
       const serverEvent = deserialize(event.data)
 
-      if (serverEvent.type === "initialState") {
+      if (serverEvent.type === "stateInit") {
         // Merge the server's initial state with the client's local state.
         const nextState = extend(store.getState(), serverEvent.payload)
         store.setState(nextState)

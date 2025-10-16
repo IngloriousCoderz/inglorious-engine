@@ -1,5 +1,15 @@
 # @inglorious/engine
 
+## 10.0.0
+
+### Patch Changes
+
+- Add real-time app example
+- Turn devtools enhancer into a middleware
+- Updated dependencies
+- Updated dependencies
+  - @inglorious/store@6.1.0
+
 ## 9.0.1
 
 ### Patch Changes

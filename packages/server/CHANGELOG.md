@@ -1,5 +1,18 @@
 # @inglorious/server
 
+## 8.0.0
+
+### Minor Changes
+
+- Turn devtools enhancer into a middleware
+
+### Patch Changes
+
+- Add real-time app example
+- Updated dependencies
+- Updated dependencies
+  - @inglorious/store@6.1.0
+
 ## 7.0.1
 
 ### Patch Changes

@@ -2,7 +2,7 @@
 
 A TodoMVC implementation using **[@inglorious/store](https://www.npmjs.com/package/@inglorious/store)** with **[@inglorious/react-store](https://www.npmjs.com/package/@inglorious/react-store)** bindings, demonstrating **async API calls** and **event chaining** with a RESTful backend.
 
-This demo showcases the full power of batched mode and cascading notifications for real-world client-server applications.
+This demo showcases cascading notifications for real-world client-server applications.
 
 ---
 
@@ -11,23 +11,20 @@ This demo showcases the full power of batched mode and cascading notifications f
 This implementation demonstrates:
 
 1. **useNotify Hook**: Cleaner API than `useDispatch`
-2. **Batched Mode**: Explicit control over when state updates (20 FPS default)
-3. **Event Chaining**: Async handlers trigger sync handlers automatically
-4. **RESTful API Integration**: Real server communication with `json-server`
-5. **Async/Sync Separation**: Clean split between I/O and state updates
+2. **Event Chaining**: Async handlers trigger sync handlers automatically
+3. **RESTful API Integration**: Real server communication with `json-server`
+4. **Async/Sync Separation**: Clean split between I/O and state updates
 
 ---
 
-## 🎯 Why Batched Mode for Client-Server Apps
-
-**Event chaining is essential for async operations.**
+## 🎯 Event Chaining
 
 When fetching data from an API, you need two separate handlers:
 
 1. **Async handler** - performs the fetch
 2. **Sync handler** - updates the state with the result
 
-In eager mode, only the first event processes. **Batched mode allows both to run in the same update cycle.**
+Contrary to Redux/RTK, an event handler can notify of other events. We give up a little bit of purity, but maintain predictability thanks to the store's internal **event queue**.
 
 ### The Pattern:
 
@@ -104,43 +101,53 @@ pnpm build
 
 State management files are in `src/store/`:
 
-| File                     | Purpose                                           |
-| ------------------------ | ------------------------------------------------- |
-| `src/store/index.js`     | Store setup with **batched mode** and `useNotify` |
-| `src/store/entities.js`  | Initial state for all entities                    |
-| `src/store/types.js`     | **Async event handlers** with event chaining      |
-| `src/store/selectors.js` | Memoized selectors for derived state              |
-| `src/services/client.js` | API client functions                              |
+| File                       | Purpose                                      |
+| -------------------------- | -------------------------------------------- |
+| `src/store/index.js`       | Store setup with `@inglorious/react-store`   |
+| `src/store/entities.js`    | Initial state for all entities               |
+| `src/store/types.js`       | **Async event handlers** with event chaining |
+| `src/store/middlewares.js` | Functions that augment the store's behavior  |
+| `src/store/selectors.js`   | Memoized selectors for derived state         |
+| `src/services/client.js`   | API client functions                         |
 
 ---
 
 ## 🔍 How It Works
 
-### Batched Mode Configuration
+### Using `@inglorious/react-store`
 
 ```javascript
 // src/store/index.js
 import { createStore } from "@inglorious/store"
 import { createReactStore } from "@inglorious/react-store"
 
-const store = createStore({
-  types,
-  entities,
-  mode: "batched", // Required for event chaining!
-})
+const store = createStore({ types, entities })
 
-export const { Provider, useSelector, useNotify } = createReactStore(store, {
-  mode: "batched",
-  fps: 20, // Sweet spot for responsive input handling
-  skippedEvents: ["create"], // Don't log these in DevTools
-})
+export const { Provider, useSelector, useNotify } = createReactStore(store)
+
+// App.jsx
+function App() {
+  return (
+    <Provider>
+      <Form />
+      <List />
+    </Provider>
+  )
+}
+
+// Form.jsx
+function Form() {
+  const notify = useNotify()
+  const value = useSelector((state) => state.form.value)
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    notify("formSubmit", value)
+  }
+
+  // ... render logic
+}
 ```
-
-**Why 20 FPS?**
-
-- Fast enough for snappy input handling
-- Efficient CPU usage
-- Good balance for most apps
 
 ### Async Event Chaining Pattern
 
@@ -233,116 +240,32 @@ function TodoList() {
 }
 ```
 
----
-
-## 🔄 Complete CRUD Flow
-
-### Create (POST)
-
-```javascript
-// 1. User submits form
-notify('formSubmit', inputValue)
-
-// 2. Async handler sends POST request
-async formSubmit(entity, value, api) {
-  const created = await client.createTask({ text: value })
-  api.notify('taskCreated', created) // 3. Trigger sync handler
-}
-
-// 4. Sync handler updates state
-taskCreated(entity, created) {
-  entity.tasks.push(created)
-}
-```
-
-### Read (GET)
-
-```javascript
-// 1. Component loads
-notify('loadTasks')
-
-// 2. Async handler fetches data
-async loadTasks(entity, payload, api) {
-  const tasks = await client.getTasks()
-  api.notify('tasksLoaded', tasks) // 3. Trigger sync handler
-}
-
-// 4. Sync handler stores data
-tasksLoaded(entity, tasks) {
-  entity.tasks = tasks
-}
-```
-
-### Update (PUT/PATCH)
-
-```javascript
-// 1. User toggles task
-notify('toggleClick', taskId)
-
-// 2. Async handler sends update
-async toggleClick(entity, id, api) {
-  const task = entity.tasks.find(t => t.id === id)
-  const updated = await client.updateTask(id, { completed: !task.completed })
-  api.notify('taskUpdated', updated)
-}
-
-// 3. Sync handler updates state
-taskUpdated(entity, updated) {
-  const task = entity.tasks.find(t => t.id === updated.id)
-  if (task) task.completed = updated.completed
-}
-```
-
-### Delete (DELETE)
-
-```javascript
-// 1. User deletes task
-notify('deleteClick', taskId)
-
-// 2. Async handler sends DELETE
-async deleteClick(entity, id, api) {
-  await client.deleteTask(id)
-  api.notify('taskDeleted', id)
-}
-
-// 3. Sync handler removes from state
-taskDeleted(entity, id) {
-  const index = entity.tasks.findIndex(t => t.id === id)
-  entity.tasks.splice(index, 1)
-}
-```
-
----
-
 ## 💡 Why Event Chaining?
 
-### Without Event Chaining (doesn't work in eager mode):
+Without event chaining, Mutative prevents us from mutating the entity since its proxy has become obsolete by the time the promise is fulfilled:
 
 ```javascript
-// ❌ This only processes the async handler
-async formSubmit(entity, value) {
-  const task = await fetch('/api/tasks', { method: 'POST', ... })
-  entity.tasks.push(task) // State update in async handler - not ideal
+const list = {
+  async loadTasks(entity, value) {
+    const task = await fetch('/api/tasks', { method: 'POST', ... })
+    entity.tasks.push(task) // TypeError: Cannot perform 'set' on a proxy that has been revoked
+  },
 }
 ```
 
-**Problems:**
-
-- ❌ Mixing concerns (fetch + state update)
-- ❌ Harder to test
-- ❌ Can't reuse the sync logic
-
-### With Event Chaining (batched mode):
+Event chaining feels more natural anyway, and makes sync logic more testable and reusable:
 
 ```javascript
-// ✅ Separation of concerns
-async formSubmit(entity, value, api) {
-  const task = await fetch('/api/tasks', { method: 'POST', ... })
-  api.notify('taskCreated', task) // Trigger separate handler
-}
+const list = {
+  // ✅ Separation of concerns
+  async loadTasks(entity, value, api) {
+    const task = await fetch('/api/tasks', { method: 'POST', ... })
+    api.notify('taskCreated', task) // Trigger separate handler
+  },
 
-taskCreated(entity, task) {
-  entity.tasks.push(task) // Pure state update
+  taskCreated(entity, task) {
+    entity.tasks.push(task) // Pure state update
+  },
 }
 ```
 
@@ -432,19 +355,30 @@ const listSlice = createSlice({
 - ❌ More boilerplate
 - ❌ Harder to coordinate with other slices
 
+To be fair, there is also a cleaner way in RTK: `create.asyncThunk`. This requires however to create a new `createAppSlice` function, as described [here](https://redux-toolkit.js.org/api/createSlice#createasyncthunk).
+
 ### With @inglorious/store:
 
 ```javascript
 const types = {
   list: {
     async loadTasks(entity, payload, api) {
-      entity.loading = true
-      const tasks = await client.getTasks()
-      api.notify("tasksLoaded", tasks)
+      try {
+        entity.loading = true
+        const tasks = await client.getTasks()
+        api.notify("tasksLoaded", tasks)
+      } catch (error) {
+        api.notify("tasksFailed", error)
+      }
     },
 
     tasksLoaded(entity, tasks) {
       entity.tasks = tasks
+      entity.loading = false
+    },
+
+    tasksFailed(entity, error) {
+      entity.error = error.message
       entity.loading = false
     },
   },
@@ -456,81 +390,10 @@ const types = {
 **Benefits:**
 
 - ✅ No `createAsyncThunk`
-- ✅ Two simple handlers instead of three
 - ✅ No builder notation
 - ✅ Less boilerplate
 - ✅ Natural error handling with try/catch
 - ✅ Other entities can easily respond to `tasksLoaded`
-
----
-
-## 🐛 Debugging with Redux DevTools
-
-Full Redux DevTools support with event grouping:
-
-1. Install **[Redux DevTools Extension](https://github.com/reduxjs/redux-devtools)**
-2. Events are grouped by update cycle (batched mode)
-3. Use `skippedEvents` to reduce noise:
-
-```javascript
-const { Provider, useSelector, useNotify } = createReactStore(store, {
-  mode: "batched",
-  fps: 20,
-  skippedEvents: ["create", "inputChange"], // Don't log these
-})
-```
-
----
-
-## ⚙️ FPS Configuration
-
-The default 20 FPS is a sweet spot for most apps, but you can adjust:
-
-```javascript
-createReactStore(store, {
-  mode: "batched",
-  fps: 60  // For smooth animations
-  fps: 30  // Standard game speed
-  fps: 20  // Default - good for apps (responsive input)
-  fps: 10  // Lower CPU usage
-})
-```
-
-**Guidelines:**
-
-- **60 FPS** - Games, smooth animations
-- **30 FPS** - Standard real-time apps
-- **20 FPS** - Default, best balance for input handling
-- **10 FPS** - Background updates, lower priority
-
----
-
-## 🔄 When to Use This Approach
-
-**✅ Use this (batched + event chaining) if:**
-
-- App communicates with a server (API calls)
-- Need async operations (data fetching)
-- Want separation of concerns (I/O vs state)
-- Building real-time or collaborative features
-- Want clean, testable async patterns
-
-**⚠️ Consider basic todomvc (react-redux) if:**
-
-- No server communication
-- All synchronous operations
-- Prefer familiar Redux patterns
-- Don't need event chaining
-
----
-
-## 🎓 Key Takeaways
-
-1. **Batched mode is required** for event chaining to work
-2. **Separate async I/O from state updates** - use two handlers
-3. **20 FPS default** provides responsive input with good performance
-4. **Event chaining is simpler** than Redux Toolkit's async thunks
-5. **Pub/sub enables coordination** - multiple entities can respond to async results
 
 ---
 
