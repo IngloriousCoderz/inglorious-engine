@@ -20,7 +20,7 @@ export default function Form() {
         value={value}
         onChange={handleChange}
       />
-      <button>Add</button>
+      <button disabled={!value.length}>Add</button>
     </form>
   )
 }

@@ -1,5 +1,13 @@
 # todomvc
 
+## 1.1.1
+
+### Patch Changes
+
+- Add type safety
+- Updated dependencies
+  - @inglorious/store@6.1.1
+
 ## 1.1.0
 
 ### Minor Changes

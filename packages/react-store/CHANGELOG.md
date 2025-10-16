@@ -1,5 +1,13 @@
 # @inglorious/react-store
 
+## 6.0.1
+
+### Patch Changes
+
+- Add type safety
+- Updated dependencies
+  - @inglorious/store@6.1.1
+
 ## 6.0.0
 
 ### Patch Changes

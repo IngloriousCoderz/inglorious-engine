@@ -1,6 +1,6 @@
 {
   "name": "@inglorious/flapper",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "type": "module",
   "private": true,
   "description": "A Flappy Bird clone, re-implemented with the Inglorious Engine.",

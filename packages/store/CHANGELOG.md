@@ -1,5 +1,11 @@
 # @inglorious/store
 
+## 6.1.1
+
+### Patch Changes
+
+- Add type safety
+
 ## 6.1.0
 
 ### Minor Changes

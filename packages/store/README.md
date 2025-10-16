@@ -272,6 +272,8 @@ function Counter() {
 
 ### With `@inglorious/react-store` (Recommended)
 
+For React applications, `@inglorious/react-store` provides a set of hooks and a Provider that are tightly integrated with the store. It's a lightweight wrapper around `react-redux` that offers a more ergonomic API.
+
 ```javascript
 import { createStore } from "@inglorious/store"
 import { createReactStore } from "@inglorious/react-store"
@@ -302,6 +304,8 @@ function Counter() {
   )
 }
 ```
+
+The package is fully typed, providing a great developer experience with TypeScript.
 
 ---
 
@@ -661,32 +665,77 @@ store.notify("eventName", payload)
 store.dispatch({ type: "eventName", payload }) // Redux-compatible alternative
 ```
 
-### 🧩 Type Safety (WIP)
+### 🧩 Type Safety
 
-Inglorious Store aims for **type inference similar to Redux Toolkit** — but without verbose builder callbacks.
+Inglorious Store is written in JavaScript but comes with powerful TypeScript support out of the box, allowing for a fully type-safe experience similar to Redux Toolkit, but with less boilerplate.
 
-You’ll soon be able to infer payload types and entity shapes directly from the `types` definition.
+You can achieve strong type safety by defining an interface for your `types` configuration. This allows you to statically define the shape of your entity handlers, ensuring that all required handlers are present and correctly typed.
 
-```ts
-const types = {
-  counter: {
-    increment(entity: { value: number }, value: number) {
-      entity.value += value
+Here’s how you can set it up for a TodoMVC-style application:
+
+**1. Define Your Types**
+
+First, create an interface that describes your entire `types` configuration. This interface will enforce the structure of your event handlers.
+
+```typescript
+// src/store/types.ts
+import type {
+  FormEntity,
+  ListEntity,
+  FooterEntity,
+  // ... other payload types
+} from "../../types"
+
+// Define the static shape of the types configuration
+interface TodoListTypes {
+  form: {
+    inputChange: (entity: FormEntity, value: string) => void
+    formSubmit: (entity: FormEntity) => void
+  }
+  list: {
+    formSubmit: (entity: ListEntity, value: string) => void
+    toggleClick: (entity: ListEntity, id: number) => void
+    // ... other handlers
+  }
+  footer: {
+    filterClick: (entity: FooterEntity, id: string) => void
+  }
+}
+
+export const types: TodoListTypes = {
+  form: {
+    inputChange(entity, value) {
+      entity.value = value
+    },
+    formSubmit(entity) {
+      entity.value = ""
     },
   },
+  // ... other type implementations
 }
-
-const entities = {
-  c1: { type: "counter", value: 0 },
-}
-
-const store = createStore({ types, entities })
-
-store.notify("increment", 1) // ✅ type-checked
-store.notify("decrement", "oops") // ❌ type error
 ```
 
-RTK added the builder callback syntax mostly for type safety — Inglorious Store aims to provide the same guarantees with a cleaner API.
+With `TodoListTypes`, TypeScript will throw an error if you forget a handler (e.g., `formSubmit`) or if its signature is incorrect.
+
+**2. Create the Store**
+
+When creating your store, you'll pass the `types` object. To satisfy the store's generic `TypesConfig`, you may need to use a double cast (`as unknown as`). This is a safe and intentional way to bridge your specific, statically-checked configuration with the store's more generic type.
+
+```typescript
+// src/store/index.ts
+import { createStore, type TypesConfig } from "@inglorious/store"
+import { types } from "./types"
+import type { TodoListEntity, TodoListState } from "../../types"
+
+export const store = createStore<TodoListEntity, TodoListState>({
+  types: types as unknown as TypesConfig<TodoListEntity>,
+  // ... other store config
+})
+```
+
+**3. Enjoy Full Type Safety**
+
+Now, your store is fully type-safe. The hooks provided by `@inglorious/react-store` will also be correctly typed.
 
 ---
 

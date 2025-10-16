@@ -8,6 +8,7 @@ export const types = {
     inputChange(entity, value) {
       entity.value = value
     },
+
     formSubmit(entity) {
       entity.value = ""
     },
@@ -17,14 +18,17 @@ export const types = {
     formSubmit(entity, value) {
       entity.tasks.push({ id: nextId(entity.tasks), text: value })
     },
+
     toggleClick(entity, id) {
       const task = entity.tasks.find((task) => task.id === id)
       task.completed = !task.completed
     },
+
     deleteClick(entity, id) {
       const index = entity.tasks.findIndex((task) => task.id === id)
       entity.tasks.splice(index, TASKS_TO_REMOVE)
     },
+
     clearClick(entity) {
       entity.tasks = entity.tasks.filter((task) => !task.completed)
     },

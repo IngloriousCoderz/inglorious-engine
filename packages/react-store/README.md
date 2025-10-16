@@ -18,6 +18,7 @@ Connect your React app to Inglorious Store with a familiar API. Built on `react-
   - **Batched mode** - Updates process on a timer (performance optimization)
 - **Redux DevTools Support**: Full integration with Redux DevTools for debugging
 - **Battle-tested**: Built on `react-redux` for proven performance and stability
+- **TypeScript Support**: Optional type safety for those who want it
 
 ---
 
@@ -389,13 +390,51 @@ export default function TodoApp() {
 
 ## TypeScript Support
 
-Full TypeScript support coming soon! For now, you can add type assertions:
+Full TypeScript support is available! The library includes complete type definitions.
+
+**Quick example:**
 
 ```typescript
-import type { RootState } from "./store"
+// Define your types
+import { BaseEntity } from "@inglorious/store"
 
-const value = useSelector((state: RootState) => state.myCounter.value)
+interface CounterEntity extends BaseEntity {
+  type: "counter"
+  value: number
+}
+
+interface AppState {
+  myCounter: CounterEntity
+  [id: string]: CounterEntity
+}
+
+// Create typed store
+const store = createStore<CounterEntity, AppState>({ types, entities })
+
+// Everything else works the same!
+const { Provider, useSelector, useNotify } = createReactStore(store)
 ```
+
+For complete TypeScript examples, see the [@inglorious/store TypeScript documentation](https://github.com/IngloriousCoderz/inglorious-engine/tree/main/packages/store#typescript).
+
+---
+
+## FAQ
+
+**Q: Can I use this with existing react-redux code?**  
+A: Yes! The `Provider` and `useSelector` are compatible. You can gradually migrate to `useNotify`.
+
+**Q: Should I use eager or batched mode?**  
+A: Start with eager (default). Switch to batched if you notice performance issues or are building a game/real-time app.
+
+**Q: Does this work with React Native?**  
+A: Yes! It works anywhere `react-redux` works.
+
+**Q: Can I use Redux middleware?**  
+A: Use Inglorious Store middleware instead. See [@inglorious/store docs](https://github.com/IngloriousCoderz/inglorious-engine/tree/main/packages/store).
+
+**Q: Do I need TypeScript?**  
+A: Not at all! The library works great with plain JavaScript. TypeScript support is completely optional.
 
 ---
 
@@ -413,22 +452,6 @@ const value = useSelector((state: RootState) => state.myCounter.value)
 - ✅ Batched mode option for performance
 - ✅ Automatic `store.update()` handling
 - ✅ Cleaner API for event-based state management
-
----
-
-## FAQ
-
-**Q: Can I use this with existing react-redux code?**  
-A: Yes! The `Provider` and `useSelector` are compatible. You can gradually migrate to `useNotify`.
-
-**Q: Should I use eager or batched mode?**  
-A: Start with eager (default). Switch to batched if you notice performance issues or are building a game/real-time app.
-
-**Q: Does this work with React Native?**  
-A: Yes! It works anywhere `react-redux` works.
-
-**Q: Can I use Redux middleware?**  
-A: Use Inglorious Store middleware instead. See [@inglorious/store docs](https://github.com/IngloriousCoderz/inglorious-engine/tree/main/packages/store).
 
 ---
 

@@ -1,5 +1,14 @@
 # todomvc-cs
 
+## 1.0.1
+
+### Patch Changes
+
+- Add type safety
+- Updated dependencies
+  - @inglorious/react-store@6.0.1
+  - @inglorious/store@6.1.1
+
 ## 1.0.0
 
 ### Major Changes
