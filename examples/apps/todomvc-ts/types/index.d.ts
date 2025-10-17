@@ -1,4 +1,8 @@
-import { BaseEntity } from "@inglorious/store"
+import {
+  BaseEntity,
+  type EntitiesState,
+  type TypesConfig,
+} from "@inglorious/store"
 
 export type Filter = "all" | "active" | "completed"
 
@@ -29,11 +33,10 @@ export interface FooterEntity extends BaseEntity {
 export type TodoListEntity = FormEntity | ListEntity | FooterEntity
 
 // State type with known entity IDs
-export interface TodoListState {
+export interface TodoListState extends EntitiesState<TodoListEntity> {
   form: FormEntity
   list: ListEntity
   footer: FooterEntity
-  [id: string]: TodoListEntity
 }
 
 // Types configuration

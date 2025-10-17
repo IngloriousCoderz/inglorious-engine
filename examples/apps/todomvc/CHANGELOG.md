@@ -1,5 +1,13 @@
 # todomvc
 
+## 1.1.2
+
+### Patch Changes
+
+- Simplify type definitions in example TS app
+- Updated dependencies
+  - @inglorious/store@6.1.2
+
 ## 1.1.1
 
 ### Patch Changes

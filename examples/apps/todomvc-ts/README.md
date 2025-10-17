@@ -545,7 +545,7 @@ entity.tasks.push(newItem)
 
 ## 🐛 Debugging with Redux DevTools
 
-This demo includes Redux DevTools integration with the `devtoolsMiddleware`:
+This demo includes Redux DevTools integration with the `devtools` middleware:
 
 1. Install **[Redux DevTools Extension](https://github.com/reduxjs/redux-devtools)**
 2. Open the app and launch DevTools

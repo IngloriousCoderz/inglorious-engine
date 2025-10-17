@@ -10,7 +10,7 @@ Please refer to the docs of the [TodoMVC](../todomvc/README.md) example. The onl
 export const middlewares = [multiplayerMiddleware()]
 ```
 
-This middleware, just like the `devtoolsMiddleware`, can ignore certain events using three optional configuration parameters:
+This middleware, just like the `devtools` middleware, can ignore certain events using three optional configuration parameters:
 
 - `whitelist`: an array of event types that specifies which events to be sent to the server
 - `blacklist`: an array of event types that specifies which events to ignore

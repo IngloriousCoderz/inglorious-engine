@@ -1,5 +1,11 @@
 # @inglorious/store
 
+## 6.1.2
+
+### Patch Changes
+
+- Simplify type definitions in example TS app
+
 ## 6.1.1
 
 ### Patch Changes

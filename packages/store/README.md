@@ -5,7 +5,7 @@
 
 A Redux-compatible, ECS-inspired state library that makes state management as elegant as game logic.
 
-**Drop-in replacement for Redux.** Works with `react-redux` and Redux DevTools. Adds **entity-based state management (ECS)** for simpler, more predictable code.
+**Drop-in replacement for Redux.** Works with `react-redux` and Redux DevTools. Borrows concepts from Entity-Component-System architectures and Functional Programming to provide an environment where you can write simple, predictable, and testable code.
 
 ```javascript
 // from redux
@@ -20,7 +20,7 @@ import { createStore } from "@inglorious/store"
 
 Redux is powerful but verbose. You need action creators, reducers, middleware for async operations, and a bunch of decisions about where logic should live. Redux Toolkit cuts the boilerplate, but you're still writing a lot of ceremony.
 
-Inglorious Store ditches the ceremony entirely with an **entity-based architecture** inspired by game engines. The same ECS patterns that power AAA games power your state management.
+Inglorious Store eliminates the boilerplate entirely with an **entity-based architecture** inspired by game engines. Some of the patterns that power AAA games now power your state management.
 
 Game engines solved state complexity years ago — Inglorious Store brings those lessons to web development.
 
@@ -187,7 +187,7 @@ const entities = {
 
 Even though it looks like types expose methods, they are actually **event handlers**, very similar to Redux reducers. There are a few differences though:
 
-1. Just like RTK reducers, you can mutate the entity directly since event handlers are using an immutability library under the hood. Not Immer, but Mutative, which claims to be 10x faster than Immer.
+1. Just like RTK reducers, you can mutate the entity directly since event handlers are using an immutability library under the hood. Not Immer, but Mutative — which claims to be 10x faster than Immer.
 
 ```javascript
 const types = {
@@ -218,7 +218,7 @@ const types = {
 
 ## Installation & Setup
 
-The Inglorious store, just like Redux, can be used standalone. But a common usage is together with a component library such as React.
+The Inglorious store, just like Redux, can be used standalone. However, it's commonly used together with component libraries such as React.
 
 ### Basic Setup with `react-redux`
 
@@ -298,7 +298,8 @@ function Counter() {
   return (
     <div>
       <p>{count}</p>
-      <button onClick={() => notify("increment")}>+</button> // cleaner API
+      <button onClick={() => notify("increment")}>+</button> // simplified
+      syntax
       <button onClick={() => notify("decrement")}>-</button>
     </div>
   )
@@ -386,7 +387,7 @@ const types = {
 
 ### 🔊 Event Broadcasting
 
-Events are broadcast to all entities via pub/sub. Every entity handler receives every event of that type, just like in Redux.
+Events are broadcast to all entities via pub/sub. Every entity handler receives every event of that type, just like it does in Redux.
 
 ```javascript
 const types = {
@@ -437,7 +438,7 @@ store.notify("toggle", "todo1")
 
 ### ⚡ Async Operations
 
-In **Redux/RTK**, logic should be written inside of pure functions as much as possible. Not even action creators, just in the reducers. But what if I need to access some other part of the state that is not visible to the reducer? What if I need to combine async behavior with sync behavior? This is where the choice of "where does my logic live?" matters.
+In **Redux/RTK**, logic should be written inside pure functions as much as possible — specifically in reducers, not action creators. But what if I need to access some other part of the state that is not visible to the reducer? What if I need to combine async behavior with sync behavior? This is where the choice of "where does my logic live?" matters.
 
 In **Inglorious Store:** your event handlers can be async, and you get deterministic behavior automatically. Inside an async handler, you can access other parts of state (read-only), and you can trigger other events via `api.notify()`. Even if we give up on some purity, everything still maintains predictability because of the underlying **event queue**:
 
@@ -763,10 +764,39 @@ Check out the following demos to see the Inglorious Store in action on real-case
 - **[TodoMVC](https://github.com/IngloriousCoderz/inglorious-engine/tree/main/examples/apps/todomvc)** - An (ugly) clone of Kent Dodds' [TodoMVC](https://todomvc.com/) experiments, showing the full compatibility with react-redux and The Redux DevTools.
 - **[TodoMVC-CS](https://github.com/IngloriousCoderz/inglorious-engine/tree/main/examples/apps/todomvc-cs)** - A client-server version of the TodoMVC, which showcases the use of `notify` as a cleaner alternative to `dispatch` and async event handlers.
 - **[TodoMVC-RT](https://github.com/IngloriousCoderz/inglorious-engine/tree/main/examples/apps/todomvc-rt)** - A "multiplayer" version, in which multiple clients are able to synchronize through a real-time server.
+- **[TodoMVC-TS](https://github.com/IngloriousCoderz/inglorious-engine/tree/main/examples/apps/todomvc-ts)** - A typesafe version of the base TodoMVC.
+
+---
 
 ## Part of the Inglorious Engine
 
 This store powers the [Inglorious Engine](https://github.com/IngloriousCoderz/inglorious-engine), a functional game engine. The same patterns that power games power your web apps.
+
+## Frequently Unsolicited Complaints (FUCs)
+
+It's hard to accept the new, especially on Reddit. Here are the main objections to the Inglorious Store.
+
+**"This is not ECS."**
+
+It's not. The Inglorious Store is _inspired_ by ECS, but doesn't strictly follow ECS. Heck, not even the major game engines out there follow ECS by the book!
+
+Let's compare the two:
+
+| ECS Architecture                      | Inglorious Store                       |
+| ------------------------------------- | -------------------------------------- |
+| Entities are ids                      | Entities have an id                    |
+| Components are pure, consecutive data | Entities are pure bags of related data |
+| Data and behavior are separated       | Data and behavior are separated        |
+| Systems operate on the whole state    | Systems operate on the whole state     |
+| Usually written in an OOP environment | Written in an FP environment           |
+
+**"This is not FP."**
+
+It looks like it's not, and that's a feature. If you're used to classes and instances, the Inglorious Store will feel natural to you. Even behavior composition looks like inheritance, but it's actually function composition. The same [Three Principles](https://redux.js.org/understanding/thinking-in-redux/three-principles) that describe Redux are applied here (with some degree of freedom on function purity).
+
+**"This is not Data-Oriented Design."**
+
+It's not. Please grep this README and count how many occurrences of DoD you can find. This is not [Data-Oriented Design](https://en.wikipedia.org/wiki/Data-oriented_design), which is related to low-level CPU cache optimization. It's more similar to [Data-Driven Programming](https://en.wikipedia.org/wiki/Data-driven_programming), which is related to separating data and behavior. The Inglorious Engine separates behavior in... behaviors (grouped into so-called types), while the data is stored in plain objects called entities.
 
 ---
 

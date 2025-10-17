@@ -1,5 +1,14 @@
 # todomvc
 
+## 0.1.2
+
+### Patch Changes
+
+- Simplify type definitions in example TS app
+- Updated dependencies
+  - @inglorious/store@6.1.2
+  - @inglorious/react-store@6.0.2
+
 ## 0.1.1
 
 ### Patch Changes
