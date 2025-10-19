@@ -1,5 +1,12 @@
 # @inglorious/server
 
+## 8.0.3
+
+### Patch Changes
+
+- Updated dependencies
+  - @inglorious/store@6.1.3
+
 ## 8.0.2
 
 ### Patch Changes

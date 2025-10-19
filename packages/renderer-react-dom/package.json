@@ -1,6 +1,6 @@
 {
   "name": "@inglorious/renderer-react-dom",
-  "version": "9.0.2",
+  "version": "9.0.3",
   "description": "A renderer for the Inglorious Engine, using React components.",
   "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
   "license": "MIT",

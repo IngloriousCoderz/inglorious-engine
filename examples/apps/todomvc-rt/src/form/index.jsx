@@ -1,5 +1,5 @@
-import { useNotify, useSelector } from "./store"
-import { selectValue } from "./store/selectors"
+import { useNotify, useSelector } from "../store"
+import { selectValue } from "../store/selectors"
 
 export default function Form() {
   const notify = useNotify()

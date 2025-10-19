@@ -1,5 +1,13 @@
 # todomvc
 
+## 1.1.3
+
+### Patch Changes
+
+- Add tests and provide different file structure on RT example
+- Updated dependencies
+  - @inglorious/store@6.1.3
+
 ## 1.1.2
 
 ### Patch Changes

@@ -34,6 +34,40 @@ This implementation demonstrates:
 
 ---
 
+## ✅ Testing
+
+The event-driven architecture makes testing straightforward.
+
+### Event Handlers
+
+Since event handlers are pure functions that mutate a draft state, you can test them by creating a store, dispatching an event, and asserting the final state.
+
+```javascript
+// src/store/types.test.js
+it("should add a new task on formSubmit", () => {
+  const store = createStore({ types, entities })
+  store.dispatch({ type: "formSubmit", payload: "Hello world!" })
+  expect(store.getState().list.tasks).toHaveLength(1)
+})
+```
+
+### Selectors
+
+Selectors are pure functions that take the state and return derived data, making them simple to test in isolation.
+
+```javascript
+// src/store/selectors.test.js
+it("should select the form value", () => {
+  const state = {
+    form: { value: "Hello world!" },
+  }
+
+  expect(selectValue(state)).toBe("Hello world!")
+})
+```
+
+---
+
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -67,15 +101,15 @@ pnpm build
 
 State management files are in `src/store/`:
 
-| File                       | Purpose                                           |
-| -------------------------- | ------------------------------------------------- |
-| `src/store/index.js`       | Store setup and react-redux integration           |
-| `src/store/entities.js`    | Initial state for all entities                    |
-| `src/store/types.js`       | Event handlers (like reducers, but more powerful) |
-| `src/store/middlewares.js` | Functions that augment the store's behavior       |
-| `src/store/selectors.js`   | Memoized selectors for derived state              |
-
----
+| File                          | Purpose                                           |
+| ----------------------------- | ------------------------------------------------- |
+| `src/store/index.js`          | Store setup and react-redux integration           |
+| `src/store/entities.js`       | Initial state for all entities                    |
+| `src/store/types.js`          | Event handlers (like reducers, but more powerful) |
+| `src/store/types.test.js`     | Unit tests for the event handlers                 |
+| `src/store/middlewares.js`    | Functions that augment the store's behavior       |
+| `src/store/selectors.js`      | Memoized selectors for derived state              |
+| `src/store/selectors.test.js` | Unit tests for the selectors                      |
 
 ## 🔍 How It Works
 

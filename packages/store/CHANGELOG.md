@@ -1,5 +1,11 @@
 # @inglorious/store
 
+## 6.1.3
+
+### Patch Changes
+
+- Add tests and provide different file structure on RT example
+
 ## 6.1.2
 
 ### Patch Changes

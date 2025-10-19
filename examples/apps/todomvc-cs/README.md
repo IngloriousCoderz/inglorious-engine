@@ -54,6 +54,23 @@ const types = {
 - ✅ Clean, declarative flow
 - ✅ Both events process in one React render
 
+### ✅ Testing
+
+This separation makes testing easy. You can mock the API client, dispatch the async event, and assert the final state.
+
+```javascript
+// src/store/types.test.js
+it("should create a task on formSubmit", async () => {
+  // 1. Mock the client and create a store
+  client.createTask.mockResolvedValue(mockTask)
+  const store = createStore({ types, entities })
+
+  // 2. Dispatch the async event and assert the final state
+  await store.dispatch({ type: "formSubmit", payload: "New Task" })
+  expect(store.getState().list.tasks).toEqual([mockTask])
+})
+```
+
 ---
 
 ## 🚀 Getting Started
@@ -106,6 +123,7 @@ State management files are in `src/store/`:
 | `src/store/index.js`       | Store setup with `@inglorious/react-store`   |
 | `src/store/entities.js`    | Initial state for all entities               |
 | `src/store/types.js`       | **Async event handlers** with event chaining |
+| `src/store/types.test.js`  | Unit tests for the event handlers            |
 | `src/store/middlewares.js` | Functions that augment the store's behavior  |
 | `src/store/selectors.js`   | Memoized selectors for derived state         |
 | `src/services/client.js`   | API client functions                         |

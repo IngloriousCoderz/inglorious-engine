@@ -72,14 +72,16 @@ pnpm build
 
 State management files are in `src/store/`:
 
-| File                       | Purpose                                           |
-| -------------------------- | ------------------------------------------------- |
-| `src/store/index.ts`       | Store setup and react-store integration           |
-| `src/store/entities.ts`    | Initial state for all entities                    |
-| `src/store/types.ts`       | Event handlers (like reducers, but more powerful) |
-| `src/store/middlewares.ts` | Functions that augment the store's behavior       |
-| `src/store/selectors.ts`   | Memoized selectors for derived state              |
-| `src/types/index.d.ts`     | TypeScript type definitions                       |
+| File                          | Purpose                                           |
+| ----------------------------- | ------------------------------------------------- |
+| `src/store/index.ts`          | Store setup and react-store integration           |
+| `src/store/entities.ts`       | Initial state for all entities                    |
+| `src/store/types.ts`          | Event handlers (like reducers, but more powerful) |
+| `src/store/types.test.ts`     | Tests for the event handlers                      |
+| `src/store/middlewares.ts`    | Functions that augment the store's behavior       |
+| `src/store/selectors.ts`      | Memoized selectors for derived state              |
+| `src/store/selectors.test.ts` | Tests for the selectors                           |
+| `src/types/index.d.ts`        | TypeScript type definitions                       |
 
 ---
 

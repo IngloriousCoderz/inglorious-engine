@@ -1,5 +1,14 @@
 # todomvc-cs
 
+## 1.2.3
+
+### Patch Changes
+
+- Add tests and provide different file structure on RT example
+- Updated dependencies
+  - @inglorious/store@6.1.3
+  - @inglorious/react-store@6.0.3
+
 ## 1.2.2
 
 ### Patch Changes

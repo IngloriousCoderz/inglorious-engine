@@ -1,7 +1,7 @@
 import clsx from "clsx"
 
-import { useNotify, useSelector } from "./store"
-import { selectActiveFilter, selectTasksCount } from "./store/selectors"
+import { useNotify, useSelector } from "../store"
+import { selectActiveFilter, selectTasksCount } from "../store/selectors"
 
 const SINGLE_TASK = 1
 

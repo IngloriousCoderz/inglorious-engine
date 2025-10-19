@@ -11,7 +11,7 @@ export interface BaseEntity {
  */
 export interface Event<T = any> {
   type: string
-  payload: T
+  payload?: T
 }
 
 /**

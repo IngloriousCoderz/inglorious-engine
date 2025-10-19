@@ -1,8 +1,8 @@
 import "./style.css"
 
-import Footer from "./Footer"
-import Form from "./Form"
-import List from "./List"
+import Footer from "./footer"
+import Form from "./form"
+import List from "./list"
 import { Provider } from "./store"
 
 export default function App() {
