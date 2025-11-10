@@ -1,5 +1,11 @@
 # @inglorious/store
 
+## 6.2.0
+
+### Minor Changes
+
+- Provide convenience functions for event handler testing
+
 ## 6.1.3
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # todomvc-cs
 
+## 1.0.4
+
+### Patch Changes
+
+- Provide convenience functions for event handler testing
+- Updated dependencies
+  - @inglorious/store@6.2.0
+  - @inglorious/react-store@7.0.0
+
 ## 1.0.3
 
 ### Patch Changes

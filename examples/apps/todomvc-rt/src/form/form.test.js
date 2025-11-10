@@ -1,37 +1,40 @@
 import { it, expect } from "vitest"
-import { createStore } from "@inglorious/store"
+import { trigger } from "@inglorious/store/test"
 
 import { form } from "./form"
 
 it("should update the form value on inputChange", () => {
-  const stateBefore = {
-    form: { id: "form", type: "form", value: "" },
+  const entityBefore = {
+    id: "form",
+    type: "form",
+    value: "",
   }
   const event = { type: "inputChange", payload: "Hello world!" }
-  const stateAfter = {
-    form: { id: "form", type: "form", value: "Hello world!" },
+  const entityAfter = {
+    id: "form",
+    type: "form",
+    value: "Hello world!",
   }
 
-  doTest(stateBefore, event, stateAfter)
+  const { entity } = trigger(entityBefore, form[event.type], event.payload)
+
+  expect(entity).toEqual(entityAfter)
 })
 
 it("should clear the form value on formSubmit", () => {
-  const stateBefore = {
-    form: { id: "form", type: "form", value: "Hello world!" },
+  const entityBefore = {
+    id: "form",
+    type: "form",
+    value: "Hello world!",
   }
   const event = { type: "formSubmit", payload: "Hello world!" }
-  const stateAfter = {
-    form: { id: "form", type: "form", value: "" },
+  const entityAfter = {
+    id: "form",
+    type: "form",
+    value: "",
   }
 
-  doTest(stateBefore, event, stateAfter)
+  const { entity } = trigger(entityBefore, form[event.type], event.payload)
+
+  expect(entity).toEqual(entityAfter)
 })
-
-function doTest(stateBefore, event, stateAfter) {
-  const store = createStore({ types: { form }, entities: stateBefore })
-
-  store.dispatch(event)
-  const state = store.getState()
-
-  expect(state).toEqual(stateAfter)
-}

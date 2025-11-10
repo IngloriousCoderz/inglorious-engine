@@ -3,6 +3,7 @@
 A TodoMVC implementation using **[@inglorious/store](https://www.npmjs.com/package/@inglorious/store)** with **[@inglorious/react-store](https://www.npmjs.com/package/@inglorious/react-store)** bindings, plus the `multiplayerMiddleware` which makes real-time collaboration trivial.
 
 This example not only showcases the multiplayer middleware but also proposes a different file structure in which types, just like RTK slices, are placed next to the components that they serve. Tests were also changed so they are able to test each type in isolation.
+Tests were also changed to use the `trigger` function from `@inglorious/store/test`, which allows testing event handlers in isolation, just like reducers.
 
 ---
 
@@ -68,11 +69,11 @@ The `src/store` folder contains the store setup:
 
 Types are now co-located with the components they serve, following the structure below:
 
-| File                        | Purpose                           |
-| --------------------------- | --------------------------------- |
-| `src/footer/index.jsx`      | The component                     |
-| `src/footer/footer.js`      | **Synchronous event handlers** 🤯 |
-| `src/footer/footer.test.js` | Tests for the event handlers      |
+| File                        | Purpose                      |
+| --------------------------- | ---------------------------- |
+| `src/footer/index.jsx`      | The component                |
+| `src/footer/footer.js`      | Event handlers               |
+| `src/footer/footer.test.js` | Tests for the event handlers |
 
 This structure is repeated for the `form` and `list` components.
 
