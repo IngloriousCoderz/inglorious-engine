@@ -1,5 +1,5 @@
 {
-  "name": "todomvc-rt",
+  "name": "react-todomvc-rt",
   "private": true,
   "version": "1.0.4",
   "type": "module",
