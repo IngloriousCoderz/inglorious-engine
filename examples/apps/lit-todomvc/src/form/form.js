@@ -1,4 +1,4 @@
-import { html } from "lit-html"
+import { html } from "@inglorious/lit"
 
 export const form = {
   inputChange(entity, value) {
@@ -17,12 +17,13 @@ export const form = {
       }}
     >
       <input
+        name="value"
         placeholder="What next?"
         autofocus
         .value=${value}
         @input=${(event) => notify("inputChange", event.target.value)}
       />
-      <button>Add</button>
+      <button ?disabled=${!value}>Add</button>
     </form>`
   },
 }

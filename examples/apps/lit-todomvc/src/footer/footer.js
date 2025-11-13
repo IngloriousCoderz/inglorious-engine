@@ -1,5 +1,4 @@
-import { html } from "lit-html"
-import { classMap } from "lit-html/directives/class-map.js"
+import { html, classMap } from "@inglorious/lit"
 import { selectTasksCount } from "../store/selectors"
 
 const SINGLE_TASK = 1
@@ -18,7 +17,7 @@ export const footer = {
 
     if (!tasksCount) return null
 
-    return html` <footer>
+    return html`<footer>
       <span>
         ${activeTasksCount}
         item${activeTasksCount === SINGLE_TASK ? "" : "s"}${" "} left

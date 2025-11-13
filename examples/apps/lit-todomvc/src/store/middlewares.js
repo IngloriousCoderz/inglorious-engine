@@ -1,5 +1,5 @@
 // import { multiplayerMiddleware } from "@inglorious/store/client/multiplayer-middleware"
-import { createDevtools } from "@inglorious/store/client/devtools"
+import { createDevtools } from "@inglorious/lit"
 
 export const middlewares = [
   // multiplayerMiddleware({ blacklist: ["inputChange", "filterClick"] }),

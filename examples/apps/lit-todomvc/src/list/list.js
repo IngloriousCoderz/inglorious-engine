@@ -1,5 +1,4 @@
-import { html } from "lit-html"
-import { classMap } from "lit-html/directives/class-map.js"
+import { html, classMap } from "@inglorious/lit"
 import { selectFilteredTasks } from "../store/selectors"
 
 const TASKS_TO_REMOVE = 1
@@ -29,7 +28,7 @@ export const list = {
   render(entity, { notify, getEntities }) {
     const filteredTasks = selectFilteredTasks(getEntities())
 
-    return html`<ul>
+    return html`<ul class="list">
       ${filteredTasks.map(
         (task) =>
           html`<li>

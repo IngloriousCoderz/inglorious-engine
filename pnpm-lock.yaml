@@ -94,14 +94,11 @@ importers:
         specifier: ^5.4.19
         version: 5.4.19(@types/node@24.8.0)(lightningcss@1.30.1)(sass@1.91.0)
 
-  examples/apps/lit-html-todomvc:
+  examples/apps/lit-todomvc:
     dependencies:
-      '@inglorious/store':
+      '@inglorious/lit':
         specifier: workspace:*
-        version: link:../../../packages/store
-      lit-html:
-        specifier: ^3.3.1
-        version: 3.3.1
+        version: link:../../../packages/lit
     devDependencies:
       vite:
         specifier: ^7.2.2
@@ -507,6 +504,25 @@ importers:
       eslint:
         specifier: ^9.34.0
         version: 9.34.0(jiti@2.5.1)
+
+  packages/lit:
+    dependencies:
+      '@inglorious/store':
+        specifier: workspace:*
+        version: link:../store
+      lit-html:
+        specifier: ^3.3.1
+        version: 3.3.1
+    devDependencies:
+      '@inglorious/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      prettier:
+        specifier: ^3.6.2
+        version: 3.6.2
+      vite:
+        specifier: ^7.1.3
+        version: 7.2.2(@types/node@24.8.0)(jiti@2.5.1)(lightningcss@1.30.1)(sass@1.91.0)
 
   packages/react-store:
     dependencies:

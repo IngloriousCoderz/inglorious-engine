@@ -1,12 +1,13 @@
 {
   "name": "@inglorious/utils",
-  "version": "3.6.2",
+  "version": "3.6.3",
   "description": "A set of general-purpose utility functions designed with functional programming principles in mind.",
   "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/IngloriousCoderz/inglorious-engine.git"
+    "url": "git+https://github.com/IngloriousCoderz/inglorious-engine.git",
+    "directory": "packages/utils"
   },
   "homepage": "https://inglorious-engine.vercel.app/",
   "bugs": {

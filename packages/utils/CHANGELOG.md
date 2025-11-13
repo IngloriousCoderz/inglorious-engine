@@ -1,5 +1,11 @@
 # @inglorious/utils
 
+## 3.6.3
+
+### Patch Changes
+
+- Add directory info in every package.json
+
 ## 3.6.2
 
 ### Patch Changes

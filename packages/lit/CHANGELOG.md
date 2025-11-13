@@ -1,10 +1,9 @@
 # @inglorious/react-store
 
-## 7.0.1
+## 1.0.1
 
 ### Patch Changes
 
-- Add directory info in every package.json
 - Updated dependencies
   - @inglorious/store@6.2.1
 

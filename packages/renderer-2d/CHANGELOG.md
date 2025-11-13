@@ -1,5 +1,14 @@
 # @inglorious/renderer-2d
 
+## 10.0.1
+
+### Patch Changes
+
+- Add directory info in every package.json
+- Updated dependencies
+  - @inglorious/engine@11.0.1
+  - @inglorious/utils@3.6.3
+
 ## 10.0.0
 
 ### Patch Changes

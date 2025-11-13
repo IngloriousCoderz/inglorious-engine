@@ -1,5 +1,14 @@
 # @inglorious/engine
 
+## 11.0.1
+
+### Patch Changes
+
+- Add directory info in every package.json
+- Updated dependencies
+  - @inglorious/store@6.2.1
+  - @inglorious/utils@3.6.3
+
 ## 11.0.0
 
 ### Patch Changes

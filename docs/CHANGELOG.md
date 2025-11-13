@@ -1,5 +1,15 @@
 # @inglorious/docs
 
+## 1.9.9
+
+### Patch Changes
+
+- Updated dependencies
+  - @inglorious/renderer-react-dom@10.0.1
+  - @inglorious/renderer-2d@10.0.1
+  - @inglorious/engine@11.0.1
+  - @inglorious/utils@3.6.3
+
 ## 1.9.8
 
 ### Patch Changes

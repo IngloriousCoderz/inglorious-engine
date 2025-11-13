@@ -1,5 +1,14 @@
 # inglorious-pong
 
+## 1.0.14
+
+### Patch Changes
+
+- Updated dependencies
+  - @inglorious/renderer-2d@10.0.1
+  - @inglorious/engine@11.0.1
+  - @inglorious/utils@3.6.3
+
 ## 1.0.13
 
 ### Patch Changes

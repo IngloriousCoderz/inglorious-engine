@@ -1,7 +1,7 @@
 {
-  "name": "lit-html-todomvc",
+  "name": "lit-todomvc",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,8 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@inglorious/store": "workspace:*",
-    "lit-html": "^3.3.1"
+    "@inglorious/lit": "workspace:*"
   },
   "devDependencies": {
     "vite": "^7.2.2"

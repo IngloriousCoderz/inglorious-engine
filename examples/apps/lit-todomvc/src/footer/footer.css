@@ -1,0 +1,17 @@
+footer {
+  display: flex;
+  justify-content: space-between;
+
+  .filters {
+    display: flex;
+    gap: 1rem;
+
+    a.selected {
+      border: 1px solid red;
+    }
+  }
+
+  .hidden {
+    visibility: hidden;
+  }
+}
