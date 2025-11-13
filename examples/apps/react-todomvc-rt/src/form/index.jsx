@@ -1,10 +1,9 @@
-import { useNotify, useSelector } from "../store"
-import { selectValue } from "../store/selectors"
+import { useEntity, useNotify } from "../store"
 
 export default function Form() {
   const notify = useNotify()
 
-  const value = useSelector(selectValue)
+  const { value } = useEntity("form")
   const handleChange = (event) => notify("inputChange", event.target.value)
 
   const handleSubmit = (event) => {

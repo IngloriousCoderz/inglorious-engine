@@ -13,4 +13,5 @@ export const store = createStore({
   middlewares,
 })
 
-export const { Provider, useSelector, useNotify } = createReactStore(store)
+export const { Provider, useSelector, useEntity, useNotify } =
+  createReactStore(store)

@@ -12,5 +12,6 @@ export function createReactStore<
 ): {
   Provider: FC<{ children: ReactNode }>
   useSelector: typeof useSelector
+  useEntity: (id: string) => T
   useNotify: () => Notify
 }

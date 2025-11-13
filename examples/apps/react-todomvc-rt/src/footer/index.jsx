@@ -1,7 +1,7 @@
 import clsx from "clsx"
 
-import { useNotify, useSelector } from "../store"
-import { selectActiveFilter, selectTasksCount } from "../store/selectors"
+import { useEntity, useNotify, useSelector } from "../store"
+import { selectTasksCount } from "../store/selectors"
 
 const SINGLE_TASK = 1
 
@@ -11,7 +11,7 @@ export default function Footer() {
   const tasksCount = useSelector(selectTasksCount())
   const completedTasksCount = useSelector(selectTasksCount("completed"))
   const activeTasksCount = useSelector(selectTasksCount("active"))
-  const activeFilter = useSelector(selectActiveFilter)
+  const { activeFilter } = useEntity("footer")
 
   if (!tasksCount) return null
 

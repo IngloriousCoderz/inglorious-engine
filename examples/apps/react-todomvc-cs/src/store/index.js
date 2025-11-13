@@ -7,4 +7,5 @@ import { createReactStore } from "@inglorious/react-store"
 
 export const store = createStore({ types, entities, middlewares })
 
-export const { Provider, useSelector, useNotify } = createReactStore(store)
+export const { Provider, useSelector, useEntity, useNotify } =
+  createReactStore(store)

@@ -1,5 +1,11 @@
 # @inglorious/react-store
 
+## 7.1.0
+
+### Minor Changes
+
+- Add a convenience useEntity hook
+
 ## 7.0.1
 
 ### Patch Changes

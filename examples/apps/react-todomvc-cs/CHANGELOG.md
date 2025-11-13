@@ -1,5 +1,13 @@
 # todomvc-cs
 
+## 1.2.6
+
+### Patch Changes
+
+- Add a convenience useEntity hook
+- Updated dependencies
+  - @inglorious/react-store@7.1.0
+
 ## 1.2.5
 
 ### Patch Changes

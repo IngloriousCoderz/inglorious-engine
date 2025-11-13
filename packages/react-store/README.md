@@ -13,6 +13,7 @@ Connect your React app to Inglorious Store with a familiar API. Built on `react-
 
 - **Drop-in Integration**: Works just like `react-redux` with enhanced features for Inglorious Store
 - **Custom `useNotify` Hook**: Dispatch events with a clean, ergonomic API
+- **Convenience `useEntity` Hook**: Select a single entity by its ID with a simple, optimized hook.
 - **Flexible Update Modes**:
   - **Eager mode** - Updates process immediately (responsive UIs)
   - **Batched mode** - Updates process on a timer (performance optimization)
@@ -64,10 +65,11 @@ import { createReactStore } from "@inglorious/react-store"
 import { store } from "./store"
 
 // Eager mode (default) - updates process immediately
-export const { Provider, useSelector, useNotify } = createReactStore(store)
+export const { Provider, useSelector, useNotify, useEntity } =
+  createReactStore(store)
 
 // Or batched mode - updates process at 20 FPS
-// export const { Provider, useSelector, useNotify } = createReactStore(store, {
+// export const { Provider, useSelector, useNotify, useEntity } = createReactStore(store, {
 //   mode: "batched",
 //   fps: 20
 // })
@@ -92,11 +94,11 @@ function App() {
 
 ```jsx
 // Counter.jsx
-import { useNotify, useSelector } from "./react-store"
+import { useNotify, useEntity } from "./react-store"
 
 function Counter() {
   const notify = useNotify()
-  const value = useSelector((state) => state.myCounter.value)
+  const { value } = useEntity("myCounter")
 
   return (
     <div>
@@ -129,25 +131,32 @@ Creates React bindings for an Inglorious Store.
 - `Provider`: React context provider component (pre-configured with your store)
 - `useSelector`: Hook to select state slices
 - `useNotify`: Hook to dispatch events
+- `useEntity`: Hook to select a single entity by ID
 
 **Examples:**
 
 ```javascript
 // Eager mode (immediate updates)
-const { Provider, useSelector, useNotify } = createReactStore(store)
+const { Provider, useSelector, useNotify, useEntity } = createReactStore(store)
 
 // Batched mode for real-time apps
-const { Provider, useSelector, useNotify } = createReactStore(store, {
-  mode: "batched",
-  fps: 30,
-})
+const { Provider, useSelector, useNotify, useEntity } = createReactStore(
+  store,
+  {
+    mode: "batched",
+    fps: 30,
+  },
+)
 
 // Custom FPS for animations
-const { Provider, useSelector, useNotify } = createReactStore(store, {
-  mode: "batched",
-  fps: 60,
-  skippedEvents: ["update", "mousemove"], // Don't log these in DevTools
-})
+const { Provider, useSelector, useNotify, useEntity } = createReactStore(
+  store,
+  {
+    mode: "batched",
+    fps: 60,
+    skippedEvents: ["update", "mousemove"], // Don't log these in DevTools
+  },
+)
 ```
 
 ### `useNotify()`

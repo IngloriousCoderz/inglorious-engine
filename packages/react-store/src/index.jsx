@@ -5,9 +5,13 @@ export function createReactStore(store) {
     return <Provider store={store}>{children}</Provider>
   }
 
+  function useEntity(id) {
+    return useSelector((entities) => entities[id])
+  }
+
   function useNotify() {
     return store._api.notify
   }
 
-  return { Provider: StoreProvider, useSelector, useNotify }
+  return { Provider: StoreProvider, useSelector, useEntity, useNotify }
 }
