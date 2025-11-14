@@ -1,4 +1,4 @@
-import { render } from "lit-html"
+import { html, render } from "lit-html"
 
 /**
  * Mounts a lit-html template to the DOM and subscribes to a store for re-rendering.
@@ -16,10 +16,22 @@ export function mount(store, renderFn, element) {
       const types = api.getTypes()
 
       if (!entity) {
-        return types[id].render(api)
+        // No entity with this ID, try static type
+        const type = types[id]
+        if (!type?.render) {
+          console.warn(`No entity or type found: ${id}`)
+          return html`<div>Not found: ${id}</div>`
+        }
+        return type.render(api)
       }
 
+      // Entity exists, render it
       const type = types[entity.type]
+      if (!type?.render) {
+        console.warn(`No render function for type: ${entity.type}`)
+        return html`<div>No renderer for ${entity.type}</div>`
+      }
+
       return type.render(entity, api)
     },
   }

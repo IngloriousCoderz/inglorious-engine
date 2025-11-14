@@ -1,5 +1,11 @@
 # @inglorious/react-store
 
+## 1.2.0
+
+### Minor Changes
+
+- Add basic router to @inglorious/lit
+
 ## 1.1.0
 
 ### Minor Changes

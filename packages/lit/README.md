@@ -38,7 +38,8 @@ import { createStore, html } from "@inglorious/lit"
 
 const types = {
   counter: {
-    increment(entity) {
+    increment(entity, id) {
+      if (entity.id !== id) return
       entity.value++
     },
 
@@ -55,8 +56,8 @@ const types = {
 }
 
 const entities = {
-  counter1: { id: "counter1", type: "counter", value: 0 },
-  counter2: { id: "counter2", type: "counter", value: 10 },
+  counter1: { type: "counter", value: 0 },
+  counter2: { type: "counter", value: 10 },
 }
 
 export const store = createStore({ types, entities })
@@ -112,9 +113,8 @@ const types = {
   userPage: {
     render: (entity, api) => {
       // Access route params from the router entity
-      const routerState = api.getEntity("router")
-      const { id } = routerState.params
-      return html`<h1>User Profile: ${id}</h1>`
+      const { params } = api.getEntity("router")
+      return html`<h1>User ${params.id} - ${entity.username}</h1>`
     },
   },
   notFoundPage: {
@@ -125,13 +125,16 @@ const types = {
 const entities = {
   // 3. Create the router entity
   router: {
-    id: "router",
     type: "router",
     routes: {
       "/": "homePage",
       "/users/:id": "userPage",
       "*": "notFoundPage", // Fallback for unmatched routes
     },
+  },
+  userPage: {
+    type: "userPage",
+    username: "Alice",
   },
 }
 
@@ -148,14 +151,11 @@ import { mount, html } from "@inglorious/lit"
 import { store } from "./store.js"
 
 const renderApp = (api) => {
-  const routerState = api.getEntity("router")
-  const currentPageEntityType = routerState.route // e.g., "homePage" or "userPage"
+  const { route } = api.getEntity("router") // e.g., "homePage" or "userPage"
 
   return html`
     <nav><a href="/">Home</a> | <a href="/users/123">User 123</a></nav>
-    <main>
-      ${currentPageEntityType ? api.render(currentPageEntityType) : ""}
-    </main>
+    <main>${route ? api.render(route) : ""}</main>
   `
 }
 
