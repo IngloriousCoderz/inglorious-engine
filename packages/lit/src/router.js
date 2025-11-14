@@ -1,3 +1,6 @@
+const SKIP_FULL_MATCH_GROUP = 1 // .match() result at index 0 is the full string
+const REMOVE_COLON_PREFIX = 1
+
 export const router = {
   /**
    * Initialize router - sets up popstate listener
@@ -8,8 +11,8 @@ export const router = {
     const route = findRoute(entity.routes, initialPath)
 
     if (route) {
-      entity.currentPath = route.path
-      entity.currentRoute = route.entityType
+      entity.path = route.path
+      entity.route = route.entityType
       entity.params = route.params
 
       const query = Object.fromEntries(
@@ -78,7 +81,7 @@ export const router = {
    * @param {boolean} payload.replace - Use replaceState instead of pushState
    * @param {Object} payload.state - Additional state to store in history
    */
-  navigate(entity, payload, api) {
+  navigate(entity, payload) {
     if (["number", "string"].includes(typeof payload)) {
       payload = { to: payload }
     }
@@ -109,17 +112,20 @@ export const router = {
       return
     }
 
+    // Prevent navigation if the full path (including query/hash) is identical.
+    const currentFullPath =
+      entity.path + window.location.search + window.location.hash
+    if (path === currentFullPath) {
+      return
+    }
+
     // Parse query string
     const [pathname, search] = path.split("?")
     const query = search ? Object.fromEntries(new URLSearchParams(search)) : {}
 
-    if (pathname === entity.currentPath) {
-      return
-    }
-
     // Update entity with routing info
-    entity.currentPath = pathname
-    entity.currentRoute = route.entityType
+    entity.path = pathname
+    entity.route = route.entityType
     entity.params = route.params
     entity.query = query
     entity.hash = window.location.hash
@@ -139,8 +145,8 @@ export const router = {
   },
 
   routeSync(entity, payload) {
-    entity.currentPath = payload.path
-    entity.currentRoute = payload.entityType
+    entity.path = payload.path
+    entity.route = payload.entityType
     entity.params = payload.params
     entity.query = payload.query
     entity.hash = payload.hash
@@ -165,13 +171,20 @@ function buildPath(pattern, params = {}) {
  * -> { pattern: "/users/:userId", entityType: "user", params: { userId: "123" } }
  */
 function findRoute(routes, path) {
+  const [pathname] = path.split("?")
+  let fallbackRoute = null
+
   for (const [pattern, entityType] of Object.entries(routes)) {
-    const params = matchRoute(pattern, path)
+    if (pattern === "*") {
+      fallbackRoute = { pattern, entityType, params: {}, path: pathname }
+      continue
+    }
+    const params = matchRoute(pattern, pathname)
     if (params !== null) {
-      return { pattern, entityType, params, path }
+      return { pattern, entityType, params, path: pathname }
     }
   }
-  return null
+  return fallbackRoute
 }
 
 /**
@@ -187,7 +200,7 @@ function matchRoute(pattern, path) {
 
   const params = {}
   paramNames.forEach((name, i) => {
-    params[name] = match[i + 1]
+    params[name] = match[i + SKIP_FULL_MATCH_GROUP]
   })
 
   return params
@@ -199,7 +212,7 @@ function matchRoute(pattern, path) {
  */
 function getParamNames(pattern) {
   const matches = pattern.match(/:(\w+)/g)
-  return matches ? matches.map((m) => m.slice(1)) : []
+  return matches ? matches.map((m) => m.slice(REMOVE_COLON_PREFIX)) : []
 }
 
 /**

@@ -1,5 +1,11 @@
 # @inglorious/react-store
 
+## 1.1.0
+
+### Minor Changes
+
+- Add router type to @inglorious/lit
+
 ## 1.0.1
 
 ### Patch Changes

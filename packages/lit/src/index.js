@@ -1,4 +1,5 @@
 export { mount } from "./mount.js"
+export { router } from "./router.js"
 export { createStore } from "@inglorious/store"
 export { createDevtools } from "@inglorious/store/client/devtools.js"
 export { createSelector } from "@inglorious/store/select.js"

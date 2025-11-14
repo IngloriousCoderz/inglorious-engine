@@ -13,6 +13,7 @@ A lightweight web framework that combines the entity-based state management of *
 - **Efficient Rendering**: Leverages the performance of `lit-html` for DOM updates.
 - **Entity-Based Rendering**: Includes a powerful `api.render(id)` helper to render individual entities based on their type.
 - **Convenient Re-exports**: Provides direct access to `lit-html`'s `html`, `svg`, and core directives.
+- **Client-Side Router**: A simple, entity-based router for single-page applications.
 - **Fully Typed**: Strong TypeScript support for a great developer experience.
 
 ---
@@ -86,6 +87,94 @@ mount(store, renderApp, document.getElementById("root"))
 
 The `mount` function subscribes to the store and automatically re-renders your template whenever the state changes.
 
+---
+
+## Client-Side Router
+
+`@inglorious/lit` includes a lightweight, entity-based client-side router. It integrates directly into your `@inglorious/store` state, allowing your components to reactively update based on the current URL.
+
+### 1. Setup the Router
+
+To enable the router, add it to your store's types and create a `router` entity. The entity's `routes` property maps URL patterns to the entity types that represent your pages.
+
+```javascript
+// store.js
+import { createStore, html, router } from "@inglorious/lit"
+
+const types = {
+  // 1. Add the router type to your store's types
+  router,
+
+  // 2. Define types for your pages
+  homePage: {
+    render: () => html`<h1>Welcome Home!</h1>`,
+  },
+  userPage: {
+    render: (entity, api) => {
+      // Access route params from the router entity
+      const routerState = api.getEntity("router")
+      const { id } = routerState.params
+      return html`<h1>User Profile: ${id}</h1>`
+    },
+  },
+  notFoundPage: {
+    render: () => html`<h1>404 - Page Not Found</h1>`,
+  },
+}
+
+const entities = {
+  // 3. Create the router entity
+  router: {
+    id: "router",
+    type: "router",
+    routes: {
+      "/": "homePage",
+      "/users/:id": "userPage",
+      "*": "notFoundPage", // Fallback for unmatched routes
+    },
+  },
+}
+
+export const store = createStore({ types, entities })
+```
+
+### 2. Render the Current Route
+
+In your root template, read the `route` property from the router entity and use `api.render()` to display the correct page.
+
+```javascript
+// main.js
+import { mount, html } from "@inglorious/lit"
+import { store } from "./store.js"
+
+const renderApp = (api) => {
+  const routerState = api.getEntity("router")
+  const currentPageEntityType = routerState.route // e.g., "homePage" or "userPage"
+
+  return html`
+    <nav><a href="/">Home</a> | <a href="/users/123">User 123</a></nav>
+    <main>
+      ${currentPageEntityType ? api.render(currentPageEntityType) : ""}
+    </main>
+  `
+}
+
+mount(store, renderApp, document.getElementById("root"))
+```
+
+The router automatically intercepts clicks on local `<a>` tags and handles browser back/forward events, keeping your UI in sync with the URL.
+
+### 3. Programmatic Navigation
+
+To navigate from your JavaScript code, dispatch a `navigate` event.
+
+```javascript
+api.notify("navigate", "/users/456")
+
+// Or navigate back in history
+api.notify("navigate", -1)
+```
+
 ## API Reference
 
 **`mount(store, renderFn, element)`**
@@ -119,6 +208,7 @@ import {
   createSelector,
   mount,
   html,
+  router,
   render,
   svg,
   classMap,

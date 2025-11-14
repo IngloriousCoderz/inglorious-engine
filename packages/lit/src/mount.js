@@ -3,7 +3,7 @@ import { render } from "lit-html"
 /**
  * Mounts a lit-html template to the DOM and subscribes to a store for re-rendering.
  * @param {import('@inglorious/store').Store} store - The application state store.
- * @param {(api: import('../types').Api) => import('lit-html').TemplateResult | null} renderFn - The root render function.
+ * @param {(api: import('../types/mount').Api) => import('lit-html').TemplateResult | null} renderFn - The root render function.
  * @param {HTMLElement | DocumentFragment} element - The DOM element to mount the template to.
  * @returns {() => void} An unsubscribe function
  */

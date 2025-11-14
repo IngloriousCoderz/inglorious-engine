@@ -13,9 +13,9 @@ export const app = {
         </nav>
 
         <main>
-          ${router.currentRoute
-            ? api.render(router.currentRoute)
-            : html`<div>Route not found: ${router.currentPath}</div>`}
+          ${router.route
+            ? api.render(router.route)
+            : html`<div>Route not found: ${router.path}</div>`}
         </main>
       </div>
     `
