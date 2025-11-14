@@ -14,14 +14,18 @@ export function mount(store, renderFn, element) {
     render(id) {
       const entity = api.getEntity(id)
       const types = api.getTypes()
-      const type = types[entity.type]
 
+      if (!entity) {
+        return types[id].render(api)
+      }
+
+      const type = types[entity.type]
       return type.render(entity, api)
     },
   }
 
   const unsubscribe = store.subscribe(() => render(renderFn(api), element))
-  store.notify("@@INIT")
+  store.notify("init")
 
   return unsubscribe
 }
