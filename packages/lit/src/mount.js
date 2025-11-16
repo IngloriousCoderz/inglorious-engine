@@ -12,11 +12,16 @@ export function mount(store, renderFn, element) {
     ...store._api,
 
     /** @param {string} id */
-    render(id) {
+    render(id, options = {}) {
       const entity = api.getEntity(id)
       const types = api.getTypes()
 
       if (!entity) {
+        const { allowStatic } = options
+        if (!allowStatic) {
+          return ""
+        }
+
         // No entity with this ID, try static type
         const type = types[id]
         if (!type?.render) {
