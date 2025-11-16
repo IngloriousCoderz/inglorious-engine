@@ -5,6 +5,8 @@ export const entities = {
       "/": "home",
       "/users": "userList",
       "/users/:userId": "userDetail",
+      "/users/:userId/posts": "postList",
+      "/posts": "postList",
       "*": "notFound",
     },
     path: "/",
@@ -24,9 +26,13 @@ export const entities = {
 
   userDetail: {
     type: "userDetail",
-    users: [
-      { id: "1", name: "Alice", email: "alice@example.com" },
-      { id: "2", name: "Bob", email: "bob@example.com" },
+  },
+
+  postList: {
+    type: "postList",
+    posts: [
+      { id: "1", text: "Hello from Alice!", authorId: "1" },
+      { id: "2", text: "Hello from Bob!", authorId: "2" },
     ],
   },
 }

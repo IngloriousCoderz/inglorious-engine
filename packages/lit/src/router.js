@@ -81,7 +81,7 @@ export const router = {
    * @param {boolean} payload.replace - Use replaceState instead of pushState
    * @param {Object} payload.state - Additional state to store in history
    */
-  navigate(entity, payload) {
+  async navigate(entity, payload, api) {
     if (["number", "string"].includes(typeof payload)) {
       payload = { to: payload }
     }
@@ -141,7 +141,9 @@ export const router = {
 
     // Navigate
     const method = replace ? "replaceState" : "pushState"
-    history[method](historyState, "", path)
+    await history[method](historyState, "", path)
+
+    api.notify("routeChange", historyState)
   },
 
   routeSync(entity, payload) {

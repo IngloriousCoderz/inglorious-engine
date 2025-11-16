@@ -10,6 +10,7 @@ import { html, render } from "lit-html"
 export function mount(store, renderFn, element) {
   const api = {
     ...store._api,
+
     /** @param {string} id */
     render(id) {
       const entity = api.getEntity(id)
