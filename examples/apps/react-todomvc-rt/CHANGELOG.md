@@ -1,5 +1,12 @@
 # todomvc-cs
 
+## 1.0.7
+
+### Patch Changes
+
+- @inglorious/store@7.0.0
+- @inglorious/react-store@8.0.0
+
 ## 1.0.6
 
 ### Patch Changes

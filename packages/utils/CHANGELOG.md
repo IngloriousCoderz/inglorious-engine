@@ -1,5 +1,11 @@
 # @inglorious/utils
 
+## 3.7.0
+
+### Minor Changes
+
+- Add object get and set, update clone
+
 ## 3.6.3
 
 ### Patch Changes

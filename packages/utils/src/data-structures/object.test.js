@@ -6,10 +6,12 @@ import {
   deserialize,
   filter,
   find,
+  get,
   isObject,
   map,
   produce,
   serialize,
+  set,
   toString,
 } from "./object.js"
 
@@ -61,6 +63,62 @@ test("it should behave like Array.prototype.find, but on an object", () => {
   }
 
   expect(find(obj, callback)).toStrictEqual(expectedResult)
+})
+
+test("get should retrieve a value from a nested object", () => {
+  const obj = { a: { b: { c: 1 } }, d: [{ e: 2 }] }
+
+  expect(get(obj, "a.b.c")).toBe(1)
+})
+
+test("get should retrieve a value from an array within an object", () => {
+  const obj = { a: { b: { c: 1 } }, d: [{ e: 2 }] }
+
+  expect(get(obj, "d.0.e")).toBe(2)
+})
+
+test("get should return a default value for a non-existent path", () => {
+  const obj = { a: { b: { c: 1 } } }
+
+  expect(get(obj, "a.x.y", "default")).toBe("default")
+})
+
+test("get should return undefined for a non-existent path without a default value", () => {
+  const obj = { a: { b: { c: 1 } } }
+
+  expect(get(obj, "a.x.y")).toBeUndefined()
+})
+
+test("get should handle null or undefined paths gracefully", () => {
+  const obj = { a: 1 }
+
+  expect(get(obj, null, "default")).toBe("default")
+  expect(get(obj, undefined, "default")).toBe("default")
+})
+
+test("set should modify a value at a given path", () => {
+  const obj = { a: { b: 1 } }
+  set(obj, "a.b", 2)
+  expect(obj.a.b).toBe(2)
+})
+
+test("set should create nested objects if they do not exist", () => {
+  const obj = {}
+  set(obj, "a.b.c", 3)
+  expect(obj).toStrictEqual({ a: { b: { c: 3 } } })
+})
+
+test("set should create nested arrays for numeric keys", () => {
+  const obj = {}
+  set(obj, "a.0.b", "value")
+  expect(obj).toStrictEqual({ a: [{ b: "value" }] })
+})
+
+test("set should return the mutated object", () => {
+  const obj = { a: 1 }
+  const result = set(obj, "b", 2)
+  expect(result).toBe(obj)
+  expect(result).toStrictEqual({ a: 1, b: 2 })
 })
 
 test("it correctly should check if a value is an object", () => {

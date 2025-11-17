@@ -1,5 +1,19 @@
 # @inglorious/docs
 
+## 1.10.0
+
+### Minor Changes
+
+- Add object get and set, update clone
+
+### Patch Changes
+
+- Updated dependencies
+  - @inglorious/utils@3.7.0
+  - @inglorious/engine@12.0.0
+  - @inglorious/renderer-2d@11.0.0
+  - @inglorious/renderer-react-dom@11.0.0
+
 ## 1.9.9
 
 ### Patch Changes

@@ -2,16 +2,29 @@ import { v } from "../v.js"
 import { isArray } from "./array.js"
 
 const INITIAL_LEVEL = 0
+const LAST_KEY_OFFSET = 1
+const NEXT_KEY_OFFSET = 1
 const NEXT_LEVEL = 2
 
 /**
- * Creates a deep clone of the given object.
+ * Creates a deep clone of a given value using the structured clone algorithm.
+ * This is a modern and efficient way to deep-clone objects.
  *
- * @param {Object} obj - The object to clone.
- * @returns {Object} A deep clone of the input object.
+ * Note: `structuredClone` has some limitations. It cannot clone functions,
+ * DOM nodes, property descriptors, getters, setters, or certain other
+ * non-serializable objects. It will throw a `DataCloneError` in such cases.
+ *
+ * For more details, see:
+ * https://developer.mozilla.org/en-US/docs/Web/API/structuredClone
+ *
+ * This is similar to Lodash's `_.cloneDeep`.
+ *
+ * @template T
+ * @param {T} obj - The value to clone.
+ * @returns {T} A deep clone of the input value.
  */
 export function clone(obj) {
-  return deserialize(serialize(obj))
+  return structuredClone(obj)
 }
 
 /**
@@ -81,6 +94,42 @@ export function find(obj, callback) {
   return Object.fromEntries([
     Object.entries(obj).find(([key, value], obj) => callback(key, value, obj)),
   ])
+}
+
+/**
+ * Gets the value at a specified path of an object. If the resolved value is
+ * `undefined`, the `defaultValue` is returned in its place. This function
+ * supports dot-notation for nested properties and numbers for array indices.
+ *
+ * This is similar to Lodash's `_.get`.
+ *
+ * @example
+ * const object = { 'a': [{ 'b': { 'c': 3 } }] };
+ * get(object, 'a.0.b.c');
+ * // => 3
+ *
+ * get(object, 'a.0.d', 'default');
+ * // => 'default'
+ *
+ * @param {Object} obj - The object to query.
+ * @param {string} path - The path of the property to retrieve.
+ * @param {*} [defaultValue=undefined] - The value returned for `undefined` resolved values.
+ * @returns {*} Returns the resolved value, else the `defaultValue`.
+ */
+export function get(obj, path, defaultValue = undefined) {
+  if (!path) return defaultValue
+
+  const keys = path.split(".")
+  let result = obj
+
+  for (const key of keys) {
+    if (result == null || typeof result !== "object") {
+      return defaultValue
+    }
+    result = result[key]
+  }
+
+  return result !== undefined ? result : defaultValue
 }
 
 /**
@@ -183,6 +232,50 @@ export function serialize(obj) {
   }
 
   return JSON.stringify(obj, replacer)
+}
+
+/**
+ * Sets the value at a specified path of an object. If a portion of the path
+ * doesn't exist, it's created. Arrays are created for missing index properties
+ * while objects are created for all other missing properties. This function
+ * mutates the object.
+ *
+ * This is similar to Lodash's `_.set`.
+ *
+ * @example
+ * const object = { 'a': [{ 'b': { 'c': 3 } }] };
+ * set(object, 'a.0.b.d', 4);
+ * // object is now { 'a': [{ 'b': { 'c': 3, 'd': 4 } }] }
+ *
+ * set(object, 'x.0.y', 5);
+ * // object is now { 'a': [...], 'x': [{ 'y': 5 }] }
+ *
+ * @param {Object} obj - The object to modify.
+ * @param {string} path - The path of the property to set.
+ * @param {*} value - The value to set.
+ * @returns {Object} Returns the modified object.
+ */
+export function set(obj, path, value) {
+  if (!path) return obj
+
+  const keys = path.split(".")
+  let current = obj
+
+  for (let i = 0; i < keys.length - LAST_KEY_OFFSET; i++) {
+    const key = keys[i]
+    const nextKey = keys[i + NEXT_KEY_OFFSET]
+
+    // Create missing intermediate objects
+    if (!(key in current) || typeof current[key] !== "object") {
+      // Create array if next key is a number, object otherwise
+      current[key] = /^\d+$/.test(nextKey) ? [] : {}
+    }
+
+    current = current[key]
+  }
+
+  current[keys[keys.length - LAST_KEY_OFFSET]] = value
+  return obj
 }
 
 /**

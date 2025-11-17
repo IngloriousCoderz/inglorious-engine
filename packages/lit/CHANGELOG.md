@@ -1,5 +1,11 @@
 # @inglorious/react-store
 
+## 1.2.1
+
+### Patch Changes
+
+- @inglorious/store@7.0.0
+
 ## 1.2.0
 
 ### Minor Changes
