@@ -27,7 +27,7 @@ export function createStore({
 
   const types = augmentTypes(originalTypes)
 
-  let state, eventMap, incomingEvents
+  let state, eventMap, incomingEvents, isProcessing
   reset()
 
   const baseStore = {
@@ -66,11 +66,18 @@ export function createStore({
    * @param {number} dt - The delta time since the last update in milliseconds.
    */
   function update() {
+    if (isProcessing) {
+      return []
+    }
+
+    isProcessing = true
     const processedEvents = []
 
     state = create(state, patcher, {
       enableAutoFreeze: state.game?.devMode,
     })
+
+    isProcessing = false
 
     listeners.forEach((onUpdate) => onUpdate())
 

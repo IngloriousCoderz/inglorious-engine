@@ -24,7 +24,7 @@ const NEXT_LEVEL = 2
  * @returns {T} A deep clone of the input value.
  */
 export function clone(obj) {
-  return structuredClone(obj)
+  return deserialize(serialize(obj))
 }
 
 /**

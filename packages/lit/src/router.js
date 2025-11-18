@@ -1,9 +1,29 @@
 const SKIP_FULL_MATCH_GROUP = 1 // .match() result at index 0 is the full string
 const REMOVE_COLON_PREFIX = 1
 
+/**
+ * @typedef {Object} RouterEntity
+ * @property {string} id - The unique identifier for the router entity.
+ * @property {Object.<string, string>} routes - A map of URL patterns to entity types.
+ * @property {string} [path] - The current URL path.
+ * @property {string} [route] - The entity type for the current route.
+ * @property {Object.<string, string>} [params] - The parameters extracted from the URL.
+ * @property {Object.<string, string>} [query] - The query parameters from the URL.
+ * @property {string} [hash] - The URL hash.
+ */
+
+/**
+ * A client-side router type for an entity-based system. It handles URL changes,
+ * link interception, and history management (pushState, replaceState, popstate).
+ * @type {import('@inglorious/engine/types/type.js').Type}
+ */
 export const router = {
   /**
-   * Initialize router - sets up popstate listener
+   * Initializes the router. It handles the initial route, sets up a `popstate`
+   * listener for browser navigation, and intercepts clicks on local `<a>` links.
+   * @param {RouterEntity} entity - The router entity.
+   * @param {*} payload - The message payload (unused).
+   * @param {import('../types/router.js').RouterApi} api - The router API.
    */
   init(entity, payload, api) {
     // Handle initial route
@@ -72,16 +92,17 @@ export const router = {
   },
 
   /**
-   * Navigate to a new route
-   *
-   * @param {Object} entity - Router entity
-   * @param {Object} payload - Navigation payload
-   * @param {string|number} payload.to - Path to navigate to, or number for history.go()
-   * @param {Object} payload.params - Route parameters (if using pattern)
-   * @param {boolean} payload.replace - Use replaceState instead of pushState
-   * @param {Object} payload.state - Additional state to store in history
+   * Navigates to a new route, updating the browser's history and the router entity state.
+   * @param {RouterEntity} entity - The router entity.
+   * @param {string|number|import('../types/router.js').NavigatePayload} payload - The navigation payload.
+   * Can be a path string, a number for `history.go()`, or an object with navigation options.
+   * @param {string|number} payload.to - The destination path or history offset.
+   * @param {Object} [payload.params] - Route parameters to build the path from a pattern.
+   * @param {boolean} [payload.replace] - If true, uses `history.replaceState` instead of `pushState`.
+   * @param {Object} [payload.state] - Additional state to store in the browser's history.
+   * @param {import('../types/router.js').RouterApi} api - The router API.
    */
-  async navigate(entity, payload, api) {
+  navigate(entity, payload, api) {
     if (["number", "string"].includes(typeof payload)) {
       payload = { to: payload }
     }
@@ -141,11 +162,17 @@ export const router = {
 
     // Navigate
     const method = replace ? "replaceState" : "pushState"
-    await history[method](historyState, "", path)
+    history[method](historyState, "", path)
 
     api.notify("routeChange", historyState)
   },
 
+  /**
+   * Synchronizes the router entity's state with data from a routing event,
+   * typically triggered by a `popstate` event (browser back/forward).
+   * @param {RouterEntity} entity - The router entity to update.
+   * @param {import('../types/router.js').RouteSyncPayload} payload - The new route state.
+   */
   routeSync(entity, payload) {
     entity.path = payload.path
     entity.route = payload.entityType
@@ -156,8 +183,11 @@ export const router = {
 }
 
 /**
- * Build a path from a pattern and params
- * buildPath("/users/:userId", { userId: "123" }) -> "/users/123"
+ * Builds a URL path by substituting parameters into a route pattern.
+ * Example: `buildPath("/users/:userId", { userId: "123" })` returns `"/users/123"`.
+ * @param {string} pattern - The route pattern (e.g., "/users/:userId").
+ * @param {Object.<string, string>} [params={}] - The parameters to substitute.
+ * @returns {string} The constructed path.
  */
 function buildPath(pattern, params = {}) {
   let path = pattern
@@ -168,9 +198,12 @@ function buildPath(pattern, params = {}) {
 }
 
 /**
- * Find matching route from routes config
- * findRoute({ "/users/:userId": "user" }, "/users/123")
- * -> { pattern: "/users/:userId", entityType: "user", params: { userId: "123" } }
+ * Finds a matching route configuration for a given URL path.
+ * It supports parameterized routes and a fallback "*" route.
+ * @param {Object.<string, string>} routes - The routes configuration map.
+ * @param {string} path - The URL path to match.
+ * @returns {{pattern: string, entityType: string, params: Object, path: string}|null}
+ * The matched route object or null if no match is found.
  */
 function findRoute(routes, path) {
   const [pathname] = path.split("?")
@@ -190,8 +223,11 @@ function findRoute(routes, path) {
 }
 
 /**
- * Match a path against a pattern and extract params
- * matchRoute("/users/:userId", "/users/123") -> { userId: "123" }
+ * Matches a URL path against a route pattern and extracts any parameters.
+ * @param {string} pattern - The route pattern (e.g., "/users/:userId").
+ * @param {string} path - The URL path to match (e.g., "/users/123").
+ * @returns {Object.<string, string>|null} An object of extracted parameters,
+ * or null if the path does not match the pattern.
  */
 function matchRoute(pattern, path) {
   const paramNames = getParamNames(pattern)
@@ -209,8 +245,10 @@ function matchRoute(pattern, path) {
 }
 
 /**
- * Parse a route pattern and extract param names
- * "/users/:userId/posts/:postId" -> ["userId", "postId"]
+ * Parses a route pattern and extracts the names of its parameters.
+ * Example: `getParamNames("/users/:userId/posts/:postId")` returns `["userId", "postId"]`.
+ * @param {string} pattern - The route pattern.
+ * @returns {string[]} An array of parameter names.
  */
 function getParamNames(pattern) {
   const matches = pattern.match(/:(\w+)/g)
@@ -218,8 +256,9 @@ function getParamNames(pattern) {
 }
 
 /**
- * Convert route pattern to regex
- * "/users/:userId" -> /^\/users\/([^\/]+)$/
+ * Converts a route pattern into a regular expression for matching URL paths.
+ * @param {string} pattern - The route pattern (e.g., "/users/:userId").
+ * @returns {RegExp} The corresponding regular expression.
  */
 function patternToRegex(pattern) {
   const regexPattern = pattern

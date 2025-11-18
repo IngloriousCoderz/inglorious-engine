@@ -1,3 +1,4 @@
+export { form } from "./form.js"
 export { mount } from "./mount.js"
 export { router } from "./router.js"
 export { createStore } from "@inglorious/store"

@@ -14,7 +14,7 @@ export const app = {
 
         <main>
           ${router.route
-            ? api.render(router.route, { allowStatic: true })
+            ? api.render(router.route, { allowType: true })
             : html`<div>Route not found: ${router.path}</div>`}
         </main>
       </div>

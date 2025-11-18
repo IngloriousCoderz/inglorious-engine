@@ -17,8 +17,8 @@ export function mount(store, renderFn, element) {
       const types = api.getTypes()
 
       if (!entity) {
-        const { allowStatic } = options
-        if (!allowStatic) {
+        const { allowType } = options
+        if (!allowType) {
           return ""
         }
 
