@@ -17,6 +17,7 @@ body {
 }
 
 input,
+select,
 button,
 a {
   padding: 0.25rem 0.5rem;

@@ -4,7 +4,9 @@ export const entities = {
     initialValues: {
       name: "",
       age: null,
+      sex: null,
       favoriteAnimal: null,
+      addresses: [],
     },
   },
 }

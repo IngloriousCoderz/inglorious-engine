@@ -7,11 +7,11 @@ export const form = {
     if (entity.id !== entityId) return
 
     if (!entity.isValid) {
-      console.error("Form is not valid:", entity.errors)
+      console.error("Form is not valid:", clone(entity.errors))
       return
     }
 
-    console.log("Submitted!")
+    console.log("Submitted!", clone(entity.values))
     api.notify("formReset", { entityId: "form" })
   },
 
@@ -28,6 +28,8 @@ export const form = {
         <div>
           <input
             id="name"
+            name="name"
+            autocomplete="off"
             .value=${entity.values.name}
             @input=${(event) =>
               api.notify("formFieldChange", {
@@ -50,7 +52,9 @@ export const form = {
         <div>
           <input
             id="age"
+            name="age"
             type="number"
+            autocomplete="off"
             .value=${entity.values.age}
             @input=${(event) =>
               api.notify("formFieldChange", {
@@ -67,6 +71,114 @@ export const form = {
               })}
           />${entity.errors.age &&
           html`<div class="error">${entity.errors.age}</div>`}
+        </div>
+
+        <div>Sex</div>
+        <div>
+          <input
+            id="F"
+            name="sex"
+            type="radio"
+            value="F"
+            .checked=${entity.values.sex === "F"}
+            @change=${() =>
+              api.notify("formFieldChange", {
+                entityId: "form",
+                path: "sex",
+                value: "F",
+              })}
+          /><label for="F">Female</label>
+          <input
+            id="M"
+            name="sex"
+            type="radio"
+            value="M"
+            .checked=${entity.values.sex === "M"}
+            @change=${() =>
+              api.notify("formFieldChange", {
+                entityId: "form",
+                path: "sex",
+                value: "M",
+              })}
+          /><label for="M">Male</label>
+          ${entity.errors.sex &&
+          html`<div class="error">${entity.errors.sex}</div>`}
+        </div>
+
+        <label for="favoriteAnimal">Favorite animal</label>
+        <div>
+          <select
+            id="favoriteAnimal"
+            name="favoriteAnimal"
+            .value=${entity.values.favoriteAnimal}
+            @change=${(event) =>
+              api.notify("formFieldChange", {
+                entityId: "form",
+                path: "favoriteAnimal",
+                value: event.target.value,
+                validate: validateFavoriteAnimal,
+              })}
+          >
+            <option></option>
+            <option value="cat">Cat</option>
+            <option value="dog">Dog</option>
+            <option value="seal">Seal</option></select
+          >${entity.errors.favoriteAnimal &&
+          html`<div class="error">${entity.errors.favoriteAnimal}</div>`}
+        </div>
+
+        <div>Addresses</div>
+        <div>
+          <ul>
+            ${entity.values.addresses.map(
+              (address, index) =>
+                html`<li>
+                  <input
+                    placeholder="street"
+                    .value=${address.street}
+                    @input=${(event) =>
+                      api.notify("formFieldChange", {
+                        entityId: "form",
+                        path: `addresses.${index}.street`,
+                        value: event.target.value,
+                      })}
+                  /><input
+                    placeholder="city"
+                    .value=${address.city}
+                    @input=${(event) =>
+                      api.notify("formFieldChange", {
+                        entityId: "form",
+                        path: `addresses.${index}.city`,
+                        value: event.target.value,
+                      })}
+                  />
+                  <button
+                    @click=${(event) => {
+                      event.preventDefault()
+                      api.notify("formFieldArrayRemove", {
+                        entityId: "form",
+                        path: "addresses",
+                        index,
+                      })
+                    }}
+                  >
+                    x
+                  </button>
+                </li>`,
+            )}
+          </ul>
+          <button
+            @click=${(event) => {
+              event.preventDefault()
+              api.notify("formFieldArrayAppend", {
+                entityId: "form",
+                path: "addresses",
+                value: { street: "", city: "" },
+              })
+            }}
+          >
+            Add
+          </button>
         </div>
 
         <div>Actions</div>
@@ -96,6 +208,8 @@ function validateForm(values) {
   const errors = {}
   errors.name = validateName(values.name)
   errors.age = validateAge(values.age)
+  errors.sex = validateSex(values.sex)
+  errors.favoriteAnimal = validateFavoriteAnimal(values.favoriteAnimal)
   return errors
 }
 
@@ -105,4 +219,16 @@ function validateName(name) {
 
 function validateAge(age) {
   return !age ? "Missing age" : null
+}
+
+function validateSex(sex) {
+  return !sex ? "Missing sex" : null
+}
+
+function validateFavoriteAnimal(favoriteAnimal) {
+  return !favoriteAnimal ? "Missing favorite animal" : null
+}
+
+function clone(obj) {
+  return JSON.parse(JSON.stringify(obj))
 }
