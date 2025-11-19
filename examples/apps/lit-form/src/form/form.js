@@ -3,24 +3,22 @@ import { html, form as baseForm } from "@inglorious/lit"
 export const form = {
   ...baseForm,
 
-  formSubmit(entity, { entityId }, api) {
-    if (entity.id !== entityId) return
-
+  submit(entity, _, api) {
     if (!entity.isValid) {
       console.error("Form is not valid:", clone(entity.errors))
       return
     }
 
     console.log("Submitted!", clone(entity.values))
-    api.notify("formReset", { entityId: "form" })
+    api.notify("form[form]:reset")
   },
 
   render(entity, api) {
     return html`<form
       @submit=${(event) => {
         event.preventDefault()
-        api.notify("formValidate", { entityId: "form", validate: validateForm })
-        api.notify("formSubmit", { entityId: "form" })
+        api.notify("form[form]:validate", { validate: validateForm })
+        api.notify("form[form]:submit")
       }}
     >
       <div class="fields">
@@ -32,15 +30,13 @@ export const form = {
             autocomplete="off"
             .value=${entity.values.name}
             @input=${(event) =>
-              api.notify("formFieldChange", {
-                entityId: "form",
+              api.notify("form[form]:fieldChange", {
                 path: "name",
                 value: event.target.value,
                 validate: validateName,
               })}
             @blur=${() =>
-              api.notify("formFieldBlur", {
-                entityId: "form",
+              api.notify("form[form]:fieldBlur", {
                 path: "name",
                 validate: validateName,
               })}
@@ -57,15 +53,13 @@ export const form = {
             autocomplete="off"
             .value=${entity.values.age}
             @input=${(event) =>
-              api.notify("formFieldChange", {
-                entityId: "form",
+              api.notify("form[form]:fieldChange", {
                 path: "age",
                 value: Number(event.target.value),
                 validate: validateAge,
               })}
             @blur=${() =>
-              api.notify("formFieldBlur", {
-                entityId: "form",
+              api.notify("form[form]:fieldBlur", {
                 path: "age",
                 validate: validateAge,
               })}
@@ -82,8 +76,7 @@ export const form = {
             value="F"
             .checked=${entity.values.sex === "F"}
             @change=${() =>
-              api.notify("formFieldChange", {
-                entityId: "form",
+              api.notify("form[form]:fieldChange", {
                 path: "sex",
                 value: "F",
               })}
@@ -95,8 +88,7 @@ export const form = {
             value="M"
             .checked=${entity.values.sex === "M"}
             @change=${() =>
-              api.notify("formFieldChange", {
-                entityId: "form",
+              api.notify("form[form]:fieldChange", {
                 path: "sex",
                 value: "M",
               })}
@@ -112,8 +104,7 @@ export const form = {
             name="favoriteAnimal"
             .value=${entity.values.favoriteAnimal}
             @change=${(event) =>
-              api.notify("formFieldChange", {
-                entityId: "form",
+              api.notify("form[form]:fieldChange", {
                 path: "favoriteAnimal",
                 value: event.target.value,
                 validate: validateFavoriteAnimal,
@@ -137,8 +128,7 @@ export const form = {
                     placeholder="street"
                     .value=${address.street}
                     @input=${(event) =>
-                      api.notify("formFieldChange", {
-                        entityId: "form",
+                      api.notify("form[form]:fieldChange", {
                         path: `addresses.${index}.street`,
                         value: event.target.value,
                       })}
@@ -146,8 +136,7 @@ export const form = {
                     placeholder="city"
                     .value=${address.city}
                     @input=${(event) =>
-                      api.notify("formFieldChange", {
-                        entityId: "form",
+                      api.notify("form[form]:fieldChange", {
                         path: `addresses.${index}.city`,
                         value: event.target.value,
                       })}
@@ -155,8 +144,7 @@ export const form = {
                   <button
                     @click=${(event) => {
                       event.preventDefault()
-                      api.notify("formFieldArrayRemove", {
-                        entityId: "form",
+                      api.notify("form[form]:fieldArrayRemove", {
                         path: "addresses",
                         index,
                       })
@@ -170,8 +158,7 @@ export const form = {
           <button
             @click=${(event) => {
               event.preventDefault()
-              api.notify("formFieldArrayAppend", {
-                entityId: "form",
+              api.notify("form[form]:fieldArrayAppend", {
                 path: "addresses",
                 value: { street: "", city: "" },
               })
@@ -187,7 +174,7 @@ export const form = {
             ?disabled=${entity.isPristine}
             @click=${(event) => {
               event.preventDefault()
-              api.notify("formReset", { entityId: "form" })
+              api.notify("form[form]:reset")
             }}
           >
             Reset

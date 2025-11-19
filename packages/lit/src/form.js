@@ -46,114 +46,8 @@ export const form = {
    * @param {FormEntity} entity - The form entity.
    * @param {string|number} entityId - The ID from the create event.
    */
-  create(entity, entityId) {
-    if (entity.id !== entityId) return
+  create(entity) {
     resetForm(entity)
-  },
-
-  /**
-   * Handles a change in a form field's value and optionally validates it.
-   * @param {FormEntity} entity - The form entity.
-   * @param {FormFieldChangePayload} payload - The event payload.
-   */
-  formFieldChange(entity, { entityId, path, value, validate }) {
-    if (entity.id !== entityId) return
-
-    setFieldValue(entity, path, value)
-
-    if (!validate) return
-
-    const error = validate(get(entity.values, path))
-    setFieldError(entity, path, error)
-  },
-
-  /**
-   * Handles the blur event for a form field, marking it as touched and optionally validating it.
-   * @param {FormEntity} entity - The form entity.
-   * @param {FormFieldBlurPayload} payload - The event payload.
-   */
-  formFieldBlur(entity, { entityId, path, validate }) {
-    if (entity.id !== entityId) return
-
-    set(entity.touched, path, true)
-
-    if (!validate) return
-
-    const error = validate(get(entity.values, path))
-    setFieldError(entity, path, error)
-  },
-
-  /**
-   * Resets the form to its initial state.
-   * @param {FormEntity} entity - The form entity.
-   * @param {string|number} entityId - The ID of the target form entity.
-   */
-  formReset(entity, { entityId }) {
-    if (entity.id !== entityId) return
-    resetForm(entity)
-  },
-
-  /**
-   * Synchronously validates the entire form.
-   * @param {FormEntity} entity - The form entity.
-   * @param {FormValidatePayload} payload - The event payload.
-   */
-  formValidate(entity, { entityId, validate }) {
-    if (entity.id !== entityId) return
-
-    entity.errors = validate(entity.values)
-    entity.isValid = !hasErrors(entity.errors)
-  },
-
-  /**
-   * Asynchronously validates the entire form.
-   * Dispatches 'formValidationComplete' on success or 'formValidationError' on failure.
-   * @param {FormEntity} entity - The form entity.
-   * @param {FormValidateAsyncPayload} payload - The event payload.
-   * @param {Object} api - The API object for notifying events.
-   */
-  async formValidateAsync(entity, { entityId, validate }, api) {
-    if (entity.id !== entityId) return
-
-    try {
-      entity.isValidating = true
-      const errors = await validate(entity.values)
-      api.notify("formValidationComplete", {
-        entityId,
-        errors,
-        isValid: !hasErrors(errors),
-      })
-    } catch (error) {
-      api.notify("formValidationError", {
-        entityId,
-        error: error.message,
-      })
-    }
-  },
-
-  /**
-   * Handles the completion of async validation.
-   * @param {FormEntity} entity - The form entity.
-   * @param {FormValidationCompletePayload} payload - The event payload.
-   */
-  formValidationComplete(entity, { entityId, errors, isValid }) {
-    if (entity.id !== entityId) return
-
-    entity.isValidating = false
-    entity.errors = errors
-    entity.isValid = isValid
-  },
-
-  /**
-   * Handles validation errors from async validation.
-   * @param {FormEntity} entity - The form entity.
-   * @param {FormValidationErrorPayload} payload - The event payload.
-   */
-  formValidationError(entity, { entityId, error }) {
-    if (entity.id !== entityId) return
-
-    entity.isValidating = false
-    entity.submitError = error
   },
 
   /**
@@ -164,9 +58,7 @@ export const form = {
    * @param {string} payload.path - Path to the array field (e.g., 'addresses').
    * @param {*} payload.value - The value to append.
    */
-  formFieldArrayAppend(entity, { entityId, path, value }) {
-    if (entity.id !== entityId) return
-
+  fieldArrayAppend(entity, { path, value }) {
     const array = get(entity.values, path)
     if (!Array.isArray(array)) {
       console.warn(`Field at path '${path}' is not an array`)
@@ -175,10 +67,10 @@ export const form = {
 
     array.push(value)
 
-    const errorsArray = get(entity.errors, path)
+    const errorsArray = get(entity.errors, path, [])
     errorsArray.push(initMetadata(value))
 
-    const touchedArray = get(entity.touched, path)
+    const touchedArray = get(entity.touched, path, [])
     touchedArray.push(initMetadata(value))
 
     entity.isPristine = false
@@ -192,9 +84,7 @@ export const form = {
    * @param {string} payload.path - Path to the array field.
    * @param {number} payload.index - The index to remove.
    */
-  formFieldArrayRemove(entity, { entityId, path, index }) {
-    if (entity.id !== entityId) return
-
+  fieldArrayRemove(entity, { path, index }) {
     const array = get(entity.values, path)
     if (!Array.isArray(array)) {
       console.warn(`Field at path '${path}' is not an array`)
@@ -221,9 +111,7 @@ export const form = {
    * @param {number} payload.index - The index to insert at.
    * @param {*} payload.value - The value to insert.
    */
-  formFieldArrayInsert(entity, { entityId, path, index, value }) {
-    if (entity.id !== entityId) return
-
+  fieldArrayInsert(entity, { path, index, value }) {
     const array = get(entity.values, path)
     if (!Array.isArray(array)) {
       console.warn(`Field at path '${path}' is not an array`)
@@ -250,9 +138,7 @@ export const form = {
    * @param {number} payload.fromIndex - The source index.
    * @param {number} payload.toIndex - The destination index.
    */
-  formFieldArrayMove(entity, { entityId, path, fromIndex, toIndex }) {
-    if (entity.id !== entityId) return
-
+  fieldArrayMove(entity, { path, fromIndex, toIndex }) {
     const array = get(entity.values, path)
     if (!Array.isArray(array)) {
       console.warn(`Field at path '${path}' is not an array`)
@@ -271,6 +157,96 @@ export const form = {
     touchedArray.splice(toIndex, NO_ITEMS_REMOVED, touchedItem)
 
     entity.isPristine = false
+  },
+
+  /**
+   * Handles the blur event for a form field, marking it as touched and optionally validating it.
+   * @param {FormEntity} entity - The form entity.
+   * @param {FormFieldBlurPayload} payload - The event payload.
+   */
+  fieldBlur(entity, { path, validate }) {
+    set(entity.touched, path, true)
+
+    if (!validate) return
+
+    const error = validate(get(entity.values, path))
+    setFieldError(entity, path, error)
+  },
+
+  /**
+   * Handles a change in a form field's value and optionally validates it.
+   * @param {FormEntity} entity - The form entity.
+   * @param {FormFieldChangePayload} payload - The event payload.
+   */
+  fieldChange(entity, { path, value, validate }) {
+    setFieldValue(entity, path, value)
+
+    if (!validate) return
+
+    const error = validate(get(entity.values, path))
+    setFieldError(entity, path, error)
+  },
+
+  /**
+   * Resets the form to its initial state.
+   * @param {FormEntity} entity - The form entity.
+   * @param {string|number} entityId - The ID of the target form entity.
+   */
+  reset(entity) {
+    resetForm(entity)
+  },
+
+  /**
+   * Synchronously validates the entire form.
+   * @param {FormEntity} entity - The form entity.
+   * @param {FormValidatePayload} payload - The event payload.
+   */
+  validate(entity, { validate }) {
+    entity.errors = validate(entity.values)
+    entity.isValid = !hasErrors(entity.errors)
+  },
+
+  /**
+   * Asynchronously validates the entire form.
+   * Dispatches 'formValidationComplete' on success or 'formValidationError' on failure.
+   * @param {FormEntity} entity - The form entity.
+   * @param {FormValidateAsyncPayload} payload - The event payload.
+   * @param {Object} api - The API object for notifying events.
+   */
+  async validateAsync(entity, { validate }, api) {
+    try {
+      entity.isValidating = true
+      const errors = await validate(entity.values)
+      api.notify(`form[${entity.id}]:validationComplete`, {
+        errors,
+        isValid: !hasErrors(errors),
+      })
+    } catch (error) {
+      api.notify(`form[${entity.id}]:validationError`, {
+        error: error.message,
+      })
+    }
+  },
+
+  /**
+   * Handles the completion of async validation.
+   * @param {FormEntity} entity - The form entity.
+   * @param {FormValidationCompletePayload} payload - The event payload.
+   */
+  validationComplete(entity, { errors, isValid }) {
+    entity.isValidating = false
+    entity.errors = errors
+    entity.isValid = isValid
+  },
+
+  /**
+   * Handles validation errors from async validation.
+   * @param {FormEntity} entity - The form entity.
+   * @param {FormValidationErrorPayload} payload - The event payload.
+   */
+  validationError(entity, { error }) {
+    entity.isValidating = false
+    entity.submitError = error
   },
 }
 

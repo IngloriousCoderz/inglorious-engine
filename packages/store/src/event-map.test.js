@@ -25,17 +25,20 @@ test("constructor should initialize the event map from types and entities", () =
 
   const eventMap = new EventMap(types, entities)
 
-  expect(eventMap.getEntitiesForEvent("update")).toStrictEqual(
-    new Set(["player1", "player2", "enemy1"]),
-  )
-  expect(eventMap.getEntitiesForEvent("fire")).toStrictEqual(
-    new Set(["player1", "player2"]),
-  )
+  expect(eventMap.getEntitiesForEvent("update")).toStrictEqual([
+    "player1",
+    "player2",
+    "enemy1",
+  ])
+  expect(eventMap.getEntitiesForEvent("fire")).toStrictEqual([
+    "player1",
+    "player2",
+  ])
 
   // 'item' type has no events, so it shouldn't be in the map
-  expect(eventMap.getEntitiesForEvent("item")).toStrictEqual(new Set())
+  expect(eventMap.getEntitiesForEvent("item")).toStrictEqual([])
   // 'ghost' type doesn't exist, so it should be ignored
-  expect(eventMap.getEntitiesForEvent("ghost")).toStrictEqual(new Set())
+  expect(eventMap.getEntitiesForEvent("ghost")).toStrictEqual([])
 })
 
 test("addEntity should add an entity to the correct event sets", () => {
@@ -47,23 +50,21 @@ test("addEntity should add an entity to the correct event sets", () => {
   }
   const eventMap = new EventMap(types, {})
 
-  eventMap.addEntity("player1", types.player)
+  eventMap.addEntity("player1", types.player, "player")
 
-  expect(eventMap.getEntitiesForEvent("update")).toStrictEqual(
-    new Set(["player1"]),
-  )
-  expect(eventMap.getEntitiesForEvent("jump")).toStrictEqual(
-    new Set(["player1"]),
-  )
+  expect(eventMap.getEntitiesForEvent("update")).toStrictEqual(["player1"])
+  expect(eventMap.getEntitiesForEvent("jump")).toStrictEqual(["player1"])
 
   // Add another entity of the same type
-  eventMap.addEntity("player2", types.player)
-  expect(eventMap.getEntitiesForEvent("update")).toStrictEqual(
-    new Set(["player1", "player2"]),
-  )
-  expect(eventMap.getEntitiesForEvent("jump")).toStrictEqual(
-    new Set(["player1", "player2"]),
-  )
+  eventMap.addEntity("player2", types.player, "player")
+  expect(eventMap.getEntitiesForEvent("update")).toStrictEqual([
+    "player1",
+    "player2",
+  ])
+  expect(eventMap.getEntitiesForEvent("jump")).toStrictEqual([
+    "player1",
+    "player2",
+  ])
 })
 
 test("removeEntity should remove an entity from its event sets", () => {
@@ -79,17 +80,15 @@ test("removeEntity should remove an entity from its event sets", () => {
   }
   const eventMap = new EventMap(types, entities)
 
-  eventMap.removeEntity("player1", types.player)
+  eventMap.removeEntity("player1", types.player, "player")
 
-  expect(eventMap.getEntitiesForEvent("update")).toStrictEqual(
-    new Set(["player2"]),
-  )
-  expect(eventMap.getEntitiesForEvent("fire")).toStrictEqual(
-    new Set(["player2"]),
-  )
+  expect(eventMap.getEntitiesForEvent("update")).toStrictEqual(["player2"])
+  expect(eventMap.getEntitiesForEvent("fire")).toStrictEqual(["player2"])
 
   // Removing a non-existent entity should not throw an error
-  expect(() => eventMap.removeEntity("player3", types.player)).not.toThrow()
+  expect(() =>
+    eventMap.removeEntity("player3", types.player, "player"),
+  ).not.toThrow()
 })
 
 test("getEntitiesForEvent should return the correct set of entities for an event", () => {
@@ -104,10 +103,10 @@ test("getEntitiesForEvent should return the correct set of entities for an event
   const eventMap = new EventMap(types, entities)
 
   const updateEntities = eventMap.getEntitiesForEvent("update")
-  expect(updateEntities).toStrictEqual(new Set(["player1", "enemy1"]))
+  expect(updateEntities).toStrictEqual(["player1", "enemy1"])
 
   const fireEntities = eventMap.getEntitiesForEvent("fire")
-  expect(fireEntities).toStrictEqual(new Set())
+  expect(fireEntities).toStrictEqual([])
 })
 
 test("EventMap provides a significant performance benefit for event handling", async () => {
@@ -145,7 +144,7 @@ test("EventMap provides a significant performance benefit for event handling", a
 
   // Assertions to verify correctness
   expect(oldWayTime).toBeGreaterThan(newWayTime)
-  expect(updateHandler).toHaveBeenCalledTimes(updaterIds.size)
+  expect(updateHandler).toHaveBeenCalledTimes(updaterIds.length)
 })
 
 // Helper function to create a large set of test entities

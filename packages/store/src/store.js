@@ -2,7 +2,7 @@ import { create } from "mutative"
 
 import { createApi } from "./api.js"
 import { augmentEntities, augmentEntity } from "./entities.js"
-import { EventMap } from "./event-map.js"
+import { EventMap, parseEvent } from "./event-map.js"
 import { applyMiddlewares } from "./middlewares.js"
 import { augmentType, augmentTypes } from "./types.js"
 
@@ -11,7 +11,7 @@ import { augmentType, augmentTypes } from "./types.js"
  * @param {Object} config - Configuration options for the store.
  * @param {Object} [config.types] - The initial types configuration.
  * @param {Object} [config.entities] - The initial entities configuration.
- * @param {Array} [config.systens] - The initial systems configuration.
+ * @param {Array} [config.systems] - The initial systems configuration.
  * @param {Array} [config.middlewares] - The initial middlewares configuration.
  * @param {"eager" | "batched"} [config.mode] - The dispatch mode (defaults to "eager").
  * @returns {Object} The store with methods to interact with state and events.
@@ -63,7 +63,6 @@ export function createStore({
 
   /**
    * Updates the state based on elapsed time and processes events.
-   * @param {number} dt - The delta time since the last update in milliseconds.
    */
   function update() {
     if (isProcessing) {
@@ -88,18 +87,21 @@ export function createStore({
         const event = incomingEvents.shift()
         processedEvents.push(event)
 
+        // Handle special system events
         if (event.type === "morph") {
           const { id, type } = event.payload
 
           const entity = draft[id]
           const oldType = types[entity.type]
+          const oldTypeName = entity.type
 
-          originalTypes[id] = type
-          types[id] = augmentType(originalTypes[id])
-          const newType = types[id]
+          originalTypes[entity.type] = type
+          types[entity.type] = augmentType(originalTypes[entity.type])
+          const newType = types[entity.type]
 
-          eventMap.removeEntity(id, oldType)
-          eventMap.addEntity(id, newType)
+          eventMap.removeEntity(id, oldType, oldTypeName)
+          eventMap.addEntity(id, newType, oldTypeName) // Use the original type name
+          continue
         }
 
         if (event.type === "add") {
@@ -107,30 +109,42 @@ export function createStore({
           draft[id] = augmentEntity(id, entity)
           const type = types[entity.type]
 
-          eventMap.addEntity(id, type)
+          eventMap.addEntity(id, type, entity.type)
           incomingEvents.unshift({ type: "create", payload: id })
+          continue
         }
 
         if (event.type === "remove") {
           const id = event.payload
           const entity = draft[id]
           const type = types[entity.type]
+          const typeName = entity.type
           delete draft[id]
 
-          eventMap.removeEntity(id, type)
+          eventMap.removeEntity(id, type, typeName)
           incomingEvents.unshift({ type: "destroy", payload: id })
+          continue
         }
 
+        // Parse the event to get handler name
+        const { event: handlerName } = parseEvent(event.type)
+
+        // Get entities that should handle this event (filtered by EventMap)
         const entityIds = eventMap.getEntitiesForEvent(event.type)
+
         for (const id of entityIds) {
           const entity = draft[id]
           const type = types[entity.type]
-          const handle = type[event.type]
-          handle(entity, event.payload, api)
+          const handle = type[handlerName]
+
+          if (handle) {
+            handle(entity, event.payload, api)
+          }
         }
 
+        // Systems process events by handler name (not scoped)
         systems.forEach((system) => {
-          const handle = system[event.type]
+          const handle = system[handlerName]
           handle?.(draft, event.payload, api)
         })
       }
@@ -139,8 +153,13 @@ export function createStore({
 
   /**
    * Notifies the store of a new event.
-   * @param {string} type - The event object type to notify.
-   * @param {any} payload - The event object payload to notify.
+   * Supports scoped events:
+   * - 'submit' - broadcast to all entities with submit handler
+   * - 'form:submit' - only form entities
+   * - 'form[loginForm]:submit' - only loginForm entity
+   *
+   * @param {string} type - The event type to notify.
+   * @param {any} payload - The event payload.
    */
   function notify(type, payload) {
     // NOTE: it's important to invoke store.dispatch instead of dispatch, otherwise we cannot override it
@@ -189,6 +208,7 @@ export function createStore({
     state = newEntities
     eventMap = new EventMap(types, nextState)
     incomingEvents = []
+    isProcessing = false
 
     const oldEntityIds = new Set(Object.keys(oldEntities))
     const newEntityIds = new Set(Object.keys(newEntities))

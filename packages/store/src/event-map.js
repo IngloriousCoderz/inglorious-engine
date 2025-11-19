@@ -5,7 +5,7 @@
 
 /**
  * A class to manage the mapping of event names to the entity IDs that handle them.
- * This is used for optimized event handling.
+ * This is used for optimized event handling with support for scoped events.
  */
 export class EventMap {
   /**
@@ -16,17 +16,26 @@ export class EventMap {
    */
   constructor(types, entities) {
     /**
-     * The internal map where keys are event names and values are Sets of entity IDs.
+     * Maps handler names to type names to Sets of entity IDs.
+     * Structure: handlerName -> typeName -> Set<entityId>
+     * Example: 'submit' -> 'form' -> Set(['loginForm', 'signupForm'])
      *
-     * @type {Object.<string, Set<string>>}
+     * @type {Map<string, Map<string, Set<string>>>}
      */
-    this.map = {}
+    this.handlerToTypeToEntities = new Map()
+
+    /**
+     * Maps entity IDs to their type names for quick lookup.
+     *
+     * @type {Map<string, string>}
+     */
+    this.entityTypes = new Map()
 
     for (const entityId in entities) {
       const entity = entities[entityId]
       const type = types[entity.type]
       if (type) {
-        this.addEntity(entityId, type)
+        this.addEntity(entityId, type, entity.type)
       }
     }
   }
@@ -37,13 +46,24 @@ export class EventMap {
    *
    * @param {string} entityId - The ID of the entity.
    * @param {Type} type - The augmented type object of the entity.
+   * @param {string} typeName - The name of the entity's type.
    */
-  addEntity(entityId, type) {
-    for (const eventName in type) {
-      if (!this.map[eventName]) {
-        this.map[eventName] = new Set()
+  addEntity(entityId, type, typeName) {
+    this.entityTypes.set(entityId, typeName)
+
+    for (const handlerName in type) {
+      if (typeof type[handlerName] !== "function") continue
+
+      if (!this.handlerToTypeToEntities.has(handlerName)) {
+        this.handlerToTypeToEntities.set(handlerName, new Map())
       }
-      this.map[eventName].add(entityId)
+
+      const typeMap = this.handlerToTypeToEntities.get(handlerName)
+      if (!typeMap.has(typeName)) {
+        typeMap.set(typeName, new Set())
+      }
+
+      typeMap.get(typeName).add(entityId)
     }
   }
 
@@ -53,23 +73,81 @@ export class EventMap {
    *
    * @param {string} entityId - The ID of the entity.
    * @param {Type} type - The augmented type object of the entity.
+   * @param {string} typeName - The name of the entity's type.
    */
-  removeEntity(entityId, type) {
-    for (const eventName in type) {
-      const entitySet = this.map[eventName]
-      if (entitySet) {
-        entitySet.delete(entityId)
+  removeEntity(entityId, type, typeName) {
+    this.entityTypes.delete(entityId)
+
+    for (const handlerName in type) {
+      const typeMap = this.handlerToTypeToEntities.get(handlerName)
+      if (typeMap) {
+        const entitySet = typeMap.get(typeName)
+        if (entitySet) {
+          entitySet.delete(entityId)
+        }
       }
     }
   }
 
   /**
-   * Retrieves the Set of entity IDs that are subscribed to a given event.
+   * Retrieves the array of entity IDs that should handle a given event.
+   * Supports scoped events:
+   * - 'submit' -> all entities with 'submit' handler
+   * - 'form:submit' -> all form entities with 'submit' handler
+   * - 'form[loginForm]:submit' -> only loginForm entity
    *
-   * @param {string} eventName - The name of the event (e.g., 'update', 'fire').
-   * @returns {Set<string>} A Set of entity IDs. Returns an empty Set if no entities are found.
+   * @param {string} eventString - The event string (e.g., 'submit', 'form:submit', 'form[id]:submit')
+   * @returns {string[]} An array of entity IDs that should handle this event.
    */
-  getEntitiesForEvent(eventName) {
-    return this.map[eventName] || new Set()
+  getEntitiesForEvent(eventString) {
+    const {
+      type: targetType,
+      entityId: targetEntityId,
+      event: handlerName,
+    } = parseEvent(eventString)
+
+    const typeMap = this.handlerToTypeToEntities.get(handlerName)
+    if (!typeMap) return []
+
+    // form[loginForm]:submit - specific entity
+    if (targetType && targetEntityId) {
+      const entitySet = typeMap.get(targetType)
+      return entitySet && entitySet.has(targetEntityId) ? [targetEntityId] : []
+    }
+
+    // form:submit - all entities of this type
+    if (targetType) {
+      const entitySet = typeMap.get(targetType)
+      return entitySet ? Array.from(entitySet) : []
+    }
+
+    // submit - all entities with this handler (broadcast)
+    const allEntities = []
+    for (const entitySet of typeMap.values()) {
+      allEntities.push(...entitySet)
+    }
+    return allEntities
+  }
+}
+
+/**
+ * Parses an event string into its components.
+ * @param {string} eventString - The event string (e.g., 'submit', 'form:submit', 'form[loginForm]:submit')
+ * @returns {{ type: string|null, entityId: string|null, event: string }}
+ */
+export function parseEvent(eventString) {
+  // Match: type[entityId]:event or type:event or event
+  const match = eventString.match(/^(?:(\w+)(?:\[([^\]]+)\])?:)?(\w+)$/)
+
+  if (!match) {
+    return { type: null, entityId: null, event: eventString }
+  }
+
+  const [, type, entityId, event] = match
+
+  return {
+    type: type || null,
+    entityId: entityId || null,
+    event,
   }
 }
