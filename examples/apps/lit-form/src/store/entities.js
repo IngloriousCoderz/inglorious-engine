@@ -6,6 +6,7 @@ export const entities = {
       age: null,
       sex: null,
       favoriteAnimal: null,
+      languages: [],
       addresses: [],
     },
   },

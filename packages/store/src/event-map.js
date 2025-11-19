@@ -3,6 +3,8 @@
  * @typedef {Object.<string, any>} Entity - An object representing a entity.
  */
 
+const SPLIT_LIMIT = 2
+
 /**
  * A class to manage the mapping of event names to the entity IDs that handle them.
  * This is used for optimized event handling with support for scoped events.
@@ -136,15 +138,10 @@ export class EventMap {
  * @returns {{ type: string|null, entityId: string|null, event: string }}
  */
 export function parseEvent(eventString) {
-  // Match: type[entityId]:event or type:event or event
-  const match = eventString.match(/^(?:(\w+)(?:\[([^\]]+)\])?:)?(\w+)$/)
+  const [left, event] = eventString.split(":", SPLIT_LIMIT)
+  if (!event) return { type: null, entityId: null, event: left }
 
-  if (!match) {
-    return { type: null, entityId: null, event: eventString }
-  }
-
-  const [, type, entityId, event] = match
-
+  const [type, entityId] = left.split("#", SPLIT_LIMIT)
   return {
     type: type || null,
     entityId: entityId || null,

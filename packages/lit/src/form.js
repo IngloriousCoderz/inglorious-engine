@@ -233,12 +233,12 @@ export const form = {
     try {
       entity.isValidating = true
       const errors = await validate(entity.values)
-      api.notify(`form[${entity.id}]:validationComplete`, {
+      api.notify(`#${entity.id}:validationComplete`, {
         errors,
         isValid: !hasErrors(errors),
       })
     } catch (error) {
-      api.notify(`form[${entity.id}]:validationError`, {
+      api.notify(`#${entity.id}:validationError`, {
         error: error.message,
       })
     }
@@ -264,6 +264,18 @@ export const form = {
     entity.isValidating = false
     entity.submitError = error
   },
+}
+
+export function getFieldError(form, path) {
+  return get(form.errors, path)
+}
+
+export function getFieldValue(form, path, defaultValue) {
+  return get(form.values, path, defaultValue)
+}
+
+export function isFieldTouched(form, path) {
+  return get(form.touched, path)
 }
 
 // Private helper functions
