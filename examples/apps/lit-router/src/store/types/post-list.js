@@ -1,5 +1,7 @@
 import { html } from "@inglorious/lit"
 
+const BACK = -1
+
 export const postList = {
   render(entity, api) {
     const { params } = api.getEntity("router")
@@ -13,7 +15,9 @@ export const postList = {
 
     return html`<div class="post-list">
       ${user &&
-      html`<button @click=${() => api.notify("navigate", -1)}>← Back</button>`}
+      html`<button @click=${() => api.notify("navigate", BACK)}>
+        ← Back
+      </button>`}
 
       <h1>${user ? `${user.name}'s` : ""} Posts</h1>
 

@@ -1,5 +1,7 @@
 import { html } from "@inglorious/lit"
 
+const BACK = -1
+
 export const userDetail = {
   routeChange(entity, { path, params }, api) {
     if (path !== `/users/${params.userId}`) return
@@ -15,7 +17,7 @@ export const userDetail = {
 
     return html`
       <div class="user-detail">
-        <button @click=${() => api.notify("navigate", -1)}>← Back</button>
+        <button @click=${() => api.notify("navigate", BACK)}>← Back</button>
 
         <h1>${user.name}</h1>
 

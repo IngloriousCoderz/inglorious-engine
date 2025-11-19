@@ -1,4 +1,5 @@
-import { html, classMap } from "@inglorious/lit"
+import { classMap, html } from "@inglorious/lit"
+
 import { selectTasksCount } from "../store/selectors"
 
 const SINGLE_TASK = 1

@@ -1,4 +1,5 @@
-import { html, classMap } from "@inglorious/lit"
+import { classMap, html } from "@inglorious/lit"
+
 import { selectFilteredTasks } from "../store/selectors"
 
 const TASKS_TO_REMOVE = 1

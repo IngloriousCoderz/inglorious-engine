@@ -39,6 +39,22 @@ export const form = {
    */
   init(entity) {
     resetForm(entity)
+
+    document.addEventListener("click", (e) => {
+      const button = e.target.closest("button")
+
+      if (!button || button.getAttribute("type") === "submit") return
+
+      e.preventDefault()
+    })
+
+    document.addEventListener("submit", (e) => {
+      const form = e.target.closest("form")
+
+      if (!form) return
+
+      e.preventDefault()
+    })
   },
 
   /**

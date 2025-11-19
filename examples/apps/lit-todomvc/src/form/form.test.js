@@ -1,5 +1,5 @@
-import { it, expect } from "vitest"
 import { trigger } from "@inglorious/store/test"
+import { expect, it } from "vitest"
 
 import { form } from "./form"
 

@@ -12,6 +12,7 @@
     "@inglorious/lit": "workspace:*"
   },
   "devDependencies": {
+    "eslint": "^9.36.0",
     "vite": "^7.2.2"
   }
 }

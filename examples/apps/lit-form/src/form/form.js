@@ -1,4 +1,4 @@
-import { html, form as baseForm } from "@inglorious/lit"
+import { form as baseForm, html } from "@inglorious/lit"
 
 export const form = {
   ...baseForm,
@@ -9,14 +9,13 @@ export const form = {
       return
     }
 
-    console.log("Submitted!", clone(entity.values))
+    alert("Submitted! " + JSON.stringify(entity.values))
     api.notify("form[form]:reset")
   },
 
   render(entity, api) {
     return html`<form
-      @submit=${(event) => {
-        event.preventDefault()
+      @submit=${() => {
         api.notify("form[form]:validate", { validate: validateForm })
         api.notify("form[form]:submit")
       }}
@@ -132,7 +131,11 @@ export const form = {
                         path: `addresses.${index}.street`,
                         value: event.target.value,
                       })}
-                  /><input
+                  />
+                  ${entity.errors.addresses[index].street &&
+                  html`<div class="error">
+                    ${entity.errors.addresses[index].street}
+                  </div>`}<input
                     placeholder="city"
                     .value=${address.city}
                     @input=${(event) =>
@@ -140,15 +143,16 @@ export const form = {
                         path: `addresses.${index}.city`,
                         value: event.target.value,
                       })}
-                  />
+                  />${entity.errors.addresses[index].city &&
+                  html`<div class="error">
+                    ${entity.errors.addresses[index].city}
+                  </div>`}
                   <button
-                    @click=${(event) => {
-                      event.preventDefault()
+                    @click=${() =>
                       api.notify("form[form]:fieldArrayRemove", {
                         path: "addresses",
                         index,
-                      })
-                    }}
+                      })}
                   >
                     x
                   </button>
@@ -156,13 +160,11 @@ export const form = {
             )}
           </ul>
           <button
-            @click=${(event) => {
-              event.preventDefault()
+            @click=${() =>
               api.notify("form[form]:fieldArrayAppend", {
                 path: "addresses",
                 value: { street: "", city: "" },
-              })
-            }}
+              })}
           >
             Add
           </button>
@@ -172,10 +174,7 @@ export const form = {
         <div>
           <button
             ?disabled=${entity.isPristine}
-            @click=${(event) => {
-              event.preventDefault()
-              api.notify("form[form]:reset")
-            }}
+            @click=${() => api.notify("form[form]:reset")}
           >
             Reset
           </button>
@@ -197,6 +196,7 @@ function validateForm(values) {
   errors.age = validateAge(values.age)
   errors.sex = validateSex(values.sex)
   errors.favoriteAnimal = validateFavoriteAnimal(values.favoriteAnimal)
+  errors.addresses = values.addresses.map(validateAddress)
   return errors
 }
 
@@ -214,6 +214,21 @@ function validateSex(sex) {
 
 function validateFavoriteAnimal(favoriteAnimal) {
   return !favoriteAnimal ? "Missing favorite animal" : null
+}
+
+function validateAddress(address) {
+  const errors = {}
+  errors.street = validateStreet(address.street)
+  errors.city = validateCity(address.city)
+  return errors
+}
+
+function validateStreet(street) {
+  return !street ? "Missing street" : null
+}
+
+function validateCity(city) {
+  return !city ? "Missing city" : null
 }
 
 function clone(obj) {
