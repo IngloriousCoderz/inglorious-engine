@@ -1,6 +1,4 @@
-import { getFieldError } from "@inglorious/lit"
-import { getFieldValue } from "@inglorious/lit"
-import { html } from "@inglorious/lit"
+import { getFieldError, getFieldValue, html } from "@inglorious/lit"
 
 export const input = {
   render(entity, { type = "text", label, path, validate }, api) {
@@ -16,13 +14,13 @@ export const input = {
           autocomplete="off"
           .value=${fieldValue}
           @input=${(event) =>
-            api.notify("#form:fieldChange", {
+            api.notify(`#${entity.id}:fieldChange`, {
               path,
               value: parseValue(event.target.value, type),
               validate,
             })}
           @blur=${() =>
-            api.notify("#form:fieldBlur", {
+            api.notify(`#${entity.id}:fieldBlur`, {
               path,
               validate,
             })}

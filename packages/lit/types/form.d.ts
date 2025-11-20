@@ -77,6 +77,58 @@ export interface FormFieldBlurPayload {
 }
 
 /**
+ * The payload for the `fieldArrayAppend` event.
+ */
+export interface FieldArrayAppendPayload {
+  /** The ID of the target form entity. */
+  entityId: string | number
+  /** The dot-notation path to the array field. */
+  path: string
+  /** The value to append to the array. */
+  value: any
+}
+
+/**
+ * The payload for the `fieldArrayRemove` event.
+ */
+export interface FieldArrayRemovePayload {
+  /** The ID of the target form entity. */
+  entityId: string | number
+  /** The dot-notation path to the array field. */
+  path: string
+  /** The index of the item to remove. */
+  index: number
+}
+
+/**
+ * The payload for the `fieldArrayInsert` event.
+ */
+export interface FieldArrayInsertPayload {
+  /** The ID of the target form entity. */
+  entityId: string | number
+  /** The dot-notation path to the array field. */
+  path: string
+  /** The index at which to insert the new item. */
+  index: number
+  /** The value to insert into the array. */
+  value: any
+}
+
+/**
+ * The payload for the `fieldArrayMove` event.
+ */
+export interface FieldArrayMovePayload {
+  /** The ID of the target form entity. */
+  entityId: string | number
+  /** The dot-notation path to the array field. */
+  path: string
+  /** The source index of the item to move. */
+  fromIndex: number
+  /** The destination index for the item. */
+  toIndex: number
+}
+
+/**
  * The payload for the `formReset` event.
  */
 export interface FormResetPayload {
@@ -155,11 +207,51 @@ export declare const form: {
   ): void
 
   /**
+   * Appends an item to a field array.
+   * @param entity The form entity.
+   * @param payload The append event payload.
+   */
+  fieldArrayAppend<T extends FormValues>(
+    entity: FormEntity<T>,
+    payload: FieldArrayAppendPayload,
+  ): void
+
+  /**
+   * Removes an item from a field array by index.
+   * @param entity The form entity.
+   * @param payload The remove event payload.
+   */
+  fieldArrayRemove<T extends FormValues>(
+    entity: FormEntity<T>,
+    payload: FieldArrayRemovePayload,
+  ): void
+
+  /**
+   * Inserts an item into a field array at a specific index.
+   * @param entity The form entity.
+   * @param payload The insert event payload.
+   */
+  fieldArrayInsert<T extends FormValues>(
+    entity: FormEntity<T>,
+    payload: FieldArrayInsertPayload,
+  ): void
+
+  /**
+   * Moves an item in a field array from one index to another.
+   * @param entity The form entity.
+   * @param payload The move event payload.
+   */
+  fieldArrayMove<T extends FormValues>(
+    entity: FormEntity<T>,
+    payload: FieldArrayMovePayload,
+  ): void
+
+  /**
    * Handles a change in a form field's value and optionally validates it.
    * @param entity The form entity.
    * @param payload The change event payload.
    */
-  formFieldChange<T extends FormValues>(
+  fieldChange<T extends FormValues>(
     entity: FormEntity<T>,
     payload: FormFieldChangePayload<T>,
   ): void
@@ -169,7 +261,7 @@ export declare const form: {
    * @param entity The form entity.
    * @param payload The blur event payload.
    */
-  formFieldBlur<T extends FormValues>(
+  fieldBlur<T extends FormValues>(
     entity: FormEntity<T>,
     payload: FormFieldBlurPayload,
   ): void
@@ -179,7 +271,7 @@ export declare const form: {
    * @param entity The form entity.
    * @param payload The reset event payload.
    */
-  formReset<T extends FormValues>(
+  reset<T extends FormValues>(
     entity: FormEntity<T>,
     payload: FormResetPayload,
   ): void
@@ -189,7 +281,7 @@ export declare const form: {
    * @param entity The form entity.
    * @param payload The validation event payload.
    */
-  formValidate<T extends FormValues>(
+  validate<T extends FormValues>(
     entity: FormEntity<T>,
     payload: FormValidatePayload<T>,
   ): void
@@ -201,7 +293,7 @@ export declare const form: {
    * @param payload The async validation event payload.
    * @param api The API object for notifying events.
    */
-  formValidateAsync<T extends FormValues>(
+  validateAsync<T extends FormValues>(
     entity: FormEntity<T>,
     payload: FormValidateAsyncPayload<T>,
     api: any,
@@ -212,7 +304,7 @@ export declare const form: {
    * @param entity The form entity.
    * @param payload The validation completion event payload.
    */
-  formValidationComplete<T extends FormValues>(
+  validationComplete<T extends FormValues>(
     entity: FormEntity<T>,
     payload: FormValidationCompletePayload<T>,
   ): void
@@ -222,7 +314,7 @@ export declare const form: {
    * @param entity The form entity.
    * @param payload The validation error event payload.
    */
-  formValidationError<T extends FormValues>(
+  validationError<T extends FormValues>(
     entity: FormEntity<T>,
     payload: FormValidationErrorPayload,
   ): void
@@ -232,10 +324,12 @@ export declare const form: {
  * Gets the value of a specific field in the form.
  * @param form The form entity.
  * @param path The path to the field (e.g., 'user.name').
+ * @param defaultValue An optional default value to return if the path does not exist.
  */
 export declare function getFieldValue<T extends FormValues>(
   form: FormEntity<T>,
   path: string,
+  defaultValue?: any,
 ): any
 
 /**
@@ -253,6 +347,15 @@ export declare function isFieldTouched<T extends FormValues>(
   form: FormEntity<T>,
   path: string,
 ): boolean
+
+/**
+ * Checks if the form has any validation errors.
+ * @param errors The errors object from a form entity.
+ */
+export declare function hasErrors(errors: FormErrors<any>): boolean
+
+/** Initializes a nested metadata structure (for errors or touched state) based on a value structure. */
+export declare function initMetadata(value: any): any
 
 /** Resets the form to its initial state. */
 export declare function resetForm<T extends FormValues>(

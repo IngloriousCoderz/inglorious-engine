@@ -1,7 +1,4 @@
-import { getFieldValue } from "@inglorious/lit"
-import { getFieldError } from "@inglorious/lit"
-import { repeat } from "@inglorious/lit"
-import { html } from "@inglorious/lit"
+import { getFieldError, getFieldValue, html, repeat } from "@inglorious/lit"
 
 export const radio = {
   render(entity, { label, options, path, validate }, api) {
@@ -21,7 +18,11 @@ export const radio = {
                 value=${value}
                 .checked=${fieldValue === value}
                 @change=${() =>
-                  api.notify("#form:fieldChange", { path, value, validate })}
+                  api.notify(`#${entity.id}:fieldChange`, {
+                    path,
+                    value,
+                    validate,
+                  })}
               />
               <label for=${value}>${label}</label>`,
         )}

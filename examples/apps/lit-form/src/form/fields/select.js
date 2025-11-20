@@ -1,7 +1,4 @@
-import { getFieldError } from "@inglorious/lit"
-import { repeat } from "@inglorious/lit"
-import { getFieldValue } from "@inglorious/lit"
-import { html } from "@inglorious/lit"
+import { getFieldError, getFieldValue, html, repeat } from "@inglorious/lit"
 
 export const select = {
   render(entity, params, api) {
@@ -25,7 +22,7 @@ const singleSelect = {
       id=${path}
       name=${path}
       @change=${(event) =>
-        api.notify("#form:fieldChange", {
+        api.notify(`#${entity.id}:fieldChange`, {
           path,
           value: event.target.value,
           validate,
@@ -53,7 +50,7 @@ const multipleSelect = {
       name=${path}
       multiple
       @change=${(event) =>
-        api.notify("#form:fieldChange", {
+        api.notify(`#${entity.id}:fieldChange`, {
           path,
           value: [...event.target.selectedOptions].map(({ value }) => value),
           validate,
