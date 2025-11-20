@@ -86,7 +86,7 @@ test("it should send an event from an entity and process it in the same update c
       kitty1: { type: "kitty", position: "near" },
     },
 
-    mode: "batched",
+    updateMode: "manual",
   }
   const afterState = {
     doggo1: { id: "doggo1", type: "doggo" },

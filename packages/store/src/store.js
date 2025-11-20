@@ -13,7 +13,7 @@ import { augmentType, augmentTypes } from "./types.js"
  * @param {Object} [config.entities] - The initial entities configuration.
  * @param {Array} [config.systems] - The initial systems configuration.
  * @param {Array} [config.middlewares] - The initial middlewares configuration.
- * @param {"eager" | "batched"} [config.mode] - The dispatch mode (defaults to "eager").
+ * @param {"auto" | "manual"} [config.updateMode] - The update mode (defaults to "auto").
  * @returns {Object} The store with methods to interact with state and events.
  */
 export function createStore({
@@ -21,7 +21,7 @@ export function createStore({
   entities: originalEntities,
   systems = [],
   middlewares = [],
-  mode = "eager",
+  updateMode = "auto",
 }) {
   const listeners = new Set()
 
@@ -174,7 +174,7 @@ export function createStore({
    */
   function dispatch(event) {
     incomingEvents.push(event)
-    if (mode === "eager") {
+    if (updateMode === "auto") {
       update()
     }
   }

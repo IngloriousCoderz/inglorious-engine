@@ -65,10 +65,17 @@ export class Engine {
       )
     }
 
-    this._store = createStore({ ...this._config, middlewares, mode: "batched" })
+    this._store = createStore({
+      ...this._config,
+      middlewares,
+      updateMode: "manual",
+    })
     this._loop = new Loop[this._config.loop.type]()
 
-    this._devtools = createDevtools({ blacklist: coreEvents, mode: "batched" })
+    this._devtools = createDevtools({
+      blacklist: coreEvents,
+      updateMode: "manual",
+    })
     if (this._devMode) {
       this._devtools.connect(this._store)
     }

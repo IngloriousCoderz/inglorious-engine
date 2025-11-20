@@ -635,10 +635,10 @@ When multiple behaviors define the same event, they all run in order. This allow
 
 ### ⏱️ Batched Mode
 
-The Inglorious Store features an **event queue**. In the default `eager` mode, each notified event will trigger and update of the state (same as Redux). But in `batched` mode, you can process multiple events together before re-rendering:
+The Inglorious Store features an **event queue**. In the default `auto` update mode, each notified event will trigger and update of the state (same as Redux). But in `manual` update mode, you can process multiple events together before re-rendering:
 
 ```javascript
-const store = createStore({ types, entities, mode: "batched" })
+const store = createStore({ types, entities, updateMode: "manual" })
 
 // add events to the event queue
 store.notify("playerMoved", { x: 100, y: 50 })
@@ -677,7 +677,7 @@ const store = createStore({
   types, // Object: entity type definitions
   entities, // Object: initial entities
   systems, // Array (optional): global state handlers
-  mode, // String (optional): 'eager' (default) or 'batched'
+  updateMode, // String (optional): 'auto' (default) or 'manual'
 })
 ```
 

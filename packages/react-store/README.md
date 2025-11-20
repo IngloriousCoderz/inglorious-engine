@@ -14,10 +14,6 @@ Connect your React app to Inglorious Store with a familiar API. Built on `react-
 - **Drop-in Integration**: Works just like `react-redux` with enhanced features for Inglorious Store
 - **Custom `useNotify` Hook**: Dispatch events with a clean, ergonomic API
 - **Convenience `useEntity` Hook**: Select a single entity by its ID with a simple, optimized hook.
-- **Flexible Update Modes**:
-  - **Eager mode** - Updates process immediately (responsive UIs)
-  - **Batched mode** - Updates process on a timer (performance optimization)
-- **Redux DevTools Support**: Full integration with Redux DevTools for debugging
 - **Battle-tested**: Built on `react-redux` for proven performance and stability
 - **TypeScript Support**: Optional type safety for those who want it
 
@@ -64,15 +60,8 @@ export const store = createStore({ types, entities })
 import { createReactStore } from "@inglorious/react-store"
 import { store } from "./store"
 
-// Eager mode (default) - updates process immediately
 export const { Provider, useSelector, useNotify, useEntity } =
   createReactStore(store)
-
-// Or batched mode - updates process at 20 FPS
-// export const { Provider, useSelector, useNotify, useEntity } = createReactStore(store, {
-//   mode: "batched",
-//   fps: 20
-// })
 ```
 
 ### 3. Wrap Your App
@@ -114,17 +103,13 @@ function Counter() {
 
 ## API Reference
 
-### `createReactStore(store, config?)`
+### `createReactStore(store)`
 
 Creates React bindings for an Inglorious Store.
 
 **Parameters:**
 
 - `store` (required): An Inglorious Store instance
-- `config` (optional): Configuration object
-  - `mode`: `"eager"` (default) or `"batched"`
-  - `fps`: Frame rate for batched mode (default: 20)
-  - `skippedEvents`: Array of event types to exclude from DevTools logging
 
 **Returns:**
 
@@ -136,27 +121,7 @@ Creates React bindings for an Inglorious Store.
 **Examples:**
 
 ```javascript
-// Eager mode (immediate updates)
 const { Provider, useSelector, useNotify, useEntity } = createReactStore(store)
-
-// Batched mode for real-time apps
-const { Provider, useSelector, useNotify, useEntity } = createReactStore(
-  store,
-  {
-    mode: "batched",
-    fps: 30,
-  },
-)
-
-// Custom FPS for animations
-const { Provider, useSelector, useNotify, useEntity } = createReactStore(
-  store,
-  {
-    mode: "batched",
-    fps: 60,
-    skippedEvents: ["update", "mousemove"], // Don't log these in DevTools
-  },
-)
 ```
 
 ### `useNotify()`
@@ -219,69 +184,34 @@ function TodoList() {
 }
 ```
 
----
+### `useEntity(id)`
 
-## Update Modes
+A convenience hook to select a single entity by its ID. It is an optimized way to subscribe a component to updates for a specific entity.
 
-### Eager Mode (Default)
+**Parameters:**
 
-Best for most apps. Updates process immediately when you call `notify()`.
+- `id` (required): The ID of the entity to select.
 
-```javascript
-const { Provider, useSelector, useNotify } = createReactStore(store)
+**Usage:**
+
+```jsx
+function UserProfile() {
+  const user = useEntity("user-123")
+  if (!user) {
+    return "User not found."
+  }
+
+  return user.name
+}
 ```
-
-**When to use:**
-
-- ✅ Standard apps (forms, CRUD, dashboards)
-- ✅ You want instant feedback on user actions
-- ✅ You're not processing many events per second
-
-### Batched Mode
-
-Best for performance-critical apps. Updates process on a fixed timer (FPS).
-
-```javascript
-const { Provider, useSelector, useNotify } = createReactStore(store, {
-  mode: "batched",
-  fps: 20, // Process events 20 times per second
-})
-```
-
-**When to use:**
-
-- ✅ Games or animations
-- ✅ High-frequency events (mouse tracking, real-time data)
-- ✅ You want to batch multiple events into one React render
-- ✅ Performance optimization is critical
-
-**FPS Guidelines:**
-
-- **60 FPS** - Smooth animations, games
-- **30 FPS** - Good balance for most real-time apps
-- **20 FPS (default)** - Input handling, live dashboards, lower CPU usage
-- **5-10 FPS** - Background updates, status polling
 
 ---
 
 ## Redux DevTools Integration
 
-Redux DevTools work automatically! Install the [browser extension](https://github.com/reduxjs/redux-devtools) to inspect:
+Redux DevTools work automatically! Install the browser extension to inspect state snapshots, event history, and use time-travel debugging.
 
-- State snapshots
-- Event history
-- Time-travel debugging
-
-**In batched mode**, events are automatically grouped by frame for cleaner DevTools logs.
-
-```javascript
-// Skip noisy events from DevTools
-const { Provider, useSelector, useNotify } = createReactStore(store, {
-  mode: "batched",
-  fps: 20,
-  skippedEvents: ["mousemove", "update"], // Don't log these
-})
-```
+The underlying `@inglorious/store` allows for configuration, such as skipping certain events from being logged. See the store documentation for more details.
 
 ---
 
@@ -433,9 +363,6 @@ For complete TypeScript examples, see the [@inglorious/store TypeScript document
 **Q: Can I use this with existing react-redux code?**  
 A: Yes! The `Provider` and `useSelector` are compatible. You can gradually migrate to `useNotify`.
 
-**Q: Should I use eager or batched mode?**  
-A: Start with eager (default). Switch to batched if you notice performance issues or are building a game/real-time app.
-
 **Q: Does this work with React Native?**  
 A: Yes! It works anywhere `react-redux` works.
 
@@ -457,9 +384,8 @@ A: Not at all! The library works great with plain JavaScript. TypeScript support
 
 **What's different:**
 
-- ✅ Custom `useNotify` hook instead of `useDispatch`
-- ✅ Batched mode option for performance
-- ✅ Automatic `store.update()` handling
+- ✅ `useNotify` hook for dispatching events instead of `useDispatch`
+- ✅ `useEntity` hook for easily selecting an entity by ID
 - ✅ Cleaner API for event-based state management
 
 ---

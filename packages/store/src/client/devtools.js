@@ -12,7 +12,7 @@ const globalContainer = import.meta.hot
 //   devToolsInstance,
 //   unsubscribe,
 //   store,
-//   mode,
+//   updateMode,
 //   restoreSetState: () => void,
 // }
 
@@ -45,18 +45,18 @@ export function createDevtools(config = {}) {
 }
 
 function connectDevTools(store, config = {}) {
-  const mode = config.mode ?? "eager"
+  const updateMode = config.updateMode ?? "auto"
 
-  // Prevent duplicate connections; rewire if store or mode changed
+  // Prevent duplicate connections; rewire if store or update mode changed
   const existing = getConnection()
   if (existing) {
-    const sameMode = existing.mode === mode
+    const sameMode = existing.updateMode === updateMode
     if (sameMode) {
       // Hot-swap store without resetting DevTools history
       existing.restoreSetState?.()
       const baseSetState = store.setState
       let restoreSetState = null
-      if (mode === "eager") {
+      if (updateMode === "auto") {
         restoreSetState = () => {
           if (store.setState !== baseSetState) {
             store.setState = baseSetState
@@ -75,7 +75,7 @@ function connectDevTools(store, config = {}) {
       existing.restoreSetState = restoreSetState
     }
 
-    // Different mode: fully disconnect previous and proceed
+    // Different update mode: fully disconnect previous and proceed
     try {
       existing.unsubscribe?.()
     } finally {
@@ -91,8 +91,8 @@ function connectDevTools(store, config = {}) {
   const name = config.name ?? document.title
   const baseSetState = store.setState
   let restoreSetState = null
-  // Only add setState side-effects in eager mode; batched mode logs explicitly from engine.
-  if (mode === "eager") {
+  // Only add setState side-effects in auto update mode; manual update mode logs explicitly from engine.
+  if (updateMode === "auto") {
     restoreSetState = () => {
       if (store.setState !== baseSetState) {
         store.setState = baseSetState
@@ -140,7 +140,13 @@ function connectDevTools(store, config = {}) {
 
   devToolsInstance.init(store.getState())
 
-  setConnection({ devToolsInstance, unsubscribe, store, mode, restoreSetState })
+  setConnection({
+    devToolsInstance,
+    unsubscribe,
+    store,
+    updateMode,
+    restoreSetState,
+  })
 }
 
 function disconnectDevTools() {
@@ -234,12 +240,12 @@ function handleAction(message) {
 
 function shouldLogEvent(event, config) {
   const {
-    mode = "eager",
+    updateMode = "auto",
     blacklist = [],
     whitelist = [],
     filter = null,
   } = config
-  if (mode !== "eager") return false
+  if (updateMode !== "auto") return false
   const passesBlacklist = !blacklist.length || !blacklist.includes(event.type)
   const passesWhitelist = !whitelist.length || whitelist.includes(event.type)
   const passesFilter = !filter || filter(event)
