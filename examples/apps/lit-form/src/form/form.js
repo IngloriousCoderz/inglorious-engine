@@ -104,44 +104,27 @@ export const form = {
           ${entity.values.addresses.length
             ? html`<ul>
                 ${entity.values.addresses.map(
-                  (address, index) =>
+                  (_, index) =>
                     html`<li>
-                      <input
-                        placeholder="street"
-                        .value=${address.street}
-                        @input=${(event) =>
-                          api.notify("#form:fieldChange", {
-                            path: `addresses.${index}.street`,
-                            value: event.target.value,
-                            validate: validateStreet,
-                          })}
-                        @blur=${() =>
-                          api.notify("#form:fieldBlur", {
-                            path: `addresses.${index}.street`,
-                            validate: validateStreet,
-                          })}
-                      />
-                      ${entity.errors.addresses[index].street &&
-                      html`<div class="error">
-                        ${entity.errors.addresses[index].street}
-                      </div>`}<input
-                        placeholder="city"
-                        .value=${address.city}
-                        @input=${(event) =>
-                          api.notify("#form:fieldChange", {
-                            path: `addresses.${index}.city`,
-                            value: event.target.value,
-                            validate: validateCity,
-                          })}
-                        @blur=${() =>
-                          api.notify("#form:fieldBlur", {
-                            path: `addresses.${index}.city`,
-                            validate: validateCity,
-                          })}
-                      />${entity.errors.addresses[index].city &&
-                      html`<div class="error">
-                        ${entity.errors.addresses[index].city}
-                      </div>`}
+                      ${input.render(
+                        entity,
+                        {
+                          label: "Street",
+                          path: `addresses.${index}.street`,
+                          validate: validateStreet,
+                        },
+                        api,
+                      )}
+                      ${input.render(
+                        entity,
+                        {
+                          label: "City",
+                          path: `addresses.${index}.city`,
+                          validate: validateCity,
+                        },
+                        api,
+                      )}
+
                       <button
                         @click=${() =>
                           api.notify("#form:fieldArrayRemove", {

@@ -2,7 +2,7 @@ export const entities = {
   form: {
     type: "form",
     initialValues: {
-      name: "",
+      name: null,
       age: null,
       sex: null,
       favoriteAnimal: null,

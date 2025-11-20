@@ -35,7 +35,7 @@ const singleSelect = {
         options,
         ({ value }) => value,
         ({ value, label }) =>
-          html`<option value=${value} ?selected=${fieldValue === value}>
+          html`<option value=${value} .selected=${fieldValue === value}>
             ${label}
           </option>`,
       )}
@@ -63,7 +63,7 @@ const multipleSelect = {
         options,
         ({ value }) => value,
         ({ value, label }) =>
-          html`<option value=${value} ?selected=${fieldValue.includes(value)}>
+          html`<option value=${value} .selected=${fieldValue.includes(value)}>
             ${label}
           </option>`,
       )}
