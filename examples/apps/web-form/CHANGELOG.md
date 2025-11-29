@@ -1,5 +1,13 @@
 # lit-todomvc
 
+## 0.1.3
+
+### Patch Changes
+
+- Rename @inglorious/lit into @inglorious/web
+- Updated dependencies
+  - @inglorious/web@2.0.0
+
 ## 0.1.2
 
 ### Patch Changes

@@ -1,11 +1,11 @@
 # lit-router
 
-Demonstrates the client-side, entity-based router included with `@inglorious/lit` and how to wire routes to entity types.
+Demonstrates the client-side, entity-based router included with `@inglorious/web` and how to wire routes to entity types.
 
 Quick start:
 
 ```bash
-cd examples/apps/lit-router
+cd examples/apps/web-router
 pnpm install
 pnpm dev
 ```

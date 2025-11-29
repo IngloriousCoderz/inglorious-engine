@@ -1,4 +1,4 @@
-import { classMap, html } from "@inglorious/lit"
+import { classMap, html } from "@inglorious/web"
 
 import { selectFilteredTasks } from "../store/selectors"
 

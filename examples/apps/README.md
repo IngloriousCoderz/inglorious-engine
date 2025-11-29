@@ -4,10 +4,10 @@ This folder contains small demo apps that showcase features of the Inglorious En
 
 Available demos:
 
-- [lit-form](./lit-form/README.md) — form type demo (validation, arrays, field helpers)
-- [lit-list](./lit-list/README.md) — virtualized list demo (extends `list` and uses `renderItem`)
-- [lit-router](./lit-router/README.md) — router demo (entity based client-side routing)
-- [lit-todomvc](./lit-todomvc/README.md) — TodoMVC implemented with `@inglorious/lit`
+- [web-form](./web-form/README.md) — form type demo (validation, arrays, field helpers)
+- [web-list](./web-list/README.md) — virtualized list demo (extends `list` and uses `renderItem`)
+- [web-router](./web-router/README.md) — router demo (entity based client-side routing)
+- [web-todomvc](./web-todomvc/README.md) — TodoMVC implemented with `@inglorious/web`
 - [react-todomvc](./react-todomvc/README.md) — React TodoMVC demo
 - [react-todomvc-cs](./react-todomvc-cs/README.md) — React TodoMVC + json-server demo
 - [react-todomvc-rt](./react-todomvc-rt/README.md) — React TodoMVC + runtime/mock-api demo

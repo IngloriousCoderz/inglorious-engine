@@ -1,12 +1,12 @@
 # lit-list
 
-A tiny demo that shows the `productList` example — a virtualized list implementation that extends the `list` type from `@inglorious/lit` and provides `renderItem` for domain-specific item rendering.
+A tiny demo that shows the `productList` example — a virtualized list implementation that extends the `list` type from `@inglorious/web` and provides `renderItem` for domain-specific item rendering.
 
 Quick start:
 
 ```bash
 # from repository root
-cd examples/apps/lit-list
+cd examples/apps/web-list
 pnpm install
 pnpm dev
 ```

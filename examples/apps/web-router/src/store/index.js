@@ -1,4 +1,4 @@
-import { createStore, router } from "@inglorious/lit"
+import { createStore, router } from "@inglorious/web"
 
 import { entities } from "./entities"
 import { middlewares } from "./middlewares"

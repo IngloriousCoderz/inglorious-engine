@@ -1,4 +1,4 @@
-import { createSelector } from "@inglorious/lit"
+import { createSelector } from "@inglorious/web"
 
 export const selectValue = (entities) => entities.form.value
 export const selectTasks = (entities) => entities.list.tasks

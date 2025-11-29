@@ -1,11 +1,11 @@
 # lit-todomvc
 
-A small TodoMVC demo implemented using `@inglorious/lit`. Great for studying basic patterns: store wiring, item rendering, selection, and filtering.
+A small TodoMVC demo implemented using `@inglorious/web`. Great for studying basic patterns: store wiring, item rendering, selection, and filtering.
 
 Quick start:
 
 ```bash
-cd examples/apps/lit-todomvc
+cd examples/apps/web-todomvc
 pnpm install
 pnpm dev
 ```

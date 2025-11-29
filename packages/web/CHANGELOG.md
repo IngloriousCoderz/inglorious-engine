@@ -1,10 +1,16 @@
 # @inglorious/react-store
 
+## 2.0.0
+
+### Major Changes
+
+- Rename @inglorious/lit into @inglorious/web
+
 ## 1.3.0
 
 ### Minor Changes
 
-- Add list virtualization in @inglorious/lit
+- Add list virtualization in @inglorious/web
 
 ## 1.2.1
 
@@ -16,13 +22,13 @@
 
 ### Minor Changes
 
-- Add basic router to @inglorious/lit
+- Add basic router to @inglorious/web
 
 ## 1.1.0
 
 ### Minor Changes
 
-- Add router type to @inglorious/lit
+- Add router type to @inglorious/web
 
 ## 1.0.1
 

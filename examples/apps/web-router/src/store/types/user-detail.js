@@ -1,4 +1,4 @@
-import { html } from "@inglorious/lit"
+import { html } from "@inglorious/web"
 
 const BACK = -1
 

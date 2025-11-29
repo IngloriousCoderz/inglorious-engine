@@ -1,7 +1,7 @@
 {
-  "name": "lit-router",
+  "name": "web-router",
   "private": true,
-  "version": "0.2.3",
+  "version": "0.2.4",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@inglorious/lit": "workspace:*"
+    "@inglorious/web": "workspace:*"
   },
   "devDependencies": {
     "eslint": "^9.36.0",

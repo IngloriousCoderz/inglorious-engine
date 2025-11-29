@@ -1,4 +1,4 @@
-import { html, list } from "@inglorious/lit"
+import { html, list } from "@inglorious/web"
 
 const DIVISOR = 2
 

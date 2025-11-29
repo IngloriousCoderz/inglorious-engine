@@ -1,4 +1,4 @@
-# lit-form
+# web-form
 
 Small demo showing the `form` type and helper components (inputs/selects/radios) built on top of `@inglorious/web`.
 

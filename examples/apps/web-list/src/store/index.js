@@ -1,4 +1,4 @@
-import { createStore } from "@inglorious/lit"
+import { createStore } from "@inglorious/web"
 
 import { app } from "../app"
 import { productList } from "../product-list/product-list"
