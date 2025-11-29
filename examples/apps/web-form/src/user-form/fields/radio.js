@@ -1,4 +1,4 @@
-import { getFieldError, getFieldValue, html, repeat } from "@inglorious/lit"
+import { getFieldError, getFieldValue, html, repeat } from "@inglorious/web"
 
 export const radio = {
   render(entity, { label, options, path, validate }, api) {

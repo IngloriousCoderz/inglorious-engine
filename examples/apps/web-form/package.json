@@ -1,5 +1,5 @@
 {
-  "name": "lit-form",
+  "name": "web-form",
   "private": true,
   "version": "0.1.2",
   "type": "module",
@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@inglorious/lit": "workspace:*"
+    "@inglorious/web": "workspace:*"
   },
   "devDependencies": {
     "eslint": "^9.36.0",

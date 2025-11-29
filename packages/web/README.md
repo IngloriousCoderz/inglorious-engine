@@ -1,6 +1,6 @@
-# @inglorious/lit
+# @inglorious/web
 
-[![NPM version](https://img.shields.io/npm/v/@inglorious/lit.svg)](https://www.npmjs.com/package/@inglorious/lit)
+[![NPM version](https://img.shields.io/npm/v/@inglorious/web.svg)](https://www.npmjs.com/package/@inglorious/web)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A lightweight web framework that combines the entity-based state management of **@inglorious/store** with the performance and simplicity of **lit-html**.
@@ -21,7 +21,7 @@ A lightweight web framework that combines the entity-based state management of *
 ## Installation
 
 ```bash
-npm install @inglorious/lit
+npm install @inglorious/web
 ```
 
 ---
@@ -34,7 +34,7 @@ First, set up your store with entity types. For each type you want to render, ad
 
 ```javascript
 // store.js
-import { createStore, html } from "@inglorious/lit"
+import { createStore, html } from "@inglorious/web"
 
 const types = {
   counter: {
@@ -69,7 +69,7 @@ Write a root rendering function that uses the provided api to compose the UI, th
 
 ```javascript
 // main.js
-import { mount, html } from "@inglorious/lit"
+import { mount, html } from "@inglorious/web"
 import { store } from "./store.js"
 
 // This function receives the API and returns a lit-html template
@@ -92,7 +92,7 @@ The `mount` function subscribes to the store and automatically re-renders your t
 
 ## Client-Side Router
 
-`@inglorious/lit` includes a lightweight, entity-based client-side router. It integrates directly into your `@inglorious/store` state, allowing your components to reactively update based on the current URL.
+`@inglorious/web` includes a lightweight, entity-based client-side router. It integrates directly into your `@inglorious/store` state, allowing your components to reactively update based on the current URL.
 
 ### 1. Setup the Router
 
@@ -100,7 +100,7 @@ To enable the router, add it to your store's types and create a `router` entity.
 
 ```javascript
 // store.js
-import { createStore, html, router } from "@inglorious/lit"
+import { createStore, html, router } from "@inglorious/web"
 
 const types = {
   // 1. Add the router type to your store's types
@@ -147,7 +147,7 @@ In your root template, read the `route` property from the router entity and use 
 
 ```javascript
 // main.js
-import { mount, html } from "@inglorious/lit"
+import { mount, html } from "@inglorious/web"
 import { store } from "./store.js"
 
 const renderApp = (api) => {
@@ -168,7 +168,7 @@ The router automatically intercepts clicks on local `<a>` tags and handles brows
 
 ## Forms
 
-`@inglorious/lit` includes a small but powerful `form` type for managing form state inside your entity store. It offers:
+`@inglorious/web` includes a small but powerful `form` type for managing form state inside your entity store. It offers:
 
 - Declarative form state held on an entity (`initialValues`, `values`, `errors`, `touched`)
 - Convenient helpers for reading field value/error/touched state (`getFieldValue`, `getFieldError`, `isFieldTouched`)
@@ -179,7 +179,7 @@ The router automatically intercepts clicks on local `<a>` tags and handles brows
 Include `form` in your `types` and create an entity for the form (use any id you like — `form` is used below for clarity):
 
 ```javascript
-import { createStore, form } from "@inglorious/lit"
+import { createStore, form } from "@inglorious/web"
 
 const types = { form }
 
@@ -223,7 +223,7 @@ Form state includes helpful flags:
 - `isSubmitting` — whether submission is in progress
 - `submitError` — an optional submission-level error message
 
-### Simple example (from examples/apps/lit-form)
+### Simple example (from examples/apps/web-form)
 
 Field components typically call `api.notify` and the `form` entity reacts accordingly. Example input field usage:
 
@@ -241,13 +241,13 @@ Submissions and whole-form validation can be triggered from a `form` render:
 </form>
 ```
 
-For a complete, working demo and helper components look at `examples/apps/lit-form` which ships with the repository.
+For a complete, working demo and helper components look at `examples/apps/web-form` which ships with the repository.
 
 ---
 
 ## Virtualized lists
 
-`@inglorious/lit` provides a small virtualized `list` type to efficiently render very long lists by only keeping visible items in the DOM. The `list` type is useful when you need to display large datasets without paying the full cost of mounting every element at once.
+`@inglorious/web` provides a small virtualized `list` type to efficiently render very long lists by only keeping visible items in the DOM. The `list` type is useful when you need to display large datasets without paying the full cost of mounting every element at once.
 
 Key features:
 
@@ -280,7 +280,7 @@ It also expects the item type to export `renderItem(item, index, api)` so each v
 Minimal example showing how to extend the `list` type to create a domain-specific list (e.g. `productList`) and provide a `renderItem(item, index, api)` helper.
 
 ```javascript
-import { createStore, html, list } from "@inglorious/lit"
+import { createStore, html, list } from "@inglorious/web"
 
 // Extend the built-in list type to render product items
 const productList = {
@@ -313,7 +313,7 @@ const store = createStore({ types, entities })
 // Render with api.render(entity.id) as usual — the list will call productList.renderItem for each visible item.
 ```
 
-See `src/list.js` in the package for the implementation details and the `examples/apps/lit-list` demo for a complete working example. In the demo the `productList` type extends the `list` type and provides `renderItem(item, index)` to render each visible item — see `examples/apps/lit-list/src/product-list/product-list.js`.
+See `src/list.js` in the package for the implementation details and the `examples/apps/web-list` demo for a complete working example. In the demo the `productList` type extends the `list` type and provides `renderItem(item, index)` to render each visible item — see `examples/apps/web-list/src/product-list/product-list.js`.
 
 ### 3. Programmatic Navigation
 
@@ -350,7 +350,7 @@ This `render(id)` method is the cornerstone of entity-based rendering. It looks 
 
 ### Re-exported `lit-html` Utilities
 
-For convenience, `@inglorious/lit` re-exports the most common utilities from `@inglorious/store` and `lit-html`, so you only need one import.
+For convenience, `@inglorious/web` re-exports the most common utilities from `@inglorious/store` and `lit-html`, so you only need one import.
 
 ```javascript
 import {
@@ -363,7 +363,7 @@ import {
   render,
   svg,
   classMap,
-} from "@inglorious/lit"
+} from "@inglorious/web"
 ```
 
 ---

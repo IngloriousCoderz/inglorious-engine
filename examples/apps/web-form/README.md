@@ -1,11 +1,11 @@
 # lit-form
 
-Small demo showing the `form` type and helper components (inputs/selects/radios) built on top of `@inglorious/lit`.
+Small demo showing the `form` type and helper components (inputs/selects/radios) built on top of `@inglorious/web`.
 
 Quick start:
 
 ```bash
-cd examples/apps/lit-form
+cd examples/apps/web-form
 pnpm install
 pnpm dev
 ```

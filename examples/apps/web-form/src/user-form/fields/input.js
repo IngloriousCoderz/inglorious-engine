@@ -1,4 +1,4 @@
-import { getFieldError, getFieldValue, html } from "@inglorious/lit"
+import { getFieldError, getFieldValue, html } from "@inglorious/web"
 
 export const input = {
   render(entity, { type = "text", label, path, validate }, api) {

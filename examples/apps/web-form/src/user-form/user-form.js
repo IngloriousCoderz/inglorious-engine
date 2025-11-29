@@ -1,4 +1,4 @@
-import { form, html } from "@inglorious/lit"
+import { form, html } from "@inglorious/web"
 
 import { input } from "./fields/input"
 import { radio } from "./fields/radio"

@@ -1,4 +1,4 @@
-import { mount } from "@inglorious/lit"
+import { mount } from "@inglorious/web"
 
 import { app } from "./app"
 import { store } from "./store"

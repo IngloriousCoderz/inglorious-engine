@@ -1,4 +1,4 @@
-import { createDevtools } from "@inglorious/lit"
+import { createDevtools } from "@inglorious/web"
 
 export const middlewares = []
 
