@@ -1,12 +1,12 @@
 import { createStore } from "@inglorious/lit"
 
 import { app } from "../app"
-import { userForm } from "../user-form/user-form"
+import { productList } from "../product-list/product-list"
 import { entities } from "./entities"
 import { middlewares } from "./middlewares"
 
 export const store = createStore({
-  types: { app, userForm },
+  types: { app, productList },
   entities,
   middlewares,
 })

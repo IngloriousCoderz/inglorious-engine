@@ -1,0 +1,7 @@
+.product {
+  padding: 1rem;
+
+  &.even {
+    background-color: lightgrey;
+  }
+}

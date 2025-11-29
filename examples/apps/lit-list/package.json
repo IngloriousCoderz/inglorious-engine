@@ -1,7 +1,7 @@
 {
-  "name": "lit-router",
+  "name": "lit-list",
   "private": true,
-  "version": "0.2.3",
+  "version": "0.1.1",
   "type": "module",
   "scripts": {
     "dev": "vite",

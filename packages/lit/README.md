@@ -164,6 +164,157 @@ mount(store, renderApp, document.getElementById("root"))
 
 The router automatically intercepts clicks on local `<a>` tags and handles browser back/forward events, keeping your UI in sync with the URL.
 
+---
+
+## Forms
+
+`@inglorious/lit` includes a small but powerful `form` type for managing form state inside your entity store. It offers:
+
+- Declarative form state held on an entity (`initialValues`, `values`, `errors`, `touched`)
+- Convenient helpers for reading field value/error/touched state (`getFieldValue`, `getFieldError`, `isFieldTouched`)
+- Built-in handlers for field changes, blurs, array fields, sync/async validation and submission
+
+### Add the `form` type
+
+Include `form` in your `types` and create an entity for the form (use any id you like — `form` is used below for clarity):
+
+```javascript
+import { createStore, form } from "@inglorious/lit"
+
+const types = { form }
+
+const entities = {
+  form: {
+    type: "form",
+    initialValues: {
+      name: "",
+      email: "",
+      addresses: [],
+    },
+  },
+}
+
+const store = createStore({ types, entities })
+```
+
+### How it works (events & helpers)
+
+The `form` type listens for a simple set of events (target the specific entity id with `#<id>:<event>`):
+
+- `#<id>:fieldChange` — payload { path, value, validate? } — set a field value and optionally run a single-field validator
+- `#<id>:fieldBlur` — payload { path, validate? } — mark field touched and optionally validate on blur
+- `#<id>:fieldArrayAppend|fieldArrayRemove|fieldArrayInsert|fieldArrayMove` — manipulate array fields
+- `#<id>:reset` — reset the form to `initialValues`
+- `#<id>:validate` — synchronous whole-form validation; payload { validate }
+- `#<id>:validateAsync` — async whole-form validation; payload { validate }
+- `#<id>:submit` — typically handled by your `form` type's `submit` method (implement custom behavior there)
+
+Helpers available from the package let you read state from templates and field helper components:
+
+- `getFieldValue(formEntity, path)` — read a nested field value
+- `getFieldError(formEntity, path)` — read a nested field's error message
+- `isFieldTouched(formEntity, path)` — check if a field has been touched
+
+Form state includes helpful flags:
+
+- `isPristine` — whether the form has changed from initial values
+- `isValid` — whether the current form has no validation errors
+- `isValidating` — whether async validation is in progress
+- `isSubmitting` — whether submission is in progress
+- `submitError` — an optional submission-level error message
+
+### Simple example (from examples/apps/lit-form)
+
+Field components typically call `api.notify` and the `form` entity reacts accordingly. Example input field usage:
+
+```javascript
+// inside a field component render
+@input=${(e) => api.notify(`#${entity.id}:fieldChange`, { path: 'name', value: e.target.value, validate: validateName })}
+@blur=${() => api.notify(`#${entity.id}:fieldBlur`, { path: 'name', validate: validateName })}
+```
+
+Submissions and whole-form validation can be triggered from a `form` render:
+
+```javascript
+<form @submit=${() => { api.notify(`#form:validate`, { validate: validateForm }); api.notify(`#form:submit`) }}>
+  <!-- inputs / buttons -->
+</form>
+```
+
+For a complete, working demo and helper components look at `examples/apps/lit-form` which ships with the repository.
+
+---
+
+## Virtualized lists
+
+`@inglorious/lit` provides a small virtualized `list` type to efficiently render very long lists by only keeping visible items in the DOM. The `list` type is useful when you need to display large datasets without paying the full cost of mounting every element at once.
+
+Key features:
+
+- Renders only the visible slice of items and positions them absolutely inside a scrolling container.
+- Automatically measures the first visible item height when not provided.
+- Efficient scroll handling with simple buffer controls to avoid visual gaps.
+
+### Typical entity shape
+
+When you add the `list` type to your store the entity can include these properties (the type will provide sensible defaults). Only `items` is required — all other properties are optional:
+
+- `items` (Array) — the dataset to render.
+- `visibleRange` ({ start, end }) — current visible slice indices.
+- `viewportHeight` (number) — height of the scrolling viewport in pixels.
+- `itemHeight` (number | null) — fixed height for each item (when null, the type will measure the first item and use an estimated height).
+- `estimatedHeight` (number) — fallback height used before measurement.
+- `bufferSize` (number) — extra items to render before/after the visible range to reduce flicker during scrolling.
+
+### Events & methods
+
+The `list` type listens for the following events on the target entity:
+
+- `#<id>:scroll` — payload is the scrolling container; updates `visibleRange` based on scroll position.
+- `#<id>:measureHeight` — payload is the container element; used internally to measure the first item and compute `itemHeight`.
+
+It also expects the item type to export `renderItem(item, index, api)` so each visible item can be rendered using the project's entity-based render approach.
+
+### Example
+
+Minimal example showing how to extend the `list` type to create a domain-specific list (e.g. `productList`) and provide a `renderItem(item, index, api)` helper.
+
+```javascript
+import { createStore, html, list } from "@inglorious/lit"
+
+// Extend the built-in list type to render product items
+const productList = {
+  ...list,
+
+  renderItem(item, index) {
+    return html`<div class="product">
+      ${index}: <strong>${item.name}</strong> — ${item.price}
+    </div>`
+  },
+}
+
+const types = { list: productList }
+
+const entities = {
+  products: {
+    type: "list",
+    items: Array.from({ length: 10000 }, (_, i) => ({
+      name: `Product ${i}`,
+      price: `$${i}`,
+    })),
+    viewportHeight: 400,
+    estimatedHeight: 40,
+    bufferSize: 5,
+  },
+}
+
+const store = createStore({ types, entities })
+
+// Render with api.render(entity.id) as usual — the list will call productList.renderItem for each visible item.
+```
+
+See `src/list.js` in the package for the implementation details and the `examples/apps/lit-list` demo for a complete working example. In the demo the `productList` type extends the `list` type and provides `renderItem(item, index)` to render each visible item — see `examples/apps/lit-list/src/product-list/product-list.js`.
+
 ### 3. Programmatic Navigation
 
 To navigate from your JavaScript code, dispatch a `navigate` event.

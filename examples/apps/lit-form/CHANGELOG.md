@@ -1,5 +1,13 @@
 # lit-todomvc
 
+## 0.1.2
+
+### Patch Changes
+
+- Add list virtualization in @inglorious/lit
+- Updated dependencies
+  - @inglorious/lit@1.3.0
+
 ## 0.1.1
 
 ### Patch Changes

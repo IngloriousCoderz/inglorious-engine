@@ -1,5 +1,11 @@
 # @inglorious/react-store
 
+## 1.3.0
+
+### Minor Changes
+
+- Add list virtualization in @inglorious/lit
+
 ## 1.2.1
 
 ### Patch Changes

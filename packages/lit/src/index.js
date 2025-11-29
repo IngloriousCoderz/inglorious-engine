@@ -1,4 +1,5 @@
 export { form, getFieldError, getFieldValue, isFieldTouched } from "./form.js"
+export { list } from "./list.js"
 export { mount } from "./mount.js"
 export { router } from "./router.js"
 export { createStore } from "@inglorious/store"
