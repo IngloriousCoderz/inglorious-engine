@@ -1,0 +1,44 @@
+.table {
+  .row {
+    display: flex;
+    align-items: center;
+    column-gap: 1rem;
+
+    &.even {
+      background-color: lightgrey;
+    }
+
+    .column {
+      padding: 1rem;
+    }
+  }
+
+  .header {
+    .row {
+      border-bottom: 1px solid grey;
+
+      .column {
+        font-weight: bold;
+      }
+    }
+  }
+
+  .body {
+    max-height: 32rem;
+    overflow: auto;
+    border-bottom: 1px solid grey;
+  }
+
+  .footer {
+    padding: 1rem 0;
+
+    .row {
+      justify-content: space-between;
+
+      .page {
+        width: 2rem;
+        text-align: right;
+      }
+    }
+  }
+}
