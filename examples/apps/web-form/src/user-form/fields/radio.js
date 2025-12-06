@@ -1,5 +1,7 @@
 import { getFieldError, getFieldValue, html, repeat } from "@inglorious/web"
 
+import classes from "../user-form.module.css"
+
 export const radio = {
   render(entity, { label, options, path, validate }, api) {
     const fieldValue = getFieldValue(entity, path)
@@ -26,7 +28,7 @@ export const radio = {
               />
               <label for=${value}>${label}</label>`,
         )}
-        ${fieldError && html`<div class="error">${fieldError}</div>`}
+        ${fieldError && html`<div class=${classes.error}>${fieldError}</div>`}
       </div>`
   },
 }

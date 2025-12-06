@@ -3,6 +3,7 @@ import { form, html } from "@inglorious/web"
 import { input } from "./fields/input"
 import { radio } from "./fields/radio"
 import { select } from "./fields/select"
+import classes from "./user-form.module.css"
 import {
   validateAge,
   validateCity,
@@ -34,7 +35,7 @@ export const userForm = {
         api.notify("#form:submit")
       }}
     >
-      <div class="fields">
+      <div class=${classes.fields}>
         ${input.render(
           entity,
           { label: "Name", path: "name", validate: validateName },

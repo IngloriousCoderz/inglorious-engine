@@ -1,5 +1,7 @@
 import { getFieldError, getFieldValue, html } from "@inglorious/web"
 
+import classes from "../user-form.module.css"
+
 export const input = {
   render(entity, { type = "text", label, path, validate }, api) {
     const fieldValue = getFieldValue(entity, path)
@@ -26,7 +28,7 @@ export const input = {
             })}
         />
 
-        ${fieldError && html`<div class="error">${fieldError}</div>`}
+        ${fieldError && html`<div class=${classes.error}>${fieldError}</div>`}
       </div>`
   },
 }

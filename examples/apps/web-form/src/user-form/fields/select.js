@@ -1,5 +1,7 @@
 import { getFieldError, getFieldValue, html, repeat } from "@inglorious/web"
 
+import classes from "../user-form.module.css"
+
 export const select = {
   render(entity, params, api) {
     const { label, path, isMultiple } = params
@@ -9,7 +11,7 @@ export const select = {
       <div>
         ${!isMultiple ? singleSelect.render(entity, params, api) : ""}
         ${isMultiple ? multipleSelect.render(entity, params, api) : ""}
-        ${fieldError && html`<div class="error">${fieldError}</div>`}
+        ${fieldError && html`<div class=${classes.error}>${fieldError}</div>`}
       </div>`
   },
 }

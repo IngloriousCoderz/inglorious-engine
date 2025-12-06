@@ -6,6 +6,8 @@ import {
   table,
 } from "@inglorious/web"
 
+import classes from "./product-table.module.css"
+
 const DIVISOR = 2
 const FIRST_PAGE = 0
 const PRETTY_PAGE = 1
@@ -21,13 +23,13 @@ export const productTable = {
   render(entity, api) {
     const pagination = getPaginationInfo(entity)
 
-    return html`<div class="table">
-      <div class="header">
-        <div class="row">
+    return html`<div class=${classes.table}>
+      <div class=${classes.header}>
+        <div class=${classes.row}>
           ${entity.columns.map(
             (column) =>
               html`<div
-                class="column"
+                class=${classes.column}
                 style="width: ${column.width}px"
                 @click=${() => api.notify("#table:sortChange", column.id)}
               >
@@ -38,14 +40,18 @@ export const productTable = {
         </div>
       </div>
 
-      <div class="body">
+      <div class=${classes.body}>
         ${getRows(entity).map(
           (product, index) =>
-            html`<div class="row ${index % DIVISOR ? "even" : "odd"}">
+            html`<div
+              class="${classes.row} ${index % DIVISOR
+                ? classes.even
+                : classes.odd}"
+            >
               ${Object.values(product).map(
                 (value, index) =>
                   html`<div
-                    class="column"
+                    class=${classes.column}
                     style="width: ${entity.columns[index].width}px"
                   >
                     ${value}
@@ -55,16 +61,14 @@ export const productTable = {
         )}
       </div>
 
-      <div class="footer">
-        <div class="row">
+      <div class=${classes.footer}>
+        <div class=${classes.row}>
           <div>
             ${pagination.start} to ${pagination.end} of ${pagination.totalRows}
             entries
           </div>
 
-          <div class="spacer"></div>
-
-          <div class="row">
+          <div class=${classes.row}>
             <button
               ?disabled=${!pagination.hasPrevPage}
               @click=${() => api.notify("#table:pageChange", FIRST_PAGE)}
@@ -83,7 +87,7 @@ export const productTable = {
               min="1"
               max=${pagination.totalPages}
               value=${pagination.page + PRETTY_PAGE}
-              class="page"
+              class=${classes.page}
               @input=${(event) =>
                 api.notify(
                   "#table:pageChange",
@@ -107,7 +111,7 @@ export const productTable = {
             </button>
           </div>
 
-          <div class="row">
+          <div class=${classes.row}>
             <div>Page size:</div>
             <select
               name="pageSize"
