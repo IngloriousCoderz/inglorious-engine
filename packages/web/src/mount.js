@@ -14,7 +14,6 @@ export function mount(store, renderFn, element) {
     /** @param {string} id */
     render(id, options = {}) {
       const entity = api.getEntity(id)
-      const types = api.getTypes()
 
       if (!entity) {
         const { allowType } = options
@@ -23,7 +22,7 @@ export function mount(store, renderFn, element) {
         }
 
         // No entity with this ID, try static type
-        const type = types[id]
+        const type = api.getType(id)
         if (!type?.render) {
           console.warn(`No entity or type found: ${id}`)
           return html`<div>Not found: ${id}</div>`
@@ -32,7 +31,7 @@ export function mount(store, renderFn, element) {
       }
 
       // Entity exists, render it
-      const type = types[entity.type]
+      const type = api.getType(entity.type)
       if (!type?.render) {
         console.warn(`No render function for type: ${entity.type}`)
         return html`<div>No renderer for ${entity.type}</div>`

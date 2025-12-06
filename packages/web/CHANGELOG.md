@@ -1,5 +1,12 @@
 # @inglorious/react-store
 
+## 2.0.1
+
+### Patch Changes
+
+- Updated dependencies
+  - @inglorious/store@7.1.0
+
 ## 2.0.0
 
 ### Major Changes

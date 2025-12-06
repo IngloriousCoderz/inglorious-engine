@@ -1,5 +1,11 @@
 # @inglorious/store
 
+## 7.1.0
+
+### Minor Changes
+
+- Add type retrieval function in store
+
 ## 7.0.0
 
 ### Patch Changes

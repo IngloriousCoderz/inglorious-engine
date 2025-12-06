@@ -19,7 +19,6 @@ export function renderingSystem(canvas) {
 
   return {
     update(entities, dt, api) {
-      const types = api.getTypes()
       const { game, ...worldEntities } = entities
 
       // 1. Clear canvas
@@ -60,7 +59,7 @@ export function renderingSystem(canvas) {
             b.position[Z] - a.position[Z],
         )
         .forEach((entity) => {
-          const type = types[entity.type]
+          const type = api.getType(entity.type)
           const { render } = type
           if (render) {
             const augmentedRender = augmentRender(render)

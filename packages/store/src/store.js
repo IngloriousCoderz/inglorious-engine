@@ -36,6 +36,7 @@ export function createStore({
     notify,
     dispatch, // needed for compatibility with Redux
     getTypes,
+    getType,
     getState,
     setState,
     reset,
@@ -186,6 +187,15 @@ export function createStore({
    */
   function getTypes() {
     return types
+  }
+
+  /**
+   * Retrieves an augmented type configuration given its name.
+   * @param {string} typeName - The type of the entity.
+   * @returns {Object} The augmented type configuration.
+   */
+  function getType(typeName) {
+    return types[typeName]
   }
 
   /**

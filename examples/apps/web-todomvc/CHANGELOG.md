@@ -1,5 +1,11 @@
 # lit-todomvc
 
+## 0.1.7
+
+### Patch Changes
+
+- @inglorious/web@2.0.1
+
 ## 0.1.6
 
 ### Patch Changes

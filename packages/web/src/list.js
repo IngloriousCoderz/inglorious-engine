@@ -2,6 +2,7 @@ import { html } from "lit-html"
 import { ref } from "lit-html/directives/ref.js"
 
 const LIST_START = 0
+const PRETTY_INDEX = 1
 
 export const list = {
   init(entity) {
@@ -12,11 +13,41 @@ export const list = {
     resetList(entity)
   },
 
+  scroll(entity, containerEl) {
+    const scrollTop = containerEl.scrollTop
+    const { items, bufferSize, itemHeight, estimatedHeight, viewportHeight } =
+      entity
+    const height = itemHeight || estimatedHeight
+
+    const start = Math.max(
+      LIST_START,
+      Math.floor(scrollTop / height) - bufferSize,
+    )
+    const visibleCount = Math.ceil(viewportHeight / height)
+    const end = Math.min(start + visibleCount + bufferSize, items.length)
+
+    if (
+      entity.visibleRange.start === start &&
+      entity.visibleRange.end === end
+    ) {
+      return
+    }
+
+    entity.scrollTop = scrollTop
+    entity.visibleRange = { start, end }
+  },
+
+  measureHeight(entity, containerEl) {
+    const firstItem = containerEl.querySelector("[data-index]")
+    if (!firstItem) return
+
+    entity.itemHeight = firstItem.offsetHeight
+  },
+
   render(entity, api) {
     const { items, visibleRange, viewportHeight, itemHeight, estimatedHeight } =
       entity
-    const types = api.getTypes()
-    const type = types[entity.type]
+    const type = api.getType(entity.type)
 
     if (!items) {
       console.warn(`list entity ${entity.id} needs 'items'`)
@@ -63,35 +94,8 @@ export const list = {
     `
   },
 
-  scroll(entity, containerEl) {
-    const scrollTop = containerEl.scrollTop
-    const { items, bufferSize, itemHeight, estimatedHeight, viewportHeight } =
-      entity
-    const height = itemHeight || estimatedHeight
-
-    const start = Math.max(
-      LIST_START,
-      Math.floor(scrollTop / height) - bufferSize,
-    )
-    const visibleCount = Math.ceil(viewportHeight / height)
-    const end = Math.min(start + visibleCount + bufferSize, items.length)
-
-    if (
-      entity.visibleRange.start === start &&
-      entity.visibleRange.end === end
-    ) {
-      return
-    }
-
-    entity.scrollTop = scrollTop
-    entity.visibleRange = { start, end }
-  },
-
-  measureHeight(entity, containerEl) {
-    const firstItem = containerEl.querySelector("[data-index]")
-    if (!firstItem) return
-
-    entity.itemHeight = firstItem.offsetHeight
+  renderItem(item, index) {
+    return html`<div>${index + PRETTY_INDEX}. ${JSON.stringify(item)}</div>`
   },
 }
 

@@ -477,6 +477,7 @@ Notice: you don't need pending/fulfilled/rejected actions. You stay in control o
 - **`api.notify(type, payload)`** - trigger other events (queued, not immediate)
 - **`api.dispatch(action)`** - optional, if you prefer Redux-style dispatching
 - **`api.getTypes()`** - access type definitions (mainly for middleware/plugins)
+- **`api.getType(typeName)`** - access type definition (mainly for overrides)
 
 All events triggered via `api.notify()` enter the queue and process together, maintaining predictability and testability.
 
@@ -718,6 +719,7 @@ Each handler receives three arguments:
   - `notify(type, payload)` - trigger other events
   - `dispatch(action)` - optional, if you prefer Redux-style dispatching
   - `getTypes()` - type definitions (for middleware)
+  - `getType(typeName)` - type definition (for overriding)
 
 ### Built-in Lifecycle Events
 
