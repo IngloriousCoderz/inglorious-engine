@@ -7,6 +7,7 @@ import {
   repeat,
   table,
 } from "@inglorious/web"
+import { format } from "date-fns"
 
 import { filters } from "./filters"
 import classes from "./product-table.module.css"
@@ -16,6 +17,11 @@ const FIRST_PAGE = 0
 const LAST_PAGE = 1
 const PRETTY_PAGE = 1
 const PERCENTAGE_TO_FLEX = 0.01
+
+const formatters = {
+  isAvailable: (value) => (value ? "✔️" : "❌"),
+  createdAt: (value) => format(value, "dd/MM/yyyy HH:mm"),
+}
 
 export const productTable = {
   ...table,
@@ -60,16 +66,7 @@ export const productTable = {
         )}
       </div>
 
-      ${entity.search &&
-      html` <input
-        name="search"
-        type="text"
-        placeholder="Fuzzy search..."
-        value=${entity.search.value}
-        @input=${(event) =>
-          api.notify(`#${entity.id}:searchChange`, event.target.value)}
-        class=${classes.searchbar}
-      />`}
+      ${entity.search && type.renderSearchbar(entity, api)}
     </div>`
   },
 
@@ -86,6 +83,18 @@ export const productTable = {
 
       ${column.isFilterable && filters.render(entity, column, api)}
     </div>`
+  },
+
+  renderSearchbar(entity, api) {
+    return html`<input
+      name="search"
+      type="text"
+      placeholder=${entity.search.placeholder ?? "Fuzzy search..."}
+      value=${entity.search.value}
+      @input=${(event) =>
+        api.notify(`#${entity.id}:searchChange`, event.target.value)}
+      class=${classes.searchbar}
+    />`
   },
 
   renderBody(entity, api) {
@@ -118,14 +127,20 @@ export const productTable = {
     </div>`
   },
 
-  renderCell(entity, value, index) {
+  renderCell(entity, cell, index, api) {
+    const type = api.getType(entity.type)
     const column = entity.columns[index]
+
     return html`<div
       class=${`${classes.cell} ${column.type === "number" ? classes.textRight : ""} ${column.type === "date" ? classes.textRight : ""} ${column.type === "boolean" ? classes.textCenter : ""}`}
       style=${getColumnStyle(column)}
     >
-      ${column.format?.(value) ?? value}
+      ${type.renderValue(cell, column, api)}
     </div>`
+  },
+
+  renderValue(value, column) {
+    return formatters[column.formatter]?.(value) ?? value
   },
 
   renderFooter(entity, api) {

@@ -1,5 +1,3 @@
-import { format } from "date-fns"
-
 const LARGE_NUMBER = 30
 const INDEX_TO_ID = 1
 const PRICE_MULTIPLIER = 10
@@ -38,7 +36,7 @@ export const entities = {
         width: 120,
         isSortable: true,
         isFilterable: true,
-        format: (value) => (value ? "✔️" : "❌"),
+        formatter: "isAvailable",
       },
       {
         id: "createdAt",
@@ -46,7 +44,7 @@ export const entities = {
         isSortable: true,
         isFilterable: true,
         filter: { type: "datetime" },
-        format: (value) => format(value, "dd/MM/yyyy HH:mm"),
+        formatter: "createdAt",
       },
     ],
     data: Array(LARGE_NUMBER)
