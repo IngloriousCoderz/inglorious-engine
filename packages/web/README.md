@@ -164,6 +164,77 @@ mount(store, renderApp, document.getElementById("root"))
 
 The router automatically intercepts clicks on local `<a>` tags and handles browser back/forward events, keeping your UI in sync with the URL.
 
+### 3. Programmatic Navigation
+
+To navigate from your JavaScript code, dispatch a `navigate` event.
+
+```javascript
+api.notify("navigate", "/users/456")
+
+// Or navigate back in history
+api.notify("navigate", -1)
+```
+
+---
+
+## Table
+
+`@inglorious/web` includes a `table` type for displaying data in a tabular format. It's designed to be flexible and customizable.
+
+### 1. Add the `table` type
+
+To use it, import the `table` type and its CSS, then create an entity for your table. You must define the `data` to be displayed and can optionally provide `columns` definitions.
+
+```javascript
+// In your entity definition file
+import { table } from "@inglorious/web"
+
+// Import base styles and a theme. You can create your own theme.
+import "@inglorious/web/table/base.css"
+import "@inglorious/web/table/theme.css"
+
+export default {
+  ...table,
+  data: [
+    { id: 1, name: "Product A", price: 100 },
+    { id: 2, name: "Product B", price: 150 },
+  ],
+  columns: [
+    { id: "id", label: "ID" },
+    { id: "name", label: "Product Name" },
+    { id: "price", label: "Price" },
+  ],
+}
+```
+
+### 2. Custom Rendering
+
+You can customize how data is rendered in the table cells by overriding the `renderValue` method. This is useful for formatting values or displaying custom content.
+
+The example below from `examples/apps/web-table/src/product-table/product-table.js` shows how to format values based on a `formatter` property in the column definition.
+
+```javascript
+import { table } from "@inglorious/web"
+import { format } from "date-fns"
+
+const formatters = {
+  isAvailable: (val) => (val ? "✔️" : "❌"),
+  createdAt: (val) => format(val, "dd/MM/yyyy HH:mm"),
+}
+
+export const productTable = {
+  ...table,
+
+  renderValue(value, column) {
+    return formatters[column.formatter]?.(value) ?? value
+  },
+}
+```
+
+### 3. Theming
+
+The table comes with a base stylesheet (`@inglorious/web/table/base.css`) and a default theme (`@inglorious/web/table/theme.css`). You can create your own theme by creating a new CSS file and styling the table elements to match your application's design.
+
 ---
 
 ## Forms
@@ -314,17 +385,6 @@ const store = createStore({ types, entities })
 ```
 
 See `src/list.js` in the package for the implementation details and the `examples/apps/web-list` demo for a complete working example. In the demo the `productList` type extends the `list` type and provides `renderItem(item, index)` to render each visible item — see `examples/apps/web-list/src/product-list/product-list.js`.
-
-### 3. Programmatic Navigation
-
-To navigate from your JavaScript code, dispatch a `navigate` event.
-
-```javascript
-api.notify("navigate", "/users/456")
-
-// Or navigate back in history
-api.notify("navigate", -1)
-```
 
 ## API Reference
 

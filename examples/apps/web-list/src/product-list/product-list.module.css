@@ -1,5 +1,5 @@
 .product {
-  padding: 1rem;
+  padding: 1em;
 
   &.even {
     background-color: aliceblue;

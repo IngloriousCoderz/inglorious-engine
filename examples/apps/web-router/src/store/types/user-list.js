@@ -1,4 +1,4 @@
-import { html, repeat } from "@inglorious/web"
+import { html } from "@inglorious/web"
 
 export const userList = {
   render(entity) {
@@ -6,9 +6,7 @@ export const userList = {
       <div class="user-list">
         <h1>Users</h1>
         <ul>
-          ${repeat(
-            entity.users,
-            (user) => user.id,
+          ${entity.users.map(
             (user) => html`
               <li>
                 <a href="/users/${user.id}">${user.name}</a>

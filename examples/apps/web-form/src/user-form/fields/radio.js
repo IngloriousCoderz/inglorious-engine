@@ -1,4 +1,4 @@
-import { getFieldError, getFieldValue, html, repeat } from "@inglorious/web"
+import { getFieldError, getFieldValue, html } from "@inglorious/web"
 
 import classes from "../user-form.module.css"
 
@@ -9,9 +9,7 @@ export const radio = {
 
     return html`<div>${label}</div>
       <div>
-        ${repeat(
-          options,
-          ({ value }) => value,
+        ${options.map(
           ({ value, label }) =>
             html`<input
                 type="radio"

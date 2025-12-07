@@ -1,12 +1,10 @@
 import { html } from "@inglorious/web"
 
-import classes from "../product-table.module.css"
-
 export const rangeFilter = {
   render(entity, column, api) {
     const filter = entity.filters[column.id] ?? {}
 
-    return html`<div class=${classes.row}>
+    return html`<div class="row">
       <input
         name=${`${column.id}Min`}
         type="number"
@@ -21,7 +19,7 @@ export const rangeFilter = {
             value: { ...filter, min: formattedValue },
           })
         }}
-        class=${classes.textRight}
+        class="iw-table-cell-number"
       />
       <input
         name=${`${column.id}Max`}
@@ -37,7 +35,7 @@ export const rangeFilter = {
             value: { ...filter, max: formattedValue },
           })
         }}
-        class=${classes.textRight}
+        class="iw-table-cell-number"
       />
     </div>`
   },

@@ -1,4 +1,4 @@
-import { getFieldError, getFieldValue, html, repeat } from "@inglorious/web"
+import { getFieldError, getFieldValue, html } from "@inglorious/web"
 
 import classes from "../user-form.module.css"
 
@@ -30,9 +30,7 @@ const singleSelect = {
           validate,
         })}
     >
-      ${repeat(
-        options,
-        ({ value }) => value,
+      ${options.map(
         ({ value, label }) =>
           html`<option value=${value} .selected=${fieldValue === value}>
             ${label}
@@ -58,9 +56,7 @@ const multipleSelect = {
           validate,
         })}
     >
-      ${repeat(
-        options,
-        ({ value }) => value,
+      ${options.map(
         ({ value, label }) =>
           html`<option value=${value} .selected=${fieldValue.includes(value)}>
             ${label}

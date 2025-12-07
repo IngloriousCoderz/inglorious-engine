@@ -1,4 +1,4 @@
-import { classMap, html, repeat } from "@inglorious/web"
+import { classMap, html } from "@inglorious/web"
 
 import { selectFilteredTasks } from "../store/selectors"
 
@@ -30,9 +30,7 @@ export const list = {
     const filteredTasks = selectFilteredTasks(getEntities())
 
     return html`<ul class="list">
-      ${repeat(
-        filteredTasks,
-        (task) => task.id,
+      ${filteredTasks.map(
         (task) =>
           html`<li>
             <span

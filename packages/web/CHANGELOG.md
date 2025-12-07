@@ -1,5 +1,11 @@
 # @inglorious/react-store
 
+## 2.1.0
+
+### Minor Changes
+
+- Add default, customizable renderer for web table
+
 ## 2.0.1
 
 ### Patch Changes

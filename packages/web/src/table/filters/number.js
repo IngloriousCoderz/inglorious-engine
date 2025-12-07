@@ -1,7 +1,5 @@
 import { html } from "@inglorious/web"
 
-import classes from "../product-table.module.css"
-
 export const numberFilter = {
   render(entity, column, api) {
     return html`<input
@@ -18,7 +16,7 @@ export const numberFilter = {
           value: formattedValue,
         })
       }}
-      class=${classes.textRight}
+      class="iw-table-cell-number"
     />`
   },
 }
