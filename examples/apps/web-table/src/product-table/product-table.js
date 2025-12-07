@@ -3,19 +3,17 @@ import {
   getPaginationInfo,
   getSortDirection,
   html,
+  repeat,
   table,
 } from "@inglorious/web"
 
+import { filters } from "./filters"
 import classes from "./product-table.module.css"
 
 const DIVISOR = 2
 const FIRST_PAGE = 0
 const PRETTY_PAGE = 1
-
-const SORT_ICON = {
-  asc: "▲",
-  desc: "▼",
-}
+const PERCENTAGE_TO_FLEX = 0.01
 
 export const productTable = {
   ...table,
@@ -34,20 +32,38 @@ export const productTable = {
 
     return html`<div class=${classes.header}>
       <div class=${classes.row}>
-        ${entity.columns.map((column) =>
-          type.renderHeaderColumn(entity, column, api),
+        ${repeat(
+          entity.columns,
+          (column) => column.id,
+          (column) => type.renderHeaderColumn(entity, column, api),
         )}
       </div>
+
+      ${entity.search &&
+      html` <input
+        name="search"
+        type="text"
+        placeholder="Fuzzy search..."
+        value=${entity.search.value}
+        @input=${(event) =>
+          api.notify(`#${entity.id}:searchChange`, event.target.value)}
+        class=${classes.searchbar}
+      />`}
     </div>`
   },
 
   renderHeaderColumn(entity, column, api) {
-    return html`<div
-      class=${classes.column}
-      style="width: ${column.width}px"
-      @click=${() => api.notify("#table:sortChange", column.id)}
-    >
-      ${column.title} ${SORT_ICON[getSortDirection(entity, column.id)]}
+    return html`<div class=${classes.column} style=${getColumnStyle(column)}>
+      <div
+        @click=${() =>
+          column.isSortable &&
+          api.notify(`#${entity.id}:sortChange`, column.id)}
+        class=${classes.title}
+      >
+        ${column.title} ${getSortIcon(getSortDirection(entity, column.id))}
+      </div>
+
+      ${column.isFilterable && filters.render(entity, column, api)}
     </div>`
   },
 
@@ -55,30 +71,39 @@ export const productTable = {
     const type = api.getType(entity.type)
 
     return html`<div class=${classes.body}>
-      ${getRows(entity).map((item, index) =>
-        type.renderRow(entity, item, index, api),
+      ${repeat(
+        getRows(entity),
+        (row) => row[entity.rowId ?? "id"],
+        (item, index) => type.renderRow(entity, item, index, api),
       )}
     </div>`
   },
 
-  renderRow(entity, item, index, api) {
+  renderRow(entity, row, index, api) {
     const type = api.getType(entity.type)
+    const rowId = row[entity.rowId ?? "id"]
 
     return html`<div
-      class="${classes.row} ${index % DIVISOR ? classes.even : classes.odd}"
+      @click=${() => api.notify(`#${entity.id}:rowToggle`, rowId)}
+      class="${classes.row} ${index % DIVISOR
+        ? classes.even
+        : classes.odd} ${entity.selection.includes(rowId)
+        ? classes.selected
+        : ""}"
     >
-      ${Object.values(item).map((value, index) =>
-        type.renderColumn(entity, value, index, api),
+      ${Object.values(row).map((value, index) =>
+        type.renderCell(entity, value, index, api),
       )}
     </div>`
   },
 
-  renderColumn(entity, value, index) {
+  renderCell(entity, value, index) {
+    const column = entity.columns[index]
     return html`<div
-      class=${classes.column}
-      style="width: ${entity.columns[index].width}px"
+      class=${`${classes.cell} ${column.type === "number" ? classes.textRight : ""} ${column.type === "date" ? classes.textRight : ""} ${column.type === "boolean" ? classes.textCenter : ""}`}
+      style=${getColumnStyle(column)}
     >
-      ${value}
+      ${column.format?.(value) ?? value}
     </div>`
   },
 
@@ -89,18 +114,18 @@ export const productTable = {
     return html`<div class=${classes.footer}>
         <div class=${classes.row}>
           <div>
-            ${pagination.start} to ${pagination.end} of ${pagination.totalRows}
+            ${pagination.start + PRETTY_PAGE} to ${pagination.end} of ${pagination.totalRows}
             entries
           </div>
 
-          ${type.renderPagination(pagination, api)}
+          ${type.renderPagination(entity, pagination, api)}
 
           <div class=${classes.row}>
             <div>Page size:</div>
             <select
               name="pageSize"
               @change=${(event) =>
-                api.notify("#table:pageSizeChange", event.target.value)}
+                api.notify(`#${entity.id}:pageSizeChange`, event.target.value)}
             >
               <option>10</option>
               <option>20</option>
@@ -112,17 +137,17 @@ export const productTable = {
     </div>`
   },
 
-  renderPagination(pagination, api) {
+  renderPagination(entity, pagination, api) {
     return html`<div class=${classes.row}>
       <button
         ?disabled=${!pagination.hasPrevPage}
-        @click=${() => api.notify("#table:pageChange", FIRST_PAGE)}
+        @click=${() => api.notify(`#${entity.id}:pageChange`, FIRST_PAGE)}
       >
         |&#10094;
       </button>
       <button
         ?disabled=${!pagination.hasPrevPage}
-        @click=${() => api.notify("#table:pagePrev")}
+        @click=${() => api.notify(`#${entity.id}:pagePrev`)}
       >
         &#10094;
       </button>
@@ -132,10 +157,10 @@ export const productTable = {
         min="1"
         max=${pagination.totalPages}
         value=${pagination.page + PRETTY_PAGE}
-        class=${classes.page}
+        class=${`${classes.page} ${classes.textRight}`}
         @input=${(event) =>
           api.notify(
-            "#table:pageChange",
+            `#${entity.id}:pageChange`,
             Number(event.target.value) - PRETTY_PAGE,
           )}
       />
@@ -143,16 +168,42 @@ export const productTable = {
       <span>${pagination.totalPages}</span>
       <button
         ?disabled="${!pagination.hasNextPage}"
-        @click=${() => api.notify("#table:pageNext")}
+        @click=${() => api.notify(`#${entity.id}:pageNext`)}
       >
         &#10095;
       </button>
       <button
         ?disabled=${!pagination.hasNextPage}
-        @click=${() => api.notify("#table:pageChange", pagination.totalPages)}
+        @click=${() =>
+          api.notify(`#${entity.id}:pageChange`, pagination.totalPages)}
       >
         &#10095;|
       </button>
     </div>`
   },
+}
+
+function getColumnStyle(column) {
+  if (typeof column.width === "string") {
+    if (column.width?.endsWith("%")) {
+      // eslint-disable-next-line no-magic-numbers
+      const percentage = Number(column.width.slice(0, -1))
+      return `flex: ${percentage * PERCENTAGE_TO_FLEX}`
+    }
+
+    return `width: ${column.width}`
+  }
+
+  return `width: ${column.width}px`
+}
+
+function getSortIcon(direction) {
+  switch (direction) {
+    case "asc":
+      return "▲"
+    case "desc":
+      return "▼"
+    default:
+      return "▲▼"
+  }
 }

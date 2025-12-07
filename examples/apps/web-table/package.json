@@ -9,7 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@inglorious/web": "workspace:*"
+    "@inglorious/web": "workspace:*",
+    "date-fns": "^4.1.0"
   },
   "devDependencies": {
     "eslint": "^9.36.0",

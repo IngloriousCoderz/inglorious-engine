@@ -38,8 +38,8 @@ export const table = {
     entity.sorts = []
   },
 
-  filter(entity, { columnId, value }) {
-    if (value === null || value === undefined || value === "") {
+  filterChange(entity, { columnId, value }) {
+    if (value == null || value === "") {
       delete entity.filters[columnId]
     } else {
       entity.filters[columnId] = value
@@ -56,6 +56,10 @@ export const table = {
     if (entity.pagination) {
       entity.pagination.page = 0
     }
+  },
+
+  searchChange(entity, search) {
+    entity.search.value = search
   },
 
   pageChange(entity, page) {
@@ -91,6 +95,10 @@ export const table = {
   },
 
   rowSelect(entity, rowId) {
+    if (!entity.isMultiSelect) {
+      entity.selection = []
+    }
+
     if (!entity.selection.includes(rowId)) {
       entity.selection.push(rowId)
     }
@@ -104,6 +112,10 @@ export const table = {
   },
 
   rowToggle(entity, rowId) {
+    if (!entity.isMultiSelect) {
+      entity.selection = []
+    }
+
     const index = entity.selection.indexOf(rowId)
     if (index === -1) {
       entity.selection.push(rowId)
@@ -149,125 +161,20 @@ export const table = {
 // Helper functions outside the type (like form helpers)
 
 export function getRows(entity) {
-  let rows = entity.data || []
-
-  // Filtering
-  if (Object.keys(entity.filters).length > 0) {
-    rows = rows.filter((row) => {
-      return Object.entries(entity.filters).every(([columnId, filterValue]) => {
-        const column = entity.columns.find((c) => c.id === columnId)
-        if (!column) return true
-
-        // Custom filter function
-        if (column.filterFn) {
-          return column.filterFn(row, filterValue)
-        }
-
-        // Default filters by type
-        const value = row[columnId]
-
-        if (column.type === "number") {
-          if (typeof filterValue === "object") {
-            const { min, max } = filterValue
-            if (min !== undefined && value < min) return false
-            if (max !== undefined && value > max) return false
-            return true
-          }
-          return value === filterValue
-        }
-
-        if (column.type === "boolean") {
-          return value === filterValue
-        }
-
-        // String filtering (case-insensitive contains)
-        return String(value)
-          .toLowerCase()
-          .includes(String(filterValue).toLowerCase())
-      })
-    })
-  }
-
-  // Sorting
-  if (entity.sorts.length) {
-    rows = [...rows].sort((a, b) => {
-      for (const { column: columnId, direction } of entity.sorts) {
-        const column = entity.columns.find((c) => c.id === columnId)
-        let aVal = a[columnId]
-        let bVal = b[columnId]
-
-        // Custom sort function
-        if (column?.sortFn) {
-          const result =
-            direction === "asc" ? column.sortFn(a, b) : column.sortFn(b, a)
-          if (result !== 0) return result
-          continue
-        }
-
-        // Default sorting
-        if (aVal === bVal) continue
-        if (aVal == null) return 1
-        if (bVal == null) return -1
-
-        const comparison = aVal < bVal ? -1 : 1
-        return direction === "asc" ? comparison : -comparison
-      }
-      return 0
-    })
-  }
-
-  // Pagination
-  if (entity.pagination) {
-    const { page, pageSize } = entity.pagination
-    const start = page * pageSize
-    rows = rows.slice(start, start + pageSize)
-  }
+  let rows = entity.data
+  rows = applyFilters(entity, rows)
+  rows = applySearch(entity, rows)
+  rows = applySorts(entity, rows)
+  rows = applyPagination(entity, rows)
 
   return rows
 }
 
 export function getTotalRows(entity) {
-  if (!entity.data) return 0
-
-  // If no filters, return total data length
-  if (Object.keys(entity.filters).length === 0) {
-    return entity.data.length
-  }
-
-  // Count filtered rows
-  return entity.data.filter((row) => {
-    return Object.entries(entity.filters).every(([columnId, filterValue]) => {
-      const column = entity.columns.find((c) => c.id === columnId)
-      if (!column) return true
-
-      // Custom filter function
-      if (column.filterFn) {
-        return column.filterFn(row, filterValue)
-      }
-
-      // Default filters by type
-      const value = row[columnId]
-
-      if (column.type === "number") {
-        if (typeof filterValue === "object") {
-          const { min, max } = filterValue
-          if (min !== undefined && value < min) return false
-          if (max !== undefined && value > max) return false
-          return true
-        }
-        return value === filterValue
-      }
-
-      if (column.type === "boolean") {
-        return value === filterValue
-      }
-
-      // String filtering (case-insensitive contains)
-      return String(value)
-        .toLowerCase()
-        .includes(String(filterValue).toLowerCase())
-    })
-  }).length
+  let rows = entity.data
+  rows = applyFilters(entity, rows)
+  rows = applySearch(entity, rows)
+  return rows.length
 }
 
 export function getPaginationInfo(entity) {
@@ -322,36 +229,45 @@ export function isSomeSelected(entity) {
 }
 
 function initTable(entity) {
+  entity.data ??= []
+
   // Auto-generate columns from first data item if not provided
-  if (!entity.columns && entity.data?.length) {
+  if (!entity.columns && entity.data.length) {
     const [firstRow] = entity.data
 
     entity.columns = Object.keys(firstRow).map((key) => {
       const value = firstRow[key]
       const type = getDefaultColumnType(value)
-      const [firstChar, ...rest] = key
+      const filter = getDefaultColumnFilter(type)
 
       return {
         id: key,
-        title: [firstChar.toUpperCase(), ...rest].join(""),
-        isSortable: true,
-        isFilterable: type !== "boolean",
+        title: capitalize(key),
         type,
-        width: getDefaultColumnWidth(type),
+        filter,
+        width: getDefaultColumnWidth(filter.type),
       }
     })
   } else {
     entity.columns ??= []
+    entity.columns.forEach((column) => {
+      column.title ??= capitalize(column.id)
+      column.type ??= getDefaultColumnType()
+      column.filter ??= getDefaultColumnFilter(column.type)
+      column.width ??= getDefaultColumnWidth(column.filter.type)
+    })
   }
 
   // State
   entity.sorts ??= []
   entity.filters ??= {}
+  entity.search ??= null
+  if (entity.search) {
+    entity.search.value ??= ""
+  }
   entity.selection ??= []
 
-  // Pagination (null = disabled)
   entity.pagination ??= null
-
   if (entity.pagination) {
     entity.pagination.page ??= 0
   }
@@ -364,9 +280,117 @@ function getDefaultColumnType(value) {
   return "string"
 }
 
-function getDefaultColumnWidth(type) {
-  if (type === "number") return 100
-  if (type === "boolean") return 80
-  if (type === "date") return 120
+function getDefaultColumnFilter(type) {
+  if (type === "number") return { type: "range" }
+  if (type === "boolean")
+    return { type: "select", options: [null, true, false] }
+  if (type === "date") return { type: "date" }
+  return { type: "text" }
+}
+
+function getDefaultColumnWidth(filterType) {
+  if (filterType === "number") return 100
+  if (filterType === "range") return 200
+  if (filterType === "select") return 70
+  if (filterType === "date") return 120
+  if (filterType === "time") return 120
+  if (filterType === "datetime") return 170
   return 200
+}
+
+function applyFilters(entity, rows) {
+  if (!Object.keys(entity.filters).length) {
+    return rows
+  }
+
+  return rows.filter((row) => {
+    return Object.entries(entity.filters).every(([columnId, filterValue]) => {
+      const column = entity.columns.find((c) => c.id === columnId)
+      if (!column) return true
+
+      // Custom filter function
+      if (column.filterFn) {
+        return column.filterFn(row, filterValue)
+      }
+
+      // Default filters by type
+      const value = row[columnId]
+
+      if (["range", "date", "time", "datetime"].includes(column.filter.type)) {
+        const { min, max } = filterValue
+        if (min != null && value < min) return false
+        if (max != null && value > max) return false
+        return true
+      }
+
+      if (["number", "boolean", "select"].includes(column.filter.type)) {
+        return value === filterValue
+      }
+
+      // String filtering (case-insensitive contains)
+      return String(value)
+        .toLowerCase()
+        .includes(String(filterValue).toLowerCase())
+    })
+  })
+}
+
+function applySearch(entity, rows) {
+  if (!entity.search?.value) {
+    return rows
+  }
+
+  return rows.filter((row) =>
+    Object.values(row).some((value, index) => {
+      const formattedValue =
+        entity.columns[index].format?.(value) ?? String(value)
+      return formattedValue.includes(entity.search.value)
+    }),
+  )
+}
+
+function applySorts(entity, rows) {
+  if (!entity.sorts.length) {
+    return rows
+  }
+
+  return [...rows].sort((a, b) => {
+    for (const { column: columnId, direction } of entity.sorts) {
+      const column = entity.columns.find((c) => c.id === columnId)
+      let aVal = a[columnId]
+      let bVal = b[columnId]
+
+      // Custom sort function
+      if (column?.sortFn) {
+        const result =
+          direction === "asc" ? column.sortFn(a, b) : column.sortFn(b, a)
+        if (result !== 0) return result
+        continue
+      }
+
+      // Default sorting
+      if (aVal === bVal) continue
+      if (aVal == null) return 1
+      if (bVal == null) return -1
+
+      const comparison = aVal < bVal ? -1 : 1
+      return direction === "asc" ? comparison : -comparison
+    }
+    return 0
+  })
+}
+
+function applyPagination(entity, rows) {
+  if (!entity.pagination) {
+    return rows
+  }
+
+  const { page, pageSize } = entity.pagination
+  const start = page * pageSize
+  return rows.slice(start, start + pageSize)
+}
+
+function capitalize(str) {
+  const [firstChar, ...rest] = str
+  return [firstChar.toUpperCase(), ...rest].join("")
 }

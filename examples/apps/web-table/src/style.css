@@ -8,10 +8,14 @@ body {
     flex-direction: column;
     align-items: center;
 
-    & > * {
+    /* & > * {
       width: 50rem;
-    }
+    } */
   }
+}
+
+* {
+  box-sizing: border-box;
 }
 
 input,
