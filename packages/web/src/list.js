@@ -37,11 +37,15 @@ export const list = {
     entity.visibleRange = { start, end }
   },
 
-  measureHeight(entity, containerEl) {
+  mount(entity, containerEl) {
     const firstItem = containerEl.querySelector("[data-index]")
     if (!firstItem) return
 
     entity.itemHeight = firstItem.offsetHeight
+    entity.visibleRange = {
+      start: 0,
+      end: Math.ceil(entity.viewportHeight / entity.itemHeight),
+    }
   },
 
   render(entity, api) {
@@ -70,7 +74,7 @@ export const list = {
         ${ref((el) => {
           if (el && !itemHeight) {
             queueMicrotask(() => {
-              api.notify(`#${entity.id}:measureHeight`, el)
+              api.notify(`#${entity.id}:mount`, el)
             })
           }
         })}

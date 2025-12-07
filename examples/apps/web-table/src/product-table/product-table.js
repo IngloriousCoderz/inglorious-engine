@@ -1,8 +1,9 @@
-import { getRows } from "@inglorious/web"
 import {
   getPaginationInfo,
+  getRows,
   getSortDirection,
   html,
+  ref,
   repeat,
   table,
 } from "@inglorious/web"
@@ -12,11 +13,19 @@ import classes from "./product-table.module.css"
 
 const DIVISOR = 2
 const FIRST_PAGE = 0
+const LAST_PAGE = 1
 const PRETTY_PAGE = 1
 const PERCENTAGE_TO_FLEX = 0.01
 
 export const productTable = {
   ...table,
+
+  mount(entity, containerEl) {
+    const columns = containerEl.querySelectorAll(":scope > *")
+    ;[...columns].forEach((column, index) => {
+      entity.columns[index].width = column.offsetWidth
+    })
+  },
 
   render(entity, api) {
     const type = api.getType(entity.type)
@@ -31,7 +40,19 @@ export const productTable = {
     const type = api.getType(entity.type)
 
     return html`<div class=${classes.header}>
-      <div class=${classes.row}>
+      <div
+        class=${classes.row}
+        ${ref((el) => {
+          if (
+            el &&
+            entity.columns.some(({ width }) => typeof width === "string")
+          ) {
+            queueMicrotask(() => {
+              api.notify(`#${entity.id}:mount`, el)
+            })
+          }
+        })}
+      >
         ${repeat(
           entity.columns,
           (column) => column.id,
@@ -125,7 +146,10 @@ export const productTable = {
             <select
               name="pageSize"
               @change=${(event) =>
-                api.notify(`#${entity.id}:pageSizeChange`, event.target.value)}
+                api.notify(
+                  `#${entity.id}:pageSizeChange`,
+                  Number(event.target.value),
+                )}
             >
               <option>10</option>
               <option>20</option>
@@ -175,7 +199,10 @@ export const productTable = {
       <button
         ?disabled=${!pagination.hasNextPage}
         @click=${() =>
-          api.notify(`#${entity.id}:pageChange`, pagination.totalPages)}
+          api.notify(
+            `#${entity.id}:pageChange`,
+            pagination.totalPages - LAST_PAGE,
+          )}
       >
         &#10095;|
       </button>

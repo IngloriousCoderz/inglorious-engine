@@ -112,13 +112,14 @@ export const table = {
   },
 
   rowToggle(entity, rowId) {
-    if (!entity.isMultiSelect) {
-      entity.selection = []
-    }
-
     const index = entity.selection.indexOf(rowId)
+
     if (index === -1) {
-      entity.selection.push(rowId)
+      if (!entity.isMultiSelect) {
+        entity.selection = [rowId] // Replace entirely
+      } else {
+        entity.selection.push(rowId)
+      }
     } else {
       entity.selection.splice(index, 1)
     }
@@ -244,6 +245,8 @@ function initTable(entity) {
         id: key,
         title: capitalize(key),
         type,
+        isSortable: false,
+        isFilterable: false,
         filter,
         width: getDefaultColumnWidth(filter.type),
       }
@@ -340,11 +343,13 @@ function applySearch(entity, rows) {
     return rows
   }
 
+  const searchLower = entity.search.value.toLowerCase()
+
   return rows.filter((row) =>
-    Object.values(row).some((value, index) => {
-      const formattedValue =
-        entity.columns[index].format?.(value) ?? String(value)
-      return formattedValue.includes(entity.search.value)
+    entity.columns.some((column) => {
+      const value = row[column.id]
+      const formattedValue = column.format?.(value) ?? String(value)
+      return formattedValue.toLowerCase().includes(searchLower)
     }),
   )
 }
