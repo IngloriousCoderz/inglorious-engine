@@ -1,4 +1,5 @@
 import { html } from "lit-html"
+import { classMap } from "lit-html/directives/class-map.js"
 import { ref } from "lit-html/directives/ref.js"
 
 import { filters } from "./filters"
@@ -99,11 +100,11 @@ export const rendering = {
 
     return html`<div
       @click=${() => api.notify(`#${entity.id}:rowToggle`, rowId)}
-      class="iw-table-row ${index % DIVISOR
-        ? "iw-table-row-even"
-        : "iw-table-row-odd"} ${entity.selection.includes(rowId)
-        ? "iw-table-row-selected"
-        : ""}"
+      class=${classMap({
+        "iw-table-row": true,
+        "iw-table-row-even": index % DIVISOR,
+        "iw-table-row-selected": entity.selection.includes(rowId),
+      })}
     >
       ${Object.values(row).map((value, index) =>
         type.renderCell(entity, value, index, api),
@@ -116,7 +117,12 @@ export const rendering = {
     const column = entity.columns[index]
 
     return html`<div
-      class=${`iw-table-cell ${column.type === "number" ? "iw-table-cell-number" : ""} ${column.type === "date" ? "iw-table-cell-date" : ""} ${column.type === "boolean" ? "iw-table-cell-boolean" : ""}`}
+      class=${classMap({
+        "iw-table-cell": true,
+        "iw-table-cell-number": column.type === "number",
+        "iw-table-cell-date": column.type === "date",
+        "iw-table-cell-boolean": column.type === "boolean",
+      })}
       style=${getColumnStyle(column)}
     >
       ${type.renderValue(cell, column, api)}
@@ -182,7 +188,7 @@ export const rendering = {
         min="1"
         max=${pagination.totalPages}
         value=${pagination.page + PRETTY_PAGE}
-        class=${`iw-table-page-input`}
+        class="iw-table-page-input"
         @input=${(event) =>
           api.notify(
             `#${entity.id}:pageChange`,

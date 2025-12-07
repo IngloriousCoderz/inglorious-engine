@@ -292,8 +292,8 @@ function getDefaultColumnFilter(type) {
 }
 
 function getDefaultColumnWidth(filterType) {
-  if (filterType === "number") return 100
-  if (filterType === "range") return 200
+  if (filterType === "number") return 70
+  if (filterType === "range") return 100
   if (filterType === "select") return 70
   if (filterType === "date") return 120
   if (filterType === "time") return 120

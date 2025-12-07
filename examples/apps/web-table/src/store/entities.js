@@ -10,7 +10,6 @@ export const entities = {
     columns: [
       {
         id: "id",
-        width: "auto",
         type: "number",
         isSortable: true,
         isFilterable: true,
@@ -25,7 +24,6 @@ export const entities = {
       {
         id: "price",
         type: "number",
-        width: 200,
         isSortable: true,
         isFilterable: true,
       },

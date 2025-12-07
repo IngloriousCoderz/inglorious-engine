@@ -1,4 +1,5 @@
 import { html, list } from "@inglorious/web"
+import { classMap } from "@inglorious/web"
 
 import classes from "./product-list.module.css"
 
@@ -9,7 +10,10 @@ export const productList = {
 
   renderItem(item, index) {
     return html`<div
-      class="${classes.product} ${index % DIVISOR ? classes.even : classes.odd}"
+      class=${classMap({
+        [classes.product]: true,
+        [classes.even]: index % DIVISOR,
+      })}
     >
       <strong>Name: ${item.name}</strong>
       <div>Price: ${item.price}</div>

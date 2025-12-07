@@ -4,8 +4,7 @@ export const rangeFilter = {
   render(entity, column, api) {
     const filter = entity.filters[column.id] ?? {}
 
-    return html`<div class="row">
-      <input
+    return html`<input
         name=${`${column.id}Min`}
         type="number"
         placeholder=${column.filter.placeholder ?? "≥"}
@@ -36,7 +35,6 @@ export const rangeFilter = {
           })
         }}
         class="iw-table-cell-number"
-      />
-    </div>`
+      />`
   },
 }

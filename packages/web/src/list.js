@@ -1,5 +1,6 @@
 import { html } from "lit-html"
 import { ref } from "lit-html/directives/ref.js"
+import { styleMap } from "lit-html/directives/style-map.js"
 
 const LIST_START = 0
 const PRETTY_INDEX = 1
@@ -69,7 +70,7 @@ export const list = {
 
     return html`
       <div
-        style="height: ${viewportHeight}px; overflow: auto"
+        style=${styleMap({ height: `${viewportHeight}px`, overflow: "auto" })}
         @scroll=${(e) => api.notify(`#${entity.id}:scroll`, e.target)}
         ${ref((el) => {
           if (el && !itemHeight) {
@@ -79,14 +80,23 @@ export const list = {
           }
         })}
       >
-        <div style="height: ${totalHeight}px; position: relative">
+        <div
+          style=${styleMap({
+            height: `${totalHeight}px`,
+            position: "relative",
+          })}
+        >
           ${visibleItems.map((item, idx) => {
             const absoluteIndex = visibleRange.start + idx
             const top = absoluteIndex * height
 
             return html`
               <div
-                style="position: absolute; top: ${top}px; width: 100%"
+                style=${styleMap({
+                  position: "absolute",
+                  top: `${top}px`,
+                  width: "100%",
+                })}
                 data-index=${absoluteIndex}
               >
                 ${type.renderItem(item, absoluteIndex, api)}
