@@ -1,0 +1,47 @@
+{
+  "name": "@inglorious/create-app",
+  "version": "0.0.0",
+  "description": "A scaffolding tool to quickly create a new app with Inglorious Web.",
+  "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IngloriousCoderz/inglorious-engine.git",
+    "directory": "packages/create-app"
+  },
+  "homepage": "https://inglorious-engine.vercel.app/",
+  "bugs": {
+    "url": "https://github.com/IngloriousCoderz/inglorious-engine/issues"
+  },
+  "keywords": [
+    "cli",
+    "create-app",
+    "functional-programming",
+    "spa",
+    "scaffolding"
+  ],
+  "type": "module",
+  "bin": {
+    "create-app": "./bin/index.js"
+  },
+  "files": [
+    "bin",
+    "templates",
+    "src"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "format": "prettier --write '**/*.{js,ts}'",
+    "lint": "eslint . --ext js,ts --report-unused-disable-directives --max-warnings 0"
+  },
+  "dependencies": {
+    "ora": "^9.0.0",
+    "prompts": "^2.4.2"
+  },
+  "devDependencies": {
+    "@inglorious/eslint-config": "workspace:*",
+    "prettier": "^3.6.2"
+  }
+}

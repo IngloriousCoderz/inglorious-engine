@@ -1,4 +1,4 @@
-# ijs-template
+# my-game
 
 This project is a starter template for creating a game with the Inglorious Engine using **IngloriousScript**.
 

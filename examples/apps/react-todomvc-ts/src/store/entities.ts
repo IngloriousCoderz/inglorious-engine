@@ -1,6 +1,6 @@
-import type { TodoListState } from "../../types"
+import type { AppState } from "../../types"
 
-export const entities: TodoListState = {
+export const entities: AppState = {
   form: {
     type: "form",
     value: "",

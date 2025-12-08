@@ -96,7 +96,8 @@ export class EventMap {
    * Supports scoped events:
    * - 'submit' -> all entities with 'submit' handler
    * - 'form:submit' -> all form entities with 'submit' handler
-   * - 'form[loginForm]:submit' -> only loginForm entity
+   * - 'form#loginForm:submit' -> only loginForm entity (of type form)
+   * - '#loginForm:submit' -> only loginForm entity
    *
    * @param {string} eventString - The event string (e.g., 'submit', 'form:submit', 'form[id]:submit')
    * @returns {string[]} An array of entity IDs that should handle this event.
@@ -111,9 +112,9 @@ export class EventMap {
     const typeMap = this.handlerToTypeToEntities.get(handlerName)
     if (!typeMap) return []
 
-    // form[loginForm]:submit - specific entity
-    if (targetType && targetEntityId) {
-      const entitySet = typeMap.get(targetType)
+    if (targetEntityId) {
+      const type = targetType ?? this.entityTypes.get(targetEntityId)
+      const entitySet = typeMap.get(type)
       return entitySet && entitySet.has(targetEntityId) ? [targetEntityId] : []
     }
 
@@ -134,7 +135,7 @@ export class EventMap {
 
 /**
  * Parses an event string into its components.
- * @param {string} eventString - The event string (e.g., 'submit', 'form:submit', 'form[loginForm]:submit')
+ * @param {string} eventString - The event string (e.g., 'submit', 'form:submit', 'form#loginForm:submit')
  * @returns {{ type: string|null, entityId: string|null, event: string }}
  */
 export function parseEvent(eventString) {

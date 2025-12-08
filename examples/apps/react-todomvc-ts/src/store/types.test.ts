@@ -4,11 +4,11 @@ import type { Event, TypesConfig } from "@inglorious/store"
 
 import { types } from "./types"
 import { entities } from "./entities"
-import type { TodoListEntity, TodoListState } from "../../types"
+import type { AppEntity, AppState } from "../../types"
 
 it("should update the form value on inputChange", () => {
   const event: Event = { type: "inputChange", payload: "Hello world!" }
-  const stateAfter: TodoListState = {
+  const stateAfter: AppState = {
     form: { id: "form", type: "form", value: "Hello world!" },
     list: { id: "list", type: "list", tasks: [] },
     footer: { id: "footer", type: "footer", activeFilter: "all" },
@@ -19,7 +19,7 @@ it("should update the form value on inputChange", () => {
 
 it("should add a new task and a clear the form value at the same time on formSubmit", () => {
   const event: Event = { type: "formSubmit", payload: "Hello world!" }
-  const stateAfter: TodoListState = {
+  const stateAfter: AppState = {
     form: { id: "form", type: "form", value: "" },
     list: {
       id: "list",
@@ -33,7 +33,7 @@ it("should add a new task and a clear the form value at the same time on formSub
 })
 
 it("should toggle a task as completed on toggleClick", () => {
-  const stateBefore: TodoListState = {
+  const stateBefore: AppState = {
     form: { id: "form", type: "form", value: "" },
     list: {
       id: "list",
@@ -43,7 +43,7 @@ it("should toggle a task as completed on toggleClick", () => {
     footer: { id: "footer", type: "footer", activeFilter: "all" },
   }
   const event: Event = { type: "toggleClick", payload: 1 }
-  const stateAfter: TodoListState = {
+  const stateAfter: AppState = {
     form: { id: "form", type: "form", value: "" },
     list: {
       id: "list",
@@ -57,7 +57,7 @@ it("should toggle a task as completed on toggleClick", () => {
 })
 
 it("should delete a task on deleteClick", () => {
-  const stateBefore: TodoListState = {
+  const stateBefore: AppState = {
     form: { id: "form", type: "form", value: "" },
     list: {
       id: "list",
@@ -67,7 +67,7 @@ it("should delete a task on deleteClick", () => {
     footer: { id: "footer", type: "footer", activeFilter: "all" },
   }
   const event: Event = { type: "deleteClick", payload: 1 }
-  const stateAfter: TodoListState = {
+  const stateAfter: AppState = {
     form: { id: "form", type: "form", value: "" },
     list: { id: "list", type: "list", tasks: [] },
     footer: { id: "footer", type: "footer", activeFilter: "all" },
@@ -77,7 +77,7 @@ it("should delete a task on deleteClick", () => {
 })
 
 it("should clear all completed tasks on clearClick", () => {
-  const stateBefore: TodoListState = {
+  const stateBefore: AppState = {
     form: { id: "form", type: "form", value: "" },
     list: {
       id: "list",
@@ -87,7 +87,7 @@ it("should clear all completed tasks on clearClick", () => {
     footer: { id: "footer", type: "footer", activeFilter: "all" },
   }
   const event: Event = { type: "clearClick" }
-  const stateAfter: TodoListState = {
+  const stateAfter: AppState = {
     form: { id: "form", type: "form", value: "" },
     list: { id: "list", type: "list", tasks: [] },
     footer: { id: "footer", type: "footer", activeFilter: "all" },
@@ -98,7 +98,7 @@ it("should clear all completed tasks on clearClick", () => {
 
 it("should update the filter on filterClick", () => {
   const event: Event = { type: "filterClick", payload: "completed" }
-  const stateAfter: TodoListState = {
+  const stateAfter: AppState = {
     form: { id: "form", type: "form", value: "" },
     list: { id: "list", type: "list", tasks: [] },
     footer: { id: "footer", type: "footer", activeFilter: "completed" },
@@ -107,13 +107,9 @@ it("should update the filter on filterClick", () => {
   doTest(entities, event, stateAfter)
 })
 
-function doTest(
-  stateBefore: TodoListState,
-  event: Event,
-  stateAfter: TodoListState,
-) {
-  const store = createStore<TodoListEntity, TodoListState>({
-    types: types as unknown as TypesConfig<TodoListEntity>,
+function doTest(stateBefore: AppState, event: Event, stateAfter: AppState) {
+  const store = createStore<AppEntity, AppState>({
+    types: types as unknown as TypesConfig<AppEntity>,
     entities: stateBefore,
   })
 

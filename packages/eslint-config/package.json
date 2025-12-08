@@ -1,6 +1,6 @@
 {
   "name": "@inglorious/eslint-config",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "type": "module",
   "files": [
     "base.js",
@@ -16,7 +16,8 @@
     "./node": "./node.js",
     "./react": "./react.js",
     "./storybook": "./storybook.js",
-    "./tailwind": "./tailwind.js"
+    "./tailwind": "./tailwind.js",
+    "./typescript": "./typescript.js"
   },
   "publishConfig": {
     "access": "public"
@@ -36,6 +37,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.34.0",
+    "@typescript-eslint/eslint-plugin": "^8.48.1",
+    "@typescript-eslint/parser": "^8.48.1",
     "eslint": "^9.34.0"
   }
 }

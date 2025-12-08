@@ -1,0 +1,27 @@
+{
+  "name": "js-template",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "description": "A new app created with @inglorious/create-app",
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "format": "prettier --write '**/*.js'",
+    "lint": "eslint . --ext js --report-unused-disable-directives --max-warnings 0",
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@inglorious/web": "workspace:*"
+  },
+  "devDependencies": {
+    "@inglorious/eslint-config": "workspace:*",
+    "prettier": "^3.6.2",
+    "vite": "^7.1.6"
+  },
+  "packageManager": "pnpm@10.15.0",
+  "engines": {
+    "node": ">= 22"
+  }
+}

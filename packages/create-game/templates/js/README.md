@@ -1,4 +1,4 @@
-# js-template
+# my-game
 
 This project is a minimal starter template for creating a game with the Inglorious Engine using plain JavaScript and Vite.
 

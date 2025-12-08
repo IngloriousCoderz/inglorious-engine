@@ -109,6 +109,53 @@ test("getEntitiesForEvent should return the correct set of entities for an event
   expect(fireEntities).toStrictEqual([])
 })
 
+test("getEntitiesForEvent should handle scoped events correctly", () => {
+  const types = {
+    form: { submit: () => {} },
+    button: { submit: () => {} },
+  }
+  const entities = {
+    loginForm: { type: "form" },
+    signupForm: { type: "form" },
+    submitButton: { type: "button" },
+  }
+  const eventMap = new EventMap(types, entities)
+
+  // Scoped to a type: 'form:submit' should only return form entities
+  expect(eventMap.getEntitiesForEvent("form:submit")).toStrictEqual([
+    "loginForm",
+    "signupForm",
+  ])
+
+  // Scoped to a specific entity by ID: '#loginForm:submit'
+  expect(eventMap.getEntitiesForEvent("#loginForm:submit")).toStrictEqual([
+    "loginForm",
+  ])
+
+  // Scoped to a specific entity by type and ID: 'form#loginForm:submit'
+  expect(eventMap.getEntitiesForEvent("form#loginForm:submit")).toStrictEqual([
+    "loginForm",
+  ])
+
+  // Scoped to a non-existent entity ID
+  expect(eventMap.getEntitiesForEvent("#nonExistent:submit")).toStrictEqual([])
+
+  // Scoped to an entity that exists but doesn't handle the event
+  expect(eventMap.getEntitiesForEvent("#loginForm:click")).toStrictEqual([])
+
+  // Scoped to an entity ID, but with the wrong type specified
+  expect(eventMap.getEntitiesForEvent("button#loginForm:submit")).toStrictEqual(
+    [],
+  )
+
+  // Broadcast event should return all entities with the handler
+  expect(eventMap.getEntitiesForEvent("submit")).toStrictEqual([
+    "loginForm",
+    "signupForm",
+    "submitButton",
+  ])
+})
+
 test("EventMap provides a significant performance benefit for event handling", async () => {
   const ENTITY_COUNT = 10000
   const { entities, types } = createTestEntities(ENTITY_COUNT)

@@ -1,5 +1,12 @@
 # @inglorious/renderer-2d
 
+## 12.0.1
+
+### Patch Changes
+
+- @inglorious/engine@13.0.1
+- @inglorious/utils@3.7.0
+
 ## 12.0.0
 
 ### Patch Changes

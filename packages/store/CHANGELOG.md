@@ -1,5 +1,13 @@
 # @inglorious/store
 
+## 7.1.1
+
+### Patch Changes
+
+- Fix events broadcasting instead of triggering single entities
+- Add TS lint rules
+  - @inglorious/utils@3.7.0
+
 ## 7.1.0
 
 ### Minor Changes

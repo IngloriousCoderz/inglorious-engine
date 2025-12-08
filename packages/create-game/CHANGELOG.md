@@ -1,5 +1,11 @@
 # @inglorious/create-game
 
+## 1.0.6
+
+### Patch Changes
+
+- Add TS lint rules
+
 ## 1.0.5
 
 ### Patch Changes

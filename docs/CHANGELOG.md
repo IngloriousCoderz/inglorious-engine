@@ -1,5 +1,16 @@
 # @inglorious/docs
 
+## 1.10.2
+
+### Patch Changes
+
+- Updated dependencies
+  - @inglorious/eslint-config@1.1.0
+  - @inglorious/engine@13.0.1
+  - @inglorious/renderer-2d@12.0.1
+  - @inglorious/renderer-react-dom@12.0.1
+  - @inglorious/utils@3.7.0
+
 ## 1.10.1
 
 ### Patch Changes

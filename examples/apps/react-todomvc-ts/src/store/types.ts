@@ -1,11 +1,11 @@
-import type { TodoListTypes, Task } from "../../types"
+import type { AppTypes, Task } from "../../types"
 
 const TASKS_TO_REMOVE = 1
 const DEFAULT_ID = 1
 const LAST_TASK = 1
 const NEXT_ID = 1
 
-export const types: TodoListTypes = {
+export const types: AppTypes = {
   form: {
     inputChange(entity, value) {
       if (entity.type !== "form") return

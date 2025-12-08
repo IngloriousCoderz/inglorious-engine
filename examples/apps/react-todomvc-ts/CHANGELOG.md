@@ -1,5 +1,16 @@
 # todomvc
 
+## 0.1.9
+
+### Patch Changes
+
+- Fix events broadcasting instead of triggering single entities
+- Add TS lint rules
+- Updated dependencies
+- Updated dependencies
+  - @inglorious/store@7.1.1
+  - @inglorious/react-store@9.0.1
+
 ## 0.1.8
 
 ### Patch Changes

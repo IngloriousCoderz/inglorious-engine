@@ -1,9 +1,9 @@
 import { createSelector } from "@inglorious/store/select"
 
-import type { Filter, Task, TodoListState } from "../../types"
+import type { Filter, Task, AppState } from "../../types"
 
-export const selectValue = (entities: TodoListState) => entities.form.value
-export const selectTasks = (entities: TodoListState) => entities.list.tasks
+export const selectValue = (entities: AppState) => entities.form.value
+export const selectTasks = (entities: AppState) => entities.list.tasks
 
 export const selectTasksCount = (filter?: Filter) =>
   createSelector(
@@ -11,7 +11,7 @@ export const selectTasksCount = (filter?: Filter) =>
     (tasks: Task[]) => getTasks(tasks, filter).length,
   )
 
-export const selectActiveFilter = (entities: TodoListState): Filter =>
+export const selectActiveFilter = (entities: AppState): Filter =>
   entities.footer.activeFilter
 
 export const selectFilteredTasks = createSelector(

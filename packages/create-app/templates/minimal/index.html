@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/public/logo.png" />
+    <link rel="stylesheet" href="/public/style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inglorious App</title>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <script type="text/javascript">
+      window.process = { env: "development" }
+    </script>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "mutative": "https://unpkg.com/mutative@latest/dist/mutative.esm.mjs",
+          "lit-html": "https://unpkg.com/lit-html@latest/lit-html.js",
+          "lit-html/": "https://unpkg.com/lit-html@latest/",
+          "@inglorious/utils/": "https://unpkg.com/@inglorious%2Futils@latest/src/",
+          "@inglorious/store": "https://unpkg.com/@inglorious%2Fstore@latest/src/store.js",
+          "@inglorious/store/": "https://unpkg.com/@inglorious%2Fstore@latest/src/",
+          "@inglorious/web": "https://unpkg.com/@inglorious%2Fweb@latest/src/index.js"
+        }
+      }
+    </script>
+
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>

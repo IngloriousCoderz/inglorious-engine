@@ -1,10 +1,10 @@
 import { createDevtools } from "@inglorious/store/client/devtools"
 import type { Middleware } from "@inglorious/store"
 
-import type { TodoListEntity, TodoListState } from "../../types"
+import type { AppEntity, AppState } from "../../types"
 
-export const middlewares: Middleware<TodoListEntity, TodoListState>[] = []
+export const middlewares: Middleware<AppEntity, AppState>[] = []
 
 if (import.meta.env.DEV) {
-  middlewares.push(createDevtools<TodoListEntity, TodoListState>().middleware)
+  middlewares.push(createDevtools<AppEntity, AppState>().middleware)
 }

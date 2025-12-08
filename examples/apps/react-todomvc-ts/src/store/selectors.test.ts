@@ -7,12 +7,12 @@ import {
   selectActiveFilter,
   selectFilteredTasks,
 } from "./selectors"
-import type { TodoListState } from "../../types"
+import type { AppState } from "../../types"
 
 it("should select the form value", () => {
   const state = {
     form: { value: "Hello world!" },
-  } as TodoListState
+  } as AppState
 
   expect(selectValue(state)).toBe("Hello world!")
 })
@@ -20,7 +20,7 @@ it("should select the form value", () => {
 it("should select the tasks", () => {
   const state = {
     list: { tasks: [{ id: 1, text: "Hello world!" }] },
-  } as TodoListState
+  } as AppState
 
   expect(selectTasks(state)).toEqual([{ id: 1, text: "Hello world!" }])
 })
@@ -28,7 +28,7 @@ it("should select the tasks", () => {
 it("should select the tasks count", () => {
   const state = {
     list: { tasks: [{ id: 1, text: "Hello world!" }] },
-  } as TodoListState
+  } as AppState
 
   expect(selectTasksCount("all")(state)).toBe(1)
 })
@@ -36,7 +36,7 @@ it("should select the tasks count", () => {
 it("should select the active filter", () => {
   const state = {
     footer: { activeFilter: "completed" },
-  } as TodoListState
+  } as AppState
 
   expect(selectActiveFilter(state)).toBe("completed")
 })
@@ -50,7 +50,7 @@ it("should select the filtered tasks", () => {
       ],
     },
     footer: { activeFilter: "completed" },
-  } as TodoListState
+  } as AppState
 
   expect(selectFilteredTasks(state)).toEqual([
     { id: 1, text: "Hello world!", completed: true },

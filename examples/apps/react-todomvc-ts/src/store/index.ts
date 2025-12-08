@@ -4,10 +4,10 @@ import { createReactStore } from "@inglorious/react-store"
 import { entities } from "./entities"
 import { middlewares } from "./middlewares"
 import { types } from "./types"
-import type { TodoListEntity, TodoListState } from "../../types"
+import type { AppEntity, AppState } from "../../types"
 
-export const store = createStore<TodoListEntity, TodoListState>({
-  types: types as unknown as TypesConfig<TodoListEntity>,
+export const store = createStore<AppEntity, AppState>({
+  types: types as unknown as TypesConfig<AppEntity>,
   entities,
   middlewares,
 })
