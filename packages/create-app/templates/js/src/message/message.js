@@ -2,7 +2,7 @@ import { html } from "@inglorious/web"
 
 export const message = {
   click(entity) {
-    entity.isUpperCase = true
+    entity.isUpperCase = !entity.isUpperCase
   },
 
   render(entity, api) {

@@ -35,6 +35,11 @@ async function main() {
         message: "Select a template",
         choices: [
           {
+            title: "Minimal",
+            description: "A single HTML file for a zero-build setup",
+            value: "minimal",
+          },
+          {
             title: "JavaScript",
             description: "A vanilla JavaScript setup with Vite",
             value: "js",

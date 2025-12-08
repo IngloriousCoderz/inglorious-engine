@@ -1,5 +1,11 @@
 # @inglorious/create-game
 
+## 0.1.1
+
+### Patch Changes
+
+- Add minimal app template
+
 ## 0.1.0
 
 ### Minor Changes

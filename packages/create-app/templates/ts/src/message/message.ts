@@ -4,7 +4,7 @@ import type { MessageEntity } from "../../types"
 
 export const message = {
   click(entity: MessageEntity) {
-    entity.isUpperCase = true
+    entity.isUpperCase = !entity.isUpperCase
   },
 
   render(entity: MessageEntity, api: Api) {
