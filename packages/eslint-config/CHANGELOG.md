@@ -1,5 +1,11 @@
 # @inglorious/eslint-config
 
+## 1.1.1
+
+### Patch Changes
+
+- Fix missing eslint dependency in global config
+
 ## 1.1.0
 
 ### Minor Changes
