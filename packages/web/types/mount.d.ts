@@ -1,13 +1,38 @@
 import type { TemplateResult } from "lit-html"
 import type { Store, Api as StoreApi } from "@inglorious/store"
 
+/**
+ * The result of a reactive selector.
+ * @template T The type of the selected value.
+ */
+export type ReactiveSelectorResult<T> = {
+  /** The current value of the selected state. */
+  readonly value: T
+  /** A function to stop listening for updates. */
+  unsubscribe: () => void
+}
+
 export type Api = StoreApi & {
   /**
-   * Renders a single entity by its ID.
-   * @param id The ID of the entity to render.
-   * @returns The rendered template or null.
+   * Selects a slice of the application state and returns a reactive object.
+   * The value will update whenever the selected part of the state changes.
+   *
+   * @template T The type of the selected state slice.
+   * @param selectorFn A function that takes the API and returns a slice of the state.
+   * @returns A reactive result object with the current value and an unsubscribe function.
    */
-  render: (id: string) => TemplateResult | null
+  select: <T>(selectorFn: (api: Api) => T) => ReactiveSelectorResult<T>
+
+  /**
+   * Renders an entity or a type component by its ID.
+   * @param id The ID of the entity or type to render.
+   * @param options Rendering options.
+   * @returns The rendered template or an empty string if not found.
+   */
+  render: (
+    id: string,
+    options?: { allowType?: boolean },
+  ) => TemplateResult | string
 }
 
 /**

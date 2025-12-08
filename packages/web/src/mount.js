@@ -8,41 +8,75 @@ import { html, render } from "lit-html"
  * @returns {() => void} An unsubscribe function
  */
 export function mount(store, renderFn, element) {
-  const api = {
-    ...store._api,
-
-    /** @param {string} id */
-    render(id, options = {}) {
-      const entity = api.getEntity(id)
-
-      if (!entity) {
-        const { allowType } = options
-        if (!allowType) {
-          return ""
-        }
-
-        // No entity with this ID, try static type
-        const type = api.getType(id)
-        if (!type?.render) {
-          console.warn(`No entity or type found: ${id}`)
-          return html`<div>Not found: ${id}</div>`
-        }
-        return type.render(api)
-      }
-
-      // Entity exists, render it
-      const type = api.getType(entity.type)
-      if (!type?.render) {
-        console.warn(`No render function for type: ${entity.type}`)
-        return html`<div>No renderer for ${entity.type}</div>`
-      }
-
-      return type.render(entity, api)
-    },
-  }
+  const api = { ...store._api }
+  api.select = createReactiveSelector(api, store)
+  api.render = createRender(api)
 
   const unsubscribe = store.subscribe(() => render(renderFn(api), element))
   store.notify("init")
 
   return unsubscribe
+}
+
+/**
+ * Creates a reactive selector function for the mount API.
+ * @param {import('../types/mount').Api} api - The mount API.
+ * @param {import('@inglorious/store').Store} store - The application state store.
+ * @returns {import('../types/mount').Api['select']} A `select` function that can be used to get a reactive slice of the state.
+ * @private
+ */
+function createReactiveSelector(api, store) {
+  return function select(selectorFn) {
+    let current = selectorFn(api)
+
+    const unsubscribe = store.subscribe(() => {
+      const next = selectorFn(api)
+      if (next !== current) {
+        current = next
+      }
+    })
+
+    return {
+      get value() {
+        return current
+      },
+      unsubscribe,
+    }
+  }
+}
+
+/**
+ * Creates a render function for the mount API.
+ * @param {import('../types/mount').Api} api - The mount API.
+ * @returns {import('../types/mount').Api['render']} A `render` function that can render an entity or a type by its ID.
+ * @private
+ */
+function createRender(api) {
+  return function (id, options = {}) {
+    const entity = api.getEntity(id)
+
+    if (!entity) {
+      const { allowType } = options
+      if (!allowType) {
+        return ""
+      }
+
+      // No entity with this ID, try static type
+      const type = api.getType(id)
+      if (!type?.render) {
+        console.warn(`No entity or type found: ${id}`)
+        return html`<div>Not found: ${id}</div>`
+      }
+      return type.render(api)
+    }
+
+    // Entity exists, render it
+    const type = api.getType(entity.type)
+    if (!type?.render) {
+      console.warn(`No render function for type: ${entity.type}`)
+      return html`<div>No renderer for ${entity.type}</div>`
+    }
+
+    return type.render(entity, api)
+  }
 }

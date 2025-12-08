@@ -1,5 +1,11 @@
 # @inglorious/react-store
 
+## 2.2.0
+
+### Minor Changes
+
+- Add reactive selectors
+
 ## 2.1.1
 
 ### Patch Changes
