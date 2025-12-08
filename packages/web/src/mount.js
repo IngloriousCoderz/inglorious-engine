@@ -9,38 +9,24 @@ import { html, render } from "lit-html"
  */
 export function mount(store, renderFn, element) {
   const api = { ...store._api }
-  api.select = createReactiveSelector(api, store)
   api.render = createRender(api)
 
-  const unsubscribe = store.subscribe(() => render(renderFn(api), element))
+  let renderScheduled = false
+
+  const scheduleRender = () => {
+    if (!renderScheduled) {
+      renderScheduled = true
+      requestAnimationFrame(() => {
+        renderScheduled = false
+        render(renderFn(api), element)
+      })
+    }
+  }
+
+  const unsubscribe = store.subscribe(scheduleRender)
   store.notify("init")
 
   return unsubscribe
-}
-
-/**
- * Creates a reactive selector function for the mount API.
- * @param {import('../types/mount').Api} api - The mount API.
- * @param {import('@inglorious/store').Store} store - The application state store.
- * @returns {import('../types/mount').Api['select']} A `select` function that returns a reactive getter.
- * @private
- */
-function createReactiveSelector(api, store) {
-  return function select(selectorFn) {
-    let current = selectorFn(api)
-
-    const getter = () => current // stable function, lit-html will call this each render
-
-    const unsubscribe = store.subscribe(() => {
-      const next = selectorFn(api)
-      if (next !== current) {
-        current = next
-      }
-    })
-
-    getter.unsubscribe = unsubscribe
-    return getter
-  }
 }
 
 /**

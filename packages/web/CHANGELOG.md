@@ -1,5 +1,11 @@
 # @inglorious/react-store
 
+## 2.2.2
+
+### Patch Changes
+
+- Fix ESLint not included and remove reactive selectors
+
 ## 2.2.1
 
 ### Patch Changes

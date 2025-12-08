@@ -1,5 +1,11 @@
 # @inglorious/create-game
 
+## 1.0.7
+
+### Patch Changes
+
+- Fix ESLint not included and remove reactive selectors
+
 ## 1.0.6
 
 ### Patch Changes

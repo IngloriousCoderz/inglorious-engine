@@ -100,14 +100,13 @@ export const rendering = {
 
     return html`<div
       @click=${() => api.notify(`#${entity.id}:rowToggle`, rowId)}
-      class=${classMap({
-        "iw-table-row": true,
+      class="iw-table-row ${classMap({
         "iw-table-row-even": index % DIVISOR,
-        "iw-table-row-selected": entity.selection.includes(rowId),
-      })}
+        "iw-table-row-selected": entity.selection?.includes(rowId),
+      })}"
     >
-      ${Object.values(row).map((value, index) =>
-        type.renderCell(entity, value, index, api),
+      ${entity.columns.map((column, index) =>
+        type.renderCell(entity, row[column.id], index, api),
       )}
     </div>`
   },
@@ -117,12 +116,11 @@ export const rendering = {
     const column = entity.columns[index]
 
     return html`<div
-      class=${classMap({
-        "iw-table-cell": true,
+      class="iw-table-cell ${classMap({
         "iw-table-cell-number": column.type === "number",
         "iw-table-cell-date": column.type === "date",
         "iw-table-cell-boolean": column.type === "boolean",
-      })}
+      })}"
       style=${getColumnStyle(column)}
     >
       ${type.renderValue(cell, column, api)}

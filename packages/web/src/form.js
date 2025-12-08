@@ -291,10 +291,10 @@ export function getFieldValue(form, path, defaultValue) {
  * Checks if a specific form field has been touched (i.e., has received a blur event).
  * @param {FormEntity} form - The form entity object.
  * @param {string} path - The dot-separated path to the field (e.g., 'user.name').
- * @returns {boolean|undefined} `true` if the field has been touched, otherwise `false` or `undefined`.
+ * @returns {boolean} `true` if the field has been touched, otherwise `false`.
  */
 export function isFieldTouched(form, path) {
-  return get(form.touched, path)
+  return Boolean(get(form.touched, path))
 }
 
 // Private helper functions

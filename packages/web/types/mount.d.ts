@@ -1,28 +1,7 @@
 import type { TemplateResult } from "lit-html"
 import type { Store, Api as StoreApi } from "@inglorious/store"
 
-/**
- * A reactive getter function returned by `api.select`.
- * Call the function to get the current value.
- * The function also has an `unsubscribe` method to stop listening for updates.
- * @template T The type of the selected value.
- */
-export type ReactiveSelectorResult<T> = (() => T) & {
-  /** A function to stop listening for updates. */
-  unsubscribe: () => void
-}
-
 export type Api = StoreApi & {
-  /**
-   * Selects a slice of the application state and returns a reactive getter function.
-   * The value will update whenever the selected part of the state changes.
-   *
-   * @template T The type of the selected state slice.
-   * @param selectorFn A function that takes the API and returns a slice of the state.
-   * @returns A reactive getter function. Call it to get the value. It also has an `unsubscribe` method.
-   */
-  select: <T>(selectorFn: (api: Api) => T) => ReactiveSelectorResult<T>
-
   /**
    * Renders an entity or a type component by its ID.
    * @param id The ID of the entity or type to render.

@@ -410,30 +410,6 @@ The `renderFn` receives a powerful `api` object that contains all methods from t
 
 This method is the cornerstone of entity-based rendering. It looks up an entity by its `id`, finds its corresponding type definition, and calls the `render(entity, api)` method on that type. This allows you to define rendering logic alongside an entity's other behaviors.
 
-**`api.select(selectorFn)`**
-
-Selects a slice of the application state and returns a reactive getter function. This is useful for creating components that only depend on a small part of the state, avoiding unnecessary re-renders.
-
-The `selectorFn` receives the `api` and should return a value. The `select` method returns a getter function that you call to get the latest value. This function also has an `unsubscribe` property.
-
-**Parameters:**
-
-- `selectorFn(api)` (required): A function that takes the `api` and returns a slice of the state.
-
-**Returns:**
-
-- `() => T`: A reactive getter function. It also has an `unsubscribe` method attached.
-
-**Example:**
-
-While `mount` re-renders the entire application on any state change, `api.select` can be used inside a component to react only to specific changes. This is an advanced pattern for performance optimization.
-
-```javascript
-// Inside a component's render method
-const getUser = api.select((api) => api.getEntity("user-1"))
-const user = getUser() // Call the getter to get the value
-```
-
 ### Re-exported `lit-html` Utilities
 
 For convenience, `@inglorious/web` re-exports the most common utilities from `@inglorious/store` and `lit-html`, so you only need one import.

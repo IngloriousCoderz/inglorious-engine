@@ -19,6 +19,7 @@
   "devDependencies": {
     "@inglorious/babel-preset-inglorious-script": "workspace:*",
     "@inglorious/eslint-config": "workspace:*",
+    "eslint": "^9.39.1",
     "prettier": "^3.6.2",
     "vite": "^7.1.6",
     "vite-plugin-babel": "^1.3.2"
