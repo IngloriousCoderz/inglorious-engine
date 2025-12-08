@@ -1,5 +1,11 @@
 # @inglorious/react-store
 
+## 2.2.1
+
+### Patch Changes
+
+- e93d313: Return function from reactive selector to force re-renders
+
 ## 2.2.0
 
 ### Minor Changes

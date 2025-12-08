@@ -412,9 +412,9 @@ This method is the cornerstone of entity-based rendering. It looks up an entity 
 
 **`api.select(selectorFn)`**
 
-Selects a slice of the application state and returns a reactive object. This is useful for creating components that only depend on a small part of the state, avoiding unnecessary re-renders.
+Selects a slice of the application state and returns a reactive getter function. This is useful for creating components that only depend on a small part of the state, avoiding unnecessary re-renders.
 
-The `selectorFn` receives the `api` and should return a value. The `select` method returns an object with a `value` property and an `unsubscribe` function.
+The `selectorFn` receives the `api` and should return a value. The `select` method returns a getter function that you call to get the latest value. This function also has an `unsubscribe` property.
 
 **Parameters:**
 
@@ -422,7 +422,7 @@ The `selectorFn` receives the `api` and should return a value. The `select` meth
 
 **Returns:**
 
-- `{ value, unsubscribe }`: A reactive result object.
+- `() => T`: A reactive getter function. It also has an `unsubscribe` method attached.
 
 **Example:**
 
@@ -430,7 +430,8 @@ While `mount` re-renders the entire application on any state change, `api.select
 
 ```javascript
 // Inside a component's render method
-const { value: user } = api.select((api) => api.getEntity("user-1"))
+const getUser = api.select((api) => api.getEntity("user-1"))
+const user = getUser() // Call the getter to get the value
 ```
 
 ### Re-exported `lit-html` Utilities

@@ -116,11 +116,11 @@ describe("mount", () => {
         capturedSelectResult = api.select(
           (api) => api.getEntity("player-1").score,
         )
-        return html`<div>Selected: ${capturedSelectResult.value}</div>`
+        return html`<div>Selected: ${capturedSelectResult()}</div>`
       }
       mount(store, renderFn, rootElement)
 
-      expect(capturedSelectResult.value).toBe(0)
+      expect(capturedSelectResult()).toBe(0)
       expect(rootElement.textContent).toBe("Selected: 0")
     })
 
@@ -130,16 +130,16 @@ describe("mount", () => {
         capturedSelectResult = api.select(
           (api) => api.getEntity("player-1").score,
         )
-        return html`<div>Selected: ${capturedSelectResult.value}</div>`
+        return html`<div>Selected: ${capturedSelectResult()}</div>`
       }
       mount(store, renderFn, rootElement)
 
-      expect(capturedSelectResult.value).toBe(0)
+      expect(capturedSelectResult()).toBe(0)
 
       store.notify("incrementScore", "player-1")
       await Promise.resolve() // Wait for store subscription to trigger and update `current` in select, and for lit-html to render
 
-      expect(capturedSelectResult.value).toBe(1)
+      expect(capturedSelectResult()).toBe(1)
       expect(rootElement.textContent).toBe("Selected: 1")
     })
 
@@ -149,16 +149,16 @@ describe("mount", () => {
         capturedSelectResult = api.select(
           (api) => api.getEntity("player-1").score,
         )
-        return html`<div>Selected: ${capturedSelectResult.value}</div>`
+        return html`<div>Selected: ${capturedSelectResult()}</div>`
       }
       mount(store, renderFn, rootElement)
 
-      expect(capturedSelectResult.value).toBe(0)
+      expect(capturedSelectResult()).toBe(0)
 
       store.notify("takeDamage", "enemy-1", 10) // This changes enemy health, not player score
       await Promise.resolve()
 
-      expect(capturedSelectResult.value).toBe(0) // Should remain 0
+      expect(capturedSelectResult()).toBe(0) // Should remain 0
       expect(rootElement.textContent).toBe("Selected: 0") // DOM also remains 0
     })
 
@@ -172,19 +172,19 @@ describe("mount", () => {
             (api) => api.getEntity("player-1").score,
           )
         }
-        return html`<div>Selected: ${initialSelectResult.value}</div>`
+        return html`<div>Selected: ${initialSelectResult()}</div>`
       }
       mount(store, renderFn, rootElement)
 
-      expect(initialSelectResult.value).toBe(0)
+      expect(initialSelectResult()).toBe(0)
 
       initialSelectResult.unsubscribe() // Unsubscribe the reactive selector's internal listener
       store.notify("incrementScore", "player-1")
       await Promise.resolve() // Wait for store subscription to trigger and for lit-html to render
 
-      // The main mount subscription still triggers renderFn, but the `initialSelectResult.value`
+      // The main mount subscription still triggers renderFn, but the value from `initialSelectResult()`
       // should *not* have updated because its internal listener was unsubscribed.
-      expect(initialSelectResult.value).toBe(0) // Should remain 0
+      expect(initialSelectResult()).toBe(0) // Should remain 0
       expect(rootElement.textContent).toBe("Selected: 0")
       expect(rootElement.textContent).not.toBe("Selected: 1")
     })

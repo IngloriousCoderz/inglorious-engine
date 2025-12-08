@@ -22,12 +22,14 @@ export function mount(store, renderFn, element) {
  * Creates a reactive selector function for the mount API.
  * @param {import('../types/mount').Api} api - The mount API.
  * @param {import('@inglorious/store').Store} store - The application state store.
- * @returns {import('../types/mount').Api['select']} A `select` function that can be used to get a reactive slice of the state.
+ * @returns {import('../types/mount').Api['select']} A `select` function that returns a reactive getter.
  * @private
  */
 function createReactiveSelector(api, store) {
   return function select(selectorFn) {
     let current = selectorFn(api)
+
+    const getter = () => current // stable function, lit-html will call this each render
 
     const unsubscribe = store.subscribe(() => {
       const next = selectorFn(api)
@@ -36,12 +38,8 @@ function createReactiveSelector(api, store) {
       }
     })
 
-    return {
-      get value() {
-        return current
-      },
-      unsubscribe,
-    }
+    getter.unsubscribe = unsubscribe
+    return getter
   }
 }
 
