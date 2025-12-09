@@ -1,5 +1,11 @@
 # @inglorious/store
 
+## 7.1.2
+
+### Patch Changes
+
+- Improve web framework docs
+
 ## 7.1.1
 
 ### Patch Changes

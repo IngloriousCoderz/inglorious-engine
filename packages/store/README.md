@@ -831,10 +831,11 @@ Now, your store is fully type-safe. The hooks provided by `@inglorious/react-sto
 
 Check out the following demos to see the Inglorious Store in action on real-case scenarios:
 
-- **[TodoMVC](https://github.com/IngloriousCoderz/inglorious-engine/tree/main/examples/apps/todomvc)** - An (ugly) clone of Kent Dodds' [TodoMVC](https://todomvc.com/) experiments, showing the full compatibility with react-redux and The Redux DevTools.
-- **[TodoMVC-CS](https://github.com/IngloriousCoderz/inglorious-engine/tree/main/examples/apps/todomvc-cs)** - A client-server version of the TodoMVC, which showcases the use of `notify` as a cleaner alternative to `dispatch` and async event handlers.
-- **[TodoMVC-RT](https://github.com/IngloriousCoderz/inglorious-engine/tree/main/examples/apps/todomvc-rt)** - A "multiplayer" version, in which multiple clients are able to synchronize through a real-time server.
-- **[TodoMVC-TS](https://github.com/IngloriousCoderz/inglorious-engine/tree/main/examples/apps/todomvc-ts)** - A typesafe version of the base TodoMVC.
+- **[React TodoMVC](https://github.com/IngloriousCoderz/inglorious-engine/tree/main/examples/apps/react-todomvc)** - An (ugly) clone of Kent Dodds' [TodoMVC](https://todomvc.com/) experiments, showing the full compatibility with react-redux and The Redux DevTools.
+- **[React TodoMVC-CS](https://github.com/IngloriousCoderz/inglorious-engine/tree/main/examples/apps/react-todomvc-cs)** - A client-server version of the TodoMVC, which showcases the use of `notify` as a cleaner alternative to `dispatch` and async event handlers.
+- **[React TodoMVC-RT](https://github.com/IngloriousCoderz/inglorious-engine/tree/main/examples/apps/react-todomvc-rt)** - A "multiplayer" version, in which multiple clients are able to synchronize through a real-time server.
+- **[React TodoMVC-TS](https://github.com/IngloriousCoderz/inglorious-engine/tree/main/examples/apps/react-todomvc-ts)** - A typesafe version of the base TodoMVC.
+- **[Web TodoMVC](https://github.com/IngloriousCoderz/inglorious-engine/tree/main/examples/apps/web-todomvc)** - The same app, written with the [`@inglorious/web`](https://www.npmjs.com/package/@inglorious/web) framework instead of React.
 
 ---
 

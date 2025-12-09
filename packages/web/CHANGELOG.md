@@ -1,5 +1,13 @@
 # @inglorious/react-store
 
+## 2.2.3
+
+### Patch Changes
+
+- Improve web framework docs
+- Updated dependencies
+  - @inglorious/store@7.1.2
+
 ## 2.2.2
 
 ### Patch Changes

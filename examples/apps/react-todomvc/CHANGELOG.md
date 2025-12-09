@@ -1,5 +1,12 @@
 # todomvc
 
+## 1.1.9
+
+### Patch Changes
+
+- Updated dependencies
+  - @inglorious/store@7.1.2
+
 ## 1.1.8
 
 ### Patch Changes

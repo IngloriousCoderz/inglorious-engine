@@ -1,20 +1,237 @@
 # @inglorious/web
 
-[![NPM version](https://img.shields.io/npm/v/@inglorious/web.svg)](https://www.npmjs.com/package/@inglorious/web)
+[![NPM version](https://img.shields.io/npm/v/@inglorious/web.svg)](https://www.npmjs.com/package/@inglorious/web)  
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A lightweight web framework that combines the entity-based state management of **@inglorious/store** with the performance and simplicity of **lit-html**.
+A lightweight, reactive-enough web framework built on **pure JavaScript**, the entity-based state management provided by **@inglorious/store**, and the DOM-diffing efficiency of **lit-html**.
+
+Unlike modern frameworks that invent their own languages or rely on signals, proxies, or compilers, **@inglorious/web embraces plain JavaScript** and a transparent architecture.
 
 ---
 
 ## Features
 
-- **Seamless Integration**: A simple `mount` function to connect your store, templates, and the DOM.
-- **Efficient Rendering**: Leverages the performance of `lit-html` for DOM updates.
-- **Entity-Based Rendering**: Includes a powerful `api.render(id)` helper to render individual entities based on their type.
-- **Convenient Re-exports**: Provides direct access to `lit-html`'s `html`, `svg`, and core directives.
-- **Client-Side Router**: A simple, entity-based router for single-page applications.
-- **Fully Typed**: Strong TypeScript support for a great developer experience.
+- **Full-tree Re-rendering with DOM Diffing**  
+  Your entire template tree re-renders on every state change, while **lit-html updates only the minimal DOM parts**.  
+  No VDOM, no signals, no hidden dependencies.
+
+- **Entity-Based Rendering Model**  
+  Each entity type defines its own `render(entity, api)` method.  
+  `api.render(id)` composes the UI by invoking the correct renderer for each entity.
+
+- **Simple and Predictable API**  
+  Zero magic, zero reactivity graphs, zero compiler.  
+  Just JavaScript functions and store events.
+
+- **Router, Forms, Tables, Virtual Lists**  
+  High-level primitives built on the same predictable model.
+
+- **Zero Component State**  
+  All state lives in the store — never inside components.
+
+- **No Signals, No Subscriptions, No Memory Leaks**  
+  Because every render is triggered by the store, and lit-html handles the rest.
+
+- **No compilation required**  
+  Apps can run directly in the browser — no build/compile step is strictly necessary (though you may use bundlers or Vite for convenience in larger projects).
+
+---
+
+## Create App (scaffolding)
+
+To help bootstrap projects quickly, there's an official scaffolding tool: **[`@inglorious/create-app`](https://www.npmjs.com/package/@inglorious/create-app)**. It generates opinionated boilerplates so you can start coding right away.
+
+Available templates:
+
+- **minimal** — plain HTML, CSS, and JS (no build step)
+- **js** — Vite-based JavaScript project
+- **ts** — Vite + TypeScript project
+
+Use the scaffolder to create a starter app tailored to your workflow.
+
+---
+
+## Key Architectural Insight
+
+### ✨ **Inglorious Web re-renders the whole template tree on each state change.**
+
+Thanks to lit-html’s optimized diffing, this is fast, predictable, and surprisingly efficient.
+
+This means:
+
+- **You do NOT need fine-grained reactivity**
+- **You do NOT need selectors/signals/memos**
+- **You do NOT track dependencies between UI fragments**
+- **You cannot accidentally create memory leaks through subscriptions**
+
+You get Svelte-like ergonomic simplicity, but with no compiler and no magic.
+
+> “Re-render everything → let lit-html update only what changed.”
+
+It's that simple — and surprisingly fast in practice.
+
+---
+
+## When to Use Inglorious Web
+
+- You want predictable behavior
+- You prefer explicit state transitions
+- You want to avoid complex reactive graphs
+- You want UI to be fully controlled by your entity-based store
+- You want to stay entirely in **JavaScript**, without DSLs or compilers
+- You want **React-like declarative UI** but without the cost and overhead of React
+
+This framework is ideal for both small apps and large business UIs.
+
+--
+
+## When NOT to Use Inglorious Web
+
+- You need server-side rendering (SSR) or static site generation (SSG) - WIP
+- You need fine-grained reactivity for very large datasets (1000+ items per view)
+- You're building a library that needs to be framework-agnostic
+- Your team is already deeply invested in React/Vue/Angular
+
+---
+
+## Why Inglorious Web Avoids Signals
+
+Other modern frameworks use:
+
+- Proxies (Vue)
+- Observables (MobX)
+- Fine-grained signals (Solid, Angular v17+)
+- Compiler-generated reactivity (Svelte)
+- Fiber or granular subscriptions (React, Preact, Qwik, etc.)
+
+These systems are powerful but introduce:
+
+- hidden dependencies
+- memory retention risks
+- unpredictable update ordering
+- steep learning curves
+- framework-specific languages
+- need for cleanup, teardown, and special lifecycle APIs
+- challenges when mixing with game engines, workers, or non-UI code
+
+### Inglorious Web takes a different stance:
+
+✔ **Every entity update is explicit**  
+✔ **Every UI update is a full diff pass**  
+✔ **Every part of the system is just JavaScript**  
+✔ **No special lifecycle**  
+✔ **No subscriptions needed**
+✔ **No signals**  
+✔ **No cleanup**  
+✔ **No surprises**
+
+This makes it especially suitable for:
+
+- realtime applications
+- hybrid UI/game engine contexts
+- large enterprise apps where predictability matters
+- developers who prefer simplicity over magic
+
+---
+
+# Comparison with Other Frameworks
+
+Here’s how @inglorious/web compares to the major players:
+
+---
+
+## **React**
+
+| Feature                   | React                         | Inglorious Web                     |
+| ------------------------- | ----------------------------- | ---------------------------------- |
+| Rendering model           | VDOM diff + effects           | Full tree template + lit-html diff |
+| Language                  | JSX (non-JS)                  | Pure JavaScript                    |
+| Component state           | Yes                           | No — store only                    |
+| Refs & lifecycles         | Many                          | None needed                        |
+| Signals / fine reactivity | No (but heavy reconciliation) | No (rely on lit-html diff)         |
+| Reconciliation overhead   | High (full VDOM diff)         | Low (template string diff)         |
+| Bundle size               | Large                         | Tiny                               |
+| Learning curve            | Medium/High                   | Very low                           |
+
+React is powerful but complicated. Inglorious Web is simpler, lighter, and closer to native JS.
+
+---
+
+## **Vue (3)**
+
+| Feature         | Vue                        | Inglorious Web                      |
+| --------------- | -------------------------- | ----------------------------------- |
+| Reactivity      | Proxy-based, deep tracking | Event-based updates + lit-html diff |
+| Templates       | DSL                        | JavaScript templates                |
+| Component state | Yes                        | No                                  |
+| Lifecycle       | Many                       | None                                |
+| Compiler        | Required for SFC           | None                                |
+
+Vue reactivity is elegant but complex. Inglorious Web avoids proxies and keeps everything explicit.
+
+---
+
+## **Svelte**
+
+| Feature        | Svelte                      | Inglorious Web     |
+| -------------- | --------------------------- | ------------------ |
+| Compiler       | Required                    | None               |
+| Reactivity     | Compiler transforms $labels | Transparent JS     |
+| Granularity    | Fine-grained                | Full-tree rerender |
+| Learning curve | Medium                      | Low                |
+
+Svelte is magic; Inglorious Web is explicit.
+
+---
+
+## **SolidJS**
+
+| Feature    | Solid                | Inglorious Web     |
+| ---------- | -------------------- | ------------------ |
+| Reactivity | Fine-grained signals | No signals         |
+| Components | Run once             | Rerun always       |
+| Cleanup    | Required             | None               |
+| Behavior   | Highly optimized     | Highly predictable |
+
+Solid is extremely fast but requires a mental model.  
+Inglorious Web trades peak performance for simplicity and zero overhead.
+
+---
+
+## **Qwik**
+
+| Feature              | Qwik                 | Inglorious Web |
+| -------------------- | -------------------- | -------------- |
+| Execution model      | Resumable            | Plain JS       |
+| Framework complexity | Very high            | Very low       |
+| Reactivity           | Fine-grained signals | None           |
+
+Qwik targets extreme performance at extreme complexity.  
+Inglorious Web is minimal, predictable, and tiny.
+
+---
+
+## **HTMX / Alpine / Vanilla DOM**
+
+You are closer philosophically to **HTMX** and **vanilla JS**, but with a declarative rendering model and entity-based state.
+
+---
+
+# Why Choose Inglorious Web
+
+- Minimalistic
+- Pure JavaScript
+- Entity-based and predictable
+- Extremely easy to reason about
+- One render path, no hidden rules
+- No reactivity graphs
+- No per-component subscriptions
+- No memory leaks
+- No build step required (apps can run in the browser)
+- Works perfectly in hybrid UI/game engine contexts
+- Uses native ES modules and standards
+
+If you want a framework that **does not fight JavaScript**, this is the one.
 
 ---
 
@@ -90,6 +307,57 @@ The `mount` function subscribes to the store and automatically re-renders your t
 
 ---
 
+## Redux DevTools Integration
+
+`@inglorious/web` ships with first-class support for the **Redux DevTools Extension**, allowing you to:
+
+- inspect all store events
+- time-travel through state changes
+- restore previous states
+- debug your entity-based logic visually
+
+To enable DevTools, add the middleware provided by `createDevtools()`.
+
+### 1. Create a `middlewares.js` file
+
+```javascript
+// middlewares.js
+import { createDevtools } from "@inglorious/web"
+
+export const middlewares = []
+
+// Enable DevTools only in development mode
+if (import.meta.env.DEV) {
+  middlewares.push(createDevtools().middleware)
+}
+```
+
+### 2. Pass middlewares when creating the store
+
+```javascript
+// store.js
+import { createStore } from "@inglorious/web"
+import { middlewares } from "./middlewares.js"
+
+export const store = createStore({
+  types,
+  entities,
+  middlewares,
+})
+```
+
+Now your application state is fully visible in the Redux DevTools browser extension.
+
+### What You’ll See in DevTools
+
+- Each event you dispatch via `api.notify(event, payload)` will appear as an action in the DevTools timeline.
+- The entire store is visible under the _State_ tab.
+- You can time-travel or replay events exactly like in Redux.
+
+No additional configuration is needed.
+
+---
+
 ## Client-Side Router
 
 `@inglorious/web` includes a lightweight, entity-based client-side router. It integrates directly into your `@inglorious/store` state, allowing your components to reactively update based on the current URL.
@@ -114,7 +382,7 @@ const types = {
     render: (entity, api) => {
       // Access route params from the router entity
       const { params } = api.getEntity("router")
-      return html`<h1>User ${params.id} - ${entity.username}</h1>`
+      return html`<h1>User ${params?.id ?? "Unknown"} - ${entity.username}</h1>`
     },
   },
   notFoundPage: {
@@ -416,17 +684,90 @@ For convenience, `@inglorious/web` re-exports the most common utilities from `@i
 
 ```javascript
 import {
+  // from @inglorious/store
   createStore,
-  creteDevtools,
+  createDevtools,
   createSelector,
+  // from lit-html
   mount,
   html,
-  router,
   render,
   svg,
+  // lit-html directives
+  choose,
   classMap,
+  ref,
+  repeat,
+  styleMap,
+  when,
+  // router stuff
+  router,
+  // table stuff
+  table,
+  // form stuff
+  form,
+  getFieldError,
+  getFieldValue,
+  isFieldTouched,
+  // virtualized list stuff
+  list,
 } from "@inglorious/web"
 ```
+
+---
+
+## Error Handling
+
+When an entity's `render()` method throws an error, it can crash your entire app since the whole tree re-renders.
+
+**Best practice:** Wrap your render logic in try-catch at the entity level:
+
+```javascript
+const myType = {
+  render(entity, api) {
+    try {
+      // Your render logic
+      return html`<div>...</div>`
+    } catch (error) {
+      console.error("Render error:", error)
+      return html`<div class="error">Failed to render ${entity.id}</div>`
+    }
+  },
+}
+```
+
+---
+
+## Performance Tips
+
+1. **Keep render() pure** - No side effects, no API calls
+2. **Avoid creating new objects in render** - Use entity properties, not inline `{}`
+3. **Use `repeat()` directive for lists** - Helps lit-html track item identity
+4. **Profile with browser DevTools** - Look for slow renders (>16ms)
+5. **Consider virtualization** - Use `list` type for 1000+ items
+
+If renders are slow:
+
+- Move expensive computations to event handlers
+- Cache derived values on the entity
+- ...Or memoize them!
+
+---
+
+## Relationship to Inglorious Engine
+
+`@inglorious/web` shares its architectural philosophy with [Inglorious Engine](https://www.npmjs.com/package/@inglorious/engine):
+
+- **Same state management** - Both use `@inglorious/store`
+- **Same event system** - Entity behaviors respond to events
+- **Same rendering model** - Full-state render on every update
+
+The key difference:
+
+- **@inglorious/engine** targets game loops (60fps, Canvas/WebGL rendering)
+- **@inglorious/web** targets web UIs (DOM rendering, user interactions)
+
+You can even mix them in the same app!
 
 ---
 
