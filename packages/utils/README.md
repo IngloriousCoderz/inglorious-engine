@@ -3,7 +3,7 @@
 [![NPM version](https://img.shields.io/npm/v/@inglorious/utils.svg)](https://www.npmjs.com/package/@inglorious/utils)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A set of general-purpose utility functions designed with functional programming principles in mind. This package is part of the [Inglorious Engine](https://github.com/IngloriousCoderz/inglorious-forge) monorepo.
+A set of general-purpose utility functions designed with functional programming principles in mind. This package is part of the [Inglorious Forge](https://github.com/IngloriousCoderz/inglorious-forge) monorepo.
 
 ---
 

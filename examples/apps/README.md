@@ -1,6 +1,6 @@
 # Example apps index
 
-This folder contains small demo apps that showcase features of the Inglorious Engine and its packages. Each demo has a short README and Vite-based dev workflow.
+This folder contains small demo apps that showcase features of the Inglorious Forge packages. Each demo has a short README and Vite-based dev workflow.
 
 Available demos:
 

@@ -19,7 +19,7 @@ A real-time, lightweight server designed to enable multiplayer experiences for g
 
 ### Installation
 
-1. Clone the Inglorious Engine repository:
+1. Clone the Inglorious Forge repository:
 
 ```sh
 git clone https://github.com/IngloriousCoderz/inglorious-forge.git

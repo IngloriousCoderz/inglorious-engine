@@ -1,6 +1,6 @@
-# Contributing to Inglorious Engine
+# Contributing to Inglorious Forge
 
-First off, thank you for considering contributing to Inglorious Engine! It's people like you that make open source great. We welcome contributions from the community! Whether you're fixing a bug, adding a feature, or improving the documentation, your help is appreciated.
+First off, thank you for considering contributing to Inglorious Forge! It's people like you that make open source great. We welcome contributions from the community! Whether you're fixing a bug, adding a feature, or improving the documentation, your help is appreciated.
 
 Following these guidelines helps to communicate that you respect the time of the developers managing and developing this open source project. In return, they should reciprocate that respect in addressing your issue, assessing changes, and helping you finalize your pull requests.
 

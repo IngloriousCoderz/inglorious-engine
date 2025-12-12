@@ -19,16 +19,24 @@ There is no ambition to replace mainstream frameworks. These libraries exist bec
 
 ## Packages
 
-### `@inglorious/utils`
+### Core Libraries
+
+#### `@inglorious/utils`
 
 Shared utility functions used across packages.
 
-### `@inglorious/store`
+#### `@inglorious/store`
 
 An entity-based state manager with event-driven updates and predictable data flow.
 Used by both the web framework and the game engine.
 
-### `@inglorious/web`
+#### `@inglorious/react-store`
+
+Official React bindings for `@inglorious/store`. Provides hooks and a Provider component to connect React components to the store.
+
+### Web Framework
+
+#### `@inglorious/web`
 
 A small view layer built around `lit-html` and the entity store.
 No components, no lifecycles — just functions that return templates.
@@ -41,31 +49,119 @@ Includes built-in utilities like:
 - tables
 - and other small helpers
 
-### `@inglorious/create-app`
+### Game Engine
 
-A scaffolding tool that creates project templates:
+#### `@inglorious/engine`
+
+A modular game engine built on top of the same entity model as the store.
+Designed for building 2D games with a focus on simplicity and composability.
+
+#### `@inglorious/renderer-2d`
+
+A 2D renderer for the Inglorious Engine using the HTML5 Canvas Context2D API.
+
+#### `@inglorious/renderer-react-dom`
+
+A React DOM renderer for the Inglorious Engine, allowing React components to be used as renderers.
+
+### Tools & Utilities
+
+#### `@inglorious/create-app`
+
+A scaffolding tool that creates web application project templates:
 
 - minimal (no bundler)
 - JS (Vite)
 - TS (Vite + TypeScript)
 
-### `@inglorious/engine`
+#### `@inglorious/create-game`
 
-A modular game engine built on top of the same entity model.
+A scaffolding tool that creates game project templates configured with the Inglorious Engine.
 
-### `@inglorious/babel-plugin-inglorious-script`
+#### `@inglorious/babel-plugin-inglorious-script`
 
-A small scripting language originally designed for in-game logic.
+A Babel plugin for a small scripting language originally designed for in-game logic.
 
-### `@inglorious/server`
+#### `@inglorious/babel-preset-inglorious-script`
 
-A simple server for realtime state synchronization.
+A Babel preset that bundles the Inglorious Script plugin with other useful transformations.
 
-More packages may appear over time as needs arise.
+#### `@inglorious/eslint-config`
+
+Shared ESLint configuration with presets for different environments (Node, Browser, React, TypeScript, Tailwind).
+
+#### `@inglorious/server`
+
+A simple server for realtime state synchronization using WebSockets.
+
+#### `@inglorious/editor`
+
+The official graphical user interface for the Inglorious Engine. Still experimental.
 
 ---
 
-## Why These Tools Exist
+## Getting Started
+
+### Documentation
+
+Interactive Storybook documentation is available in the [docs/](docs/) directory, covering:
+
+- **Inglorious Engine** - guides on cameras, collision detection, pooling, entity systems, player management, AI, audio, input, and multiplayer
+- **Utilities** - helper functions and utilities for common tasks
+- Recipes and patterns for common game development scenarios
+
+The documentation features live, interactive examples built with Storybook.
+
+### Examples
+
+The [examples/](examples/) directory contains several example projects:
+
+**Web Applications (using `@inglorious/web`):**
+
+- TodoMVC implementations
+- Form examples
+- List and table examples
+- Router examples
+
+**React Examples (using `@inglorious/react-store`):**
+
+- React TodoMVC implementations showing store integration with React hooks
+- Demonstrates the bindings between `@inglorious/store` and React components
+
+**Games (using `@inglorious/engine`):**
+
+- Minimal game template
+- Pong implementation
+- Flapper game
+
+**IngloriousScript:**
+
+- IJS - IngloriousScript examples
+- ITS - IngloriousScript with TypeScript examples
+
+IngloriousScript is a superset of JavaScript that adds vector operators for more intuitive 2D game development.
+
+---
+
+## Project Setup
+
+This is a monorepo using **pnpm workspaces** and **Turbo** for build orchestration.
+
+### Requirements
+
+- Node.js >= 22
+- pnpm >= 10.24.0
+
+### Available Commands
+
+```bash
+pnpm install          # Install dependencies
+pnpm run dev          # Start development servers for all packages
+pnpm run build        # Build all packages
+pnpm run lint         # Lint all packages
+pnpm run test         # Run tests in all packages
+pnpm run format       # Format code with Prettier
+```
 
 This project started with building a game engine.
 

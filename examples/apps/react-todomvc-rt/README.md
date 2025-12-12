@@ -81,10 +81,9 @@ This structure is repeated for the `form` and `list` components.
 
 ## 📚 Learn More
 
-- **[@inglorious/store](https://github.com/IngloriousCoderz/inglorious-forge/tree/main/packages/store)** - Core state management docs
-- **[@inglorious/react-store](https://github.com/IngloriousCoderz/inglorious-forge/tree/main/packages/react-store)** - React bindings documentation
+- **[@inglorious/store](https://www.npmjs.com/package/@inglorious/store)** - Core state management docs
+- **[@inglorious/react-store](https://www.npmjs.com/package/@inglorious/react-store)** - React bindings documentation
 - **[todomvc](../todomvc)** - Basic version with `react-redux` (synchronous only)
-- **[Inglorious Engine](https://github.com/IngloriousCoderz/inglorious-forge)** - Full game engine
 
 ---
 

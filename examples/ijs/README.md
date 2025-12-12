@@ -1,6 +1,6 @@
 # IngloriousScript Playground
 
-This directory contains a simple Vite project that serves as a live example of how to set up and use **[IngloriousScript](https://github.com/IngloriousCoderz/inglorious-forge/tree/main/packages/babel-plugin-inglorious-script)**.
+This directory contains a simple Vite project that serves as a live example of how to set up and use **[IngloriousScript](https://www.npmjs.com/package/@inglorious/babel-plugin-inglorious-script)**.
 
 This playground demonstrates:
 

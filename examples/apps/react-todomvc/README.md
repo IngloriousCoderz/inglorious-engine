@@ -394,8 +394,8 @@ The middleware can ignore certain events using three optional configuration para
 
 ## 📚 Learn More
 
-- **[@inglorious/store](https://github.com/IngloriousCoderz/inglorious-forge/tree/main/packages/store)** - Core state management docs
-- **[@inglorious/react-store](https://github.com/IngloriousCoderz/inglorious-forge/tree/main/packages/react-store)** - React bindings with additional features
+- **[@inglorious/store](https://www.npmjs.com/package/@inglorious/store)** - Core state management docs
+- **[@inglorious/react-store](https://www.npmjs.com/package/@inglorious/react-store)** - React bindings with additional features
 - **[todomvc-cs](../todomvc-cs)** - Same app as this one, but with `@inglorious/react-store` and async requests towards a RESTful service
 - **[todomvc-rt](../todomvc-rt)** - Same app as this one, but with real-time collaboration through the `multiplayerMiddleware`
 

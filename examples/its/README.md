@@ -1,6 +1,6 @@
 # IngloriousScript with TypeScript
 
-This directory demonstrates how to use **[IngloriousScript](https://github.com/IngloriousCoderz/inglorious-forge/tree/main/packages/babel-plugin-inglorious-script)** with TypeScript.
+This directory demonstrates how to use **[IngloriousScript](https://www.npmjs.com/package/@inglorious/babel-plugin-inglorious-script)** with TypeScript.
 
 This playground demonstrates:
 

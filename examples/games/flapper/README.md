@@ -2,7 +2,7 @@
 
 A Flappy Bird clone.
 
-![Gameplay Screenshot](https://raw.githubusercontent.com/IngloriousCoderz/inglorious-forge/main/apps/pong/public/screenshot.png)
+![Gameplay Screenshot](https://raw.githubusercontent.com/IngloriousCoderz/inglorious-forge/main/examples/games/flapper/public/screenshot.png)
 
 ## About This Project
 
@@ -11,7 +11,7 @@ This project is a port of a Flappy Bird clone originally created with Lua and th
 - **Original Course Lecture:** [CS50's Intro to Game Development - Lecture 2: Flappy Bird](https://www.youtube.com/watch?v=3IdOCxHGMIo)
 - **Original Source Code (Lua/LÖVE 2D):** [games50/fifty-bird](https://github.com/games50/fifty-bird)
 
-While the core gameplay remains faithful to the original, this port serves as a demonstration of the [**Inglorious Engine**](https://github.com/IngloriousCoderz/inglorious-forge). It was an exercise in applying modern architectural patterns and tooling to a classic game.
+While the core gameplay remains faithful to the original, this port serves as a demonstration of the [**Inglorious Engine**](https://www.npmjs.com/package/@inglorious/engine). It was an exercise in applying modern architectural patterns and tooling to a classic game.
 
 ## Key Features & Architectural Highlights
 

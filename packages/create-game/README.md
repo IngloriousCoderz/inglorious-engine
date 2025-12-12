@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-The official scaffolding tool to quickly create a new game with the [Inglorious Engine](https://github.com/IngloriousCoderz/inglorious-forge).
+The official scaffolding tool to quickly create a new game with the [Inglorious Engine](https://www.npmjs.com/package/@inglorious/engine).
 
 This package allows you to generate a new project from a set of pre-configured templates, so you can start developing your game right away.
 
