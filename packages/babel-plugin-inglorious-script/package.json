@@ -6,14 +6,14 @@
   "license": "MIT",
   "type": "module",
   "main": "./src/index.js",
-  "homepage": "https://github.com/IngloriousCoderz/inglorious-engine/tree/main/packages/babel-plugin-inglorious-script#readme",
+  "homepage": "https://github.com/IngloriousCoderz/inglorious-forge/tree/main/packages/babel-plugin-inglorious-script#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/IngloriousCoderz/inglorious-engine.git",
+    "url": "https://github.com/IngloriousCoderz/inglorious-forge.git",
     "directory": "packages/babel-plugin-inglorious-script"
   },
   "bugs": {
-    "url": "https://github.com/IngloriousCoderz/inglorious-engine/issues"
+    "url": "https://github.com/IngloriousCoderz/inglorious-forge/issues"
   },
   "keywords": [
     "babel",

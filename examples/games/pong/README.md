@@ -2,7 +2,7 @@
 
 A modern implementation of the classic arcade game, Pong.
 
-![Gameplay Screenshot](https://raw.githubusercontent.com/IngloriousCoderz/inglorious-engine/main/apps/pong/public/screenshot.png)
+![Gameplay Screenshot](https://raw.githubusercontent.com/IngloriousCoderz/inglorious-forge/main/apps/pong/public/screenshot.png)
 
 ## About This Project
 
@@ -11,7 +11,7 @@ This project is a port of the Pong game originally created with Lua and the LÖV
 - **Original Course Lecture:** [CS50's Intro to Game Development - Lecture 1: Pong](https://www.youtube.com/watch?v=jZqYXSmgDuM)
 - **Original Source Code (Lua/LÖVE 2D):** [games50/pong](https://github.com/games50/pong)
 
-While the core gameplay remains faithful to the original, this port serves as a demonstration of the [**Inglorious Engine**](https://github.com/IngloriousCoderz/inglorious-engine). It was an exercise in applying modern architectural patterns and tooling to a classic game.
+While the core gameplay remains faithful to the original, this port serves as a demonstration of the [**Inglorious Engine**](https://github.com/IngloriousCoderz/inglorious-forge). It was an exercise in applying modern architectural patterns and tooling to a classic game.
 
 ## Key Features & Architectural Highlights
 
@@ -33,11 +33,11 @@ The **Inglorious Engine** is built on an event-driven, Publish-Subscribe (Pub/Su
 
 1.  Clone the repository:
     ```bash
-    git clone https://github.com/IngloriousCoderz/inglorious-engine.git
+    git clone https://github.com/IngloriousCoderz/inglorious-forge.git
     ```
 2.  Navigate to the project directory:
     ```bash
-    cd inglorious-engine/apps/pong
+    cd inglorious-forge/examples/games/pong
     ```
 3.  Install dependencies:
     ```bash

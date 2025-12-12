@@ -18,7 +18,7 @@ The core idea is to leverage modern browser features like **ES Modules** and **I
 
 ## How to Run This Example
 
-From the root of the `inglorious-engine` monorepo, run:
+From the root of the `inglorious-forge` monorepo, run:
 
 ```bash
 pnpm game
@@ -34,6 +34,6 @@ Open `game.js` and start building! The current file is a blank slate. Try adding
 
 This zero-build setup is perfect for getting started, prototyping, and building many types of games.
 
-When your project grows and you want more advanced features — like the intuitive vector math syntax provided by **[IngloriousScript](https://github.com/IngloriousCoderz/inglorious-engine/tree/main/packages/babel-preset-inglorious-script)** — you can optionally introduce a build step.
+When your project grows and you want more advanced features — like the intuitive vector math syntax provided by **[IngloriousScript](https://github.com/IngloriousCoderz/inglorious-forge/tree/main/packages/babel-preset-inglorious-script)** — you can optionally introduce a build step.
 
 To see an example of that, check out the **`inglorious-script` playground**, which shows how to integrate the Babel preset into a Vite project.

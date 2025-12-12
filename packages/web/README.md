@@ -699,6 +699,7 @@ import {
   ref,
   repeat,
   styleMap,
+  unsafeHTML,
   when,
   // router stuff
   router,

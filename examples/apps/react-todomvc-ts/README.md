@@ -564,8 +564,8 @@ The middleware can ignore certain events using three optional configuration para
 
 ## 📚 Learn More
 
-- **[@inglorious/store](https://github.com/IngloriousCoderz/inglorious-engine/tree/main/packages/store)** - Core state management docs
-- **[@inglorious/react-store](https://github.com/IngloriousCoderz/inglorious-engine/tree/main/packages/react-store)** - React bindings documentation
+- **[@inglorious/store](https://github.com/IngloriousCoderz/inglorious-forge/tree/main/packages/store)** - Core state management docs
+- **[@inglorious/react-store](https://github.com/IngloriousCoderz/inglorious-forge/tree/main/packages/react-store)** - React bindings documentation
 - **[todomvc](../todomvc)** - Same app using `react-redux` instead of `@inglorious/react-store` (JavaScript version)
 - **[todomvc-cs](../todomvc-cs)** - Same app with async requests towards a RESTful service
 - **[todomvc-rt](../todomvc-rt)** - Same app with real-time collaboration

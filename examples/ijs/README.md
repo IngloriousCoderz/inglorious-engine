@@ -1,6 +1,6 @@
 # IngloriousScript Playground
 
-This directory contains a simple Vite project that serves as a live example of how to set up and use **[IngloriousScript](https://github.com/IngloriousCoderz/inglorious-engine/tree/main/packages/babel-plugin-inglorious-script)**.
+This directory contains a simple Vite project that serves as a live example of how to set up and use **[IngloriousScript](https://github.com/IngloriousCoderz/inglorious-forge/tree/main/packages/babel-plugin-inglorious-script)**.
 
 This playground demonstrates:
 
@@ -22,13 +22,13 @@ const newPosition = (position + velocity * dt) % worldSize
 
 ## Getting Started
 
-This playground is part of the Inglorious Engine monorepo.
+This playground is part of the Inglorious Forge monorepo.
 
 1.  **Clone the repository** (if you haven't already):
 
     ```bash
-    git clone https://github.com/IngloriousCoderz/inglorious-engine.git
-    cd inglorious-engine
+    git clone https://github.com/IngloriousCoderz/inglorious-forge.git
+    cd inglorious-forge
     ```
 
 2.  **Install dependencies** from the root of the project:

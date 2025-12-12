@@ -417,10 +417,10 @@ const types = {
 
 ## 📚 Learn More
 
-- **[@inglorious/store](https://github.com/IngloriousCoderz/inglorious-engine/tree/main/packages/store)** - Core state management docs
-- **[@inglorious/react-store](https://github.com/IngloriousCoderz/inglorious-engine/tree/main/packages/react-store)** - React bindings documentation
+- **[@inglorious/store](https://github.com/IngloriousCoderz/inglorious-forge/tree/main/packages/store)** - Core state management docs
+- **[@inglorious/react-store](https://github.com/IngloriousCoderz/inglorious-forge/tree/main/packages/react-store)** - React bindings documentation
 - **[todomvc](../todomvc)** - Basic version with `react-redux` (synchronous only)
-- **[Inglorious Engine](https://github.com/IngloriousCoderz/inglorious-engine)** - Full game engine
+- **[Inglorious Engine](https://github.com/IngloriousCoderz/inglorious-forge)** - Full game engine
 
 ---
 

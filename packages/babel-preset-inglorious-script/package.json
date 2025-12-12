@@ -5,14 +5,14 @@
   "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
   "license": "MIT",
   "main": "src/index.js",
-  "homepage": "https://github.com/IngloriousCoderz/inglorious-engine/tree/main/packages/babel-preset-inglorious-script#readme",
+  "homepage": "https://github.com/IngloriousCoderz/inglorious-forge/tree/main/packages/babel-preset-inglorious-script#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/IngloriousCoderz/inglorious-engine.git",
+    "url": "https://github.com/IngloriousCoderz/inglorious-forge.git",
     "directory": "packages/babel-preset-inglorious-script"
   },
   "bugs": {
-    "url": "https://github.com/IngloriousCoderz/inglorious-engine/issues"
+    "url": "https://github.com/IngloriousCoderz/inglorious-forge/issues"
   },
   "keywords": [
     "babel",

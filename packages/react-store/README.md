@@ -3,7 +3,7 @@
 [![NPM version](https://img.shields.io/npm/v/@inglorious/react-store.svg)](https://www.npmjs.com/package/@inglorious/react-store)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Official React bindings for **[@inglorious/store](https://github.com/IngloriousCoderz/inglorious-engine/tree/main/packages/store)**.
+Official React bindings for **[@inglorious/store](https://github.com/IngloriousCoderz/inglorious-forge/tree/main/packages/store)**.
 
 Connect your React app to Inglorious Store with a familiar API. Built on `react-redux` for rock-solid performance and compatibility.
 
@@ -354,7 +354,7 @@ const store = createStore<CounterEntity, AppState>({ types, entities })
 const { Provider, useSelector, useNotify } = createReactStore(store)
 ```
 
-For complete TypeScript examples, see the [@inglorious/store TypeScript documentation](https://github.com/IngloriousCoderz/inglorious-engine/tree/main/packages/store#typescript).
+For complete TypeScript examples, see the [@inglorious/store TypeScript documentation](https://github.com/IngloriousCoderz/inglorious-forge/tree/main/packages/store#typescript).
 
 ---
 
@@ -367,7 +367,7 @@ A: Yes! The `Provider` and `useSelector` are compatible. You can gradually migra
 A: Yes! It works anywhere `react-redux` works.
 
 **Q: Can I use Redux middleware?**  
-A: Use Inglorious Store middleware instead. See [@inglorious/store docs](https://github.com/IngloriousCoderz/inglorious-engine/tree/main/packages/store).
+A: Use Inglorious Store middleware instead. See [@inglorious/store docs](https://github.com/IngloriousCoderz/inglorious-forge/tree/main/packages/store).
 
 **Q: Do I need TypeScript?**  
 A: Not at all! The library works great with plain JavaScript. TypeScript support is completely optional.

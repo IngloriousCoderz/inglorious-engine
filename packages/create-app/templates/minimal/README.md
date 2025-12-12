@@ -1,6 +1,6 @@
 # my-app
 
-A new app created with [@inglorious/create-app](https://github.com/Antony-Mistretta/inglorious-engine/tree/main/packages/create-app).
+A new app created with [@inglorious/create-app](https://github.com/IngloriousCoderz/inglorious-forge/tree/main/packages/create-app).
 
 This template is a minimal setup for running the Inglorious Web framework directly in the browser without any build step.
 

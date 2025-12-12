@@ -22,7 +22,7 @@ A real-time, lightweight server designed to enable multiplayer experiences for g
 1. Clone the Inglorious Engine repository:
 
 ```sh
-git clone https://github.com/IngloriousCoderz/inglorious-engine.git
+git clone https://github.com/IngloriousCoderz/inglorious-forge.git
 ```
 
 2. Navigate to the `@inglorious/server` directory:

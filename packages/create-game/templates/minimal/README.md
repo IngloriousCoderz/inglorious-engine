@@ -1,6 +1,6 @@
 # my-game
 
-A new game created with [@inglorious/create-game](https://github.com/Antony-Mistretta/inglorious-engine/tree/main/packages/create-game).
+A new game created with [@inglorious/create-game](https://github.com/IngloriousCoderz/inglorious-forge/tree/main/packages/create-game).
 
 This template is a minimal setup for running the Inglorious Engine directly in the browser without any build step.
 

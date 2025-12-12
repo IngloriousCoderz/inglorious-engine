@@ -429,5 +429,5 @@ The engine's state management is inspired by Redux, but it's not a direct copy. 
 ## Thank You & Q&A
 
 - **Docs:** https://inglorious-engine.vercel.app/
-- **Source:** https://github.com/IngloriousCoderz/inglorious-engine
+- **Source:** https://github.com/IngloriousCoderz/inglorious-forge
 - **Contact/Socials:** https://www.linkedin.com/in/antonymistretta/

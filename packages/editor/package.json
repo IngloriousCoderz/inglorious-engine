@@ -6,11 +6,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/IngloriousCoderz/inglorious-engine.git"
+    "url": "git+https://github.com/IngloriousCoderz/inglorious-forge.git"
   },
   "homepage": "https://inglorious-engine.vercel.app/",
   "bugs": {
-    "url": "https://github.com/IngloriousCoderz/inglorious-engine/issues"
+    "url": "https://github.com/IngloriousCoderz/inglorious-forge/issues"
   },
   "keywords": [
     "gamedev",
