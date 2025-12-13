@@ -1,5 +1,14 @@
 # todomvc-cs
 
+## 1.2.11
+
+### Patch Changes
+
+- Add a client-server Inglorious Web demo
+- Updated dependencies
+  - @inglorious/store@7.1.3
+  - @inglorious/react-store@9.0.3
+
 ## 1.2.10
 
 ### Patch Changes

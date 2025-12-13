@@ -1,7 +1,7 @@
 {
   "name": "react-todomvc-cs",
   "private": true,
-  "version": "1.2.10",
+  "version": "1.2.11",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -10,13 +10,12 @@
     "test": "vitest run",
     "build": "vite build",
     "preview": "vite preview",
-    "api": "pnpm json-server server/db.json"
+    "api": "pnpm dlx json-server server/db.json"
   },
   "dependencies": {
     "@inglorious/react-store": "workspace:*",
     "@inglorious/store": "workspace:*",
     "clsx": "^2.1.1",
-    "json-server": "1.0.0-beta.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },

@@ -838,19 +838,9 @@ Check out the following demos to see the Inglorious Store in action on real-case
 - **[React TodoMVC-RT](https://github.com/IngloriousCoderz/inglorious-forge/tree/main/examples/apps/react-todomvc-rt)** - A "multiplayer" version, in which multiple clients are able to synchronize through a real-time server.
 - **[React TodoMVC-TS](https://github.com/IngloriousCoderz/inglorious-forge/tree/main/examples/apps/react-todomvc-ts)** - A typesafe version of the base TodoMVC.
 
-**@inglorious/web Examples:**
-
-- **[Web TodoMVC](https://github.com/IngloriousCoderz/inglorious-forge/tree/main/examples/apps/web-todomvc)** - The same app, written with the [`@inglorious/web`](https://www.npmjs.com/package/@inglorious/web) framework instead of React.
-- **[Web Form](https://github.com/IngloriousCoderz/inglorious-forge/tree/main/examples/apps/web-form)** - A form example demonstrating form handling with the web framework.
-- **[Web List](https://github.com/IngloriousCoderz/inglorious-forge/tree/main/examples/apps/web-list)** - A list example showing data management patterns.
-- **[Web Table](https://github.com/IngloriousCoderz/inglorious-forge/tree/main/examples/apps/web-table)** - A table example demonstrating complex data display with the web framework.
-- **[Web Router](https://github.com/IngloriousCoderz/inglorious-forge/tree/main/examples/apps/web-router)** - A routing example showcasing client-side navigation.
+For more demos and examples with `@inglorious/web`, see the [`@inglorious/web` README](../web/README.md).
 
 ---
-
-## Part of the Inglorious Engine
-
-This store powers the [Inglorious Engine](https://www.npmjs.com/package/@inglorious/engine), a functional game engine. The same patterns that power games power your web apps.
 
 ## Frequently Unsolicited Complaints (FUCs)
 

@@ -7,7 +7,8 @@ Available demos:
 - [web-form](./web-form/README.md) — form type demo (validation, arrays, field helpers)
 - [web-list](./web-list/README.md) — virtualized list demo (extends `list` and uses `renderItem`)
 - [web-router](./web-router/README.md) — router demo (entity based client-side routing)
-- [web-todomvc](./web-todomvc/README.md) — TodoMVC implemented with `@inglorious/web`
+- [web-todomvc](./web-todomvc/README.md) — TodoMVC client-only demo with `@inglorious/web` (start here!)
+- [web-todomvc-cs](./web-todomvc-cs/README.md) — TodoMVC client-server demo with `@inglorious/web` and json-server
 - [react-todomvc](./react-todomvc/README.md) — React TodoMVC demo
 - [react-todomvc-cs](./react-todomvc-cs/README.md) — React TodoMVC + json-server demo
 - [react-todomvc-rt](./react-todomvc-rt/README.md) — React TodoMVC + runtime/mock-api demo
@@ -19,6 +20,12 @@ Quick start (from repo root):
 cd examples/apps/<demo-name>
 pnpm install
 pnpm dev
+```
+
+For client-server demos, start the API server in another terminal:
+
+```bash
+pnpm api
 ```
 
 Open the provided README inside each demo for more details.

@@ -1,5 +1,16 @@
 # @inglorious/react-store
 
+## 2.3.0
+
+### Minor Changes
+
+- Add a client-server Inglorious Web demo
+
+### Patch Changes
+
+- Updated dependencies
+  - @inglorious/store@7.1.3
+
 ## 2.2.3
 
 ### Patch Changes

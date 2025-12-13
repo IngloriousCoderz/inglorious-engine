@@ -1,5 +1,13 @@
 # lit-todomvc
 
+## 0.1.10
+
+### Patch Changes
+
+- Add a client-server Inglorious Web demo
+- Updated dependencies
+  - @inglorious/web@2.3.0
+
 ## 0.1.9
 
 ### Patch Changes

@@ -26,8 +26,8 @@ export const list = {
     entity.tasks = entity.tasks.filter((task) => !task.completed)
   },
 
-  render(entity, { notify, getEntities }) {
-    const filteredTasks = selectFilteredTasks(getEntities())
+  render(entity, api) {
+    const filteredTasks = selectFilteredTasks(api.getEntities())
 
     return html`<ul class="list">
       ${filteredTasks.map(
@@ -35,10 +35,12 @@ export const list = {
           html`<li>
             <span
               class=${classMap({ completed: task.completed })}
-              @click=${() => notify("toggleClick", task.id)}
+              @click=${() => api.notify("toggleClick", task.id)}
               >${task.text}</span
             >
-            <button @click=${() => notify("deleteClick", task.id)}>x</button>
+            <button @click=${() => api.notify("deleteClick", task.id)}>
+              x
+            </button>
           </li>`,
       )}
     </ul>`

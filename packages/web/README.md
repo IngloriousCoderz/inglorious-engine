@@ -688,6 +688,8 @@ import {
   createStore,
   createDevtools,
   createSelector,
+  // from @inglorious/store/test
+  trigger,
   // from lit-html
   mount,
   html,
@@ -769,6 +771,19 @@ The key difference:
 - **@inglorious/web** targets web UIs (DOM rendering, user interactions)
 
 You can even mix them in the same app!
+
+---
+
+## Examples
+
+Check out these demos to see `@inglorious/web` in action:
+
+- **[Web TodoMVC](https://github.com/IngloriousCoderz/inglorious-forge/tree/main/examples/apps/web-todomvc)** - A client-only TodoMVC implementation, a good starting point for learning the framework.
+- **[Web TodoMVC-CS](https://github.com/IngloriousCoderz/inglorious-forge/tree/main/examples/apps/web-todomvc-cs)** - A client-server version with JSON server, showing async event handlers and API integration with component organization (render/handlers modules).
+- **[Web Form](https://github.com/IngloriousCoderz/inglorious-forge/tree/main/examples/apps/web-form)** - Form handling with validation, arrays, and field helpers.
+- **[Web List](https://github.com/IngloriousCoderz/inglorious-forge/tree/main/examples/apps/web-list)** - Virtualized list with `renderItem` helper for efficient rendering of large datasets.
+- **[Web Table](https://github.com/IngloriousCoderz/inglorious-forge/tree/main/examples/apps/web-table)** - Table component with complex data display patterns.
+- **[Web Router](https://github.com/IngloriousCoderz/inglorious-forge/tree/main/examples/apps/web-router)** - Entity-based client-side routing with hash navigation.
 
 ---
 

@@ -1,0 +1,18 @@
+{
+  "tasks": [
+    {
+      "id": "1",
+      "text": "Use Inglorious Web",
+      "completed": true
+    },
+    {
+      "id": "2",
+      "text": "...",
+      "completed": false
+    },
+    {
+      "id": "3",
+      "text": "Profit!"
+    }
+  ]
+}

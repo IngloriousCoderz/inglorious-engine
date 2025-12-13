@@ -1,5 +1,11 @@
 # @inglorious/store
 
+## 7.1.3
+
+### Patch Changes
+
+- Add a client-server Inglorious Web demo
+
 ## 7.1.2
 
 ### Patch Changes

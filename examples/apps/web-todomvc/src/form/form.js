@@ -9,21 +9,21 @@ export const form = {
     entity.value = ""
   },
 
-  render({ value }, { notify }) {
+  render(entity, api) {
     return html`<form
       @submit=${(event) => {
         event.preventDefault()
-        notify("formSubmit", value)
+        api.notify("formSubmit", entity.value)
       }}
     >
       <input
         name="value"
         placeholder="What next?"
         autofocus
-        .value=${value}
-        @input=${(event) => notify("inputChange", event.target.value)}
+        .value=${entity.value}
+        @input=${(event) => api.notify("inputChange", event.target.value)}
       />
-      <button ?disabled=${!value}>Add</button>
+      <button ?disabled=${!entity.value}>Add</button>
     </form>`
   },
 }
