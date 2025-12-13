@@ -1,0 +1,115 @@
+import { getFieldValue, html } from "@inglorious/web"
+
+import classes from "./logo-form.module.css"
+
+const LETTERS = [
+  "A",
+  "B",
+  "C",
+  "D",
+  "E",
+  "F",
+  "G",
+  "H",
+  "I",
+  "J",
+  "K",
+  "L",
+  "M",
+  "N",
+  "O",
+  "P",
+  "Q",
+  "R",
+  "S",
+  "T",
+  "U",
+  "V",
+  "W",
+  "X",
+  "Y",
+  "Z",
+]
+const LEFT = 0
+const RIGHT = 1
+
+export function render(entity, api) {
+  return html`<div class=${classes.logoForm}>
+    <label for="size">Size</label>
+    <input
+      id="size"
+      type="number"
+      min="16"
+      max="1024"
+      .value=${entity.values.size}
+      @input=${(event) =>
+        api.notify("fieldChange", {
+          path: "size",
+          value: Number(event.target.value),
+        })}
+    />
+
+    <label for="interactive">Interactive</label>
+    <input
+      id="interactive"
+      type="checkbox"
+      ?checked=${entity.values.isInteractive}
+      @input=${(event) =>
+        api.notify("fieldChange", {
+          path: "isInteractive",
+          value: event.target.checked,
+        })}
+    />
+
+    <h3>Left</h3>
+    <div></div>
+    ${renderFace(entity, LEFT, api)}
+
+    <h3>Right</h3>
+    <div></div>
+    ${renderFace(entity, RIGHT, api)}
+  </div>`
+}
+
+function renderFace(entity, face, api) {
+  return html`<label for="faces.${face}.image">Letter</label>
+    <select
+      id="faces.${face}.image"
+      @input=${(event) =>
+        api.notify("fieldChange", {
+          path: `faces.${face}.image`,
+          value: event.target.value,
+        })}
+    >
+      ${LETTERS.map(
+        (letter) =>
+          html`<option
+            ?selected=${letter === getFieldValue(entity, `faces.${face}.image`)}
+          >
+            ${letter}
+          </option>`,
+      )}
+    </select>
+    <label for="faces.${face}.reverse">Reverse</label>
+    <input
+      id="faces.${face}.reverse"
+      type="checkbox"
+      ?checked=${getFieldValue(entity, `faces.${face}.reverse`)}
+      @input=${(event) =>
+        api.notify("fieldChange", {
+          path: `faces.${face}.reverse`,
+          value: event.target.checked,
+        })}
+    />
+    <label for="faces.${face}.eye">Eye</label>
+    <input
+      id="faces.${face}.eye"
+      type="checkbox"
+      ?checked=${getFieldValue(entity, `faces.${face}.eye`)}
+      @input=${(event) =>
+        api.notify("fieldChange", {
+          path: `faces.${face}.eye`,
+          value: event.target.checked,
+        })}
+    />`
+}

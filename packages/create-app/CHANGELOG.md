@@ -1,5 +1,11 @@
 # @inglorious/create-game
 
+## 0.2.0
+
+### Minor Changes
+
+- Create new Inglorious Logo package
+
 ## 0.1.2
 
 ### Patch Changes

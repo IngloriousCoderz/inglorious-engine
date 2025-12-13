@@ -1,0 +1,44 @@
+.iw-logo {
+  width: var(--size);
+  height: var(--size);
+  perspective: var(--size);
+  user-select: none;
+
+  > .iw-logo-cube {
+    height: var(--size);
+    transform-style: preserve-3d;
+    transform: var(--transform);
+    transition: ease-out 0.2s;
+
+    > .iw-logo-cube-face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      transform-origin: bottom center;
+
+      > img {
+        position: absolute;
+      }
+
+      &.left {
+        transform: rotateY(0deg) translateZ(var(--z-translation)) skew(12deg);
+
+        > img {
+          transform: var(--left-face-flip);
+        }
+      }
+
+      &.right {
+        transform: rotateY(90deg) translateZ(var(--z-translation)) skew(-12deg);
+
+        > img {
+          transform: var(--right-face-flip);
+        }
+
+        > .iw-logo-cube-face-eye {
+          transform: rotateY(180deg);
+        }
+      }
+    }
+  }
+}
