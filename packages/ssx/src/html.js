@@ -16,24 +16,9 @@ export function toHTML(store, renderFn, options = {}) {
 }
 
 function stripLitMarkers(html) {
-  // Remove lit-html/hyperhtml marker comments and empty comment markers
-  // Keep other comments intact.
-  return html.replace(/<!--([\s\S]*?)-->/g, (match, inner) => {
-    const content = inner.trim()
-    // empty comment like <!----> or <!-- -->
-    if (content === "" || content === "?") return ""
-    // lit markers: lit-part, /lit-part, lit-node, ?lit$...$...
-    if (
-      content.startsWith("lit-part") ||
-      content.startsWith("/lit-part") ||
-      content.startsWith("lit-node") ||
-      content.startsWith("?lit") ||
-      /^lit-/.test(content)
-    ) {
-      return ""
-    }
-    return match
-  })
+  return html
+    .replace(/<!--\?[^>]*-->/g, "") // All lit-html markers
+    .replace(/<!--\s*-->/g, "") // Empty comments
 }
 
 function wrapHTML(body, options) {
