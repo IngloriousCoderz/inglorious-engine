@@ -17,12 +17,12 @@ import { augmentType, augmentTypes } from "./types.js"
  * @returns {Object} The store with methods to interact with state and events.
  */
 export function createStore({
-  types: originalTypes,
-  entities: originalEntities,
+  types: originalTypes = {},
+  entities: originalEntities = {},
   systems = [],
   middlewares = [],
   updateMode = "auto",
-}) {
+} = {}) {
   const listeners = new Set()
 
   const types = augmentTypes(originalTypes)

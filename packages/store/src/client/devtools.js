@@ -5,7 +5,7 @@ const LAST_STATE = 1
 // HMR-safe container to persist a single DevTools connection across Vite reloads.
 // Uses import.meta.hot.data when available (preferred), falls back to module scope.
 const globalContainer = import.meta.hot
-  ? (import.meta.hot.data.__INGLORIOUS_DEVTOOLS__ ??= {})
+  ? ((import.meta.hot.data ??= {}).__INGLORIOUS_DEVTOOLS__ ??= {})
   : {}
 
 // connection shape: {

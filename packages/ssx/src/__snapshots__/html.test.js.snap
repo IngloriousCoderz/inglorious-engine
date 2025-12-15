@@ -1,0 +1,193 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`toHTML > API rendering within components > should support api.render() method in component render function 1`] = `"<div><div><span>Test Item</span></div></div>"`;
+
+exports[`toHTML > HTML wrapping > should default to empty title when not provided 1`] = `
+"<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  
+  
+</head>
+<body>
+  <div id="root"><p>Content</p></div>
+  
+</body>
+</html>"
+`;
+
+exports[`toHTML > HTML wrapping > should handle empty arrays for metas, styles, and scripts 1`] = `
+"<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  
+  
+</head>
+<body>
+  <div id="root"><p>Content</p></div>
+  
+</body>
+</html>"
+`;
+
+exports[`toHTML > HTML wrapping > should include all options in wrapped HTML 1`] = `
+"<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Complete Page</title>
+  <meta name="author" content="Test Author">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div id="root"><main>Main content</main></div>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>"
+`;
+
+exports[`toHTML > HTML wrapping > should include meta tags in wrapped HTML 1`] = `
+"<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Test Page</title>
+  <meta name="description" content="Test description">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  
+</head>
+<body>
+  <div id="root"><p>Content</p></div>
+  
+</body>
+</html>"
+`;
+
+exports[`toHTML > HTML wrapping > should include scripts in wrapped HTML 1`] = `
+"<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  
+  
+</head>
+<body>
+  <div id="root"><p>Content</p></div>
+  <script type="module" src="/js/app.js"></script>
+<script type="module" src="/js/analytics.js"></script>
+</body>
+</html>"
+`;
+
+exports[`toHTML > HTML wrapping > should include stylesheets in wrapped HTML 1`] = `
+"<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/theme.css">
+</head>
+<body>
+  <div id="root"><p>Content</p></div>
+  
+</body>
+</html>"
+`;
+
+exports[`toHTML > HTML wrapping > should wrap HTML with basic DOCTYPE and structure 1`] = `
+"<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>My Page</title>
+  
+  
+</head>
+<body>
+  <div id="root"><h1>Page Title</h1></div>
+  
+</body>
+</html>"
+`;
+
+exports[`toHTML > basic rendering > should render empty content 1`] = `""`;
+
+exports[`toHTML > basic rendering > should render nested elements 1`] = `
+"<div class="container">
+          <h1>Title</h1>
+          <p>Content</p>
+        </div>"
+`;
+
+exports[`toHTML > basic rendering > should render simple HTML without wrapping 1`] = `"<h1>Hello World</h1>"`;
+
+exports[`toHTML > basic rendering > should render with inline styles 1`] = `"<div style="color: red; font-size: 16px;">Styled</div>"`;
+
+exports[`toHTML > complex scenarios > should render a complete page structure with message list 1`] = `
+"<div class="app">
+          <header><h1>Messages</h1></header>
+          <main><div class="message"><p>First message</p></div> <div class="message"><p>Second message</p></div></main>
+          <footer>© 2024</footer>
+        </div>"
+`;
+
+exports[`toHTML > complex scenarios > should render wrapped complex page with all assets 1`] = `
+"<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>My Website</title>
+  <meta name="description" content="Welcome to my site">
+<meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div id="root"><div>
+          <header><h1>My Website</h1></header>
+          <p>Welcome!</p>
+        </div></div>
+  <script type="module" src="/script.js"></script>
+</body>
+</html>"
+`;
+
+exports[`toHTML > edge cases > should handle special characters in content 1`] = `"<p>&lt;script&gt; &amp; "quotes"</p>"`;
+
+exports[`toHTML > edge cases > should not include wrap by default 1`] = `"<p>Content</p>"`;
+
+exports[`toHTML > edge cases > should return only inner HTML when wrap is false 1`] = `"<p>Inner</p>"`;
+
+exports[`toHTML > event handling > should render event handlers in templates 1`] = `
+"<div><div>
+                Click me
+              </div></div>"
+`;
+
+exports[`toHTML > event handling > should render multiple event handlers 1`] = `
+"<div><div>
+                <button>
+                  +
+                </button>
+                <span>5</span>
+                <button>
+                  -
+                </button>
+              </div></div>"
+`;
+
+exports[`toHTML > rendering with state > should evaluate conditional rendering based on state 1`] = `"<div><p>Visible content</p></div>"`;
+
+exports[`toHTML > rendering with state > should render entities from store 1`] = `"<div><span>Hello from store</span></div>"`;
+
+exports[`toHTML > rendering with state > should render multiple entities 1`] = `
+"<ul>
+          <li>First</li> <li>Second</li> <li>Third</li>
+        </ul>"
+`;
