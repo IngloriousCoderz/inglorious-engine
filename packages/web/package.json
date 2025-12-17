@@ -27,7 +27,8 @@
       "import": "./src/index.js"
     },
     "./table/base.css": "./src/table/base.css",
-    "./table/theme.css": "./src/table/theme.css"
+    "./table/theme.css": "./src/table/theme.css",
+    "./select/base.css": "./src/select/base.css"
   },
   "files": [
     "src",

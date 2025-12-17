@@ -1,0 +1,153 @@
+.iw-select {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.iw-select-control {
+  display: flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+  user-select: none;
+}
+
+.iw-select-control:hover {
+  border-color: #999;
+}
+
+.iw-select-control--open {
+  border-color: #007bff;
+  outline: 2px solid rgba(0, 123, 255, 0.25);
+}
+
+.iw-select-control--disabled {
+  background: #f5f5f5;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.iw-select-value,
+.iw-select-placeholder {
+  flex: 1;
+}
+
+.iw-select-placeholder {
+  color: #999;
+}
+
+.iw-select-multi-value {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  flex: 1;
+}
+
+.iw-select-multi-value-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  background: #e9ecef;
+  border-radius: 4px;
+  font-size: 0.875rem;
+}
+
+.iw-select-multi-value-remove {
+  margin-left: 4px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  font-size: 1.2em;
+  line-height: 1;
+}
+
+.iw-select-clear {
+  margin-right: 8px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1.2em;
+  line-height: 1;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+}
+
+.iw-select-arrow {
+  margin-left: 8px;
+  font-size: 0.75em;
+  transition: transform 0.2s;
+}
+
+.iw-select-control--open .iw-select-arrow {
+  transform: rotate(180deg);
+}
+
+.iw-select-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 4px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  max-height: 300px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.iw-select-search {
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  border-bottom: 1px solid #eee;
+  outline: none;
+}
+
+.iw-select-options {
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.iw-select-option {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.iw-select-option:hover,
+.iw-select-option--focused {
+  background: #f8f9fa;
+}
+
+.iw-select-option--selected {
+  background: #e7f3ff;
+  font-weight: 500;
+}
+
+.iw-select-option--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.iw-select-option input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+.iw-select-loading,
+.iw-select-no-options {
+  padding: 12px;
+  text-align: center;
+  color: #999;
+}
