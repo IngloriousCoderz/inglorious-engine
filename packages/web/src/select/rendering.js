@@ -4,59 +4,83 @@ import { ref } from "lit-html/directives/ref.js"
 import { repeat } from "lit-html/directives/repeat.js"
 import { when } from "lit-html/directives/when.js"
 
-import { getOptionLabel, getOptionValue, isOptionSelected } from "./logic.js"
+import {
+  filterOptions,
+  getOptionLabel,
+  getOptionValue,
+  isOptionSelected,
+} from "./logic.js"
 
-const ZERO = 0
+/**
+ * @typedef {import('../../types/select').SelectEntity} SelectEntity
+ * @typedef {import('../../types/select').SelectOption} SelectOption
+ * @typedef {import('../../types/mount').Api} Api
+ * @typedef {import('lit-html').TemplateResult} TemplateResult
+ */
 
 export const rendering = {
   /**
-   * Main render function
+   * Main render function.
+   * @param {SelectEntity} entity
+   * @param {Api} api
+   * @returns {TemplateResult}
    */
   render(entity, api) {
+    const type = api.getType(entity.type)
+
     return html`<div class="iw-select">
-      ${this.renderControl(entity, api)}
-      ${when(entity.isOpen, () => this.renderDropdown(entity, api))}
+      ${type.renderControl(entity, api)}
+      ${when(entity.isOpen, () => type.renderDropdown(entity, api))}
     </div>`
   },
 
   /**
-   * Render the control (input/button that opens the select)
+   * Render the control (input/button that opens the select).
+   * @param {SelectEntity} entity
+   * @param {Api} api
+   * @returns {TemplateResult}
    */
   renderControl(entity, api) {
+    const type = api.getType(entity.type)
+
     return html`<div
       class="iw-select-control ${classMap({
-        "iw-select-control--open": entity.isOpen,
-        "iw-select-control--disabled": entity.isDisabled,
+        "iw-select-control-open": entity.isOpen,
+        "iw-select-control-disabled": entity.isDisabled,
+        "iw-select-control-selection":
+          entity.isMulti && entity.selectedValue.length,
       })}"
       @click=${() => !entity.isDisabled && api.notify(`#${entity.id}:toggle`)}
     >
       ${when(
         entity.isMulti,
-        () => this.renderMultiValue(entity, api),
-        () => this.renderSingleValue(entity, api),
+        () => type.renderMultiValue(entity, api),
+        () => type.renderSingleValue(entity, api),
       )}
       ${when(
         entity.isClearable &&
-          ((entity.isMulti && entity.selectedValue?.length > ZERO) ||
+          ((entity.isMulti && entity.selectedValue.length) ||
             (!entity.isMulti && entity.selectedValue !== null)),
         () =>
-          html`<button
+          html`<div
             class="iw-select-clear"
-            @click=${(e) => {
-              e.stopPropagation()
+            @click=${(event) => {
+              event.stopPropagation()
               api.notify(`#${entity.id}:clear`)
             }}
           >
-            ×
-          </button>`,
+            <span>×</span>
+          </div>`,
       )}
 
-      <span class="iw-select-arrow">▼</span>
+      <div class="iw-select-arrow"><span>▼</span></div>
     </div>`
   },
 
   /**
-   * Render the selected value (single)
+   * Render the selected value (single).
+   * @param {SelectEntity} entity
+   * @returns {TemplateResult}
    */
   renderSingleValue(entity) {
     if (entity.selectedValue === null) {
@@ -77,13 +101,15 @@ export const rendering = {
   },
 
   /**
-   * Render the selected values (multi-select)
+   * Render the selected values (multi-select).
+   * @param {SelectEntity} entity
+   * @param {Api} api
+   * @returns {TemplateResult}
    */
   renderMultiValue(entity, api) {
-    if (
-      !Array.isArray(entity.selectedValue) ||
-      entity.selectedValue.length === ZERO
-    ) {
+    const type = api.getType(entity.type)
+
+    if (!Array.isArray(entity.selectedValue) || !entity.selectedValue.length) {
       return html`<span class="iw-select-placeholder"
         >${entity.placeholder}</span
       >`
@@ -93,75 +119,89 @@ export const rendering = {
       ${repeat(
         entity.selectedValue,
         (value) => value,
-        (value) => {
-          const option = entity.options.find(
-            (opt) => getOptionValue(opt) === value,
-          )
-          const label = option ? getOptionLabel(option) : String(value)
-
-          return html`<span class="iw-select-multi-value-tag">
-            ${label}
-            <button
-              class="iw-select-multi-value-remove"
-              @click=${(e) => {
-                e.stopPropagation()
-                api.notify(`#${entity.id}:selectOption`, option || { value })
-              }}
-            >
-              ×
-            </button>
-          </span>`
-        },
+        (value) => type.renderMultiValueTag(entity, value, api),
       )}
     </div>`
   },
 
   /**
-   * Render the dropdown
+   * Render a tag for a selected value in multi-select mode.
+   * @param {SelectEntity} entity
+   * @param {string|number} value
+   * @param {Api} api
+   * @returns {TemplateResult}
+   */
+  renderMultiValueTag(entity, value, api) {
+    const option = entity.options.find((opt) => getOptionValue(opt) === value)
+    const label = option ? getOptionLabel(option) : String(value)
+
+    return html`<div
+      class="iw-select-multi-value-tag"
+      @click=${(event) => {
+        event.stopPropagation()
+        api.notify(`#${entity.id}:optionSelect`, option || { value })
+      }}
+    >
+      <span class="iw-select-multi-value-tag-label">${label}</span>
+      <span class="iw-select-multi-value-remove"> × </span>
+    </div>`
+  },
+
+  /**
+   * Render the dropdown.
+   * @param {SelectEntity} entity
+   * @param {Api} api
+   * @returns {TemplateResult}
    */
   renderDropdown(entity, api) {
+    const type = api.getType(entity.type)
+
+    const filteredOptions = filterOptions(entity.options, entity.searchTerm)
+
     return html`<div
       class="iw-select-dropdown"
       ${ref((el) => {
         if (el) {
-          // Click outside handler
-          const handleClickOutside = (event) => {
-            if (!el.contains(event.target)) {
-              api.notify(`#${entity.id}:close`)
-            }
-          }
-
-          // Add listener after a tick to not close immediately
           setTimeout(() => {
-            document.addEventListener("click", handleClickOutside, {
-              once: true,
-            })
-          }, ZERO)
+            document.addEventListener(
+              "click",
+              (event) => {
+                if (!el.contains(event.target)) {
+                  api.notify(`#${entity.id}:close`)
+                }
+              },
+              { once: true },
+            )
+          })
         }
       })}
     >
-      ${when(entity.isSearchable, () => this.renderSearchInput(entity, api))}
-      ${when(entity.isLoading, () => this.renderLoading(entity, api))}
-      ${when(!entity.isLoading && entity.filteredOptions.length === ZERO, () =>
-        this.renderNoOptions(entity, api),
+      ${when(entity.isSearchable, () => type.renderSearchInput(entity, api))}
+      ${when(entity.isLoading, () => type.renderLoading(entity, api))}
+      ${when(!entity.isLoading && !filteredOptions.length, () =>
+        type.renderNoOptions(entity, api),
       )}
-      ${when(!entity.isLoading && entity.filteredOptions.length > ZERO, () =>
-        this.renderOptions(entity, api),
+      ${when(!entity.isLoading && filteredOptions.length, () =>
+        type.renderOptions(entity, api),
       )}
     </div>`
   },
 
   /**
-   * Render the search input
+   * Render the search input.
+   * @param {SelectEntity} entity
+   * @param {Api} api
+   * @returns {TemplateResult}
    */
   renderSearchInput(entity, api) {
     return html`<input
-      class="iw-select-search"
+      class="iw-select-dropdown-search"
       type="text"
       placeholder="Search..."
       .value=${entity.searchTerm}
-      @input=${(e) => api.notify(`#${entity.id}:searchChange`, e.target.value)}
-      @keydown=${(e) => this.handleKeyDown(entity, e, api)}
+      @input=${(event) =>
+        api.notify(`#${entity.id}:searchChange`, event.target.value)}
+      @keydown=${(event) => handleKeyDown(entity, event, api)}
       ${ref((el) => {
         if (el && entity.isOpen) {
           // Focus input when dropdown opens
@@ -172,20 +212,32 @@ export const rendering = {
   },
 
   /**
-   * Render the list of options
+   * Render the list of options.
+   * @param {SelectEntity} entity
+   * @param {Api} api
+   * @returns {TemplateResult}
    */
   renderOptions(entity, api) {
-    return html`<div class="iw-select-options">
+    const type = api.getType(entity.type)
+
+    const filteredOptions = filterOptions(entity.options, entity.searchTerm)
+
+    return html`<div class="iw-select-dropdown-options">
       ${repeat(
-        entity.filteredOptions,
+        filteredOptions,
         (option) => getOptionValue(option),
-        (option, index) => this.renderOption(entity, option, index, api),
+        (option, index) => type.renderOption(entity, option, index, api),
       )}
     </div>`
   },
 
   /**
-   * Render an individual option
+   * Render an individual option.
+   * @param {SelectEntity} entity
+   * @param {SelectOption} option
+   * @param {number} index
+   * @param {Api} api
+   * @returns {TemplateResult}
    */
   renderOption(entity, option, index, api) {
     const optionLabel = getOptionLabel(option)
@@ -197,24 +249,22 @@ export const rendering = {
     const isFocused = index === entity.focusedIndex
 
     return html`<div
-      class="iw-select-option ${classMap({
-        "iw-select-option--selected": isSelected,
-        "iw-select-option--focused": isFocused,
-        "iw-select-option--disabled": option.disabled,
+      class="iw-select-dropdown-options-option ${classMap({
+        "iw-select-dropdown-options-option-selected": isSelected,
+        "iw-select-dropdown-options-option-focused": isFocused,
+        "iw-select-dropdown-options-option-disabled": option.isDisabled,
       })}"
       @click=${() =>
-        !option.disabled && api.notify(`#${entity.id}:selectOption`, option)}
-      @mouseenter=${() => {
-        entity.focusedIndex = index
-      }}
+        !option.isDisabled && api.notify(`#${entity.id}:optionSelect`, option)}
+      @mouseenter=${() => (entity.focusedIndex = index)}
     >
       ${when(
         entity.isMulti,
         () =>
           html`<input
             type="checkbox"
-            ?checked=${isSelected}
-            @click=${(e) => e.stopPropagation()}
+            .checked=${isSelected}
+            ?disabled=${option.isDisabled}
           />`,
       )}
       <span>${optionLabel}</span>
@@ -222,66 +272,81 @@ export const rendering = {
   },
 
   /**
-   * Render the loading state
+   * Render the loading state.
+   * @param {SelectEntity} entity
+   * @returns {TemplateResult}
    */
   renderLoading(entity) {
     return html`<div class="iw-select-loading">${entity.loadingMessage}</div>`
   },
 
   /**
-   * Render when there are no options
+   * Render when there are no options.
+   * @param {SelectEntity} entity
+   * @returns {TemplateResult}
    */
   renderNoOptions(entity) {
     return html`<div class="iw-select-no-options">
       ${entity.noOptionsMessage}
     </div>`
   },
+}
 
-  /**
-   * Keyboard navigation handler
-   */
-  handleKeyDown(entity, event, api) {
-    switch (event.key) {
-      case "ArrowDown":
-        event.preventDefault()
-        api.notify(`#${entity.id}:focusNext`)
-        break
+/**
+ * Keyboard navigation handler.
+ * @param {SelectEntity} entity
+ * @param {KeyboardEvent} event
+ * @param {Api} api
+ */
+function handleKeyDown(entity, event, api) {
+  const filteredOptions = filterOptions(entity.options, entity.searchTerm)
 
-      case "ArrowUp":
-        event.preventDefault()
-        api.notify(`#${entity.id}:focusPrev`)
-        break
+  switch (event.key) {
+    case "ArrowDown":
+      event.preventDefault()
+      api.notify(`#${entity.id}:focusNext`)
+      break
 
-      case "Enter":
-        event.preventDefault()
-        if (
-          entity.focusedIndex >= ZERO &&
-          entity.filteredOptions[entity.focusedIndex]
-        ) {
-          api.notify(
-            `#${entity.id}:selectOption`,
-            entity.filteredOptions[entity.focusedIndex],
-          )
+    case "ArrowUp":
+      event.preventDefault()
+      api.notify(`#${entity.id}:focusPrev`)
+      break
+
+    case "Enter":
+      event.preventDefault()
+      if (
+        entity.focusedIndex &&
+        !filteredOptions[entity.focusedIndex].isDisabled
+      ) {
+        if (!entity.isMulti) {
+          // trigger the outside click listener to consume it
+          setTimeout(() => document.body.click())
         }
-        break
+        api.notify(
+          `#${entity.id}:optionSelect`,
+          filteredOptions[entity.focusedIndex],
+        )
+      }
+      break
 
-      case "Escape":
-        event.preventDefault()
-        api.notify(`#${entity.id}:close`)
-        break
+    case "Escape":
+      event.preventDefault()
+      // trigger the outside click listener to consume it
+      setTimeout(() => document.body.click())
+      api.notify(`#${entity.id}:close`)
+      break
 
-      case "Home":
-        event.preventDefault()
-        api.notify(`#${entity.id}:focusFirst`)
-        break
+    case "Home":
+      event.preventDefault()
+      api.notify(`#${entity.id}:focusFirst`)
+      break
 
-      case "End":
-        event.preventDefault()
-        api.notify(`#${entity.id}:focusLast`)
-        break
+    case "End":
+      event.preventDefault()
+      api.notify(`#${entity.id}:focusLast`)
+      break
 
-      default:
-        break
-    }
-  },
+    default:
+      break
+  }
 }

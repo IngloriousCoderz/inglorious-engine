@@ -62,7 +62,8 @@ export const form = {
    * @param {FormEntity} entity - The form entity.
    * @param {string|number} entityId - The ID from the create event.
    */
-  create(entity) {
+  create(entity, id) {
+    if (id !== entity.id) return
     resetForm(entity)
   },
 
@@ -265,6 +266,8 @@ export const form = {
     entity.submitError = error
   },
 }
+
+// Helper functions
 
 /**
  * Retrieves the validation error for a specific form field.

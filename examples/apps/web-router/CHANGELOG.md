@@ -1,5 +1,13 @@
 # lit-todomvc
 
+## 0.4.1
+
+### Patch Changes
+
+- Add select type
+- Updated dependencies
+  - @inglorious/web@2.6.0
+
 ## 0.4.0
 
 ### Minor Changes

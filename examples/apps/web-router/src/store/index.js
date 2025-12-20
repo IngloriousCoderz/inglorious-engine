@@ -1,15 +1,15 @@
 import { createStore, router } from "@inglorious/web"
 
+import { adminPage } from "../views/admin"
+import { home } from "../views/home"
+import { loginPage } from "../views/login"
+import { notFound } from "../views/not-found"
+import { postList } from "../views/post-list"
+import { requiresAuth } from "../views/requires-auth"
+import { userDetail } from "../views/user-detail"
+import { userList } from "../views/user-list"
 import { entities } from "./entities"
 import { middlewares } from "./middlewares"
-import { adminPage } from "./types/admin"
-import { home } from "./types/home"
-import { loginPage } from "./types/login"
-import { notFound } from "./types/not-found"
-import { postList } from "./types/post-list"
-import { requiresAuth } from "./types/requires-auth"
-import { userDetail } from "./types/user-detail"
-import { userList } from "./types/user-list"
 
 export const store = createStore({
   types: {

@@ -1,5 +1,11 @@
 # @inglorious/react-store
 
+## 2.6.0
+
+### Minor Changes
+
+- Add select type
+
 ## 2.5.0
 
 ### Minor Changes

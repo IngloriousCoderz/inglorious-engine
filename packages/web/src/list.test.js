@@ -43,7 +43,7 @@ describe("list", () => {
     })
 
     it("should reset the list on create", () => {
-      list.create(entity)
+      list.create(entity, "test-list")
       expect(entity.scrollTop).toBe(0)
       expect(entity.visibleRange).toEqual({ start: 0, end: 20 })
     })

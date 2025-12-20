@@ -10,7 +10,8 @@ export const list = {
     resetList(entity)
   },
 
-  create(entity) {
+  create(entity, id) {
+    if (id !== entity.id) return
     resetList(entity)
   },
 

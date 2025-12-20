@@ -1,3 +1,5 @@
+import "./style.css"
+
 import { mount } from "@inglorious/web"
 
 import { app } from "./app"

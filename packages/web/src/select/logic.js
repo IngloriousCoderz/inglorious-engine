@@ -1,22 +1,49 @@
 /* eslint-disable no-magic-numbers */
 
+/**
+ * @typedef {import('../../types/select').SelectEntity} SelectEntity
+ * @typedef {import('../../types/select').SelectOption} SelectOption
+ */
+
 export const logic = {
+  /**
+   * Initializes the select entity with default state.
+   * @param {SelectEntity} entity
+   */
   init(entity) {
     initSelect(entity)
   },
 
-  create(entity) {
+  /**
+   * Resets the select entity when a 'create' event payload matches its ID.
+   * @param {SelectEntity} entity
+   * @param {string|number} id
+   */
+  create(entity, id) {
+    if (id !== entity.id) return
     initSelect(entity)
   },
 
+  /**
+   * Opens the select dropdown.
+   * @param {SelectEntity} entity
+   */
   open(entity) {
     openSelect(entity)
   },
 
+  /**
+   * Closes the select dropdown.
+   * @param {SelectEntity} entity
+   */
   close(entity) {
     closeSelect(entity)
   },
 
+  /**
+   * Toggles the select dropdown open/closed state.
+   * @param {SelectEntity} entity
+   */
   toggle(entity) {
     if (entity.isOpen) {
       closeSelect(entity)
@@ -25,7 +52,12 @@ export const logic = {
     }
   },
 
-  selectOption(entity, option) {
+  /**
+   * Selects an option.
+   * @param {SelectEntity} entity
+   * @param {SelectOption} option
+   */
+  optionSelect(entity, option) {
     if (entity.isDisabled) return
 
     const optionValue = getOptionValue(option)
@@ -46,127 +78,88 @@ export const logic = {
     }
   },
 
+  /**
+   * Clears the current selection.
+   * @param {SelectEntity} entity
+   */
   clear(entity) {
     if (entity.isDisabled) return
 
     entity.selectedValue = entity.isMulti ? [] : null
   },
 
+  /**
+   * Updates the search term and filters options.
+   * @param {SelectEntity} entity
+   * @param {string} searchTerm
+   */
   searchChange(entity, searchTerm) {
     entity.searchTerm = searchTerm
 
-    if (entity.remote) {
+    if (entity.isRemote) {
       entity.isLoading = true
       entity.error = null
       return
     }
 
-    entity.filteredOptions = filterOptions(entity.options, searchTerm)
-    entity.focusedIndex = entity.filteredOptions.length > 0 ? 0 : -1
+    const filteredOptions = filterOptions(entity.options, entity.searchTerm)
+
+    entity.focusedIndex = filteredOptions.length ? 0 : -1
   },
 
   /**
-   * Next option (keyboard navigation)
+   * Moves focus to the next option.
+   * @param {SelectEntity} entity
    */
   focusNext(entity) {
-    if (entity.filteredOptions.length === 0) return
+    const filteredOptions = filterOptions(entity.options, entity.searchTerm)
+
+    if (!filteredOptions.length) return
 
     entity.focusedIndex = Math.min(
       entity.focusedIndex + 1,
-      entity.filteredOptions.length - 1,
+      filteredOptions.length - 1,
     )
   },
 
   /**
-   * previous option (keyboard navigation)
+   * Moves focus to the previous option.
+   * @param {SelectEntity} entity
    */
   focusPrev(entity) {
     entity.focusedIndex = Math.max(entity.focusedIndex - 1, -1)
   },
 
   /**
-   * first option (keyboard navigation)
+   * Moves focus to the first option.
+   * @param {SelectEntity} entity
    */
   focusFirst(entity) {
-    if (entity.filteredOptions.length > 0) {
+    const filteredOptions = filterOptions(entity.options, entity.searchTerm)
+
+    if (filteredOptions.length) {
       entity.focusedIndex = 0
     }
   },
 
   /**
-   * Last option (keyboard navigation)
+   * Moves focus to the last option.
+   * @param {SelectEntity} entity
    */
   focusLast(entity) {
-    if (entity.filteredOptions.length > 0) {
-      entity.focusedIndex = entity.filteredOptions.length - 1
+    const filteredOptions = filterOptions(entity.options, entity.searchTerm)
+    if (filteredOptions.length) {
+      entity.focusedIndex = filteredOptions.length - 1
     }
   },
 }
 
-function initSelect(entity) {
-  // Dropdown state
-  entity.isOpen ??= false
-  entity.searchTerm ??= ""
-  entity.focusedIndex ??= -1
-
-  // Selected values
-  entity.isMulti ??= false
-  entity.selectedValue ??= entity.isMulti ? [] : null
-
-  // Options
-  entity.options ??= []
-  entity.filteredOptions ??= []
-
-  // States
-  entity.isLoading ??= false
-  entity.error ??= null
-  entity.isDisabled ??= false
-  entity.isSearchable ??= true
-  entity.isClearable ??= true
-  entity.isCreatable ??= false
-
-  // Messages
-  entity.placeholder ??= "Select..."
-  entity.noOptionsMessage ??= "No options"
-  entity.loadingMessage ??= "Loading..."
-
-  // Group by
-  entity.groupBy ??= null
-
-  // API (optional)
-  entity.source ??= null
-  entity.remote ??= !!entity.source
-
-  // Initial filtering
-  if (!entity.remote) {
-    entity.filteredOptions = filterOptions(entity.options, entity.searchTerm)
-  }
-}
-
-function closeSelect(entity) {
-  entity.isOpen = false
-  entity.focusedIndex = -1
-}
-
-function openSelect(entity) {
-  if (entity.isDisabled) return
-
-  entity.isOpen = true
-
-  // Se for searchable, o input será focado no rendering
-  // Resetar focusedIndex
-  entity.focusedIndex = -1
-
-  // if there are no filtered options and not loading, focus the first option
-  if (entity.filteredOptions.length > 0 && !entity.isLoading) {
-    entity.focusedIndex = 0
-  }
-}
-
-// Helper functions (following table pattern)
+// Helper functions
 
 /**
- * Get the value of an option
+ * Get the value of an option.
+ * @param {SelectOption} option
+ * @returns {string|number}
  */
 export function getOptionValue(option) {
   if (typeof option === "object" && option !== null && "value" in option) {
@@ -177,7 +170,9 @@ export function getOptionValue(option) {
 }
 
 /**
- * Get the label of an option
+ * Get the label of an option.
+ * @param {SelectOption} option
+ * @returns {string}
  */
 export function getOptionLabel(option) {
   if (typeof option === "object" && option !== null && "label" in option) {
@@ -192,8 +187,11 @@ export function getOptionLabel(option) {
 }
 
 /**
- * Filter options based on searchTerm
- * Search in label (case-insensitive)
+ * Filter options based on searchTerm.
+ * Search in label (case-insensitive).
+ * @param {SelectOption[]} options
+ * @param {string} searchTerm
+ * @returns {SelectOption[]}
  */
 export function filterOptions(options, searchTerm) {
   if (!searchTerm || searchTerm.trim() === "") {
@@ -209,9 +207,13 @@ export function filterOptions(options, searchTerm) {
 }
 
 /**
- * Check if an option is selected
- * For single: compare value
- * For multi: check if it is in the array
+ * Check if an option is selected.
+ * For single: compare value.
+ * For multi: check if it is in the array.
+ * @param {SelectOption} option
+ * @param {string|number|(string|number)[]} selectedValue
+ * @param {boolean} isMulti
+ * @returns {boolean}
  */
 export function isOptionSelected(option, selectedValue, isMulti) {
   const optionValue = getOptionValue(option)
@@ -224,15 +226,21 @@ export function isOptionSelected(option, selectedValue, isMulti) {
 }
 
 /**
- * Find the index of an option by value
+ * Find the index of an option by value.
+ * @param {SelectOption[]} options
+ * @param {string|number} value
+ * @returns {number}
  */
 export function findOptionIndex(options, value) {
   return options.findIndex((option) => getOptionValue(option) === value)
 }
 
 /**
- * Group options by a property
- * Returns: [{label: "Group 1", options: [...]}, ...]
+ * Group options by a property.
+ * Returns: [{label: "Group 1", options: [...]}, ...].
+ * @param {SelectOption[]} options
+ * @param {string} groupBy
+ * @returns {{label: string, options: SelectOption[]}[] | null}
  */
 export function groupOptions(options, groupBy) {
   if (!groupBy || typeof groupBy !== "string") {
@@ -258,8 +266,10 @@ export function groupOptions(options, groupBy) {
 }
 
 /**
- * Normalize an option to the standard format {value, label}
- * Accepts: string, number, or object {value, label, ...}
+ * Normalize an option to the standard format {value, label}.
+ * Accepts: string, number, or object {value, label, ...}.
+ * @param {SelectOption} option
+ * @returns {{value: string|number, label: string}}
  */
 export function formatOption(option) {
   if (typeof option === "string" || typeof option === "number") {
@@ -275,4 +285,58 @@ export function formatOption(option) {
   }
 
   return { value: option, label: String(option) }
+}
+
+// Private helper functions
+
+function initSelect(entity) {
+  // Dropdown state
+  entity.isOpen ??= false
+  entity.searchTerm ??= ""
+  entity.focusedIndex ??= -1
+
+  // Selected values
+  entity.isMulti ??= false
+  entity.selectedValue ??= entity.isMulti ? [] : null
+
+  // Options
+  entity.options ??= []
+
+  // States
+  entity.isLoading ??= false
+  entity.error ??= null
+  entity.isDisabled ??= false
+  entity.isSearchable ??= true
+  entity.isClearable ??= true
+  entity.isCreatable ??= false
+
+  // Messages
+  entity.placeholder ??= "Select..."
+  entity.noOptionsMessage ??= "No options"
+  entity.loadingMessage ??= "Loading..."
+
+  // Group by
+  entity.groupBy ??= null
+}
+
+function closeSelect(entity) {
+  entity.isOpen = false
+  entity.focusedIndex = -1
+}
+
+function openSelect(entity) {
+  if (entity.isDisabled) return
+
+  entity.isOpen = true
+
+  // If searchable, the input will be focused during rendering
+  // Reset focusedIndex
+  entity.focusedIndex = -1
+
+  const filteredOptions = filterOptions(entity.options, entity.searchTerm)
+
+  // if there are no filtered options and not loading, focus the first option
+  if (filteredOptions.length && !entity.isLoading) {
+    entity.focusedIndex = 0
+  }
 }

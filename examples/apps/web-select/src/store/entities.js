@@ -1,7 +1,7 @@
 export const entities = {
   countrySelect: {
     type: "select",
-    id: "countrySelect",
+    placeholder: "Select a country...",
     options: [
       { value: "br", label: "Brazil" },
       { value: "it", label: "Italy" },
@@ -10,26 +10,29 @@ export const entities = {
       { value: "uk", label: "United Kingdom" },
       { value: "fr", label: "France" },
     ],
-    placeholder: "Select a country...",
     isSearchable: true,
     isClearable: true,
   },
 
   multiSelect: {
     type: "select",
-    id: "multiSelect",
+    placeholder: "Select languages...",
     options: [
       { value: "js", label: "JavaScript" },
       { value: "ts", label: "TypeScript" },
       { value: "java", label: "Java" },
       { value: "csharp", label: "C#" },
       { value: "py", label: "Python" },
-      { value: "go", label: "Go" },
+      { value: "go", label: "Go", isDisabled: true },
       { value: "php", label: "PHP" },
     ],
-    placeholder: "Select languages...",
     isMulti: true,
     isSearchable: true,
     isClearable: true,
+  },
+
+  remoteSelect: {
+    type: "remoteSelect",
+    placeholder: "Select your favorite animal...",
   },
 }

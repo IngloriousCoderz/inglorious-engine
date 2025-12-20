@@ -696,6 +696,62 @@ The table comes with a base stylesheet (`@inglorious/web/table/base.css`) and a 
 
 ---
 
+## Select
+
+`@inglorious/web` includes a robust `select` type for handling dropdowns, supporting single/multi-select, filtering, and keyboard navigation.
+
+### 1. Add the `select` type
+
+Import the `select` type and its CSS, then create an entity.
+
+```javascript
+import { createStore, select } from "@inglorious/web"
+// Import base styles and theme
+import "@inglorious/web/select/base.css"
+import "@inglorious/web/select/theme.css"
+
+const types = { select }
+
+const entities = {
+  countrySelect: {
+    type: "select",
+    options: [
+      { value: "us", label: "United States" },
+      { value: "ca", label: "Canada" },
+      { value: "fr", label: "France" },
+    ],
+    // Configuration
+    isMulti: false,
+    isSearchable: true,
+    placeholder: "Select a country...",
+  },
+}
+
+const store = createStore({ types, entities })
+```
+
+### 2. Render
+
+Render it like any other entity.
+
+```javascript
+const renderApp = (api) => {
+  return html` <div class="my-form">${api.render("countrySelect")}</div> `
+}
+```
+
+### 3. State & Events
+
+The `select` entity maintains its own state:
+
+- `selectedValue`: The current value (single value or array if `isMulti: true`).
+- `isOpen`: Whether the dropdown is open.
+- `searchTerm`: Current search input.
+
+It listens to internal events like `#<id>:toggle`, `#<id>:optionSelect`, etc. You typically don't need to manually dispatch these unless you are building custom controls around it.
+
+---
+
 ## Forms
 
 `@inglorious/web` includes a small but powerful `form` type for managing form state inside your entity store. It offers:

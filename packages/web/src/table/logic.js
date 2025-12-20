@@ -1,14 +1,34 @@
 /* eslint-disable no-magic-numbers */
 
+/**
+ * @typedef {import('../../types/table').TableEntity} TableEntity
+ * @typedef {import('../../types/table').TableColumn} TableColumn
+ */
+
 export const logic = {
+  /**
+   * Initializes the table entity.
+   * @param {TableEntity} entity
+   */
   init(entity) {
     initTable(entity)
   },
 
-  create(entity) {
+  /**
+   * Resets the table entity when a 'create' event payload matches its ID.
+   * @param {TableEntity} entity
+   * @param {string|number} id
+   */
+  create(entity, id) {
+    if (id !== entity.id) return
     initTable(entity)
   },
 
+  /**
+   * Toggles sorting for a column.
+   * @param {TableEntity} entity
+   * @param {string} columnId
+   */
   sortChange(entity, columnId) {
     const column = entity.columns.find((c) => c.id === columnId)
     if (!column?.isSortable) return
@@ -34,10 +54,19 @@ export const logic = {
     }
   },
 
+  /**
+   * Clears all sorts.
+   * @param {TableEntity} entity
+   */
   sortsClear(entity) {
     entity.sorts = []
   },
 
+  /**
+   * Updates a filter value for a column.
+   * @param {TableEntity} entity
+   * @param {{ columnId: string, value: any }} payload
+   */
   filterChange(entity, { columnId, value }) {
     if (value == null || value === "") {
       delete entity.filters[columnId]
@@ -51,6 +80,10 @@ export const logic = {
     }
   },
 
+  /**
+   * Clears all filters.
+   * @param {TableEntity} entity
+   */
   filtersClear(entity) {
     entity.filters = {}
     if (entity.pagination) {
@@ -58,10 +91,20 @@ export const logic = {
     }
   },
 
+  /**
+   * Updates the search term.
+   * @param {TableEntity} entity
+   * @param {string} search
+   */
   searchChange(entity, search) {
     entity.search.value = search
   },
 
+  /**
+   * Changes the current page.
+   * @param {TableEntity} entity
+   * @param {number} page
+   */
   pageChange(entity, page) {
     if (!entity.pagination) return
 
@@ -71,6 +114,10 @@ export const logic = {
     entity.pagination.page = Math.max(0, Math.min(page, totalPages - 1))
   },
 
+  /**
+   * Moves to the next page.
+   * @param {TableEntity} entity
+   */
   pageNext(entity) {
     if (!entity.pagination) return
     const totalPages = Math.ceil(
@@ -82,11 +129,20 @@ export const logic = {
     )
   },
 
+  /**
+   * Moves to the previous page.
+   * @param {TableEntity} entity
+   */
   pagePrev(entity) {
     if (!entity.pagination) return
     entity.pagination.page = Math.max(entity.pagination.page - 1, 0)
   },
 
+  /**
+   * Changes the page size.
+   * @param {TableEntity} entity
+   * @param {number} pageSize
+   */
   pageSizeChange(entity, pageSize) {
     if (!entity.pagination) return
 
@@ -94,6 +150,11 @@ export const logic = {
     entity.pagination.page = 0
   },
 
+  /**
+   * Selects a row.
+   * @param {TableEntity} entity
+   * @param {string|number} rowId
+   */
   rowSelect(entity, rowId) {
     if (!entity.isMultiSelect) {
       entity.selection = []
@@ -104,6 +165,11 @@ export const logic = {
     }
   },
 
+  /**
+   * Deselects a row.
+   * @param {TableEntity} entity
+   * @param {string|number} rowId
+   */
   rowDeselect(entity, rowId) {
     const index = entity.selection.indexOf(rowId)
     if (index !== -1) {
@@ -111,6 +177,11 @@ export const logic = {
     }
   },
 
+  /**
+   * Toggles row selection.
+   * @param {TableEntity} entity
+   * @param {string|number} rowId
+   */
   rowToggle(entity, rowId) {
     const index = entity.selection.indexOf(rowId)
 
@@ -125,6 +196,10 @@ export const logic = {
     }
   },
 
+  /**
+   * Toggles selection of all currently visible rows.
+   * @param {TableEntity} entity
+   */
   rowsToggleAll(entity) {
     const rows = getRows(entity)
     const allSelected = rows.every((row) => entity.selection.includes(row.id))
@@ -145,6 +220,10 @@ export const logic = {
     }
   },
 
+  /**
+   * Selects all currently visible rows.
+   * @param {TableEntity} entity
+   */
   rowsSelectAll(entity) {
     const rows = getRows(entity)
     rows.forEach((row) => {
@@ -154,13 +233,22 @@ export const logic = {
     })
   },
 
+  /**
+   * Clears all row selections.
+   * @param {TableEntity} entity
+   */
   selectionClear(entity) {
     entity.selection.length = 0
   },
 }
 
-// Helper functions outside the type (like form helpers)
+// Helper functions
 
+/**
+ * Gets the processed rows (filtered, searched, sorted, paginated).
+ * @param {TableEntity} entity
+ * @returns {any[]}
+ */
 export function getRows(entity) {
   let rows = entity.data
   rows = applyFilters(entity, rows)
@@ -171,6 +259,11 @@ export function getRows(entity) {
   return rows
 }
 
+/**
+ * Gets the total number of rows after filtering and searching.
+ * @param {TableEntity} entity
+ * @returns {number}
+ */
 export function getTotalRows(entity) {
   let rows = entity.data
   rows = applyFilters(entity, rows)
@@ -178,6 +271,11 @@ export function getTotalRows(entity) {
   return rows.length
 }
 
+/**
+ * Gets pagination information.
+ * @param {TableEntity} entity
+ * @returns {object|null}
+ */
 export function getPaginationInfo(entity) {
   if (!entity.pagination) return null
 
@@ -199,28 +297,62 @@ export function getPaginationInfo(entity) {
   }
 }
 
+/**
+ * Gets the sort direction for a column.
+ * @param {TableEntity} entity
+ * @param {string} columnId
+ * @returns {"asc"|"desc"|null}
+ */
 export function getSortDirection(entity, columnId) {
   const sort = entity.sorts.find((s) => s.column === columnId)
   return sort?.direction || null
 }
 
+/**
+ * Gets the sort index (priority) for a column.
+ * @param {TableEntity} entity
+ * @param {string} columnId
+ * @returns {number}
+ */
 export function getSortIndex(entity, columnId) {
   return entity.sorts.findIndex((s) => s.column === columnId)
 }
 
+/**
+ * Gets the filter value for a column.
+ * @param {TableEntity} entity
+ * @param {string} columnId
+ * @returns {any}
+ */
 export function getFilter(entity, columnId) {
   return entity.filters[columnId]
 }
 
+/**
+ * Checks if a row is selected.
+ * @param {TableEntity} entity
+ * @param {string|number} rowId
+ * @returns {boolean}
+ */
 export function isRowSelected(entity, rowId) {
   return entity.selection.includes(rowId)
 }
 
+/**
+ * Checks if all visible rows are selected.
+ * @param {TableEntity} entity
+ * @returns {boolean}
+ */
 export function isAllSelected(entity) {
   const rows = getRows(entity)
   return rows.length && rows.every((row) => entity.selection.includes(row.id))
 }
 
+/**
+ * Checks if some (but not all) visible rows are selected.
+ * @param {TableEntity} entity
+ * @returns {boolean}
+ */
 export function isSomeSelected(entity) {
   const rows = getRows(entity)
   const selectedCount = rows.filter((row) =>
@@ -229,6 +361,12 @@ export function isSomeSelected(entity) {
   return selectedCount && selectedCount < rows.length
 }
 
+// Private helper functions
+
+/**
+ * Initializes the table state.
+ * @param {TableEntity} entity
+ */
 function initTable(entity) {
   entity.data ??= []
 
@@ -276,6 +414,11 @@ function initTable(entity) {
   }
 }
 
+/**
+ * Infers the column type from a value.
+ * @param {any} value
+ * @returns {string}
+ */
 function getDefaultColumnType(value) {
   if (typeof value === "number") return "number"
   if (typeof value === "boolean") return "boolean"
@@ -283,6 +426,11 @@ function getDefaultColumnType(value) {
   return "string"
 }
 
+/**
+ * Gets the default filter configuration for a column type.
+ * @param {string} type
+ * @returns {object}
+ */
 function getDefaultColumnFilter(type) {
   if (type === "number") return { type: "range" }
   if (type === "boolean")
@@ -291,6 +439,11 @@ function getDefaultColumnFilter(type) {
   return { type: "text" }
 }
 
+/**
+ * Gets the default column width based on filter type.
+ * @param {string} filterType
+ * @returns {number}
+ */
 function getDefaultColumnWidth(filterType) {
   if (filterType === "number") return 70
   if (filterType === "range") return 100
@@ -301,6 +454,12 @@ function getDefaultColumnWidth(filterType) {
   return 200
 }
 
+/**
+ * Applies filters to the data.
+ * @param {TableEntity} entity
+ * @param {any[]} rows
+ * @returns {any[]}
+ */
 function applyFilters(entity, rows) {
   if (!Object.keys(entity.filters).length) {
     return rows
@@ -338,6 +497,12 @@ function applyFilters(entity, rows) {
   })
 }
 
+/**
+ * Applies search to the data.
+ * @param {TableEntity} entity
+ * @param {any[]} rows
+ * @returns {any[]}
+ */
 function applySearch(entity, rows) {
   if (!entity.search?.value) {
     return rows
@@ -354,6 +519,12 @@ function applySearch(entity, rows) {
   )
 }
 
+/**
+ * Applies sorting to the data.
+ * @param {TableEntity} entity
+ * @param {any[]} rows
+ * @returns {any[]}
+ */
 function applySorts(entity, rows) {
   if (!entity.sorts.length) {
     return rows
@@ -385,6 +556,12 @@ function applySorts(entity, rows) {
   })
 }
 
+/**
+ * Applies pagination to the data.
+ * @param {TableEntity} entity
+ * @param {any[]} rows
+ * @returns {any[]}
+ */
 function applyPagination(entity, rows) {
   if (!entity.pagination) {
     return rows
@@ -395,6 +572,11 @@ function applyPagination(entity, rows) {
   return rows.slice(start, start + pageSize)
 }
 
+/**
+ * Capitalizes the first letter of a string.
+ * @param {string} str
+ * @returns {string}
+ */
 function capitalize(str) {
   const [firstChar, ...rest] = str
   return [firstChar.toUpperCase(), ...rest].join("")

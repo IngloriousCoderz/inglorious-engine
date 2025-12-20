@@ -45,7 +45,6 @@ describe("select", () => {
         expect(entity.isMulti).toBe(false)
         expect(entity.selectedValue).toBe(null)
         expect(entity.options).toEqual(sampleOptions)
-        expect(entity.filteredOptions).toEqual(sampleOptions)
         expect(entity.isLoading).toBe(false)
         expect(entity.isDisabled).toBe(false)
         expect(entity.isSearchable).toBe(true)
@@ -61,13 +60,6 @@ describe("select", () => {
         entity.isMulti = true
         select.init(entity)
         expect(entity.selectedValue).toEqual([])
-      })
-
-      it("should filter options based on initial searchTerm", () => {
-        entity.searchTerm = "bra"
-        select.init(entity)
-        expect(entity.filteredOptions).toHaveLength(1)
-        expect(entity.filteredOptions[0].label).toBe("Brazil")
       })
     })
 
@@ -93,7 +85,7 @@ describe("select", () => {
       })
 
       it("open: should not focus if no options", () => {
-        entity.filteredOptions = []
+        entity.options = []
         select.open(entity)
         expect(entity.focusedIndex).toBe(-1)
       })
@@ -124,14 +116,14 @@ describe("select", () => {
       })
     })
 
-    describe("selectOption()", () => {
+    describe("optionSelect()", () => {
       beforeEach(() => {
         select.init(entity)
       })
 
       it("should select an option in single-select mode", () => {
         const option = sampleOptions[0]
-        select.selectOption(entity, option)
+        select.optionSelect(entity, option)
         expect(entity.selectedValue).toBe("br")
         expect(entity.isOpen).toBe(false)
       })
@@ -141,7 +133,7 @@ describe("select", () => {
         select.init(entity)
         entity.isOpen = true // Open dropdown first
         const option = sampleOptions[0]
-        select.selectOption(entity, option)
+        select.optionSelect(entity, option)
         expect(entity.selectedValue).toContain("br")
         expect(entity.isOpen).toBe(true) // Multi-select doesn't close
       })
@@ -150,14 +142,14 @@ describe("select", () => {
         entity.isMulti = true
         select.init(entity)
         const option = sampleOptions[0]
-        select.selectOption(entity, option) // Add
-        select.selectOption(entity, option) // Remove
+        select.optionSelect(entity, option) // Add
+        select.optionSelect(entity, option) // Remove
         expect(entity.selectedValue).not.toContain("br")
       })
 
       it("should not select if disabled", () => {
         entity.isDisabled = true
-        select.selectOption(entity, sampleOptions[0])
+        select.optionSelect(entity, sampleOptions[0])
         expect(entity.selectedValue).toBe(null)
       })
     })
@@ -197,8 +189,6 @@ describe("select", () => {
       it("should update searchTerm and filter options", () => {
         select.searchChange(entity, "bra")
         expect(entity.searchTerm).toBe("bra")
-        expect(entity.filteredOptions).toHaveLength(1)
-        expect(entity.filteredOptions[0].label).toBe("Brazil")
       })
 
       it("should reset focusedIndex when search changes", () => {
@@ -209,21 +199,19 @@ describe("select", () => {
 
       it("should set focusedIndex to -1 if no results", () => {
         select.searchChange(entity, "xyz")
-        expect(entity.filteredOptions).toHaveLength(0)
         expect(entity.focusedIndex).toBe(-1)
       })
 
       it("should show all options if searchTerm is empty", () => {
         select.searchChange(entity, "bra")
         select.searchChange(entity, "")
-        expect(entity.filteredOptions).toEqual(sampleOptions)
+        expect(entity.focusedIndex).toBe(0)
       })
     })
 
     describe("keyboard navigation", () => {
       beforeEach(() => {
         select.init(entity)
-        entity.filteredOptions = sampleOptions
       })
 
       it("focusNext: should move to next option", () => {
@@ -263,7 +251,7 @@ describe("select", () => {
       })
 
       it("focusNext: should not move if no options", () => {
-        entity.filteredOptions = []
+        entity.options = []
         entity.focusedIndex = -1
         select.focusNext(entity)
         expect(entity.focusedIndex).toBe(-1)

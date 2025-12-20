@@ -57,14 +57,14 @@ describe("form", () => {
   describe("create()", () => {
     it("should reset the form", () => {
       entity.values = {}
-      form.create(entity)
+      form.create(entity, "test-form")
       expect(entity.values).toEqual(entity.initialValues)
     })
   })
 
   describe("reset()", () => {
     it("should reset the form to its initial state", () => {
-      form.create(entity)
+      form.create(entity, "test-form")
       entity.values.name = "Jane Doe"
       entity.isPristine = false
 
@@ -77,7 +77,7 @@ describe("form", () => {
 
   describe("fieldChange()", () => {
     beforeEach(() => {
-      form.create(entity)
+      form.create(entity, "test-form")
     })
 
     it("should update a field's value, mark it as touched, and set form to dirty", () => {
@@ -124,7 +124,7 @@ describe("form", () => {
 
   describe("fieldBlur()", () => {
     beforeEach(() => {
-      form.create(entity)
+      form.create(entity, "test-form")
     })
 
     it("should mark a field as touched", () => {
@@ -144,7 +144,7 @@ describe("form", () => {
 
   describe("field array operations", () => {
     beforeEach(() => {
-      form.create(entity)
+      form.create(entity, "test-form")
     })
 
     it("fieldArrayAppend: should append a value and metadata", () => {
@@ -198,7 +198,7 @@ describe("form", () => {
 
   describe("validate()", () => {
     beforeEach(() => {
-      form.create(entity)
+      form.create(entity, "test-form")
     })
 
     it("should set errors and isValid based on the validation function", () => {
@@ -231,7 +231,7 @@ describe("form", () => {
     let api
 
     beforeEach(() => {
-      form.create(entity)
+      form.create(entity, "test-form")
       api = { notify: vi.fn() }
     })
 
@@ -271,7 +271,7 @@ describe("form", () => {
 
   describe("validationComplete()", () => {
     it("should update form state after async validation", () => {
-      form.create(entity)
+      form.create(entity, "test-form")
       entity.isValidating = true
       const errors = { name: "Error" }
 
@@ -285,7 +285,7 @@ describe("form", () => {
 
   describe("validationError()", () => {
     it("should update form state after an async validation error", () => {
-      form.create(entity)
+      form.create(entity, "test-form")
       entity.isValidating = true
 
       form.validationError(entity, { error: "Network Error" })
