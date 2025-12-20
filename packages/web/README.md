@@ -19,6 +19,9 @@ Unlike modern frameworks that invent their own languages or rely on signals, pro
   Each entity type defines its own `render(entity, api)` method.  
   `api.render(id)` composes the UI by invoking the correct renderer for each entity.
 
+- **Type Composition**  
+  Types can be composed as arrays of behaviors, enabling reusable patterns like authentication guards, logging, or any cross-cutting concern.
+
 - **Simple and Predictable API**  
   Zero magic, zero reactivity graphs, zero compiler.  
   Just JavaScript functions and store events.
@@ -55,7 +58,7 @@ Use the scaffolder to create a starter app tailored to your workflow.
 
 ### ✨ **Inglorious Web re-renders the whole template tree on each state change.**
 
-Thanks to lit-html’s optimized diffing, this is fast, predictable, and surprisingly efficient.
+Thanks to lit-html's optimized diffing, this is fast, predictable, and surprisingly efficient.
 
 This means:
 
@@ -66,7 +69,7 @@ This means:
 
 You get Svelte-like ergonomic simplicity, but with no compiler and no magic.
 
-> “Re-render everything → let lit-html update only what changed.”
+> "Re-render everything → let lit-html update only what changed."
 
 It's that simple — and surprisingly fast in practice.
 
@@ -136,7 +139,7 @@ This makes it especially suitable for:
 
 # Comparison with Other Frameworks
 
-Here’s how @inglorious/web compares to the major players:
+Here's how @inglorious/web compares to the major players:
 
 ---
 
@@ -348,7 +351,7 @@ export const store = createStore({
 
 Now your application state is fully visible in the Redux DevTools browser extension.
 
-### What You’ll See in DevTools
+### What You'll See in DevTools
 
 - Each event you dispatch via `api.notify(event, payload)` will appear as an action in the DevTools timeline.
 - The entire store is visible under the _State_ tab.
@@ -446,7 +449,7 @@ api.notify("navigate", -1)
 api.notify("navigate", {
   to: "/users/456",
   replace: true, // Replace current history entry
-  force: true, // Force navigation even if path is identical
+  force: true, // Force navigation even if path is identical (useful after logout)
 })
 ```
 
@@ -479,6 +482,157 @@ export const adminPage = {
   render: () => html`<h1>Admin Area</h1>`,
 }
 ```
+
+### 5. Route Guards (Type Composition)
+
+Route guards are implemented using **type composition** — a powerful feature of `@inglorious/store` where types can be defined as arrays of behaviors that wrap and extend each other.
+
+Guards are simply behaviors that intercept events (like `routeChange`) and can prevent navigation, redirect, or pass through to the protected page.
+
+#### Example: Authentication Guard
+
+```javascript
+// guards/require-auth.js
+export const requireAuth = (type) => ({
+  routeChange(entity, payload, api) {
+    // Only act when navigating to this specific route
+    if (payload.route !== entity.type) return
+
+    // Check authentication
+    const user = localStorage.getItem("user")
+    if (!user) {
+      // Redirect to login, preserving the intended destination
+      api.notify("navigate", {
+        to: "/login",
+        redirectTo: window.location.pathname,
+        replace: true,
+      })
+      return
+    }
+
+    // User is authenticated - pass through to the actual page handler
+    type.routeChange?.(entity, payload, api)
+  },
+})
+```
+
+#### Using Guards with Type Composition
+
+```javascript
+// store.js
+import { createStore, router } from "@inglorious/web"
+import { requireAuth } from "./guards/require-auth.js"
+import { adminPage } from "./pages/admin.js"
+import { loginPage } from "./pages/login.js"
+
+const types = {
+  router,
+
+  // Public page - no guard
+  loginPage,
+
+  // Protected page - composed with requireAuth guard
+  adminPage: [adminPage, requireAuth],
+}
+
+const entities = {
+  router: {
+    type: "router",
+    routes: {
+      "/login": "loginPage",
+      "/admin": "adminPage",
+    },
+  },
+  adminPage: {
+    type: "adminPage",
+  },
+  loginPage: {
+    type: "loginPage",
+  },
+}
+
+export const store = createStore({ types, entities })
+```
+
+#### How Type Composition Works
+
+When you define a type as an array like `[adminPage, requireAuth]`:
+
+1. The behaviors compose in order (left to right)
+2. Each behavior can intercept events before they reach the next behavior
+3. Guards can choose to:
+   - **Block** by returning early (not calling the next handler)
+   - **Redirect** by triggering navigation to a different route
+   - **Pass through** by calling the next behavior's handler
+
+This pattern is extremely flexible and can be used for:
+
+- **Authentication** - Check if user is logged in
+- **Authorization** - Check user roles or permissions
+- **Analytics** - Log page views
+- **Redirects** - Redirect logged-in users away from login page
+- **Loading states** - Show loading UI while checking async permissions
+- **Any cross-cutting concern** you can think of
+
+#### Multiple Guards
+
+You can compose multiple guards for fine-grained control:
+
+```javascript
+const types = {
+  // Require authentication AND admin role
+  adminPage: [adminPage, requireAuth, requireAdmin],
+
+  // Require authentication AND resource ownership
+  userProfile: [userProfile, requireAuth, requireOwnership],
+}
+```
+
+Guards execute in order, so earlier guards can block navigation before later guards even run.
+
+---
+
+## Type Composition
+
+One of the most powerful features of `@inglorious/store` (and therefore `@inglorious/web`) is **type composition**. Types can be defined as arrays of behaviors that wrap each other, enabling elegant solutions to cross-cutting concerns.
+
+### Basic Composition
+
+```javascript
+const logging = (type) => ({
+  // Intercept the render method
+  render(entity, api) {
+    console.log(`Rendering ${entity.id}`)
+    return type.render(entity, api)
+  },
+
+  // Intercept any event
+  someEvent(entity, payload, api) {
+    console.log(`Event triggered on ${entity.id}`)
+    type.someEvent?.(entity, payload, api)
+  },
+})
+
+const types = {
+  // Compose the counter type with logging
+  counter: [counterBase, logging],
+}
+```
+
+### Use Cases
+
+Type composition enables elegant solutions for:
+
+- **Route guards** - Authentication, authorization, redirects
+- **Logging/debugging** - Trace renders and events
+- **Analytics** - Track user interactions
+- **Error boundaries** - Catch and handle render errors gracefully
+- **Loading states** - Show spinners during async operations
+- **Caching/memoization** - Cache expensive computations
+- **Validation** - Validate entity state before operations
+- **Any cross-cutting concern**
+
+The composition pattern keeps your code modular and reusable without introducing framework magic.
 
 ---
 
@@ -690,6 +844,8 @@ const store = createStore({ types, entities })
 ```
 
 See `src/list.js` in the package for the implementation details and the `examples/apps/web-list` demo for a complete working example. In the demo the `productList` type extends the `list` type and provides `renderItem(item, index)` to render each visible item — see `examples/apps/web-list/src/product-list/product-list.js`.
+
+---
 
 ## API Reference
 
