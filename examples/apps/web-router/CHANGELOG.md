@@ -1,5 +1,16 @@
 # lit-todomvc
 
+## 0.3.0
+
+### Minor Changes
+
+- Add lazy loaded routes feature
+
+### Patch Changes
+
+- Updated dependencies
+  - @inglorious/web@2.4.0
+
 ## 0.2.12
 
 ### Patch Changes

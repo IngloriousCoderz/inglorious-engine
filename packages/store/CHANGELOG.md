@@ -1,5 +1,11 @@
 # @inglorious/store
 
+## 7.1.4
+
+### Patch Changes
+
+- Add lazy loaded routes feature
+
 ## 7.1.3
 
 ### Patch Changes

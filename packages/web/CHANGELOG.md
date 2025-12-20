@@ -1,5 +1,16 @@
 # @inglorious/react-store
 
+## 2.4.0
+
+### Minor Changes
+
+- Add lazy loaded routes feature
+
+### Patch Changes
+
+- Updated dependencies
+  - @inglorious/store@7.1.4
+
 ## 2.3.0
 
 ### Minor Changes

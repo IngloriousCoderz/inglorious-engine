@@ -443,6 +443,36 @@ api.notify("navigate", "/users/456")
 api.notify("navigate", -1)
 ```
 
+### 4. Lazy Loading Routes
+
+You can improve performance by lazy-loading routes. Instead of a string, provide a function that returns a dynamic import.
+
+**Note:** The imported module must use a named export for the entity type (not `export default`), so the router can register it with a unique name in the store.
+
+```javascript
+// store.js
+const entities = {
+  router: {
+    type: "router",
+    routes: {
+      "/": "homePage",
+      // Lazy load: returns a Promise resolving to a module
+      "/admin": () => import("./pages/admin.js"),
+    },
+  },
+}
+```
+
+```javascript
+// pages/admin.js
+import { html } from "@inglorious/web"
+
+// Must be a named export matching the type name you want to use
+export const adminPage = {
+  render: () => html`<h1>Admin Area</h1>`,
+}
+```
+
 ---
 
 ## Table

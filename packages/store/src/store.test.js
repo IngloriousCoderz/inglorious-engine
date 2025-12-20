@@ -169,7 +169,7 @@ test("it should change an entity's behavior via a 'morph' event", () => {
     bug: { id: "bug", type: "bug", isFull: true },
   })
 
-  store.notify("morph", { id: "bug", type: [Caterpillar, Butterfly] })
+  store.notify("morph", { name: "bug", type: [Caterpillar, Butterfly] })
   store.notify("fly")
   store.update()
   expect(store.getState()).toStrictEqual({

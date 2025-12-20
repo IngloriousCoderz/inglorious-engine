@@ -7,13 +7,10 @@ export const entities = {
       "/users/:userId": "userDetail",
       "/users/:userId/posts": "postList",
       "/posts": "postList",
+      "/lazy-type": () => import("./types/lazy-type"),
+      "/lazy-entity": () => import("./types/lazy-entity"),
       "*": "notFound",
     },
-    path: "/",
-    route: null,
-    params: {},
-    query: {},
-    hash: "",
   },
 
   userList: {
@@ -34,5 +31,10 @@ export const entities = {
       { id: "1", text: "Hello from Alice!", authorId: "1" },
       { id: "2", text: "Hello from Bob!", authorId: "2" },
     ],
+  },
+
+  lazyEntity: {
+    type: "lazyEntity",
+    message: "Hi!",
   },
 }

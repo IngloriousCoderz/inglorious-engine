@@ -139,7 +139,7 @@ Here's how you might dispatch a `morph` event upon collision with a Fire Flower:
 // In a collision event handler for Mario...
 if (collidesWith(mario, fireFlower)) {
     api.notify("morph", {
-        id: 'mario', // The ID of the type to change
+        name: mario.type, // The type name to change
         type: [ // The new array of behaviors and handlers
             baseMario(),
             superMario(),

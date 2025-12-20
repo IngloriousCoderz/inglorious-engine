@@ -54,11 +54,11 @@ describe("router", () => {
 
       router.init(entity, {}, api)
 
-      expect(entity.path).toBe("/users/123")
-      expect(entity.route).toBe("userPage")
-      expect(entity.params).toEqual({ id: "123" })
-      expect(entity.query).toEqual({ sort: "asc" })
-      expect(entity.hash).toBe("#details")
+      expect(api.notify).toHaveBeenCalledWith("#router:navigate", {
+        to: "/users/123?sort=asc",
+        params: { id: "123" },
+        replace: true,
+      })
     })
 
     it("should set up a popstate listener", () => {
@@ -143,16 +143,60 @@ describe("router", () => {
   describe("routeSync()", () => {
     it("should update the entity state from a payload", () => {
       const payload = {
-        path: "/new",
+        path: "/new?a=1",
         entityType: "newPage",
         params: {},
-        query: { a: "1" },
-        hash: "#section",
       }
+
+      vi.spyOn(window, "location", "get").mockReturnValue({ hash: "#section" })
+
       router.routeSync(entity, payload)
+
       expect(entity.path).toBe("/new")
       expect(entity.route).toBe("newPage")
       expect(entity.query).toEqual({ a: "1" })
+      expect(entity.hash).toBe("#section")
+    })
+  })
+
+  describe("loadSuccess()", () => {
+    it("should handle lazy loaded modules", () => {
+      const module = { myPage: { render: () => {} } }
+      const route = { pattern: "/lazy", params: {} }
+      const payload = {
+        module,
+        route,
+        path: "/lazy",
+        replace: false,
+        state: {},
+      }
+
+      router.loadSuccess(entity, payload, api)
+
+      expect(api.notify).toHaveBeenCalledWith("morph", {
+        name: "myPage",
+        type: module.myPage,
+      })
+      expect(entity.routes["/lazy"]).toBe("myPage")
+      expect(entity.loading).toBe(false)
+      expect(entity.route).toBe("myPage")
+      expect(history.pushState).toHaveBeenCalled()
+    })
+  })
+
+  describe("loadError()", () => {
+    it("should handle load errors", () => {
+      const error = new Error("Failed")
+      const payload = { error, path: "/lazy" }
+      const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {})
+
+      router.loadError(entity, payload)
+
+      expect(entity.path).toBe("/lazy")
+      expect(entity.loading).toBe(false)
+      expect(entity.error).toBe(error)
+
+      consoleSpy.mockRestore()
     })
   })
 })

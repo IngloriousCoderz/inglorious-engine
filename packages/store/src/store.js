@@ -90,18 +90,20 @@ export function createStore({
 
         // Handle special system events
         if (event.type === "morph") {
-          const { id, type } = event.payload
+          const { name, type } = event.payload
 
-          const entity = draft[id]
-          const oldType = types[entity.type]
-          const oldTypeName = entity.type
+          const oldType = types[name]
 
-          originalTypes[entity.type] = type
-          types[entity.type] = augmentType(originalTypes[entity.type])
-          const newType = types[entity.type]
+          originalTypes[name] = type
+          types[name] = augmentType(type)
+          const newType = types[name]
 
-          eventMap.removeEntity(id, oldType, oldTypeName)
-          eventMap.addEntity(id, newType, oldTypeName) // Use the original type name
+          for (const [id, entity] of Object.entries(draft)) {
+            if (entity.type === name) {
+              eventMap.removeEntity(id, oldType, name)
+              eventMap.addEntity(id, newType, name)
+            }
+          }
           continue
         }
 

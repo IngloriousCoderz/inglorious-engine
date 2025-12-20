@@ -281,7 +281,7 @@ function canCollideWithPowerups(type) {
           entity.backgroundColor = "#b9342e"
 
           api.notify("morph", {
-            id: entity.type,
+            name: entity.type,
             type: SUPER_DARIO,
           })
           break
@@ -293,7 +293,7 @@ function canCollideWithPowerups(type) {
           entity.backgroundColor = "#f4f3e9"
 
           api.notify("morph", {
-            id: entity.type,
+            name: entity.type,
             type: FIRE_DARIO,
           })
           break
@@ -305,7 +305,7 @@ function canCollideWithPowerups(type) {
           entity.backgroundColor = "#f4f040"
 
           api.notify("morph", {
-            id: entity.type,
+            name: entity.type,
             type: CAPE_DARIO,
           })
           break
@@ -317,7 +317,7 @@ function canCollideWithPowerups(type) {
           entity.backgroundColor = "#ca00ff"
 
           api.notify("morph", {
-            id: entity.type,
+            name: entity.type,
             type: ULTRA_DARIO,
           })
           break
@@ -363,7 +363,7 @@ function canCollideWithEnemyAndShrink(type) {
       entity.backgroundColor = "#393664"
 
       api.notify("morph", {
-        id: entity.type,
+        name: entity.type,
         type: DARIO,
       })
 
@@ -389,7 +389,7 @@ function canCollideWithEnemyAndLosePowers(type) {
       entity.backgroundColor = "#b9342e"
 
       api.notify("morph", {
-        id: entity.type,
+        name: entity.type,
         type: SUPER_DARIO,
       })
       api.notify("remove", enemy.id)

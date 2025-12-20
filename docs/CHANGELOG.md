@@ -1,5 +1,14 @@
 # @inglorious/docs
 
+## 1.10.6
+
+### Patch Changes
+
+- Add lazy loaded routes feature
+  - @inglorious/engine@13.0.4
+  - @inglorious/renderer-2d@12.0.4
+  - @inglorious/renderer-react-dom@12.0.4
+
 ## 1.10.5
 
 ### Patch Changes

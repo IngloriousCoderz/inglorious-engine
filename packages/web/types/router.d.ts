@@ -66,46 +66,65 @@ export interface RouteSyncPayload {
 }
 
 /**
- * The API object provided to the router for interacting with the host system.
+ * API from @inglorious/store
  */
-export interface RouterApi {
-  /** Retrieves an entity by its ID. */
-  getEntity(id: string | number): { routes: RoutesConfig }
-  /** Dispatches an event to the system. */
-  notify(eventName: "routeSync", payload: RouteSyncPayload): void
-  notify(eventName: "navigate", payload: string): void
-}
+export type { Api as StoreApi } from "@inglorious/store"
 
 /**
- * The router implementation.
+ * Client-side router for entity-based systems. Handles URL changes, link interception, and browser history management.
  */
-export declare const router: {
+export interface RouterType {
   /**
    * Initializes the router, sets up a popstate listener to handle browser navigation,
    * and intercepts clicks on local links.
    * @param entity The router state entity.
    * @param payload The initialization payload (currently unused).
-   * @param api The API for interacting with the host system.
+   * @param api The store API for interacting with the system.
    */
-  init(entity: RouterEntity, payload: any, api: RouterApi): void
+  init(entity: RouterEntity, payload: any, api: StoreApi): void
 
   /**
-   * Navigates to a new route programmatically.
-   * @param entity The router state entity.
-   * @param payload The navigation details.
-   * @param api The API for interacting with the host system.
+   * Navigates to a new route, updating the browser's history and the router entity state.
+   * @param {RouterEntity} entity - The router entity.
+   * @param {string|number|NavigatePayload} payload - The navigation payload.
+   * Can be a path string, a number for `history.go()`, or an object with navigation options.
+   * @param {string|number} payload.to - The destination path or history offset.
+   * @param {RouteParams} [payload.params] - Route parameters to build the path from a pattern.
+   * @param {boolean} [payload.replace] - If true, uses `history.replaceState` instead of `pushState`.
+   * @param {Record<string, any>} [payload.state] - Additional state to store in the browser's history.
+   * @param {StoreApi} api - The store API.
    */
   navigate(
     entity: RouterEntity,
     payload: string | number | NavigatePayload,
-    api: RouterApi,
+    api: StoreApi,
   ): void
 
   /**
-   * Synchronizes the router entity's state with the provided route information.
-   * Typically called in response to a `popstate` event.
-   * @param entity The router state entity.
-   * @param payload The new route information.
+   * Synchronizes the router entity's state with data from a routing event,
+   * typically triggered by a `popstate` event (browser back/forward).
+   * @param {RouterEntity} entity - The router entity to update.
+   * @param {RouteSyncPayload} payload - The new route state.
+   * @param {StoreApi} api - The store API.
    */
-  routeSync(entity: RouterEntity, payload: RouteSyncPayload): void
+  routeSync(
+    entity: RouterEntity,
+    payload: RouteSyncPayload,
+    api: StoreApi,
+  ): void
+
+  /**
+   * Handles successful async route loading.
+   * @param {RouterEntity} entity - The router entity to update.
+   * @param {Object} payload - The load success payload.
+   * @param {StoreApi} api - The store API.
+   */
+  loadSuccess(entity: RouterEntity, payload: any, api: StoreApi): void
+
+  /**
+   * Handles async route loading errors.
+   * @param {RouterEntity} entity - The router entity.
+   * @param {Object} payload - The error payload.
+   */
+  loadError(entity: RouterEntity, payload: any): void
 }
