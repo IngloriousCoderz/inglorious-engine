@@ -1,5 +1,11 @@
 # @inglorious/react-store
 
+## 2.5.0
+
+### Minor Changes
+
+- Add route guards
+
 ## 2.4.0
 
 ### Minor Changes

@@ -138,6 +138,20 @@ describe("router", () => {
         expect.any(Object),
       )
     })
+
+    it("should navigate if the path is identical but force is true", () => {
+      entity.path = "/users"
+      vi.spyOn(window, "location", "get").mockReturnValue({
+        pathname: "/users",
+        search: "",
+        hash: "",
+      })
+
+      router.navigate(entity, { to: "/users", force: true }, api)
+
+      expect(history.pushState).toHaveBeenCalled()
+      expect(api.notify).toHaveBeenCalledWith("routeChange", expect.any(Object))
+    })
   })
 
   describe("routeSync()", () => {

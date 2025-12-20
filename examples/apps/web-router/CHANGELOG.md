@@ -1,5 +1,16 @@
 # lit-todomvc
 
+## 0.4.0
+
+### Minor Changes
+
+- Add route guards
+
+### Patch Changes
+
+- Updated dependencies
+  - @inglorious/web@2.5.0
+
 ## 0.3.0
 
 ### Minor Changes

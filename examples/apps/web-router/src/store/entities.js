@@ -9,6 +9,8 @@ export const entities = {
       "/posts": "postList",
       "/lazy-type": () => import("./types/lazy-type"),
       "/lazy-entity": () => import("./types/lazy-entity"),
+      "/admin": "adminPage",
+      "/login": "loginPage",
       "*": "notFound",
     },
   },
@@ -36,5 +38,15 @@ export const entities = {
   lazyEntity: {
     type: "lazyEntity",
     message: "Hi!",
+  },
+
+  adminPage: {
+    type: "adminPage",
+  },
+
+  loginPage: {
+    type: "loginPage",
+    username: "",
+    password: "",
   },
 }

@@ -441,6 +441,13 @@ api.notify("navigate", "/users/456")
 
 // Or navigate back in history
 api.notify("navigate", -1)
+
+// With options
+api.notify("navigate", {
+  to: "/users/456",
+  replace: true, // Replace current history entry
+  force: true, // Force navigation even if path is identical
+})
 ```
 
 ### 4. Lazy Loading Routes

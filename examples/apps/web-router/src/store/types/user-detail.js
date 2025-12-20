@@ -3,11 +3,11 @@ import { html } from "@inglorious/web"
 const BACK = -1
 
 export const userDetail = {
-  routeChange(entity, { path, params }, api) {
-    if (path !== `/users/${params.userId}`) return
+  routeChange(entity, payload, api) {
+    if (payload.route !== entity.type) return
 
     const { users } = api.getEntity("userList")
-    entity.user = users.find((user) => user.id === params.userId)
+    entity.user = users.find((user) => user.id === payload.params.userId)
   },
 
   render(entity, api) {

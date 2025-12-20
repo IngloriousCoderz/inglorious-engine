@@ -88,7 +88,7 @@ export const router = {
     const options = ["number", "string"].includes(typeof payload)
       ? { to: payload }
       : payload
-    const { to, params, replace, state = {} } = options
+    const { to, params, replace, force, state = {} } = options
 
     // Numeric navigation (back/forward)
     if (typeof to === "number") {
@@ -114,11 +114,13 @@ export const router = {
       return
     }
 
-    // Prevent navigation if the full path (including query/hash) is identical.
-    const currentFullPath =
-      entity.path + window.location.search + window.location.hash
-    if (path === currentFullPath) {
-      return
+    if (!force) {
+      // Prevent navigation if the full path (including query/hash) is identical.
+      const currentFullPath =
+        entity.path + window.location.search + window.location.hash
+      if (path === currentFullPath) {
+        return
+      }
     }
 
     // Asynchronous navigation

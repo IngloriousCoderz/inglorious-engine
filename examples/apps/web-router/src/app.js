@@ -13,6 +13,7 @@ export const app = {
           <a href="/broken">Broken Link</a>
           <a href="/lazy-type">Lazy Type</a>
           <a href="/lazy-entity">Lazy Entity</a>
+          <a href="/admin">Admin Page</a>
         </nav>
 
         <main>
