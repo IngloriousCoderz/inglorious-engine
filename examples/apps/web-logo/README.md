@@ -1,22 +1,12 @@
-# web-todomvc
+# web-logo
 
-A client-only TodoMVC demo implemented using `@inglorious/web`. Great for studying basic patterns: store wiring, item rendering, selection, and filtering. A good starting point before exploring the client-server version.
-
-## Component Organization
-
-This demo uses a simpler, single-file approach where each component (form, list, footer) is defined in a single file containing both the type definition and render function.
+A tiny demo app that allows you to interactively adjust the parameters of the `@inglorious/logo` component and see the changes in real-time. It showcases how to integrate and control a component's state using `@inglorious/web`.
 
 Quick start:
 
 ```bash
-cd examples/apps/web-todomvc
+# from repository root
+cd examples/apps/web-logo
 pnpm install
 pnpm dev
 ```
-
-Files of interest:
-
-- `src/form/form.js` — form component (type definition + render)
-- `src/list/list.js` — list component (type definition + render)
-- `src/footer/footer.js` — footer component (type definition + render)
-- `src/store/` — store configuration, entities, and selectors

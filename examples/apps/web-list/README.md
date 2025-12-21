@@ -1,4 +1,4 @@
-# lit-list
+# web-list
 
 A tiny demo that shows the `productList` example — a virtualized list implementation that extends the `list` type from `@inglorious/web` and provides `renderItem` for domain-specific item rendering.
 

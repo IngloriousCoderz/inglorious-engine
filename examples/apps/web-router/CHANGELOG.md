@@ -1,5 +1,11 @@
 # lit-todomvc
 
+## 0.4.3
+
+### Patch Changes
+
+- Add server-side router
+
 ## 0.4.2
 
 ### Patch Changes

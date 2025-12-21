@@ -5,6 +5,7 @@ Small demo showing the `form` type and helper components (inputs/selects/radios)
 Quick start:
 
 ```bash
+# from repository root
 cd examples/apps/web-form
 pnpm install
 pnpm dev
