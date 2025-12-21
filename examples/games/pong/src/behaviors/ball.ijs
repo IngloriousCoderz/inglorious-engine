@@ -12,9 +12,7 @@ const REVERSE = -1
 export const ball = {
   render: renderRectangle,
 
-  create(entity, entityId) {
-    if (entityId !== entity.id) return
-
+  create(entity) {
     entity.initialSpeed = entity.maxSpeed
     entity.initialPosition = entity.position
   },

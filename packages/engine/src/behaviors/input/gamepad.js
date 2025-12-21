@@ -1,8 +1,6 @@
 export function gamepadsPoller(targetIds = []) {
   return {
-    create(entity, entityId) {
-      if (entityId !== entity.id) return
-
+    create(entity) {
       entity.gamepadStateCache ??= {}
     },
 

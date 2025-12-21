@@ -721,11 +721,11 @@ Each handler receives three arguments:
   - `getTypes()` - type definitions (for middleware)
   - `getType(typeName)` - type definition (for overriding)
 
-### Built-in Lifecycle Events
+### Built-in Events
 
-- **`create(entity, id)`** - triggered when entity added via `add` event
-- **`destroy(entity, id)`** - triggered when entity removed via `remove` event
-- **`morph(entity, newType)`** - triggered when entity type changes
+- **`create(entity)`** - triggered when entity added via `add` event, visible only to that entity
+- **`destroy(entity)`** - triggered when entity removed via `remove` event, visible only to that entity
+- **`morph(typeName, newType)`** - used to change the behavior of a type on the fly
 
 ### Notify vs Dispatch
 

@@ -7,6 +7,8 @@
 const SKIP_FULL_MATCH_GROUP = 1 // .match() result at index 0 is the full string
 const REMOVE_COLON_PREFIX = 1
 
+let areListenersInitialized = false
+
 /**
  * Client-side router for entity-based systems. Handles URL changes, link interception, and browser history management.
  * @type {RouterType}
@@ -33,6 +35,9 @@ export const router = {
         replace: true,
       })
     }
+
+    if (areListenersInitialized) return
+    areListenersInitialized = true
 
     // Listen for browser back/forward
     window.addEventListener("popstate", () => {

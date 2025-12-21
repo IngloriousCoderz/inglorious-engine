@@ -22,12 +22,28 @@ describe("form", () => {
   })
 
   describe("init()", () => {
+    it("should add global event listeners for click and submit", () => {
+      const spy = vi.spyOn(document, "addEventListener")
+      form.init(entity)
+      expect(spy).toHaveBeenCalledWith("click", expect.any(Function))
+      expect(spy).toHaveBeenCalledWith("submit", expect.any(Function))
+      spy.mockRestore()
+    })
+  })
+
+  describe("create()", () => {
+    it("should initialize the form", () => {
+      entity.values = {}
+      form.create(entity)
+      expect(entity.values).toEqual(entity.initialValues)
+    })
+
     it("should reset the form to its initial state", () => {
       // mess up the state first
       entity.values = {}
       entity.isPristine = false
 
-      form.init(entity)
+      form.create(entity)
 
       expect(entity.values).toEqual(entity.initialValues)
       expect(entity.values).not.toBe(entity.initialValues) // should be a clone
@@ -44,27 +60,11 @@ describe("form", () => {
         tags: [null, null],
       })
     })
-
-    it("should add global event listeners for click and submit", () => {
-      const spy = vi.spyOn(document, "addEventListener")
-      form.init(entity)
-      expect(spy).toHaveBeenCalledWith("click", expect.any(Function))
-      expect(spy).toHaveBeenCalledWith("submit", expect.any(Function))
-      spy.mockRestore()
-    })
-  })
-
-  describe("create()", () => {
-    it("should reset the form", () => {
-      entity.values = {}
-      form.create(entity, "test-form")
-      expect(entity.values).toEqual(entity.initialValues)
-    })
   })
 
   describe("reset()", () => {
     it("should reset the form to its initial state", () => {
-      form.create(entity, "test-form")
+      form.create(entity)
       entity.values.name = "Jane Doe"
       entity.isPristine = false
 
@@ -77,7 +77,7 @@ describe("form", () => {
 
   describe("fieldChange()", () => {
     beforeEach(() => {
-      form.create(entity, "test-form")
+      form.create(entity)
     })
 
     it("should update a field's value, mark it as touched, and set form to dirty", () => {
@@ -124,7 +124,7 @@ describe("form", () => {
 
   describe("fieldBlur()", () => {
     beforeEach(() => {
-      form.create(entity, "test-form")
+      form.create(entity)
     })
 
     it("should mark a field as touched", () => {
@@ -144,7 +144,7 @@ describe("form", () => {
 
   describe("field array operations", () => {
     beforeEach(() => {
-      form.create(entity, "test-form")
+      form.create(entity)
     })
 
     it("fieldArrayAppend: should append a value and metadata", () => {
@@ -198,7 +198,7 @@ describe("form", () => {
 
   describe("validate()", () => {
     beforeEach(() => {
-      form.create(entity, "test-form")
+      form.create(entity)
     })
 
     it("should set errors and isValid based on the validation function", () => {
@@ -231,7 +231,7 @@ describe("form", () => {
     let api
 
     beforeEach(() => {
-      form.create(entity, "test-form")
+      form.create(entity)
       api = { notify: vi.fn() }
     })
 
@@ -271,7 +271,7 @@ describe("form", () => {
 
   describe("validationComplete()", () => {
     it("should update form state after async validation", () => {
-      form.create(entity, "test-form")
+      form.create(entity)
       entity.isValidating = true
       const errors = { name: "Error" }
 
@@ -285,7 +285,7 @@ describe("form", () => {
 
   describe("validationError()", () => {
     it("should update form state after an async validation error", () => {
-      form.create(entity, "test-form")
+      form.create(entity)
       entity.isValidating = true
 
       form.validationError(entity, { error: "Network Error" })

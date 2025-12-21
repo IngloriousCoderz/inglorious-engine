@@ -7,20 +7,10 @@
 
 export const logic = {
   /**
-   * Initializes the select entity with default state.
+   * Resets the select entity with default state.
    * @param {SelectEntity} entity
    */
-  init(entity) {
-    initSelect(entity)
-  },
-
-  /**
-   * Resets the select entity when a 'create' event payload matches its ID.
-   * @param {SelectEntity} entity
-   * @param {string|number} id
-   */
-  create(entity, id) {
-    if (id !== entity.id) return
+  create(entity) {
     initSelect(entity)
   },
 

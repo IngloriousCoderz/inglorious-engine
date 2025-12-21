@@ -61,9 +61,9 @@ export interface SelectEntity {
 export declare const select: {
   /**
    * Initializes the select entity with default state.
-   * @param entity The select entity.
+   * @param {SelectEntity} entity
    */
-  init(entity: SelectEntity): void
+  create(entity: SelectEntity): void
 
   /**
    * Renders the select component.

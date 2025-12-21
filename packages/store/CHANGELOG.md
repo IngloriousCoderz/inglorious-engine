@@ -1,5 +1,11 @@
 # @inglorious/store
 
+## 8.0.0
+
+### Major Changes
+
+- Notify lifecycle events as targeted
+
 ## 7.1.4
 
 ### Patch Changes

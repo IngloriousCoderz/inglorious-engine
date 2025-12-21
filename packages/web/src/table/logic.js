@@ -7,20 +7,10 @@
 
 export const logic = {
   /**
-   * Initializes the table entity.
+   * Resets the table entity with default state.
    * @param {TableEntity} entity
    */
-  init(entity) {
-    initTable(entity)
-  },
-
-  /**
-   * Resets the table entity when a 'create' event payload matches its ID.
-   * @param {TableEntity} entity
-   * @param {string|number} id
-   */
-  create(entity, id) {
-    if (id !== entity.id) return
+  create(entity) {
     initTable(entity)
   },
 

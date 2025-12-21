@@ -113,7 +113,7 @@ export function createStore({
           const type = types[entity.type]
 
           eventMap.addEntity(id, type, entity.type)
-          incomingEvents.unshift({ type: "create", payload: id })
+          incomingEvents.unshift({ type: `#${id}:create` })
           continue
         }
 
@@ -125,7 +125,7 @@ export function createStore({
           delete draft[id]
 
           eventMap.removeEntity(id, type, typeName)
-          incomingEvents.unshift({ type: "destroy", payload: id })
+          incomingEvents.unshift({ type: `#${id}:destroy` })
           continue
         }
 
@@ -233,11 +233,11 @@ export function createStore({
     )
 
     entitiesToCreate.forEach((id) => {
-      incomingEvents.push({ type: "create", payload: id })
+      incomingEvents.push({ type: `#${id}:create` })
     })
 
     entitiesToDestroy.forEach((id) => {
-      incomingEvents.push({ type: "destroy", payload: id })
+      incomingEvents.push({ type: `#${id}:destroy` })
     })
   }
 

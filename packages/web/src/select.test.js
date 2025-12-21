@@ -35,9 +35,9 @@ describe("select", () => {
   })
 
   describe("logic", () => {
-    describe("init() and create()", () => {
+    describe("create()", () => {
       it("should initialize with default state", () => {
-        select.init(entity)
+        select.create(entity)
 
         expect(entity.isOpen).toBe(false)
         expect(entity.searchTerm).toBe("")
@@ -58,14 +58,14 @@ describe("select", () => {
 
       it("should initialize multi-select with empty array", () => {
         entity.isMulti = true
-        select.init(entity)
+        select.create(entity)
         expect(entity.selectedValue).toEqual([])
       })
     })
 
     describe("open() and close()", () => {
       beforeEach(() => {
-        select.init(entity)
+        select.create(entity)
       })
 
       it("open: should open the dropdown", () => {
@@ -101,7 +101,7 @@ describe("select", () => {
 
     describe("toggle()", () => {
       beforeEach(() => {
-        select.init(entity)
+        select.create(entity)
       })
 
       it("should open if closed", () => {
@@ -118,7 +118,7 @@ describe("select", () => {
 
     describe("optionSelect()", () => {
       beforeEach(() => {
-        select.init(entity)
+        select.create(entity)
       })
 
       it("should select an option in single-select mode", () => {
@@ -130,7 +130,7 @@ describe("select", () => {
 
       it("should add option in multi-select mode", () => {
         entity.isMulti = true
-        select.init(entity)
+        select.create(entity)
         entity.isOpen = true // Open dropdown first
         const option = sampleOptions[0]
         select.optionSelect(entity, option)
@@ -140,7 +140,7 @@ describe("select", () => {
 
       it("should remove option in multi-select mode if already selected", () => {
         entity.isMulti = true
-        select.init(entity)
+        select.create(entity)
         const option = sampleOptions[0]
         select.optionSelect(entity, option) // Add
         select.optionSelect(entity, option) // Remove
@@ -156,7 +156,7 @@ describe("select", () => {
 
     describe("clear()", () => {
       beforeEach(() => {
-        select.init(entity)
+        select.create(entity)
       })
 
       it("should clear selection in single-select mode", () => {
@@ -167,7 +167,7 @@ describe("select", () => {
 
       it("should clear selection in multi-select mode", () => {
         entity.isMulti = true
-        select.init(entity)
+        select.create(entity)
         entity.selectedValue = ["br", "us"]
         select.clear(entity)
         expect(entity.selectedValue).toEqual([])
@@ -183,7 +183,7 @@ describe("select", () => {
 
     describe("searchChange()", () => {
       beforeEach(() => {
-        select.init(entity)
+        select.create(entity)
       })
 
       it("should update searchTerm and filter options", () => {
@@ -211,7 +211,7 @@ describe("select", () => {
 
     describe("keyboard navigation", () => {
       beforeEach(() => {
-        select.init(entity)
+        select.create(entity)
       })
 
       it("focusNext: should move to next option", () => {

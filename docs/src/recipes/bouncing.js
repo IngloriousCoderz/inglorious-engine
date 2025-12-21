@@ -9,10 +9,8 @@ export default {
       { render: renderCircle },
       jumpable(),
       (type) => ({
-        create(entity, entityId, api) {
-          type.create?.(entity, entityId, api)
-
-          if (entityId !== entity.id) return
+        create(entity, payload, api) {
+          type.create?.(entity, payload, api)
 
           entity.jumpTriggered = false
         },

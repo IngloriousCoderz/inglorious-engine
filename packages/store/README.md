@@ -367,18 +367,16 @@ Inglorious Store has a few built-in events that you can use:
 
 The lifecycle events can be used to define event handlers similar to constructor and destructor methods in OOP:
 
-> Remember: events are broadcast to all entities, just like with reducers! Each handler decides if it should respond. More on that in the section below.
+> Note: these special lifecycle events are not broadcast: they are visible only to the added/removed entity!
 
 ```javascript
 const types = {
   counter: {
-    create(entity, id) {
-      if (entity.id !== id) return // "are you talking to me?"
+    create(entity) {
       entity.createdAt = Date.now()
     },
 
-    destroy(entity, id) {
-      if (entity.id !== id) return // "are you talking to me?"
+    destroy(entity) {
       entity.destroyedAt = Date.now()
     },
   },
@@ -721,11 +719,11 @@ Each handler receives three arguments:
   - `getTypes()` - type definitions (for middleware)
   - `getType(typeName)` - type definition (for overriding)
 
-### Built-in Lifecycle Events
+### Built-in Events
 
-- **`create(entity, id)`** - triggered when entity added via `add` event
-- **`destroy(entity, id)`** - triggered when entity removed via `remove` event
-- **`morph(entity, newType)`** - triggered when entity type changes
+- **`create(entity)`** - triggered when entity added via `add` event, visible only to that entity
+- **`destroy(entity)`** - triggered when entity removed via `remove` event, visible only to that entity
+- **`morph(typeName, newType)`** - used to change the behavior of a type on the fly
 
 ### Notify vs Dispatch
 

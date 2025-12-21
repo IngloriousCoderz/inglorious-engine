@@ -1,5 +1,13 @@
 # @inglorious/react-store
 
+## 2.6.1
+
+### Patch Changes
+
+- Notify lifecycle events as targeted
+- Updated dependencies
+  - @inglorious/store@8.0.0
+
 ## 2.6.0
 
 ### Minor Changes

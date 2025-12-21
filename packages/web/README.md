@@ -216,7 +216,7 @@ Inglorious Web is minimal, predictable, and tiny.
 
 ## **HTMX / Alpine / Vanilla DOM**
 
-You are closer philosophically to **HTMX** and **vanilla JS**, but with a declarative rendering model and entity-based state.
+Inglorious Web is closer philosophically to **HTMX** and **vanilla JS**, but with a declarative rendering model and entity-based state.
 
 ---
 

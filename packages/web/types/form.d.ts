@@ -191,20 +191,10 @@ export interface FormValidationErrorPayload {
  */
 export declare const form: {
   /**
-   * Initializes the form entity by resetting it to its initial state.
+   * Initializes the form entity with default state.
    * @param entity The form entity.
    */
-  init<T extends FormValues>(entity: FormEntity<T>): void
-
-  /**
-   * Resets the form entity when a 'create' event payload matches its ID.
-   * @param entity The form entity.
-   * @param entityId The entity ID from the create event, used to target a specific form.
-   */
-  create<T extends FormValues>(
-    entity: FormEntity<T>,
-    entityId: string | number,
-  ): void
+  create<T extends FormValues>(entity: FormEntity<T>): void
 
   /**
    * Appends an item to a field array.

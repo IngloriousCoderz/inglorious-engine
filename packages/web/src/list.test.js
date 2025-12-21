@@ -20,9 +20,9 @@ describe("list", () => {
     }
   })
 
-  describe("init() and create()", () => {
+  describe("and create()", () => {
     it("should set default list properties on init", () => {
-      list.init(entity)
+      list.create(entity)
       expect(entity.scrollTop).toBe(0)
       expect(entity.visibleRange).toEqual({ start: 0, end: 20 })
       expect(entity.viewportHeight).toBe(600)
@@ -35,7 +35,7 @@ describe("list", () => {
       entity.viewportHeight = 800
       entity.visibleRange = { start: 10, end: 30 }
 
-      list.init(entity)
+      list.create(entity)
 
       expect(entity.viewportHeight).toBe(800)
       expect(entity.visibleRange).toEqual({ start: 10, end: 30 })
@@ -43,7 +43,7 @@ describe("list", () => {
     })
 
     it("should reset the list on create", () => {
-      list.create(entity, "test-list")
+      list.create(entity)
       expect(entity.scrollTop).toBe(0)
       expect(entity.visibleRange).toEqual({ start: 0, end: 20 })
     })
@@ -51,7 +51,7 @@ describe("list", () => {
 
   describe("scroll()", () => {
     beforeEach(() => {
-      list.init(entity)
+      list.create(entity)
     })
 
     it("should calculate visible range based on itemHeight", () => {
@@ -116,7 +116,7 @@ describe("list", () => {
 
   describe("mount()", () => {
     it("should measure and set itemHeight and update visibleRange", () => {
-      list.init(entity)
+      list.create(entity)
       const itemEl = document.createElement("div")
       vi.spyOn(itemEl, "offsetHeight", "get").mockReturnValue(40)
 
@@ -133,7 +133,7 @@ describe("list", () => {
     })
 
     it("should do nothing if no item element is found", () => {
-      list.init(entity)
+      list.create(entity)
       const originalEntity = { ...entity }
       const containerEl = {
         querySelector: vi.fn().mockReturnValue(null),
@@ -149,7 +149,7 @@ describe("list", () => {
     let api
 
     beforeEach(() => {
-      list.init(entity)
+      list.create(entity)
       api = {
         notify: vi.fn(),
         getType: vi.fn().mockReturnValue({

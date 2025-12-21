@@ -61,14 +61,13 @@ describe("table", () => {
       pagination: { page: 0, pageSize: 2 },
       search: { value: "" },
     }
-    table.init(entity)
   })
 
   describe("logic", () => {
-    describe("init() and create()", () => {
+    describe("create()", () => {
       it("should initialize with default state", () => {
         const newEntity = { data: [{ id: 1, name: "Test" }] }
-        table.init(newEntity)
+        table.create(newEntity)
         expect(newEntity.sorts).toEqual([])
         expect(newEntity.filters).toEqual({})
         expect(newEntity.selection).toEqual([])
@@ -79,6 +78,10 @@ describe("table", () => {
     })
 
     describe("sortChange()", () => {
+      beforeEach(() => {
+        table.create(entity)
+      })
+
       it("should add a new sort", () => {
         table.sortChange(entity, "name")
         expect(entity.sorts).toEqual([{ column: "name", direction: "asc" }])
@@ -105,6 +108,10 @@ describe("table", () => {
     })
 
     describe("filterChange()", () => {
+      beforeEach(() => {
+        table.create(entity)
+      })
+
       it("should add a filter", () => {
         table.filterChange(entity, { columnId: "name", value: "Alice" })
         expect(entity.filters.name).toBe("Alice")
@@ -124,6 +131,10 @@ describe("table", () => {
     })
 
     describe("pagination", () => {
+      beforeEach(() => {
+        table.create(entity)
+      })
+
       it("pageNext: should go to the next page", () => {
         table.pageNext(entity)
         expect(entity.pagination.page).toBe(1)
@@ -155,6 +166,10 @@ describe("table", () => {
     })
 
     describe("selection", () => {
+      beforeEach(() => {
+        table.create(entity)
+      })
+
       it("rowToggle: should select an unselected row", () => {
         table.rowToggle(entity, 1)
         expect(entity.selection).toContain(1)
@@ -189,6 +204,10 @@ describe("table", () => {
     })
 
     describe("getters and selectors", () => {
+      beforeEach(() => {
+        table.create(entity)
+      })
+
       it("getRows: should return sorted, filtered, and paginated rows", () => {
         // Sort by age descending
         table.sortChange(entity, "age")
@@ -256,6 +275,8 @@ describe("table", () => {
           renderFooter: vi.fn(() => html`<div>Footer</div>`),
         }),
       }
+
+      table.create(entity)
     })
 
     it("render: should call sub-renderers", () => {

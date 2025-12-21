@@ -7,10 +7,8 @@ export function fsm(states) {
 
   return (type) => {
     return {
-      create(entity, entityId, api) {
-        type.create?.(entity, entityId, api)
-
-        if (entityId !== entity.id) return
+      create(entity, payload, api) {
+        type.create?.(entity, payload, api)
 
         entity.state ??= DEFAULT_STATE
       },

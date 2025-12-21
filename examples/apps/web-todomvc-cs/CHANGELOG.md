@@ -1,5 +1,13 @@
 # lit-todomvc
 
+## 0.0.5
+
+### Patch Changes
+
+- Notify lifecycle events as targeted
+- Updated dependencies
+  - @inglorious/web@2.6.1
+
 ## 0.0.4
 
 ### Patch Changes

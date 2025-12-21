@@ -23,9 +23,7 @@ export default {
       {
         render: renderCharacter,
 
-        create(entity, entityId) {
-          if (entityId !== entity.id) return
-
+        create(entity) {
           entity.movement ??= {}
         },
 

@@ -1,5 +1,13 @@
 # @inglorious/engine
 
+## 14.0.0
+
+### Patch Changes
+
+- Notify lifecycle events as targeted
+- Updated dependencies
+  - @inglorious/store@8.0.0
+
 ## 13.0.4
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # @inglorious/docs
 
+## 1.10.7
+
+### Patch Changes
+
+- Notify lifecycle events as targeted
+- Updated dependencies
+  - @inglorious/engine@14.0.0
+  - @inglorious/renderer-2d@13.0.0
+  - @inglorious/renderer-react-dom@13.0.0
+
 ## 1.10.6
 
 ### Patch Changes

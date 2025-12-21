@@ -22,9 +22,7 @@ export const logo = {
    * @param {string} id
    * @param {Api} api
    */
-  create(entity, id, api) {
-    if (id !== entity.id) return
-
+  create(entity, payload, api) {
     if (!entity.isInteractive) {
       return
     }

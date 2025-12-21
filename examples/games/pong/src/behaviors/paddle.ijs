@@ -1,9 +1,7 @@
 const Z = 2
 
 export const paddle = {
-  create(entity, entityId) {
-    if (entityId !== entity.id) return
-
+  create(entity) {
     entity.initialPosition = entity.position
   },
 

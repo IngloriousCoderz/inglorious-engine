@@ -26,6 +26,8 @@ import { clone, get, set } from "@inglorious/utils/data-structures/object.js"
 const NO_ITEMS_REMOVED = 0
 const ONE_ITEM_REMOVED = 1
 
+let areListenersInitialized = false
+
 /**
  * A type definition for managing form state within an entity-based system.
  * It handles initialization, field changes, validation, and submission.
@@ -37,33 +39,32 @@ export const form = {
    * Initializes the form entity by resetting it to its initial state.
    * @param {FormEntity} entity - The form entity.
    */
-  init(entity) {
-    resetForm(entity)
+  init() {
+    if (areListenersInitialized) return
 
-    document.addEventListener("click", (e) => {
-      const button = e.target.closest("button")
+    document.addEventListener("click", (event) => {
+      const button = event.target.closest("button")
 
       if (!button || button.getAttribute("type") === "submit") return
 
-      e.preventDefault()
+      event.preventDefault()
     })
 
-    document.addEventListener("submit", (e) => {
-      const form = e.target.closest("form")
+    document.addEventListener("submit", (event) => {
+      const form = event.target.closest("form")
 
       if (!form) return
-
-      e.preventDefault()
+      event.preventDefault()
     })
+
+    areListenersInitialized = true
   },
 
   /**
-   * Resets the form entity when a 'create' event matches its ID.
+   * Resets the form entity with default state.
    * @param {FormEntity} entity - The form entity.
-   * @param {string|number} entityId - The ID from the create event.
    */
-  create(entity, id) {
-    if (id !== entity.id) return
+  create(entity) {
     resetForm(entity)
   },
 

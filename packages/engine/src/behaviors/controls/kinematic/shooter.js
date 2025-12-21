@@ -31,10 +31,8 @@ export function shooterControls(params) {
       "turn",
     ]),
 
-    create(entity, entityId, api) {
-      type.create?.(entity, entityId, api)
-
-      if (entityId !== entity.id) return
+    create(entity, payload, api) {
+      type.create?.(entity, payload, api)
 
       entity.maxSpeed ??= params.maxSpeed
       entity.maxAngularSpeed ??= params.maxAngularSpeed

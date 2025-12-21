@@ -9,10 +9,8 @@ export function bouncy(params) {
   params = extend(DEFAULT_PARAMS, params)
 
   return (type) => ({
-    create(entity, entityId, api) {
-      type.create?.(entity, entityId, api)
-
-      if (entityId !== entity.id) return
+    create(entity, payload, api) {
+      type.create?.(entity, payload, api)
 
       defaults(entity, params)
     },

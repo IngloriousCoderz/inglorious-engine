@@ -1,5 +1,14 @@
 # inglorious-pong
 
+## 1.0.21
+
+### Patch Changes
+
+- Notify lifecycle events as targeted
+- Updated dependencies
+  - @inglorious/engine@14.0.0
+  - @inglorious/renderer-2d@13.0.0
+
 ## 1.0.20
 
 ### Patch Changes

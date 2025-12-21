@@ -4,9 +4,7 @@ import { zero } from "@inglorious/utils/math/vector.js"
 
 export function mouse() {
   return {
-    create(entity, entityId) {
-      if (entityId !== entity.id) return
-
+    create(entity) {
       entity.collisions ??= {}
       entity.collisions.bounds ??= { shape: "point" }
     },

@@ -1,8 +1,7 @@
 import * as client from "@/services/client"
 const TASKS_TO_REMOVE = 1
 
-export async function create(entity, id, api) {
-  if (id !== entity.id) return
+export async function create(entity, payload, api) {
   const tasks = await client.fetchTasks()
   api.notify("tasksFetched", tasks)
 }

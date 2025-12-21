@@ -68,17 +68,10 @@ export interface TableEntity<T = any> {
  */
 export declare const table: {
   /**
-   * Initializes the table entity.
+   * Initializes the table entity with default state.
    * @param entity The table entity.
    */
-  init(entity: TableEntity): void
-
-  /**
-   * Resets the table entity when a 'create' event payload matches its ID.
-   * @param entity The table entity.
-   * @param id The ID of the entity to create/reset.
-   */
-  create(entity: TableEntity, id: string): void
+  create(entity: TableEntity): void
 
   /**
    * Toggles sorting for a specific column.

@@ -44,33 +44,25 @@ describe("router", () => {
   })
 
   describe("init()", () => {
-    it("should initialize with the current window.location", () => {
+    it("should initialize with the current window.location, set up a popstate listener, and set up a click listener for link interception", () => {
       vi.spyOn(window, "location", "get").mockReturnValue({
         pathname: "/users/123",
         search: "?sort=asc",
         hash: "#details",
         origin: "http://localhost:3000",
       })
+      const windowSpy = vi.spyOn(window, "addEventListener")
+      const documentSpy = vi.spyOn(document, "addEventListener")
 
-      router.init(entity, {}, api)
+      router.init(entity, undefined, api)
 
       expect(api.notify).toHaveBeenCalledWith("#router:navigate", {
         to: "/users/123?sort=asc",
         params: { id: "123" },
         replace: true,
       })
-    })
-
-    it("should set up a popstate listener", () => {
-      const spy = vi.spyOn(window, "addEventListener")
-      router.init(entity, {}, api)
-      expect(spy).toHaveBeenCalledWith("popstate", expect.any(Function))
-    })
-
-    it("should set up a click listener for link interception", () => {
-      const spy = vi.spyOn(document, "addEventListener")
-      router.init(entity, {}, api)
-      expect(spy).toHaveBeenCalledWith("click", expect.any(Function))
+      expect(windowSpy).toHaveBeenCalledWith("popstate", expect.any(Function))
+      expect(documentSpy).toHaveBeenCalledWith("click", expect.any(Function))
     })
   })
 
