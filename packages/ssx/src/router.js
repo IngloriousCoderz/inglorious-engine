@@ -1,4 +1,5 @@
 import path from "node:path"
+import { pathToFileURL } from "node:url"
 
 import { glob } from "glob"
 
@@ -20,7 +21,7 @@ export async function getPages(pagesDir = "pages") {
     if (isDynamic(route.pattern)) {
       // Dynamic route - call getStaticPaths if it exists
       try {
-        const module = await import(path.resolve(route.filePath))
+        const module = await import(pathToFileURL(path.resolve(route.filePath)))
 
         if (typeof module.getStaticPaths === "function") {
           const paths = await module.getStaticPaths()
@@ -35,6 +36,7 @@ export async function getPages(pagesDir = "pages") {
 
             pages.push({
               path: urlPath,
+              modulePath: route.modulePath,
               filePath: route.filePath,
               params,
             })
@@ -52,6 +54,7 @@ export async function getPages(pagesDir = "pages") {
       // Static route - add directly
       pages.push({
         path: route.pattern === "" ? "/" : route.pattern,
+        modulePath: route.modulePath,
         filePath: route.filePath,
         params: {},
       })
@@ -99,7 +102,8 @@ export async function getRoutes(pagesDir = "pages") {
   // Find all .js and .ts files in pages directory
   const files = await glob("**/*.{js,ts}", {
     cwd: pagesDir,
-    ignore: ["**/_*.{js,ts}", "**/*.test.{js,ts}", "**/*.spec.{js,ts}"],
+    ignore: ["**/*.test.{js,ts}", "**/*.spec.{js,ts}"],
+    posix: true,
   })
 
   const routes = files.map((file) => {
@@ -109,6 +113,7 @@ export async function getRoutes(pagesDir = "pages") {
 
     return {
       pattern,
+      modulePath: file,
       filePath,
       regex,
       params,
@@ -138,8 +143,8 @@ function filePathToPattern(file) {
     .replace(/\.(js|ts)$/, "") // Remove extension
     .replace(/\/index$/, "") // index becomes root of directory
     .replace(/^index$/, "") // Handle root index
-    .replace(/\[\.\.\.(\w+)\]/g, "*") // [...path] becomes *
-    .replace(/\[(\w+)\]/g, ":$1") // [id] becomes :id
+    .replace(/__(\w+)/g, "*") // __path becomes *
+    .replace(/_(\w+)/g, ":$1") // _id becomes :id
 
   // Normalize to start with /
   return "/" + pattern.replace(/^\//, "")

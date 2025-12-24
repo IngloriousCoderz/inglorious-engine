@@ -1,17 +1,11 @@
-import { createStore } from "@inglorious/web"
+import { toHTML } from "./html.js"
+import { store } from "./store.js"
 
-import { toHTML } from "./html"
+export function renderPage(pageModule, options) {
+  const [name] = Object.keys(pageModule)
 
-export async function renderPage(pageModule, context) {
-  const data = (await pageModule.getData?.(context)) ?? {}
-  const storeConfig = pageModule.getStore(data)
-  const store = createStore(storeConfig)
+  store.notify("morph", { name, type: pageModule[name] })
+  store.notify("add", { id: name, type: name })
 
-  const html = toHTML(pageModule.render, store)
-
-  return {
-    html,
-    storeConfig,
-    renderFn: pageModule.render,
-  }
+  return toHTML(store, (api) => api.render(name), options)
 }

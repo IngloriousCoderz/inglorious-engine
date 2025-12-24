@@ -1,15 +1,19 @@
 import { mount } from "@inglorious/web"
-import { Window } from "happy-dom"
 
 export function toHTML(store, renderFn, options = {}) {
-  const window = new Window()
+  const window = globalThis.window
   const document = window.document
+
   document.body.innerHTML = '<div id="root"></div>'
-
   const root = document.getElementById("root")
-  mount(store, renderFn, root)
 
-  const html = stripLitMarkers(root.innerHTML)
+  mount(store, renderFn, root)
+  store.update()
+
+  const html = options.stripLitMarkers
+    ? stripLitMarkers(root.innerHTML)
+    : root.innerHTML
+
   window.close()
 
   return options.wrap ? wrapHTML(html, options) : html
@@ -33,6 +37,8 @@ function wrapHTML(body, options) {
 </head>
 <body>
   <div id="root">${body}</div>
+
+  <script type="module" src="/store.js"></script>
   ${scripts.map((src) => `<script type="module" src="${src}"></script>`).join("\n")}
 </body>
 </html>`

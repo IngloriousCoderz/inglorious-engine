@@ -2,8 +2,8 @@ import { html } from "lit-html"
 import { classMap } from "lit-html/directives/class-map.js"
 import { ref } from "lit-html/directives/ref.js"
 
-import { filters } from "./filters"
-import { getPaginationInfo, getRows, getSortDirection } from "./logic"
+import { filters } from "./filters.js"
+import { getPaginationInfo, getRows, getSortDirection } from "./logic.js"
 
 const DIVISOR = 2
 const FIRST_PAGE = 0

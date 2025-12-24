@@ -83,6 +83,18 @@ export const router = {
     })
   },
 
+  create(entity) {
+    entity.routes ??= {}
+  },
+
+  routeAdd(entity, route) {
+    entity.routes[route.path] = route.entityType
+  },
+
+  routeRemove(entity, path) {
+    delete [entity.routes[path]]
+  },
+
   /**
    * Handles navigation to a new route.
    * @param {RouterEntity} entity - The router entity.

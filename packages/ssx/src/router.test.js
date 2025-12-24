@@ -90,21 +90,7 @@ describe("router", () => {
       const consoleSpy = vi.spyOn(console, "warn").mockImplementation(() => {})
       const pages = await getPages(FIXTURES_DIR)
 
-      // Static routes
-      expect(pages).toContainEqual(
-        expect.objectContaining({ path: "/", params: {} }),
-      )
-      expect(pages).toContainEqual(
-        expect.objectContaining({ path: "/about", params: {} }),
-      )
-
-      // Dynamic routes with getStaticPaths
-      expect(pages).toContainEqual(
-        expect.objectContaining({ path: "/posts/1", params: { id: "1" } }),
-      )
-      expect(pages).toContainEqual(
-        expect.objectContaining({ path: "/posts/2", params: { id: "2" } }),
-      )
+      expect(pages).toMatchSnapshot()
 
       // Dynamic route without getStaticPaths should be skipped (and warn)
       const blogPage = pages.find((p) => p.path.includes("/blog/"))

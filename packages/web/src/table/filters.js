@@ -1,10 +1,10 @@
 import { choose, html } from "@inglorious/web"
 
-import { dateFilter } from "./filters/date"
-import { numberFilter } from "./filters/number"
-import { rangeFilter } from "./filters/range"
-import { selectFilter } from "./filters/select"
-import { textFilter } from "./filters/text"
+import { dateFilter } from "./filters/date.js"
+import { numberFilter } from "./filters/number.js"
+import { rangeFilter } from "./filters/range.js"
+import { selectFilter } from "./filters/select.js"
+import { textFilter } from "./filters/text.js"
 
 export const filters = {
   render(entity, column, api) {

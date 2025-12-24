@@ -13,6 +13,8 @@ exports[`toHTML > HTML wrapping > should default to empty title when not provide
 </head>
 <body>
   <div id="root"><p>Content</p></div>
+
+  <script type="module" src="/store.js"></script>
   
 </body>
 </html>"
@@ -29,6 +31,8 @@ exports[`toHTML > HTML wrapping > should handle empty arrays for metas, styles, 
 </head>
 <body>
   <div id="root"><p>Content</p></div>
+
+  <script type="module" src="/store.js"></script>
   
 </body>
 </html>"
@@ -45,6 +49,8 @@ exports[`toHTML > HTML wrapping > should include all options in wrapped HTML 1`]
 </head>
 <body>
   <div id="root"><main>Main content</main></div>
+
+  <script type="module" src="/store.js"></script>
   <script type="module" src="/app.js"></script>
 </body>
 </html>"
@@ -62,6 +68,8 @@ exports[`toHTML > HTML wrapping > should include meta tags in wrapped HTML 1`] =
 </head>
 <body>
   <div id="root"><p>Content</p></div>
+
+  <script type="module" src="/store.js"></script>
   
 </body>
 </html>"
@@ -78,6 +86,8 @@ exports[`toHTML > HTML wrapping > should include scripts in wrapped HTML 1`] = `
 </head>
 <body>
   <div id="root"><p>Content</p></div>
+
+  <script type="module" src="/store.js"></script>
   <script type="module" src="/js/app.js"></script>
 <script type="module" src="/js/analytics.js"></script>
 </body>
@@ -96,6 +106,8 @@ exports[`toHTML > HTML wrapping > should include stylesheets in wrapped HTML 1`]
 </head>
 <body>
   <div id="root"><p>Content</p></div>
+
+  <script type="module" src="/store.js"></script>
   
 </body>
 </html>"
@@ -112,6 +124,8 @@ exports[`toHTML > HTML wrapping > should wrap HTML with basic DOCTYPE and struct
 </head>
 <body>
   <div id="root"><h1>Page Title</h1></div>
+
+  <script type="module" src="/store.js"></script>
   
 </body>
 </html>"
@@ -153,6 +167,8 @@ exports[`toHTML > complex scenarios > should render wrapped complex page with al
           <header><h1>My Website</h1></header>
           <p>Welcome!</p>
         </div></div>
+
+  <script type="module" src="/store.js"></script>
   <script type="module" src="/script.js"></script>
 </body>
 </html>"
@@ -160,7 +176,7 @@ exports[`toHTML > complex scenarios > should render wrapped complex page with al
 
 exports[`toHTML > edge cases > should handle special characters in content 1`] = `"<p>&lt;script&gt; &amp; "quotes"</p>"`;
 
-exports[`toHTML > edge cases > should not include wrap by default 1`] = `"<p>Content</p>"`;
+exports[`toHTML > edge cases > should not include wrap by default 1`] = `"<!----><p>Content</p>"`;
 
 exports[`toHTML > edge cases > should return only inner HTML when wrap is false 1`] = `"<p>Inner</p>"`;
 

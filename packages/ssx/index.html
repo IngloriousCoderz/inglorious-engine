@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>`lit-html` Test</title>
+  </head>
+  <body>
+    <h1>`lit-html` Test</h1>
+    <p>
+      This test aims at proving that `lit-html` will append any content after
+      server-side rendering, instead of replacing it.
+    </p>
+    <div id="root"></div>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "lit-html": "https://cdn.jsdelivr.net/npm/lit-html@3.3.1/+esm"
+        }
+      }
+    </script>
+    <script type="module">
+      import { html, render } from "lit-html"
+
+      const root = document.getElementById("root")
+      root.innerHTML = "<h1>Server Side</h1>"
+
+      console.log("Before render:", root.innerHTML)
+
+      render(html`<h1>Client Side</h1>`, root)
+
+      console.log("After render:", root.innerHTML)
+    </script>
+  </body>
+</html>

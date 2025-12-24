@@ -1,0 +1,18 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`router > getPages > should generate static paths for all pages 1`] = `
+[
+  {
+    "filePath": "C:\\Users\\anton\\Projects\\ic\\inglorious-forge\\packages\\ssx\\src\\__fixtures__\\pages\\about.js",
+    "modulePath": "about.js",
+    "params": {},
+    "path": "/about",
+  },
+  {
+    "filePath": "C:\\Users\\anton\\Projects\\ic\\inglorious-forge\\packages\\ssx\\src\\__fixtures__\\pages\\index.js",
+    "modulePath": "index.js",
+    "params": {},
+    "path": "/",
+  },
+]
+`;

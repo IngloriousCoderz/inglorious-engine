@@ -3,13 +3,15 @@ import { describe, expect, it } from "vitest"
 
 import { toHTML } from "./html.js"
 
+const DEFAULT_OPTIONS = { stripLitMarkers: true }
+
 describe("toHTML", () => {
   describe("basic rendering", () => {
     it("should render simple HTML without wrapping", () => {
       const store = createStore()
       const renderFn = () => html`<h1>Hello World</h1>`
 
-      const result = toHTML(store, renderFn)
+      const result = toHTML(store, renderFn, DEFAULT_OPTIONS)
 
       expect(result).toMatchSnapshot()
     })
@@ -18,7 +20,7 @@ describe("toHTML", () => {
       const store = createStore()
       const renderFn = () => html``
 
-      const result = toHTML(store, renderFn)
+      const result = toHTML(store, renderFn, DEFAULT_OPTIONS)
 
       expect(result).toMatchSnapshot()
     })
@@ -31,7 +33,7 @@ describe("toHTML", () => {
           <p>Content</p>
         </div>`
 
-      const result = toHTML(store, renderFn)
+      const result = toHTML(store, renderFn, DEFAULT_OPTIONS)
 
       expect(result).toMatchSnapshot()
     })
@@ -41,7 +43,7 @@ describe("toHTML", () => {
       const renderFn = () =>
         html`<div style="color: red; font-size: 16px;">Styled</div>`
 
-      const result = toHTML(store, renderFn)
+      const result = toHTML(store, renderFn, DEFAULT_OPTIONS)
 
       expect(result).toMatchSnapshot()
     })
@@ -62,7 +64,7 @@ describe("toHTML", () => {
 
       const renderFn = (api) => html`<div>${api.render("greeting")}</div>`
 
-      const result = toHTML(store, renderFn)
+      const result = toHTML(store, renderFn, DEFAULT_OPTIONS)
 
       expect(result).toMatchSnapshot()
     })
@@ -86,7 +88,7 @@ describe("toHTML", () => {
           ${api.render("item1")} ${api.render("item2")} ${api.render("item3")}
         </ul>`
 
-      const result = toHTML(store, renderFn)
+      const result = toHTML(store, renderFn, DEFAULT_OPTIONS)
 
       expect(result).toMatchSnapshot()
     })
@@ -108,7 +110,7 @@ describe("toHTML", () => {
 
       const renderFn = (api) => html`<div>${api.render("content")}</div>`
 
-      const result = toHTML(store, renderFn)
+      const result = toHTML(store, renderFn, DEFAULT_OPTIONS)
 
       expect(result).toMatchSnapshot()
     })
@@ -119,7 +121,11 @@ describe("toHTML", () => {
       const store = createStore()
       const renderFn = () => html`<h1>Page Title</h1>`
 
-      const result = toHTML(store, renderFn, { wrap: true, title: "My Page" })
+      const result = toHTML(store, renderFn, {
+        ...DEFAULT_OPTIONS,
+        wrap: true,
+        title: "My Page",
+      })
 
       expect(result).toMatchSnapshot()
     })
@@ -129,6 +135,7 @@ describe("toHTML", () => {
       const renderFn = () => html`<p>Content</p>`
 
       const result = toHTML(store, renderFn, {
+        ...DEFAULT_OPTIONS,
         wrap: true,
         title: "Test Page",
         metas: [
@@ -145,6 +152,7 @@ describe("toHTML", () => {
       const renderFn = () => html`<p>Content</p>`
 
       const result = toHTML(store, renderFn, {
+        ...DEFAULT_OPTIONS,
         wrap: true,
         styles: ["/css/style.css", "/css/theme.css"],
       })
@@ -157,6 +165,7 @@ describe("toHTML", () => {
       const renderFn = () => html`<p>Content</p>`
 
       const result = toHTML(store, renderFn, {
+        ...DEFAULT_OPTIONS,
         wrap: true,
         scripts: ["/js/app.js", "/js/analytics.js"],
       })
@@ -169,6 +178,7 @@ describe("toHTML", () => {
       const renderFn = () => html`<main>Main content</main>`
 
       const result = toHTML(store, renderFn, {
+        ...DEFAULT_OPTIONS,
         wrap: true,
         title: "Complete Page",
         metas: [{ name: "author", content: "Test Author" }],
@@ -183,7 +193,7 @@ describe("toHTML", () => {
       const store = createStore()
       const renderFn = () => html`<p>Content</p>`
 
-      const result = toHTML(store, renderFn, { wrap: true })
+      const result = toHTML(store, renderFn, { ...DEFAULT_OPTIONS, wrap: true })
 
       expect(result).toMatchSnapshot()
     })
@@ -193,6 +203,7 @@ describe("toHTML", () => {
       const renderFn = () => html`<p>Content</p>`
 
       const result = toHTML(store, renderFn, {
+        ...DEFAULT_OPTIONS,
         wrap: true,
         metas: [],
         styles: [],
@@ -220,7 +231,7 @@ describe("toHTML", () => {
 
       const renderFn = (api) => html`<div>${api.render("myWrapper")}</div>`
 
-      const result = toHTML(store, renderFn)
+      const result = toHTML(store, renderFn, DEFAULT_OPTIONS)
 
       expect(result).toMatchSnapshot()
     })
@@ -248,7 +259,7 @@ describe("toHTML", () => {
           <footer>© 2024</footer>
         </div>`
 
-      const result = toHTML(store, renderFn)
+      const result = toHTML(store, renderFn, DEFAULT_OPTIONS)
 
       expect(result).toMatchSnapshot()
     })
@@ -268,6 +279,7 @@ describe("toHTML", () => {
         </div>`
 
       const result = toHTML(store, renderFn, {
+        ...DEFAULT_OPTIONS,
         wrap: true,
         title: "My Website",
         metas: [
@@ -300,7 +312,7 @@ describe("toHTML", () => {
 
       const renderFn = (api) => html`<div>${api.render("myButton")}</div>`
 
-      const result = toHTML(store, renderFn)
+      const result = toHTML(store, renderFn, DEFAULT_OPTIONS)
 
       expect(result).toMatchSnapshot()
     })
@@ -328,7 +340,7 @@ describe("toHTML", () => {
 
       const renderFn = (api) => html`<div>${api.render("counter1")}</div>`
 
-      const result = toHTML(store, renderFn)
+      const result = toHTML(store, renderFn, DEFAULT_OPTIONS)
 
       expect(result).toMatchSnapshot()
     })
@@ -339,7 +351,7 @@ describe("toHTML", () => {
       const store = createStore()
       const renderFn = () => html`<p>&lt;script&gt; &amp; "quotes"</p>`
 
-      const result = toHTML(store, renderFn)
+      const result = toHTML(store, renderFn, DEFAULT_OPTIONS)
 
       expect(result).toMatchSnapshot()
     })
@@ -357,7 +369,10 @@ describe("toHTML", () => {
       const store = createStore()
       const renderFn = () => html`<p>Inner</p>`
 
-      const result = toHTML(store, renderFn, { wrap: false })
+      const result = toHTML(store, renderFn, {
+        ...DEFAULT_OPTIONS,
+        wrap: false,
+      })
 
       expect(result).toMatchSnapshot()
     })
@@ -366,7 +381,7 @@ describe("toHTML", () => {
       const store = createStore()
       const renderFn = () => html`<p>Test</p>`
 
-      const result = toHTML(store, renderFn)
+      const result = toHTML(store, renderFn, DEFAULT_OPTIONS)
 
       expect(result).toBeDefined()
       expect(result).not.toBeNull()
