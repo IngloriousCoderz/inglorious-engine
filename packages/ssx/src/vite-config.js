@@ -13,7 +13,7 @@ export function createViteConfig(options = {}) {
       emptyOutDir: false, // Don't delete HTML files we already generated
       rollupOptions: {
         input: {
-          store: path.resolve(outDir, "store.js"),
+          main: path.resolve(outDir, "main.js"),
         },
         output: {
           entryFileNames: "[name].js",

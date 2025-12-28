@@ -64,7 +64,7 @@ program
         renderOptions: {
           seed,
           title: options.title,
-          metas: [],
+          meta: {},
           styles: options.styles || [],
           scripts: options.scripts || [],
         },

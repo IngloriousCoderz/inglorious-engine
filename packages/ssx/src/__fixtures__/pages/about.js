@@ -6,3 +6,9 @@ export const about = {
       <nav><a href="/">Home</a></nav>`
   },
 }
+
+export const title = "About"
+
+export const meta = {
+  description: "About page",
+}

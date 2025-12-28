@@ -26,19 +26,21 @@ function stripLitMarkers(html) {
 }
 
 function wrapHTML(body, options) {
-  const { title = "", metas = [], styles = [], scripts = [] } = options
+  const { title = "", meta = {}, styles = [], scripts = [] } = options
   return `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
   <title>${title}</title>
-  ${metas.map((meta) => `<meta name="${meta.name}" content="${meta.content}">`).join("\n")}
+  ${Object.entries(meta)
+    .map(([name, content]) => `<meta name="${name}" content="${content}">`)
+    .join("\n")}
   ${styles.map((href) => `<link rel="stylesheet" href="${href}">`).join("\n")}
 </head>
 <body>
   <div id="root">${body}</div>
 
-  <script type="module" src="/store.js"></script>
+  <script type="module" src="/main.js"></script>
   ${scripts.map((src) => `<script type="module" src="${src}"></script>`).join("\n")}
 </body>
 </html>`

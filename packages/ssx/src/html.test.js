@@ -138,10 +138,10 @@ describe("toHTML", () => {
         ...DEFAULT_OPTIONS,
         wrap: true,
         title: "Test Page",
-        metas: [
-          { name: "description", content: "Test description" },
-          { name: "viewport", content: "width=device-width, initial-scale=1" },
-        ],
+        meta: {
+          description: "Test description",
+          viewport: "width=device-width, initial-scale=1",
+        },
       })
 
       expect(result).toMatchSnapshot()
@@ -181,7 +181,7 @@ describe("toHTML", () => {
         ...DEFAULT_OPTIONS,
         wrap: true,
         title: "Complete Page",
-        metas: [{ name: "author", content: "Test Author" }],
+        meta: { author: "Test Author" },
         styles: ["/style.css"],
         scripts: ["/app.js"],
       })
@@ -198,14 +198,14 @@ describe("toHTML", () => {
       expect(result).toMatchSnapshot()
     })
 
-    it("should handle empty arrays for metas, styles, and scripts", () => {
+    it("should handle empty arrays for meta, styles, and scripts", () => {
       const store = createStore()
       const renderFn = () => html`<p>Content</p>`
 
       const result = toHTML(store, renderFn, {
         ...DEFAULT_OPTIONS,
         wrap: true,
-        metas: [],
+        meta: {},
         styles: [],
         scripts: [],
       })
@@ -282,10 +282,10 @@ describe("toHTML", () => {
         ...DEFAULT_OPTIONS,
         wrap: true,
         title: "My Website",
-        metas: [
-          { name: "description", content: "Welcome to my site" },
-          { name: "viewport", content: "width=device-width" },
-        ],
+        meta: {
+          description: "Welcome to my website",
+          viewport: "width=device-width",
+        },
         styles: ["/style.css"],
         scripts: ["/script.js"],
       })

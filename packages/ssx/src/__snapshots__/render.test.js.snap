@@ -11,14 +11,14 @@ exports[`should render a whole static page 1`] = `
 <head>
   <meta charset="UTF-8">
   <title>About</title>
-  
+  <meta name="description" content="About page">
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
   <div id="root"><h1>About </h1>
       <nav><a href="/">Home</a></nav></div>
 
-  <script type="module" src="/store.js"></script>
+  <script type="module" src="/main.js"></script>
   <script type="module" src="/ga.js"></script>
 </body>
 </html>"

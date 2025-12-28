@@ -33,16 +33,15 @@ export async function build(options = {}) {
   }
 
   // Generate lit-loader.js
-  const litLoaderContent = generateLitLoader(renderOptions)
-  await fs.writeFile(
-    path.join(outDir, "lit-loader.js"),
-    litLoaderContent,
-    "utf-8",
-  )
+  const litLoader = generateLitLoader(renderOptions)
+  await fs.writeFile(path.join(outDir, "lit-loader.js"), litLoader, "utf-8")
 
   // Generate store config once for all pages
-  const storeConfig = generateStoreConfig(store, renderedPages)
-  await fs.writeFile(path.join(outDir, "store.js"), storeConfig, "utf-8")
+  const app = generateApp(store, renderedPages)
+  await fs.writeFile(path.join(outDir, "app.js"), app, "utf-8")
+
+  const main = generateMain()
+  await fs.writeFile(path.join(outDir, "main.js"), main, "utf-8")
 
   // Write all pages to disk
   console.log("\n💾 Writing files...\n")
@@ -62,43 +61,24 @@ export async function build(options = {}) {
   return { pages: renderedPages.length, outDir }
 }
 
-function generateLitLoader(renderOptions = {}) {
-  return `const SEED = ${renderOptions.seed}
+function generateLitLoader(options = {}) {
+  return `let seed = ${options.seed}
+let mode = "seeded"
 
-let seed = 0
-let mode = "normal"
+const originalRandom = Math.random
+Math.random = random
 
-const restore = patchRandom(SEED)
 await import("@inglorious/web")
-restore()
 
-
-function patchRandom(seed) {
-  const original = Math.random
-  const restore = setSeed(seed)
-
-  Math.random = random
-
-  return () => {
-    restore()
-    Math.random = original
-  }
-}
+Math.random = originalRandom
+mode = "normal"
 
 function random() {
   if (mode === "seeded") {
     seed = (seed * 1664525 + 1013904223) % 4294967296
     return seed / 4294967296
   }
-  return Math.random()
-}
-
-function setSeed(newSeed) {
-  seed = newSeed
-  mode = "seeded"
-  return () => {
-    mode = "normal"
-  }
+  return originalRandom()
 }
 `
 }
@@ -107,7 +87,7 @@ function setSeed(newSeed) {
  * Generate the code that goes inside the <!-- SSX --> marker.
  * This creates the types and entities objects for the client-side store.
  */
-function generateStoreConfig(store, renderedPages) {
+function generateApp(store, renderedPages) {
   // Collect all unique page modules and their exports
   const pageImports = new Map()
   const routeEntries = []
@@ -141,8 +121,7 @@ function generateStoreConfig(store, renderedPages) {
     .map((name) => `  ${name}`)
     .join(",\n")
 
-  return `import "./lit-loader.js"
-import { createDevtools, createStore, mount, router } from "@inglorious/web"
+  return `import { createDevtools, createStore, mount, router } from "@inglorious/web"
 ${imports}
 
 const types = {
@@ -174,6 +153,12 @@ mount(store, (api) => {
   const { route } = api.getEntity("router")
   return api.render(route, { allowType: true })
 }, root)`
+}
+
+function generateMain() {
+  return `import "./lit-loader.js"
+await import("./app.js")
+`
 }
 
 /**
