@@ -4,7 +4,7 @@ import path from "node:path"
  * Generate Vite config for building the client bundle
  */
 export function createViteConfig(options = {}) {
-  const { pagesDir = "pages", outDir = "dist" } = options
+  const { rootDir = "src", outDir = "dist" } = options
 
   return {
     root: process.cwd(),
@@ -24,7 +24,7 @@ export function createViteConfig(options = {}) {
     },
     resolve: {
       alias: {
-        "@": path.resolve(process.cwd(), pagesDir),
+        "@": path.resolve(process.cwd(), rootDir),
       },
     },
   }

@@ -26,7 +26,7 @@ program
 program
   .command("build")
   .description("Build static site from pages directory")
-  .option("-p, --pages <dir>", "pages directory", "pages")
+  .option("-r, --root <dir>", "source root directory", "src")
   .option("-o, --out <dir>", "output directory", "dist")
   .option("-s, --seed <seed>", "seed for random number generator", 42)
   .option("-t, --title <title>", "default page title", "My Site")
@@ -50,7 +50,6 @@ program
       globalThis.customElements = window.customElements
 
       // 3️⃣ Patch with the parsed seed
-      console.log("Using seed:", seed)
       const restore = patchRandom(seed)
       await import("@inglorious/web")
       restore()
@@ -59,7 +58,7 @@ program
       const { build } = await import("../src/build.js")
 
       await build({
-        pagesDir: path.resolve(cwd, options.pages),
+        rootDir: path.resolve(cwd, options.root),
         outDir: path.resolve(cwd, options.out),
         renderOptions: {
           seed,

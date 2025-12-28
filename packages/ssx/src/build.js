@@ -4,13 +4,14 @@ import { pathToFileURL } from "node:url"
 
 import { build as viteBuild } from "vite"
 
+import { getModuleName } from "./module.js"
 import { renderPage } from "./render.js"
 import { getPages } from "./router.js"
 import { store } from "./store.js"
 import { createViteConfig } from "./vite-config.js"
 
 export async function build(options = {}) {
-  const { pagesDir = "pages", outDir = "dist", renderOptions = {} } = options
+  const { rootDir = "src", outDir = "dist", renderOptions = {} } = options
 
   console.log("🔨 Starting build...\n")
 
@@ -19,7 +20,7 @@ export async function build(options = {}) {
   await fs.mkdir(outDir, { recursive: true })
 
   // Get all pages to build
-  const pages = await getPages(pagesDir)
+  const pages = await getPages(path.join(rootDir, "pages"))
   console.log(`📄 Found ${pages.length} pages to build\n`)
 
   // Render all pages
@@ -37,6 +38,11 @@ export async function build(options = {}) {
   await fs.writeFile(path.join(outDir, "lit-loader.js"), litLoader, "utf-8")
 
   // Generate store config once for all pages
+  const { entities } = await import(
+    pathToFileURL(path.join(rootDir, "entities.js"))
+  )
+  store.setState(entities)
+
   const app = generateApp(store, renderedPages)
   await fs.writeFile(path.join(outDir, "app.js"), app, "utf-8")
 
@@ -53,7 +59,7 @@ export async function build(options = {}) {
 
   // Bundle with Vite
   console.log("\n📦 Bundling with Vite...\n")
-  const viteConfig = createViteConfig({ pagesDir, outDir })
+  const viteConfig = createViteConfig({ rootDir, outDir })
   await viteBuild(viteConfig)
 
   console.log("\n✨ Build complete!\n")
@@ -70,8 +76,10 @@ Math.random = random
 
 await import("@inglorious/web")
 
-Math.random = originalRandom
-mode = "normal"
+queueMicrotask(() => {
+  Math.random = originalRandom
+  mode = "normal"
+})
 
 function random() {
   if (mode === "seeded") {
@@ -95,9 +103,9 @@ function generateApp(store, renderedPages) {
   for (const { page, module } of renderedPages) {
     // Convert file path to import path
     // about.js -> /about.js
-    const importPath = "@/" + page.modulePath
+    const importPath = "@/pages/" + page.modulePath
 
-    const [exportName] = Object.keys(module) // TODO: this is brittle, and doesn't work when getStaticPaths is present
+    const exportName = getModuleName(module)
 
     pageImports.set(importPath, exportName)
 
