@@ -45,7 +45,8 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "test:watch": "vitest",
     "test": "vitest run",
-    "dev": "node ./bin/ssx.js build -r ./src/__fixtures__"
+    "dev": "node ./bin/ssx.js build -r ./src/__fixtures__",
+    "serve": "pnpm dlx serve dist"
   },
   "dependencies": {
     "@inglorious/web": "workspace:*",

@@ -54,9 +54,9 @@ ${JSON.stringify(store.getState(), null, 2).slice(1, -1)}
 }
 
 const middlewares = []
-// if (import.meta.env.DEV) {
+if (import.meta.env.DEV) {
   middlewares.push(createDevtools().middleware)
-// }
+}
 
 const store = createStore({ types, entities, middlewares })
 

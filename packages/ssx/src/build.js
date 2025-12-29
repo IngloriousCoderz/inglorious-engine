@@ -27,10 +27,10 @@ export async function build(options = {}) {
   console.log(`📄 Found ${pages.length} pages to build\n`)
 
   // Generate store config once for all pages
-  const store = generateStore(rootDir, pages)
+  const store = await generateStore(rootDir, pages)
 
   // Render all pages
-  const renderedPages = generatePages(store, pages, renderOptions)
+  const renderedPages = await generatePages(store, pages, renderOptions)
 
   // Write all pages to disk
   console.log("\n💾 Writing files...\n")
@@ -76,11 +76,13 @@ async function generateStore(rootDir = "src", pages = []) {
   const { entities } = await import(
     pathToFileURL(path.join(rootDir, "entities.js"))
   )
+
   return createStore({ types, entities, updateMode: "manual" })
 }
 
 async function generatePages(store, pages, renderOptions) {
   const renderedPages = []
+
   for (const page of pages) {
     console.log(`  Rendering ${page.path}...`)
 
@@ -91,6 +93,8 @@ async function generatePages(store, pages, renderOptions) {
     })
     renderedPages.push({ page, module, html })
   }
+
+  return renderedPages
 }
 
 /**
