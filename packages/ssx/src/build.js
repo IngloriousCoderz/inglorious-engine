@@ -2,12 +2,15 @@ import fs from "node:fs/promises"
 import path from "node:path"
 import { pathToFileURL } from "node:url"
 
+import { createStore } from "@inglorious/web"
 import { build as viteBuild } from "vite"
 
 import { getModuleName } from "./module.js"
 import { renderPage } from "./render.js"
 import { getPages } from "./router.js"
-import { store } from "./store.js"
+import { generateApp } from "./scripts/app.js"
+import { generateLitLoader } from "./scripts/lit-loader.js"
+import { generateMain } from "./scripts/main.js"
 import { createViteConfig } from "./vite-config.js"
 
 export async function build(options = {}) {
@@ -23,34 +26,24 @@ export async function build(options = {}) {
   const pages = await getPages(path.join(rootDir, "pages"))
   console.log(`📄 Found ${pages.length} pages to build\n`)
 
-  // Render all pages
-  const renderedPages = []
-  for (const page of pages) {
-    console.log(`  Rendering ${page.path}...`)
+  // Generate store config once for all pages
+  const store = generateStore(rootDir, pages)
 
-    const module = await import(pathToFileURL(page.filePath))
-    const html = await renderPage(module, { ...renderOptions, wrap: true })
-    renderedPages.push({ page, module, html })
-  }
+  // Render all pages
+  const renderedPages = generatePages(store, pages, renderOptions)
+
+  // Write all pages to disk
+  console.log("\n💾 Writing files...\n")
 
   // Generate lit-loader.js
   const litLoader = generateLitLoader(renderOptions)
   await fs.writeFile(path.join(outDir, "lit-loader.js"), litLoader, "utf-8")
-
-  // Generate store config once for all pages
-  const { entities } = await import(
-    pathToFileURL(path.join(rootDir, "entities.js"))
-  )
-  store.setState(entities)
 
   const app = generateApp(store, renderedPages)
   await fs.writeFile(path.join(outDir, "app.js"), app, "utf-8")
 
   const main = generateMain()
   await fs.writeFile(path.join(outDir, "main.js"), main, "utf-8")
-
-  // Write all pages to disk
-  console.log("\n💾 Writing files...\n")
 
   for (const { page, html } of renderedPages) {
     const filePath = await writePageToDisk(page.path, html, outDir)
@@ -62,111 +55,42 @@ export async function build(options = {}) {
   const viteConfig = createViteConfig({ rootDir, outDir })
   await viteBuild(viteConfig)
 
+  // Remove bundled files
+  console.log("\n🧹 Cleaning up...\n")
+  await fs.rm(path.join(outDir, "lit-loader.js"))
+  await fs.rm(path.join(outDir, "app.js"))
+
   console.log("\n✨ Build complete!\n")
 
   return { pages: renderedPages.length, outDir }
 }
 
-function generateLitLoader(options = {}) {
-  return `let seed = ${options.seed}
-let mode = "seeded"
-
-const originalRandom = Math.random
-Math.random = random
-
-await import("@inglorious/web")
-
-queueMicrotask(() => {
-  Math.random = originalRandom
-  mode = "normal"
-})
-
-function random() {
-  if (mode === "seeded") {
-    seed = (seed * 1664525 + 1013904223) % 4294967296
-    return seed / 4294967296
-  }
-  return originalRandom()
-}
-`
-}
-
-/**
- * Generate the code that goes inside the <!-- SSX --> marker.
- * This creates the types and entities objects for the client-side store.
- */
-function generateApp(store, renderedPages) {
-  // Collect all unique page modules and their exports
-  const pageImports = new Map()
-  const routeEntries = []
-
-  for (const { page, module } of renderedPages) {
-    // Convert file path to import path
-    // about.js -> /about.js
-    const importPath = "@/pages/" + page.modulePath
-
-    const exportName = getModuleName(module)
-
-    pageImports.set(importPath, exportName)
-
-    // Map route path to entity type name
-    routeEntries.push(`      '${page.path}': '${exportName}'`)
+async function generateStore(rootDir = "src", pages = []) {
+  const types = {}
+  for (const page of pages) {
+    const pageModule = await import(pathToFileURL(page.filePath))
+    const name = getModuleName(pageModule)
+    types[name] = pageModule[name]
   }
 
-  // Generate import statements
-  const imports = Array.from(pageImports.entries())
-    .map(
-      ([importPath, exportName]) =>
-        `import { ${exportName} } from '${importPath}'`,
-    )
-    .join("\n")
-
-  // Generate routes object
-  const routes = routeEntries.join(",\n")
-
-  // Generate type registrations
-  const typeEntries = Array.from(pageImports.values())
-    .map((name) => `  ${name}`)
-    .join(",\n")
-
-  return `import { createDevtools, createStore, mount, router } from "@inglorious/web"
-${imports}
-
-const types = {
-  router,
-${typeEntries}
+  const { entities } = await import(
+    pathToFileURL(path.join(rootDir, "entities.js"))
+  )
+  return createStore({ types, entities, updateMode: "manual" })
 }
 
-const entities = {
-  router: {
-    type: 'router',
-    routes: {
-${routes}
-    }
-  },
-${JSON.stringify(store.getState(), null, 2).slice(1, -1)}
-}
+async function generatePages(store, pages, renderOptions) {
+  const renderedPages = []
+  for (const page of pages) {
+    console.log(`  Rendering ${page.path}...`)
 
-const middlewares = []
-if (import.meta.env.DEV) {
-  middlewares.push(createDevtools().middleware)
-}
-
-const store = createStore({ types, entities, middlewares })
-
-const root = document.getElementById("root")
-root.innerHTML = ""
-
-mount(store, (api) => {
-  const { route } = api.getEntity("router")
-  return api.render(route, { allowType: true })
-}, root)`
-}
-
-function generateMain() {
-  return `import "./lit-loader.js"
-await import("./app.js")
-`
+    const module = await import(pathToFileURL(page.filePath))
+    const html = await renderPage(store, module, {
+      ...renderOptions,
+      wrap: true,
+    })
+    renderedPages.push({ page, module, html })
+  }
 }
 
 /**

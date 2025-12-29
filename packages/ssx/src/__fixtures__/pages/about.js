@@ -12,3 +12,7 @@ export const title = "About"
 export const meta = {
   description: "About page",
 }
+
+export const styles = ["./style.css"]
+
+export const scripts = ["./ga.js"]
