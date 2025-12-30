@@ -19,6 +19,7 @@
     "@inglorious/eslint-config": "workspace:*",
     "eslint": "^9.39.1",
     "prettier": "^3.6.2",
+    "rollup-plugin-minify-template-literals": "^1.1.7",
     "typescript": "^5.9.2",
     "vite": "^7.1.6"
   },

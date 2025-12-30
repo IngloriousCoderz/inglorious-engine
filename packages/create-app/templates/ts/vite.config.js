@@ -1,6 +1,7 @@
 import path from "node:path"
 import { fileURLToPath } from "node:url"
 
+import { minifyTemplateLiterals } from "rollup-plugin-minify-template-literals"
 import { defineConfig } from "vite"
 
 const __filename = fileURLToPath(import.meta.url)
@@ -10,6 +11,8 @@ const __dirname = path.dirname(__filename)
 export default defineConfig({
   // @see https://github.com/vitejs/vite/issues/1973
   define: { "process.env": {} },
+
+  plugins: [minifyTemplateLiterals()],
 
   resolve: {
     alias: {

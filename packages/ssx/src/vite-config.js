@@ -1,5 +1,7 @@
 import path from "node:path"
 
+import { minifyTemplateLiterals } from "rollup-plugin-minify-template-literals"
+
 /**
  * Generate Vite config for building the client bundle
  */
@@ -8,6 +10,7 @@ export function createViteConfig(options = {}) {
 
   return {
     root: process.cwd(),
+    plugins: [minifyTemplateLiterals()],
     build: {
       outDir,
       emptyOutDir: false, // Don't delete HTML files we already generated

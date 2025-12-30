@@ -1,5 +1,11 @@
 # @inglorious/create-game
 
+## 0.2.1
+
+### Patch Changes
+
+- Minify template literals for better client-side performance
+
 ## 0.2.0
 
 ### Minor Changes

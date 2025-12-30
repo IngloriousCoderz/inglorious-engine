@@ -19,6 +19,7 @@
     "@inglorious/eslint-config": "workspace:*",
     "eslint": "^9.39.1",
     "prettier": "^3.6.2",
+    "rollup-plugin-minify-template-literals": "^1.1.7",
     "vite": "^7.1.6"
   },
   "packageManager": "pnpm@10.15.0",
