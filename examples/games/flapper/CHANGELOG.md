@@ -1,5 +1,11 @@
 # inglorious-flapper
 
+## 0.2.17
+
+### Patch Changes
+
+- Add missing Vite preview scripts
+
 ## 0.2.16
 
 ### Patch Changes

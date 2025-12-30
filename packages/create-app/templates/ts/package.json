@@ -10,7 +10,8 @@
     "format": "prettier --write '**/*.ts'",
     "lint": "eslint . --ext ts --report-unused-disable-directives --max-warnings 0",
     "dev": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
     "@inglorious/web": "workspace:*"

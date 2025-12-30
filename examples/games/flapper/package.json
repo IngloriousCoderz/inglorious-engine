@@ -1,6 +1,6 @@
 {
   "name": "@inglorious/flapper",
-  "version": "0.2.16",
+  "version": "0.2.17",
   "type": "module",
   "private": true,
   "description": "A Flappy Bird clone, re-implemented with the Inglorious Engine.",
@@ -10,7 +10,8 @@
     "format": "prettier --write '**/*.{js,jsx}'",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "dev": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
     "@inglorious/engine": "workspace:*",

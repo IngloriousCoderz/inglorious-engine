@@ -10,7 +10,8 @@
     "format": "prettier --write '**/*.{js,jsx}'",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "dev": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.27.1",

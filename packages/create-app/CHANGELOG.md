@@ -1,5 +1,11 @@
 # @inglorious/create-game
 
+## 0.2.2
+
+### Patch Changes
+
+- Add missing Vite preview scripts
+
 ## 0.2.1
 
 ### Patch Changes

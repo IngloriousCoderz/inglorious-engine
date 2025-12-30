@@ -1,6 +1,6 @@
 {
   "name": "@inglorious/pong",
-  "version": "1.0.21",
+  "version": "1.0.22",
   "type": "module",
   "private": true,
   "description": "A Pong clone, re-implemented with the Inglorious Engine.",
@@ -10,7 +10,8 @@
     "format": "prettier --write '**/*.{js,jsx}'",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "dev": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
     "@inglorious/engine": "workspace:*",
