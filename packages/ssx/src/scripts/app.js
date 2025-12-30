@@ -2,10 +2,10 @@
  * Generate the code that goes inside the <!-- SSX --> marker.
  * This creates the types and entities objects for the client-side store.
  */
-export function generateApp(store, renderedPages) {
+export function generateApp(store, pages) {
   // Collect all unique page modules and their exports
-  const routeEntries = renderedPages.map(
-    ({ page }) =>
+  const routeEntries = pages.map(
+    (page) =>
       `      "${page.path}": () => import("@/pages/${page.modulePath}")`,
   )
 

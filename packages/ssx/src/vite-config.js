@@ -9,7 +9,7 @@ export function createViteConfig(options = {}) {
   const { rootDir = "src", outDir = "dist" } = options
 
   return {
-    root: process.cwd(),
+    root: outDir,
     plugins: [minifyTemplateLiterals()],
     build: {
       outDir,

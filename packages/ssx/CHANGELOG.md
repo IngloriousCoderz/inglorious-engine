@@ -1,5 +1,11 @@
 # @inglorious/ssx
 
+## 0.3.0
+
+### Minor Changes
+
+- Add SSX dev server
+
 ## 0.2.3
 
 ### Patch Changes

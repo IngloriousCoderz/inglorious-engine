@@ -38,7 +38,7 @@ export async function build(options = {}) {
   const litLoader = generateLitLoader(renderOptions)
   await fs.writeFile(path.join(outDir, "lit-loader.js"), litLoader, "utf-8")
 
-  const app = generateApp(store, renderedPages)
+  const app = generateApp(store, pages)
   await fs.writeFile(path.join(outDir, "app.js"), app, "utf-8")
 
   const main = generateMain()

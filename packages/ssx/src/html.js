@@ -26,7 +26,7 @@ function stripLitMarkers(html) {
 }
 
 function wrapHTML(body, options) {
-  const { title = "", meta = {}, styles = [], scripts = [] } = options
+  const { dev, title = "", meta = {}, styles = [], scripts = [] } = options
 
   return `<!DOCTYPE html>
 <html>
@@ -41,7 +41,7 @@ function wrapHTML(body, options) {
 <body>
   <div id="root">${body}</div>
 
-  <script type="module" src="/main.js"></script>
+  ${dev ? `<script type="module" src="/@vite/client"></script>` : ``}<script type="module" src="/main.js"></script>
   ${scripts.map((src) => `<script type="module" src="${src}"></script>`).join("\n")}
 </body>
 </html>`

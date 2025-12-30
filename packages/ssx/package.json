@@ -1,6 +1,6 @@
 {
   "name": "@inglorious/ssx",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "description": "Server-Side-X. Xecution? Xperience? Who knows.",
   "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
   "license": "MIT",
@@ -45,20 +45,22 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "test:watch": "vitest",
     "test": "vitest run",
-    "dev": "node ./bin/ssx.js build -r ./src/__fixtures__",
+    "dev": "node ./bin/ssx.js dev -r ./src/__fixtures__",
+    "build": "node ./bin/ssx.js build -r ./src/__fixtures__",
     "preview": "pnpm dlx serve dist"
   },
   "dependencies": {
     "@inglorious/web": "workspace:*",
     "commander": "^14.0.2",
+    "connect": "^3.7.0",
     "glob": "^13.0.0",
-    "happy-dom": "^20.0.11"
+    "happy-dom": "^20.0.11",
+    "rollup-plugin-minify-template-literals": "^1.1.7",
+    "vite": "^7.1.3"
   },
   "devDependencies": {
     "@inglorious/eslint-config": "workspace:*",
     "prettier": "^3.6.2",
-    "rollup-plugin-minify-template-literals": "^1.1.7",
-    "vite": "^7.1.3",
     "vitest": "^1.6.1"
   },
   "packageManager": "pnpm@10.15.0",
