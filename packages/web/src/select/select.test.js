@@ -3,7 +3,7 @@
  */
 import { beforeEach, describe, expect, it } from "vitest"
 
-import { select } from "./select.js"
+import { select } from "."
 import {
   filterOptions,
   findOptionIndex,
@@ -12,7 +12,7 @@ import {
   getOptionValue,
   groupOptions,
   isOptionSelected,
-} from "./select/logic.js"
+} from "./logic.js"
 
 const sampleOptions = [
   { value: "br", label: "Brazil" },

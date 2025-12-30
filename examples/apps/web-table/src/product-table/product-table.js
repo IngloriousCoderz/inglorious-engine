@@ -1,7 +1,7 @@
 import "@inglorious/web/table/base.css"
 import "@inglorious/web/table/theme.css"
 
-import { table } from "@inglorious/web"
+import { table } from "@inglorious/web/table"
 import { format } from "date-fns"
 
 const formatters = {

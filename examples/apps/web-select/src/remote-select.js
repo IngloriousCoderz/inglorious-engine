@@ -1,4 +1,4 @@
-import { select } from "@inglorious/web"
+import { select } from "@inglorious/web/select"
 
 export const remoteSelect = {
   ...select,

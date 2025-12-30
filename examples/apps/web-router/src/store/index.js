@@ -1,4 +1,5 @@
-import { createStore, router } from "@inglorious/web"
+import { createStore } from "@inglorious/web"
+import { router } from "@inglorious/web/router"
 
 import { adminPage } from "../views/admin"
 import { home } from "../views/home"

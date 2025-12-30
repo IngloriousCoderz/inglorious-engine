@@ -1,4 +1,5 @@
-import { getFieldError, getFieldValue, html } from "@inglorious/web"
+import { html } from "@inglorious/web"
+import { getFieldError, getFieldValue } from "@inglorious/web/form"
 
 import classes from "../user-form.module.css"
 

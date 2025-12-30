@@ -6,8 +6,8 @@ const LIST_START = 0
 const PRETTY_INDEX = 1
 
 /**
- * @typedef {import('../types/list').ListEntity} ListEntity
- * @typedef {import('../types/mount').Api} Api
+ * @typedef {import('../../types/list').ListEntity} ListEntity
+ * @typedef {import('../../types/mount').Api} Api
  * @typedef {import('lit-html').TemplateResult} TemplateResult
  */
 

@@ -4,7 +4,7 @@
 import { html } from "lit-html"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
-import { list } from "./list.js"
+import { list } from "."
 
 describe("list", () => {
   let entity

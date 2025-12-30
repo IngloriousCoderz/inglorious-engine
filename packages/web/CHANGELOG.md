@@ -1,5 +1,11 @@
 # @inglorious/react-store
 
+## 3.0.0
+
+### Major Changes
+
+- Enable tree-shaking
+
 ## 2.6.1
 
 ### Patch Changes

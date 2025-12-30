@@ -1,12 +1,14 @@
 {
   "name": "web-todomvc-cs",
   "private": true,
-  "version": "0.0.5",
+  "version": "0.0.6",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "format": "prettier --write '**/*.js'",
+    "lint": "eslint . --ext js --report-unused-disable-directives --max-warnings 0",
     "test:watch": "vitest",
     "test": "vitest run",
+    "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "api": "pnpm dlx json-server server/db.json"
@@ -15,8 +17,11 @@
     "@inglorious/web": "workspace:*"
   },
   "devDependencies": {
-    "eslint": "^9.36.0",
-    "vite": "^7.2.2",
-    "vitest": "^4.0.15"
+    "@inglorious/eslint-config": "workspace:*",
+    "eslint": "^9.39.1",
+    "prettier": "^3.6.2",
+    "rollup-plugin-minify-template-literals": "^1.1.7",
+    "vite": "^7.1.6",
+    "vitest": "^4.0.16"
   }
 }

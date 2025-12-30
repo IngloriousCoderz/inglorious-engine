@@ -1,4 +1,5 @@
-import { form, html } from "@inglorious/web"
+import { html } from "@inglorious/web"
+import { form } from "@inglorious/web/form"
 
 import { input } from "./fields/input"
 import { radio } from "./fields/radio"

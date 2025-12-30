@@ -1,6 +1,6 @@
 {
   "name": "@inglorious/web",
-  "version": "2.6.1",
+  "version": "3.0.0",
   "description": "A new web framework that leverages the power of the Inglorious Store combined with the performance and simplicity of lit-html.",
   "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
   "license": "MIT",
@@ -25,6 +25,26 @@
     ".": {
       "types": "./types/index.d.ts",
       "import": "./src/index.js"
+    },
+    "./form": {
+      "types": "./types/form.d.ts",
+      "import": "./src/form/index.js"
+    },
+    "./list": {
+      "types": "./types/list.d.ts",
+      "import": "./src/list/index.js"
+    },
+    "./router": {
+      "types": "./types/router.d.ts",
+      "import": "./src/router/index.js"
+    },
+    "./select": {
+      "types": "./types/select.d.ts",
+      "import": "./src/select/index.js"
+    },
+    "./table": {
+      "types": "./types/table.d.ts",
+      "import": "./src/table/index.js"
     },
     "./table/base.css": "./src/table/base.css",
     "./table/theme.css": "./src/table/theme.css",
@@ -53,7 +73,6 @@
   "devDependencies": {
     "@inglorious/eslint-config": "workspace:*",
     "prettier": "^3.6.2",
-    "vite": "^7.1.3",
     "vitest": "^4.0.15"
   },
   "packageManager": "pnpm@10.15.0",

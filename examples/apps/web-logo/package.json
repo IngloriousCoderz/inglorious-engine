@@ -1,20 +1,25 @@
 {
   "name": "web-logo",
   "private": true,
-  "version": "0.1.6",
+  "version": "0.1.7",
   "type": "module",
   "scripts": {
+    "format": "prettier --write '**/*.js'",
+    "lint": "eslint . --ext js --report-unused-disable-directives --max-warnings 0",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@inglorious/utils": "workspace:*",
     "@inglorious/logo": "workspace:*",
+    "@inglorious/utils": "workspace:*",
     "@inglorious/web": "workspace:*"
   },
   "devDependencies": {
-    "eslint": "^9.36.0",
-    "vite": "^7.2.2"
+    "@inglorious/eslint-config": "workspace:*",
+    "eslint": "^9.39.1",
+    "prettier": "^3.6.2",
+    "rollup-plugin-minify-template-literals": "^1.1.7",
+    "vite": "^7.1.6"
   }
 }

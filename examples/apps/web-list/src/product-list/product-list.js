@@ -1,5 +1,5 @@
-import { html, list } from "@inglorious/web"
-import { classMap } from "@inglorious/web"
+import { classMap, html } from "@inglorious/web"
+import { list } from "@inglorious/web/list"
 
 import classes from "./product-list.module.css"
 

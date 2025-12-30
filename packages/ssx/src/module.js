@@ -1,4 +1,4 @@
-const RESERVED = ["meta", "getStaticPaths", "getData"]
+const RESERVED = ["title", "meta", "scripts", "styles", "load"]
 
 export function getModuleName(pageModule) {
   const name = Object.keys(pageModule).find((key) => {

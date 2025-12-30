@@ -3,7 +3,7 @@
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 
-import { router } from "./router.js"
+import { router } from "."
 
 describe("router", () => {
   let entity

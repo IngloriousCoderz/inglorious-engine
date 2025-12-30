@@ -1,21 +1,21 @@
 import { clone, get, set } from "@inglorious/utils/data-structures/object.js"
 
 /**
- * @typedef {import('../types/form.js').FormEntity} FormEntity
- * @typedef {import('../types/form.js').FormFieldChangePayload} FormFieldChangePayload
- * @typedef {import('../types/form.js').FormFieldBlurPayload} FormFieldBlurPayload
+ * @typedef {import('../../types/form.js').FormEntity} FormEntity
+ * @typedef {import('../../types/form.js').FormFieldChangePayload} FormFieldChangePayload
+ * @typedef {import('../../types/form.js').FormFieldBlurPayload} FormFieldBlurPayload
  *
  * @typedef {object} FormValidatePayload
  * @property {string|number} entityId - The ID of the target form entity.
- * @property {(values: object) => import('../types/form.js').FormErrors<object>} validate - A function that validates the entire form's values and returns a complete error object.
+ * @property {(values: object) => import('../../types/form.js').FormErrors<object>} validate - A function that validates the entire form's values and returns a complete error object.
  *
  * @typedef {object} FormValidateAsyncPayload
  * @property {string|number} entityId - The ID of the target form entity.
- * @property {(values: object) => Promise<import('../types/form.js').FormErrors<object>>} validate - An async function that validates the entire form's values.
+ * @property {(values: object) => Promise<import('../../types/form.js').FormErrors<object>>} validate - An async function that validates the entire form's values.
  *
  * @typedef {object} FormValidationCompletePayload
  * @property {string|number} entityId - The ID of the target form entity.
- * @property {import('../types/form.js').FormErrors<object>} errors - The validation errors.
+ * @property {import('../../types/form.js').FormErrors<object>} errors - The validation errors.
  * @property {boolean} isValid - Whether the form is valid.
  *
  * @typedef {object} FormValidationErrorPayload

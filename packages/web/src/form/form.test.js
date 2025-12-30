@@ -3,7 +3,7 @@
  */
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
-import { form, getFieldError, getFieldValue, isFieldTouched } from "./form.js"
+import { form, getFieldError, getFieldValue, isFieldTouched } from "."
 
 describe("form", () => {
   let entity

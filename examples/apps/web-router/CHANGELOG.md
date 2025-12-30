@@ -1,5 +1,13 @@
 # lit-todomvc
 
+## 0.4.4
+
+### Patch Changes
+
+- Enable tree-shaking
+- Updated dependencies
+  - @inglorious/web@3.0.0
+
 ## 0.4.3
 
 ### Patch Changes

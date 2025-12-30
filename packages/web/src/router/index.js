@@ -1,7 +1,7 @@
 /**
- * @typedef {import("../types/router").RouterType} RouterType
- * @typedef {import("../types/router").RouterEntity} RouterEntity
- * @typedef {import("../types/router").Api} Api
+ * @typedef {import("../../types/router").RouterType} RouterType
+ * @typedef {import("../../types/router").RouterEntity} RouterEntity
+ * @typedef {import("../../types/router").Api} Api
  */
 
 const SKIP_FULL_MATCH_GROUP = 1 // .match() result at index 0 is the full string

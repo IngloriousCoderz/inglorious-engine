@@ -1,4 +1,4 @@
-import { form } from "@inglorious/web"
+import { form } from "@inglorious/web/form"
 
 import { render } from "./render"
 

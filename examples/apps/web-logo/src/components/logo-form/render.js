@@ -1,4 +1,5 @@
-import { getFieldValue, html } from "@inglorious/web"
+import { html } from "@inglorious/web"
+import { getFieldValue } from "@inglorious/web/form"
 
 import classes from "./logo-form.module.css"
 

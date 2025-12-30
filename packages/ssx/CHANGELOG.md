@@ -1,5 +1,13 @@
 # @inglorious/ssx
 
+## 0.2.2
+
+### Patch Changes
+
+- Enable tree-shaking
+- Updated dependencies
+  - @inglorious/web@3.0.0
+
 ## 0.2.1
 
 ### Patch Changes
