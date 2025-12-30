@@ -1,5 +1,13 @@
 # @inglorious/logo
 
+## 2.0.6
+
+### Patch Changes
+
+- Exclude tests from NPM package
+- Updated dependencies
+  - @inglorious/web@3.0.1
+
 ## 2.0.5
 
 ### Patch Changes

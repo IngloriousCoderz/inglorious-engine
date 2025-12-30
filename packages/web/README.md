@@ -371,7 +371,8 @@ To enable the router, add it to your store's types and create a `router` entity.
 
 ```javascript
 // store.js
-import { createStore, html, router } from "@inglorious/web"
+import { createStore, html } from "@inglorious/web"
+import { router } from "@inglorious/web/router"
 
 const types = {
   // 1. Add the router type to your store's types
@@ -520,7 +521,8 @@ export const requireAuth = (type) => ({
 
 ```javascript
 // store.js
-import { createStore, router } from "@inglorious/web"
+import { createStore } from "@inglorious/web"
+import { router } from "@inglorious/web/router"
 import { requireAuth } from "./guards/require-auth.js"
 import { adminPage } from "./pages/admin.js"
 import { loginPage } from "./pages/login.js"
@@ -646,7 +648,7 @@ To use it, import the `table` type and its CSS, then create an entity for your t
 
 ```javascript
 // In your entity definition file
-import { table } from "@inglorious/web"
+import { table } from "@inglorious/web/table"
 
 // Import base styles and a theme. You can create your own theme.
 import "@inglorious/web/table/base.css"
@@ -673,7 +675,7 @@ You can customize how data is rendered in the table cells by overriding the `ren
 The example below from `examples/apps/web-table/src/product-table/product-table.js` shows how to format values based on a `formatter` property in the column definition.
 
 ```javascript
-import { table } from "@inglorious/web"
+import { table } from "@inglorious/web/table"
 import { format } from "date-fns"
 
 const formatters = {
@@ -705,7 +707,8 @@ The table comes with a base stylesheet (`@inglorious/web/table/base.css`) and a 
 Import the `select` type and its CSS, then create an entity.
 
 ```javascript
-import { createStore, select } from "@inglorious/web"
+import { createStore } from "@inglorious/web"
+import { select } from "@inglorious/web/select"
 // Import base styles and theme
 import "@inglorious/web/select/base.css"
 import "@inglorious/web/select/theme.css"
@@ -765,7 +768,8 @@ It listens to internal events like `#<id>:toggle`, `#<id>:optionSelect`, etc. Yo
 Include `form` in your `types` and create an entity for the form (use any id you like — `form` is used below for clarity):
 
 ```javascript
-import { createStore, form } from "@inglorious/web"
+import { createStore } from "@inglorious/web"
+import { form } from "@inglorious/web/form"
 
 const types = { form }
 
@@ -866,7 +870,8 @@ It also expects the item type to export `renderItem(item, index, api)` so each v
 Minimal example showing how to extend the `list` type to create a domain-specific list (e.g. `productList`) and provide a `renderItem(item, index, api)` helper.
 
 ```javascript
-import { createStore, html, list } from "@inglorious/web"
+import { createStore, html } from "@inglorious/web"
+import { list } from "@inglorious/web/list"
 
 // Extend the built-in list type to render product items
 const productList = {
@@ -952,18 +957,19 @@ import {
   styleMap,
   unsafeHTML,
   when,
-  // router stuff
-  router,
-  // table stuff
-  table,
-  // form stuff
+} from "@inglorious/web"
+
+// Subpath imports for tree-shaking
+import {
   form,
   getFieldError,
   getFieldValue,
   isFieldTouched,
-  // virtualized list stuff
-  list,
-} from "@inglorious/web"
+} from "@inglorious/web/form"
+import { list } from "@inglorious/web/list"
+import { router } from "@inglorious/web/router"
+import { select } from "@inglorious/web/select"
+import { table } from "@inglorious/web/table"
 ```
 
 ---

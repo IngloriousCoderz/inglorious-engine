@@ -1,5 +1,14 @@
 # @inglorious/engine
 
+## 14.0.1
+
+### Patch Changes
+
+- Exclude tests from NPM package
+- Updated dependencies
+  - @inglorious/store@8.0.1
+  - @inglorious/utils@3.7.1
+
 ## 14.0.0
 
 ### Patch Changes

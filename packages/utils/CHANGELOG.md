@@ -1,5 +1,11 @@
 # @inglorious/utils
 
+## 3.7.1
+
+### Patch Changes
+
+- Exclude tests from NPM package
+
 ## 3.7.0
 
 ### Minor Changes
