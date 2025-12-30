@@ -3,6 +3,12 @@
 exports[`router > getPages > should generate static paths for all pages 1`] = `
 [
   {
+    "filePath": "C:\\Users\\anton\\Projects\\ic\\inglorious-forge\\packages\\ssx\\src\\__fixtures__\\pages\\posts.js",
+    "modulePath": "posts.js",
+    "params": {},
+    "path": "/posts",
+  },
+  {
     "filePath": "C:\\Users\\anton\\Projects\\ic\\inglorious-forge\\packages\\ssx\\src\\__fixtures__\\pages\\about.js",
     "modulePath": "about.js",
     "params": {},

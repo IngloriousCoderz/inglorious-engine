@@ -1,9 +1,21 @@
 import { html } from "@inglorious/web"
 
 export const about = {
-  render(entity) {
-    return html`<h1>About ${entity.name}</h1>
-      <nav><a href="/">Home</a></nav>`
+  click(entity) {
+    entity.name += "!"
+  },
+
+  render(entity, api) {
+    return html`<h1>
+        About
+        <span @click=${() => api.notify(`#${entity.id}:click`)}
+          >${entity.name}</span
+        >
+      </h1>
+      <nav>
+        <a href="/">Home</a> | <a href="/about">About</a> |
+        <a href="/posts">Posts</a>
+      </nav>`
   },
 }
 

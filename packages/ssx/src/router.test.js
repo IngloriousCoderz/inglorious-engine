@@ -38,7 +38,7 @@ describe("router", () => {
       // Root usually comes after specific paths but before catch-all if it was a catch-all root,
       // but here / is static.
       // Let's just check that we found them.
-      expect(routes).toHaveLength(5)
+      expect(routes).toHaveLength(6)
     })
   })
 

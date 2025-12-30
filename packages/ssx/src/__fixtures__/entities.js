@@ -3,4 +3,8 @@ export const entities = {
     type: "about",
     name: "Us",
   },
+  posts: {
+    type: "posts",
+    posts: [],
+  },
 }
