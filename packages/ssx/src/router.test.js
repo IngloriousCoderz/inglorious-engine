@@ -4,7 +4,8 @@ import { afterEach, describe, expect, it, vi } from "vitest"
 
 import { getPages, getRoutes, resolvePage } from "./router.js"
 
-const FIXTURES_DIR = path.join(__dirname, "__fixtures__", "pages")
+const ROOT_DIR = path.join(__dirname, "__fixtures__")
+const PAGES_DIR = path.join(ROOT_DIR, "pages")
 
 describe("router", () => {
   afterEach(() => {
@@ -13,7 +14,7 @@ describe("router", () => {
 
   describe("getRoutes", () => {
     it("should discover and sort routes correctly", async () => {
-      const routes = await getRoutes(FIXTURES_DIR)
+      const routes = await getRoutes(PAGES_DIR)
 
       // Expected order based on specificity:
       // 1. /posts/:id (static 'posts' + dynamic 'id') -> score ~4.2
@@ -44,28 +45,28 @@ describe("router", () => {
 
   describe("resolvePage", () => {
     it("should resolve root page", async () => {
-      const page = await resolvePage("/", FIXTURES_DIR)
+      const page = await resolvePage("/", PAGES_DIR)
       expect(page).not.toBeNull()
       expect(page.filePath).toContain("index.js")
       expect(page.params).toEqual({})
     })
 
     it("should resolve static page", async () => {
-      const page = await resolvePage("/about", FIXTURES_DIR)
+      const page = await resolvePage("/about", PAGES_DIR)
       expect(page).not.toBeNull()
       expect(page.filePath).toContain("about.js")
       expect(page.params).toEqual({})
     })
 
     it("should resolve dynamic page with params", async () => {
-      const page = await resolvePage("/blog/hello-world", FIXTURES_DIR)
+      const page = await resolvePage("/blog/hello-world", PAGES_DIR)
       expect(page).not.toBeNull()
       expect(page.filePath).toContain("blog")
       expect(page.params).toEqual({ slug: "hello-world" })
     })
 
     it("should resolve catch-all page", async () => {
-      const page = await resolvePage("/api/v1/users", FIXTURES_DIR)
+      const page = await resolvePage("/api/v1/users", PAGES_DIR)
       expect(page).not.toBeNull()
       expect(page.filePath).toContain("api")
       expect(page.params).toEqual({ path: "v1/users" })
@@ -80,7 +81,7 @@ describe("router", () => {
       // /about matches /about.
       // / matches /.
       // So /foo should return null.
-      const page = await resolvePage("/foo", FIXTURES_DIR)
+      const page = await resolvePage("/foo", PAGES_DIR)
       expect(page).toBeNull()
     })
   })
@@ -88,7 +89,7 @@ describe("router", () => {
   describe("getPages", () => {
     it("should generate static paths for all pages", async () => {
       const consoleSpy = vi.spyOn(console, "warn").mockImplementation(() => {})
-      const pages = await getPages(FIXTURES_DIR)
+      const pages = await getPages(PAGES_DIR)
 
       expect(pages).toMatchSnapshot()
 

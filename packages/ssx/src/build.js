@@ -2,15 +2,14 @@ import fs from "node:fs/promises"
 import path from "node:path"
 import { pathToFileURL } from "node:url"
 
-import { createStore } from "@inglorious/web"
 import { build as viteBuild } from "vite"
 
-import { getModuleName } from "./module.js"
 import { renderPage } from "./render.js"
 import { getPages } from "./router.js"
 import { generateApp } from "./scripts/app.js"
 import { generateLitLoader } from "./scripts/lit-loader.js"
 import { generateMain } from "./scripts/main.js"
+import { generateStore } from "./store.js"
 import { createViteConfig } from "./vite-config.js"
 
 export async function build(options = {}) {
@@ -63,23 +62,6 @@ export async function build(options = {}) {
   console.log("\n✨ Build complete!\n")
 
   return { pages: renderedPages.length, outDir }
-}
-
-async function generateStore(pages = [], options = {}) {
-  const { rootDir = "src" } = options
-
-  const types = {}
-  for (const page of pages) {
-    const pageModule = await import(pathToFileURL(page.filePath))
-    const name = getModuleName(pageModule)
-    types[name] = pageModule[name]
-  }
-
-  const { entities } = await import(
-    pathToFileURL(path.join(rootDir, "entities.js"))
-  )
-
-  return createStore({ types, entities, updateMode: "manual" })
 }
 
 async function generatePages(pages, options = {}) {

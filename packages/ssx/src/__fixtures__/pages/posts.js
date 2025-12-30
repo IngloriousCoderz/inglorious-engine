@@ -1,15 +1,16 @@
 import { html } from "@inglorious/web"
 
 export const posts = {
-  async create(entity, _, api) {
+  async routeChange(entity, payload, api) {
+    if (payload.route !== entity.type) return
     if (entity.posts && entity.posts.length) return
 
     const entityId = entity.id
     const posts = await fetchPosts()
-    api.notify(`#${entityId}:postsFetchSuccess`, posts)
+    api.notify(`#${entityId}:dataFetchSuccess`, posts)
   },
 
-  postsFetchSuccess(entity, posts) {
+  dataFetchSuccess(entity, posts) {
     entity.posts = posts
   },
 

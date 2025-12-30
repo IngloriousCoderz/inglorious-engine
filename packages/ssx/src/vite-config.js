@@ -22,10 +22,6 @@ export function createViteConfig(options = {}) {
           entryFileNames: "[name].js",
           chunkFileNames: "[name].[hash].js",
           assetFileNames: "[name].[ext]",
-          manualChunks(id) {
-            // if (id.includes("node_modules/@inglorious")) return "inglorious"
-            if (id.includes("node_modules")) return "vendor"
-          },
         },
       },
     },

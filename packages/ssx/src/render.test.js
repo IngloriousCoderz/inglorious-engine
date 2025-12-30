@@ -5,7 +5,8 @@ import { expect, it } from "vitest"
 
 import { renderPage } from "./render"
 
-const PAGES_DIR = path.join(__dirname, "__fixtures__", "pages")
+const ROOT_DIR = path.join(__dirname, "__fixtures__")
+const PAGES_DIR = path.join(ROOT_DIR, "pages")
 
 const DEFAULT_OPTIONS = { stripLitMarkers: true }
 

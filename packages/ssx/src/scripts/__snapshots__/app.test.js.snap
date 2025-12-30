@@ -1,0 +1,133 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`should generate the app script for a page that has metadata 1`] = `
+"import { createDevtools, createStore, mount } from "@inglorious/web"
+import { router } from "@inglorious/web/router"
+
+const types = { router }
+
+const entities = {
+  router: {
+    type: "router",
+    routes: {
+      "/posts": () => import("@/pages/posts.js")
+    }
+  },
+
+  "about": {
+    "type": "about",
+    "name": "Us",
+    "id": "about"
+  },
+  "posts": {
+    "type": "posts",
+    "name": "Antony",
+    "posts": [],
+    "id": "posts"
+  }
+
+}
+
+const middlewares = []
+// if (import.meta.env.DEV) {
+  middlewares.push(createDevtools().middleware)
+// }
+
+const store = createStore({ types, entities, middlewares })
+
+const root = document.getElementById("root")
+root.innerHTML = ""
+
+mount(store, (api) => {
+  const { route } = api.getEntity("router")
+  return api.render(route, { allowType: true })
+}, root)"
+`;
+
+exports[`should generate the app script for a page with an entity 1`] = `
+"import { createDevtools, createStore, mount } from "@inglorious/web"
+import { router } from "@inglorious/web/router"
+
+const types = { router }
+
+const entities = {
+  router: {
+    type: "router",
+    routes: {
+      "/about": () => import("@/pages/about.js")
+    }
+  },
+
+  "about": {
+    "type": "about",
+    "name": "Us",
+    "id": "about"
+  },
+  "posts": {
+    "type": "posts",
+    "name": "Antony",
+    "posts": [],
+    "id": "posts"
+  }
+
+}
+
+const middlewares = []
+// if (import.meta.env.DEV) {
+  middlewares.push(createDevtools().middleware)
+// }
+
+const store = createStore({ types, entities, middlewares })
+
+const root = document.getElementById("root")
+root.innerHTML = ""
+
+mount(store, (api) => {
+  const { route } = api.getEntity("router")
+  return api.render(route, { allowType: true })
+}, root)"
+`;
+
+exports[`should generate the app script for a static page 1`] = `
+"import { createDevtools, createStore, mount } from "@inglorious/web"
+import { router } from "@inglorious/web/router"
+
+const types = { router }
+
+const entities = {
+  router: {
+    type: "router",
+    routes: {
+      "/": () => import("@/pages/index.js")
+    }
+  },
+
+  "about": {
+    "type": "about",
+    "name": "Us",
+    "id": "about"
+  },
+  "posts": {
+    "type": "posts",
+    "name": "Antony",
+    "posts": [],
+    "id": "posts"
+  }
+
+}
+
+const middlewares = []
+// if (import.meta.env.DEV) {
+  middlewares.push(createDevtools().middleware)
+// }
+
+const store = createStore({ types, entities, middlewares })
+
+const root = document.getElementById("root")
+root.innerHTML = ""
+
+mount(store, (api) => {
+  const { route } = api.getEntity("router")
+  return api.render(route, { allowType: true })
+}, root)"
+`;

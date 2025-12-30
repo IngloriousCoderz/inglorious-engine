@@ -1,7 +1,8 @@
 import { html } from "@inglorious/web"
 
 export const adminPage = {
-  routeChange(entity) {
+  routeChange(entity, payload) {
+    if (payload.route !== entity.type) return
     entity.username = JSON.parse(localStorage.getItem("user")).username
   },
 

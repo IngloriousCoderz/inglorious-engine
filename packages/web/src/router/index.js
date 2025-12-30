@@ -186,7 +186,9 @@ export const router = {
   loadSuccess(entity, payload, api) {
     const { module, route, path, replace, state } = payload
 
-    const [[typeName, type]] = Object.entries(module)
+    const [typeName, type] = Object.entries(module).find(
+      ([, type]) => type?.render,
+    )
 
     api.notify("morph", { name: typeName, type })
 

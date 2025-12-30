@@ -9,6 +9,7 @@ export const entities = {
       "/posts": "postList",
       "/lazy-type": () => import("../views/lazy-type"),
       "/lazy-entity": () => import("../views/lazy-entity"),
+      "/lazy-data": () => import("../views/lazy-data"),
       "/admin": "adminPage",
       "/login": "loginPage",
       "*": "notFound",
@@ -29,15 +30,17 @@ export const entities = {
 
   postList: {
     type: "postList",
-    posts: [
-      { id: "1", text: "Hello from Alice!", authorId: "1" },
-      { id: "2", text: "Hello from Bob!", authorId: "2" },
-    ],
+    posts: [],
   },
 
   lazyEntity: {
     type: "lazyEntity",
     message: "Hi!",
+  },
+
+  lazyData: {
+    type: "lazyData",
+    posts: [],
   },
 
   adminPage: {
