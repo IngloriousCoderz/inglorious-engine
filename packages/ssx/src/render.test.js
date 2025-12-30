@@ -17,7 +17,7 @@ it("should render a static page fragment", async () => {
     updateMode: "manual",
   })
 
-  const html = renderPage(store, module, DEFAULT_OPTIONS)
+  const html = await renderPage(store, module, DEFAULT_OPTIONS)
 
   expect(html).toMatchSnapshot()
 })
@@ -30,7 +30,7 @@ it("should render a whole static page", async () => {
     updateMode: "manual",
   })
 
-  const html = renderPage(store, module, {
+  const html = await renderPage(store, module, {
     ...DEFAULT_OPTIONS,
     wrap: true,
   })
@@ -47,7 +47,21 @@ it("should render a page with entity", async () => {
     updateMode: "manual",
   })
 
-  const html = renderPage(store, module, DEFAULT_OPTIONS)
+  const html = await renderPage(store, module, DEFAULT_OPTIONS)
+
+  expect(html).toMatchSnapshot()
+})
+
+it("should render a page with pre-fetched data", async () => {
+  const module = await import(path.resolve(path.join(PAGES_DIR, "posts.js")))
+
+  const store = createStore({
+    types: { posts: module.posts },
+    entities: { posts: { type: "posts", name: "Antony", posts: [] } },
+    updateMode: "manual",
+  })
+
+  const html = await renderPage(store, module, DEFAULT_OPTIONS)
 
   expect(html).toMatchSnapshot()
 })

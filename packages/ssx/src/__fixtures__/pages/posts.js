@@ -14,7 +14,7 @@ export const posts = {
   },
 
   render(entity) {
-    return html`<h1>Posts</h1>
+    return html`<h1>${entity.name}'s Posts</h1>
       <nav>
         <a href="/">Home</a> | <a href="/about">About</a> |
         <a href="/posts">Posts</a>
@@ -26,6 +26,14 @@ export const posts = {
         )}
       </ul>`
   },
+}
+
+export const title = (entity) => `${entity.name}'s Posts`
+export const meta = {
+  description: "A page that pre-fetches data before rendering",
+}
+export async function load(entity) {
+  entity.posts = await fetchPosts()
 }
 
 async function fetchPosts() {

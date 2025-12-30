@@ -11,6 +11,17 @@ exports[`should render a page with entity 1`] = `
       </nav>"
 `;
 
+exports[`should render a page with pre-fetched data 1`] = `
+"<h1>Antony's Posts</h1>
+      <nav>
+        <a href="/">Home</a> | <a href="/about">About</a> |
+        <a href="/posts">Posts</a>
+      </nav>
+      <ul>
+        <li><a href="/posts/1">Inglorious Store</a></li><li><a href="/posts/2">lit-html</a></li><li><a href="/posts/3">Inglorious Web</a></li><li><a href="/posts/4">Inglorious SSX</a></li>
+      </ul>"
+`;
+
 exports[`should render a static page fragment 1`] = `
 "<h1>
         About
@@ -28,7 +39,7 @@ exports[`should render a whole static page 1`] = `
 <head>
   <meta charset="UTF-8">
   <title>About</title>
-  <meta name="description" content="About page">
+  
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>

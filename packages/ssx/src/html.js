@@ -27,6 +27,7 @@ function stripLitMarkers(html) {
 
 function wrapHTML(body, options) {
   const { title = "", meta = {}, styles = [], scripts = [] } = options
+
   return `<!DOCTYPE html>
 <html>
 <head>

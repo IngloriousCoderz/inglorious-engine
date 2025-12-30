@@ -26,14 +26,14 @@ export async function build(options = {}) {
   const pages = await getPages(path.join(rootDir, "pages"))
   console.log(`📄 Found ${pages.length} pages to build\n`)
 
-  // Generate store config once for all pages
-  const store = await generateStore(rootDir, pages)
-
   // Render all pages
-  const renderedPages = await generatePages(store, pages, renderOptions)
+  const renderedPages = await generatePages(pages, options)
 
   // Write all pages to disk
   console.log("\n💾 Writing files...\n")
+
+  // Generate store config once for all pages
+  const store = await generateStore(pages, options)
 
   // Generate lit-loader.js
   const litLoader = generateLitLoader(renderOptions)
@@ -65,7 +65,9 @@ export async function build(options = {}) {
   return { pages: renderedPages.length, outDir }
 }
 
-async function generateStore(rootDir = "src", pages = []) {
+async function generateStore(pages = [], options = {}) {
+  const { rootDir = "src" } = options
+
   const types = {}
   for (const page of pages) {
     const pageModule = await import(pathToFileURL(page.filePath))
@@ -80,12 +82,15 @@ async function generateStore(rootDir = "src", pages = []) {
   return createStore({ types, entities, updateMode: "manual" })
 }
 
-async function generatePages(store, pages, renderOptions) {
+async function generatePages(pages, options = {}) {
+  const { renderOptions } = options
+
   const renderedPages = []
 
   for (const page of pages) {
     console.log(`  Rendering ${page.path}...`)
 
+    const store = await generateStore([page], options)
     const module = await import(pathToFileURL(page.filePath))
     const html = await renderPage(store, module, {
       ...renderOptions,

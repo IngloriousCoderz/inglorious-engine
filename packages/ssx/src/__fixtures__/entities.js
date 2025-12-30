@@ -5,6 +5,7 @@ export const entities = {
   },
   posts: {
     type: "posts",
+    name: "Antony",
     posts: [],
   },
 }
