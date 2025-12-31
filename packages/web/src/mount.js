@@ -1,3 +1,4 @@
+import { hydrate } from "@lit-labs/ssr-client"
 import { html, render } from "lit-html"
 
 /**
@@ -11,20 +12,19 @@ export function mount(store, renderFn, element) {
   const api = { ...store._api }
   api.render = createRender(api)
 
-  // let renderScheduled = false
+  let shouldHydrate = element.hasChildNodes()
 
-  // const scheduleRender = () => {
-  //   if (!renderScheduled) {
-  //     renderScheduled = true
-  //     requestAnimationFrame(() => {
-  //       renderScheduled = false
-  //     })
-  //     render(renderFn(api), element)
-  //   }
-  // }
+  const unsubscribe = store.subscribe(() => {
+    const template = renderFn(api)
 
-  // const unsubscribe = store.subscribe(scheduleRender)
-  const unsubscribe = store.subscribe(() => render(renderFn(api), element))
+    if (shouldHydrate) {
+      hydrate(template, element)
+      shouldHydrate = false
+    } else {
+      render(template, element)
+    }
+  })
+
   store.notify("init")
 
   return unsubscribe

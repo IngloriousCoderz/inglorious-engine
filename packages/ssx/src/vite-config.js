@@ -1,6 +1,6 @@
 import path from "node:path"
 
-import { minifyTemplateLiterals } from "rollup-plugin-minify-template-literals"
+// import { minifyTemplateLiterals } from "rollup-plugin-minify-template-literals"
 
 /**
  * Generate Vite config for building the client bundle
@@ -9,8 +9,8 @@ export function createViteConfig(options = {}) {
   const { rootDir = "src", outDir = "dist" } = options
 
   return {
-    root: outDir,
-    plugins: [minifyTemplateLiterals()],
+    root: rootDir,
+    // plugins: [minifyTemplateLiterals()], // TODO: minification breaks hydration. The footprint difference is minimal after all
     build: {
       outDir,
       emptyOutDir: false, // Don't delete HTML files we already generated
@@ -22,6 +22,12 @@ export function createViteConfig(options = {}) {
           entryFileNames: "[name].js",
           chunkFileNames: "[name].[hash].js",
           assetFileNames: "[name].[ext]",
+
+          manualChunks(id) {
+            if (id.includes("node_modules")) {
+              return "lib"
+            }
+          },
         },
       },
     },

@@ -5,27 +5,27 @@ import { toHTML } from "./html.js"
 
 const DEFAULT_OPTIONS = { stripLitMarkers: true }
 
-describe("toHTML", () => {
+describe("await toHTML", () => {
   describe("basic rendering", () => {
-    it("should render simple HTML without wrapping", () => {
+    it("should render simple HTML without wrapping", async () => {
       const store = createStore()
       const renderFn = () => html`<h1>Hello World</h1>`
 
-      const result = toHTML(store, renderFn, DEFAULT_OPTIONS)
+      const result = await toHTML(store, renderFn, DEFAULT_OPTIONS)
 
       expect(result).toMatchSnapshot()
     })
 
-    it("should render empty content", () => {
+    it("should render empty content", async () => {
       const store = createStore()
       const renderFn = () => html``
 
-      const result = toHTML(store, renderFn, DEFAULT_OPTIONS)
+      const result = await toHTML(store, renderFn, DEFAULT_OPTIONS)
 
       expect(result).toMatchSnapshot()
     })
 
-    it("should render nested elements", () => {
+    it("should render nested elements", async () => {
       const store = createStore()
       const renderFn = () =>
         html`<div class="container">
@@ -33,24 +33,24 @@ describe("toHTML", () => {
           <p>Content</p>
         </div>`
 
-      const result = toHTML(store, renderFn, DEFAULT_OPTIONS)
+      const result = await toHTML(store, renderFn, DEFAULT_OPTIONS)
 
       expect(result).toMatchSnapshot()
     })
 
-    it("should render with inline styles", () => {
+    it("should render with inline styles", async () => {
       const store = createStore()
       const renderFn = () =>
         html`<div style="color: red; font-size: 16px;">Styled</div>`
 
-      const result = toHTML(store, renderFn, DEFAULT_OPTIONS)
+      const result = await toHTML(store, renderFn, DEFAULT_OPTIONS)
 
       expect(result).toMatchSnapshot()
     })
   })
 
   describe("rendering with state", () => {
-    it("should render entities from store", () => {
+    it("should render entities from store", async () => {
       const store = createStore({
         types: {
           message: {
@@ -64,12 +64,12 @@ describe("toHTML", () => {
 
       const renderFn = (api) => html`<div>${api.render("greeting")}</div>`
 
-      const result = toHTML(store, renderFn, DEFAULT_OPTIONS)
+      const result = await toHTML(store, renderFn, DEFAULT_OPTIONS)
 
       expect(result).toMatchSnapshot()
     })
 
-    it("should render multiple entities", () => {
+    it("should render multiple entities", async () => {
       const store = createStore({
         types: {
           item: {
@@ -88,12 +88,12 @@ describe("toHTML", () => {
           ${api.render("item1")} ${api.render("item2")} ${api.render("item3")}
         </ul>`
 
-      const result = toHTML(store, renderFn, DEFAULT_OPTIONS)
+      const result = await toHTML(store, renderFn, DEFAULT_OPTIONS)
 
       expect(result).toMatchSnapshot()
     })
 
-    it("should evaluate conditional rendering based on state", () => {
+    it("should evaluate conditional rendering based on state", async () => {
       const store = createStore({
         types: {
           content: {
@@ -110,18 +110,18 @@ describe("toHTML", () => {
 
       const renderFn = (api) => html`<div>${api.render("content")}</div>`
 
-      const result = toHTML(store, renderFn, DEFAULT_OPTIONS)
+      const result = await toHTML(store, renderFn, DEFAULT_OPTIONS)
 
       expect(result).toMatchSnapshot()
     })
   })
 
   describe("HTML wrapping", () => {
-    it("should wrap HTML with basic DOCTYPE and structure", () => {
+    it("should wrap HTML with basic DOCTYPE and structure", async () => {
       const store = createStore()
       const renderFn = () => html`<h1>Page Title</h1>`
 
-      const result = toHTML(store, renderFn, {
+      const result = await toHTML(store, renderFn, {
         ...DEFAULT_OPTIONS,
         wrap: true,
         title: "My Page",
@@ -130,11 +130,11 @@ describe("toHTML", () => {
       expect(result).toMatchSnapshot()
     })
 
-    it("should include meta tags in wrapped HTML", () => {
+    it("should include meta tags in wrapped HTML", async () => {
       const store = createStore()
       const renderFn = () => html`<p>Content</p>`
 
-      const result = toHTML(store, renderFn, {
+      const result = await toHTML(store, renderFn, {
         ...DEFAULT_OPTIONS,
         wrap: true,
         title: "Test Page",
@@ -147,11 +147,11 @@ describe("toHTML", () => {
       expect(result).toMatchSnapshot()
     })
 
-    it("should include stylesheets in wrapped HTML", () => {
+    it("should include stylesheets in wrapped HTML", async () => {
       const store = createStore()
       const renderFn = () => html`<p>Content</p>`
 
-      const result = toHTML(store, renderFn, {
+      const result = await toHTML(store, renderFn, {
         ...DEFAULT_OPTIONS,
         wrap: true,
         styles: ["/css/style.css", "/css/theme.css"],
@@ -160,11 +160,11 @@ describe("toHTML", () => {
       expect(result).toMatchSnapshot()
     })
 
-    it("should include scripts in wrapped HTML", () => {
+    it("should include scripts in wrapped HTML", async () => {
       const store = createStore()
       const renderFn = () => html`<p>Content</p>`
 
-      const result = toHTML(store, renderFn, {
+      const result = await toHTML(store, renderFn, {
         ...DEFAULT_OPTIONS,
         wrap: true,
         scripts: ["/js/app.js", "/js/analytics.js"],
@@ -173,11 +173,11 @@ describe("toHTML", () => {
       expect(result).toMatchSnapshot()
     })
 
-    it("should include all options in wrapped HTML", () => {
+    it("should include all options in wrapped HTML", async () => {
       const store = createStore()
       const renderFn = () => html`<main>Main content</main>`
 
-      const result = toHTML(store, renderFn, {
+      const result = await toHTML(store, renderFn, {
         ...DEFAULT_OPTIONS,
         wrap: true,
         title: "Complete Page",
@@ -189,20 +189,23 @@ describe("toHTML", () => {
       expect(result).toMatchSnapshot()
     })
 
-    it("should default to empty title when not provided", () => {
+    it("should default to empty title when not provided", async () => {
       const store = createStore()
       const renderFn = () => html`<p>Content</p>`
 
-      const result = toHTML(store, renderFn, { ...DEFAULT_OPTIONS, wrap: true })
+      const result = await toHTML(store, renderFn, {
+        ...DEFAULT_OPTIONS,
+        wrap: true,
+      })
 
       expect(result).toMatchSnapshot()
     })
 
-    it("should handle empty arrays for meta, styles, and scripts", () => {
+    it("should handle empty arrays for meta, styles, and scripts", async () => {
       const store = createStore()
       const renderFn = () => html`<p>Content</p>`
 
-      const result = toHTML(store, renderFn, {
+      const result = await toHTML(store, renderFn, {
         ...DEFAULT_OPTIONS,
         wrap: true,
         meta: {},
@@ -215,7 +218,7 @@ describe("toHTML", () => {
   })
 
   describe("API rendering within components", () => {
-    it("should support api.render() method in component render function", () => {
+    it("should support api.render() method in component render function", async () => {
       const store = createStore({
         types: {
           wrapper: {
@@ -231,14 +234,14 @@ describe("toHTML", () => {
 
       const renderFn = (api) => html`<div>${api.render("myWrapper")}</div>`
 
-      const result = toHTML(store, renderFn, DEFAULT_OPTIONS)
+      const result = await toHTML(store, renderFn, DEFAULT_OPTIONS)
 
       expect(result).toMatchSnapshot()
     })
   })
 
   describe("complex scenarios", () => {
-    it("should render a complete page structure with message list", () => {
+    it("should render a complete page structure with message list", async () => {
       const store = createStore({
         types: {
           message: {
@@ -259,12 +262,12 @@ describe("toHTML", () => {
           <footer>© 2024</footer>
         </div>`
 
-      const result = toHTML(store, renderFn, DEFAULT_OPTIONS)
+      const result = await toHTML(store, renderFn, DEFAULT_OPTIONS)
 
       expect(result).toMatchSnapshot()
     })
 
-    it("should render wrapped complex page with all assets", () => {
+    it("should render wrapped complex page with all assets", async () => {
       const store = createStore({
         types: {
           header: { render: () => html`<header><h1>My Website</h1></header>` },
@@ -278,7 +281,7 @@ describe("toHTML", () => {
           <p>Welcome!</p>
         </div>`
 
-      const result = toHTML(store, renderFn, {
+      const result = await toHTML(store, renderFn, {
         ...DEFAULT_OPTIONS,
         wrap: true,
         title: "My Website",
@@ -295,7 +298,7 @@ describe("toHTML", () => {
   })
 
   describe("event handling", () => {
-    it("should render event handlers in templates", () => {
+    it("should render event handlers in templates", async () => {
       const store = createStore({
         types: {
           button: {
@@ -312,12 +315,12 @@ describe("toHTML", () => {
 
       const renderFn = (api) => html`<div>${api.render("myButton")}</div>`
 
-      const result = toHTML(store, renderFn, DEFAULT_OPTIONS)
+      const result = await toHTML(store, renderFn, DEFAULT_OPTIONS)
 
       expect(result).toMatchSnapshot()
     })
 
-    it("should render multiple event handlers", () => {
+    it("should render multiple event handlers", async () => {
       const store = createStore({
         types: {
           counter: {
@@ -340,36 +343,36 @@ describe("toHTML", () => {
 
       const renderFn = (api) => html`<div>${api.render("counter1")}</div>`
 
-      const result = toHTML(store, renderFn, DEFAULT_OPTIONS)
+      const result = await toHTML(store, renderFn, DEFAULT_OPTIONS)
 
       expect(result).toMatchSnapshot()
     })
   })
 
   describe("edge cases", () => {
-    it("should handle special characters in content", () => {
+    it("should handle special characters in content", async () => {
       const store = createStore()
       const renderFn = () => html`<p>&lt;script&gt; &amp; "quotes"</p>`
 
-      const result = toHTML(store, renderFn, DEFAULT_OPTIONS)
+      const result = await toHTML(store, renderFn, DEFAULT_OPTIONS)
 
       expect(result).toMatchSnapshot()
     })
 
-    it("should not include wrap by default", () => {
+    it("should not include wrap by default", async () => {
       const store = createStore()
       const renderFn = () => html`<p>Content</p>`
 
-      const result = toHTML(store, renderFn, {})
+      const result = await toHTML(store, renderFn, {})
 
       expect(result).toMatchSnapshot()
     })
 
-    it("should return only inner HTML when wrap is false", () => {
+    it("should return only inner HTML when wrap is false", async () => {
       const store = createStore()
       const renderFn = () => html`<p>Inner</p>`
 
-      const result = toHTML(store, renderFn, {
+      const result = await toHTML(store, renderFn, {
         ...DEFAULT_OPTIONS,
         wrap: false,
       })
@@ -377,11 +380,11 @@ describe("toHTML", () => {
       expect(result).toMatchSnapshot()
     })
 
-    it("should close DOM window properly", () => {
+    it("should close DOM window properly", async () => {
       const store = createStore()
       const renderFn = () => html`<p>Test</p>`
 
-      const result = toHTML(store, renderFn, DEFAULT_OPTIONS)
+      const result = await toHTML(store, renderFn, DEFAULT_OPTIONS)
 
       expect(result).toBeDefined()
       expect(result).not.toBeNull()

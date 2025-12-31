@@ -1,36 +1,40 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`should render a page with entity 1`] = `
-"<h1>
+"<!--lit-part 5QjrkbWt8KY=--><h1>
         About
-        <span>Us</span>
+        <!--lit-node 1--><span 
+          ><!--lit-part-->Us<!--/lit-part--></span
+        >
       </h1>
       <nav>
         <a href="/">Home</a> | <a href="/about">About</a> |
         <a href="/posts">Posts</a>
-      </nav>"
+      </nav><!--/lit-part-->"
 `;
 
 exports[`should render a page with pre-fetched data 1`] = `
-"<h1>Antony's Posts</h1>
+"<!--lit-part GjHwkgukOCo=--><h1><!--lit-part-->Antony<!--/lit-part-->'s Posts</h1>
       <nav>
         <a href="/">Home</a> | <a href="/about">About</a> |
         <a href="/posts">Posts</a>
       </nav>
       <ul>
-        <li><a href="/posts/1">Inglorious Store</a></li><li><a href="/posts/2">lit-html</a></li><li><a href="/posts/3">Inglorious Web</a></li><li><a href="/posts/4">Inglorious SSX</a></li>
-      </ul>"
+        <!--lit-part--><!--lit-part 2+vbCTTZHYo=--><li><!--lit-node 1--><a href="/posts/1"><!--lit-part-->Inglorious Store<!--/lit-part--></a></li><!--/lit-part--><!--lit-part 2+vbCTTZHYo=--><li><!--lit-node 1--><a href="/posts/2"><!--lit-part-->lit-html<!--/lit-part--></a></li><!--/lit-part--><!--lit-part 2+vbCTTZHYo=--><li><!--lit-node 1--><a href="/posts/3"><!--lit-part-->Inglorious Web<!--/lit-part--></a></li><!--/lit-part--><!--lit-part 2+vbCTTZHYo=--><li><!--lit-node 1--><a href="/posts/4"><!--lit-part-->Inglorious SSX<!--/lit-part--></a></li><!--/lit-part--><!--/lit-part-->
+      </ul><!--/lit-part-->"
 `;
 
 exports[`should render a static page fragment 1`] = `
-"<h1>
+"<!--lit-part 5QjrkbWt8KY=--><h1>
         About
-        <span></span>
+        <!--lit-node 1--><span 
+          ><!--lit-part--><!--/lit-part--></span
+        >
       </h1>
       <nav>
         <a href="/">Home</a> | <a href="/about">About</a> |
         <a href="/posts">Posts</a>
-      </nav>"
+      </nav><!--/lit-part-->"
 `;
 
 exports[`should render a whole static page 1`] = `
@@ -43,14 +47,16 @@ exports[`should render a whole static page 1`] = `
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-  <div id="root"><h1>
+  <div id="root"><!--lit-part 5QjrkbWt8KY=--><h1>
         About
-        <span></span>
+        <!--lit-node 1--><span 
+          ><!--lit-part--><!--/lit-part--></span
+        >
       </h1>
       <nav>
         <a href="/">Home</a> | <a href="/about">About</a> |
         <a href="/posts">Posts</a>
-      </nav></div>
+      </nav><!--/lit-part--></div>
 
   <script type="module" src="/main.js"></script>
   <script type="module" src="./ga.js"></script>

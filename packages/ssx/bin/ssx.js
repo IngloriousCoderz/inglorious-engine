@@ -4,9 +4,9 @@ import path from "node:path"
 import { fileURLToPath } from "node:url"
 
 import { Command } from "commander"
-import { Window } from "happy-dom"
 
-import { patchRandom } from "../src/random.js"
+import { build } from "../src/build.js"
+import { dev } from "../src/dev.js"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -28,40 +28,17 @@ program
   .description("Start development server with hot reload")
   .option("-r, --root <dir>", "source root directory", "src")
   .option("-p, --port <port>", "dev server port", 3000)
-  .option("-s, --seed <seed>", "seed for random number generator", 42)
   .option("-t, --title <title>", "default page title", "My Site")
   .option("--styles <styles...>", "CSS files to include")
   .option("--scripts <scripts...>", "JS files to include")
   .action(async (options) => {
     const cwd = process.cwd()
-    const seed = Number(options.seed)
 
     try {
-      // 1️⃣ Install DOM *before anything else*
-      const window = new Window()
-
-      globalThis.window = window
-      globalThis.document = window.document
-      globalThis.HTMLElement = window.HTMLElement
-      globalThis.Node = window.Node
-      globalThis.Comment = window.Comment
-
-      // Optional but sometimes needed
-      globalThis.customElements = window.customElements
-
-      // 3️⃣ Patch with the parsed seed
-      const restore = patchRandom(seed)
-      await import("@inglorious/web")
-      restore()
-
-      // 4️⃣ NOW import and run dev
-      const { dev } = await import("../src/dev.js")
-
       await dev({
         rootDir: path.resolve(cwd, options.root),
         port: Number(options.port),
         renderOptions: {
-          seed: Number(options.seed),
           title: options.title,
           meta: {},
           styles: options.styles || [],
@@ -79,40 +56,17 @@ program
   .description("Build static site from pages directory")
   .option("-r, --root <dir>", "source root directory", "src")
   .option("-o, --out <dir>", "output directory", "dist")
-  .option("-s, --seed <seed>", "seed for random number generator", 42)
   .option("-t, --title <title>", "default page title", "My Site")
   .option("--styles <styles...>", "CSS files to include")
   .option("--scripts <scripts...>", "JS files to include")
   .action(async (options) => {
     const cwd = process.cwd()
-    const seed = Number(options.seed)
 
     try {
-      // 1️⃣ Install DOM *before anything else*
-      const window = new Window()
-
-      globalThis.window = window
-      globalThis.document = window.document
-      globalThis.HTMLElement = window.HTMLElement
-      globalThis.Node = window.Node
-      globalThis.Comment = window.Comment
-
-      // Optional but sometimes needed
-      globalThis.customElements = window.customElements
-
-      // 3️⃣ Patch with the parsed seed
-      const restore = patchRandom(seed)
-      await import("@inglorious/web")
-      restore()
-
-      // 4️⃣ NOW import and run build
-      const { build } = await import("../src/build.js")
-
       await build({
         rootDir: path.resolve(cwd, options.root),
         outDir: path.resolve(cwd, options.out),
         renderOptions: {
-          seed,
           title: options.title,
           meta: {},
           styles: options.styles || [],

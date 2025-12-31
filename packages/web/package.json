@@ -53,8 +53,8 @@
   },
   "files": [
     "src",
-    "!src/**/*.test.js",
-    "types"
+    "types",
+    "!src/**/*.test.js"
   ],
   "publishConfig": {
     "access": "public"
@@ -71,6 +71,7 @@
   "dependencies": {
     "@inglorious/store": "workspace:*",
     "@inglorious/utils": "workspace:*",
+    "@lit-labs/ssr-client": "^1.1.8",
     "lit-html": "^3.3.1"
   },
   "devDependencies": {

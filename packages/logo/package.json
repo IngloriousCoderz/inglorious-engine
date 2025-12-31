@@ -34,8 +34,8 @@
   },
   "files": [
     "src",
-    "!src/**/*.test.js",
-    "types"
+    "types",
+    "!src/**/*.test.js"
   ],
   "publishConfig": {
     "access": "public"

@@ -6,8 +6,6 @@ import { createServer } from "vite"
 import { renderPage } from "./render.js"
 import { getPages } from "./router.js"
 import { generateApp } from "./scripts/app.js"
-import { generateLitLoader } from "./scripts/lit-loader.js"
-import { generateMain } from "./scripts/main.js"
 import { generateStore } from "./store.js"
 
 export async function dev(options = {}) {
@@ -22,14 +20,8 @@ export async function dev(options = {}) {
   // Generate store config once for all pages
   const store = await generateStore(pages, options)
 
-  const litLoader = generateLitLoader(renderOptions)
-  virtualFiles.set("/lit-loader.js", litLoader)
-
   const app = generateApp(store, pages)
-  virtualFiles.set("/app.js", app)
-
-  const main = generateMain()
-  virtualFiles.set("/main.js", main)
+  virtualFiles.set("/main.js", app)
 
   // Create Vite dev server
   const viteServer = await createServer({

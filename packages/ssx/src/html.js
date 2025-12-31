@@ -1,22 +1,23 @@
-import { mount } from "@inglorious/web"
+import { html } from "@inglorious/web"
+import { render as ssrRender } from "@lit-labs/ssr"
+import { collectResult } from "@lit-labs/ssr/lib/render-result.js"
 
-export function toHTML(store, renderFn, options = {}) {
-  const window = globalThis.window
-  const document = window.document
+export async function toHTML(store, renderFn, options = {}) {
+  const api = { ...store._api }
+  api.render = createRender(api)
 
-  document.body.innerHTML = '<div id="root"></div>'
-  const root = document.getElementById("root")
+  // Generate the template
+  const template = renderFn(api)
 
-  mount(store, renderFn, root)
-  store.update()
+  // SSR render → HTML with hydration markers
+  const result = ssrRender(template)
+  const resultString = await collectResult(result)
 
-  const html = options.stripLitMarkers
-    ? stripLitMarkers(root.innerHTML)
-    : root.innerHTML
+  const finalHTML = options.stripLitMarkers
+    ? stripLitMarkers(resultString)
+    : resultString
 
-  window.close()
-
-  return options.wrap ? wrapHTML(html, options) : html
+  return options.wrap ? wrapHTML(finalHTML, options) : finalHTML
 }
 
 function stripLitMarkers(html) {
@@ -45,4 +46,30 @@ function wrapHTML(body, options) {
   ${scripts.map((src) => `<script type="module" src="${src}"></script>`).join("\n")}
 </body>
 </html>`
+}
+
+function createRender(api) {
+  return function (id, options = {}) {
+    const entity = api.getEntity(id)
+
+    if (!entity) {
+      const { allowType } = options
+      if (!allowType) return ""
+
+      const type = api.getType(id)
+      if (!type?.render) {
+        console.warn(`No entity or type found: ${id}`)
+        return html`<div>Not found: ${id}</div>`
+      }
+      return type.render(api)
+    }
+
+    const type = api.getType(entity.type)
+    if (!type?.render) {
+      console.warn(`No render function for type: ${entity.type}`)
+      return html`<div>No renderer for ${entity.type}</div>`
+    }
+
+    return type.render(entity, api)
+  }
 }

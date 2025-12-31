@@ -7,13 +7,11 @@ import { build as viteBuild } from "vite"
 import { renderPage } from "./render.js"
 import { getPages } from "./router.js"
 import { generateApp } from "./scripts/app.js"
-import { generateLitLoader } from "./scripts/lit-loader.js"
-import { generateMain } from "./scripts/main.js"
 import { generateStore } from "./store.js"
 import { createViteConfig } from "./vite-config.js"
 
 export async function build(options = {}) {
-  const { rootDir = "src", outDir = "dist", renderOptions = {} } = options
+  const { rootDir = "src", outDir = "dist" } = options
 
   console.log("🔨 Starting build...\n")
 
@@ -34,15 +32,8 @@ export async function build(options = {}) {
   // Generate store config once for all pages
   const store = await generateStore(pages, options)
 
-  // Generate lit-loader.js
-  const litLoader = generateLitLoader(renderOptions)
-  await fs.writeFile(path.join(outDir, "lit-loader.js"), litLoader, "utf-8")
-
   const app = generateApp(store, pages)
-  await fs.writeFile(path.join(outDir, "app.js"), app, "utf-8")
-
-  const main = generateMain()
-  await fs.writeFile(path.join(outDir, "main.js"), main, "utf-8")
+  await fs.writeFile(path.join(outDir, "main.js"), app, "utf-8")
 
   for (const { page, html } of renderedPages) {
     const filePath = await writePageToDisk(page.path, html, outDir)
@@ -55,9 +46,7 @@ export async function build(options = {}) {
   await viteBuild(viteConfig)
 
   // Remove bundled files
-  console.log("\n🧹 Cleaning up...\n")
-  await fs.rm(path.join(outDir, "lit-loader.js"))
-  await fs.rm(path.join(outDir, "app.js"))
+  // console.log("\n🧹 Cleaning up...\n")
 
   console.log("\n✨ Build complete!\n")
 

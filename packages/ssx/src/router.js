@@ -3,6 +3,8 @@ import { pathToFileURL } from "node:url"
 
 import { glob } from "glob"
 
+import { getModuleName } from "./module.js"
+
 const NEXT_MATCH = 1
 
 const STATIC_SEGMENT_WEIGHT = 3
@@ -18,37 +20,33 @@ export async function getPages(pagesDir = "pages") {
   const pages = []
 
   for (const route of routes) {
+    const module = await import(pathToFileURL(path.resolve(route.filePath)))
+    const moduleName = getModuleName(module)
+
     if (isDynamic(route.pattern)) {
       // Dynamic route - call getStaticPaths if it exists
-      try {
-        const module = await import(pathToFileURL(path.resolve(route.filePath)))
+      if (typeof module.getStaticPaths === "function") {
+        const paths = await module.getStaticPaths()
 
-        if (typeof module.getStaticPaths === "function") {
-          const paths = await module.getStaticPaths()
+        for (const pathOrObject of paths) {
+          const urlPath =
+            typeof pathOrObject === "string" ? pathOrObject : pathOrObject.path
 
-          for (const pathOrObject of paths) {
-            const urlPath =
-              typeof pathOrObject === "string"
-                ? pathOrObject
-                : pathOrObject.path
+          const params = extractParams(route, urlPath)
 
-            const params = extractParams(route, urlPath)
-
-            pages.push({
-              path: urlPath,
-              modulePath: route.modulePath,
-              filePath: route.filePath,
-              params,
-            })
-          }
-        } else {
-          console.warn(
-            `Dynamic route ${route.filePath} has no getStaticPaths export. ` +
-              `It will be skipped during SSG.`,
-          )
+          pages.push({
+            path: urlPath,
+            modulePath: route.modulePath,
+            filePath: route.filePath,
+            moduleName,
+            params,
+          })
         }
-      } catch (error) {
-        console.error(`Error loading ${route.filePath}:`, error)
+      } else {
+        console.warn(
+          `Dynamic route ${route.filePath} has no getStaticPaths export. ` +
+            `It will be skipped during SSG.`,
+        )
       }
     } else {
       // Static route - add directly
@@ -56,6 +54,7 @@ export async function getPages(pagesDir = "pages") {
         path: route.pattern === "" ? "/" : route.pattern,
         modulePath: route.modulePath,
         filePath: route.filePath,
+        moduleName,
         params: {},
       })
     }
