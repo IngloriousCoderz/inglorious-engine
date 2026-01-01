@@ -25,6 +25,7 @@ describe("router", () => {
     api = {
       getEntity: vi.fn().mockReturnValue(entity),
       notify: vi.fn(),
+      setType: vi.fn(),
     }
 
     // Mock window.location and history
@@ -179,10 +180,7 @@ describe("router", () => {
 
       router.loadSuccess(entity, payload, api)
 
-      expect(api.notify).toHaveBeenCalledWith("morph", {
-        name: "myPage",
-        type: module.myPage,
-      })
+      expect(api.setType).toHaveBeenCalledWith("myPage", module.myPage)
       expect(entity.routes["/lazy"]).toBe("myPage")
       expect(entity.loading).toBe(false)
       expect(entity.route).toBe("myPage")

@@ -280,10 +280,7 @@ function canCollideWithPowerups(type) {
           entity.position[1] += (entity.size[1] - oldheight) / 2
           entity.backgroundColor = "#b9342e"
 
-          api.notify("morph", {
-            name: entity.type,
-            type: SUPER_DARIO,
-          })
+          api.setType(entity.type, SUPER_DARIO)
           break
 
         case "fireFlower":
@@ -292,10 +289,7 @@ function canCollideWithPowerups(type) {
           entity.position[1] += (entity.size[1] - oldheight) / 2
           entity.backgroundColor = "#f4f3e9"
 
-          api.notify("morph", {
-            name: entity.type,
-            type: FIRE_DARIO,
-          })
+          api.setType(entity.type, FIRE_DARIO)
           break
 
         case "feather":
@@ -304,10 +298,7 @@ function canCollideWithPowerups(type) {
           entity.position[1] += (entity.size[1] - oldheight) / 2
           entity.backgroundColor = "#f4f040"
 
-          api.notify("morph", {
-            name: entity.type,
-            type: CAPE_DARIO,
-          })
+          api.setType(entity.type, CAPE_DARIO)
           break
 
         case "diamond":
@@ -316,10 +307,7 @@ function canCollideWithPowerups(type) {
           entity.position[1] += (entity.size[1] - oldheight) / 2
           entity.backgroundColor = "#ca00ff"
 
-          api.notify("morph", {
-            name: entity.type,
-            type: ULTRA_DARIO,
-          })
+          api.setType(entity.type, ULTRA_DARIO)
           break
       }
 
@@ -362,10 +350,7 @@ function canCollideWithEnemyAndShrink(type) {
       entity.position[1] += (entity.size[1] - oldShrinkHeight) / 2
       entity.backgroundColor = "#393664"
 
-      api.notify("morph", {
-        name: entity.type,
-        type: DARIO,
-      })
+      api.setType(entity.type, DARIO)
 
       api.notify("remove", enemy.id)
     },
@@ -388,10 +373,8 @@ function canCollideWithEnemyAndLosePowers(type) {
       entity.position[1] += (entity.size[1] - oldLosePowersHeight) / 2
       entity.backgroundColor = "#b9342e"
 
-      api.notify("morph", {
-        name: entity.type,
-        type: SUPER_DARIO,
-      })
+      api.setType(entity.type, SUPER_DARIO)
+
       api.notify("remove", enemy.id)
     },
   }

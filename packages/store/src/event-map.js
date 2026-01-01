@@ -44,7 +44,7 @@ export class EventMap {
 
   /**
    * Adds an entity's ID to the Sets for all event handlers defined in its type.
-   * This should be called when a new entity is created or its type is morphed.
+   * This should be called when a new entity is created or its type is changed via setType.
    *
    * @param {string} entityId - The ID of the entity.
    * @param {Type} type - The augmented type object of the entity.
@@ -71,7 +71,7 @@ export class EventMap {
 
   /**
    * Removes an entity's ID from the Sets for all event handlers defined in its type.
-   * This should be called when an entity is removed or its type is morphed.
+   * This should be called when an entity is removed or its type is changed via setType.
    *
    * @param {string} entityId - The ID of the entity.
    * @param {Type} type - The augmented type object of the entity.

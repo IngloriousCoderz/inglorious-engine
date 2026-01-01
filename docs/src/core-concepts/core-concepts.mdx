@@ -64,7 +64,7 @@ You might notice the code directly changes properties on the `entity`. While thi
 
 The engine uses a simple and powerful naming convention for events to ensure clarity and prevent conflicts:
 
-- **Core Engine Events are single words**: These are reserved, special-purpose commands like `update`, `add`, `remove`, and `morph`.
+- **Core Engine Events are single words**: These are reserved, special-purpose commands like `update`, `add`, and `remove`.
 - **Custom Game Events are multi-word (`camelCase`)**: For all your game-specific logic, you should use descriptive, multi-word names like `playerJump`, `enemyTakeDamage`, or `itemCollect`.
 
 This convention acts as a form of namespacing, similar to how custom HTML elements must contain a hyphen (e.g., `<my-component>`) to distinguish them from standard elements (e.g., `<div>`). It makes it immediately clear which events are part of the engine's lifecycle and which are specific to your game's logic.
@@ -125,7 +125,7 @@ This approach allows for rapid prototyping and the creation of emergent game mec
 
 ## Dynamic Types
 
-While adding properties to individual entities at runtime is powerful for temporary state changes, sometimes you need to fundamentally alter the behavior of all entities of a certain type. The engine supports this through the `morph` event.
+While adding properties to individual entities at runtime is powerful for temporary state changes, sometimes you need to fundamentally alter the behavior of all entities of a certain type. The engine supports this through the `setType(typeName, type)` method.
 
 This allows you to redefine a type's decorators and event handlers on the fly. This is particularly useful for implementing mechanics like character evolution or complex power-up systems where the core behaviors of a character change.
 
@@ -133,26 +133,23 @@ This allows you to redefine a type's decorators and event handlers on the fly. T
 
 Let's revisit the classic Super Mario example. When Mario picks up a power-up, his abilities change. Instead of managing boolean flags on the entity (`canBreakBricks`, `canShootFire`), we can dynamically change the `mario` type itself.
 
-Here's how you might dispatch a `morph` event upon collision with a Fire Flower:
+Here's how you might call `setType()` upon collision with a Fire Flower:
 
 ```javascript
 // In a collision event handler for Mario...
 if (collidesWith(mario, fireFlower)) {
-    api.notify("morph", {
-        name: mario.type, // The type name to change
-        type: [ // The new array of behaviors and handlers
-            baseMario(),
-            superMario(),
-            fireMario(),
-            // ... other base behaviors like controls, physics etc.
-        ],
-    });
+    api.setType("mario", [ // Set the type name and new array of behaviors
+        baseMario(),
+        superMario(),
+        fireMario(),
+        // ... other base behaviors like controls, physics etc.
+    ]);
     // remove the power-up from the scene
     api.notify("remove", fireFlower.id);
 }
 ```
 
-When the engine processes this event, it will replace the existing definition for the `mario` type with the new one. All existing and future entities of `type: 'mario'` will now use the new set of behaviors, including the abilities from `fireMario()`.
+When the engine processes this call, it will replace the existing definition for the `mario` type with the new one. All existing and future entities of `type: 'mario'` will now use the new set of behaviors, including the abilities from `fireMario()`.
 
 This pattern keeps entity objects clean and centralizes behavior logic within type definitions, making your game architecture more robust and easier to reason about. You can see a complete implementation of this pattern in the Mario Power-Ups recipe.
 

@@ -190,7 +190,7 @@ export const router = {
       ([, type]) => type?.render,
     )
 
-    api.notify("morph", { name: typeName, type })
+    api.setType(typeName, type)
 
     entity.routes[route.pattern] = typeName
 

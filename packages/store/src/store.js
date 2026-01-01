@@ -37,6 +37,7 @@ export function createStore({
     dispatch, // needed for compatibility with Redux
     getTypes,
     getType,
+    setType,
     getState,
     setState,
     reset,
@@ -89,24 +90,6 @@ export function createStore({
         processedEvents.push(event)
 
         // Handle special system events
-        if (event.type === "morph") {
-          const { name, type } = event.payload
-
-          const oldType = types[name]
-
-          originalTypes[name] = type
-          types[name] = augmentType(type)
-          const newType = types[name]
-
-          for (const [id, entity] of Object.entries(draft)) {
-            if (entity.type === name) {
-              eventMap.removeEntity(id, oldType, name)
-              eventMap.addEntity(id, newType, name)
-            }
-          }
-          continue
-        }
-
         if (event.type === "add") {
           const { id, ...entity } = event.payload
           draft[id] = augmentEntity(id, entity)
@@ -198,6 +181,26 @@ export function createStore({
    */
   function getType(typeName) {
     return types[typeName]
+  }
+
+  /**
+   * Sets an augmented type configuration given its name.
+   * @param {string} typeName - The name of the type to set.
+   * @param {Object} type - The type configuration.
+   */
+  function setType(typeName, type) {
+    const oldType = types[typeName]
+
+    originalTypes[typeName] = type
+    types[typeName] = augmentType(type)
+    const newType = types[typeName]
+
+    for (const [id, entity] of Object.entries(state)) {
+      if (entity.type === typeName) {
+        eventMap.removeEntity(id, oldType, typeName)
+        eventMap.addEntity(id, newType, typeName)
+      }
+    }
   }
 
   /**

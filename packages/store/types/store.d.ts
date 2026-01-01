@@ -75,6 +75,7 @@ export interface Api<
 > {
   getTypes: () => TypesConfig<TEntity>
   getType: (typeName: string) => EntityType<TEntity>
+  setType: (typeName: string, type: EntityType<TEntity>) => void
   getEntities: () => TState
   getEntity: (id: string) => TEntity | undefined
   dispatch: (event: Event) => void
@@ -95,6 +96,7 @@ export interface Store<
   dispatch: (event: Event) => void
   getTypes: () => TypesConfig<TEntity>
   getType: (typeName: string) => EntityType<TEntity>
+  setType: (typeName: string, type: EntityType<TEntity>) => void
   getState: () => TState
   setState: (nextState: TState) => void
   reset: () => void

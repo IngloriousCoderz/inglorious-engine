@@ -30,7 +30,7 @@ Game engines solved state complexity years ago — Inglorious Store brings those
 - ✅ Entity-based state (manage multiple instances effortlessly)
 - ✅ No action creators, thunks, or slices
 - ✅ Predictable, testable, purely functional code
-- ✅ Built-in lifecycle events (`add`, `remove`, `morph`)
+- ✅ Built-in lifecycle events (`add`, `remove`)
 - ✅ 10x faster immutability than Redux Toolkit (Mutative vs Immer)
 
 ---
@@ -363,7 +363,6 @@ Inglorious Store has a few built-in events that you can use:
 
 - `add`: adds a new entity to the state. Triggers a `create` lifecycle event.
 - `remove`: removes an entity from the state. Triggers a `destroy` lifecycle event.
-- `morph`: changes the behavior of a type (advanced, used by middlewares/rendering systems)
 
 The lifecycle events can be used to define event handlers similar to constructor and destructor methods in OOP:
 
@@ -720,12 +719,12 @@ Each handler receives three arguments:
   - `dispatch(action)` - optional, if you prefer Redux-style dispatching
   - `getTypes()` - type definitions (for middleware)
   - `getType(typeName)` - type definition (for overriding)
+  - `setType(typeName, type)` - change the behavior of a type
 
 ### Built-in Events
 
 - **`create(entity)`** - triggered when entity added via `add` event, visible only to that entity
 - **`destroy(entity)`** - triggered when entity removed via `remove` event, visible only to that entity
-- **`morph(typeName, newType)`** - used to change the behavior of a type on the fly
 
 ### Notify vs Dispatch
 

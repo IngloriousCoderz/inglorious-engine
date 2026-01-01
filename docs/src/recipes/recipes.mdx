@@ -59,7 +59,7 @@ The most complex part of this code is generating new incremental ids, which is n
 
 This recipe demonstrates how to implement a power-up system, similar to Super Mario picking up a mushroom. It's a practical example of the engine's **Composition over Inheritance** philosophy.
 
-In this engine, an entity's 'type' is not a rigid class, but simply a collection of behaviors. By sending a `morph` event, we can dynamically add or remove behaviors at runtime, effectively changing the character's abilities and appearance on the fly. This approach avoids complex inheritance hierarchies and makes creating dynamic game mechanics much more flexible.
+In this engine, an entity's 'type' is not a rigid class, but simply a collection of behaviors. Using the `setType(typeName, type)` method, we can dynamically add or remove behaviors at runtime, effectively changing the character's abilities and appearance on the fly. This approach avoids complex inheritance hierarchies and makes creating dynamic game mechanics much more flexible.
 
 <Canvas of={Recipes.DynamicBehaviors} />
 

@@ -75,7 +75,6 @@ However, there are several key differences that make it unique:
     - `update`: Fired on every frame, typically carrying the `deltaTime` since the last frame. This is where you'll put most of your continuous game logic (like movement).
     - `add`: Used to add a new entity to the game state.
     - `remove`: Used to remove an entity from the game state.
-    - `morph`: Used to dynamically change the behaviors associated with an entity's type.
 
 4.  **Ergonomic Immutability with Mutative**: The state is immutable, but to make this easy to work with, we use Mutative. Inside your event handlers, you can write code that looks like it's mutating the state directly. Mutative handles the magic behind the scenes, producing a new, updated state with structural sharing, giving you the performance benefits of immutability with the developer experience of mutable code.
 
