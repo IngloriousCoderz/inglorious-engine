@@ -20,9 +20,6 @@ export async function dev(options = {}) {
   // Generate store config once for all pages
   const store = await generateStore(pages, options)
 
-  const app = generateApp(store, pages)
-  virtualFiles.set("/main.js", app)
-
   // Create Vite dev server
   const viteServer = await createServer({
     root: process.cwd(),
@@ -50,13 +47,14 @@ export async function dev(options = {}) {
       const page = pages.find((p) => matchRoute(p.path, url))
       if (!page) return next()
 
-      const store = await generateStore([page], options)
       const module = await viteServer.ssrLoadModule(page.filePath)
       const html = await renderPage(store, module, {
         ...renderOptions,
         wrap: true,
-        dev: true,
       })
+
+      const app = generateApp(store, pages)
+      virtualFiles.set("/main.js", app)
 
       res.setHeader("Content-Type", "text/html")
       res.end(html)

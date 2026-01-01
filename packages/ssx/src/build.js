@@ -23,14 +23,14 @@ export async function build(options = {}) {
   const pages = await getPages(path.join(rootDir, "pages"))
   console.log(`📄 Found ${pages.length} pages to build\n`)
 
+  // Generate store config once for all pages
+  const store = await generateStore(pages, options)
+
   // Render all pages
-  const renderedPages = await generatePages(pages, options)
+  const renderedPages = await generatePages(store, pages, options)
 
   // Write all pages to disk
   console.log("\n💾 Writing files...\n")
-
-  // Generate store config once for all pages
-  const store = await generateStore(pages, options)
 
   const app = generateApp(store, pages)
   await fs.writeFile(path.join(outDir, "main.js"), app, "utf-8")
@@ -53,7 +53,7 @@ export async function build(options = {}) {
   return { pages: renderedPages.length, outDir }
 }
 
-async function generatePages(pages, options = {}) {
+async function generatePages(store, pages, options = {}) {
   const { renderOptions } = options
 
   const renderedPages = []
@@ -61,7 +61,6 @@ async function generatePages(pages, options = {}) {
   for (const page of pages) {
     console.log(`  Rendering ${page.path}...`)
 
-    const store = await generateStore([page], options)
     const module = await import(pathToFileURL(page.filePath))
     const html = await renderPage(store, module, {
       ...renderOptions,
