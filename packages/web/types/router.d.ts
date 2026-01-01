@@ -26,8 +26,6 @@ export type QueryParams = Record<string, string>
 export interface RouterEntity {
   /** A unique identifier for the router entity. */
   id: string | number
-  /** The route configuration. */
-  routes: RoutesConfig
   /** The current active path, without query string or hash. */
   path?: string
   /** The entity type of the current active route. */
@@ -38,6 +36,10 @@ export interface RouterEntity {
   query?: QueryParams
   /** The hash from the current URL. */
   hash?: string
+  /** Whether a route is currently loading asynchronously. */
+  isLoading?: boolean
+  /** An error that occurred during route loading. */
+  error?: Error | null
 }
 
 /**
@@ -98,7 +100,7 @@ export interface RouterType {
     entity: RouterEntity,
     payload: string | number | NavigatePayload,
     api: StoreApi,
-  ): void
+  ): void | Promise<void>
 
   /**
    * Synchronizes the router entity's state with data from a routing event,
@@ -128,3 +130,41 @@ export interface RouterType {
    */
   loadError(entity: RouterEntity, payload: any): void
 }
+
+/**
+ * Returns the current route configuration.
+ * @returns {Record<string, string|function>} The current route configuration.
+ */
+export function getRoutes(): Record<string, string | (() => Promise<any>)>
+
+/**
+ * Retrieves a single route configuration given its path.
+ * @param {string} path - The path of the route to retrieve.
+ * @returns {string|function|undefined} The route configuration or undefined if not found.
+ */
+export function getRoute(path: string): string | (() => Promise<any>)
+
+/**
+ * Sets or updates routes in the route configuration.
+ * Can be used both during initialization and at any point to add or update routes dynamically.
+ * @param routes An object mapping route paths/patterns to entity type names or loader functions.
+ */
+export function setRoutes(
+  routes: Record<string, string | (() => Promise<any>)>,
+): void
+
+/**
+ * Adds a single route to the route configuration.
+ * @param path The route path or pattern (e.g., "/users/:userId").
+ * @param route The entity type name or a function that dynamically loads it.
+ */
+export function addRoute(
+  path: string,
+  route: string | (() => Promise<any>),
+): void
+
+/**
+ * Removes a route from the route configuration.
+ * @param path The route path or pattern to remove.
+ */
+export function removeRoute(path: string): void

@@ -7,6 +7,7 @@
 const SKIP_FULL_MATCH_GROUP = 1 // .match() result at index 0 is the full string
 const REMOVE_COLON_PREFIX = 1
 
+const routeConfig = {}
 let areListenersInitialized = false
 
 /**
@@ -25,7 +26,7 @@ export const router = {
     // Handle initial route
     const { pathname, search } = window.location
     const initialPath = pathname + search
-    const route = findRoute(entity.routes, initialPath)
+    const route = findRoute(routeConfig, initialPath)
     const entityId = entity.id
 
     if (route) {
@@ -42,8 +43,7 @@ export const router = {
     // Listen for browser back/forward
     window.addEventListener("popstate", () => {
       const path = window.location.pathname + window.location.search
-      const { routes } = api.getEntity(entityId)
-      const route = findRoute(routes, path)
+      const route = findRoute(routeConfig, path)
 
       if (route) {
         api.notify(`#${entityId}:routeSync`, {
@@ -83,18 +83,6 @@ export const router = {
     })
   },
 
-  create(entity) {
-    entity.routes ??= {}
-  },
-
-  routeAdd(entity, route) {
-    entity.routes[route.path] = route.entityType
-  },
-
-  routeRemove(entity, path) {
-    delete [entity.routes[path]]
-  },
-
   /**
    * Handles navigation to a new route.
    * @param {RouterEntity} entity - The router entity.
@@ -122,9 +110,9 @@ export const router = {
     }
 
     // If "to" is already a final path (like "/users/1"), use it directly
-    // The router will match it against patterns in entity.routes
+    // The router will match it against patterns in routeConfig
 
-    const route = findRoute(entity.routes, path)
+    const route = findRoute(routeConfig, path)
 
     if (!route) {
       console.warn(`No route matches path: ${path}`)
@@ -142,7 +130,7 @@ export const router = {
 
     // Asynchronous navigation
     if (typeof route.entityType === "function") {
-      entity.loading = true
+      entity.isLoading = true
       entity.error = null
       const entityId = entity.id
 
@@ -192,10 +180,10 @@ export const router = {
 
     api.setType(typeName, type)
 
-    entity.routes[route.pattern] = typeName
+    routeConfig[route.pattern] = typeName
 
     // Complete the navigation
-    entity.loading = false
+    entity.isLoading = false
 
     doNavigate(
       entity,
@@ -213,7 +201,7 @@ export const router = {
     const { error, path } = payload
     console.error(`Failed to load route ${path}:`, error)
     entity.path = path
-    entity.loading = false
+    entity.isLoading = false
     entity.error = error
   },
 
@@ -225,6 +213,49 @@ export const router = {
   routeSync(entity, payload) {
     updateRouter(entity, payload)
   },
+}
+
+/**
+ * Retrieves the current route configuration.
+ * @returns {Record<string, string|function>} The current route configuration.
+ */
+export function getRoutes() {
+  return routeConfig
+}
+
+/**
+ * Retrieves a single route configuration given its path.
+ * @param {string} path - The path of the route to retrieve.
+ * @returns {string|function|undefined} The route configuration or undefined if not found.
+ */
+export function getRoute(path) {
+  return routeConfig[path]
+}
+
+/**
+ * Sets or updates routes in the route configuration.
+ * Can be used both during initialization and at any point to add or update routes dynamically.
+ * @param {Record<string, string|function>} routes - An object mapping route paths/patterns to entity type names or loader functions.
+ */
+export function setRoutes(routes) {
+  Object.assign(routeConfig, routes)
+}
+
+/**
+ * Adds a single route to the route configuration.
+ * @param {string} path - The route path or pattern (e.g., "/users/:userId").
+ * @param {string|function} route - The entity type name or a function that dynamically loads it.
+ */
+export function addRoute(path, route) {
+  routeConfig[path] = route
+}
+
+/**
+ * Removes a route from the route configuration.
+ * @param {string} path - The route path or pattern to remove.
+ */
+export function removeRoute(path) {
+  delete routeConfig[path]
 }
 
 /**
@@ -246,16 +277,16 @@ function buildPath(pattern, params = {}) {
 /**
  * Finds a matching route configuration for a given URL path.
  * It supports parameterized routes and a fallback "*" route.
- * @param {Record<string, string>} routes - The routes configuration map.
+ * @param {Record<string, string>} routeConfig - The routes configuration map.
  * @param {string} path - The URL path to match.
  * @returns {{pattern: string, entityType: string, params: Record<string, string>, path: string}|null}
  * The matched route object or null if no match is found.
  */
-function findRoute(routes, path) {
+function findRoute(routeConfig, path) {
   const [pathname] = path.split("?")
   let fallbackRoute = null
 
-  for (const [pattern, entityType] of Object.entries(routes)) {
+  for (const [pattern, entityType] of Object.entries(routeConfig)) {
     if (pattern === "*") {
       fallbackRoute = { pattern, entityType, params: {}, path: pathname }
       continue

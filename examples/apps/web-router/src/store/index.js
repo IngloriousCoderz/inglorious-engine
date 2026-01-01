@@ -1,3 +1,5 @@
+import "./routes"
+
 import { createStore } from "@inglorious/web"
 import { router } from "@inglorious/web/router"
 

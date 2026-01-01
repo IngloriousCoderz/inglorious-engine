@@ -3,7 +3,7 @@
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 
-import { router } from "."
+import { router, setRoutes } from "."
 
 describe("router", () => {
   let entity
@@ -13,14 +13,15 @@ describe("router", () => {
     entity = {
       id: "router",
       type: "router",
-      routes: {
-        "/": "homePage",
-        "/users": "userListPage",
-        "/users/:id": "userPage",
-        "/users/:id/posts/:postId": "postPage",
-        "*": "notFoundPage",
-      },
     }
+
+    setRoutes({
+      "/": "homePage",
+      "/users": "userListPage",
+      "/users/:id": "userPage",
+      "/users/:id/posts/:postId": "postPage",
+      "*": "notFoundPage",
+    })
 
     api = {
       getEntity: vi.fn().mockReturnValue(entity),
@@ -181,8 +182,7 @@ describe("router", () => {
       router.loadSuccess(entity, payload, api)
 
       expect(api.setType).toHaveBeenCalledWith("myPage", module.myPage)
-      expect(entity.routes["/lazy"]).toBe("myPage")
-      expect(entity.loading).toBe(false)
+      expect(entity.isLoading).toBe(false)
       expect(entity.route).toBe("myPage")
       expect(history.pushState).toHaveBeenCalled()
     })
@@ -197,7 +197,7 @@ describe("router", () => {
       router.loadError(entity, payload)
 
       expect(entity.path).toBe("/lazy")
-      expect(entity.loading).toBe(false)
+      expect(entity.isLoading).toBe(false)
       expect(entity.error).toBe(error)
 
       consoleSpy.mockRestore()

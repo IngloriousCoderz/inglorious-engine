@@ -2,7 +2,7 @@
 
 exports[`should generate the app script for a page that has metadata 1`] = `
 "import { createDevtools, createStore, mount } from "@inglorious/web"
-import { router } from "@inglorious/web/router"
+import { getRoute, router, setRoutes } from "@inglorious/web/router"
 
 const pages = [{"path":"/posts","modulePath":"posts.js"}]
 const path = window.location.pathname + window.location.search + window.location.hash
@@ -13,9 +13,8 @@ const types = { router }
 const entities = {
   router: {
     type: "router",
-    routes: {
-      "/posts": () => import("@/pages/posts.js")
-    },
+    path: page.path,
+    route: page.moduleName,
   },
 
   "about": {
@@ -37,14 +36,13 @@ if (import.meta.env.DEV) {
   middlewares.push(createDevtools().middleware)
 }
 
-const module = await entities.router.routes[page.path]()
+setRoutes({
+  "/posts": () => import("@/pages/posts.js")
+})
 
-types.router.path = page.path
-types.router.route = page.moduleName
-
+const module = await getRoute(page.path)()
 const type = module[page.moduleName]
 types[page.moduleName] = type
-entities.router.routes[page.path] = page.moduleName
 
 const store = createStore({ types, entities, middlewares })
 
@@ -59,7 +57,7 @@ mount(store, (api) => {
 
 exports[`should generate the app script for a page with an entity 1`] = `
 "import { createDevtools, createStore, mount } from "@inglorious/web"
-import { router } from "@inglorious/web/router"
+import { getRoute, router, setRoutes } from "@inglorious/web/router"
 
 const pages = [{"path":"/about","modulePath":"about.js"}]
 const path = window.location.pathname + window.location.search + window.location.hash
@@ -70,9 +68,8 @@ const types = { router }
 const entities = {
   router: {
     type: "router",
-    routes: {
-      "/about": () => import("@/pages/about.js")
-    },
+    path: page.path,
+    route: page.moduleName,
   },
 
   "about": {
@@ -94,14 +91,13 @@ if (import.meta.env.DEV) {
   middlewares.push(createDevtools().middleware)
 }
 
-const module = await entities.router.routes[page.path]()
+setRoutes({
+  "/about": () => import("@/pages/about.js")
+})
 
-types.router.path = page.path
-types.router.route = page.moduleName
-
+const module = await getRoute(page.path)()
 const type = module[page.moduleName]
 types[page.moduleName] = type
-entities.router.routes[page.path] = page.moduleName
 
 const store = createStore({ types, entities, middlewares })
 
@@ -116,7 +112,7 @@ mount(store, (api) => {
 
 exports[`should generate the app script for a static page 1`] = `
 "import { createDevtools, createStore, mount } from "@inglorious/web"
-import { router } from "@inglorious/web/router"
+import { getRoute, router, setRoutes } from "@inglorious/web/router"
 
 const pages = [{"path":"/","modulePath":"index.js"}]
 const path = window.location.pathname + window.location.search + window.location.hash
@@ -127,9 +123,8 @@ const types = { router }
 const entities = {
   router: {
     type: "router",
-    routes: {
-      "/": () => import("@/pages/index.js")
-    },
+    path: page.path,
+    route: page.moduleName,
   },
 
   "about": {
@@ -151,14 +146,13 @@ if (import.meta.env.DEV) {
   middlewares.push(createDevtools().middleware)
 }
 
-const module = await entities.router.routes[page.path]()
+setRoutes({
+  "/": () => import("@/pages/index.js")
+})
 
-types.router.path = page.path
-types.router.route = page.moduleName
-
+const module = await getRoute(page.path)()
 const type = module[page.moduleName]
 types[page.moduleName] = type
-entities.router.routes[page.path] = page.moduleName
 
 const store = createStore({ types, entities, middlewares })
 

@@ -7,12 +7,11 @@
 export function generateApp(store, pages) {
   // Collect all unique page modules and their exports
   const routes = pages.map(
-    (page) =>
-      `      "${page.path}": () => import("@/pages/${page.modulePath}")`,
+    (page) => `  "${page.path}": () => import("@/pages/${page.modulePath}")`,
   )
 
   return `import { createDevtools, createStore, mount } from "@inglorious/web"
-import { router } from "@inglorious/web/router"
+import { getRoute, router, setRoutes } from "@inglorious/web/router"
 
 const pages = ${JSON.stringify(pages.map(({ filePath, ...page }) => page))}
 const path = window.location.pathname + window.location.search + window.location.hash
@@ -23,9 +22,8 @@ const types = { router }
 const entities = {
   router: {
     type: "router",
-    routes: {
-${routes.join(",\n")}
-    },
+    path: page.path,
+    route: page.moduleName,
   },
 ${JSON.stringify(store.getState(), null, 2).slice(1, -1)}
 }
@@ -35,14 +33,13 @@ if (import.meta.env.DEV) {
   middlewares.push(createDevtools().middleware)
 }
 
-const module = await entities.router.routes[page.path]()
+setRoutes({
+${routes.join(",\n")}
+})
 
-types.router.path = page.path
-types.router.route = page.moduleName
-
+const module = await getRoute(page.path)()
 const type = module[page.moduleName]
 types[page.moduleName] = type
-entities.router.routes[page.path] = page.moduleName
 
 const store = createStore({ types, entities, middlewares })
 

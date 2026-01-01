@@ -26,8 +26,8 @@ export const app = {
             router.error,
             () => html`<div>Route not found: ${router.path}</div>`,
           )}
-          ${when(router.loading, () => html`<div>Loading...</div>`)}
-          ${when(!router.error && !router.loading, () =>
+          ${when(router.isLoading, () => html`<div>Loading...</div>`)}
+          ${when(!router.error && !router.isLoading, () =>
             api.render(router.route, { allowType: true }),
           )}
         </main>
