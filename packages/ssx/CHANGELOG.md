@@ -1,5 +1,16 @@
 # @inglorious/ssx
 
+## 0.4.0
+
+### Minor Changes
+
+- Consolidate route config and type changing
+
+### Patch Changes
+
+- Updated dependencies
+  - @inglorious/web@4.0.0
+
 ## 0.3.0
 
 ### Minor Changes

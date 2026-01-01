@@ -1,5 +1,11 @@
 # @inglorious/store
 
+## 9.0.0
+
+### Major Changes
+
+- Consolidate route config and type changing
+
 ## 8.0.1
 
 ### Patch Changes

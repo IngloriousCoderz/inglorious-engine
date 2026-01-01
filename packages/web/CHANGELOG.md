@@ -1,5 +1,16 @@
 # @inglorious/react-store
 
+## 4.0.0
+
+### Major Changes
+
+- Consolidate route config and type changing
+
+### Patch Changes
+
+- Updated dependencies
+  - @inglorious/store@9.0.0
+
 ## 3.0.1
 
 ### Patch Changes
