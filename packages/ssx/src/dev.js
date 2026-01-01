@@ -48,7 +48,7 @@ export async function dev(options = {}) {
       if (!page) return next()
 
       const module = await viteServer.ssrLoadModule(page.filePath)
-      const html = await renderPage(store, module, {
+      const html = await renderPage(store, page, module, {
         ...renderOptions,
         wrap: true,
       })

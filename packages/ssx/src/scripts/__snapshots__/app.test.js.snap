@@ -27,6 +27,11 @@ const entities = {
     "name": "Antony",
     "posts": [],
     "id": "posts"
+  },
+  "post": {
+    "type": "post",
+    "post": null,
+    "id": "post"
   }
 
 }
@@ -37,10 +42,10 @@ if (import.meta.env.DEV) {
 }
 
 setRoutes({
-  "/posts": () => import("@/pages/posts.js")
+  "undefined": () => import("@/pages/posts.js")
 })
 
-const module = await getRoute(page.path)()
+const module = await getRoute(page.pattern)()
 const type = module[page.moduleName]
 types[page.moduleName] = type
 
@@ -82,6 +87,11 @@ const entities = {
     "name": "Antony",
     "posts": [],
     "id": "posts"
+  },
+  "post": {
+    "type": "post",
+    "post": null,
+    "id": "post"
   }
 
 }
@@ -92,10 +102,10 @@ if (import.meta.env.DEV) {
 }
 
 setRoutes({
-  "/about": () => import("@/pages/about.js")
+  "undefined": () => import("@/pages/about.js")
 })
 
-const module = await getRoute(page.path)()
+const module = await getRoute(page.pattern)()
 const type = module[page.moduleName]
 types[page.moduleName] = type
 
@@ -137,6 +147,11 @@ const entities = {
     "name": "Antony",
     "posts": [],
     "id": "posts"
+  },
+  "post": {
+    "type": "post",
+    "post": null,
+    "id": "post"
   }
 
 }
@@ -147,10 +162,10 @@ if (import.meta.env.DEV) {
 }
 
 setRoutes({
-  "/": () => import("@/pages/index.js")
+  "undefined": () => import("@/pages/index.js")
 })
 
-const module = await getRoute(page.path)()
+const module = await getRoute(page.pattern)()
 const type = module[page.moduleName]
 types[page.moduleName] = type
 

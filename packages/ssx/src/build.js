@@ -27,7 +27,7 @@ export async function build(options = {}) {
   const store = await generateStore(pages, options)
 
   // Render all pages
-  const renderedPages = await generatePages(store, pages, options)
+  const htmls = await renderPages(store, pages, options)
 
   // Write all pages to disk
   console.log("\n💾 Writing files...\n")
@@ -35,10 +35,11 @@ export async function build(options = {}) {
   const app = generateApp(store, pages)
   await fs.writeFile(path.join(outDir, "main.js"), app, "utf-8")
 
-  for (const { page, html } of renderedPages) {
+  pages.forEach(async (page, index) => {
+    const html = htmls[index]
     const filePath = await writePageToDisk(page.path, html, outDir)
     console.log(`  ✓ ${filePath}`)
-  }
+  })
 
   // Bundle with Vite
   console.log("\n📦 Bundling with Vite...\n")
@@ -50,10 +51,10 @@ export async function build(options = {}) {
 
   console.log("\n✨ Build complete!\n")
 
-  return { pages: renderedPages.length, outDir }
+  return { pages: htmls.length, outDir }
 }
 
-async function generatePages(store, pages, options = {}) {
+async function renderPages(store, pages, options = {}) {
   const { renderOptions } = options
 
   const renderedPages = []
@@ -62,11 +63,11 @@ async function generatePages(store, pages, options = {}) {
     console.log(`  Rendering ${page.path}...`)
 
     const module = await import(pathToFileURL(page.filePath))
-    const html = await renderPage(store, module, {
+    const html = await renderPage(store, page, module, {
       ...renderOptions,
       wrap: true,
     })
-    renderedPages.push({ page, module, html })
+    renderedPages.push(html)
   }
 
   return renderedPages

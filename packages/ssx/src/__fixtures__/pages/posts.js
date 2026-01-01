@@ -1,5 +1,7 @@
 import { html } from "@inglorious/web"
 
+import { posts as postsData } from "../posts.js"
+
 export const posts = {
   async routeChange(entity, payload, api) {
     if (payload.route !== entity.type) return
@@ -38,10 +40,5 @@ export async function load(entity) {
 }
 
 async function fetchPosts() {
-  return await [
-    { id: 1, title: "Inglorious Store" },
-    { id: 2, title: "lit-html" },
-    { id: 3, title: "Inglorious Web" },
-    { id: 4, title: "Inglorious SSX" },
-  ]
+  return await postsData
 }

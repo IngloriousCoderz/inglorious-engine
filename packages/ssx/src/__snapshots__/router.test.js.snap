@@ -3,11 +3,52 @@
 exports[`router > getPages > should generate static paths for all pages 1`] = `
 [
   {
+    "filePath": "C:\\Users\\anton\\Projects\\ic\\inglorious-forge\\packages\\ssx\\src\\__fixtures__\\pages\\posts\\_id.js",
+    "moduleName": "post",
+    "modulePath": "posts/_id.js",
+    "params": {
+      "id": "1",
+    },
+    "path": "/posts/1",
+    "pattern": "/posts/:id",
+  },
+  {
+    "filePath": "C:\\Users\\anton\\Projects\\ic\\inglorious-forge\\packages\\ssx\\src\\__fixtures__\\pages\\posts\\_id.js",
+    "moduleName": "post",
+    "modulePath": "posts/_id.js",
+    "params": {
+      "id": "2",
+    },
+    "path": "/posts/2",
+    "pattern": "/posts/:id",
+  },
+  {
+    "filePath": "C:\\Users\\anton\\Projects\\ic\\inglorious-forge\\packages\\ssx\\src\\__fixtures__\\pages\\posts\\_id.js",
+    "moduleName": "post",
+    "modulePath": "posts/_id.js",
+    "params": {
+      "id": "3",
+    },
+    "path": "/posts/3",
+    "pattern": "/posts/:id",
+  },
+  {
+    "filePath": "C:\\Users\\anton\\Projects\\ic\\inglorious-forge\\packages\\ssx\\src\\__fixtures__\\pages\\posts\\_id.js",
+    "moduleName": "post",
+    "modulePath": "posts/_id.js",
+    "params": {
+      "id": "4",
+    },
+    "path": "/posts/4",
+    "pattern": "/posts/:id",
+  },
+  {
     "filePath": "C:\\Users\\anton\\Projects\\ic\\inglorious-forge\\packages\\ssx\\src\\__fixtures__\\pages\\posts.js",
     "moduleName": "posts",
     "modulePath": "posts.js",
     "params": {},
     "path": "/posts",
+    "pattern": "/posts",
   },
   {
     "filePath": "C:\\Users\\anton\\Projects\\ic\\inglorious-forge\\packages\\ssx\\src\\__fixtures__\\pages\\about.js",
@@ -15,6 +56,7 @@ exports[`router > getPages > should generate static paths for all pages 1`] = `
     "modulePath": "about.js",
     "params": {},
     "path": "/about",
+    "pattern": "/about",
   },
   {
     "filePath": "C:\\Users\\anton\\Projects\\ic\\inglorious-forge\\packages\\ssx\\src\\__fixtures__\\pages\\index.js",
@@ -22,6 +64,7 @@ exports[`router > getPages > should generate static paths for all pages 1`] = `
     "modulePath": "index.js",
     "params": {},
     "path": "/",
+    "pattern": "/",
   },
 ]
 `;

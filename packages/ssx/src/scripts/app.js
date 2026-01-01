@@ -6,9 +6,14 @@
  */
 export function generateApp(store, pages) {
   // Collect all unique page modules and their exports
-  const routes = pages.map(
-    (page) => `  "${page.path}": () => import("@/pages/${page.modulePath}")`,
-  )
+  const routes = pages
+    .filter((page, index) => {
+      return pages.findIndex((p) => p.pattern === page.pattern) === index
+    })
+    .map(
+      (page) =>
+        `  "${page.pattern}": () => import("@/pages/${page.modulePath}")`,
+    )
 
   return `import { createDevtools, createStore, mount } from "@inglorious/web"
 import { getRoute, router, setRoutes } from "@inglorious/web/router"
@@ -37,7 +42,7 @@ setRoutes({
 ${routes.join(",\n")}
 })
 
-const module = await getRoute(page.path)()
+const module = await getRoute(page.pattern)()
 const type = module[page.moduleName]
 types[page.moduleName] = type
 

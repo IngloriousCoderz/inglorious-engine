@@ -13,6 +13,33 @@ exports[`should render a page with entity 1`] = `
       </nav><!--/lit-part-->"
 `;
 
+exports[`should render a page with metadata 1`] = `
+"<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>About</title>
+  <meta name="description" content="About page">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div id="root"><!--lit-part 5QjrkbWt8KY=--><h1>
+        About
+        <!--lit-node 1--><span 
+          ><!--lit-part--><!--/lit-part--></span
+        >
+      </h1>
+      <nav>
+        <a href="/">Home</a> | <a href="/about">About</a> |
+        <a href="/posts">Posts</a>
+      </nav><!--/lit-part--></div>
+
+  <script type="module" src="/main.js"></script>
+  <script type="module" src="./ga.js"></script>
+</body>
+</html>"
+`;
+
 exports[`should render a page with pre-fetched data 1`] = `
 "<!--lit-part GjHwkgukOCo=--><h1><!--lit-part-->Antony<!--/lit-part-->'s Posts</h1>
       <nav>
@@ -35,31 +62,4 @@ exports[`should render a static page fragment 1`] = `
         <a href="/">Home</a> | <a href="/about">About</a> |
         <a href="/posts">Posts</a>
       </nav><!--/lit-part-->"
-`;
-
-exports[`should render a whole static page 1`] = `
-"<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>About</title>
-  
-  <link rel="stylesheet" href="./style.css">
-</head>
-<body>
-  <div id="root"><!--lit-part 5QjrkbWt8KY=--><h1>
-        About
-        <!--lit-node 1--><span 
-          ><!--lit-part--><!--/lit-part--></span
-        >
-      </h1>
-      <nav>
-        <a href="/">Home</a> | <a href="/about">About</a> |
-        <a href="/posts">Posts</a>
-      </nav><!--/lit-part--></div>
-
-  <script type="module" src="/main.js"></script>
-  <script type="module" src="./ga.js"></script>
-</body>
-</html>"
 `;

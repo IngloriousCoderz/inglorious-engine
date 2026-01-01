@@ -35,6 +35,7 @@ export async function getPages(pagesDir = "pages") {
           const params = extractParams(route, urlPath)
 
           pages.push({
+            pattern: route.pattern,
             path: urlPath,
             modulePath: route.modulePath,
             filePath: route.filePath,
@@ -51,7 +52,8 @@ export async function getPages(pagesDir = "pages") {
     } else {
       // Static route - add directly
       pages.push({
-        path: route.pattern === "" ? "/" : route.pattern,
+        pattern: route.pattern,
+        path: route.pattern || "/",
         modulePath: route.modulePath,
         filePath: route.filePath,
         moduleName,
