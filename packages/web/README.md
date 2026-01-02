@@ -367,12 +367,12 @@ No additional configuration is needed.
 
 ### 1. Setup the Router
 
-To enable the router, add it to your store's types and create a `router` entity. The entity's `routes` property maps URL patterns to the entity types that represent your pages.
+To enable the router, add it to your store's types and create a `router` entity. Register route patterns using the router module helpers (`setRoutes`, `addRoute`) — routes are configured at module level and not stored on the router entity itself.
 
 ```javascript
 // store.js
 import { createStore, html } from "@inglorious/web"
-import { router } from "@inglorious/web/router"
+import { router, setRoutes } from "@inglorious/web/router"
 
 const types = {
   // 1. Add the router type to your store's types
@@ -395,14 +395,9 @@ const types = {
 }
 
 const entities = {
-  // 3. Create the router entity
+  // 3. Create the router entity (no `routes` here)
   router: {
     type: "router",
-    routes: {
-      "/": "homePage",
-      "/users/:id": "userPage",
-      "*": "notFoundPage", // Fallback for unmatched routes
-    },
   },
   userPage: {
     type: "userPage",
@@ -411,6 +406,13 @@ const entities = {
 }
 
 export const store = createStore({ types, entities })
+
+// Register routes at module level
+setRoutes({
+  "/": "homePage",
+  "/users/:id": "userPage",
+  "*": "notFoundPage",
+})
 ```
 
 ### 2. Render the Current Route
@@ -456,22 +458,23 @@ api.notify("navigate", {
 
 ### 4. Lazy Loading Routes
 
-You can improve performance by lazy-loading routes. Instead of a string, provide a function that returns a dynamic import.
+You can improve performance by lazy-loading routes. Use a loader function that returns a dynamic import when registering the route via `setRoutes`.
 
 **Note:** The imported module must use a named export for the entity type (not `export default`), so the router can register it with a unique name in the store.
 
 ```javascript
 // store.js
 const entities = {
-  router: {
-    type: "router",
-    routes: {
-      "/": "homePage",
-      // Lazy load: returns a Promise resolving to a module
-      "/admin": () => import("./pages/admin.js"),
-    },
-  },
+  router: { type: "router" },
 }
+
+export const store = createStore({ types, entities })
+
+setRoutes({
+  "/": "homePage",
+  // Lazy load: returns a Promise resolving to a module
+  "/admin": () => import("./pages/admin.js"),
+})
 ```
 
 ```javascript
@@ -538,22 +541,18 @@ const types = {
 }
 
 const entities = {
-  router: {
-    type: "router",
-    routes: {
-      "/login": "loginPage",
-      "/admin": "adminPage",
-    },
-  },
-  adminPage: {
-    type: "adminPage",
-  },
-  loginPage: {
-    type: "loginPage",
-  },
+  router: { type: "router" },
+  adminPage: { type: "adminPage" },
+  loginPage: { type: "loginPage" },
 }
 
 export const store = createStore({ types, entities })
+
+// Register routes via the router module API
+setRoutes({
+  "/login": "loginPage",
+  "/admin": "adminPage",
+})
 ```
 
 #### How Type Composition Works

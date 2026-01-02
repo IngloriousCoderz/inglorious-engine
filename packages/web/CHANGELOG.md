@@ -1,5 +1,11 @@
 # @inglorious/react-store
 
+## 4.0.1
+
+### Patch Changes
+
+- Make lazy route loading more robust
+
 ## 4.0.0
 
 ### Major Changes

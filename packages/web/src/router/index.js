@@ -7,7 +7,18 @@
 const SKIP_FULL_MATCH_GROUP = 1 // .match() result at index 0 is the full string
 const REMOVE_COLON_PREFIX = 1
 
+/**
+ * Route configuration map. Keys are route patterns (e.g. `/users/:id`) and
+ * values are either a string type name or a loader function that returns a
+ * module exporting a type.
+ * @type {Record<string, string|function>}
+ */
 const routeConfig = {}
+
+/**
+ * Guard to ensure global listeners are only attached once.
+ * @type {boolean}
+ */
 let areListenersInitialized = false
 
 /**
@@ -41,18 +52,9 @@ export const router = {
     areListenersInitialized = true
 
     // Listen for browser back/forward
-    window.addEventListener("popstate", () => {
-      const path = window.location.pathname + window.location.search
-      const route = findRoute(routeConfig, path)
-
-      if (route) {
-        api.notify(`#${entityId}:routeSync`, {
-          entityType: route.entityType,
-          path,
-          params: route.params,
-        })
-      }
-    })
+    window.addEventListener("popstate", () =>
+      api.notify(`#${entityId}:popstate`, payload),
+    )
 
     // Intercept link clicks
     document.addEventListener("click", (event) => {
@@ -79,8 +81,42 @@ export const router = {
       event.preventDefault()
 
       const path = link.pathname + link.search + link.hash
-      api.notify("navigate", path)
+      api.notify(`#${entityId}:navigate`, path)
     })
+  },
+
+  /**
+   * Handles browser `popstate` events.
+   * Attempts to match the current location to a route and updates the router
+   * entity state. If the matched route is lazy (a loader function) it will
+   * attempt to load the module first.
+   * @param {RouterEntity} entity
+   * @param {Object} payload
+   * @param {Api} api
+   */
+  async popstate(entity, payload, api) {
+    const path = window.location.pathname + window.location.search
+    const route = findRoute(routeConfig, path)
+    const entityId = entity.id
+
+    if (route) {
+      if (typeof route.entityType === "function") {
+        entity.isLoading = true
+        entity.error = null
+
+        try {
+          const module = await route.entityType()
+          api.notify(`#${entityId}:routeLoadSuccess`, { module, route })
+          api.notify(`#${entityId}:popstate`, payload)
+        } catch (error) {
+          api.notify(`#${entityId}:routeLoadError`, { error, path })
+        }
+
+        return
+      }
+
+      updateRouter(entity, route)
+    }
   },
 
   /**
@@ -113,6 +149,7 @@ export const router = {
     // The router will match it against patterns in routeConfig
 
     const route = findRoute(routeConfig, path)
+    const entityId = entity.id
 
     if (!route) {
       console.warn(`No route matches path: ${path}`)
@@ -132,64 +169,55 @@ export const router = {
     if (typeof route.entityType === "function") {
       entity.isLoading = true
       entity.error = null
-      const entityId = entity.id
 
       try {
         const module = await route.entityType()
-        api.notify(`#${entityId}:loadSuccess`, {
-          module,
-          route,
-          path,
-          replace,
-          state,
-        })
+        api.notify(`#${entityId}:routeLoadSuccess`, { module, route })
+        api.notify(`#${entityId}:navigate`, payload)
       } catch (error) {
-        api.notify(`#${entityId}:loadError`, { error, path })
+        api.notify(`#${entityId}:routeLoadError`, { error, path })
       }
 
       return
     }
 
-    // Synchronous navigation
+    updateRouter(entity, route)
 
-    doNavigate(
-      entity,
-      {
-        entityType: route.entityType,
-        path,
-        params: route.params,
-        replace,
-        state,
-      },
-      api,
-    )
+    // Prepare history state
+    const historyState = {
+      ...state,
+      route: entity.route,
+      params: entity.params,
+      query: entity.query,
+      path: entity.path,
+    }
+
+    // Navigate
+    const method = replace ? "replaceState" : "pushState"
+    history[method](historyState, "", path)
+
+    api.notify("routeChange", historyState)
   },
 
   /**
-   * Handles the successful loading of a lazy route module.
-   * @param {RouterEntity} entity - The router entity.
-   * @param {{module: object, route: object, path: string, replace: boolean, state: object}} payload - The success payload.
-   * @param {Api} api - The application API.
+   * Handles successful loading of a lazily-loaded route module.
+   * Registers the loaded type in the runtime type registry via `api.setType`
+   * and updates the `routeConfig` entry for the pattern.
+   * @param {RouterEntity} entity
+   * @param {{module: object, route: {pattern: string, entityType: string}}} payload
+   * @param {Api} api
    */
-  loadSuccess(entity, payload, api) {
-    const { module, route, path, replace, state } = payload
+  routeLoadSuccess(entity, payload, api) {
+    const { module, route } = payload
 
     const [typeName, type] = Object.entries(module).find(
       ([, type]) => type?.render,
     )
 
     api.setType(typeName, type)
-
     routeConfig[route.pattern] = typeName
 
-    // Complete the navigation
     entity.isLoading = false
-
-    doNavigate(
-      entity,
-      { entityType: typeName, path, params: route.params, replace, state },
-      api,
-    )
   },
 
   /**
@@ -197,21 +225,12 @@ export const router = {
    * @param {RouterEntity} entity - The router entity.
    * @param {{error: Error, path: string}} payload - The error payload.
    */
-  loadError(entity, payload) {
+  routeLoadError(entity, payload) {
     const { error, path } = payload
     console.error(`Failed to load route ${path}:`, error)
     entity.path = path
     entity.isLoading = false
     entity.error = error
-  },
-
-  /**
-   * Synchronizes the router state with the browser's history (e.g., on popstate).
-   * @param {RouterEntity} entity - The router entity.
-   * @param {{entityType: string, path: string, params: object}} payload - The sync payload.
-   */
-  routeSync(entity, payload) {
-    updateRouter(entity, payload)
   },
 }
 
@@ -278,24 +297,29 @@ function buildPath(pattern, params = {}) {
  * Finds a matching route configuration for a given URL path.
  * It supports parameterized routes and a fallback "*" route.
  * @param {Record<string, string>} routeConfig - The routes configuration map.
- * @param {string} path - The URL path to match.
+ * @param {string} pathname - The URL path to match.
  * @returns {{pattern: string, entityType: string, params: Record<string, string>, path: string}|null}
  * The matched route object or null if no match is found.
  */
-function findRoute(routeConfig, path) {
-  const [pathname] = path.split("?")
+function findRoute(routeConfig, pathname) {
+  const [path, search] = pathname.split("?")
   let fallbackRoute = null
 
   for (const [pattern, entityType] of Object.entries(routeConfig)) {
     if (pattern === "*") {
-      fallbackRoute = { pattern, entityType, params: {}, path: pathname }
+      fallbackRoute = { pattern, entityType, params: {}, path }
       continue
     }
-    const params = matchRoute(pattern, pathname)
+
+    const params = matchRoute(pattern, path)
     if (params !== null) {
-      return { pattern, entityType, params, path: pathname }
+      const query = search
+        ? Object.fromEntries(new URLSearchParams(search))
+        : {}
+      return { pattern, entityType, params, path, query }
     }
   }
+
   return fallbackRoute
 }
 
@@ -346,49 +370,17 @@ function patternToRegex(pattern) {
 }
 
 /**
- * Performs the actual navigation by updating entity state and browser history.
- * @param {RouterEntity} entity - The router entity.
- * @param {object} options - Navigation options.
- * @param {string} options.entityType - The type of the entity to render.
- * @param {string} options.path - The full path.
- * @param {object} options.params - The route parameters.
- * @param {boolean} [options.replace] - Whether to replace the current history entry.
- * @param {object} [options.state] - Additional state to save in history.
- * @param {Api} api - The application API.
- */
-function doNavigate(entity, { entityType, path, params, replace, state }, api) {
-  updateRouter(entity, { entityType, path, params })
-
-  // Prepare history state
-  const historyState = {
-    ...state,
-    route: entity.route,
-    params: entity.params,
-    query: entity.query,
-    path: entity.path,
-  }
-
-  // Navigate
-  const method = replace ? "replaceState" : "pushState"
-  history[method](historyState, "", path)
-
-  api.notify("routeChange", historyState)
-}
-
-/**
  * Updates the router entity's internal state.
  * @param {RouterEntity} entity - The router entity.
  * @param {object} options - The update options.
  * @param {string} options.entityType - The matched entity type.
- * @param {string} options.path - The full path.
- * @param {object} options.params - The extracted parameters.
+ * @param {string} options.path - The full path (pathname only, no query).
+ * @param {object} options.params - The extracted route parameters.
+ * @param {object} [options.query] - The parsed query parameters.
  */
-function updateRouter(entity, { entityType, path, params }) {
-  const [pathname, search] = path.split("?")
-  const query = search ? Object.fromEntries(new URLSearchParams(search)) : {}
-
-  entity.path = pathname
+function updateRouter(entity, { entityType, path, params, query }) {
   entity.route = entityType
+  entity.path = path
   entity.params = params
   entity.query = query
   entity.hash = window.location.hash

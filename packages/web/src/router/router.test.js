@@ -148,53 +148,71 @@ describe("router", () => {
     })
   })
 
-  describe("routeSync()", () => {
-    it("should update the entity state from a payload", () => {
-      const payload = {
-        path: "/new?a=1",
-        entityType: "newPage",
-        params: {},
-      }
+  describe("lazy route loading", () => {
+    it("should load a lazy route and dispatch routeLoadSuccess then navigate", async () => {
+      const mockModule = { lazyPage: { render: () => {} } }
+      const lazyRoute = vi.fn().mockResolvedValue(mockModule)
 
-      vi.spyOn(window, "location", "get").mockReturnValue({ hash: "#section" })
+      setRoutes({
+        "/lazy": lazyRoute,
+      })
 
-      router.routeSync(entity, payload)
+      await router.navigate(entity, "/lazy", api)
 
-      expect(entity.path).toBe("/new")
-      expect(entity.route).toBe("newPage")
-      expect(entity.query).toEqual({ a: "1" })
-      expect(entity.hash).toBe("#section")
+      expect(entity.isLoading).toBe(true)
+      expect(api.notify).toHaveBeenCalledWith("#router:routeLoadSuccess", {
+        module: mockModule,
+        route: expect.objectContaining({ pattern: "/lazy" }),
+      })
+      expect(api.notify).toHaveBeenCalledWith("#router:navigate", "/lazy")
+    })
+
+    it("should handle lazy route loading errors", async () => {
+      const error = new Error("Module load failed")
+      const failingRoute = vi.fn().mockRejectedValue(error)
+      const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {})
+
+      setRoutes({
+        "/failing": failingRoute,
+      })
+
+      await router.navigate(entity, "/failing", api)
+
+      expect(api.notify).toHaveBeenCalledWith("#router:routeLoadError", {
+        error,
+        path: "/failing",
+      })
+
+      // Simulate calling the routeLoadError handler
+      router.routeLoadError(entity, { error, path: "/failing" })
+
+      expect(entity.isLoading).toBe(false)
+      expect(entity.error).toBe(error)
+
+      consoleSpy.mockRestore()
     })
   })
 
-  describe("loadSuccess()", () => {
-    it("should handle lazy loaded modules", () => {
+  describe("routeLoadSuccess()", () => {
+    it("should register the loaded module type and update routeConfig", () => {
       const module = { myPage: { render: () => {} } }
-      const route = { pattern: "/lazy", params: {} }
-      const payload = {
-        module,
-        route,
-        path: "/lazy",
-        replace: false,
-        state: {},
-      }
+      const route = { pattern: "/lazy", entityType: () => {} }
+      const payload = { module, route }
 
-      router.loadSuccess(entity, payload, api)
+      router.routeLoadSuccess(entity, payload, api)
 
       expect(api.setType).toHaveBeenCalledWith("myPage", module.myPage)
       expect(entity.isLoading).toBe(false)
-      expect(entity.route).toBe("myPage")
-      expect(history.pushState).toHaveBeenCalled()
     })
   })
 
-  describe("loadError()", () => {
+  describe("routeLoadError()", () => {
     it("should handle load errors", () => {
       const error = new Error("Failed")
       const payload = { error, path: "/lazy" }
       const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {})
 
-      router.loadError(entity, payload)
+      router.routeLoadError(entity, payload)
 
       expect(entity.path).toBe("/lazy")
       expect(entity.isLoading).toBe(false)

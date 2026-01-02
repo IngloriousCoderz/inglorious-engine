@@ -114,21 +114,25 @@ export interface RouterType {
     payload: RouteSyncPayload,
     api: StoreApi,
   ): void
+  /**
+   * Handles browser `popstate` events. May perform async loading for lazy routes.
+   */
+  popstate(
+    entity: RouterEntity,
+    payload: any,
+    api: StoreApi,
+  ): void | Promise<void>
 
   /**
-   * Handles successful async route loading.
-   * @param {RouterEntity} entity - The router entity to update.
-   * @param {Object} payload - The load success payload.
-   * @param {StoreApi} api - The store API.
+   * Handles successful async route loading for a pattern.
+   * Registers the loaded type and updates runtime route config.
    */
-  loadSuccess(entity: RouterEntity, payload: any, api: StoreApi): void
+  routeLoadSuccess(entity: RouterEntity, payload: any, api: StoreApi): void
 
   /**
-   * Handles async route loading errors.
-   * @param {RouterEntity} entity - The router entity.
-   * @param {Object} payload - The error payload.
+   * Handles errors that occurred while loading a lazy route.
    */
-  loadError(entity: RouterEntity, payload: any): void
+  routeLoadError(entity: RouterEntity, payload: any): void
 }
 
 /**
