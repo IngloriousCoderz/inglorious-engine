@@ -35,9 +35,9 @@ it("should generate the app script for a page with an entity", async () => {
 
 it("should generate the app script for a page that has metadata", async () => {
   const page = {
-    path: "/posts",
-    modulePath: "posts.js",
-    filePath: path.join(ROOT_DIR, "pages", "posts.js"),
+    path: "/blog",
+    modulePath: "blog.js",
+    filePath: path.join(ROOT_DIR, "pages", "blog.js"),
   }
   const store = await generateStore([page], { rootDir: ROOT_DIR })
 

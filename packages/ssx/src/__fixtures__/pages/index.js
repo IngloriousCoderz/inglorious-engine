@@ -5,7 +5,7 @@ export const index = {
     return html`<h1>Index</h1>
       <nav>
         <a href="/">Home</a> | <a href="/about">About</a> |
-        <a href="/posts">Posts</a>
+        <a href="/blog">Blog</a>
       </nav>`
   },
 }

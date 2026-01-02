@@ -1,11 +1,11 @@
 import { html } from "@inglorious/web"
 
-import { posts as postsData } from "../../posts.js"
+import { data } from "../../api/posts.js"
 
 export const post = {
   async routeChange(entity, payload, api) {
     if (payload.route !== entity.type) return
-    const id = Number(payload.params.id)
+    const id = payload.params.slug
     if (entity.post?.id === id) return
 
     const entityId = entity.id
@@ -18,19 +18,23 @@ export const post = {
   },
 
   render(entity) {
-    return html`<h1>Post ${entity.post?.title}</h1>`
+    if (!entity.post) return
+
+    return html`<h1>${entity.post.title}</h1>
+      <div>${entity.post.date}</div>
+      <p>${entity.post.body}</p>`
   },
 }
 
 export async function getStaticPaths() {
-  return postsData.map((post) => `/posts/${post.id}`)
+  return data.map((post) => `/posts/${post.id}`)
 }
 
 export async function load(entity, page) {
-  const id = Number(page.params.id)
+  const id = page.params.slug
   entity.post = await fetchPost(id)
 }
 
 async function fetchPost(id) {
-  return await postsData.find((post) => post.id === id)
+  return await data.find((post) => post.id === id)
 }

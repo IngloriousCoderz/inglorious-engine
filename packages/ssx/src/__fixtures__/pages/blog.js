@@ -1,8 +1,8 @@
 import { html } from "@inglorious/web"
 
-import { posts as postsData } from "../posts.js"
+import { data } from "../api/posts.js"
 
-export const posts = {
+export const blog = {
   async routeChange(entity, payload, api) {
     if (payload.route !== entity.type) return
     if (entity.posts && entity.posts.length) return
@@ -17,10 +17,10 @@ export const posts = {
   },
 
   render(entity) {
-    return html`<h1>${entity.name}'s Posts</h1>
+    return html`<h1>${entity.name}'s Blog</h1>
       <nav>
         <a href="/">Home</a> | <a href="/about">About</a> |
-        <a href="/posts">Posts</a>
+        <a href="/blog">Blog</a>
       </nav>
       <ul>
         ${entity.posts?.map(
@@ -31,7 +31,7 @@ export const posts = {
   },
 }
 
-export const title = (entity) => `${entity.name}'s Posts`
+export const title = (entity) => `${entity.name}'s Blog`
 export const meta = {
   description: "A page that pre-fetches data before rendering",
 }
@@ -40,5 +40,5 @@ export async function load(entity) {
 }
 
 async function fetchPosts() {
-  return await postsData
+  return await data
 }

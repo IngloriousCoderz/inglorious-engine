@@ -1,7 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`should render a page with entity 1`] = `
-"<!--lit-part 5QjrkbWt8KY=--><h1>
+"<!--lit-part soNp64JG6F4=--><h1>
         About
         <!--lit-node 1--><span 
           ><!--lit-part-->Us<!--/lit-part--></span
@@ -9,7 +9,7 @@ exports[`should render a page with entity 1`] = `
       </h1>
       <nav>
         <a href="/">Home</a> | <a href="/about">About</a> |
-        <a href="/posts">Posts</a>
+        <a href="/blog">Blog</a>
       </nav><!--/lit-part-->"
 `;
 
@@ -23,7 +23,7 @@ exports[`should render a page with metadata 1`] = `
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-  <div id="root"><!--lit-part 5QjrkbWt8KY=--><h1>
+  <div id="root"><!--lit-part soNp64JG6F4=--><h1>
         About
         <!--lit-node 1--><span 
           ><!--lit-part--><!--/lit-part--></span
@@ -31,7 +31,7 @@ exports[`should render a page with metadata 1`] = `
       </h1>
       <nav>
         <a href="/">Home</a> | <a href="/about">About</a> |
-        <a href="/posts">Posts</a>
+        <a href="/blog">Blog</a>
       </nav><!--/lit-part--></div>
 
   <script type="module" src="/main.js"></script>
@@ -41,18 +41,18 @@ exports[`should render a page with metadata 1`] = `
 `;
 
 exports[`should render a page with pre-fetched data 1`] = `
-"<!--lit-part GjHwkgukOCo=--><h1><!--lit-part-->Antony<!--/lit-part-->'s Posts</h1>
+"<!--lit-part NgcS3ar6Jyw=--><h1><!--lit-part-->Antony<!--/lit-part-->'s Blog</h1>
       <nav>
         <a href="/">Home</a> | <a href="/about">About</a> |
-        <a href="/posts">Posts</a>
+        <a href="/blog">Blog</a>
       </nav>
       <ul>
-        <!--lit-part--><!--lit-part 2+vbCTTZHYo=--><li><!--lit-node 1--><a href="/posts/1"><!--lit-part-->Inglorious Store<!--/lit-part--></a></li><!--/lit-part--><!--lit-part 2+vbCTTZHYo=--><li><!--lit-node 1--><a href="/posts/2"><!--lit-part-->lit-html<!--/lit-part--></a></li><!--/lit-part--><!--lit-part 2+vbCTTZHYo=--><li><!--lit-node 1--><a href="/posts/3"><!--lit-part-->Inglorious Web<!--/lit-part--></a></li><!--/lit-part--><!--lit-part 2+vbCTTZHYo=--><li><!--lit-node 1--><a href="/posts/4"><!--lit-part-->Inglorious SSX<!--/lit-part--></a></li><!--/lit-part--><!--/lit-part-->
+        <!--lit-part--><!--lit-part 2+vbCTTZHYo=--><li><!--lit-node 1--><a href="/posts/2022-07-30_the_joruney_begins"><!--lit-part-->The Journey Begins<!--/lit-part--></a></li><!--/lit-part--><!--lit-part 2+vbCTTZHYo=--><li><!--lit-node 1--><a href="/posts/2022-08-22_entity_store"><!--lit-part-->An Entity-Based Store<!--/lit-part--></a></li><!--/lit-part--><!--lit-part 2+vbCTTZHYo=--><li><!--lit-node 1--><a href="/posts/2023-08-28_game_ai_algorithms"><!--lit-part-->Game AI Algorithms<!--/lit-part--></a></li><!--/lit-part--><!--lit-part 2+vbCTTZHYo=--><li><!--lit-node 1--><a href="/posts/2023-11-11_canvas"><!--lit-part-->Canvas<!--/lit-part--></a></li><!--/lit-part--><!--lit-part 2+vbCTTZHYo=--><li><!--lit-node 1--><a href="/posts/2024-05-28_collision_detection"><!--lit-part-->Collision Detection<!--/lit-part--></a></li><!--/lit-part--><!--lit-part 2+vbCTTZHYo=--><li><!--lit-node 1--><a href="/posts/2025-02-14_coding_is_coping"><!--lit-part-->Coding Is Coping<!--/lit-part--></a></li><!--/lit-part--><!--lit-part 2+vbCTTZHYo=--><li><!--lit-node 1--><a href="/posts/2025-07-24_lets_talk"><!--lit-part-->Let&#39;s Talk<!--/lit-part--></a></li><!--/lit-part--><!--lit-part 2+vbCTTZHYo=--><li><!--lit-node 1--><a href="/posts/2025-10-05_coding_spree"><!--lit-part-->Coding Spree<!--/lit-part--></a></li><!--/lit-part--><!--lit-part 2+vbCTTZHYo=--><li><!--lit-node 1--><a href="/posts/2025-10-11_not_only_games"><!--lit-part-->Not Only Games<!--/lit-part--></a></li><!--/lit-part--><!--lit-part 2+vbCTTZHYo=--><li><!--lit-node 1--><a href="/posts/2025-11-12_not_only_react"><!--lit-part-->Not Only React<!--/lit-part--></a></li><!--/lit-part--><!--lit-part 2+vbCTTZHYo=--><li><!--lit-node 1--><a href="/posts/2025-12-20_inglorious_web"><!--lit-part-->Inglorious Web<!--/lit-part--></a></li><!--/lit-part--><!--lit-part 2+vbCTTZHYo=--><li><!--lit-node 1--><a href="/posts/2025-12-31_inglorious_ssx"><!--lit-part-->Inglorious SSX<!--/lit-part--></a></li><!--/lit-part--><!--/lit-part-->
       </ul><!--/lit-part-->"
 `;
 
 exports[`should render a static page fragment 1`] = `
-"<!--lit-part 5QjrkbWt8KY=--><h1>
+"<!--lit-part soNp64JG6F4=--><h1>
         About
         <!--lit-node 1--><span 
           ><!--lit-part--><!--/lit-part--></span
@@ -60,6 +60,6 @@ exports[`should render a static page fragment 1`] = `
       </h1>
       <nav>
         <a href="/">Home</a> | <a href="/about">About</a> |
-        <a href="/posts">Posts</a>
+        <a href="/blog">Blog</a>
       </nav><!--/lit-part-->"
 `;

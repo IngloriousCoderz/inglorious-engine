@@ -7,16 +7,16 @@ exports[`should generate the proper types and entities from a page that has meta
     "name": "Us",
     "type": "about",
   },
+  "blog": {
+    "id": "blog",
+    "name": "Matteo Antony",
+    "posts": [],
+    "type": "blog",
+  },
   "post": {
     "id": "post",
     "post": null,
     "type": "post",
-  },
-  "posts": {
-    "id": "posts",
-    "name": "Antony",
-    "posts": [],
-    "type": "posts",
   },
 }
 `;
@@ -28,16 +28,16 @@ exports[`should generate the proper types and entities from a page with an entit
     "name": "Us",
     "type": "about",
   },
+  "blog": {
+    "id": "blog",
+    "name": "Matteo Antony",
+    "posts": [],
+    "type": "blog",
+  },
   "post": {
     "id": "post",
     "post": null,
     "type": "post",
-  },
-  "posts": {
-    "id": "posts",
-    "name": "Antony",
-    "posts": [],
-    "type": "posts",
   },
 }
 `;
@@ -49,16 +49,16 @@ exports[`should generate the proper types and entities from a static page 1`] = 
     "name": "Us",
     "type": "about",
   },
+  "blog": {
+    "id": "blog",
+    "name": "Matteo Antony",
+    "posts": [],
+    "type": "blog",
+  },
   "post": {
     "id": "post",
     "post": null,
     "type": "post",
-  },
-  "posts": {
-    "id": "posts",
-    "name": "Antony",
-    "posts": [],
-    "type": "posts",
   },
 }
 `;

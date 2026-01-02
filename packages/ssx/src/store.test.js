@@ -30,11 +30,11 @@ it("should generate the proper types and entities from a page with an entity", a
 
 it("should generate the proper types and entities from a page that has metadata", async () => {
   const page = {
-    filePath: path.join(ROOT_DIR, "pages", "posts.js"),
+    filePath: path.join(ROOT_DIR, "pages", "blog.js"),
   }
 
   const store = await generateStore([page], { rootDir: ROOT_DIR })
 
-  expect(store.getType("posts").render).toBeDefined()
+  expect(store.getType("blog").render).toBeDefined()
   expect(store.getState()).toMatchSnapshot()
 })

@@ -25,8 +25,8 @@ describe("router", () => {
 
       const patterns = routes.map((r) => r.pattern)
 
-      expect(patterns).toContain("/posts/:id")
-      expect(patterns).toContain("/blog/:slug")
+      expect(patterns).toContain("/posts/:slug")
+      expect(patterns).toContain("/blog")
       expect(patterns).toContain("/about")
       expect(patterns).toContain("/")
       expect(patterns).toContain("/api/*")
@@ -39,7 +39,7 @@ describe("router", () => {
       // Root usually comes after specific paths but before catch-all if it was a catch-all root,
       // but here / is static.
       // Let's just check that we found them.
-      expect(routes).toHaveLength(6)
+      expect(routes).toHaveLength(5)
     })
   })
 
@@ -59,9 +59,9 @@ describe("router", () => {
     })
 
     it("should resolve dynamic page with params", async () => {
-      const page = await resolvePage("/blog/hello-world", PAGES_DIR)
+      const page = await resolvePage("/posts/hello-world", PAGES_DIR)
       expect(page).not.toBeNull()
-      expect(page.filePath).toContain("blog")
+      expect(page.filePath).toContain("posts")
       expect(page.params).toEqual({ slug: "hello-world" })
     })
 

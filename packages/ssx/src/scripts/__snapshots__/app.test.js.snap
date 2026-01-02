@@ -4,7 +4,7 @@ exports[`should generate the app script for a page that has metadata 1`] = `
 "import { createDevtools, createStore, mount } from "@inglorious/web"
 import { getRoute, router, setRoutes } from "@inglorious/web/router"
 
-const pages = [{"path":"/posts","modulePath":"posts.js"}]
+const pages = [{"path":"/blog","modulePath":"blog.js"}]
 const path = window.location.pathname + window.location.search + window.location.hash
 const page = pages.find((page) => page.path === path)
 
@@ -22,11 +22,11 @@ const entities = {
     "name": "Us",
     "id": "about"
   },
-  "posts": {
-    "type": "posts",
-    "name": "Antony",
+  "blog": {
+    "type": "blog",
+    "name": "Matteo Antony",
     "posts": [],
-    "id": "posts"
+    "id": "blog"
   },
   "post": {
     "type": "post",
@@ -42,7 +42,7 @@ if (import.meta.env.DEV) {
 }
 
 setRoutes({
-  "undefined": () => import("@/pages/posts.js")
+  "undefined": () => import("@/pages/blog.js")
 })
 
 const module = await getRoute(page.pattern)()
@@ -82,11 +82,11 @@ const entities = {
     "name": "Us",
     "id": "about"
   },
-  "posts": {
-    "type": "posts",
-    "name": "Antony",
+  "blog": {
+    "type": "blog",
+    "name": "Matteo Antony",
     "posts": [],
-    "id": "posts"
+    "id": "blog"
   },
   "post": {
     "type": "post",
@@ -142,11 +142,11 @@ const entities = {
     "name": "Us",
     "id": "about"
   },
-  "posts": {
-    "type": "posts",
-    "name": "Antony",
+  "blog": {
+    "type": "blog",
+    "name": "Matteo Antony",
     "posts": [],
-    "id": "posts"
+    "id": "blog"
   },
   "post": {
     "type": "post",

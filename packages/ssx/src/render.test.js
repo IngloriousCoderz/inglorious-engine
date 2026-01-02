@@ -57,12 +57,12 @@ it("should render a page with metadata", async () => {
 })
 
 it("should render a page with pre-fetched data", async () => {
-  const page = { path: "/posts" }
-  const module = await import(path.resolve(path.join(PAGES_DIR, "posts.js")))
+  const page = { path: "/blog" }
+  const module = await import(path.resolve(path.join(PAGES_DIR, "blog.js")))
 
   const store = createStore({
-    types: { posts: module.posts },
-    entities: { posts: { type: "posts", name: "Antony", posts: [] } },
+    types: { blog: module.blog },
+    entities: { blog: { type: "blog", name: "Antony", posts: [] } },
     updateMode: "manual",
   })
 

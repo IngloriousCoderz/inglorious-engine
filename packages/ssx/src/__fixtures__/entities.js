@@ -3,9 +3,9 @@ export const entities = {
     type: "about",
     name: "Us",
   },
-  posts: {
-    type: "posts",
-    name: "Antony",
+  blog: {
+    type: "blog",
+    name: "Matteo Antony",
     posts: [],
   },
   post: {
