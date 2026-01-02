@@ -1,5 +1,7 @@
 import { html } from "@inglorious/web"
 
+import { nav } from "../components/nav.js"
+
 export const about = {
   click(entity) {
     entity.name += "!"
@@ -12,10 +14,7 @@ export const about = {
           >${entity.name}</span
         >
       </h1>
-      <nav>
-        <a href="/">Home</a> | <a href="/about">About</a> |
-        <a href="/blog">Blog</a>
-      </nav>`
+      ${nav.render()}`
   },
 }
 

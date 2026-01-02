@@ -1,6 +1,7 @@
 import { html } from "@inglorious/web"
 
 import { data } from "../api/posts.js"
+import { nav } from "../components/nav.js"
 
 export const blog = {
   async routeChange(entity, payload, api) {
@@ -18,14 +19,13 @@ export const blog = {
 
   render(entity) {
     return html`<h1>${entity.name}'s Blog</h1>
-      <nav>
-        <a href="/">Home</a> | <a href="/about">About</a> |
-        <a href="/blog">Blog</a>
-      </nav>
+      ${nav.render()}
       <ul>
         ${entity.posts?.map(
           (post) =>
-            html`<li><a href="/posts/${post.id}">${post.title}</a></li>`,
+            html`<li>
+              <a href="/posts/${post.id}">${post.date} - ${post.title}</a>
+            </li>`,
         )}
       </ul>`
   },

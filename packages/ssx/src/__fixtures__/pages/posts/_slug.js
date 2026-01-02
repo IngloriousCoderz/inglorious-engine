@@ -1,6 +1,7 @@
 import { html } from "@inglorious/web"
 
 import { data } from "../../api/posts.js"
+import { nav } from "../../components/nav.js"
 
 export const post = {
   async routeChange(entity, payload, api) {
@@ -21,6 +22,7 @@ export const post = {
     if (!entity.post) return
 
     return html`<h1>${entity.post.title}</h1>
+      ${nav.render()}
       <div>${entity.post.date}</div>
       <p>${entity.post.body}</p>`
   },
