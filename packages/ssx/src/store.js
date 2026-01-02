@@ -15,9 +15,15 @@ export async function generateStore(pages = [], options = {}) {
     types[name] = pageModule[name]
   }
 
-  const { entities } = await import(
-    pathToFileURL(path.join(rootDir, "entities.js"))
-  )
+  let entities = {}
+  try {
+    const module = await import(
+      pathToFileURL(path.join(rootDir, "entities.js"))
+    )
+    entities = module.entities
+  } catch {
+    entities = {}
+  }
 
   return createStore({ types, entities, updateMode: "manual" })
 }

@@ -1,5 +1,11 @@
 # @inglorious/ssx
 
+## 1.0.0
+
+### Major Changes
+
+- Provide docs for SSX
+
 ## 0.4.1
 
 ### Patch Changes
