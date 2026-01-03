@@ -48,6 +48,7 @@
     "@lit-labs/ssr": "^4.0.0",
     "commander": "^14.0.2",
     "connect": "^3.7.0",
+    "fast-xml-parser": "^5.3.3",
     "glob": "^13.0.0",
     "rollup-plugin-minify-template-literals": "^1.1.7",
     "vite": "^7.1.3"

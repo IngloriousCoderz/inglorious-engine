@@ -96,16 +96,43 @@ export default {
   favicon: "/favicon.ico",
 
   sitemap: {
-    hostname: "https://mysite.com",
-    exclude: ["/admin", "/draft-*"],
+    hostname: "https://myblog.com",
+    exclude: ["/admin", "/draft-*", "/test"],
+    defaults: {
+      changefreq: "weekly",
+      priority: 0.5,
+    },
   },
 
   rss: {
-    enabled: true,
     title: "My Blog",
-    description: "Latest posts",
-    feed: "/feed.xml",
-    items: (pages) => pages.filter((page) => page.path.startsWith("/blog")),
+    description: "Latest posts from my blog",
+    link: "https://myblog.com",
+    feedPath: "/feed.xml",
+    language: "en",
+    copyright: "© 2026 My Blog",
+    maxItems: 50,
+
+    // Custom filter: only include blog posts
+    items: (renderedPages, api) => {
+      return renderedPages
+        .filter(({ page }) => page.path.startsWith("/blog/"))
+        .map(({ page, module }) => {
+          const entity = api.getEntity(page.moduleName)
+
+          return {
+            title:
+              typeof module.title === "function"
+                ? module.title(entity)
+                : module.title,
+            path: page.path,
+            description: module.description || "",
+            pubDate: module.pubDate,
+            author: module.author,
+            category: module.category,
+          }
+        })
+    },
   },
 
   redirects: [
@@ -122,11 +149,10 @@ export default {
   // Vite config passthrough
   vite: {
     // Dev server options
-    dev: {
+    server: {
       port: 3000,
       open: true, // Open browser on start
     },
-    plugins: [],
   },
 
   hooks: {

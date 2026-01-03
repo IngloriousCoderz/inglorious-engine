@@ -29,18 +29,19 @@ export async function getPages(pagesDir = "pages") {
         const paths = await module.getStaticPaths()
 
         for (const pathOrObject of paths) {
-          const urlPath =
+          const path =
             typeof pathOrObject === "string" ? pathOrObject : pathOrObject.path
 
-          const params = extractParams(route, urlPath)
+          const params = extractParams(route, path)
 
           pages.push({
             pattern: route.pattern,
-            path: urlPath,
+            path,
+            params,
+            module,
+            moduleName,
             modulePath: route.modulePath,
             filePath: route.filePath,
-            moduleName,
-            params,
           })
         }
       } else {
@@ -54,10 +55,11 @@ export async function getPages(pagesDir = "pages") {
       pages.push({
         pattern: route.pattern,
         path: route.pattern || "/",
+        params: {},
+        module,
+        moduleName,
         modulePath: route.modulePath,
         filePath: route.filePath,
-        moduleName,
-        params: {},
       })
     }
   }

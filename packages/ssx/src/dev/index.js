@@ -70,11 +70,10 @@ export async function dev(options = {}) {
     }
   })
 
-  const server = connectServer.listen(viteConfig.dev.port)
+  const { port = 3000 } = viteConfig.server ?? {}
+  const server = connectServer.listen(port)
 
-  console.log(
-    `\n✨ Dev server running at http://localhost:${viteConfig.dev.port}\n`,
-  )
+  console.log(`\n✨ Dev server running at http://localhost:${port}\n`)
   console.log("Press Ctrl+C to stop\n")
 
   return {

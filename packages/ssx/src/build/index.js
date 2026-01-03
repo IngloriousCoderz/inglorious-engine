@@ -1,6 +1,5 @@
 import fs from "node:fs/promises"
 import path from "node:path"
-import { pathToFileURL } from "node:url"
 
 import { build as viteBuild } from "vite"
 
@@ -10,13 +9,15 @@ import { getPages } from "../router/index.js"
 import { generateApp } from "../scripts/app.js"
 import { generateStore } from "../store.js"
 import { copyPublicDir } from "./public.js"
+import { generateRSS } from "./rss.js"
+import { generateSitemap } from "./sitemap.js"
 import { createViteConfig } from "./vite-config.js"
 
 export async function build(options = {}) {
   const config = await loadConfig(options)
 
   const mergedOptions = { ...config, ...options }
-  const { rootDir = "src", outDir = "dist" } = mergedOptions
+  const { rootDir = "src", outDir = "dist", sitemap, rss } = mergedOptions
 
   console.log("🔨 Starting build...\n")
 
@@ -44,11 +45,23 @@ export async function build(options = {}) {
   await fs.writeFile(path.join(outDir, "main.js"), app, "utf-8")
 
   // 7. Write HTML pages
-  pages.forEach(async (page, index) => {
-    const html = htmls[index]
+  for (const page of pages) {
+    const html = htmls[pages.indexOf(page)]
     const filePath = await writePageToDisk(page.path, html, outDir)
     console.log(`  ✓ ${filePath}`)
-  })
+  }
+
+  // 7a. Generate sitemap if enabled
+  if (sitemap?.hostname) {
+    console.log("\n🗺️  Generating sitemap.xml...\n")
+    await generateSitemap(store, pages, { outDir, ...sitemap })
+  }
+
+  // 7b. Generate RSS feed if enabled
+  if (rss?.link) {
+    console.log("\n📡 Generating RSS feed...\n")
+    await generateRSS(store, pages, { outDir, ...rss })
+  }
 
   // 8. Bundle with Vite
   console.log("\n📦 Bundling with Vite...\n")
@@ -67,14 +80,15 @@ async function renderPages(store, pages, options = {}) {
   const renderedPages = []
 
   for (const page of pages) {
-    console.log(`  Rendering ${page.path}...`)
+    const { path, module } = page
+    console.log(`  Rendering ${path}...`)
 
-    const module = await import(pathToFileURL(page.filePath))
-    const html = await renderPage(store, page, module, {
+    const renderedPage = await renderPage(store, page, module, {
       ...options,
       wrap: true,
     })
-    renderedPages.push(html)
+
+    renderedPages.push(renderedPage)
   }
 
   return renderedPages

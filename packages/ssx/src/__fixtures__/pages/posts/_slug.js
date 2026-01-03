@@ -40,3 +40,19 @@ export async function load(entity, page) {
 async function fetchPost(id) {
   return await data.find((post) => post.id === id)
 }
+
+// Page metadata
+export const title = (entity) => entity.post.title
+export const meta = {
+  description: "An introduction to my blog",
+}
+
+// Sitemap-specific metadata
+export const changefreq = "monthly"
+export const priority = 0.8
+export const updatedAt = (entity) => entity.post.date
+
+// RSS-specific metadata
+export const pubDate = (entity) => entity.post.date
+export const author = "Matteo Antony Mistretta"
+export const category = "Chronicle"
