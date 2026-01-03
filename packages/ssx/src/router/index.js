@@ -3,7 +3,7 @@ import { pathToFileURL } from "node:url"
 
 import { glob } from "glob"
 
-import { getModuleName } from "./module.js"
+import { getModuleName } from "../module.js"
 
 const NEXT_MATCH = 1
 

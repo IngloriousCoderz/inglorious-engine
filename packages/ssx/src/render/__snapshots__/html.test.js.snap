@@ -4,152 +4,138 @@ exports[`await toHTML > API rendering within components > should support api.ren
 
 exports[`await toHTML > HTML wrapping > should default to empty title when not provided 1`] = `
 "<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title></title>
-  
-  
-  
-</head>
-<body>
-  <div id="root">
-<!--lit-part 3pnp7NirSdk=--><p>Content</p><!--/lit-part-->
-  </div>
-  
-  <script type="module" src="/main.js"></script>
-  
-</body>
-</html>"
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <title></title>
+        
+        
+        
+      </head>
+      <body>
+        <div id="root"><!--lit-part 3pnp7NirSdk=--><p>Content</p><!--/lit-part--></div>
+        
+        <script type="module" src="/main.js"></script>
+        
+      </body>
+    </html>"
 `;
 
 exports[`await toHTML > HTML wrapping > should handle empty arrays for meta, styles, and scripts 1`] = `
 "<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title></title>
-  
-  
-  
-</head>
-<body>
-  <div id="root">
-<!--lit-part 3pnp7NirSdk=--><p>Content</p><!--/lit-part-->
-  </div>
-  
-  <script type="module" src="/main.js"></script>
-  
-</body>
-</html>"
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <title></title>
+        
+        
+        
+      </head>
+      <body>
+        <div id="root"><!--lit-part 3pnp7NirSdk=--><p>Content</p><!--/lit-part--></div>
+        
+        <script type="module" src="/main.js"></script>
+        
+      </body>
+    </html>"
 `;
 
 exports[`await toHTML > HTML wrapping > should include all options in wrapped HTML 1`] = `
 "<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Complete Page</title>
-  <meta name="author" content="Test Author">
-  <link rel="stylesheet" href="/style.css">
-  
-</head>
-<body>
-  <div id="root">
-<!--lit-part AQYzPwzT5bk=--><main>Main content</main><!--/lit-part-->
-  </div>
-  
-  <script type="module" src="/main.js"></script>
-  <script type="module" src="/app.js"></script>
-</body>
-</html>"
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <title>Complete Page</title>
+        <meta name="author" content="Test Author">
+        <link rel="stylesheet" href="/style.css">
+        
+      </head>
+      <body>
+        <div id="root"><!--lit-part AQYzPwzT5bk=--><main>Main content</main><!--/lit-part--></div>
+        
+        <script type="module" src="/main.js"></script>
+        <script type="module" src="/app.js"></script>
+      </body>
+    </html>"
 `;
 
 exports[`await toHTML > HTML wrapping > should include meta tags in wrapped HTML 1`] = `
 "<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Test Page</title>
-  <meta name="description" content="Test description">
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <title>Test Page</title>
+        <meta name="description" content="Test description">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-  
-  
-</head>
-<body>
-  <div id="root">
-<!--lit-part 3pnp7NirSdk=--><p>Content</p><!--/lit-part-->
-  </div>
-  
-  <script type="module" src="/main.js"></script>
-  
-</body>
-</html>"
+        
+        
+      </head>
+      <body>
+        <div id="root"><!--lit-part 3pnp7NirSdk=--><p>Content</p><!--/lit-part--></div>
+        
+        <script type="module" src="/main.js"></script>
+        
+      </body>
+    </html>"
 `;
 
 exports[`await toHTML > HTML wrapping > should include scripts in wrapped HTML 1`] = `
 "<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title></title>
-  
-  
-  
-</head>
-<body>
-  <div id="root">
-<!--lit-part 3pnp7NirSdk=--><p>Content</p><!--/lit-part-->
-  </div>
-  
-  <script type="module" src="/main.js"></script>
-  <script type="module" src="/js/app.js"></script>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <title></title>
+        
+        
+        
+      </head>
+      <body>
+        <div id="root"><!--lit-part 3pnp7NirSdk=--><p>Content</p><!--/lit-part--></div>
+        
+        <script type="module" src="/main.js"></script>
+        <script type="module" src="/js/app.js"></script>
 <script type="module" src="/js/analytics.js"></script>
-</body>
-</html>"
+      </body>
+    </html>"
 `;
 
 exports[`await toHTML > HTML wrapping > should include stylesheets in wrapped HTML 1`] = `
 "<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title></title>
-  
-  <link rel="stylesheet" href="/css/style.css">
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <title></title>
+        
+        <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/css/theme.css">
-  
-</head>
-<body>
-  <div id="root">
-<!--lit-part 3pnp7NirSdk=--><p>Content</p><!--/lit-part-->
-  </div>
-  
-  <script type="module" src="/main.js"></script>
-  
-</body>
-</html>"
+        
+      </head>
+      <body>
+        <div id="root"><!--lit-part 3pnp7NirSdk=--><p>Content</p><!--/lit-part--></div>
+        
+        <script type="module" src="/main.js"></script>
+        
+      </body>
+    </html>"
 `;
 
 exports[`await toHTML > HTML wrapping > should wrap HTML with basic DOCTYPE and structure 1`] = `
 "<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>My Page</title>
-  
-  
-  
-</head>
-<body>
-  <div id="root">
-<!--lit-part cFVfWqyXqV4=--><h1>Page Title</h1><!--/lit-part-->
-  </div>
-  
-  <script type="module" src="/main.js"></script>
-  
-</body>
-</html>"
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <title>My Page</title>
+        
+        
+        
+      </head>
+      <body>
+        <div id="root"><!--lit-part cFVfWqyXqV4=--><h1>Page Title</h1><!--/lit-part--></div>
+        
+        <script type="module" src="/main.js"></script>
+        
+      </body>
+    </html>"
 `;
 
 exports[`await toHTML > basic rendering > should render empty content 1`] = `"<!--lit-part BRUAAAUVAAA=--><?><!--/lit-part-->"`;
@@ -175,27 +161,25 @@ exports[`await toHTML > complex scenarios > should render a complete page struct
 
 exports[`await toHTML > complex scenarios > should render wrapped complex page with all assets 1`] = `
 "<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>My Website</title>
-  <meta name="description" content="Welcome to my website">
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <title>My Website</title>
+        <meta name="description" content="Welcome to my website">
 <meta name="viewport" content="width=device-width">
-  <link rel="stylesheet" href="/style.css">
-  
-</head>
-<body>
-  <div id="root">
-<!--lit-part +13IoGopdS0=--><div>
+        <link rel="stylesheet" href="/style.css">
+        
+      </head>
+      <body>
+        <div id="root"><!--lit-part +13IoGopdS0=--><div>
           <!--lit-part 3pdihBEs5o4=--><header><h1>My Website</h1></header><!--/lit-part-->
           <p>Welcome!</p>
-        </div><!--/lit-part-->
-  </div>
-  
-  <script type="module" src="/main.js"></script>
-  <script type="module" src="/script.js"></script>
-</body>
-</html>"
+        </div><!--/lit-part--></div>
+        
+        <script type="module" src="/main.js"></script>
+        <script type="module" src="/script.js"></script>
+      </body>
+    </html>"
 `;
 
 exports[`await toHTML > edge cases > should handle special characters in content 1`] = `"<!--lit-part PnFz4b334Z4=--><p>&lt;script&gt; &amp; "quotes"</p><!--/lit-part-->"`;

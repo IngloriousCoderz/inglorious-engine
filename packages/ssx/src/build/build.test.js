@@ -2,7 +2,7 @@ import path from "node:path"
 
 import { it } from "vitest"
 
-import { build } from "./build"
+import { build } from "."
 
 const ROOT_DIR = path.join(__dirname, "__fixtures__")
 

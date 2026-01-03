@@ -4,14 +4,18 @@ import { pathToFileURL } from "node:url"
 
 import { build as viteBuild } from "vite"
 
-import { renderPage } from "./render.js"
-import { getPages } from "./router.js"
-import { generateApp } from "./scripts/app.js"
-import { generateStore } from "./store.js"
+import { loadConfig } from "../config.js"
+import { renderPage } from "../render/index.js"
+import { getPages } from "../router/index.js"
+import { generateApp } from "../scripts/app.js"
+import { generateStore } from "../store.js"
 import { createViteConfig } from "./vite-config.js"
 
 export async function build(options = {}) {
-  const { rootDir = "src", outDir = "dist" } = options
+  const config = await loadConfig(options)
+
+  const mergedOptions = { ...config, ...options }
+  const { rootDir = "src", outDir = "dist" } = mergedOptions
 
   console.log("🔨 Starting build...\n")
 
@@ -24,10 +28,10 @@ export async function build(options = {}) {
   console.log(`📄 Found ${pages.length} pages to build\n`)
 
   // Generate store config once for all pages
-  const store = await generateStore(pages, options)
+  const store = await generateStore(pages, mergedOptions)
 
   // Render all pages
-  const htmls = await renderPages(store, pages, options)
+  const htmls = await renderPages(store, pages, mergedOptions)
 
   // Write all pages to disk
   console.log("\n💾 Writing files...\n")
@@ -43,7 +47,7 @@ export async function build(options = {}) {
 
   // Bundle with Vite
   console.log("\n📦 Bundling with Vite...\n")
-  const viteConfig = createViteConfig({ rootDir, outDir })
+  const viteConfig = createViteConfig(mergedOptions)
   await viteBuild(viteConfig)
 
   // Remove bundled files
@@ -55,8 +59,6 @@ export async function build(options = {}) {
 }
 
 async function renderPages(store, pages, options = {}) {
-  const { renderOptions } = options
-
   const renderedPages = []
 
   for (const page of pages) {
@@ -64,7 +66,7 @@ async function renderPages(store, pages, options = {}) {
 
     const module = await import(pathToFileURL(page.filePath))
     const html = await renderPage(store, page, module, {
-      ...renderOptions,
+      ...options,
       wrap: true,
     })
     renderedPages.push(html)

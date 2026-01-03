@@ -2,9 +2,9 @@ import path from "node:path"
 
 import { afterEach, describe, expect, it, vi } from "vitest"
 
-import { getPages, getRoutes, resolvePage } from "./router.js"
+import { getPages, getRoutes, resolvePage } from "./index.js"
 
-const ROOT_DIR = path.join(__dirname, "__fixtures__")
+const ROOT_DIR = path.join(__dirname, "..", "__fixtures__")
 const PAGES_DIR = path.join(ROOT_DIR, "pages")
 
 describe("router", () => {

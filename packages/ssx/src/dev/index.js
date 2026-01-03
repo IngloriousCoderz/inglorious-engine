@@ -3,13 +3,19 @@ import path from "node:path"
 import connect from "connect"
 import { createServer } from "vite"
 
-import { renderPage } from "./render.js"
-import { getPages } from "./router.js"
-import { generateApp } from "./scripts/app.js"
-import { generateStore } from "./store.js"
+import { loadConfig } from "../config.js"
+import { renderPage } from "../render/index.js"
+import { getPages } from "../router/index.js"
+import { generateApp } from "../scripts/app.js"
+import { generateStore } from "../store.js"
+import { createViteConfig, virtualFiles } from "./vite-config.js"
 
 export async function dev(options = {}) {
-  const { rootDir = "src", port = 3000, renderOptions = {} } = options
+  const config = await loadConfig(options)
+
+  const mergedOptions = { ...config, ...options }
+  const { rootDir = "src", vite = {} } = mergedOptions
+  const { port = 3000 } = vite.dev ?? {}
 
   console.log("🚀 Starting dev server...\n")
 
@@ -18,20 +24,11 @@ export async function dev(options = {}) {
   console.log(`📄 Found ${pages.length} pages\n`)
 
   // Generate store config once for all pages
-  const store = await generateStore(pages, options)
+  const store = await generateStore(pages, mergedOptions)
 
   // Create Vite dev server
-  const viteServer = await createServer({
-    root: process.cwd(),
-    server: { port, middlewareMode: true },
-    appType: "custom",
-    plugins: [virtualPlugin()],
-    resolve: {
-      alias: {
-        "@": path.resolve(process.cwd(), rootDir),
-      },
-    },
-  })
+  const viteConfig = createViteConfig(mergedOptions)
+  const viteServer = await createServer(viteConfig)
 
   // Use Vite's middleware first (handles HMR, static files, etc.)
   const connectServer = connect()
@@ -49,8 +46,9 @@ export async function dev(options = {}) {
 
       const module = await viteServer.ssrLoadModule(page.filePath)
       const html = await renderPage(store, page, module, {
-        ...renderOptions,
+        ...mergedOptions,
         wrap: true,
+        isDev: true,
       })
 
       const app = generateApp(store, pages)
@@ -92,20 +90,4 @@ function matchRoute(pattern, url) {
     }
     return part === urlParts[i]
   })
-}
-
-const virtualFiles = new Map()
-
-function virtualPlugin() {
-  return {
-    name: "ssx-virtual-files",
-
-    resolveId(id) {
-      if (virtualFiles.has(id)) return id
-    },
-
-    load(id) {
-      if (virtualFiles.has(id)) return virtualFiles.get(id)
-    },
-  }
 }

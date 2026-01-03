@@ -489,12 +489,10 @@ import { build } from "@inglorious/ssx/build"
 await build({
   rootDir: "src", // Source directory
   outDir: "dist", // Output directory
-  renderOptions: {
-    title: "My Site", // Default page title
-    meta: {}, // Default meta tags
-    styles: [], // Global CSS files
-    scripts: [], // Global JS files
-  },
+  title: "My Site", // Default page title
+  meta: {}, // Default meta tags
+  styles: [], // Global CSS files
+  scripts: [], // Global JS files
 })
 ```
 
@@ -506,9 +504,7 @@ import { dev } from "@inglorious/ssx/dev"
 await dev({
   rootDir: "src",
   port: 3000,
-  renderOptions: {
-    // ... same as build
-  },
+  // ... same as build
 })
 ```
 

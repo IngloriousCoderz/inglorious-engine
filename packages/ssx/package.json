@@ -25,12 +25,6 @@
   "bin": {
     "ssx": "./bin/ssx.js"
   },
-  "exports": {
-    "./build": "./src/build.js",
-    "./router": "./src/router.js",
-    "./render": "./src/render.js",
-    "./html": "./src/html.js"
-  },
   "files": [
     "bin",
     "src",

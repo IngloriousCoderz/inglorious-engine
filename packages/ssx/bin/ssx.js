@@ -5,8 +5,8 @@ import { fileURLToPath } from "node:url"
 
 import { Command } from "commander"
 
-import { build } from "../src/build.js"
-import { dev } from "../src/dev.js"
+import { build } from "../src/build/index.js"
+import { dev } from "../src/dev/index.js"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -26,24 +26,17 @@ program
 program
   .command("dev")
   .description("Start development server with hot reload")
+  .option("-c, --config <file>", "config file", "site.config.js")
   .option("-r, --root <dir>", "source root directory", "src")
   .option("-p, --port <port>", "dev server port", 3000)
-  .option("-t, --title <title>", "default page title", "My Site")
-  .option("--styles <styles...>", "CSS files to include")
-  .option("--scripts <scripts...>", "JS files to include")
   .action(async (options) => {
     const cwd = process.cwd()
 
     try {
       await dev({
+        ...options,
         rootDir: path.resolve(cwd, options.root),
         port: Number(options.port),
-        renderOptions: {
-          title: options.title,
-          meta: {},
-          styles: options.styles || [],
-          scripts: options.scripts || [],
-        },
       })
     } catch (error) {
       console.error("Dev server failed:", error)
@@ -53,25 +46,18 @@ program
 
 program
   .command("build")
-  .description("Build static site from pages directory")
+  .description("Build site from pages directory")
+  .option("-c, --config <file>", "config file", "site.config.js")
   .option("-r, --root <dir>", "source root directory", "src")
   .option("-o, --out <dir>", "output directory", "dist")
-  .option("-t, --title <title>", "default page title", "My Site")
-  .option("--styles <styles...>", "CSS files to include")
-  .option("--scripts <scripts...>", "JS files to include")
   .action(async (options) => {
     const cwd = process.cwd()
 
     try {
       await build({
+        ...options,
         rootDir: path.resolve(cwd, options.root),
         outDir: path.resolve(cwd, options.out),
-        renderOptions: {
-          title: options.title,
-          meta: {},
-          styles: options.styles || [],
-          scripts: options.scripts || [],
-        },
       })
     } catch (error) {
       console.error("Build failed:", error)

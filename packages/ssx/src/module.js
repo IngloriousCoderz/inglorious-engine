@@ -1,8 +1,5 @@
-const RESERVED = ["title", "meta", "scripts", "styles", "load"]
-
 export function getModuleName(pageModule) {
   const name = Object.keys(pageModule).find((key) => {
-    if (RESERVED.includes(key)) return false
     const value = pageModule[key]
     return (
       value && typeof value === "object" && typeof value.render === "function"

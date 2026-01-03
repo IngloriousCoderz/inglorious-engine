@@ -15,17 +15,16 @@ exports[`should render a page with entity 1`] = `
 
 exports[`should render a page with metadata 1`] = `
 "<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>About</title>
-  <meta name="description" content="About page">
-  <link rel="stylesheet" href="./style.css">
-  
-</head>
-<body>
-  <div id="root">
-<!--lit-part /KZqpgKMp6U=--><h1>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <title>About</title>
+        <meta name="description" content="About page">
+        <link rel="stylesheet" href="./style.css">
+        
+      </head>
+      <body>
+        <div id="root"><!--lit-part /KZqpgKMp6U=--><h1>
         About
         <!--lit-node 1--><span 
           ><!--lit-part--><!--/lit-part--></span
@@ -34,13 +33,12 @@ exports[`should render a page with metadata 1`] = `
       <!--lit-part BboTokvP/FE=--><nav>
       <a href="/">Home</a> | <a href="/about">About</a> |
       <a href="/blog">Blog</a>
-    </nav><!--/lit-part--><?><!--/lit-part-->
-  </div>
-  
-  <script type="module" src="/main.js"></script>
-  <script type="module" src="./ga.js"></script>
-</body>
-</html>"
+    </nav><!--/lit-part--><?><!--/lit-part--></div>
+        
+        <script type="module" src="/main.js"></script>
+        <script type="module" src="./ga.js"></script>
+      </body>
+    </html>"
 `;
 
 exports[`should render a page with pre-fetched data 1`] = `
