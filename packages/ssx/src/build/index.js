@@ -9,6 +9,7 @@ import { renderPage } from "../render/index.js"
 import { getPages } from "../router/index.js"
 import { generateApp } from "../scripts/app.js"
 import { generateStore } from "../store.js"
+import { copyPublicDir } from "./public.js"
 import { createViteConfig } from "./vite-config.js"
 
 export async function build(options = {}) {
@@ -19,38 +20,42 @@ export async function build(options = {}) {
 
   console.log("🔨 Starting build...\n")
 
-  // Clean output directory
+  // 1. Clean and create output directory
   await fs.rm(outDir, { recursive: true, force: true })
   await fs.mkdir(outDir, { recursive: true })
 
-  // Get all pages to build
+  // 2. Copy public assets before generating pages (could be useful if need to read `public/data.json`)
+  await copyPublicDir(options)
+
+  // 3. Get all pages to build
   const pages = await getPages(path.join(rootDir, "pages"))
   console.log(`📄 Found ${pages.length} pages to build\n`)
 
-  // Generate store config once for all pages
+  // 4. Generate store with all types and initial entities
   const store = await generateStore(pages, mergedOptions)
 
-  // Render all pages
+  // 5. Render all pages
   const htmls = await renderPages(store, pages, mergedOptions)
 
-  // Write all pages to disk
+  // 6. Generate client-side JavaScript
   console.log("\n💾 Writing files...\n")
 
   const app = generateApp(store, pages)
   await fs.writeFile(path.join(outDir, "main.js"), app, "utf-8")
 
+  // 7. Write HTML pages
   pages.forEach(async (page, index) => {
     const html = htmls[index]
     const filePath = await writePageToDisk(page.path, html, outDir)
     console.log(`  ✓ ${filePath}`)
   })
 
-  // Bundle with Vite
+  // 8. Bundle with Vite
   console.log("\n📦 Bundling with Vite...\n")
   const viteConfig = createViteConfig(mergedOptions)
   await viteBuild(viteConfig)
 
-  // Remove bundled files
+  // 9. Cleanup
   // console.log("\n🧹 Cleaning up...\n")
 
   console.log("\n✨ Build complete!\n")

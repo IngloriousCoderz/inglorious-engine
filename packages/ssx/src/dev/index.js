@@ -14,8 +14,7 @@ export async function dev(options = {}) {
   const config = await loadConfig(options)
 
   const mergedOptions = { ...config, ...options }
-  const { rootDir = "src", vite = {} } = mergedOptions
-  const { port = 3000 } = vite.dev ?? {}
+  const { rootDir = "src" } = mergedOptions
 
   console.log("🚀 Starting dev server...\n")
 
@@ -40,6 +39,15 @@ export async function dev(options = {}) {
     const [url] = req.url.split("?")
 
     try {
+      // Skip special routes, static files, AND public assets
+      if (
+        url.startsWith("/@") ||
+        url.includes(".") || // Vite handles static files
+        url === "/favicon.ico"
+      ) {
+        return next() // Let Vite serve it
+      }
+
       // Find matching page
       const page = pages.find((p) => matchRoute(p.path, url))
       if (!page) return next()
@@ -62,9 +70,11 @@ export async function dev(options = {}) {
     }
   })
 
-  const server = connectServer.listen(port)
+  const server = connectServer.listen(viteConfig.dev.port)
 
-  console.log(`\n✨ Dev server running at http://localhost:${port}\n`)
+  console.log(
+    `\n✨ Dev server running at http://localhost:${viteConfig.dev.port}\n`,
+  )
   console.log("Press Ctrl+C to stop\n")
 
   return {

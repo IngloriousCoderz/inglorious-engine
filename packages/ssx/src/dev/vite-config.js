@@ -3,12 +3,13 @@ import path from "node:path"
 import { mergeConfig } from "vite"
 
 export function createViteConfig(options = {}) {
-  const { rootDir = "src", vite = {} } = options
+  const { rootDir = "src", publicDir = "public", vite = {} } = options
   const { port = 3000 } = vite.dev ?? {}
 
   return mergeConfig(
     {
       root: process.cwd(),
+      publicDir: path.resolve(process.cwd(), rootDir, publicDir),
       server: { port, middlewareMode: true },
       appType: "custom",
       plugins: [virtualPlugin()],
