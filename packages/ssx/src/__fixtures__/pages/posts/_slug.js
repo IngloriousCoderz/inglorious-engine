@@ -44,7 +44,7 @@ async function fetchPost(id) {
 // Page metadata
 export const title = (entity) => entity.post.title
 export const meta = {
-  description: "An introduction to my blog",
+  description: "Blog Post",
 }
 
 // Sitemap-specific metadata

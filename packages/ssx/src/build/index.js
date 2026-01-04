@@ -4,10 +4,10 @@ import path from "node:path"
 import { build as viteBuild } from "vite"
 
 import { loadConfig } from "../config.js"
-import { renderPage } from "../render/index.js"
 import { getPages } from "../router/index.js"
 import { generateApp } from "../scripts/app.js"
 import { generateStore } from "../store.js"
+import { generatePages } from "./pages.js"
 import { copyPublicDir } from "./public.js"
 import { generateRSS } from "./rss.js"
 import { generateSitemap } from "./sitemap.js"
@@ -36,31 +36,30 @@ export async function build(options = {}) {
   const store = await generateStore(pages, mergedOptions)
 
   // 5. Render all pages
-  const htmls = await renderPages(store, pages, mergedOptions)
+  const generatedPages = await generatePages(store, pages, mergedOptions)
 
   // 6. Generate client-side JavaScript
   console.log("\n💾 Writing files...\n")
 
-  const app = generateApp(store, pages)
+  const app = generateApp(store, generatedPages)
   await fs.writeFile(path.join(outDir, "main.js"), app, "utf-8")
 
   // 7. Write HTML pages
-  for (const page of pages) {
-    const html = htmls[pages.indexOf(page)]
-    const filePath = await writePageToDisk(page.path, html, outDir)
+  for (const page of generatedPages) {
+    const filePath = await writePageToDisk(page.path, page.html, outDir)
     console.log(`  ✓ ${filePath}`)
   }
 
   // 7a. Generate sitemap if enabled
   if (sitemap?.hostname) {
     console.log("\n🗺️  Generating sitemap.xml...\n")
-    await generateSitemap(store, pages, { outDir, ...sitemap })
+    await generateSitemap(generatedPages, { outDir, ...sitemap })
   }
 
   // 7b. Generate RSS feed if enabled
   if (rss?.link) {
     console.log("\n📡 Generating RSS feed...\n")
-    await generateRSS(store, pages, { outDir, ...rss })
+    await generateRSS(generatedPages, { outDir, ...rss })
   }
 
   // 8. Bundle with Vite
@@ -73,25 +72,7 @@ export async function build(options = {}) {
 
   console.log("\n✨ Build complete!\n")
 
-  return { pages: htmls.length, outDir }
-}
-
-async function renderPages(store, pages, options = {}) {
-  const renderedPages = []
-
-  for (const page of pages) {
-    const { path, module } = page
-    console.log(`  Rendering ${path}...`)
-
-    const renderedPage = await renderPage(store, page, module, {
-      ...options,
-      wrap: true,
-    })
-
-    renderedPages.push(renderedPage)
-  }
-
-  return renderedPages
+  return { pages: generatedPages.length, outDir }
 }
 
 /**

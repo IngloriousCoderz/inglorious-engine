@@ -97,7 +97,7 @@ export default {
 
   sitemap: {
     hostname: "https://myblog.com",
-    exclude: ["/admin", "/draft-*", "/test"],
+    filter: (page) => !["/admin", "/draft-*", "/test"].includes(page.pattern),
     defaults: {
       changefreq: "weekly",
       priority: 0.5,
@@ -111,28 +111,8 @@ export default {
     feedPath: "/feed.xml",
     language: "en",
     copyright: "© 2026 My Blog",
-    maxItems: 50,
-
-    // Custom filter: only include blog posts
-    items: (renderedPages, api) => {
-      return renderedPages
-        .filter(({ page }) => page.path.startsWith("/blog/"))
-        .map(({ page, module }) => {
-          const entity = api.getEntity(page.moduleName)
-
-          return {
-            title:
-              typeof module.title === "function"
-                ? module.title(entity)
-                : module.title,
-            path: page.path,
-            description: module.description || "",
-            pubDate: module.pubDate,
-            author: module.author,
-            category: module.category,
-          }
-        })
-    },
+    maxItems: 5,
+    filter: (page) => page.path.startsWith("/posts/"),
   },
 
   redirects: [

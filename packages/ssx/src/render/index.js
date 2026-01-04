@@ -1,4 +1,3 @@
-import { getModuleName } from "../module.js"
 import { createGetPageOption } from "../page-options.js"
 import { toHTML } from "./html.js"
 
@@ -12,16 +11,10 @@ const DEFAULT_OPTIONS = {
   scripts: [],
 }
 
-export async function renderPage(store, page, module, options = {}) {
-  const name = getModuleName(module)
+export async function renderPage(store, page, entity, options = {}) {
+  const { moduleName, module } = page
 
-  if (module.load) {
-    const api = store._api
-    const entity = api.getEntity(name)
-    await module.load(entity, page, api)
-  }
-
-  const getPageOption = createGetPageOption(store, module)
+  const getPageOption = createGetPageOption(store, module, entity)
 
   const lang = getPageOption("lang", DEFAULT_OPTIONS) ?? options.lang
   const charset = getPageOption("charset", DEFAULT_OPTIONS) ?? options.charset
@@ -37,7 +30,7 @@ export async function renderPage(store, page, module, options = {}) {
     ...getPageOption("scripts", DEFAULT_OPTIONS),
   ]
 
-  return toHTML(store, (api) => api.render(name, { allowType: true }), {
+  return toHTML(store, (api) => api.render(moduleName, { allowType: true }), {
     ...options,
     lang,
     charset,

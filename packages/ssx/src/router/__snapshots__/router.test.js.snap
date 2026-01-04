@@ -4,25 +4,6 @@ exports[`router > getPages > should generate static paths for all pages 1`] = `
 [
   {
     "filePath": "C:\\Users\\anton\\Projects\\ic\\inglorious-forge\\packages\\ssx\\src\\__fixtures__\\pages\\posts\\_slug.js",
-    "module": {
-      "author": "Matteo Antony Mistretta",
-      "category": "Chronicle",
-      "changefreq": "monthly",
-      "getStaticPaths": [Function],
-      "load": [Function],
-      "meta": {
-        "description": "An introduction to my blog",
-      },
-      "post": {
-        "dataFetchSuccess": [Function],
-        "render": [Function],
-        "routeChange": [Function],
-      },
-      "priority": 0.8,
-      "pubDate": [Function],
-      "title": [Function],
-      "updatedAt": [Function],
-    },
     "moduleName": "post",
     "modulePath": "posts/_slug.js",
     "params": {
@@ -33,25 +14,6 @@ exports[`router > getPages > should generate static paths for all pages 1`] = `
   },
   {
     "filePath": "C:\\Users\\anton\\Projects\\ic\\inglorious-forge\\packages\\ssx\\src\\__fixtures__\\pages\\posts\\_slug.js",
-    "module": {
-      "author": "Matteo Antony Mistretta",
-      "category": "Chronicle",
-      "changefreq": "monthly",
-      "getStaticPaths": [Function],
-      "load": [Function],
-      "meta": {
-        "description": "An introduction to my blog",
-      },
-      "post": {
-        "dataFetchSuccess": [Function],
-        "render": [Function],
-        "routeChange": [Function],
-      },
-      "priority": 0.8,
-      "pubDate": [Function],
-      "title": [Function],
-      "updatedAt": [Function],
-    },
     "moduleName": "post",
     "modulePath": "posts/_slug.js",
     "params": {
@@ -62,25 +24,6 @@ exports[`router > getPages > should generate static paths for all pages 1`] = `
   },
   {
     "filePath": "C:\\Users\\anton\\Projects\\ic\\inglorious-forge\\packages\\ssx\\src\\__fixtures__\\pages\\posts\\_slug.js",
-    "module": {
-      "author": "Matteo Antony Mistretta",
-      "category": "Chronicle",
-      "changefreq": "monthly",
-      "getStaticPaths": [Function],
-      "load": [Function],
-      "meta": {
-        "description": "An introduction to my blog",
-      },
-      "post": {
-        "dataFetchSuccess": [Function],
-        "render": [Function],
-        "routeChange": [Function],
-      },
-      "priority": 0.8,
-      "pubDate": [Function],
-      "title": [Function],
-      "updatedAt": [Function],
-    },
     "moduleName": "post",
     "modulePath": "posts/_slug.js",
     "params": {
@@ -91,25 +34,6 @@ exports[`router > getPages > should generate static paths for all pages 1`] = `
   },
   {
     "filePath": "C:\\Users\\anton\\Projects\\ic\\inglorious-forge\\packages\\ssx\\src\\__fixtures__\\pages\\posts\\_slug.js",
-    "module": {
-      "author": "Matteo Antony Mistretta",
-      "category": "Chronicle",
-      "changefreq": "monthly",
-      "getStaticPaths": [Function],
-      "load": [Function],
-      "meta": {
-        "description": "An introduction to my blog",
-      },
-      "post": {
-        "dataFetchSuccess": [Function],
-        "render": [Function],
-        "routeChange": [Function],
-      },
-      "priority": 0.8,
-      "pubDate": [Function],
-      "title": [Function],
-      "updatedAt": [Function],
-    },
     "moduleName": "post",
     "modulePath": "posts/_slug.js",
     "params": {
@@ -120,25 +44,6 @@ exports[`router > getPages > should generate static paths for all pages 1`] = `
   },
   {
     "filePath": "C:\\Users\\anton\\Projects\\ic\\inglorious-forge\\packages\\ssx\\src\\__fixtures__\\pages\\posts\\_slug.js",
-    "module": {
-      "author": "Matteo Antony Mistretta",
-      "category": "Chronicle",
-      "changefreq": "monthly",
-      "getStaticPaths": [Function],
-      "load": [Function],
-      "meta": {
-        "description": "An introduction to my blog",
-      },
-      "post": {
-        "dataFetchSuccess": [Function],
-        "render": [Function],
-        "routeChange": [Function],
-      },
-      "priority": 0.8,
-      "pubDate": [Function],
-      "title": [Function],
-      "updatedAt": [Function],
-    },
     "moduleName": "post",
     "modulePath": "posts/_slug.js",
     "params": {
@@ -149,25 +54,6 @@ exports[`router > getPages > should generate static paths for all pages 1`] = `
   },
   {
     "filePath": "C:\\Users\\anton\\Projects\\ic\\inglorious-forge\\packages\\ssx\\src\\__fixtures__\\pages\\posts\\_slug.js",
-    "module": {
-      "author": "Matteo Antony Mistretta",
-      "category": "Chronicle",
-      "changefreq": "monthly",
-      "getStaticPaths": [Function],
-      "load": [Function],
-      "meta": {
-        "description": "An introduction to my blog",
-      },
-      "post": {
-        "dataFetchSuccess": [Function],
-        "render": [Function],
-        "routeChange": [Function],
-      },
-      "priority": 0.8,
-      "pubDate": [Function],
-      "title": [Function],
-      "updatedAt": [Function],
-    },
     "moduleName": "post",
     "modulePath": "posts/_slug.js",
     "params": {
@@ -178,25 +64,6 @@ exports[`router > getPages > should generate static paths for all pages 1`] = `
   },
   {
     "filePath": "C:\\Users\\anton\\Projects\\ic\\inglorious-forge\\packages\\ssx\\src\\__fixtures__\\pages\\posts\\_slug.js",
-    "module": {
-      "author": "Matteo Antony Mistretta",
-      "category": "Chronicle",
-      "changefreq": "monthly",
-      "getStaticPaths": [Function],
-      "load": [Function],
-      "meta": {
-        "description": "An introduction to my blog",
-      },
-      "post": {
-        "dataFetchSuccess": [Function],
-        "render": [Function],
-        "routeChange": [Function],
-      },
-      "priority": 0.8,
-      "pubDate": [Function],
-      "title": [Function],
-      "updatedAt": [Function],
-    },
     "moduleName": "post",
     "modulePath": "posts/_slug.js",
     "params": {
@@ -207,25 +74,6 @@ exports[`router > getPages > should generate static paths for all pages 1`] = `
   },
   {
     "filePath": "C:\\Users\\anton\\Projects\\ic\\inglorious-forge\\packages\\ssx\\src\\__fixtures__\\pages\\posts\\_slug.js",
-    "module": {
-      "author": "Matteo Antony Mistretta",
-      "category": "Chronicle",
-      "changefreq": "monthly",
-      "getStaticPaths": [Function],
-      "load": [Function],
-      "meta": {
-        "description": "An introduction to my blog",
-      },
-      "post": {
-        "dataFetchSuccess": [Function],
-        "render": [Function],
-        "routeChange": [Function],
-      },
-      "priority": 0.8,
-      "pubDate": [Function],
-      "title": [Function],
-      "updatedAt": [Function],
-    },
     "moduleName": "post",
     "modulePath": "posts/_slug.js",
     "params": {
@@ -236,25 +84,6 @@ exports[`router > getPages > should generate static paths for all pages 1`] = `
   },
   {
     "filePath": "C:\\Users\\anton\\Projects\\ic\\inglorious-forge\\packages\\ssx\\src\\__fixtures__\\pages\\posts\\_slug.js",
-    "module": {
-      "author": "Matteo Antony Mistretta",
-      "category": "Chronicle",
-      "changefreq": "monthly",
-      "getStaticPaths": [Function],
-      "load": [Function],
-      "meta": {
-        "description": "An introduction to my blog",
-      },
-      "post": {
-        "dataFetchSuccess": [Function],
-        "render": [Function],
-        "routeChange": [Function],
-      },
-      "priority": 0.8,
-      "pubDate": [Function],
-      "title": [Function],
-      "updatedAt": [Function],
-    },
     "moduleName": "post",
     "modulePath": "posts/_slug.js",
     "params": {
@@ -265,25 +94,6 @@ exports[`router > getPages > should generate static paths for all pages 1`] = `
   },
   {
     "filePath": "C:\\Users\\anton\\Projects\\ic\\inglorious-forge\\packages\\ssx\\src\\__fixtures__\\pages\\posts\\_slug.js",
-    "module": {
-      "author": "Matteo Antony Mistretta",
-      "category": "Chronicle",
-      "changefreq": "monthly",
-      "getStaticPaths": [Function],
-      "load": [Function],
-      "meta": {
-        "description": "An introduction to my blog",
-      },
-      "post": {
-        "dataFetchSuccess": [Function],
-        "render": [Function],
-        "routeChange": [Function],
-      },
-      "priority": 0.8,
-      "pubDate": [Function],
-      "title": [Function],
-      "updatedAt": [Function],
-    },
     "moduleName": "post",
     "modulePath": "posts/_slug.js",
     "params": {
@@ -294,25 +104,6 @@ exports[`router > getPages > should generate static paths for all pages 1`] = `
   },
   {
     "filePath": "C:\\Users\\anton\\Projects\\ic\\inglorious-forge\\packages\\ssx\\src\\__fixtures__\\pages\\posts\\_slug.js",
-    "module": {
-      "author": "Matteo Antony Mistretta",
-      "category": "Chronicle",
-      "changefreq": "monthly",
-      "getStaticPaths": [Function],
-      "load": [Function],
-      "meta": {
-        "description": "An introduction to my blog",
-      },
-      "post": {
-        "dataFetchSuccess": [Function],
-        "render": [Function],
-        "routeChange": [Function],
-      },
-      "priority": 0.8,
-      "pubDate": [Function],
-      "title": [Function],
-      "updatedAt": [Function],
-    },
     "moduleName": "post",
     "modulePath": "posts/_slug.js",
     "params": {
@@ -323,25 +114,6 @@ exports[`router > getPages > should generate static paths for all pages 1`] = `
   },
   {
     "filePath": "C:\\Users\\anton\\Projects\\ic\\inglorious-forge\\packages\\ssx\\src\\__fixtures__\\pages\\posts\\_slug.js",
-    "module": {
-      "author": "Matteo Antony Mistretta",
-      "category": "Chronicle",
-      "changefreq": "monthly",
-      "getStaticPaths": [Function],
-      "load": [Function],
-      "meta": {
-        "description": "An introduction to my blog",
-      },
-      "post": {
-        "dataFetchSuccess": [Function],
-        "render": [Function],
-        "routeChange": [Function],
-      },
-      "priority": 0.8,
-      "pubDate": [Function],
-      "title": [Function],
-      "updatedAt": [Function],
-    },
     "moduleName": "post",
     "modulePath": "posts/_slug.js",
     "params": {

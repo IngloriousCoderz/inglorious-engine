@@ -38,7 +38,6 @@ export async function getPages(pagesDir = "pages") {
             pattern: route.pattern,
             path,
             params,
-            module,
             moduleName,
             modulePath: route.modulePath,
             filePath: route.filePath,

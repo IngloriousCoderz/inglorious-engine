@@ -53,7 +53,13 @@ export async function dev(options = {}) {
       if (!page) return next()
 
       const module = await viteServer.ssrLoadModule(page.filePath)
-      const html = await renderPage(store, page, module, {
+      page.module = module
+
+      const entity = store._api.getEntity(page.moduleName)
+      if (module.load) {
+        await module.load(entity, page)
+      }
+      const html = await renderPage(store, page, entity, {
         ...mergedOptions,
         wrap: true,
         isDev: true,

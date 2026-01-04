@@ -9,6 +9,7 @@ const ROOT_DIR = path.join(__dirname, "..", "__fixtures__")
 
 it("should generate the app script for a static page", async () => {
   const page = {
+    pattern: "/",
     path: "/",
     modulePath: "index.js",
     filePath: path.join(ROOT_DIR, "pages", "index.js"),
@@ -22,6 +23,7 @@ it("should generate the app script for a static page", async () => {
 
 it("should generate the app script for a page with an entity", async () => {
   const page = {
+    pattern: "/about",
     path: "/about",
     modulePath: "about.js",
     filePath: path.join(ROOT_DIR, "pages", "about.js"),
@@ -35,9 +37,24 @@ it("should generate the app script for a page with an entity", async () => {
 
 it("should generate the app script for a page that has metadata", async () => {
   const page = {
+    pattern: "/blog",
     path: "/blog",
     modulePath: "blog.js",
     filePath: path.join(ROOT_DIR, "pages", "blog.js"),
+  }
+  const store = await generateStore([page], { rootDir: ROOT_DIR })
+
+  const app = generateApp(store, [page])
+
+  expect(app).toMatchSnapshot()
+})
+
+it("should generate the app script for a dynamic page", async () => {
+  const page = {
+    pattern: "/posts/:slug",
+    path: "/posts/my-first-post",
+    modulePath: "post.js",
+    filePath: path.join(ROOT_DIR, "pages", "posts", "_slug.js"),
   }
   const store = await generateStore([page], { rootDir: ROOT_DIR })
 

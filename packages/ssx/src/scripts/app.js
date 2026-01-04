@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-
 /**
  * Generate the code that goes inside the <!-- SSX --> marker.
  * This creates the types and entities objects for the client-side store.
@@ -18,7 +16,15 @@ export function generateApp(store, pages) {
   return `import { createDevtools, createStore, mount } from "@inglorious/web"
 import { getRoute, router, setRoutes } from "@inglorious/web/router"
 
-const pages = ${JSON.stringify(pages.map(({ filePath, ...page }) => page))}
+const pages = ${JSON.stringify(
+    pages.map(({ pattern, path, moduleName }) => ({
+      pattern,
+      path,
+      moduleName,
+    })),
+    null,
+    2,
+  )}
 const path = window.location.pathname + window.location.search + window.location.hash
 const page = pages.find((page) => page.path === path)
 

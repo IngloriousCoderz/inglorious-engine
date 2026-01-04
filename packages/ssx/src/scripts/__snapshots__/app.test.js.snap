@@ -1,10 +1,15 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`should generate the app script for a page that has metadata 1`] = `
+exports[`should generate the app script for a dynamic page 1`] = `
 "import { createDevtools, createStore, mount } from "@inglorious/web"
 import { getRoute, router, setRoutes } from "@inglorious/web/router"
 
-const pages = [{"path":"/blog","modulePath":"blog.js"}]
+const pages = [
+  {
+    "pattern": "/posts/:slug",
+    "path": "/posts/my-first-post"
+  }
+]
 const path = window.location.pathname + window.location.search + window.location.hash
 const page = pages.find((page) => page.path === path)
 
@@ -42,7 +47,72 @@ if (import.meta.env.DEV) {
 }
 
 setRoutes({
-  "undefined": () => import("@/pages/blog.js")
+  "/posts/:slug": () => import("@/pages/post.js")
+})
+
+const module = await getRoute(page.pattern)()
+const type = module[page.moduleName]
+types[page.moduleName] = type
+
+const store = createStore({ types, entities, middlewares })
+
+const root = document.getElementById("root")
+
+mount(store, (api) => {
+  const { route } = api.getEntity("router")
+  return api.render(route, { allowType: true })
+}, root)
+"
+`;
+
+exports[`should generate the app script for a page that has metadata 1`] = `
+"import { createDevtools, createStore, mount } from "@inglorious/web"
+import { getRoute, router, setRoutes } from "@inglorious/web/router"
+
+const pages = [
+  {
+    "pattern": "/blog",
+    "path": "/blog"
+  }
+]
+const path = window.location.pathname + window.location.search + window.location.hash
+const page = pages.find((page) => page.path === path)
+
+const types = { router }
+
+const entities = {
+  router: {
+    type: "router",
+    path: page.path,
+    route: page.moduleName,
+  },
+
+  "about": {
+    "type": "about",
+    "name": "Us",
+    "id": "about"
+  },
+  "blog": {
+    "type": "blog",
+    "name": "Matteo Antony",
+    "posts": [],
+    "id": "blog"
+  },
+  "post": {
+    "type": "post",
+    "post": null,
+    "id": "post"
+  }
+
+}
+
+const middlewares = []
+if (import.meta.env.DEV) {
+  middlewares.push(createDevtools().middleware)
+}
+
+setRoutes({
+  "/blog": () => import("@/pages/blog.js")
 })
 
 const module = await getRoute(page.pattern)()
@@ -64,7 +134,12 @@ exports[`should generate the app script for a page with an entity 1`] = `
 "import { createDevtools, createStore, mount } from "@inglorious/web"
 import { getRoute, router, setRoutes } from "@inglorious/web/router"
 
-const pages = [{"path":"/about","modulePath":"about.js"}]
+const pages = [
+  {
+    "pattern": "/about",
+    "path": "/about"
+  }
+]
 const path = window.location.pathname + window.location.search + window.location.hash
 const page = pages.find((page) => page.path === path)
 
@@ -102,7 +177,7 @@ if (import.meta.env.DEV) {
 }
 
 setRoutes({
-  "undefined": () => import("@/pages/about.js")
+  "/about": () => import("@/pages/about.js")
 })
 
 const module = await getRoute(page.pattern)()
@@ -124,7 +199,12 @@ exports[`should generate the app script for a static page 1`] = `
 "import { createDevtools, createStore, mount } from "@inglorious/web"
 import { getRoute, router, setRoutes } from "@inglorious/web/router"
 
-const pages = [{"path":"/","modulePath":"index.js"}]
+const pages = [
+  {
+    "pattern": "/",
+    "path": "/"
+  }
+]
 const path = window.location.pathname + window.location.search + window.location.hash
 const page = pages.find((page) => page.path === path)
 
@@ -162,7 +242,7 @@ if (import.meta.env.DEV) {
 }
 
 setRoutes({
-  "undefined": () => import("@/pages/index.js")
+  "/": () => import("@/pages/index.js")
 })
 
 const module = await getRoute(page.pattern)()

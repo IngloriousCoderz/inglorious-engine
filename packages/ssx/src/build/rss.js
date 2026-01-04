@@ -1,19 +1,6 @@
 import fs from "node:fs/promises"
 import path from "node:path"
 
-import { createGetPageOption } from "../page-options.js"
-
-const DEFAULT_OPTIONS = {
-  title: "",
-  meta: {},
-  pubDate: "",
-  author: "",
-  category: "",
-  changefreq: "weekly",
-  priority: 0.5,
-  updatedAt: "",
-}
-
 /**
  * Generates an RSS feed for the site.
  * @param {Object} options - RSS generation options
@@ -28,16 +15,17 @@ const DEFAULT_OPTIONS = {
  * @param {number} options.maxItems - Maximum items to include (default: 50)
  * @returns {Promise<void>}
  */
-export async function generateRSS(store, pages, options = {}) {
+export async function generateRSS(pages = [], options = {}) {
   const {
     outDir = "dist",
     title = "RSS Feed",
-    meta = {},
+    description = "Latest Posts",
     link = "",
     feedPath = "/feed.xml",
     language = "en",
     copyright = "",
     maxItems = 50,
+    filter = () => true,
   } = options
 
   if (!link) {
@@ -45,56 +33,20 @@ export async function generateRSS(store, pages, options = {}) {
     return
   }
 
-  const items = pages.map(({ module }) => {
-    const getPageOption = createGetPageOption(store, module)
-
-    return {
-      title: getPageOption("title", DEFAULT_OPTIONS),
-      meta: getPageOption("meta", DEFAULT_OPTIONS),
-      pubDate: getPageOption("pubDate", DEFAULT_OPTIONS),
-      author: getPageOption("author", DEFAULT_OPTIONS),
-      category: getPageOption("category", DEFAULT_OPTIONS),
-      changefreq: getPageOption("changefreq", DEFAULT_OPTIONS),
-      priority: getPageOption("priority", DEFAULT_OPTIONS),
-      updatedAt: getPageOption("updatedAt", DEFAULT_OPTIONS),
-    }
-  })
-
-  // Sort items by date (newest first) and limit
-  const sortedItems = [...items]
-    .sort((a, b) => {
-      const dateA = new Date(a.pubDate || a.date || 0)
-      const dateB = new Date(b.pubDate || b.date || 0)
-      return dateB - dateA
-    })
+  const items = pages
+    .filter(filter)
+    .map(({ metadata }) => metadata)
+    .sort(byNewest)
     .slice(0, maxItems)
 
-  // Build RSS items
-  const rssItems = sortedItems.map((item) => {
-    const pubDate =
-      item.pubDate || item.date
-        ? new Date(item.pubDate || item.date).toUTCString()
-        : new Date().toUTCString()
-
-    const guid = item.guid || `${link}${item.path}`
-
-    return `    <item>
-      <title>${escapeXml(item.title)}</title>
-      <link>${escapeXml(link + item.path)}</link>
-      <guid>${escapeXml(guid)}</guid>
-      <pubDate>${pubDate}</pubDate>
-      ${item.description ? `<description>${escapeXml(item.description)}</description>` : ""}
-      ${item.author ? `<author>${escapeXml(item.author)}</author>` : ""}
-      ${item.category ? `<category>${escapeXml(item.category)}</category>` : ""}
-    </item>`
-  })
+  const rssItems = items.map(createRenderItem(link))
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>${escapeXml(title)}</title>
     <link>${escapeXml(link)}</link>
-    <description>${escapeXml(meta.description)}</description>
+    <description>${escapeXml(description)}</description>
     <language>${language}</language>
     ${copyright ? `<copyright>${escapeXml(copyright)}</copyright>` : ""}
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
@@ -107,9 +59,29 @@ ${rssItems.join("\n")}
   await fs.mkdir(path.dirname(feedFilePath), { recursive: true })
   await fs.writeFile(feedFilePath, xml, "utf-8")
 
-  console.log(`  ✓ ${feedPath} (${sortedItems.length} items)\n`)
+  console.log(`  ✓ ${feedPath} (${items.length} items)\n`)
 }
 
+function createRenderItem(link) {
+  return (metadata) => {
+    const pubDate =
+      metadata.pubDate || metadata.date
+        ? new Date(metadata.pubDate || metadata.date).toUTCString()
+        : new Date().toUTCString()
+
+    const guid = metadata.guid || `${link}${metadata.path}`
+
+    return `    <item>
+      <title>${escapeXml(metadata.title)}</title>
+      <link>${escapeXml(link + metadata.path)}</link>
+      <guid>${escapeXml(guid)}</guid>
+      <pubDate>${pubDate}</pubDate>
+      ${metadata.description ? `<description>${escapeXml(metadata.description)}</description>` : ""}
+      ${metadata.author ? `<author>${escapeXml(metadata.author)}</author>` : ""}
+      ${metadata.category ? `<category>${escapeXml(metadata.category)}</category>` : ""}
+    </item>`
+  }
+}
 /**
  * Escape special XML characters
  */
@@ -121,4 +93,10 @@ function escapeXml(str) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&apos;")
+}
+
+function byNewest(a, b) {
+  const dateA = new Date(a.pubDate || a.date || 0)
+  const dateB = new Date(b.pubDate || b.date || 0)
+  return dateB - dateA
 }

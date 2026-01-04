@@ -11,40 +11,43 @@ const PAGES_DIR = path.join(ROOT_DIR, "pages")
 const DEFAULT_OPTIONS = { stripLitMarkers: true }
 
 it("should render a static page fragment", async () => {
-  const page = { path: "/" }
-  const module = await import(path.resolve(path.join(PAGES_DIR, "about.js")))
+  const module = await import(path.resolve(path.join(PAGES_DIR, "index.js")))
+  const page = { path: "/", moduleName: "index", module }
 
   const store = createStore({
-    types: { about: module.about },
+    types: { index: module.index },
     updateMode: "manual",
   })
 
-  const html = await renderPage(store, page, module, DEFAULT_OPTIONS)
+  const html = await renderPage(store, page, undefined, DEFAULT_OPTIONS)
 
   expect(html).toMatchSnapshot()
 })
 
 it("should render a page with entity", async () => {
-  const page = { path: "/about" }
   const module = await import(path.resolve(path.join(PAGES_DIR, "about.js")))
+  const page = { path: "/about", moduleName: "about", module }
+  const entity = { type: "about", name: "Us" }
 
   const store = createStore({
     types: { about: module.about },
-    entities: { about: { type: "about", name: "Us" } },
+    entities: { about: entity },
     updateMode: "manual",
   })
 
-  const html = await renderPage(store, page, module, DEFAULT_OPTIONS)
+  const html = await renderPage(store, page, entity, DEFAULT_OPTIONS)
 
   expect(html).toMatchSnapshot()
 })
 
 it("should render a page with metadata", async () => {
-  const page = { path: "/about" }
   const module = await import(path.resolve(path.join(PAGES_DIR, "about.js")))
+  const page = { path: "/about", moduleName: "about", module }
+  const entity = { type: "about", name: "Us" }
 
   const store = createStore({
     types: { about: module.about },
+    entities: { about: entity },
     updateMode: "manual",
   })
 
@@ -57,12 +60,48 @@ it("should render a page with metadata", async () => {
 })
 
 it("should render a page with pre-fetched data", async () => {
-  const page = { path: "/blog" }
   const module = await import(path.resolve(path.join(PAGES_DIR, "blog.js")))
+  const page = { path: "/blog", moduleName: "blog", module }
+  const entity = {
+    type: "blog",
+    name: "Antony",
+    posts: [
+      { id: 1, title: "First Post" },
+      { id: 2, title: "Second Post" },
+      { id: 3, title: "Third Post" },
+    ],
+  }
 
   const store = createStore({
     types: { blog: module.blog },
-    entities: { blog: { type: "blog", name: "Antony", posts: [] } },
+    entities: { blog: entity },
+    updateMode: "manual",
+  })
+
+  const html = await renderPage(store, page, module, DEFAULT_OPTIONS)
+
+  expect(html).toMatchSnapshot()
+})
+
+it("should render a dynamic page", async () => {
+  const module = await import(
+    path.resolve(path.join(PAGES_DIR, "posts/_slug.js"))
+  )
+  const page = { path: "/posts/1", moduleName: "post", module }
+  const entity = {
+    type: "blog",
+    name: "Antony",
+    post: {
+      id: 1,
+      title: "First Post",
+      date: "2026-01-04",
+      body: "Hello world!",
+    },
+  }
+
+  const store = createStore({
+    types: { blog: module.post },
+    entities: { post: entity },
     updateMode: "manual",
   })
 

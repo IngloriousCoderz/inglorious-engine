@@ -1,12 +1,6 @@
-import { getModuleName } from "./module.js"
-
-export function createGetPageOption(store, module) {
-  const name = getModuleName(module)
-  const api = store._api
-  const entity = api.getEntity(name)
-
+export function createGetPageOption(store, module, entity) {
   return (name, defaults) =>
     typeof module[name] === "function"
-      ? module[name](entity, api)
+      ? module[name](entity, store._api)
       : (module[name] ?? defaults[name])
 }
