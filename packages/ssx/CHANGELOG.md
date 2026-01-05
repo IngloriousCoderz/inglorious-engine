@@ -1,5 +1,11 @@
 # @inglorious/ssx
 
+## 1.2.0
+
+### Minor Changes
+
+- Add TS support in SSX
+
 ## 1.1.1
 
 ### Patch Changes

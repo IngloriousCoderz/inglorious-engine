@@ -13,26 +13,31 @@ import { getModuleName } from "../utils/module.js"
  * @param {Array<Object>} pages - List of page objects containing file paths.
  * @param {Object} options - Configuration options.
  * @param {string} [options.rootDir="src"] - Root directory to look for entities.js.
+ * @param {Function} [loader] - Optional loader function.
  * @returns {Promise<Object>} The initialized store instance.
  */
-export async function generateStore(pages = [], options = {}) {
+export async function generateStore(pages = [], options = {}, loader) {
   const { rootDir = "src" } = options
+  const load = loader || ((p) => import(pathToFileURL(p)))
 
   const types = {}
   for (const page of pages) {
-    const pageModule = await import(pathToFileURL(page.filePath))
+    const pageModule = await load(page.filePath)
     const name = getModuleName(pageModule)
     types[name] = pageModule[name]
   }
 
   let entities = {}
-  try {
-    const module = await import(
-      pathToFileURL(path.join(rootDir, "entities.js"))
-    )
-    entities = module.entities
-  } catch {
-    entities = {}
+  const extensions = ["js", "ts"]
+
+  for (const ext of extensions) {
+    try {
+      const module = await load(path.join(rootDir, `entities.${ext}`))
+      entities = module.entities
+      break
+    } catch {
+      // ignore and try next extension
+    }
   }
 
   return createStore({ types, entities, updateMode: "manual" })

@@ -1,8 +1,8 @@
 import fs from "node:fs/promises"
 import path from "node:path"
 
-import { build as viteBuild } from "vite"
-import { afterEach, describe, expect, it, vi } from "vitest"
+import { build as viteBuild, createServer } from "vite"
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 
 import { getPages } from "../router/index.js"
 import { generateApp } from "../scripts/app.js"
@@ -38,6 +38,13 @@ vi.mock("./vite-config.js")
 describe("build", () => {
   // Mock console to keep output clean
   vi.spyOn(console, "log").mockImplementation(() => {})
+
+  beforeEach(() => {
+    createServer.mockResolvedValue({
+      ssrLoadModule: vi.fn(),
+      close: vi.fn(),
+    })
+  })
 
   afterEach(() => {
     vi.clearAllMocks()

@@ -17,15 +17,17 @@ const SCORE_MULTIPLIER = 0.1
  * to generate all possible paths.
  *
  * @param {string} pagesDir - The directory containing page files.
+ * @param {Function} [loader] - Optional loader function (e.g. vite.ssrLoadModule).
  * @returns {Promise<Array<Object>>} A list of page objects with metadata.
  */
-export async function getPages(pagesDir = "pages") {
+export async function getPages(pagesDir = "pages", loader) {
   const routes = await getRoutes(pagesDir)
   const pages = []
+  const load = loader || ((p) => import(pathToFileURL(path.resolve(p))))
 
   for (const route of routes) {
     try {
-      const module = await import(pathToFileURL(path.resolve(route.filePath)))
+      const module = await load(route.filePath)
       const moduleName = getModuleName(module)
 
       if (isDynamic(route.pattern)) {
@@ -122,7 +124,7 @@ export async function resolvePage(url, pagesDir = "pages") {
  */
 export async function getRoutes(pagesDir = "pages") {
   // Find all .js and .ts files in pages directory
-  const files = await glob("**/*.{js,ts}", {
+  const files = await glob("**/*.{js,ts,jsx,tsx}", {
     cwd: pagesDir,
     ignore: ["**/*.test.{js,ts}", "**/*.spec.{js,ts}"],
     posix: true,
@@ -190,7 +192,7 @@ export function matchRoute(pattern, url) {
 function filePathToPattern(file) {
   let pattern = file
     .replace(/\\/g, "/")
-    .replace(/\.(js|ts)$/, "") // Remove extension
+    .replace(/\.(js|ts|jsx|tsx)$/, "") // Remove extension
     .replace(/\/index$/, "") // index becomes root of directory
     .replace(/^index$/, "") // Handle root index
     .replace(/__(\w+)/g, "*") // __path becomes *

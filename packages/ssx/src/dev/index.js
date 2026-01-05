@@ -25,16 +25,17 @@ export async function dev(options = {}) {
 
   console.log("🚀 Starting dev server...\n")
 
-  // Get all pages once at startup
-  const pages = await getPages(path.join(rootDir, "pages"))
-  console.log(`📄 Found ${pages.length} pages\n`)
-
-  // Generate store config once for all pages
-  const store = await generateStore(pages, mergedOptions)
-
   // Create Vite dev server
   const viteConfig = createViteConfig(mergedOptions)
   const viteServer = await createServer(viteConfig)
+  const loader = (p) => viteServer.ssrLoadModule(p)
+
+  // Get all pages once at startup
+  const pages = await getPages(path.join(rootDir, "pages"), loader)
+  console.log(`📄 Found ${pages.length} pages\n`)
+
+  // Generate store config once for all pages
+  const store = await generateStore(pages, mergedOptions, loader)
 
   // Use Vite's middleware first (handles HMR, static files, etc.)
   const connectServer = connect()
@@ -59,7 +60,7 @@ export async function dev(options = {}) {
       const page = pages.find((p) => matchRoute(p.path, url))
       if (!page) return next()
 
-      const module = await viteServer.ssrLoadModule(page.filePath)
+      const module = await loader(page.filePath)
       page.module = module
 
       const entity = store._api.getEntity(page.moduleName)

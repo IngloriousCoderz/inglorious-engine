@@ -1,10 +1,10 @@
 import path from "node:path"
 
-import { describe, expect, it } from "vitest"
+import { describe, expect, it, vi } from "vitest"
 
 import { generateStore } from "."
 
-const ROOT_DIR = path.join(__dirname, "..", "__fixtures__")
+const ROOT_DIR = path.join(import.meta.dirname, "..", "__fixtures__")
 
 describe("generateStore", () => {
   it("should generate the proper types and entities from a static page", async () => {
@@ -52,5 +52,23 @@ describe("generateStore", () => {
 
     // Should initialize with empty entities (or at least not the ones from fixtures)
     expect(store.getState()).not.toHaveProperty("about")
+  })
+
+  it("should attempt to load entities.js and entities.ts", async () => {
+    const loader = vi.fn(async (p) => {
+      // Mock a successful page load
+      if (p.endsWith("index.js")) {
+        return { index: { render: () => {} } }
+      }
+      // Mock entity files not being found
+      throw new Error("MODULE_NOT_FOUND")
+    })
+
+    const page = { filePath: path.join(ROOT_DIR, "pages", "index.js") }
+    await generateStore([page], { rootDir: "src" }, loader)
+
+    expect(loader).toHaveBeenCalledWith(page.filePath)
+    expect(loader).toHaveBeenCalledWith(path.join("src", "entities.js"))
+    expect(loader).toHaveBeenCalledWith(path.join("src", "entities.ts"))
   })
 })

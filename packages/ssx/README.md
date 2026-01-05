@@ -30,7 +30,7 @@ SSX takes your entity-based web apps and generates optimized static HTML with fu
 - **Hot reload dev server** - See changes instantly
 - **Lazy-loaded routes** - Code splitting automatically
 - **lit-html hydration** - Interactive UI without the bloat
-- **TypeScript ready** - Full type support (coming soon)
+- **TypeScript Ready** - Write your pages and entities in TypeScript.
 
 ### 🚀 Production Ready
 
@@ -58,6 +58,32 @@ npm run dev
 ```
 
 Or manually: -->
+
+### Create Your First Site (TypeScript)
+
+```typescript
+// src/pages/index.ts
+import { html } from "@inglorious/web"
+
+// You can import API for type safety, though it's optional
+// import type { API } from "@inglorious/web"
+
+export const index = {
+  render(/* entity: any, api: API */) {
+    return html`
+      <div>
+        <h1>Welcome to SSX!</h1>
+        <p>This page was pre-rendered at build time.</p>
+        <nav>
+          <a href="/about">About</a>
+        </nav>
+      </div>
+    `
+  },
+}
+```
+
+### Create Your First Site (JavaScript)
 
 ```javascript
 // src/pages/index.js
@@ -119,7 +145,7 @@ Deploy `dist/` to:
 
 ## Features
 
-### �️ Sitemap & RSS Generation
+### 🗺️ Sitemap & RSS Generation
 
 SSX automatically generates `sitemap.xml` and `rss.xml` based on your pages. Configure them in `src/site.config.js`:
 
@@ -159,7 +185,7 @@ export default {
 
 Pages with a `published` date in metadata are included in RSS feeds.
 
-### �📁 File-Based Routing
+### 📁 File-Based Routing
 
 Your file structure defines your routes:
 
@@ -609,7 +635,7 @@ Check out these example projects:
 
 ## Roadmap
 
-- [ ] TypeScript support
+- [x] TypeScript support
 - [ ] Image optimization
 - [ ] API routes (serverless functions)
 - [ ] MDX support

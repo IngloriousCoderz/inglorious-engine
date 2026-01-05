@@ -1,7 +1,7 @@
 import fs from "node:fs/promises"
 import path from "node:path"
 
-import { build as viteBuild } from "vite"
+import { build as viteBuild, createServer } from "vite"
 
 import { getPages } from "../router/index.js"
 import { generateApp } from "../scripts/app.js"
@@ -47,8 +47,16 @@ export async function build(options = {}) {
 
   console.log("🔨 Starting build...\n")
 
+  // Create a temporary Vite server to load modules (supports TS)
+  const vite = await createServer({
+    ...createViteConfig(mergedOptions),
+    server: { middlewareMode: true, hmr: false },
+    appType: "custom",
+  })
+  const loader = (p) => vite.ssrLoadModule(p)
+
   // 0. Get all pages to build (Fail fast if source is broken)
-  const allPages = await getPages(path.join(rootDir, "pages"))
+  const allPages = await getPages(path.join(rootDir, "pages"), loader)
   console.log(`📄 Found ${allPages.length} pages\n`)
 
   // Load previous build manifest
@@ -85,10 +93,15 @@ export async function build(options = {}) {
   }
 
   // 4. Generate store with all types and initial entities
-  const store = await generateStore(allPages, mergedOptions)
+  const store = await generateStore(allPages, mergedOptions, loader)
 
   // 5. Render only pages that changed
-  const changedPages = await generatePages(store, pagesToChange, mergedOptions)
+  const changedPages = await generatePages(
+    store,
+    pagesToChange,
+    mergedOptions,
+    loader,
+  )
   // For skipped pages, load their metadata from disk if needed for sitemap/RSS
   const skippedPages = await generatePages(store, pagesToSkip, {
     ...mergedOptions,
@@ -133,6 +146,7 @@ export async function build(options = {}) {
   const viteConfig = createViteConfig(mergedOptions)
   await viteBuild(viteConfig)
 
+  await vite.close()
   // 12. Cleanup
   // console.log("\n🧹 Cleaning up...\n")
 
