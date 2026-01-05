@@ -6,8 +6,9 @@ const MANIFEST_FILE = ".ssx-manifest.json"
 
 /**
  * Loads the build manifest from the previous build.
- * @param {string} outDir - Output directory
- * @returns {Promise<Object>} The manifest object
+ *
+ * @param {string} outDir - Output directory.
+ * @returns {Promise<Object>} The manifest object.
  */
 export async function loadManifest(outDir) {
   const manifestPath = path.join(outDir, MANIFEST_FILE)
@@ -23,8 +24,10 @@ export async function loadManifest(outDir) {
 
 /**
  * Saves the build manifest for the next build.
- * @param {string} outDir - Output directory
- * @param {Object} manifest - The manifest to save
+ *
+ * @param {string} outDir - Output directory.
+ * @param {Object} manifest - The manifest to save.
+ * @returns {Promise<void>}
  */
 export async function saveManifest(outDir, manifest) {
   const manifestPath = path.join(outDir, MANIFEST_FILE)
@@ -34,8 +37,9 @@ export async function saveManifest(outDir, manifest) {
 
 /**
  * Computes a hash for a file's contents.
- * @param {string} filePath - Path to the file
- * @returns {Promise<string>} Hash of the file
+ *
+ * @param {string} filePath - Path to the file.
+ * @returns {Promise<string|null>} Hash of the file or null if not found.
  */
 export async function hashFile(filePath) {
   try {
@@ -48,8 +52,9 @@ export async function hashFile(filePath) {
 
 /**
  * Computes a hash for the entities file.
- * @param {string} rootDir - Source root directory
- * @returns {Promise<string>} Hash of entities.js
+ *
+ * @param {string} rootDir - Source root directory.
+ * @returns {Promise<string|null>} Hash of entities.js.
  */
 export async function hashEntities(rootDir) {
   const entitiesPath = path.join(rootDir, "entities.js")
@@ -58,10 +63,12 @@ export async function hashEntities(rootDir) {
 
 /**
  * Determines which pages need to be rebuilt.
- * @param {Array} pages - All pages to potentially build
- * @param {Object} manifest - Previous build manifest
- * @param {string} entitiesHash - Current entities hash
- * @returns {Promise<Object>} Object with pagesToBuild and pagesSkipped
+ * Compares current file hashes against the manifest.
+ *
+ * @param {Array<Object>} pages - All pages to potentially build.
+ * @param {Object} manifest - Previous build manifest.
+ * @param {string} entitiesHash - Current entities hash.
+ * @returns {Promise<{pagesToBuild: Array<Object>, pagesToSkip: Array<Object>}>} Object with pagesToBuild and pagesSkipped.
  */
 export async function determineRebuildPages(pages, manifest, entitiesHash) {
   // If entities changed, rebuild all pages
@@ -89,9 +96,10 @@ export async function determineRebuildPages(pages, manifest, entitiesHash) {
 
 /**
  * Creates a new manifest from build results.
- * @param {Array} renderedPages - All rendered pages
- * @param {string} entitiesHash - Hash of entities file
- * @returns {Object} New manifest
+ *
+ * @param {Array<Object>} renderedPages - All rendered pages.
+ * @param {string} entitiesHash - Hash of entities file.
+ * @returns {Promise<Object>} New manifest.
  */
 export async function createManifest(renderedPages, entitiesHash) {
   const pages = {}

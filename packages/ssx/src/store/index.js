@@ -3,8 +3,18 @@ import { pathToFileURL } from "node:url"
 
 import { createStore } from "@inglorious/web"
 
-import { getModuleName } from "./module.js"
+import { getModuleName } from "../utils/module.js"
 
+/**
+ * Generates the application store based on the provided pages and configuration.
+ * It loads page modules to register their exported entities as store types.
+ * It also attempts to load initial entities from an `entities.js` file in the root directory.
+ *
+ * @param {Array<Object>} pages - List of page objects containing file paths.
+ * @param {Object} options - Configuration options.
+ * @param {string} [options.rootDir="src"] - Root directory to look for entities.js.
+ * @returns {Promise<Object>} The initialized store instance.
+ */
 export async function generateStore(pages = [], options = {}) {
   const { rootDir = "src" } = options
 

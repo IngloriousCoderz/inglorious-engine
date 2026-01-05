@@ -4,6 +4,18 @@ import { pathToFileURL } from "node:url"
 import { renderPage } from "../render/index.js"
 import { extractPageMetadata } from "./metadata.js"
 
+/**
+ * Generates HTML and metadata for a list of pages.
+ * It loads the page module, executes the `load` function (if defined),
+ * renders the HTML, and extracts metadata.
+ *
+ * @param {Object} store - The application store.
+ * @param {Array<Object>} pages - List of pages to generate.
+ * @param {Object} [options] - Generation options.
+ * @param {boolean} [options.shouldGenerateHtml=true] - Whether to generate HTML.
+ * @param {boolean} [options.shouldGenerateMetadata=true] - Whether to generate metadata.
+ * @returns {Promise<Array<Object>>} The processed pages with `html` and `metadata` properties added.
+ */
 export async function generatePages(store, pages, options = {}) {
   const { shouldGenerateHtml = true, shouldGenerateMetadata = true } = options
 

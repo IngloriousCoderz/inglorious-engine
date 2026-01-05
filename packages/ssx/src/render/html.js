@@ -4,6 +4,18 @@ import { collectResult } from "@lit-labs/ssr/lib/render-result.js"
 
 import { layout as defaultLayout } from "./layout.js"
 
+/**
+ * Renders a page or component to HTML using the store state.
+ * It handles SSR rendering of Lit templates and optional HTML wrapping.
+ *
+ * @param {Object} store - The application store instance.
+ * @param {Function} renderFn - A function that returns a Lit template. Receives `api` as argument.
+ * @param {Object} [options] - Rendering options.
+ * @param {boolean} [options.wrap=false] - Whether to wrap the output in a full HTML document.
+ * @param {Function} [options.layout] - Custom layout function.
+ * @param {boolean} [options.stripLitMarkers=false] - Whether to remove Lit hydration markers (for static output).
+ * @returns {Promise<string>} The generated HTML string.
+ */
 export async function toHTML(store, renderFn, options = {}) {
   const api = { ...store._api }
   api.render = createRender(api)
@@ -22,9 +34,16 @@ export async function toHTML(store, renderFn, options = {}) {
   if (!options.wrap) return finalHTML
 
   const layout = options.layout ?? defaultLayout
-  return options.wrap ? layout(finalHTML, options) : finalHTML
+  return layout(finalHTML, options)
 }
 
+/**
+ * Removes Lit hydration markers from the HTML string.
+ * Useful for generating clean static HTML that doesn't need client-side hydration.
+ *
+ * @param {string} html - The HTML string with markers.
+ * @returns {string} Cleaned HTML string.
+ */
 function stripLitMarkers(html) {
   return html
     .replace(/<!--\?[^>]*-->/g, "") // All lit-html markers
@@ -32,6 +51,13 @@ function stripLitMarkers(html) {
 }
 
 // TODO: this was copied from @inglorious/web, maybe expose it?
+/**
+ * Creates a render function bound to the store API.
+ * This mimics the `api.render` behavior but for SSR context.
+ *
+ * @param {Object} api - The store API.
+ * @returns {Function} The render function.
+ */
 function createRender(api) {
   return function (id, options = {}) {
     const entity = api.getEntity(id)

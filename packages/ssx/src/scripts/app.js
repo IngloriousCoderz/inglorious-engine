@@ -1,6 +1,10 @@
 /**
- * Generate the code that goes inside the <!-- SSX --> marker.
- * This creates the types and entities objects for the client-side store.
+ * Generates the client-side entry point script.
+ * This script hydrates the store with the initial state (entities) and sets up the router.
+ *
+ * @param {Object} store - The server-side store instance containing the initial state.
+ * @param {Array<Object>} pages - List of page objects to generate routes for.
+ * @returns {string} The generated JavaScript code for the client entry point.
  */
 export function generateApp(store, pages) {
   // Collect all unique page modules and their exports

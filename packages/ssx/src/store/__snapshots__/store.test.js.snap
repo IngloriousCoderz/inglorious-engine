@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`should generate the proper types and entities from a page that has metadata 1`] = `
+exports[`generateStore > should generate the proper types and entities from a page that has metadata 1`] = `
 {
   "about": {
     "id": "about",
@@ -21,7 +21,7 @@ exports[`should generate the proper types and entities from a page that has meta
 }
 `;
 
-exports[`should generate the proper types and entities from a page with an entity 1`] = `
+exports[`generateStore > should generate the proper types and entities from a page with an entity 1`] = `
 {
   "about": {
     "id": "about",
@@ -42,7 +42,7 @@ exports[`should generate the proper types and entities from a page with an entit
 }
 `;
 
-exports[`should generate the proper types and entities from a static page 1`] = `
+exports[`generateStore > should generate the proper types and entities from a static page 1`] = `
 {
   "about": {
     "id": "about",

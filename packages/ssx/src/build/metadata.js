@@ -1,4 +1,4 @@
-import { createGetPageOption } from "../page-options.js"
+import { createGetPageOption } from "../utils/page-options.js"
 
 const DEFAULT_OPTIONS = {
   title: "",

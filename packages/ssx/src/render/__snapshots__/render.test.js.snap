@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`should render a dynamic page 1`] = `
+exports[`renderPage > should render a dynamic page 1`] = `
 "<!--lit-part gu/K0ae1O1k=--><h1><!--lit-part-->First Post<!--/lit-part--></h1>
       <!--lit-part BboTokvP/FE=--><nav>
       <a href="/">Home</a> | <a href="/about">About</a> |
@@ -10,7 +10,7 @@ exports[`should render a dynamic page 1`] = `
       <p><!--lit-part-->Hello world!<!--/lit-part--></p><!--/lit-part-->"
 `;
 
-exports[`should render a page with entity 1`] = `
+exports[`renderPage > should render a page with entity 1`] = `
 "<!--lit-part /KZqpgKMp6U=--><h1>
         About
         <!--lit-node 1--><span 
@@ -23,7 +23,7 @@ exports[`should render a page with entity 1`] = `
     </nav><!--/lit-part--><?><!--/lit-part-->"
 `;
 
-exports[`should render a page with metadata 1`] = `
+exports[`renderPage > should render a page with metadata 1`] = `
 "<!DOCTYPE html>
     <html lang="en">
       <head>
@@ -51,7 +51,7 @@ exports[`should render a page with metadata 1`] = `
     </html>"
 `;
 
-exports[`should render a page with pre-fetched data 1`] = `
+exports[`renderPage > should render a page with pre-fetched data 1`] = `
 "<!--lit-part eP0n7ioVzug=--><h1><!--lit-part-->Antony<!--/lit-part-->'s Blog</h1>
       <!--lit-part BboTokvP/FE=--><nav>
       <a href="/">Home</a> | <a href="/about">About</a> |
@@ -68,7 +68,7 @@ exports[`should render a page with pre-fetched data 1`] = `
       </ul><!--/lit-part-->"
 `;
 
-exports[`should render a static page fragment 1`] = `
+exports[`renderPage > should render a static page fragment 1`] = `
 "<!--lit-part if+9YBIVqoU=--><h1>Index</h1>
       <!--lit-part BboTokvP/FE=--><nav>
       <a href="/">Home</a> | <a href="/about">About</a> |

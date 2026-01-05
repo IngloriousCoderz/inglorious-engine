@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`should generate the app script for a dynamic page 1`] = `
+exports[`generateApp > should generate the app script for a dynamic page 1`] = `
 "import { createDevtools, createStore, mount } from "@inglorious/web"
 import { getRoute, router, setRoutes } from "@inglorious/web/router"
 
@@ -65,7 +65,7 @@ mount(store, (api) => {
 "
 `;
 
-exports[`should generate the app script for a page that has metadata 1`] = `
+exports[`generateApp > should generate the app script for a page that has metadata 1`] = `
 "import { createDevtools, createStore, mount } from "@inglorious/web"
 import { getRoute, router, setRoutes } from "@inglorious/web/router"
 
@@ -130,7 +130,7 @@ mount(store, (api) => {
 "
 `;
 
-exports[`should generate the app script for a page with an entity 1`] = `
+exports[`generateApp > should generate the app script for a page with an entity 1`] = `
 "import { createDevtools, createStore, mount } from "@inglorious/web"
 import { getRoute, router, setRoutes } from "@inglorious/web/router"
 
@@ -195,7 +195,7 @@ mount(store, (api) => {
 "
 `;
 
-exports[`should generate the app script for a static page 1`] = `
+exports[`generateApp > should generate the app script for a static page 1`] = `
 "import { createDevtools, createStore, mount } from "@inglorious/web"
 import { getRoute, router, setRoutes } from "@inglorious/web/router"
 

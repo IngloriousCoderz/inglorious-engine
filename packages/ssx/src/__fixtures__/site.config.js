@@ -1,5 +1,12 @@
+/**
+ * @typedef {import('../../types/site.config').SiteConfig} SiteConfig
+ */
+
 const env = process.env.NODE_ENV
 
+/**
+ * @type {SiteConfig}
+ */
 export default {
   // Basic metadata
   lang: "en",

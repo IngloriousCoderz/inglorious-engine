@@ -1,0 +1,56 @@
+import path from "node:path"
+
+import { describe, expect, it } from "vitest"
+
+import { generateStore } from "."
+
+const ROOT_DIR = path.join(__dirname, "..", "__fixtures__")
+
+describe("generateStore", () => {
+  it("should generate the proper types and entities from a static page", async () => {
+    const page = {
+      filePath: path.join(ROOT_DIR, "pages", "index.js"),
+    }
+
+    const store = await generateStore([page], { rootDir: ROOT_DIR })
+
+    expect(store.getType("index").render).toBeDefined()
+    expect(store.getState()).toMatchSnapshot()
+  })
+
+  it("should generate the proper types and entities from a page with an entity", async () => {
+    const page = {
+      filePath: path.join(ROOT_DIR, "pages", "about.js"),
+    }
+
+    const store = await generateStore([page], { rootDir: ROOT_DIR })
+
+    expect(store.getType("about").render).toBeDefined()
+    expect(store.getState()).toMatchSnapshot()
+  })
+
+  it("should generate the proper types and entities from a page that has metadata", async () => {
+    const page = {
+      filePath: path.join(ROOT_DIR, "pages", "blog.js"),
+    }
+
+    const store = await generateStore([page], { rootDir: ROOT_DIR })
+
+    expect(store.getType("blog").render).toBeDefined()
+    expect(store.getState()).toMatchSnapshot()
+  })
+
+  it("should handle missing entities.js gracefully", async () => {
+    const page = {
+      filePath: path.join(ROOT_DIR, "pages", "index.js"),
+    }
+
+    // Point to a directory that doesn't contain entities.js
+    const store = await generateStore([page], {
+      rootDir: path.join(ROOT_DIR, "pages"),
+    })
+
+    // Should initialize with empty entities (or at least not the ones from fixtures)
+    expect(store.getState()).not.toHaveProperty("about")
+  })
+})

@@ -1,111 +1,114 @@
 import path from "node:path"
+import { pathToFileURL } from "node:url"
 
 import { createStore } from "@inglorious/web"
-import { expect, it } from "vitest"
+import { describe, expect, it } from "vitest"
 
 import { renderPage } from "."
 
-const ROOT_DIR = path.join(__dirname, "..", "__fixtures__")
+const ROOT_DIR = path.join(import.meta.dirname, "..", "__fixtures__")
 const PAGES_DIR = path.join(ROOT_DIR, "pages")
 
 const DEFAULT_OPTIONS = { stripLitMarkers: true }
 
-it("should render a static page fragment", async () => {
-  const module = await import(path.resolve(path.join(PAGES_DIR, "index.js")))
-  const page = { path: "/", moduleName: "index", module }
+describe("renderPage", () => {
+  it("should render a static page fragment", async () => {
+    const module = await import(pathToFileURL(path.join(PAGES_DIR, "index.js")))
+    const page = { path: "/", moduleName: "index", module }
 
-  const store = createStore({
-    types: { index: module.index },
-    updateMode: "manual",
+    const store = createStore({
+      types: { index: module.index },
+      updateMode: "manual",
+    })
+
+    const html = await renderPage(store, page, undefined, DEFAULT_OPTIONS)
+
+    expect(html).toMatchSnapshot()
   })
 
-  const html = await renderPage(store, page, undefined, DEFAULT_OPTIONS)
+  it("should render a page with entity", async () => {
+    const module = await import(pathToFileURL(path.join(PAGES_DIR, "about.js")))
+    const page = { path: "/about", moduleName: "about", module }
+    const entity = { type: "about", name: "Us" }
 
-  expect(html).toMatchSnapshot()
-})
+    const store = createStore({
+      types: { about: module.about },
+      entities: { about: entity },
+      updateMode: "manual",
+    })
 
-it("should render a page with entity", async () => {
-  const module = await import(path.resolve(path.join(PAGES_DIR, "about.js")))
-  const page = { path: "/about", moduleName: "about", module }
-  const entity = { type: "about", name: "Us" }
+    const html = await renderPage(store, page, entity, DEFAULT_OPTIONS)
 
-  const store = createStore({
-    types: { about: module.about },
-    entities: { about: entity },
-    updateMode: "manual",
+    expect(html).toMatchSnapshot()
   })
 
-  const html = await renderPage(store, page, entity, DEFAULT_OPTIONS)
+  it("should render a page with metadata", async () => {
+    const module = await import(pathToFileURL(path.join(PAGES_DIR, "about.js")))
+    const page = { path: "/about", moduleName: "about", module }
+    const entity = { type: "about", name: "Us" }
 
-  expect(html).toMatchSnapshot()
-})
+    const store = createStore({
+      types: { about: module.about },
+      entities: { about: entity },
+      updateMode: "manual",
+    })
 
-it("should render a page with metadata", async () => {
-  const module = await import(path.resolve(path.join(PAGES_DIR, "about.js")))
-  const page = { path: "/about", moduleName: "about", module }
-  const entity = { type: "about", name: "Us" }
+    const html = await renderPage(store, page, module, {
+      ...DEFAULT_OPTIONS,
+      wrap: true,
+    })
 
-  const store = createStore({
-    types: { about: module.about },
-    entities: { about: entity },
-    updateMode: "manual",
+    expect(html).toMatchSnapshot()
   })
 
-  const html = await renderPage(store, page, module, {
-    ...DEFAULT_OPTIONS,
-    wrap: true,
+  it("should render a page with pre-fetched data", async () => {
+    const module = await import(pathToFileURL(path.join(PAGES_DIR, "blog.js")))
+    const page = { path: "/blog", moduleName: "blog", module }
+    const entity = {
+      type: "blog",
+      name: "Antony",
+      posts: [
+        { id: 1, title: "First Post" },
+        { id: 2, title: "Second Post" },
+        { id: 3, title: "Third Post" },
+      ],
+    }
+
+    const store = createStore({
+      types: { blog: module.blog },
+      entities: { blog: entity },
+      updateMode: "manual",
+    })
+
+    const html = await renderPage(store, page, module, DEFAULT_OPTIONS)
+
+    expect(html).toMatchSnapshot()
   })
 
-  expect(html).toMatchSnapshot()
-})
+  it("should render a dynamic page", async () => {
+    const module = await import(
+      pathToFileURL(path.join(PAGES_DIR, "posts", "_slug.js"))
+    )
+    const page = { path: "/posts/1", moduleName: "post", module }
+    const entity = {
+      type: "blog",
+      name: "Antony",
+      post: {
+        id: 1,
+        title: "First Post",
+        date: "2026-01-04",
+        body: "Hello world!",
+      },
+    }
 
-it("should render a page with pre-fetched data", async () => {
-  const module = await import(path.resolve(path.join(PAGES_DIR, "blog.js")))
-  const page = { path: "/blog", moduleName: "blog", module }
-  const entity = {
-    type: "blog",
-    name: "Antony",
-    posts: [
-      { id: 1, title: "First Post" },
-      { id: 2, title: "Second Post" },
-      { id: 3, title: "Third Post" },
-    ],
-  }
+    const store = createStore({
+      types: { blog: module.post },
+      entities: { post: entity },
+      updateMode: "manual",
+    })
 
-  const store = createStore({
-    types: { blog: module.blog },
-    entities: { blog: entity },
-    updateMode: "manual",
+    const html = await renderPage(store, page, module, DEFAULT_OPTIONS)
+
+    expect(html).toMatchSnapshot()
   })
-
-  const html = await renderPage(store, page, module, DEFAULT_OPTIONS)
-
-  expect(html).toMatchSnapshot()
-})
-
-it("should render a dynamic page", async () => {
-  const module = await import(
-    path.resolve(path.join(PAGES_DIR, "posts/_slug.js"))
-  )
-  const page = { path: "/posts/1", moduleName: "post", module }
-  const entity = {
-    type: "blog",
-    name: "Antony",
-    post: {
-      id: 1,
-      title: "First Post",
-      date: "2026-01-04",
-      body: "Hello world!",
-    },
-  }
-
-  const store = createStore({
-    types: { blog: module.post },
-    entities: { post: entity },
-    updateMode: "manual",
-  })
-
-  const html = await renderPage(store, page, module, DEFAULT_OPTIONS)
-
-  expect(html).toMatchSnapshot()
 })

@@ -3,7 +3,7 @@ import { pathToFileURL } from "node:url"
 
 import { glob } from "glob"
 
-import { getModuleName } from "../module.js"
+import { getModuleName } from "../utils/module.js"
 
 const NEXT_MATCH = 1
 
@@ -12,55 +12,67 @@ const CATCH_ALL_ROUTE_WEIGHT = -10
 const SCORE_MULTIPLIER = 0.1
 
 /**
- * Get all static paths for SSG build.
+ * Scans the pages directory and returns a list of all pages to be built.
+ * For dynamic routes, it calls the `staticPaths` export of the page module
+ * to generate all possible paths.
+ *
+ * @param {string} pagesDir - The directory containing page files.
+ * @returns {Promise<Array<Object>>} A list of page objects with metadata.
  */
 export async function getPages(pagesDir = "pages") {
   const routes = await getRoutes(pagesDir)
   const pages = []
 
   for (const route of routes) {
-    const module = await import(pathToFileURL(path.resolve(route.filePath)))
-    const moduleName = getModuleName(module)
+    try {
+      const module = await import(pathToFileURL(path.resolve(route.filePath)))
+      const moduleName = getModuleName(module)
 
-    if (isDynamic(route.pattern)) {
-      let { staticPaths = [] } = module
-      if (typeof staticPaths === "function") {
-        staticPaths = await staticPaths()
-      }
+      if (isDynamic(route.pattern)) {
+        let { staticPaths = [] } = module
+        if (typeof staticPaths === "function") {
+          staticPaths = await staticPaths()
+        }
 
-      if (staticPaths.length) {
-        for (const pathOrObject of staticPaths) {
-          const path =
-            typeof pathOrObject === "string" ? pathOrObject : pathOrObject.path
+        if (staticPaths.length) {
+          for (const pathOrObject of staticPaths) {
+            const path =
+              typeof pathOrObject === "string"
+                ? pathOrObject
+                : pathOrObject.path
 
-          const params = extractParams(route, path)
+            const params = extractParams(route, path)
 
-          pages.push({
-            pattern: route.pattern,
-            path,
-            params,
-            moduleName,
-            modulePath: route.modulePath,
-            filePath: route.filePath,
-          })
+            pages.push({
+              pattern: route.pattern,
+              path,
+              params,
+              moduleName,
+              modulePath: route.modulePath,
+              filePath: route.filePath,
+            })
+          }
+        } else {
+          console.warn(
+            `Dynamic route ${route.filePath} has no staticPaths export. ` +
+              `It will be skipped during SSG.`,
+          )
         }
       } else {
-        console.warn(
-          `Dynamic route ${route.filePath} has no staticPaths export. ` +
-            `It will be skipped during SSG.`,
-        )
+        // Static route - add directly
+        pages.push({
+          pattern: route.pattern,
+          path: route.pattern || "/",
+          params: {},
+          module,
+          moduleName,
+          modulePath: route.modulePath,
+          filePath: route.filePath,
+        })
       }
-    } else {
-      // Static route - add directly
-      pages.push({
-        pattern: route.pattern,
-        path: route.pattern || "/",
-        params: {},
-        module,
-        moduleName,
-        modulePath: route.modulePath,
-        filePath: route.filePath,
-      })
+    } catch (error) {
+      console.error(`\n❌ Failed to load page: ${route.filePath}`)
+      throw error
     }
   }
 
@@ -68,8 +80,12 @@ export async function getPages(pagesDir = "pages") {
 }
 
 /**
- * Resolve a URL to a page file and extract params.
- * Used by dev server for on-demand rendering.
+ * Resolves a URL to a specific page file and extracts route parameters.
+ * This is primarily used by the development server for on-demand rendering.
+ *
+ * @param {string} url - The URL to resolve (e.g., "/posts/hello").
+ * @param {string} pagesDir - The directory containing page files.
+ * @returns {Promise<{filePath: string, params: Object}|null>} The resolved page info or null if not found.
  */
 export async function resolvePage(url, pagesDir = "pages") {
   const routes = await getRoutes(pagesDir)
@@ -98,8 +114,11 @@ export async function resolvePage(url, pagesDir = "pages") {
 }
 
 /**
- * Discovers all pages in the pages directory.
- * Returns an array of route objects with pattern matching info.
+ * Discovers all page files and converts them into route definitions.
+ * Routes are sorted by specificity so that more specific routes match first.
+ *
+ * @param {string} pagesDir - The directory containing page files.
+ * @returns {Promise<Array<Object>>} A list of route objects.
  */
 export async function getRoutes(pagesDir = "pages") {
   // Find all .js and .ts files in pages directory
@@ -134,11 +153,39 @@ export async function getRoutes(pagesDir = "pages") {
 }
 
 /**
- * Convert a file path to a route pattern.
- * pages/index.js -> /
- * pages/about.js -> /about
- * pages/blog/[slug].js -> /blog/:slug
- * pages/api/[...path].js -> /api/*
+ * Simple route matcher.
+ * Checks if a URL matches a route pattern (handling dynamic segments).
+ *
+ * @param {string} pattern - The route pattern (e.g. "/posts/:id").
+ * @param {string} url - The actual URL (e.g. "/posts/123").
+ * @returns {boolean} True if it matches.
+ */
+export function matchRoute(pattern, url) {
+  const patternParts = pattern.split("/").filter(Boolean)
+  const urlParts = url.split("/").filter(Boolean)
+
+  if (patternParts.length !== urlParts.length) {
+    return false
+  }
+
+  return patternParts.every((part, i) => {
+    if (part.startsWith(":") || part.startsWith("[")) {
+      return true
+    }
+    return part === urlParts[i]
+  })
+}
+
+/**
+ * Converts a file path to a route pattern.
+ * Examples:
+ * - pages/index.js -> /
+ * - pages/about.js -> /about
+ * - pages/blog/_slug.js -> /blog/:slug
+ * - pages/api/__path.js -> /api/*
+ *
+ * @param {string} file - The relative file path.
+ * @returns {string} The route pattern.
  */
 function filePathToPattern(file) {
   let pattern = file
@@ -154,7 +201,10 @@ function filePathToPattern(file) {
 }
 
 /**
- * Convert a route pattern to a regex and extract parameter names.
+ * Converts a route pattern to a regex and extracts parameter names.
+ *
+ * @param {string} pattern - The route pattern.
+ * @returns {{regex: RegExp, params: string[]}} The regex and parameter names.
  */
 function patternToRegex(pattern) {
   const params = []
@@ -181,8 +231,11 @@ function patternToRegex(pattern) {
 }
 
 /**
- * Calculate route specificity for sorting.
+ * Calculates route specificity for sorting.
  * Higher score = more specific = should match first.
+ *
+ * @param {string} pattern - The route pattern.
+ * @returns {number} The specificity score.
  */
 function routeSpecificity(pattern) {
   let score = 0
@@ -211,14 +264,21 @@ function routeSpecificity(pattern) {
 }
 
 /**
- * Check if a pattern is dynamic (contains params or wildcards).
+ * Checks if a pattern is dynamic (contains params or wildcards).
+ *
+ * @param {string} pattern - The route pattern.
+ * @returns {boolean} True if dynamic.
  */
 function isDynamic(pattern) {
   return pattern.includes(":") || pattern.includes("*")
 }
 
 /**
- * Extract params from a URL based on a route.
+ * Extracts params from a URL based on a route.
+ *
+ * @param {Object} route - The route object.
+ * @param {string} url - The URL to match.
+ * @returns {Object} The extracted parameters.
  */
 function extractParams(route, url) {
   const match = route.regex.exec(url)

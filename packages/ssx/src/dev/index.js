@@ -3,13 +3,20 @@ import path from "node:path"
 import connect from "connect"
 import { createServer } from "vite"
 
-import { loadConfig } from "../config.js"
 import { renderPage } from "../render/index.js"
-import { getPages } from "../router/index.js"
+import { getPages, matchRoute } from "../router/index.js"
 import { generateApp } from "../scripts/app.js"
-import { generateStore } from "../store.js"
+import { generateStore } from "../store/index.js"
+import { loadConfig } from "../utils/config.js"
 import { createViteConfig, virtualFiles } from "./vite-config.js"
 
+/**
+ * Starts the development server.
+ * It sets up a Vite server with SSR middleware to render pages on demand.
+ *
+ * @param {Object} options - Configuration options.
+ * @returns {Promise<{close: Function}>} A promise that resolves to a server control object.
+ */
 export async function dev(options = {}) {
   const config = await loadConfig(options)
 
@@ -88,21 +95,4 @@ export async function dev(options = {}) {
       viteServer.close()
     },
   }
-}
-
-// Simple route matcher (could be moved to router.js)
-function matchRoute(pattern, url) {
-  const patternParts = pattern.split("/").filter(Boolean)
-  const urlParts = url.split("/").filter(Boolean)
-
-  if (patternParts.length !== urlParts.length) {
-    return false
-  }
-
-  return patternParts.every((part, i) => {
-    if (part.startsWith(":") || part.startsWith("[")) {
-      return true
-    }
-    return part === urlParts[i]
-  })
 }

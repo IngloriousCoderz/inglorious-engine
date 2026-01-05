@@ -1,3 +1,18 @@
+/**
+ * Default layout function for wrapping content in a full HTML document.
+ *
+ * @param {string} body - The body content HTML.
+ * @param {Object} options - Layout options.
+ * @param {string} [options.lang="en"] - Language attribute.
+ * @param {string} [options.charset="UTF-8"] - Character set.
+ * @param {string} [options.title=""] - Page title.
+ * @param {Object} [options.meta={}] - Meta tags.
+ * @param {string[]} [options.styles=[]] - Stylesheets.
+ * @param {string} [options.head=""] - Additional head content.
+ * @param {string[]} [options.scripts=[]] - Scripts.
+ * @param {boolean} [options.isDev] - Whether in dev mode.
+ * @returns {string} The full HTML document.
+ */
 export function layout(body, options) {
   const {
     lang = "en",

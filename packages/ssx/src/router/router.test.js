@@ -2,9 +2,9 @@ import path from "node:path"
 
 import { afterEach, describe, expect, it, vi } from "vitest"
 
-import { getPages, getRoutes, resolvePage } from "./index.js"
+import { getPages, getRoutes, matchRoute, resolvePage } from "./index.js"
 
-const ROOT_DIR = path.join(__dirname, "..", "__fixtures__")
+const ROOT_DIR = path.join(import.meta.dirname, "..", "__fixtures__")
 const PAGES_DIR = path.join(ROOT_DIR, "pages")
 
 describe("router", () => {
@@ -84,6 +84,12 @@ describe("router", () => {
       const page = await resolvePage("/foo", PAGES_DIR)
       expect(page).toBeNull()
     })
+
+    it("should return null for dynamic route missing param", async () => {
+      // /posts/:slug requires a slug
+      const page = await resolvePage("/posts", PAGES_DIR)
+      expect(page).toBeNull()
+    })
   })
 
   describe("getPages", () => {
@@ -99,6 +105,31 @@ describe("router", () => {
 
       expect(consoleSpy).toHaveBeenCalled()
       expect(consoleSpy.mock.calls[1][0]).toContain("has no staticPaths")
+    })
+  })
+
+  describe("matchRoute", () => {
+    it("should match static routes", () => {
+      expect(matchRoute("/", "/")).toBe(true)
+      expect(matchRoute("/about", "/about")).toBe(true)
+      expect(matchRoute("/about", "/contact")).toBe(false)
+    })
+
+    it("should match dynamic routes", () => {
+      expect(matchRoute("/posts/:id", "/posts/123")).toBe(true)
+      expect(matchRoute("/users/[id]", "/users/antony")).toBe(true)
+    })
+
+    it("should not match if segment length differs", () => {
+      expect(matchRoute("/", "/about")).toBe(false)
+      expect(matchRoute("/posts/:id", "/posts/123/comments")).toBe(false)
+      expect(matchRoute("/posts/:id", "/posts")).toBe(false)
+    })
+
+    it("should handle trailing slashes implicitly via split", () => {
+      // split('/').filter(Boolean) removes empty strings, so trailing slashes are ignored
+      expect(matchRoute("/about/", "/about")).toBe(true)
+      expect(matchRoute("/about", "/about/")).toBe(true)
     })
   })
 })

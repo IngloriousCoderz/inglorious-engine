@@ -3,16 +3,18 @@ import path from "node:path"
 
 /**
  * Generates an RSS feed for the site.
- * @param {Object} options - RSS generation options
- * @param {string} options.outDir - Output directory (default: "dist")
- * @param {Array} options.items - Array of items to include in the feed
- * @param {string} options.title - Feed title
- * @param {string} options.description - Feed description
- * @param {string} options.link - Site URL
- * @param {string} options.feedPath - Path for the RSS file (default: "/feed.xml")
- * @param {string} options.language - Feed language (default: "en")
- * @param {string} options.copyright - Copyright notice
- * @param {number} options.maxItems - Maximum items to include (default: 50)
+ *
+ * @param {Array<Object>} pages - Array of page objects. Each page must have a `metadata` property.
+ * @param {Object} options - RSS generation options.
+ * @param {string} [options.outDir="dist"] - Output directory.
+ * @param {string} [options.title="RSS Feed"] - Feed title.
+ * @param {string} [options.description="Latest Posts"] - Feed description.
+ * @param {string} options.link - Site URL (required).
+ * @param {string} [options.feedPath="/feed.xml"] - Path for the RSS file.
+ * @param {string} [options.language="en"] - Feed language.
+ * @param {string} [options.copyright] - Copyright notice.
+ * @param {number} [options.maxItems=50] - Maximum items to include.
+ * @param {Function} [options.filter] - Function to filter pages.
  * @returns {Promise<void>}
  */
 export async function generateRSS(pages = [], options = {}) {
@@ -62,6 +64,12 @@ ${rssItems.join("\n")}
   console.log(`  ✓ ${feedPath} (${items.length} items)\n`)
 }
 
+/**
+ * Creates a function to render a single RSS item.
+ *
+ * @param {string} link - The base URL of the site.
+ * @returns {Function} A function that takes metadata and returns an XML string.
+ */
 function createRenderItem(link) {
   return (metadata) => {
     const pubDate =
@@ -82,8 +90,12 @@ function createRenderItem(link) {
     </item>`
   }
 }
+
 /**
- * Escape special XML characters
+ * Escape special XML characters.
+ *
+ * @param {string} str - The string to escape.
+ * @returns {string} The escaped string.
  */
 function escapeXml(str) {
   if (typeof str !== "string") return str
@@ -95,6 +107,13 @@ function escapeXml(str) {
     .replace(/'/g, "&apos;")
 }
 
+/**
+ * Sorts items by date (newest first).
+ *
+ * @param {Object} a - First item.
+ * @param {Object} b - Second item.
+ * @returns {number} Sort order.
+ */
 function byNewest(a, b) {
   const dateA = new Date(a.pubDate || a.date || 0)
   const dateB = new Date(b.pubDate || b.date || 0)
