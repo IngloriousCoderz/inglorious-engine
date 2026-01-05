@@ -7,9 +7,9 @@ exports[`router > getPages > should generate static paths for all pages 1`] = `
     "moduleName": "post",
     "modulePath": "posts/_slug.js",
     "params": {
-      "slug": "2022-07-30_the_joruney_begins",
+      "slug": "2022-07-30_the_journey_begins",
     },
-    "path": "/posts/2022-07-30_the_joruney_begins",
+    "path": "/posts/2022-07-30_the_journey_begins",
     "pattern": "/posts/:slug",
   },
   {
@@ -131,10 +131,7 @@ exports[`router > getPages > should generate static paths for all pages 1`] = `
         "routeChange": [Function],
       },
       "load": [Function],
-      "meta": {
-        "description": "A page that pre-fetches data before rendering",
-      },
-      "title": [Function],
+      "metadata": [Function],
     },
     "moduleName": "blog",
     "modulePath": "blog.js",
@@ -149,16 +146,18 @@ exports[`router > getPages > should generate static paths for all pages 1`] = `
         "click": [Function],
         "render": [Function],
       },
-      "meta": {
-        "description": "About page",
+      "metadata": {
+        "meta": {
+          "description": "About page",
+        },
+        "scripts": [
+          "./ga.js",
+        ],
+        "styles": [
+          "./style.css",
+        ],
+        "title": "About",
       },
-      "scripts": [
-        "./ga.js",
-      ],
-      "styles": [
-        "./style.css",
-      ],
-      "title": "About",
     },
     "moduleName": "about",
     "modulePath": "about.js",

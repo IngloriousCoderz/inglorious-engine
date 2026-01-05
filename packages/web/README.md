@@ -83,6 +83,7 @@ It's that simple — and surprisingly fast in practice.
 - You want UI to be fully controlled by your entity-based store
 - You want to stay entirely in **JavaScript**, without DSLs or compilers
 - You want **React-like declarative UI** but without the cost and overhead of React
+- You want to build **static sites with SSX** — same entity patterns, pre-rendered HTML, and client hydration
 
 This framework is ideal for both small apps and large business UIs.
 
@@ -90,7 +91,6 @@ This framework is ideal for both small apps and large business UIs.
 
 ## When NOT to Use Inglorious Web
 
-- You need server-side rendering (SSR) or static site generation (SSG) - WIP
 - You need fine-grained reactivity for very large datasets (1000+ items per view)
 - You're building a library that needs to be framework-agnostic
 - Your team is already deeply invested in React/Vue/Angular
@@ -1028,6 +1028,23 @@ You can even mix them in the same app!
 
 ---
 
+## Static Site Generation with SSX
+
+For building **static HTML sites** with full pre-rendering, client-side hydration, and automatic sitemap/RSS generation, use [**@inglorious/ssx**](https://www.npmjs.com/package/@inglorious/ssx).
+
+SSX is built entirely on **@inglorious/web** and lets you use the same entity-based patterns for both interactive apps and static sites, with:
+
+- Pre-rendered HTML at build time
+- Automatic code splitting and lazy loading
+- Client-side hydration with lit-html
+- File-based routing
+- Sitemap and RSS feed generation
+- Incremental builds
+
+It's the perfect companion to @inglorious/web for building blazing-fast static sites, blogs, documentation, and marketing pages.
+
+---
+
 ## Examples
 
 Check out these demos to see `@inglorious/web` in action:
@@ -1038,6 +1055,15 @@ Check out these demos to see `@inglorious/web` in action:
 - **[Web List](https://github.com/IngloriousCoderz/inglorious-forge/tree/main/examples/apps/web-list)** - Virtualized list with `renderItem` helper for efficient rendering of large datasets.
 - **[Web Table](https://github.com/IngloriousCoderz/inglorious-forge/tree/main/examples/apps/web-table)** - Table component with complex data display patterns.
 - **[Web Router](https://github.com/IngloriousCoderz/inglorious-forge/tree/main/examples/apps/web-router)** - Entity-based client-side routing with hash navigation.
+
+---
+
+## Related Packages
+
+- [**@inglorious/ssx**](https://www.npmjs.com/package/@inglorious/ssx) - Static site generation with pre-rendering and client hydration
+- [**@inglorious/store**](https://www.npmjs.com/package/@inglorious/store) - Entity-based state management (used by @inglorious/web)
+- [**@inglorious/engine**](https://www.npmjs.com/package/@inglorious/engine) - Game engine with the same entity architecture
+- [**@inglorious/create-app**](https://www.npmjs.com/package/@inglorious/create-app) - Scaffolding tool for quick project setup
 
 ---
 

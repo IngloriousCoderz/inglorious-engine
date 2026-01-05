@@ -1,6 +1,8 @@
 export function createGetPageOption(store, module, entity) {
-  return (name, defaults) =>
-    typeof module[name] === "function"
-      ? module[name](entity, store._api)
-      : (module[name] ?? defaults[name])
+  let { metadata = {} } = module
+  if (typeof metadata === "function") {
+    metadata = metadata(entity, store._api)
+  }
+
+  return (name, defaults) => metadata[name] ?? defaults[name]
 }

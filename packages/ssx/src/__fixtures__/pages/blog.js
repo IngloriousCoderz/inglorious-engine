@@ -31,10 +31,6 @@ export const blog = {
   },
 }
 
-export const title = (entity) => `${entity.name}'s Blog`
-export const meta = {
-  description: "A page that pre-fetches data before rendering",
-}
 export async function load(entity) {
   entity.posts = await fetchPosts()
 }
@@ -42,3 +38,10 @@ export async function load(entity) {
 async function fetchPosts() {
   return await data
 }
+
+export const metadata = (entity) => ({
+  title: `${entity.name}'s Blog`,
+  meta: {
+    description: "A page that pre-fetches data before rendering",
+  },
+})

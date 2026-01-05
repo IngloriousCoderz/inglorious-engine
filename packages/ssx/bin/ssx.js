@@ -50,6 +50,8 @@ program
   .option("-c, --config <file>", "config file", "site.config.js")
   .option("-r, --root <dir>", "source root directory", "src")
   .option("-o, --out <dir>", "output directory", "dist")
+  .option("-i, --incremental", "enable incremental builds", true)
+  .option("-f, --force", "force clean build (ignore cache)", false)
   .action(async (options) => {
     const cwd = process.cwd()
 
@@ -58,7 +60,15 @@ program
         ...options,
         rootDir: path.resolve(cwd, options.root),
         outDir: path.resolve(cwd, options.out),
+        incremental: options.incremental, // Enabled by default
+        clean: options.force,
       })
+
+      // if (result.skipped) {
+      //   console.log(
+      //     `\n⚡ Incremental build saved time by skipping ${result.skipped} unchanged pages`,
+      //   )
+      // }
     } catch (error) {
       console.error("Build failed:", error)
       process.exit(1)

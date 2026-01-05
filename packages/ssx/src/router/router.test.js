@@ -93,12 +93,12 @@ describe("router", () => {
 
       expect(pages).toMatchSnapshot()
 
-      // Dynamic route without getStaticPaths should be skipped (and warn)
+      // Dynamic route without staticPaths should be skipped (and warn)
       const blogPage = pages.find((p) => p.path.includes("/blog/"))
       expect(blogPage).toBeUndefined()
 
       expect(consoleSpy).toHaveBeenCalled()
-      expect(consoleSpy.mock.calls[1][0]).toContain("has no getStaticPaths")
+      expect(consoleSpy.mock.calls[1][0]).toContain("has no staticPaths")
     })
   })
 })

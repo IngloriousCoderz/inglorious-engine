@@ -77,7 +77,13 @@ export const index = {
   },
 }
 
-export const title = "Home"
+export const metadata = {
+  title: "Home",
+  meta: {
+    description: "Welcome to our site",
+    "og:image": "/og-image.png",
+  },
+}
 ```
 
 ### Development
@@ -113,7 +119,47 @@ Deploy `dist/` to:
 
 ## Features
 
-### 📁 File-Based Routing
+### �️ Sitemap & RSS Generation
+
+SSX automatically generates `sitemap.xml` and `rss.xml` based on your pages. Configure them in `src/site.config.js`:
+
+```javascript
+export default {
+  // Basic metadata
+  title: "My Awesome Site",
+  meta: {
+    description: "A site built with SSX",
+    "og:type": "website",
+    "og:site_name": "My Site",
+  },
+
+  // Sitemap configuration
+  sitemap: {
+    hostname: "https://myblog.com",
+    filter: (page) => !["/admin", "/draft-*", "/test"].includes(page.pattern),
+    defaults: {
+      changefreq: "weekly",
+      priority: 0.5,
+    },
+  },
+
+  // RSS configuration
+  rss: {
+    title: "My Blog",
+    description: "Latest posts from my blog",
+    link: "https://myblog.com",
+    feedPath: "/feed.xml",
+    language: "en",
+    copyright: "© 2026 My Blog",
+    maxItems: 10,
+    filter: (page) => page.path.startsWith("/posts/"),
+  },
+}
+```
+
+Pages with a `published` date in metadata are included in RSS feeds.
+
+### �📁 File-Based Routing
 
 Your file structure defines your routes:
 
@@ -196,7 +242,7 @@ export const title = "Blog"
 
 The `load` function runs on the server during build. Data is serialized into the HTML and available immediately on the client.
 
-### 🎨 Dynamic Routes with `getStaticPaths`
+### 🎨 Dynamic Routes with `staticPaths`
 
 Generate multiple pages from data:
 
@@ -224,22 +270,27 @@ export async function load(entity, page) {
 }
 
 // Tell SSX which pages to generate
-export async function getStaticPaths() {
+export async function staticPaths() {
   const response = await fetch(`https://api.example.com/posts`)
   const posts = await response.json()
 
   return posts.map((post) => ({
-    params: { id: post.id },
-    path: `/posts/${post.id}`,
+    params: { slug: post.slug },
+    path: `/posts/${post.slug}`,
   }))
 }
 
-export const title = (entity) => entity.post.title ?? "Post"
+export const metadata = (entity) => ({
+  title: entity.post.title ?? "Post",
+  meta: {
+    description: entity.post.excerpt,
+  },
+})
 ```
 
 ### 📄 Page Metadata
 
-Export metadata for HTML `<head>`:
+Export metadata for HTML `<head>`. The `metadata` export can be a plain object or a function:
 
 ```javascript
 export const index = {
@@ -249,22 +300,22 @@ export const index = {
 }
 
 // Static metadata
-export const title = "My Site"
-export const meta = {
-  description: "An awesome static site",
-  "og:image": "/og-image.png",
+export const metadata = {
+  title: "My Site",
+  meta: {
+    description: "An awesome static site",
+    "og:image": "/og-image.png",
+  },
 }
 
 // Or dynamic metadata (uses entity data)
-export const title = (entity) => `${entity.user.name}'s Profile`
-export const meta = (entity) => ({
-  description: entity.user.bio,
-  "og:image": entity.user.avatar,
+export const metadata = (entity) => ({
+  title: `${entity.user.name}'s Profile`,
+  meta: {
+    description: entity.user.bio,
+    "og:image": entity.user.avatar,
+  },
 })
-
-// Include CSS/JS files
-export const styles = ["./home.css", "./theme.css"]
-export const scripts = ["./analytics.js"]
 ```
 
 ### 🔥 Client-Side Hydration
@@ -326,11 +377,11 @@ Builds your static site:
 ssx build [options]
 
 Options:
-  -r, --root <dir>      Source root directory (default: "src")
-  -o, --out <dir>       Output directory (default: "dist")
-  -t, --title <title>   Default page title (default: "My Site")
-  --styles <styles...>  Global CSS files
-  --scripts <scripts...> Global JS files
+  -c, --config <file>  Config file (default: "site.config.js")
+  -r, --root <dir>     Source root directory (default: "src")
+  -o, --out <dir>      Output directory (default: "dist")
+  -i, --incremental    Enable incremental builds (default: true)
+  -f, --force          Force clean build, ignore cache
 ```
 
 ### `ssx dev`
@@ -341,8 +392,9 @@ Starts development server with hot reload:
 ssx dev [options]
 
 Options:
-  -r, --root <dir>   Source root directory (default: "src")
-  -p, --port <port>  Dev server port (default: 3000)
+  -c, --config <file>  Config file (default: "site.config.js")
+  -r, --root <dir>     Source root directory (default: "src")
+  -p, --port <port>    Dev server port (default: 3000)
 ```
 
 ### Package.json Scripts
@@ -352,7 +404,7 @@ Options:
   "scripts": {
     "dev": "ssx dev",
     "build": "ssx build",
-    "preview": "ssx build && npx serve dist"
+    "preview": "pnpm dlx serve dist"
   }
 }
 ```
@@ -374,7 +426,7 @@ my-site/
 │   └── types/          # Custom entity types (optional)
 ├── dist/               # Build output
 ├── package.json
-└── vite.config.js      # Optional Vite config
+└── site.config.js      # Site configuration
 ```
 
 ---
@@ -404,23 +456,52 @@ SSX is perfect if you:
 
 ## Advanced Usage
 
-### Custom Vite Config
+### Site Configuration
 
-Extend the default Vite configuration:
+Customize SSX behavior in `src/site.config.js`:
 
 ```javascript
-// vite.config.js
-import { defineConfig } from "vite"
+export default {
+  // Basic metadata
+  lang: "en",
+  charset: "UTF-8",
+  title: "My Awesome Site",
+  meta: {
+    description: "A site built with SSX",
+    "og:type": "website",
+  },
 
-export default defineConfig({
-  // Your custom config
-  plugins: [],
-  resolve: {
-    alias: {
-      "@": "/src",
+  // Global assets
+  styles: ["./styles/reset.css", "./styles/theme.css"],
+  scripts: ["./scripts/analytics.js"],
+
+  // Build options
+  basePath: "/",
+  rootDir: "src",
+  outDir: "dist",
+  publicDir: "public",
+  favicon: "/favicon.ico",
+
+  // Router config
+  router: {
+    trailingSlash: false,
+    scrollBehavior: "smooth",
+  },
+
+  // Vite config passthrough
+  vite: {
+    server: {
+      port: 3000,
+      open: true,
     },
   },
-})
+
+  // Build hooks
+  hooks: {
+    beforeBuild: async (config) => console.log("Starting build..."),
+    afterBuild: async (result) => console.log(`Built ${result.pages} pages`),
+  },
+}
 ```
 
 ### Environment Variables
@@ -452,7 +533,9 @@ export const notFound = {
   },
 }
 
-export const title = "404"
+export const metadata = {
+  title: "404",
+}
 ```
 
 Register it in your router:
@@ -469,13 +552,17 @@ setRoutes({
 
 ### Incremental Builds
 
-Currently, SSX rebuilds all pages. For large sites, consider:
+SSX enables incremental builds by default. Only changed pages are rebuilt, dramatically speeding up your build process:
 
-1. **Split into multiple deployments** - Blog vs. docs vs. marketing
-2. **Use ISR-like patterns** - Rebuild changed pages via CI/CD
-3. **Cache build artifacts** - Speed up unchanged pages
+```bash
+ssx build
+# Only changed pages are rebuilt
 
-Incremental builds are planned for future releases.
+ssx build --force
+# Force a clean rebuild of all pages
+```
+
+Incremental builds respect your page dependencies and invalidate cache when dependencies change.
 
 ---
 
@@ -487,12 +574,11 @@ Incremental builds are planned for future releases.
 import { build } from "@inglorious/ssx/build"
 
 await build({
-  rootDir: "src", // Source directory
-  outDir: "dist", // Output directory
-  title: "My Site", // Default page title
-  meta: {}, // Default meta tags
-  styles: [], // Global CSS files
-  scripts: [], // Global JS files
+  rootDir: "src",
+  outDir: "dist",
+  configFile: "site.config.js",
+  incremental: true,
+  clean: false,
 })
 ```
 
@@ -504,7 +590,7 @@ import { dev } from "@inglorious/ssx/dev"
 await dev({
   rootDir: "src",
   port: 3000,
-  // ... same as build
+  configFile: "site.config.js",
 })
 ```
 
@@ -525,10 +611,7 @@ Check out these example projects:
 
 - [ ] TypeScript support
 - [ ] Image optimization
-- [ ] Incremental builds
 - [ ] API routes (serverless functions)
-- [ ] RSS feed generation
-- [ ] Sitemap generation
 - [ ] MDX support
 - [ ] i18n helpers
 

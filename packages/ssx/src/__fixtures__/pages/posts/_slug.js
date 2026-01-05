@@ -28,7 +28,7 @@ export const post = {
   },
 }
 
-export async function getStaticPaths() {
+export async function staticPaths() {
   return data.map((post) => `/posts/${post.id}`)
 }
 
@@ -41,18 +41,17 @@ async function fetchPost(id) {
   return await data.find((post) => post.id === id)
 }
 
-// Page metadata
-export const title = (entity) => entity.post.title
-export const meta = {
-  description: "Blog Post",
-}
-
-// Sitemap-specific metadata
-export const changefreq = "monthly"
-export const priority = 0.8
-export const updatedAt = (entity) => entity.post.date
-
-// RSS-specific metadata
-export const pubDate = (entity) => entity.post.date
-export const author = "Matteo Antony Mistretta"
-export const category = "Chronicle"
+export const metadata = (entity) => ({
+  title: entity.post.title,
+  meta: {
+    description: "Blog Post",
+  },
+  // Sitemap-specific metadata
+  changefreq: "monthly",
+  priority: 0.8,
+  updatedAt: entity.post.date,
+  // RSS-specific metadata
+  pubDate: entity.post.date,
+  author: "Matteo Antony Mistretta",
+  category: "Chronicle",
+})

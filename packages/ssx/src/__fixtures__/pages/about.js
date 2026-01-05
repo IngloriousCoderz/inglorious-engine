@@ -18,12 +18,11 @@ export const about = {
   },
 }
 
-export const title = "About"
-
-export const meta = {
-  description: "About page",
+export const metadata = {
+  title: "About",
+  meta: {
+    description: "About page",
+  },
+  styles: ["./style.css"],
+  scripts: ["./ga.js"],
 }
-
-export const styles = ["./style.css"]
-
-export const scripts = ["./ga.js"]

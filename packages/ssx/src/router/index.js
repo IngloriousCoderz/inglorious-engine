@@ -13,7 +13,6 @@ const SCORE_MULTIPLIER = 0.1
 
 /**
  * Get all static paths for SSG build.
- * This calls getStaticPaths() on dynamic route pages.
  */
 export async function getPages(pagesDir = "pages") {
   const routes = await getRoutes(pagesDir)
@@ -24,11 +23,13 @@ export async function getPages(pagesDir = "pages") {
     const moduleName = getModuleName(module)
 
     if (isDynamic(route.pattern)) {
-      // Dynamic route - call getStaticPaths if it exists
-      if (typeof module.getStaticPaths === "function") {
-        const paths = await module.getStaticPaths()
+      let { staticPaths = [] } = module
+      if (typeof staticPaths === "function") {
+        staticPaths = await staticPaths()
+      }
 
-        for (const pathOrObject of paths) {
+      if (staticPaths.length) {
+        for (const pathOrObject of staticPaths) {
           const path =
             typeof pathOrObject === "string" ? pathOrObject : pathOrObject.path
 
@@ -45,7 +46,7 @@ export async function getPages(pagesDir = "pages") {
         }
       } else {
         console.warn(
-          `Dynamic route ${route.filePath} has no getStaticPaths export. ` +
+          `Dynamic route ${route.filePath} has no staticPaths export. ` +
             `It will be skipped during SSG.`,
         )
       }
