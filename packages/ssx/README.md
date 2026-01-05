@@ -31,6 +31,7 @@ SSX takes your entity-based web apps and generates optimized static HTML with fu
 - **Lazy-loaded routes** - Code splitting automatically
 - **lit-html hydration** - Interactive UI without the bloat
 - **TypeScript Ready** - Write your pages and entities in TypeScript.
+- **Image Optimization** - Automatic compression for static assets.
 
 ### 🚀 Production Ready
 
@@ -389,6 +390,13 @@ api.notify("navigate", {
 
 Routes are lazy-loaded on demand, keeping initial bundle size small.
 
+### 🖼️ Image Optimization
+
+SSX includes built-in image optimization using `vite-plugin-image-optimizer`.
+
+- **Automatic compression** - PNG, JPEG, GIF, SVG, WebP, and AVIF are compressed at build time.
+- **Lossless & Lossy** - Configurable settings via `vite` config in `site.config.js`.
+
 ---
 
 ## CLI
@@ -636,7 +644,7 @@ Check out these example projects:
 ## Roadmap
 
 - [x] TypeScript support
-- [ ] Image optimization
+- [x] Image optimization
 - [ ] API routes (serverless functions)
 - [ ] MDX support
 - [ ] i18n helpers

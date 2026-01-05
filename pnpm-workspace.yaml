@@ -1,10 +1,11 @@
 packages:
   - docs
-  - "examples/apps/*"
-  - "examples/games/*"
-  - "packages/*"
+  - examples/apps/*
+  - examples/games/*
+  - packages/*
 
 onlyBuiltDependencies:
-  - "@parcel/watcher"
-  - "@tailwindcss/oxide"
+  - '@parcel/watcher'
+  - '@tailwindcss/oxide'
   - esbuild
+  - sharp

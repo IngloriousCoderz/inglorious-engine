@@ -1,5 +1,11 @@
 # @inglorious/ssx
 
+## 1.3.0
+
+### Minor Changes
+
+- Optimize images built with SSX
+
 ## 1.2.0
 
 ### Minor Changes

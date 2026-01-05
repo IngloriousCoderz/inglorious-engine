@@ -1,6 +1,7 @@
 import path from "node:path"
 
 import { mergeConfig } from "vite"
+import { ViteImageOptimizer } from "vite-plugin-image-optimizer"
 
 // import { minifyTemplateLiterals } from "rollup-plugin-minify-template-literals"
 
@@ -19,7 +20,12 @@ export function createViteConfig(options = {}) {
     {
       root: rootDir,
       publicDir: path.resolve(process.cwd(), rootDir, publicDir),
-      // plugins: [minifyTemplateLiterals()], // TODO: minification breaks hydration. The footprint difference is minimal after all
+      plugins: [
+        // minifyTemplateLiterals(), // TODO: minification breaks hydration. The footprint difference is minimal after all
+        ViteImageOptimizer({
+          // Options can be overridden by the user in site.config.js via the `vite` property
+        }),
+      ],
       build: {
         outDir,
         emptyOutDir: false, // Don't delete HTML files we already generated
