@@ -1,5 +1,11 @@
 # @inglorious/ssx
 
+## 1.3.4
+
+### Patch Changes
+
+- Test and fix SSX config file retrieval
+
 ## 1.3.3
 
 ### Patch Changes

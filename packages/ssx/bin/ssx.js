@@ -32,7 +32,9 @@ program
   .option("-p, --port <port>", "dev server port", 3000)
   .action(async (options) => {
     const cwd = process.cwd()
-    const configPath = resolveConfigFile(options.config)
+    const rootDir = path.resolve(cwd, options.root)
+    const configPath = resolveConfigFile(rootDir, options.config)
+    const port = Number(options.port)
 
     try {
       await dev({
@@ -40,8 +42,8 @@ program
         config: undefined,
         root: undefined,
         configPath,
-        rootDir: path.resolve(cwd, options.root),
-        port: Number(options.port),
+        rootDir,
+        port,
       })
     } catch (error) {
       console.error("Dev server failed:", error)
@@ -59,7 +61,9 @@ program
   .option("-f, --force", "force clean build (ignore cache)", false)
   .action(async (options) => {
     const cwd = process.cwd()
-    const configPath = resolveConfigFile(options.config)
+    const rootDir = path.resolve(cwd, options.root)
+    const configPath = resolveConfigFile(rootDir, options.config)
+    const outDir = path.resolve(cwd, options.out)
 
     try {
       await build({
@@ -68,8 +72,8 @@ program
         root: undefined,
         out: undefined,
         configPath,
-        rootDir: path.resolve(cwd, options.root),
-        outDir: path.resolve(cwd, options.out),
+        rootDir,
+        outDir,
       })
 
       // if (result.skipped) {
@@ -85,10 +89,10 @@ program
 
 program.parse()
 
-function resolveConfigFile(configFile) {
+function resolveConfigFile(rootDir, configFile) {
   if (configFile === "site.config.js") {
-    const jsPath = path.resolve(process.cwd(), "site.config.js")
-    const tsPath = path.resolve(process.cwd(), "site.config.ts")
+    const jsPath = path.resolve(rootDir, "site.config.js")
+    const tsPath = path.resolve(rootDir, "site.config.ts")
 
     if (!existsSync(jsPath) && existsSync(tsPath)) {
       return "site.config.ts"
