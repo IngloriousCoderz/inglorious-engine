@@ -39,7 +39,7 @@ describe("router", () => {
       // Root usually comes after specific paths but before catch-all if it was a catch-all root,
       // but here / is static.
       // Let's just check that we found them.
-      expect(routes).toHaveLength(5)
+      expect(routes).toHaveLength(6)
     })
   })
 
@@ -100,11 +100,11 @@ describe("router", () => {
       expect(pages).toMatchSnapshot()
 
       // Dynamic route without staticPaths should be skipped (and warn)
-      const blogPage = pages.find((p) => p.path.includes("/blog/"))
+      const blogPage = pages.find((p) => p.path.includes("/api/"))
       expect(blogPage).toBeUndefined()
 
       expect(consoleSpy).toHaveBeenCalled()
-      expect(consoleSpy.mock.calls[1][0]).toContain("has no staticPaths")
+      expect(consoleSpy.mock.calls[2][0]).toContain("has no staticPaths")
     })
   })
 

@@ -2,7 +2,7 @@
 
 A collection of small, focused JavaScript tools — forged one piece at a time.
 
-Inglorious Forge is a monorepo that groups together several related projects: a lightweight state manager, a minimal web framework, utilities, a realtime server, scaffolding tools, and other experimental parts that grew naturally out of building games and applications.
+Inglorious Forge is a monorepo that groups together several related projects: a lightweight state manager, a minimal web framework, a static site generator, utilities, a realtime server, scaffolding tools, and other experimental parts that grew naturally out of building games and applications.
 
 These tools share the same philosophy:
 
@@ -48,6 +48,11 @@ Includes built-in utilities like:
 - forms
 - tables
 - and other small helpers
+
+#### `@inglorious/ssx`
+
+**Static Site Xecution** - Build blazing-fast static sites with `@inglorious/web`.
+Complete with server-side rendering, client-side hydration, and zero-config routing.
 
 ### Game Engine
 

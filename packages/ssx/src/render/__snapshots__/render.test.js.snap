@@ -1,13 +1,13 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`renderPage > should render a dynamic page 1`] = `
-"<!--lit-part gu/K0ae1O1k=--><h1><!--lit-part-->First Post<!--/lit-part--></h1>
+"<!--lit-part fhjks9LHkq4=--><h1><!--lit-part-->First Post<!--/lit-part--></h1>
       <!--lit-part BboTokvP/FE=--><nav>
       <a href="/">Home</a> | <a href="/about">About</a> |
       <a href="/blog">Blog</a>
     </nav><!--/lit-part-->
       <div><!--lit-part-->2026-01-04<!--/lit-part--></div>
-      <p><!--lit-part-->Hello world!<!--/lit-part--></p><!--/lit-part-->"
+      <div class="markdown-body"><!--lit-part D+r+tS5HYEU=-->Hello world!<!--/lit-part--></div><!--/lit-part-->"
 `;
 
 exports[`renderPage > should render a page with entity 1`] = `

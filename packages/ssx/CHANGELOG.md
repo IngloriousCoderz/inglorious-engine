@@ -1,5 +1,12 @@
 # @inglorious/ssx
 
+## 1.4.0
+
+### Minor Changes
+
+- Support Markdown pages in SSX
+- 7b3933d: Support Markdown pages in SSX
+
 ## 1.3.6
 
 ### Patch Changes

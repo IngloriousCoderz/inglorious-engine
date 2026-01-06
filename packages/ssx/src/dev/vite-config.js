@@ -2,6 +2,8 @@ import path from "node:path"
 
 import { mergeConfig } from "vite"
 
+import { markdownPlugin } from "../utils/markdown.js"
+
 /**
  * Creates a Vite configuration object for the SSX dev server.
  * It sets up the root directory, public directory, aliases, and the virtual file plugin.
@@ -13,7 +15,12 @@ import { mergeConfig } from "vite"
  * @returns {Object} The merged Vite configuration.
  */
 export function createViteConfig(options = {}) {
-  const { rootDir = "src", publicDir = "public", vite = {} } = options
+  const {
+    rootDir = "src",
+    publicDir = "public",
+    vite = {},
+    markdown = {},
+  } = options
   const { port = 3000 } = vite.dev ?? {}
 
   return mergeConfig(
@@ -22,7 +29,7 @@ export function createViteConfig(options = {}) {
       publicDir: path.resolve(process.cwd(), rootDir, publicDir),
       server: { port, middlewareMode: true },
       appType: "custom",
-      plugins: [virtualPlugin()],
+      plugins: [virtualPlugin(), markdownPlugin(markdown)],
       resolve: {
         alias: {
           "@": path.resolve(process.cwd(), rootDir),

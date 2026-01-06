@@ -1,6 +1,6 @@
 {
   "name": "@inglorious/ssx",
-  "version": "1.3.6",
+  "version": "1.4.0",
   "description": "Server-Side-X. Xecution? Xperience? Who knows.",
   "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
   "license": "MIT",
@@ -26,7 +26,8 @@
     "ssx": "./bin/ssx.js"
   },
   "exports": {
-    ".": "./types/index.d.ts"
+    ".": "./types/index.d.ts",
+    "./markdown": "./src/utils/markdown.js"
   },
   "files": [
     "bin",
@@ -54,6 +55,12 @@
     "connect": "^3.7.0",
     "fast-xml-parser": "^5.3.3",
     "glob": "^13.0.0",
+    "gray-matter": "^4.0.3",
+    "highlight.js": "^11.11.1",
+    "katex": "^0.16.27",
+    "markdown-it": "^14.1.0",
+    "markdown-it-texmath": "^1.0.0",
+    "mermaid": "^11.12.2",
     "rollup-plugin-minify-template-literals": "^1.1.7",
     "sharp": "^0.34.5",
     "svgo": "^4.0.0",

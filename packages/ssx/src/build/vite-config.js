@@ -3,6 +3,8 @@ import path from "node:path"
 import { mergeConfig } from "vite"
 import { ViteImageOptimizer } from "vite-plugin-image-optimizer"
 
+import { markdownPlugin } from "../utils/markdown.js"
+
 // import { minifyTemplateLiterals } from "rollup-plugin-minify-template-literals"
 
 /**
@@ -14,6 +16,7 @@ export function createViteConfig(options = {}) {
     outDir = "dist",
     publicDir = "public",
     vite = {},
+    markdown = {},
   } = options
 
   return mergeConfig(
@@ -25,6 +28,7 @@ export function createViteConfig(options = {}) {
         ViteImageOptimizer({
           // Options can be overridden by the user in site.config.js via the `vite` property
         }),
+        markdownPlugin(markdown),
       ],
       build: {
         outDir,

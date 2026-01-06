@@ -32,6 +32,7 @@ SSX takes your entity-based web apps and generates optimized static HTML with fu
 - **lit-html hydration** - Interactive UI without the bloat
 - **TypeScript Ready** - Write your pages and entities in TypeScript.
 - **Image Optimization** - Automatic compression for static assets.
+- **Markdown Support** - Built-in support for `.md` pages with code highlighting and math.
 
 ### 🚀 Production Ready
 
@@ -397,6 +398,35 @@ SSX includes built-in image optimization using `vite-plugin-image-optimizer`.
 - **Automatic compression** - PNG, JPEG, GIF, SVG, WebP, and AVIF are compressed at build time.
 - **Lossless & Lossy** - Configurable settings via `vite` config in `site.config.js`.
 
+### 📝 Markdown Support
+
+SSX treats `.md` files as first-class pages. You can create `src/pages/post.md` and it will be rendered automatically.
+
+- **Frontmatter** - Metadata is exported as `metadata`.
+- **Code Highlighting** - Built-in syntax highlighting with `highlight.js`.
+- **Math Support** - LaTeX support via `katex` (use `$E=mc^2$` or `$$...$$`).
+- **Mermaid Diagrams** - Use `mermaid` code blocks (requires client-side mermaid.js).
+
+Configure the syntax highlighting theme in `site.config.js`:
+
+```javascript
+export default {
+  markdown: {
+    theme: "monokai", // default: "github-dark"
+  },
+}
+```
+
+```markdown
+---
+title: My Post
+---
+
+# Hello World
+
+This is a markdown page.
+```
+
 ---
 
 ## CLI
@@ -464,16 +494,15 @@ my-site/
 
 ## Comparison to Other Tools
 
-| Feature                 | SSX         | Next.js (SSG) | Astro  | Eleventy |
-| ----------------------- | ----------- | ------------- | ------ | -------- |
-| Pre-rendered HTML       | ✅          | ✅            | ✅     | ✅       |
-| Client hydration        | ✅ lit-html | ✅ React      | ✅ Any | ❌       |
-| Client routing          | ✅          | ✅            | ✅     | ❌       |
-| Lazy loading            | ✅          | ✅            | ✅     | ❌       |
-| Entity-based state      | ✅          | ❌            | ❌     | ❌       |
-| No compilation required | ✅          | ❌            | ❌     | ✅       |
-| Zero config             | ✅          | ❌            | ❌     | ❌       |
-| Framework agnostic      | ❌          | ❌            | ✅     | ✅       |
+| Feature            | SSX         | Next.js (SSG) | Astro  | Eleventy |
+| ------------------ | ----------- | ------------- | ------ | -------- |
+| Pre-rendered HTML  | ✅          | ✅            | ✅     | ✅       |
+| Client hydration   | ✅ lit-html | ✅ React      | ✅ Any | ❌       |
+| Client routing     | ✅          | ✅            | ✅     | ❌       |
+| Lazy loading       | ✅          | ✅            | ✅     | ❌       |
+| Entity-based state | ✅          | ❌            | ❌     | ❌       |
+| Zero config        | ✅          | ❌            | ❌     | ❌       |
+| Framework agnostic | ❌          | ❌            | ✅     | ✅       |
 
 SSX is perfect if you:
 
@@ -643,7 +672,7 @@ Check out these example projects:
 - [x] TypeScript support
 - [x] Image optimization
 - [ ] API routes (serverless functions)
-- [ ] MDX support
+- [x] Markdown support
 - [ ] i18n helpers
 
 ---

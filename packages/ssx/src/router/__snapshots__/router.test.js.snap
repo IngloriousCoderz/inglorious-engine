@@ -123,6 +123,28 @@ exports[`router > getPages > should generate static paths for all pages 1`] = `
     "pattern": "/posts/:slug",
   },
   {
+    "filePath": "C:\\Users\\anton\\Projects\\ic\\inglorious-forge\\packages\\ssx\\src\\__fixtures__\\pages\\markdown.md",
+    "module": {
+      "default": {
+        "render": [Function],
+      },
+      "metadata": {
+        "author": "Matteo Antony Mistretta",
+        "category": "Kitchen Sink",
+        "meta": {
+          "description": "My first Markdown page!",
+        },
+        "title": "A Markdown Page",
+        "updatedAt": "2026-01-06T00:00:00.000Z",
+      },
+    },
+    "moduleName": "default",
+    "modulePath": "markdown.md",
+    "params": {},
+    "path": "/markdown",
+    "pattern": "/markdown",
+  },
+  {
     "filePath": "C:\\Users\\anton\\Projects\\ic\\inglorious-forge\\packages\\ssx\\src\\__fixtures__\\pages\\blog.js",
     "module": {
       "blog": {

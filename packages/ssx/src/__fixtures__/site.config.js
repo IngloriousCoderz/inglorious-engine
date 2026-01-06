@@ -118,8 +118,9 @@ export default {
     feedPath: "/feed.xml",
     language: "en",
     copyright: "© 2026 My Blog",
-    maxItems: 5,
-    filter: (page) => page.path.startsWith("/posts/"),
+    maxItems: 20,
+    filter: (page) =>
+      page.path.startsWith("/posts/") || page.path === "/markdown",
   },
 
   redirects: [
@@ -140,6 +141,10 @@ export default {
       port: 3000,
       open: true, // Open browser on start
     },
+  },
+
+  markdown: {
+    theme: "atom-one-dark",
   },
 
   hooks: {

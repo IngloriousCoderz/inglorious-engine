@@ -1,4 +1,9 @@
-import { html } from "@inglorious/web"
+import "katex/dist/katex.min.css"
+import "highlight.js/styles/github-dark.css"
+
+import { renderMarkdown } from "@inglorious/ssx/markdown"
+import { html, unsafeHTML } from "@inglorious/web"
+import mermaid from "mermaid"
 
 import { data } from "../../api/posts.js"
 import { nav } from "../../components/nav.js"
@@ -11,6 +16,8 @@ export const post = {
 
     const entityId = entity.id
     const post = await fetchPost(id)
+    // Simulate fetching markdown content
+    post.body = renderMarkdown(post.body)
     api.notify(`#${entityId}:dataFetchSuccess`, post)
   },
 
@@ -21,10 +28,17 @@ export const post = {
   render(entity) {
     if (!entity.post) return
 
+    // Initialize mermaid if present
+    if (typeof window !== "undefined") {
+      setTimeout(() => {
+        mermaid.run({ querySelector: ".mermaid" })
+      }, 0)
+    }
+
     return html`<h1>${entity.post.title}</h1>
       ${nav.render()}
       <div>${entity.post.date}</div>
-      <p>${entity.post.body}</p>`
+      <div class="markdown-body">${unsafeHTML(entity.post.body)}</div>`
   },
 }
 
@@ -35,6 +49,8 @@ export async function staticPaths() {
 export async function load(entity, page) {
   const id = page.params.slug
   entity.post = await fetchPost(id)
+  // Render markdown during build time
+  entity.post.body = renderMarkdown(entity.post.body)
 }
 
 async function fetchPost(id) {

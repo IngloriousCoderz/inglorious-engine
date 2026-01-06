@@ -124,7 +124,7 @@ export async function resolvePage(url, pagesDir = "pages") {
  */
 export async function getRoutes(pagesDir = "pages") {
   // Find all .js and .ts files in pages directory
-  const files = await glob("**/*.{js,ts,jsx,tsx}", {
+  const files = await glob("**/*.{js,ts,jsx,tsx,md}", {
     cwd: pagesDir,
     ignore: ["**/*.test.{js,ts}", "**/*.spec.{js,ts}"],
     posix: true,
@@ -192,7 +192,7 @@ export function matchRoute(pattern, url) {
 function filePathToPattern(file) {
   let pattern = file
     .replace(/\\/g, "/")
-    .replace(/\.(js|ts|jsx|tsx)$/, "") // Remove extension
+    .replace(/\.(js|ts|jsx|tsx|md)$/, "") // Remove extension
     .replace(/\/index$/, "") // index becomes root of directory
     .replace(/^index$/, "") // Handle root index
     .replace(/__(\w+)/g, "*") // __path becomes *

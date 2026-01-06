@@ -24,9 +24,16 @@ export function extractPageMetadata(store, page, entity, options = {}) {
 
   // sitemap metadata
   const loc = `${hostname}${path}`
-  const lastmod = updatedAt
-    ? new Date(updatedAt).toISOString().split("T")[0]
-    : new Date().toISOString().split("T")[0]
+
+  let lastmod
+  try {
+    lastmod = updatedAt
+      ? new Date(updatedAt).toISOString().split("T")[0]
+      : new Date().toISOString().split("T")[0]
+  } catch {
+    console.warn(`⚠️  Invalid updatedAt date for page ${path}: ${updatedAt}`)
+    lastmod = new Date().toISOString().split("T")[0]
+  }
 
   // rss metadata
   const title = getPageOption("title", DEFAULT_OPTIONS)

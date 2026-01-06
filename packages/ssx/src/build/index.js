@@ -103,10 +103,12 @@ export async function build(options = {}) {
     loader,
   )
   // For skipped pages, load their metadata from disk if needed for sitemap/RSS
-  const skippedPages = await generatePages(store, pagesToSkip, {
-    ...mergedOptions,
-    shouldGenerateHtml: false,
-  })
+  const skippedPages = await generatePages(
+    store,
+    pagesToSkip,
+    { ...mergedOptions, shouldGenerateHtml: false },
+    loader,
+  )
 
   // Combine rendered and skipped pages for sitemap/RSS
   const allGeneratedPages = [...changedPages, ...skippedPages]
