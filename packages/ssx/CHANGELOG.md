@@ -1,5 +1,11 @@
 # @inglorious/ssx
 
+## 1.3.6
+
+### Patch Changes
+
+- Fix SSX typedefs export
+
 ## 1.3.5
 
 ### Patch Changes
