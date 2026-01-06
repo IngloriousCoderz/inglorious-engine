@@ -1,5 +1,11 @@
 # @inglorious/create-game
 
+## 0.3.2
+
+### Patch Changes
+
+- Fix SSX site config type import
+
 ## 0.3.1
 
 ### Patch Changes

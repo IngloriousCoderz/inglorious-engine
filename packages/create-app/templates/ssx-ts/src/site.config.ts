@@ -1,4 +1,4 @@
-import { SiteConfig } from "@inglorious/ssx"
+import type { SiteConfig } from "@inglorious/ssx"
 
 const siteConfig: SiteConfig = {
   title: "My SSX App",

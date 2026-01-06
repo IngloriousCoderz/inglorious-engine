@@ -1,6 +1,6 @@
 {
   "name": "@inglorious/ssx",
-  "version": "1.3.4",
+  "version": "1.3.5",
   "description": "Server-Side-X. Xecution? Xperience? Who knows.",
   "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
   "license": "MIT",
@@ -26,11 +26,12 @@
     "ssx": "./bin/ssx.js"
   },
   "exports": {
-    "./site.config": "./types/site.config.d.ts"
+    ".": "./types/site.config.d.ts"
   },
   "files": [
     "bin",
     "src",
+    "types",
     "!src/**/__fixtures__",
     "!src/**/__snapshots__"
   ],
