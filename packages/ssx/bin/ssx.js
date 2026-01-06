@@ -27,17 +27,19 @@ program
 program
   .command("dev")
   .description("Start development server with hot reload")
-  .option("-c, --config <file>", "config file", "site.config.js")
+  .option("-c, --config <file>", "config file path", "site.config.js")
   .option("-r, --root <dir>", "source root directory", "src")
   .option("-p, --port <port>", "dev server port", 3000)
   .action(async (options) => {
     const cwd = process.cwd()
-    const config = resolveConfigFile(options.config)
+    const configPath = resolveConfigFile(options.config)
 
     try {
       await dev({
         ...options,
-        config,
+        config: undefined,
+        root: undefined,
+        configPath,
         rootDir: path.resolve(cwd, options.root),
         port: Number(options.port),
       })
@@ -50,23 +52,24 @@ program
 program
   .command("build")
   .description("Build site from pages directory")
-  .option("-c, --config <file>", "config file", "site.config.js")
+  .option("-c, --config <file>", "config file path", "site.config.js")
   .option("-r, --root <dir>", "source root directory", "src")
   .option("-o, --out <dir>", "output directory", "dist")
   .option("-i, --incremental", "enable incremental builds", true)
   .option("-f, --force", "force clean build (ignore cache)", false)
   .action(async (options) => {
     const cwd = process.cwd()
-    const config = resolveConfigFile(options.config)
+    const configPath = resolveConfigFile(options.config)
 
     try {
       await build({
         ...options,
-        config,
+        config: undefined,
+        root: undefined,
+        out: undefined,
+        configPath,
         rootDir: path.resolve(cwd, options.root),
         outDir: path.resolve(cwd, options.out),
-        incremental: options.incremental, // Enabled by default
-        clean: options.force,
       })
 
       // if (result.skipped) {
