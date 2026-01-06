@@ -1,5 +1,11 @@
 # @inglorious/ssx
 
+## 1.3.2
+
+### Patch Changes
+
+- Fix TS support in SSX and upgrade Storybook
+
 ## 1.3.1
 
 ### Patch Changes

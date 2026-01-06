@@ -57,7 +57,7 @@ export async function hashFile(filePath) {
  * @returns {Promise<string|null>} Hash of entities.js.
  */
 export async function hashEntities(rootDir) {
-  const entitiesPath = path.join(rootDir, "entities.js")
+  const entitiesPath = path.join(rootDir, "store", "entities.js")
   return await hashFile(entitiesPath)
 }
 

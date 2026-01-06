@@ -52,13 +52,13 @@ npm install @inglorious/ssx @inglorious/web
 
 ### Create Your First Site
 
-<!-- ```bash
-npx @inglorious/create-app my-site --template ssx
+```bash
+npx @inglorious/create-app my-site --template ssx-js
 cd my-site
 npm run dev
 ```
 
-Or manually: -->
+Or manually:
 
 ### Create Your First Site (TypeScript)
 
@@ -224,7 +224,7 @@ export const about = {
 ```
 
 ```javascript
-// src/entities.js
+// src/store/entities.js
 export const entities = {
   about: {
     type: "about",
@@ -452,7 +452,8 @@ my-site/
 │   │   └── posts/
 │   │       ├── index.js    # /posts
 │   │       └── _id.js      # /posts/:id
-│   ├── entities.js     # Entity definitions
+│   ├── store/          # Store configuration
+│   │   └── entities.js     # Entity definitions
 │   └── types/          # Custom entity types (optional)
 ├── dist/               # Build output
 ├── package.json
@@ -571,7 +572,7 @@ export const metadata = {
 Register it in your router:
 
 ```javascript
-// src/entities.js
+// src/store/entities.js
 import { setRoutes } from "@inglorious/web/router"
 
 setRoutes({

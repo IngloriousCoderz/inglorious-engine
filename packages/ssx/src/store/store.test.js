@@ -68,7 +68,11 @@ describe("generateStore", () => {
     await generateStore([page], { rootDir: "src" }, loader)
 
     expect(loader).toHaveBeenCalledWith(page.filePath)
-    expect(loader).toHaveBeenCalledWith(path.join("src", "entities.js"))
-    expect(loader).toHaveBeenCalledWith(path.join("src", "entities.ts"))
+    expect(loader).toHaveBeenCalledWith(
+      path.join("src", "store", "entities.js"),
+    )
+    expect(loader).toHaveBeenCalledWith(
+      path.join("src", "store", "entities.ts"),
+    )
   })
 })

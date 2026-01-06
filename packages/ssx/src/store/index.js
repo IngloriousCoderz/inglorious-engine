@@ -32,7 +32,7 @@ export async function generateStore(pages = [], options = {}, loader) {
 
   for (const ext of extensions) {
     try {
-      const module = await load(path.join(rootDir, `entities.${ext}`))
+      const module = await load(path.join(rootDir, "store", `entities.${ext}`))
       entities = module.entities
       break
     } catch {

@@ -1,5 +1,11 @@
 # @inglorious/create-game
 
+## 0.3.1
+
+### Patch Changes
+
+- Fix TS support in SSX and upgrade Storybook
+
 ## 0.3.0
 
 ### Minor Changes

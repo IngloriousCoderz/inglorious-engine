@@ -1,31 +1,32 @@
-import { createRequire } from "node:module"
-import { dirname, join } from "node:path"
-const require = createRequire(import.meta.url)
-/** @type { import('@storybook/react-vite').StorybookConfig } */
+/** @typedef {import('@storybook/react-vite').StorybookConfig} StorybookConfig */
 
+import { dirname } from "path"
+import { fileURLToPath } from "url"
+
+/**
+ * This function is used to resolve the absolute path of a package.
+ * It is needed in projects that use Yarn PnP or are set up within a monorepo.
+ */
+function getAbsolutePath(value) {
+  return dirname(fileURLToPath(import.meta.resolve(`${value}/package.json`)))
+}
+
+/** @type {StorybookConfig} */
 const config = {
-  framework: {
-    name: getAbsolutePath("@storybook/react-vite"),
-    options: {},
-  },
-
-  addons: [
-    getAbsolutePath("@storybook/addon-links"),
-    getAbsolutePath("@chromatic-com/storybook"),
-    getAbsolutePath("@storybook/addon-docs"),
-  ],
-
-  docs: {},
-
   stories: [
     "../src/quick-start/quick-start.mdx",
     "../src/**/*.mdx",
-    "../src/**/*.stories.@(js|jsx|ts|tsx)",
+    "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)",
   ],
+
+  addons: [
+    getAbsolutePath("@chromatic-com/storybook"),
+    getAbsolutePath("@storybook/addon-vitest"),
+    getAbsolutePath("@storybook/addon-a11y"),
+    getAbsolutePath("@storybook/addon-docs"),
+  ],
+
+  framework: getAbsolutePath("@storybook/react-vite"),
 }
 
 export default config
-
-function getAbsolutePath(value) {
-  return dirname(require.resolve(join(value, "package.json")))
-}

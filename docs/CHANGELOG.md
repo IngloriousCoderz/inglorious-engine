@@ -1,5 +1,11 @@
 # @inglorious/docs
 
+## 1.10.10
+
+### Patch Changes
+
+- Fix TS support in SSX and upgrade Storybook
+
 ## 1.10.9
 
 ### Patch Changes

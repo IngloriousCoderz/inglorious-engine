@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { existsSync } from "node:fs"
 import { readFile } from "node:fs/promises"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
@@ -31,10 +32,12 @@ program
   .option("-p, --port <port>", "dev server port", 3000)
   .action(async (options) => {
     const cwd = process.cwd()
+    const config = resolveConfigFile(options.config)
 
     try {
       await dev({
         ...options,
+        config,
         rootDir: path.resolve(cwd, options.root),
         port: Number(options.port),
       })
@@ -54,10 +57,12 @@ program
   .option("-f, --force", "force clean build (ignore cache)", false)
   .action(async (options) => {
     const cwd = process.cwd()
+    const config = resolveConfigFile(options.config)
 
     try {
       await build({
         ...options,
+        config,
         rootDir: path.resolve(cwd, options.root),
         outDir: path.resolve(cwd, options.out),
         incremental: options.incremental, // Enabled by default
@@ -76,3 +81,15 @@ program
   })
 
 program.parse()
+
+function resolveConfigFile(configFile) {
+  if (configFile === "site.config.js") {
+    const jsPath = path.resolve(process.cwd(), "site.config.js")
+    const tsPath = path.resolve(process.cwd(), "site.config.ts")
+
+    if (!existsSync(jsPath) && existsSync(tsPath)) {
+      return "site.config.ts"
+    }
+  }
+  return configFile
+}
