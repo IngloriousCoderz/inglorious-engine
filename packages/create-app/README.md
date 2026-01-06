@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-The official scaffolding tool to quickly create a new web app with the [@inglorious/web](https://www.npmjs.com/package/@inglorious/web) framework.
+The official scaffolding tool to quickly create a new web app with the [@inglorious/web](https://www.npmjs.com/package/@inglorious/web) framework or a static site with [@inglorious/ssx](https://www.npmjs.com/package/@inglorious/ssx).
 
 This package allows you to generate a new project from a set of pre-configured templates, so you can start developing your web app right away.
 
@@ -30,6 +30,8 @@ The following templates are available to get you started:
 - **minimal**: A minimal starter template that requires no bundling: just HTML, CSS, and JS.
 - **js**: A starter template for a plain JavaScript project, bundled with Vite.
 - **ts**: A starter template for a plain TypeScript project, bundled with Vite.
+- **ssx-js**: A starter template for a Static Site Xecution (SSX) project using JavaScript.
+- **ssx-ts**: A starter template for a Static Site Xecution (SSX) project using TypeScript.
 
 ## What it does
 

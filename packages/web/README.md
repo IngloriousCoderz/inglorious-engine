@@ -49,6 +49,8 @@ Available templates:
 - **minimal** — plain HTML, CSS, and JS (no build step)
 - **js** — Vite-based JavaScript project
 - **ts** — Vite + TypeScript project
+- **ssx-js** — Static Site Xecution (SSX) project using JavaScript
+- **ssx-ts** — Static Site Xecution (SSX) project using TypeScript
 
 Use the scaffolder to create a starter app tailored to your workflow.
 

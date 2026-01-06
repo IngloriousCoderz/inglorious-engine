@@ -408,7 +408,7 @@ SSX provides a simple CLI for building and developing:
 Builds your static site:
 
 ```bash
-ssx build [options]
+pnpm ssx build [options]
 
 Options:
   -c, --config <file>  Config file (default: "site.config.js")
@@ -418,29 +418,25 @@ Options:
   -f, --force          Force clean build, ignore cache
 ```
 
-### `ssx dev`
+### `preview`
 
-Starts development server with hot reload:
+Serves the built static site on port 3000 through the `serve` NPM package.
 
 ```bash
-ssx dev [options]
+pnpm preview
+```
+
+### `ssx dev`
+
+Starts the Vite development server on port 3000 with hot reload:
+
+```bash
+pnpm ssx dev [options]
 
 Options:
   -c, --config <file>  Config file (default: "site.config.js")
   -r, --root <dir>     Source root directory (default: "src")
   -p, --port <port>    Dev server port (default: 3000)
-```
-
-### Package.json Scripts
-
-```json
-{
-  "scripts": {
-    "dev": "ssx dev",
-    "build": "ssx build",
-    "preview": "pnpm dlx serve dist"
-  }
-}
 ```
 
 ---

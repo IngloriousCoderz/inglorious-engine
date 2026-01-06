@@ -49,6 +49,16 @@ async function main() {
             description: "A TypeScript setup with Vite",
             value: "ts",
           },
+          {
+            title: "SSX (JavaScript)",
+            description: "Static Site Xecution with JavaScript",
+            value: "ssx-js",
+          },
+          {
+            title: "SSX (TypeScript)",
+            description: "Static Site Xecution with TypeScript",
+            value: "ssx-ts",
+          },
         ],
       },
     ],

@@ -1,31 +1,27 @@
 {
-  "name": "ts-template",
+  "name": "ssx-ts-template",
   "version": "0.1.0",
   "type": "module",
   "private": true,
-  "description": "A new app created with @inglorious/create-app",
+  "description": "A new SSX app created with @inglorious/create-app",
   "author": "",
   "license": "MIT",
   "scripts": {
     "format": "prettier --write '**/*.ts'",
     "lint": "eslint . --ext ts --report-unused-disable-directives --max-warnings 0",
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "dev": "ssx dev",
+    "build": "ssx build",
+    "preview": "serve dist"
   },
   "dependencies": {
+    "@inglorious/ssx": "workspace:*",
     "@inglorious/web": "workspace:*"
   },
   "devDependencies": {
     "@inglorious/eslint-config": "workspace:*",
     "eslint": "^9.39.1",
     "prettier": "^3.6.2",
-    "rollup-plugin-minify-template-literals": "^1.1.7",
-    "sharp": "^0.34.5",
-    "svgo": "^4.0.0",
-    "typescript": "^5.9.2",
-    "vite-plugin-image-optimizer": "^2.0.3",
-    "vite": "^7.1.6"
+    "serve": "^14.2.1"
   },
   "packageManager": "pnpm@10.15.0",
   "engines": {

@@ -3,6 +3,7 @@ import { fileURLToPath } from "node:url"
 
 import { minifyTemplateLiterals } from "rollup-plugin-minify-template-literals"
 import { defineConfig } from "vite"
+import { ViteImageOptimizer } from "vite-plugin-image-optimizer"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -12,7 +13,7 @@ export default defineConfig({
   // @see https://github.com/vitejs/vite/issues/1973
   define: { "process.env": {} },
 
-  plugins: [minifyTemplateLiterals()],
+  plugins: [minifyTemplateLiterals(), ViteImageOptimizer()],
 
   resolve: {
     alias: {

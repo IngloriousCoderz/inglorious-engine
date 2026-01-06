@@ -1,5 +1,13 @@
 # @inglorious/ssx
 
+## 1.3.1
+
+### Patch Changes
+
+- Add SSX templates to create-app
+- Updated dependencies
+  - @inglorious/web@4.0.2
+
 ## 1.3.0
 
 ### Minor Changes

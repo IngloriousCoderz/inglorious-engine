@@ -1,5 +1,11 @@
 # @inglorious/create-game
 
+## 0.3.0
+
+### Minor Changes
+
+- Add SSX templates to create-app
+
 ## 0.2.2
 
 ### Patch Changes

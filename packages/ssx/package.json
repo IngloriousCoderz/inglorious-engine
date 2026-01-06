@@ -1,6 +1,6 @@
 {
   "name": "@inglorious/ssx",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "Server-Side-X. Xecution? Xperience? Who knows.",
   "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
   "license": "MIT",
@@ -44,7 +44,7 @@
     "test": "vitest run",
     "dev": "node ./bin/ssx.js dev -r ./src/__fixtures__",
     "build": "node ./bin/ssx.js build -r ./src/__fixtures__",
-    "preview": "pnpm dlx serve dist"
+    "preview": "serve dist"
   },
   "dependencies": {
     "@inglorious/web": "workspace:*",
@@ -54,14 +54,15 @@
     "fast-xml-parser": "^5.3.3",
     "glob": "^13.0.0",
     "rollup-plugin-minify-template-literals": "^1.1.7",
-    "vite": "^7.1.3"
+    "sharp": "^0.34.5",
+    "svgo": "^4.0.0",
+    "vite": "^7.1.3",
+    "vite-plugin-image-optimizer": "^2.0.3"
   },
   "devDependencies": {
     "@inglorious/eslint-config": "workspace:*",
     "prettier": "^3.6.2",
-    "sharp": "^0.34.5",
-    "svgo": "^4.0.0",
-    "vite-plugin-image-optimizer": "^2.0.3",
+    "serve": "^14.2.1",
     "vitest": "^1.6.1"
   },
   "packageManager": "pnpm@10.15.0",

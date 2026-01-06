@@ -1,0 +1,19 @@
+import { html } from "@inglorious/web"
+
+export const index = {
+  render() {
+    return html`
+      <div>
+        <h1>Welcome to SSX!</h1>
+        <p>Edit <code>src/pages/index.js</code> to get started.</p>
+        <nav>
+          <a href="/about">About</a>
+        </nav>
+      </div>
+    `
+  },
+}
+
+export const metadata = {
+  title: "Home",
+}

@@ -1,5 +1,11 @@
 # @inglorious/react-store
 
+## 4.0.2
+
+### Patch Changes
+
+- Add SSX templates to create-app
+
 ## 4.0.1
 
 ### Patch Changes
