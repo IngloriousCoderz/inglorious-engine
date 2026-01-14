@@ -31,10 +31,12 @@
     "test:watch": "vitest",
     "test": "vitest run"
   },
-  "devDependencies": {
+  "dependencies": {
     "@babel/core": "^7.28.5",
     "@babel/plugin-syntax-jsx": "^7.28.6",
-    "@babel/plugin-syntax-typescript": "^7.28.6",
+    "@babel/plugin-syntax-typescript": "^7.28.6"
+  },
+  "devDependencies": {
     "@inglorious/eslint-config": "workspace:*",
     "vitest": "^2.0.4"
   },

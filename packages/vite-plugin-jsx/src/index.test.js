@@ -78,4 +78,106 @@ describe("vite-plugin-jsx", () => {
     `
     expect(await transform(code)).toMatchSnapshot()
   })
+
+  it("transforms Array.map to repeat directive", async () => {
+    const code = `
+      const List = ({ items }) => (
+        <ul>
+          {items.map(item => <li>{item}</li>)}
+        </ul>
+      )
+    `
+    expect(await transform(code)).toMatchSnapshot()
+  })
+
+  it("transforms Array.map with key to keyed repeat directive", async () => {
+    const code = `
+      const List = ({ items }) => (
+        <ul>
+          {items.map(item => <li key={item.id}>{item.name}</li>)}
+        </ul>
+      )
+    `
+    expect(await transform(code)).toMatchSnapshot()
+  })
+
+  it("transforms ternary operators to when directive", async () => {
+    const code = `
+      const App = ({ isLoggedIn }) => (
+        <div>{isLoggedIn ? <User /> : <Login />}</div>
+      )
+    `
+    expect(await transform(code)).toMatchSnapshot()
+  })
+
+  it("transforms logical AND to when directive", async () => {
+    const code = `
+      const App = ({ show }) => (
+        <div>{show && <Modal />}</div>
+      )
+    `
+    expect(await transform(code)).toMatchSnapshot()
+  })
+
+  it("merges imports if @inglorious/web is already imported", async () => {
+    const code = `
+      import { html } from "@inglorious/web"
+      const App = ({ show }) => <div>{show ? <A /> : <B />}</div>
+    `
+    const result = await transform(code)
+
+    // Verify only one import statement exists
+    const importCount = (result.match(/from "@inglorious\/web"/g) || []).length
+    expect(importCount).toBe(1)
+    expect(result).toMatchSnapshot()
+  })
+
+  it("throws error for missing event handler expression", async () => {
+    const code = `<button onClick />`
+    await expect(transform(code)).rejects.toThrow(
+      "Event handler onClick must be an expression",
+    )
+  })
+
+  it("throws error for string literal event handler", async () => {
+    const code = `<button onClick="handleClick" />`
+    await expect(transform(code)).rejects.toThrow(
+      "Event handler onClick must be an expression",
+    )
+  })
+
+  it("does not generate closing tag for void elements", async () => {
+    const code = `<img src="image.png" />`
+    expect(await transform(code)).toMatchSnapshot()
+  })
+
+  it("handles SVG self-closing tags correctly", async () => {
+    const code = `
+      const Icon = () => (
+        <svg>
+          <path d="M0 0h10v10H0z" />
+          <circle cx="5" cy="5" r="5" />
+        </svg>
+      )
+    `
+    expect(await transform(code)).toMatchSnapshot()
+  })
+
+  it("expands self-closing non-void HTML tags", async () => {
+    const code = `<div className="empty" />`
+    expect(await transform(code)).toMatchSnapshot()
+  })
+
+  it("ignores empty expressions and comments", async () => {
+    const code = `
+      const App = () => (
+        <div>
+          {/* This is a comment */}
+          {}
+          <span>Content</span>
+        </div>
+      )
+    `
+    expect(await transform(code)).toMatchSnapshot()
+  })
 })

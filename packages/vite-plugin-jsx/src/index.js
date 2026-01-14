@@ -1,8 +1,25 @@
-import { transformAsync } from "@babel/core"
+import { transformAsync, types as t } from "@babel/core"
 import syntaxJsx from "@babel/plugin-syntax-jsx"
 import syntaxTs from "@babel/plugin-syntax-typescript"
 
 const AFTER_ON = 2
+
+const VOID_TAGS = [
+  "area",
+  "base",
+  "br",
+  "col",
+  "embed",
+  "hr",
+  "img",
+  "input",
+  "link",
+  "meta",
+  "param",
+  "source",
+  "track",
+  "wbr",
+]
 
 /**
  * Vite plugin to transform JSX into lit-html templates for @inglorious/web.
@@ -29,8 +46,6 @@ export function jsx() {
   }
 }
 
-/* -------------------------------------------- */
-
 /**
  * Babel plugin factory that traverses the AST to transform JSX elements.
  *
@@ -42,47 +57,162 @@ function jsxToLit() {
       Program: {
         enter(path) {
           path.__needsHtml = false
+          path.__needsWhen = false
+          path.__needsRepeat = false
         },
         exit(path) {
-          if (!path.__needsHtml) return
+          const importSource = "@inglorious/web"
+          const needed = new Set()
+          if (path.__needsHtml) needed.add("html")
+          if (path.__needsWhen) needed.add("when")
+          if (path.__needsRepeat) needed.add("repeat")
 
-          path.unshiftContainer("body", {
-            type: "ImportDeclaration",
-            source: { type: "StringLiteral", value: "@inglorious/web" },
-            specifiers: [
-              {
-                type: "ImportSpecifier",
-                imported: { type: "Identifier", name: "html" },
-                local: { type: "Identifier", name: "html" },
-              },
-            ],
+          if (!needed.size) return
+
+          let importDecl = null
+
+          // Find existing import from '@inglorious/web' and remove already imported names from `needed`
+          path.get("body").forEach((nodePath) => {
+            if (
+              nodePath.isImportDeclaration() &&
+              nodePath.node.source.value === importSource
+            ) {
+              importDecl = nodePath
+              for (const specifier of nodePath.get("specifiers")) {
+                if (specifier.isImportSpecifier()) {
+                  needed.delete(specifier.node.imported.name)
+                }
+              }
+            }
           })
+
+          const specifiersToAdd = [...needed].map(createImportSpecifier)
+
+          if (specifiersToAdd.length) {
+            if (importDecl) {
+              // Add missing specifiers to the existing import declaration
+              importDecl.pushContainer("specifiers", specifiersToAdd)
+            } else {
+              // Or, create a new import declaration
+              path.unshiftContainer(
+                "body",
+                t.importDeclaration(
+                  specifiersToAdd,
+                  t.stringLiteral(importSource),
+                ),
+              )
+            }
+          }
         },
       },
 
       JSXElement(path) {
         path.findParent((p) => p.isProgram()).__needsHtml = true
-        path.replaceWith(buildTemplate(path.node))
+        path.replaceWith(buildTemplate(path.node, path))
       },
 
       JSXFragment(path) {
         path.findParent((p) => p.isProgram()).__needsHtml = true
-        path.replaceWith(buildFragment(path.node))
+        path.replaceWith(buildFragment(path.node, path))
+      },
+
+      // Transform {cond ? <A/> : <B/>} -> ${when(cond, () => html`<A/>`, () => html`<B/>`)}
+      ConditionalExpression(path) {
+        const { test, consequent, alternate } = path.node
+        if (isJsx(consequent) || isJsx(alternate)) {
+          path.findParent((p) => p.isProgram()).__needsWhen = true
+          path.replaceWith(
+            t.callExpression(t.identifier("when"), [
+              test,
+              t.arrowFunctionExpression([], consequent),
+              t.arrowFunctionExpression([], alternate),
+            ]),
+          )
+        }
+      },
+
+      // Transform {cond && <A/>} -> ${when(cond, () => html`<A/>`)}
+      LogicalExpression(path) {
+        if (path.node.operator === "&&" && isJsx(path.node.right)) {
+          path.findParent((p) => p.isProgram()).__needsWhen = true
+          path.replaceWith(
+            t.callExpression(t.identifier("when"), [
+              path.node.left,
+              t.arrowFunctionExpression([], path.node.right),
+            ]),
+          )
+        }
+      },
+
+      // Transform items.map(i => <A key={i.id}/>) -> ${repeat(items, i => i.id, i => html`<A.../>`)}
+      CallExpression(path) {
+        const { callee, arguments: args } = path.node
+        const [arrow] = args
+
+        if (
+          t.isMemberExpression(callee) &&
+          callee.property.name === "map" &&
+          t.isArrowFunctionExpression(arrow)
+        ) {
+          if (isJsx(arrow.body)) {
+            if (
+              !path.findParent(
+                (p) => p.isJSXExpressionContainer() || p.isReturnStatement(),
+              )
+            ) {
+              return
+            }
+
+            path.findParent((p) => p.isProgram()).__needsRepeat = true
+
+            const items = callee.object
+            const templateFn = arrow
+            const repeatArgs = [items]
+
+            // Try to extract key from the returned JSX element
+            // Look for key={...} in the opening element attributes
+            let keyExpr = null
+            if (t.isJSXElement(arrow.body)) {
+              const keyAttr = arrow.body.openingElement.attributes.find(
+                (attr) => attr.name && attr.name.name === "key",
+              )
+              if (keyAttr && keyAttr.value.type === "JSXExpressionContainer") {
+                keyExpr = keyAttr.value.expression
+              }
+            }
+
+            // If key found, inject key function as 2nd argument: (item) => item.id
+            if (keyExpr) {
+              repeatArgs.push(t.arrowFunctionExpression(arrow.params, keyExpr))
+            } else {
+              // If no key, repeat acts like map, but we can still use it
+              // Or we could skip repeat and just let map run (lit handles arrays)
+              // But user asked for repeat.
+            }
+
+            repeatArgs.push(templateFn)
+
+            path.replaceWith(
+              t.callExpression(t.identifier("repeat"), repeatArgs),
+            )
+          }
+        }
       },
     },
   }
 }
 
-/* -------------------------------------------- */
-
 /**
  * Converts a JSXElement node into a lit-html TaggedTemplateExpression.
  *
  * @param {import('@babel/types').JSXElement} node - The JSX element node.
+ * @param {import('@babel/core').NodePath} [path] - The path to the node.
+ * @param {boolean} [isSvg=false] - Whether we are inside an SVG context.
  * @returns {import('@babel/types').TaggedTemplateExpression} The transformed node.
  */
-function buildTemplate(node) {
+function buildTemplate(node, path, isSvg = false) {
   const tag = node.openingElement.name.name
+  const isCurrentSvg = isSvg || tag === "svg"
   let text = `<${tag}`
   const quasis = []
   const exprs = []
@@ -94,6 +224,14 @@ function buildTemplate(node) {
     if (name === "className") name = "class"
 
     if (name.startsWith("on")) {
+      if (!value || value.type !== "JSXExpressionContainer") {
+        if (path) {
+          throw path.buildCodeFrameError(
+            `Event handler ${name} must be an expression`,
+          )
+        }
+        throw new Error(`Event handler ${name} must be an expression`)
+      }
       quasis.push(tpl(`${text} @${name.slice(AFTER_ON).toLowerCase()}=`))
       exprs.push(value.expression)
       text = ""
@@ -118,12 +256,45 @@ function buildTemplate(node) {
     text += ` ${name}="${value.value}"`
   }
 
+  // Handle Void tags (always self-closing) and SVG self-closing tags
+  if (
+    VOID_TAGS.includes(tag) ||
+    (node.openingElement.selfClosing && isCurrentSvg)
+  ) {
+    text += " />"
+    quasis.push(tpl(text, true))
+    return {
+      type: "TaggedTemplateExpression",
+      tag: { type: "Identifier", name: "html" },
+      quasi: { type: "TemplateLiteral", quasis, expressions: exprs },
+    }
+  }
+
+  // Handle non-void HTML tags that are self-closing in JSX (e.g. <div />)
+  // These must be expanded to <div></div> for the browser parser.
+  if (node.openingElement.selfClosing) {
+    text += `></${tag}>`
+    quasis.push(tpl(text, true))
+    return {
+      type: "TaggedTemplateExpression",
+      tag: { type: "Identifier", name: "html" },
+      quasi: { type: "TemplateLiteral", quasis, expressions: exprs },
+    }
+  }
+
   text += ">"
 
-  for (const child of node.children) {
+  const nextIsSvg = isCurrentSvg && tag !== "foreignObject"
+  const childrenPaths = path ? path.get("children") : []
+
+  for (let i = 0; i < node.children.length; i++) {
+    const child = node.children[i]
+    const childPath = childrenPaths[i]
+
     if (child.type === "JSXText") {
-      text += child.value
+      text += child.value.replace(/\s+/g, " ")
     } else if (child.type === "JSXExpressionContainer") {
+      if (child.expression.type === "JSXEmptyExpression") continue
       quasis.push(tpl(text))
       exprs.push(child.expression)
       text = ""
@@ -131,8 +302,8 @@ function buildTemplate(node) {
       quasis.push(tpl(text))
       exprs.push(
         child.type === "JSXFragment"
-          ? buildFragment(child)
-          : buildTemplate(child),
+          ? buildFragment(child, childPath, nextIsSvg)
+          : buildTemplate(child, childPath, nextIsSvg),
       )
       text = ""
     }
@@ -152,17 +323,24 @@ function buildTemplate(node) {
  * Converts a JSXFragment node into a lit-html TaggedTemplateExpression.
  *
  * @param {import('@babel/types').JSXFragment} node - The JSX fragment node.
+ * @param {import('@babel/core').NodePath} [path] - The path to the node.
+ * @param {boolean} [isSvg=false] - Whether we are inside an SVG context.
  * @returns {import('@babel/types').TaggedTemplateExpression} The transformed node.
  */
-function buildFragment(node) {
+function buildFragment(node, path, isSvg = false) {
   let text = ""
   const quasis = []
   const exprs = []
 
-  for (const child of node.children) {
+  const childrenPaths = path ? path.get("children") : []
+  for (let i = 0; i < node.children.length; i++) {
+    const child = node.children[i]
+    const childPath = childrenPaths[i]
+
     if (child.type === "JSXText") {
-      text += child.value
+      text += child.value.replace(/\s+/g, " ")
     } else if (child.type === "JSXExpressionContainer") {
+      if (child.expression.type === "JSXEmptyExpression") continue
       quasis.push(tpl(text))
       exprs.push(child.expression)
       text = ""
@@ -170,8 +348,8 @@ function buildFragment(node) {
       quasis.push(tpl(text))
       exprs.push(
         child.type === "JSXFragment"
-          ? buildFragment(child)
-          : buildTemplate(child),
+          ? buildFragment(child, childPath, isSvg)
+          : buildTemplate(child, childPath, isSvg),
       )
       text = ""
     }
@@ -195,4 +373,20 @@ function buildFragment(node) {
  */
 function tpl(raw, tail = false) {
   return { type: "TemplateElement", value: { raw, cooked: raw }, tail }
+}
+
+function createImportSpecifier(name) {
+  return {
+    type: "ImportSpecifier",
+    imported: { type: "Identifier", name },
+    local: { type: "Identifier", name },
+  }
+}
+
+function isJsx(node) {
+  return (
+    node.type === "JSXElement" ||
+    node.type === "JSXFragment" ||
+    (node.type === "CallExpression" && node.callee.name === "html") // Already transformed
+  )
 }
