@@ -2,6 +2,8 @@ import { transformAsync, types as t } from "@babel/core"
 import syntaxJsx from "@babel/plugin-syntax-jsx"
 import syntaxTs from "@babel/plugin-syntax-typescript"
 
+const NOT_FOUND = -1
+const LAST = 1
 const AFTER_ON = 2
 
 const VOID_TAGS = [
@@ -212,6 +214,88 @@ function jsxToLit() {
  */
 function buildTemplate(node, path, isSvg = false) {
   const tag = node.openingElement.name.name
+
+  // If capitalized → engine component
+  if (/^[A-Z]/.test(tag)) {
+    if (path) {
+      const fn = path.getFunctionParent()
+      if (fn) {
+        let isRender = false
+        // ObjectMethod: { render() {} }
+        if (fn.isObjectMethod() && fn.node.key.name === "render") {
+          isRender = true
+        }
+        // ObjectProperty: { render: () => {} } or { render: function() {} }
+        else if (
+          fn.parentPath.isObjectProperty() &&
+          fn.parentPath.node.key.name === "render"
+        ) {
+          isRender = true
+        }
+
+        if (isRender) {
+          const params = fn.node.params
+          const apiIndex = params.findIndex(
+            (p) => t.isIdentifier(p) && p.name === "api",
+          )
+
+          if (apiIndex !== NOT_FOUND) {
+            if (apiIndex !== params.length - LAST) {
+              const lastParam = params[params.length - LAST]
+              if (t.isRestElement(lastParam)) {
+                throw fn.buildCodeFrameError(
+                  "Cannot move 'api' parameter to the end because of a rest element.",
+                )
+              }
+              const apiPath = fn.get("params")[apiIndex]
+              const apiNode = apiPath.node
+              apiPath.remove()
+              fn.pushContainer("params", apiNode)
+            }
+          } else {
+            const lastParam = params[params.length - LAST]
+            if (lastParam && t.isRestElement(lastParam)) {
+              throw fn.buildCodeFrameError(
+                "Cannot inject 'api' parameter because of a rest element.",
+              )
+            }
+            fn.pushContainer("params", t.identifier("api"))
+          }
+        }
+      }
+    }
+
+    const name = tag.toLowerCase()
+    const props = []
+
+    for (const attr of node.openingElement.attributes) {
+      if (t.isJSXSpreadAttribute(attr)) {
+        props.push(t.spreadElement(attr.argument))
+        continue
+      }
+
+      const key = attr.name.name
+      let value
+
+      if (!attr.value) {
+        value = t.booleanLiteral(true)
+      } else if (t.isJSXExpressionContainer(attr.value)) {
+        value = attr.value.expression
+      } else {
+        value = attr.value
+      }
+
+      props.push(t.objectProperty(t.identifier(key), value))
+    }
+
+    return t.callExpression(
+      t.memberExpression(t.identifier("api"), t.identifier("render")),
+      props.length
+        ? [t.stringLiteral(name), t.objectExpression(props)]
+        : [t.stringLiteral(name)],
+    )
+  }
+
   const isCurrentSvg = isSvg || tag === "svg"
   let text = `<${tag}`
   const quasis = []

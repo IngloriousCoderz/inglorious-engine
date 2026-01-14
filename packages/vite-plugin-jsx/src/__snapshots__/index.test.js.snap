@@ -5,9 +5,36 @@ exports[`vite-plugin-jsx > distinguishes between properties (.) and attributes 1
 const App = () => html\`<my-element id=\${id} class=\${cls} aria-label=\${label} data-test=\${test} .someProp=\${value} .complexData=\${obj}></my-element>\`;"
 `;
 
+exports[`vite-plugin-jsx > does not change parameters if api is already the last argument 1`] = `
+"import { html } from "@inglorious/web";
+export const app = {
+  render(entity, api) {
+    return api.render("form");
+  }
+};"
+`;
+
 exports[`vite-plugin-jsx > does not generate closing tag for void elements 1`] = `
 "import { html } from "@inglorious/web";
 html\`<img src="image.png" />\`;"
+`;
+
+exports[`vite-plugin-jsx > does not inject api if component is not inside a 'render' method 1`] = `
+"import { html } from "@inglorious/web";
+export const app = {
+  notRender() {
+    return api.render("form");
+  }
+};"
+`;
+
+exports[`vite-plugin-jsx > does not inject api if no capitalized component is used 1`] = `
+"import { html } from "@inglorious/web";
+export const app = {
+  render(entity) {
+    return html\`<div>\${entity.name}</div>\`;
+  }
+};"
 `;
 
 exports[`vite-plugin-jsx > expands self-closing non-void HTML tags 1`] = `
@@ -45,11 +72,56 @@ exports[`vite-plugin-jsx > ignores empty expressions and comments 1`] = `
 const App = () => html\`<div>   \${html\`<span>Content</span>\`} </div>\`;"
 `;
 
+exports[`vite-plugin-jsx > injects api argument into render function if missing when using components 1`] = `
+"import { html } from "@inglorious/web";
+export const app = {
+  render(api) {
+    return api.render("form");
+  }
+};"
+`;
+
+exports[`vite-plugin-jsx > injects api argument when component is nested inside a Fragment 1`] = `
+"import { html } from "@inglorious/web";
+export const app = {
+  render(api) {
+    return html\` \${api.render("form")} \`;
+  }
+};"
+`;
+
+exports[`vite-plugin-jsx > injects api argument when component is nested inside standard elements 1`] = `
+"import { html } from "@inglorious/web";
+export const app = {
+  render(api) {
+    return html\`<div> \${api.render("form")} </div>\`;
+  }
+};"
+`;
+
 exports[`vite-plugin-jsx > merges imports if @inglorious/web is already imported 1`] = `
 "import { html, when } from "@inglorious/web";
 const App = ({
   show
-}) => html\`<div>\${when(show, () => html\`<A></A>\`, () => html\`<B></B>\`)}</div>\`;"
+}) => html\`<div>\${when(show, () => api.render("a"), () => api.render("b"))}</div>\`;"
+`;
+
+exports[`vite-plugin-jsx > moves api parameter to the end if it is not the last one 1`] = `
+"import { html } from "@inglorious/web";
+export const app = {
+  render(entity, api) {
+    return api.render("form");
+  }
+};"
+`;
+
+exports[`vite-plugin-jsx > moves api parameter to the end when it is in the middle 1`] = `
+"import { html } from "@inglorious/web";
+export const app = {
+  render(entity, options, api) {
+    return api.render("form");
+  }
+};"
 `;
 
 exports[`vite-plugin-jsx > transforms Array.map to repeat directive 1`] = `
@@ -71,6 +143,20 @@ exports[`vite-plugin-jsx > transforms basic JSX elements 1`] = `
 export const App = () => html\`<div>Hello World</div>\`;"
 `;
 
+exports[`vite-plugin-jsx > transforms capitalized components to api.render calls 1`] = `
+"import { html } from "@inglorious/web";
+export const app = {
+  render(api) {
+    return html\`\${api.render("form", {
+      id: "f1",
+      title: "My Form"
+    })}\${api.render("list", {
+      items: []
+    })}\${api.render("footer")}\`;
+  }
+};"
+`;
+
 exports[`vite-plugin-jsx > transforms className to class 1`] = `
 "import { html } from "@inglorious/web";
 html\`<div class="container">Content</div>\`;"
@@ -80,12 +166,12 @@ exports[`vite-plugin-jsx > transforms logical AND to when directive 1`] = `
 "import { html, when } from "@inglorious/web";
 const App = ({
   show
-}) => html\`<div>\${when(show, () => html\`<Modal></Modal>\`)}</div>\`;"
+}) => html\`<div>\${when(show, () => api.render("modal"))}</div>\`;"
 `;
 
 exports[`vite-plugin-jsx > transforms ternary operators to when directive 1`] = `
 "import { html, when } from "@inglorious/web";
 const App = ({
   isLoggedIn
-}) => html\`<div>\${when(isLoggedIn, () => html\`<User></User>\`, () => html\`<Login></Login>\`)}</div>\`;"
+}) => html\`<div>\${when(isLoggedIn, () => api.render("user"), () => api.render("login"))}</div>\`;"
 `;

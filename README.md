@@ -38,8 +38,7 @@ Official React bindings for `@inglorious/store`. Provides hooks and a Provider c
 
 #### `@inglorious/web`
 
-A small view layer built around `lit-html` and the entity store.
-No components, no lifecycles — just functions that return templates.
+A small view layer built around `lit-html` and the entity store. No components, no lifecycles — just functions that return templates.
 
 Includes built-in utilities like:
 
@@ -51,8 +50,11 @@ Includes built-in utilities like:
 
 #### `@inglorious/ssx`
 
-**Static Site Xecution** - Build blazing-fast static sites with `@inglorious/web`.
-Complete with server-side rendering, client-side hydration, and zero-config routing.
+**Static Site Xecution** - Build blazing-fast static sites with `@inglorious/web`. Complete with server-side rendering, client-side hydration, and zero-config routing.
+
+#### `@inglorious/vite-plugin-jsx`
+
+A Vite plugin that compiles standard JSX / TSX into highly-optimized `lit-html` templates for `@inglorious/web`.
 
 ### Game Engine
 

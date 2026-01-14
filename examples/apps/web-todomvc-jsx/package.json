@@ -1,0 +1,27 @@
+{
+  "name": "web-todomvc-jsx",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "format": "prettier --write '**/*.js'",
+    "lint": "eslint . --ext js --report-unused-disable-directives --max-warnings 0",
+    "test:watch": "vitest",
+    "test": "vitest run",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@inglorious/web": "workspace:*"
+  },
+  "devDependencies": {
+    "@inglorious/eslint-config": "workspace:*",
+    "@inglorious/vite-plugin-jsx": "workspace:*",
+    "eslint": "^9.39.1",
+    "prettier": "^3.6.2",
+    "rollup-plugin-minify-template-literals": "^1.1.7",
+    "vite": "^7.1.6",
+    "vitest": "^4.0.16"
+  }
+}

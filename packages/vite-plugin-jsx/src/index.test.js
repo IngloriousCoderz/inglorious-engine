@@ -180,4 +180,124 @@ describe("vite-plugin-jsx", () => {
     `
     expect(await transform(code)).toMatchSnapshot()
   })
+
+  it("transforms capitalized components to api.render calls", async () => {
+    const code = `
+      export const app = {
+        render(api) {
+          return <><Form id="f1" title="My Form" /><List items={[]} /><Footer /></>
+        },
+      }
+    `
+    expect(await transform(code)).toMatchSnapshot()
+  })
+
+  it("injects api argument into render function if missing when using components", async () => {
+    const code = `
+      export const app = {
+        render() {
+          return <Form />
+        },
+      }
+    `
+    expect(await transform(code)).toMatchSnapshot()
+  })
+
+  it("moves api parameter to the end if it is not the last one", async () => {
+    const code = `
+      export const app = {
+        render(api, entity) {
+          return <Form />
+        },
+      }
+    `
+    expect(await transform(code)).toMatchSnapshot()
+  })
+
+  it("does not change parameters if api is already the last argument", async () => {
+    const code = `
+      export const app = {
+        render(entity, api) {
+          return <Form />
+        },
+      }
+    `
+    expect(await transform(code)).toMatchSnapshot()
+  })
+
+  it("moves api parameter to the end when it is in the middle", async () => {
+    const code = `
+      export const app = {
+        render(entity, api, options) {
+          return <Form />
+        },
+      }
+    `
+    expect(await transform(code)).toMatchSnapshot()
+  })
+
+  it("does not inject api if no capitalized component is used", async () => {
+    const code = `
+      export const app = {
+        render(entity) {
+          return <div>{entity.name}</div>
+        },
+      }
+    `
+    expect(await transform(code)).toMatchSnapshot()
+  })
+
+  it("does not inject api if component is not inside a 'render' method", async () => {
+    const code = `
+      export const app = {
+        notRender() {
+          return <Form />
+        },
+      }
+    `
+    expect(await transform(code)).toMatchSnapshot()
+  })
+
+  it("throws an error when trying to inject api with a rest parameter present", async () => {
+    const code = `
+      export const app = {
+        render(entity, ...args) {
+          return <Form />
+        },
+      }
+    `
+    await expect(transform(code)).rejects.toThrow(
+      "Cannot inject 'api' parameter because of a rest element.",
+    )
+  })
+
+  it("injects api argument when component is nested inside a Fragment", async () => {
+    const code = `
+      export const app = {
+        render() {
+          return (
+            <>
+              <Form />
+            </>
+          )
+        },
+      }
+    `
+    expect(await transform(code)).toMatchSnapshot()
+  })
+
+  it("injects api argument when component is nested inside standard elements", async () => {
+    const code = `
+      export const app = {
+        render() {
+          return (
+            <div>
+              <Form />
+            </div>
+          )
+        },
+      }
+    `
+    expect(await transform(code)).toMatchSnapshot()
+  })
 })

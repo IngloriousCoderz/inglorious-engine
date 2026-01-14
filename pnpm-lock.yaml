@@ -496,6 +496,34 @@ importers:
         specifier: ^4.0.16
         version: 4.0.16(@types/node@24.8.0)(happy-dom@20.0.11)(jiti@2.5.1)(jsdom@26.1.0)(lightningcss@1.30.1)(sass@1.91.0)(terser@5.44.1)
 
+  examples/apps/web-todomvc-jsx:
+    dependencies:
+      '@inglorious/web':
+        specifier: workspace:*
+        version: link:../../../packages/web
+    devDependencies:
+      '@inglorious/eslint-config':
+        specifier: workspace:*
+        version: link:../../../packages/eslint-config
+      '@inglorious/vite-plugin-jsx':
+        specifier: workspace:*
+        version: link:../../../packages/vite-plugin-jsx
+      eslint:
+        specifier: ^9.39.1
+        version: 9.39.2(jiti@2.5.1)
+      prettier:
+        specifier: ^3.6.2
+        version: 3.7.4
+      rollup-plugin-minify-template-literals:
+        specifier: ^1.1.7
+        version: 1.1.7(rollup@4.50.0)
+      vite:
+        specifier: ^7.1.6
+        version: 7.3.0(@types/node@24.8.0)(jiti@2.5.1)(lightningcss@1.30.1)(sass@1.91.0)(terser@5.44.1)
+      vitest:
+        specifier: ^4.0.16
+        version: 4.0.16(@types/node@24.8.0)(happy-dom@20.0.11)(jiti@2.5.1)(jsdom@26.1.0)(lightningcss@1.30.1)(sass@1.91.0)(terser@5.44.1)
+
   examples/games/flapper:
     dependencies:
       '@inglorious/engine':
@@ -931,6 +959,25 @@ importers:
         specifier: ^1.6.1
         version: 1.6.1(@types/node@24.8.0)(happy-dom@20.0.11)(jsdom@26.1.0)(lightningcss@1.30.1)(sass@1.91.0)(terser@5.44.1)
 
+  packages/vite-plugin-jsx:
+    dependencies:
+      '@babel/core':
+        specifier: ^7.28.5
+        version: 7.28.5
+      '@babel/plugin-syntax-jsx':
+        specifier: ^7.28.6
+        version: 7.28.6(@babel/core@7.28.5)
+      '@babel/plugin-syntax-typescript':
+        specifier: ^7.28.6
+        version: 7.28.6(@babel/core@7.28.5)
+    devDependencies:
+      '@inglorious/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      vitest:
+        specifier: ^2.0.4
+        version: 2.1.9(@types/node@24.8.0)(happy-dom@20.0.11)(jsdom@26.1.0)(lightningcss@1.30.1)(sass@1.91.0)(terser@5.44.1)
+
   packages/web:
     dependencies:
       '@inglorious/store':
@@ -1021,6 +1068,10 @@ packages:
     resolution: {integrity: sha512-1gn1Up5YXka3YYAHGKpbideQ5Yjf1tDa9qYcgysz+cNCXukyLl6DjPXhD3VRwSb8c0J9tA4b2+rHEZtc6R0tlw==}
     engines: {node: '>=6.9.0'}
 
+  '@babel/helper-plugin-utils@7.28.6':
+    resolution: {integrity: sha512-S9gzZ/bz83GRysI7gAD4wPT/AI3uCnY+9xn+Mx/KPs2JwHJIz1W8PZkg2cqyt3RNOBM8ejcXhV6y8Og7ly/Dug==}
+    engines: {node: '>=6.9.0'}
+
   '@babel/helper-string-parser@7.27.1':
     resolution: {integrity: sha512-qMlSxKbpRlAridDExk92nSobyDdpPijUq2DW6oDnUqd0iOGxmQjyqhMIihI9+zv4LPyZdRje2cavWPbCbWm3eA==}
     engines: {node: '>=6.9.0'}
@@ -1059,6 +1110,18 @@ packages:
     resolution: {integrity: sha512-KKBU1VGYR7ORr3At5HAtUQ+TV3SzRCXmA/8OdDZiLDBIZxVyzXuztPjfLd3BV1PRAQGCMWWSHYhL0F8d5uHBDQ==}
     engines: {node: '>=6.0.0'}
     hasBin: true
+
+  '@babel/plugin-syntax-jsx@7.28.6':
+    resolution: {integrity: sha512-wgEmr06G6sIpqr8YDwA2dSRTE3bJ+V0IfpzfSY3Lfgd7YWOaAdlykvJi13ZKBt8cZHfgH1IXN+CL656W3uUa4w==}
+    engines: {node: '>=6.9.0'}
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+
+  '@babel/plugin-syntax-typescript@7.28.6':
+    resolution: {integrity: sha512-+nDNmQye7nlnuuHDboPbGm00Vqg3oO8niRRL27/4LYHUsHYh0zJ1xWOz0uRwNFmM1Avzk8wZbc6rdiYhomzv/A==}
+    engines: {node: '>=6.9.0'}
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
 
   '@babel/plugin-transform-react-jsx-self@7.27.1':
     resolution: {integrity: sha512-6UzkCs+ejGdZ5mFFC/OCUrv028ab2fp1znZmCZjAOBKiBK2jXD1O+BPSfX8X2qjJ75fZBMSnQn3Rq2mrBJK2mw==}
@@ -6782,6 +6845,8 @@ snapshots:
 
   '@babel/helper-plugin-utils@7.27.1': {}
 
+  '@babel/helper-plugin-utils@7.28.6': {}
+
   '@babel/helper-string-parser@7.27.1': {}
 
   '@babel/helper-validator-identifier@7.27.1': {}
@@ -6798,7 +6863,7 @@ snapshots:
   '@babel/helpers@7.28.4':
     dependencies:
       '@babel/template': 7.27.2
-      '@babel/types': 7.28.4
+      '@babel/types': 7.28.5
 
   '@babel/parser@7.28.3':
     dependencies:
@@ -6806,11 +6871,21 @@ snapshots:
 
   '@babel/parser@7.28.4':
     dependencies:
-      '@babel/types': 7.28.4
+      '@babel/types': 7.28.5
 
   '@babel/parser@7.28.5':
     dependencies:
       '@babel/types': 7.28.5
+
+  '@babel/plugin-syntax-jsx@7.28.6(@babel/core@7.28.5)':
+    dependencies:
+      '@babel/core': 7.28.5
+      '@babel/helper-plugin-utils': 7.28.6
+
+  '@babel/plugin-syntax-typescript@7.28.6(@babel/core@7.28.5)':
+    dependencies:
+      '@babel/core': 7.28.5
+      '@babel/helper-plugin-utils': 7.28.6
 
   '@babel/plugin-transform-react-jsx-self@7.27.1(@babel/core@7.28.3)':
     dependencies:
@@ -6847,8 +6922,8 @@ snapshots:
   '@babel/template@7.27.2':
     dependencies:
       '@babel/code-frame': 7.27.1
-      '@babel/parser': 7.28.4
-      '@babel/types': 7.28.4
+      '@babel/parser': 7.28.5
+      '@babel/types': 7.28.5
 
   '@babel/traverse@7.28.3':
     dependencies:
@@ -8253,16 +8328,16 @@ snapshots:
 
   '@types/babel__generator@7.27.0':
     dependencies:
-      '@babel/types': 7.28.4
+      '@babel/types': 7.28.5
 
   '@types/babel__template@7.4.4':
     dependencies:
-      '@babel/parser': 7.28.4
-      '@babel/types': 7.28.4
+      '@babel/parser': 7.28.5
+      '@babel/types': 7.28.5
 
   '@types/babel__traverse@7.28.0':
     dependencies:
-      '@babel/types': 7.28.4
+      '@babel/types': 7.28.5
 
   '@types/chai@5.2.2':
     dependencies:
@@ -11442,7 +11517,7 @@ snapshots:
 
   react-docgen@8.0.1:
     dependencies:
-      '@babel/core': 7.28.3
+      '@babel/core': 7.28.5
       '@babel/traverse': 7.28.3
       '@babel/types': 7.28.2
       '@types/babel__core': 7.20.5
@@ -11457,9 +11532,9 @@ snapshots:
 
   react-docgen@8.0.2:
     dependencies:
-      '@babel/core': 7.28.4
-      '@babel/traverse': 7.28.4
-      '@babel/types': 7.28.4
+      '@babel/core': 7.28.5
+      '@babel/traverse': 7.28.5
+      '@babel/types': 7.28.5
       '@types/babel__core': 7.20.5
       '@types/babel__traverse': 7.28.0
       '@types/doctrine': 0.0.9

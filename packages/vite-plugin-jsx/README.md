@@ -2,9 +2,11 @@
 
 > **JSX without React. Deterministic UI for Inglorious Web.**
 
-`@inglorious/vite-plugin-jsx` is a Vite plugin that compiles standard JSX / TSX into highly-optimized `lit-html` templates for **@inglorious/web**.
+`@inglorious/vite-plugin-jsx` is a Vite plugin that compiles standard JSX / TSX into highly-optimized `lit-html` templates for **[@inglorious/web](https://www.npmjs.com/package/@inglorious/web)**.
 
-It gives you React-familiar syntax **without** React’s runtime, hooks, lifecycle, or reactivity model.
+It gives you React-familiar syntax **without** React's runtime, hooks, lifecycle, or reactivity model.
+
+> New to Inglorious Web? Check out the [main documentation](https://www.npmjs.com/package/@inglorious/web) first.
 
 ---
 
@@ -46,7 +48,8 @@ export default defineConfig({
 ```
 
 That’s it.
-You can now write JSX in your Inglorious project.
+
+You can now write JSX/TSX in your Inglorious project.
 
 ---
 
@@ -70,19 +73,111 @@ function render(entity, api) {
 }
 ```
 
-### Compiled Output (conceptual)
+### Compiled Output
 
 ```js
-html`
-  <div class="card">
-    ${when(entity.visible, () => html`<h2>${entity.title}</h2>`)}
-    ${repeat(
-      entity.items,
-      (item) => item.id,
-      (item) => html` <p @click=${() => api.select(item)}>${item.name}</p> `,
-    )}
-  </div>
-`
+function render(entity, api) {
+  return html`
+    <div class="card">
+      ${when(entity.visible, () => html`<h2>${entity.title}</h2>`)}
+      ${repeat(
+        entity.items,
+        (item) => item.id,
+        (item) => html`<p @click=${() => api.select(item)}>${item.name}</p>`,
+      )}
+    </div>
+  `
+}
+```
+
+---
+
+## 📚 Common Patterns
+
+### Handling Events
+
+```jsx
+export const button = {
+  render(entity, api) {
+    return (
+      <button onClick={() => api.notify(`#${entity.id}:click`)}>
+        {entity.label}
+      </button>
+    )
+  },
+}
+```
+
+### Conditional Rendering
+
+```jsx
+export const panel = {
+  render(entity, api) {
+    return (
+      <div>
+        {entity.isLoading && <Spinner />}
+        {entity.error ? (
+          <ErrorMessage text={entity.error} />
+        ) : (
+          <Content data={entity.data} />
+        )}
+      </div>
+    )
+  },
+}
+```
+
+### Lists with Keys
+
+```jsx
+export const todoList = {
+  render(entity, api) {
+    return (
+      <ul>
+        {entity.todos.map((todo) => (
+          <TodoItem key={todo.id} {...todo} />
+        ))}
+      </ul>
+    )
+  },
+}
+```
+
+---
+
+## 📘 TypeScript Support
+
+The plugin works with `.tsx` files out of the box. For proper type checking:
+
+```ts
+// tsconfig.json
+{
+  "compilerOptions": {
+    "jsx": "preserve",           // Let Vite handle JSX transformation
+    "jsxImportSource": undefined // Prevent automatic React imports
+  }
+}
+```
+
+For entity types with JSX renders:
+
+```ts
+import { html } from "@inglorious/web"
+
+type CounterEntity = {
+  type: "counter"
+  value: number
+}
+
+export const counter = {
+  render(entity: CounterEntity, api) {
+    return (
+      <div className="counter">
+        <span>Count: {entity.value}</span>
+      </div>
+    )
+  }
+}
 ```
 
 ---
@@ -127,16 +222,15 @@ The execution model of **@inglorious/web** remains untouched:
 ### Property vs Attribute Binding
 
 ```jsx
-<input value={x} />
+// Properties (use . prefix for custom elements and form controls)
+<input value={x} />       // → .value=${x}
+<my-element data={x} />   // → .data=${x}
+
+// Attributes (standard HTML, kebab-case, or specific attributes)
+<input id={x} />          // → id=${x}
+<div data-id={x} />       // → data-id=${x}
+<div class={x} />         // → class=${x}
 ```
-
-→ `.value=${x}`
-
-```jsx
-<div data-id={x} />
-```
-
-→ `data-id=${x}`
 
 ---
 
@@ -186,33 +280,84 @@ Nested SVG trees are handled correctly, including `foreignObject`.
 
 ---
 
+### Engine Components
+
+Capitalized tags are treated as **Engine Components** and compiled to `api.render()` calls.
+
+```jsx
+export const app = {
+  render() {
+    // ☝️ Plugin auto-injects 'api' if you use components!
+    return <Form id="f1" />
+  },
+}
+```
+
+→ `api.render("form", { id: "f1" })`
+
+> 💡 **Smart injection**: The plugin automatically adds the `api` parameter to your render function when you use Engine Components in JSX. You don't need to add it manually!
+
+#### ⚠️ Important Constraint
+
+These engine components must:
+
+- **not** contain children
+- **not** represent DOM
+- **not** try to be React
+
+They are **render boundaries** for your engine.
+
+```jsx
+// ❌ DON'T DO THIS - Engine components don't support children
+export const form = {
+  render(entity, api) {
+    return (
+      <Form id="f1">
+        <Field />
+      </Form>
+    )
+  },
+}
+
+// ✅ DO THIS - Compose at the entity level instead
+export const form = {
+  render(entity, api) {
+    return html`<form>${api.render("field", { formId: entity.id })}</form>`
+  },
+}
+```
+
+---
+
 ## 🧪 Why This Exists
 
-React’s runtime model is heavy, implicit, and hard to reason about at scale.
+React's runtime model is heavy, implicit, and hard to reason about at scale.
 
-Inglorious Web is built on:
+Inglorious Web is built on different principles:
 
-- explicit data flow
-- deterministic rendering
-- full-tree updates
-- predictable performance
+- **Explicit data flow** - All state lives in the store
+- **Deterministic rendering** - Same state always produces same output
+- **Full-tree updates** - No dependency tracking, no hidden subscriptions
+- **Predictable performance** - lit-html diffs everything, every time
 
 This plugin lets you keep the ergonomics of JSX **without compromising the architecture**.
 
 ---
 
-## 🧯 Limitations (by design)
+## 🧯 What This Plugin Does NOT Support (by design)
 
 This plugin intentionally does **not** support:
 
-- React hooks
-- component state
-- lifecycle APIs
-- context
-- portals
-- partial reactivity
+- React hooks (useState, useEffect, etc.)
+- Component-local state
+- Lifecycle methods
+- Context API
+- Portals
+- Fine-grained reactivity
 
-If you need those, React already exists.
+**Why?** These features conflict with Inglorious Web's deterministic rendering model.
+
+If you need these patterns, consider whether your state should live in the store instead, or use React directly.
 
 ---
 
