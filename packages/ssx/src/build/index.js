@@ -56,7 +56,11 @@ export async function build(options = {}) {
   const loader = (p) => vite.ssrLoadModule(p)
 
   // 0. Get all pages to build (Fail fast if source is broken)
-  const allPages = await getPages(path.join(rootDir, "pages"), loader)
+  const allPages = await getPages(
+    path.join(rootDir, "pages"),
+    loader,
+    config.i18n,
+  )
   console.log(`📄 Found ${allPages.length} pages\n`)
 
   // Load previous build manifest
