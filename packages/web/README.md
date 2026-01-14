@@ -312,6 +312,37 @@ The `mount` function subscribes to the store and automatically re-renders your t
 
 ---
 
+## JSX Support
+
+If you prefer JSX syntax over template literals, you can use **[`@inglorious/vite-plugin-jsx`](https://www.npmjs.com/package/@inglorious/vite-plugin-jsx)**.
+
+This Vite plugin transforms standard JSX/TSX into optimized `lit-html` templates at compile time. You get the familiar developer experience of JSX without React's runtime, hooks, or VDOM overhead.
+
+To use it:
+
+1. Install the plugin: `npm install -D @inglorious/vite-plugin-jsx`
+2. Add it to your `vite.config.js`
+3. Write your render functions using JSX
+
+```jsx
+export const counter = {
+  render(entity, api) {
+    return (
+      <div className="counter">
+        <span>Count: {entity.value}</span>
+        <button onClick={() => api.notify(`#${entity.id}:increment`)}>
+          +1
+        </button>
+      </div>
+    )
+  },
+}
+```
+
+See the plugin documentation for full details on control flow, attributes, and engine components.
+
+---
+
 ## Redux DevTools Integration
 
 `@inglorious/web` ships with first-class support for the **Redux DevTools Extension**, allowing you to:

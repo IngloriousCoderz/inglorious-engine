@@ -1,5 +1,11 @@
 # @inglorious/react-store
 
+## 4.0.3
+
+### Patch Changes
+
+- Add JSX support
+
 ## 4.0.2
 
 ### Patch Changes

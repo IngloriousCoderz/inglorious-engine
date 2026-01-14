@@ -1,5 +1,13 @@
 # lit-todomvc
 
+## 0.1.12
+
+### Patch Changes
+
+- Updated dependencies
+  - @inglorious/web@4.0.3
+  - @inglorious/logo@2.0.10
+
 ## 0.1.11
 
 ### Patch Changes
