@@ -1,6 +1,6 @@
 import { classMap, html } from "@inglorious/web"
 
-import { AppState, ListType, Task } from "../../types"
+import type { AppState, ListType, Task } from "../../types"
 import { selectFilteredTasks } from "../store/selectors"
 
 const TASKS_TO_REMOVE = 1

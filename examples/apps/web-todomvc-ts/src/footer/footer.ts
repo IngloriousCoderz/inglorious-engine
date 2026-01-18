@@ -1,6 +1,6 @@
 import { classMap, html } from "@inglorious/web"
 
-import { AppState, FooterType } from "../../types"
+import type { AppState, FooterType } from "../../types"
 import { selectTasksCount } from "../store/selectors"
 
 const SINGLE_TASK = 1

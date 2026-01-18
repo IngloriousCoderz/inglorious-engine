@@ -1,5 +1,11 @@
 # web-todomvc-ts
 
+## 0.2.1
+
+### Patch Changes
+
+- Fix TypeScript errors on scaffolded TS project
+
 ## 0.2.0
 
 ### Minor Changes

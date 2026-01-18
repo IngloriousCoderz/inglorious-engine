@@ -1,7 +1,7 @@
-import { Event, trigger } from "@inglorious/web"
+import { type Event, trigger } from "@inglorious/web"
 import { expect, it } from "vitest"
 
-import { ListEntity, ListType } from "../../types"
+import type { ListEntity, ListType } from "../../types"
 import { list } from "./list"
 
 it("should add a new task on formSubmit", () => {

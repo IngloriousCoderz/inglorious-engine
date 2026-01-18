@@ -1,6 +1,6 @@
 import { html } from "@inglorious/web"
 
-import { FormType } from "../../types"
+import type { FormType } from "../../types"
 
 export const form: FormType = {
   inputChange(entity, value) {

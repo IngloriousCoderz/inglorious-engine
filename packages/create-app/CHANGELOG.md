@@ -1,5 +1,11 @@
 # @inglorious/create-game
 
+## 0.3.4
+
+### Patch Changes
+
+- Fix TypeScript errors on scaffolded TS project
+
 ## 0.3.3
 
 ### Patch Changes

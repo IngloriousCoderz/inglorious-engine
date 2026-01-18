@@ -1,7 +1,7 @@
-import { Event, trigger } from "@inglorious/web"
+import { type Event, trigger } from "@inglorious/web"
 import { expect, it } from "vitest"
 
-import { FormEntity, FormType } from "../../types"
+import type { FormEntity, FormType } from "../../types"
 import { form } from "./form"
 
 it("should update the form value on inputChange", () => {

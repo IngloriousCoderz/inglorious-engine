@@ -1,7 +1,7 @@
-import { Event, trigger } from "@inglorious/web"
+import { type Event, trigger } from "@inglorious/web"
 import { expect, it } from "vitest"
 
-import { FooterEntity, FooterType } from "../../types"
+import type { FooterEntity, FooterType } from "../../types"
 import { footer } from "./footer"
 
 it("should update the filter on filterClick", () => {
