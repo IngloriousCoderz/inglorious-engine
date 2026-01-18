@@ -1,6 +1,6 @@
 {
   "name": "@inglorious/react-store",
-  "version": "11.0.0",
+  "version": "11.0.1",
   "description": "Official React bindings for @inglorious/store. Provides hooks and a Provider to connect your React components to the store.",
   "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
   "license": "MIT",
@@ -38,8 +38,8 @@
     "access": "public"
   },
   "scripts": {
-    "format": "prettier --write '**/*.{js,jsx}'",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0"
+    "format": "prettier --write .",
+    "lint": "eslint ."
   },
   "dependencies": {
     "react-redux": "^9.2.0"

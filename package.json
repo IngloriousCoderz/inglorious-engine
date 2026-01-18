@@ -5,7 +5,7 @@
   "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
   "license": "MIT",
   "scripts": {
-    "format": "prettier --write '**/*.{js,ts,ijs,its,,jsx,tsx,json}'",
+    "format": "prettier --write .",
     "lint": "turbo lint",
     "test": "turbo test",
     "build": "turbo build",

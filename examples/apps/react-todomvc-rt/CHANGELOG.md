@@ -1,5 +1,14 @@
 # todomvc-cs
 
+## 1.0.16
+
+### Patch Changes
+
+- Add TSX web todomvc example
+- Updated dependencies
+  - @inglorious/react-store@11.0.1
+  - @inglorious/store@9.0.1
+
 ## 1.0.15
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # lit-todomvc
 
+## 0.1.14
+
+### Patch Changes
+
+- Add TSX web todomvc example
+- Updated dependencies
+  - @inglorious/utils@3.7.2
+  - @inglorious/logo@2.0.12
+  - @inglorious/web@4.0.5
+
 ## 0.1.13
 
 ### Patch Changes

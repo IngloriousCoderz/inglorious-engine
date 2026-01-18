@@ -10,9 +10,6 @@ const __dirname = path.dirname(__filename)
 
 // https://vite.dev/config/
 export default defineConfig({
-  esbuild: {
-    jsx: "preserve",
-  },
   plugins: [minifyTemplateLiterals(), jsx()],
 
   resolve: {

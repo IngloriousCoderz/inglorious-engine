@@ -1,5 +1,13 @@
 # @inglorious/babel-preset-inglorious-script
 
+## 1.0.5
+
+### Patch Changes
+
+- Add TSX web todomvc example
+- Updated dependencies
+  - @inglorious/babel-plugin-inglorious-script@1.4.0
+
 ## 1.0.4
 
 ### Patch Changes

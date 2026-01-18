@@ -1,5 +1,14 @@
 # @inglorious/server
 
+## 13.0.1
+
+### Patch Changes
+
+- Add TSX web todomvc example
+- Updated dependencies
+  - @inglorious/store@9.0.1
+  - @inglorious/utils@3.7.2
+
 ## 13.0.0
 
 ### Patch Changes

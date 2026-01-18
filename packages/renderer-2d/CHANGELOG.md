@@ -1,5 +1,14 @@
 # @inglorious/renderer-2d
 
+## 14.0.1
+
+### Patch Changes
+
+- Add TSX web todomvc example
+- Updated dependencies
+  - @inglorious/engine@15.0.1
+  - @inglorious/utils@3.7.2
+
 ## 14.0.0
 
 ### Patch Changes

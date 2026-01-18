@@ -1,5 +1,13 @@
 # todomvc
 
+## 1.1.15
+
+### Patch Changes
+
+- Add TSX web todomvc example
+- Updated dependencies
+  - @inglorious/store@9.0.1
+
 ## 1.1.14
 
 ### Patch Changes

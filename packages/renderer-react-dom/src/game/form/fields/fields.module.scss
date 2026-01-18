@@ -24,12 +24,12 @@ $highlight: #c678dd;
     border-right: 1px solid $light-grey;
     outline: none;
 
-    &[type='checkbox'],
-    &[type='radio'] {
+    &[type="checkbox"],
+    &[type="radio"] {
       accent-color: $dark-grey;
     }
 
-    &[type='number'] {
+    &[type="number"] {
       text-align: right;
     }
 

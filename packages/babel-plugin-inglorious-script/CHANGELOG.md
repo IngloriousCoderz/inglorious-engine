@@ -1,5 +1,11 @@
 # @inglorious/babel-plugin-inglorious-script
 
+## 1.4.0
+
+### Minor Changes
+
+- Add TSX web todomvc example
+
 ## 1.3.2
 
 ### Patch Changes

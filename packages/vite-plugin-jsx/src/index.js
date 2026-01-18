@@ -31,6 +31,7 @@ const VOID_TAGS = [
 export function jsx() {
   return {
     name: "@inglorious/vite-plugin-jsx",
+    enforce: "pre", // runs before esbuild
 
     async transform(code, id) {
       if (!/\.[jt]sx$/.test(id)) return null

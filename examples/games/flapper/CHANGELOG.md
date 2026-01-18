@@ -1,5 +1,15 @@
 # inglorious-flapper
 
+## 0.2.20
+
+### Patch Changes
+
+- Add TSX web todomvc example
+- Updated dependencies
+  - @inglorious/renderer-2d@14.0.1
+  - @inglorious/engine@15.0.1
+  - @inglorious/utils@3.7.2
+
 ## 0.2.19
 
 ### Patch Changes

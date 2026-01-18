@@ -1,13 +1,13 @@
 {
   "name": "web-todomvc-jsx",
   "private": true,
-  "version": "0.1.2",
+  "version": "0.1.3",
   "type": "module",
   "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
   "license": "MIT",
   "scripts": {
-    "format": "prettier --write '**/*.js'",
-    "lint": "eslint . --ext js --report-unused-disable-directives --max-warnings 0",
+    "format": "prettier --write .",
+    "lint": "eslint .",
     "test:watch": "vitest",
     "test": "vitest run",
     "dev": "vite",

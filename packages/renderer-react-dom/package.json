@@ -1,6 +1,6 @@
 {
   "name": "@inglorious/renderer-react-dom",
-  "version": "14.0.0",
+  "version": "14.0.1",
   "description": "A renderer for the Inglorious Engine, using React components.",
   "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
   "license": "MIT",
@@ -25,8 +25,8 @@
     "access": "public"
   },
   "scripts": {
-    "format": "prettier --write '**/*.{js,jsx}'",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0"
+    "format": "prettier --write .",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@inglorious/engine": "workspace:*",

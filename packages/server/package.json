@@ -1,6 +1,6 @@
 {
   "name": "@inglorious/server",
-  "version": "13.0.0",
+  "version": "13.0.1",
   "description": "A real-time, lightweight server designed to enable multiplayer experiences for games built with the Inglorious Engine.",
   "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
   "license": "MIT",
@@ -38,8 +38,8 @@
     "access": "public"
   },
   "scripts": {
-    "format": "prettier --write '**/*.{js,jsx}'",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "format": "prettier --write .",
+    "lint": "eslint .",
     "start": "node src/index.js",
     "dev": "nodemon src/index.js"
   },

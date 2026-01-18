@@ -1,6 +1,6 @@
 {
   "name": "@inglorious/create-game",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "A scaffolding tool to quickly create a new game with the Inglorious Engine.",
   "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
   "license": "MIT",
@@ -35,8 +35,8 @@
     "access": "public"
   },
   "scripts": {
-    "format": "prettier --write '**/*.{js,ijs,ts,its}'",
-    "lint": "eslint . --ext js,ijs,ts,its --report-unused-disable-directives --max-warnings 0"
+    "format": "prettier --write .",
+    "lint": "eslint ."
   },
   "dependencies": {
     "ora": "^9.0.0",

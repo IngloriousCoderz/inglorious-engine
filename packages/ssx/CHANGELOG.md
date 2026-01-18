@@ -1,5 +1,13 @@
 # @inglorious/ssx
 
+## 1.4.3
+
+### Patch Changes
+
+- Add TSX web todomvc example
+- Updated dependencies
+  - @inglorious/web@4.0.5
+
 ## 1.4.2
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @inglorious/store
 
+## 9.0.1
+
+### Patch Changes
+
+- Add TSX web todomvc example
+- Updated dependencies
+  - @inglorious/utils@3.7.2
+
 ## 9.0.0
 
 ### Major Changes

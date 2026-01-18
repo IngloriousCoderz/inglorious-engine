@@ -1,5 +1,15 @@
 # inglorious-pong
 
+## 1.0.25
+
+### Patch Changes
+
+- Add TSX web todomvc example
+- Updated dependencies
+  - @inglorious/renderer-2d@14.0.1
+  - @inglorious/engine@15.0.1
+  - @inglorious/utils@3.7.2
+
 ## 1.0.24
 
 ### Patch Changes

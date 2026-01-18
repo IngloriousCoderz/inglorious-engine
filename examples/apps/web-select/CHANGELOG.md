@@ -1,5 +1,13 @@
 # web-select
 
+## 0.2.9
+
+### Patch Changes
+
+- Add TSX web todomvc example
+- Updated dependencies
+  - @inglorious/web@4.0.5
+
 ## 0.2.8
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @inglorious/logo
 
+## 2.0.12
+
+### Patch Changes
+
+- Add TSX web todomvc example
+- Updated dependencies
+  - @inglorious/web@4.0.5
+
 ## 2.0.11
 
 ### Patch Changes

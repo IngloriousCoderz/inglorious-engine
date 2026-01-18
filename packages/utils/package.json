@@ -1,6 +1,6 @@
 {
   "name": "@inglorious/utils",
-  "version": "3.7.1",
+  "version": "3.7.2",
   "description": "A set of general-purpose utility functions designed with functional programming principles in mind.",
   "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
   "license": "MIT",
@@ -40,8 +40,8 @@
     "access": "public"
   },
   "scripts": {
-    "format": "prettier --write '**/*.{js,jsx}'",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "format": "prettier --write .",
+    "lint": "eslint .",
     "test:watch": "vitest",
     "test": "vitest run"
   },

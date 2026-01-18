@@ -1,5 +1,11 @@
 # @inglorious/utils
 
+## 3.7.2
+
+### Patch Changes
+
+- Add TSX web todomvc example
+
 ## 3.7.1
 
 ### Patch Changes

@@ -7,8 +7,8 @@
   "author": "",
   "license": "MIT",
   "scripts": {
-    "format": "prettier --write '**/*.js'",
-    "lint": "eslint . --ext js --report-unused-disable-directives --max-warnings 0",
+    "format": "prettier --write .",
+    "lint": "eslint .",
     "dev": "ssx dev",
     "build": "ssx build",
     "preview": "serve dist"

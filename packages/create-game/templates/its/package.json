@@ -7,8 +7,8 @@
   "author": "",
   "license": "MIT",
   "scripts": {
-    "format": "prettier --write '**/*.{ts,its}'",
-    "lint": "eslint . --ext ts,its --report-unused-disable-directives --max-warnings 0",
+    "format": "prettier --write .",
+    "lint": "eslint .",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"

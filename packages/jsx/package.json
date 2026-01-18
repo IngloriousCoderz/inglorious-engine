@@ -1,0 +1,37 @@
+{
+  "name": "@inglorious/jsx",
+  "version": "0.1.1",
+  "description": "A shim for JSX syntax, to please the TypeScript gods.",
+  "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
+  "license": "MIT",
+  "type": "module",
+  "homepage": "https://github.com/IngloriousCoderz/inglorious-forge/tree/main/packages/jsx#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IngloriousCoderz/inglorious-forge.git",
+    "directory": "packages/jsx"
+  },
+  "bugs": {
+    "url": "https://github.com/IngloriousCoderz/inglorious-forge/issues"
+  },
+  "keywords": [
+    "inglorious",
+    "jsx"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    "./jsx-dev-runtime": {
+      "types": "./types/jsx.d.ts",
+      "default": "./src/jsx-dev-runtime.ts"
+    },
+    "./jsx-runtime": {
+      "types": "./types/jsx.d.ts",
+      "default": "./src/jsx-runtime.ts"
+    }
+  },
+  "engines": {
+    "node": ">= 22"
+  }
+}
