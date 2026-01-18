@@ -1,5 +1,4 @@
-import type { Middleware } from "@inglorious/store"
-import { createDevtools } from "@inglorious/web"
+import { createDevtools, type Middleware } from "@inglorious/web"
 
 import type { AppEntity, AppState } from "../../types"
 

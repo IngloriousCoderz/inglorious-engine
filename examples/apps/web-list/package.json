@@ -1,8 +1,10 @@
 {
   "name": "web-list",
   "private": true,
-  "version": "0.1.21",
+  "version": "0.1.22",
   "type": "module",
+  "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
+  "license": "MIT",
   "scripts": {
     "format": "prettier --write '**/*.js'",
     "lint": "eslint . --ext js --report-unused-disable-directives --max-warnings 0",

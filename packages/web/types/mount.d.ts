@@ -1,5 +1,5 @@
 import type { TemplateResult } from "lit-html"
-import type { Store, Api as StoreApi } from "@inglorious/store"
+import type { BaseEntity, Store, Api as StoreApi } from "@inglorious/store"
 
 export type Api = StoreApi & {
   /**
@@ -21,8 +21,8 @@ export type Api = StoreApi & {
  * @param element The DOM element to mount the template to.
  * @returns An unsubscribe function.
  */
-export function mount(
-  store: Store,
+export function mount<Entity = BaseEntity, State = BaseState>(
+  store: Store<Entity, State>,
   renderFn: (api: Api) => TemplateResult | null,
   element: HTMLElement | DocumentFragment,
 ): () => void

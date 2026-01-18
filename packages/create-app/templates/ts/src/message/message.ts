@@ -1,13 +1,13 @@
-import { type Api, html } from "@inglorious/web"
+import { html } from "@inglorious/web"
 
-import type { MessageEntity } from "../../types"
+import type { MessageType } from "../../types"
 
-export const message = {
-  click(entity: MessageEntity) {
+export const message: MessageType = {
+  click(entity) {
     entity.isUpperCase = !entity.isUpperCase
   },
 
-  render(entity: MessageEntity, api: Api) {
+  render(entity, api) {
     const message = entity.isUpperCase ? entity.who.toUpperCase() : entity.who
     return html`<span @click=${() => api.notify(`#${entity.id}:click`)}
       >Hello ${message}</span

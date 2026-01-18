@@ -1,0 +1,37 @@
+{
+  "name": "web-todomvc-ts",
+  "private": true,
+  "version": "0.2.0",
+  "type": "module",
+  "author": "IceOnFire <antony.mistretta@gmail.com> (https://ingloriouscoderz.it)",
+  "license": "MIT",
+  "scripts": {
+    "format": "prettier --write **/*.ts",
+    "lint": "eslint . --report-unused-disable-directives --max-warnings 0",
+    "test:watch": "vitest",
+    "test": "vitest run",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@inglorious/web": "workspace:*"
+  },
+  "devDependencies": {
+    "@inglorious/eslint-config": "workspace:*",
+    "@types/node": "^24.8.0",
+    "eslint": "^9.39.1",
+    "prettier": "^3.6.2",
+    "rollup-plugin-minify-template-literals": "^1.1.7",
+    "sharp": "^0.34.5",
+    "svgo": "^4.0.0",
+    "typescript": "~5.9.3",
+    "vite": "^7.1.6",
+    "vite-plugin-image-optimizer": "^2.0.3",
+    "vitest": "^4.0.16"
+  },
+  "packageManager": "pnpm@10.15.0",
+  "engines": {
+    "node": ">= 22"
+  }
+}

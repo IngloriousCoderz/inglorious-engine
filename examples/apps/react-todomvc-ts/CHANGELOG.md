@@ -1,5 +1,11 @@
 # todomvc
 
+## 0.1.16
+
+### Patch Changes
+
+- Add Inglorious Web TS example
+
 ## 0.1.15
 
 ### Patch Changes

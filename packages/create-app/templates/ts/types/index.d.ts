@@ -1,4 +1,6 @@
-import { BaseEntity, EntitiesState } from "@inglorious/store"
+import "./vite-end"
+
+import { BaseEntity, EntitiesState } from "@inglorious/web"
 
 // Define your entity types
 export interface MessageEntity extends BaseEntity {
@@ -19,8 +21,7 @@ export interface AppState extends EntitiesState<AppEntity> {
 }
 
 // Types configuration
-export interface AppTypes {
-  message: {
-    click: (entity: MessageEntity) => void
-  }
+export interface MessageType {
+  click: (entity: MessageEntity) => void
+  render: (entity: MessageEntity, api: Api) => TemplateResult | null
 }

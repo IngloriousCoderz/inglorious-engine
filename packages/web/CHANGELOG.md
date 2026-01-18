@@ -1,5 +1,11 @@
 # @inglorious/react-store
 
+## 4.0.4
+
+### Patch Changes
+
+- Add Inglorious Web TS example
+
 ## 4.0.3
 
 ### Patch Changes

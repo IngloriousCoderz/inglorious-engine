@@ -1,5 +1,4 @@
-import type { TypesConfig } from "@inglorious/store"
-import { createStore } from "@inglorious/web"
+import { createStore, type TypesConfig } from "@inglorious/web"
 
 import type { AppEntity, AppState } from "../../types"
 import { message } from "../message/message"
