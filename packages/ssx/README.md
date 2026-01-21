@@ -30,9 +30,9 @@ SSX takes your entity-based web apps and generates optimized static HTML with fu
 - **Hot reload dev server** - See changes instantly
 - **Lazy-loaded routes** - Code splitting automatically
 - **lit-html hydration** - Interactive UI without the bloat
-- **TypeScript Ready** - Write your pages and entities in TypeScript.
-- **Image Optimization** - Automatic compression for static assets.
-- **Markdown Support** - Built-in support for `.md` pages with code highlighting and math.
+- **TypeScript ready** - Write your pages and entities in TypeScript
+- **Image optimization** - Automatic compression for static assets
+- **Markdown support** - Built-in support for `.md` pages with code highlighting and math
 
 ### 🚀 Production Ready
 
@@ -61,7 +61,7 @@ npm run dev
 
 Or manually:
 
-### Create Your First Site (TypeScript)
+### TypeScript Example
 
 ```typescript
 // src/pages/index.ts
@@ -85,7 +85,7 @@ export const index = {
 }
 ```
 
-### Create Your First Site (JavaScript)
+### JavaScript Example
 
 ```javascript
 // src/pages/index.js
@@ -195,14 +195,14 @@ Your file structure defines your routes:
 src/pages/
 ├── index.js          → /
 ├── about.js          → /about
-├── blog.js          → /blog
+├── blog.js           → /blog
 └── posts/
-    └── _slug.js        → /posts/:slug
+    └── _slug.js      → /posts/:slug
 ```
 
 Dynamic routes use underscore prefix: `_id.js`, `_slug.js`, etc.
 
-### ⚛️ Entity-Based State And Behavior
+### ⚛️ Entity-Based State and Behavior
 
 ```javascript
 // src/pages/about.js
@@ -265,7 +265,9 @@ export async function load(entity) {
   entity.posts = await response.json()
 }
 
-export const title = "Blog"
+export const metadata = {
+  title: "Blog",
+}
 ```
 
 The `load` function runs on the server during build. Data is serialized into the HTML and available immediately on the client.
@@ -309,9 +311,9 @@ export async function staticPaths() {
 }
 
 export const metadata = (entity) => ({
-  title: entity.post.title ?? "Post",
+  title: entity.post?.title ?? "Post",
   meta: {
-    description: entity.post.excerpt,
+    description: entity.post?.excerpt,
   },
 })
 ```
@@ -395,17 +397,17 @@ Routes are lazy-loaded on demand, keeping initial bundle size small.
 
 SSX includes built-in image optimization using `vite-plugin-image-optimizer`.
 
-- **Automatic compression** - PNG, JPEG, GIF, SVG, WebP, and AVIF are compressed at build time.
-- **Lossless & Lossy** - Configurable settings via `vite` config in `site.config.js`.
+- **Automatic compression** - PNG, JPEG, GIF, SVG, WebP, and AVIF are compressed at build time
+- **Lossless & lossy** - Configurable settings via `vite` config in `site.config.js`
 
 ### 📝 Markdown Support
 
 SSX treats `.md` files as first-class pages. You can create `src/pages/post.md` and it will be rendered automatically.
 
-- **Frontmatter** - Metadata is exported as `metadata`.
-- **Code Highlighting** - Built-in syntax highlighting with `highlight.js`.
-- **Math Support** - LaTeX support via `katex` (use `$E=mc^2$` or `$$...$$`).
-- **Mermaid Diagrams** - Use `mermaid` code blocks (requires client-side mermaid.js).
+- **Frontmatter** - Metadata is exported as `metadata`
+- **Code highlighting** - Built-in syntax highlighting with `highlight.js`
+- **Math support** - LaTeX support via `katex` (use `$E=mc^2$` or `$$...$$`)
+- **Mermaid diagrams** - Use `mermaid` code blocks (requires client-side mermaid.js)
 
 Configure the syntax highlighting theme in `site.config.js`:
 
@@ -416,6 +418,8 @@ export default {
   },
 }
 ```
+
+Example markdown file:
 
 ```markdown
 ---
@@ -448,14 +452,6 @@ Options:
   -f, --force          Force clean build, ignore cache
 ```
 
-### `preview`
-
-Serves the built static site on port 3000 through the `serve` NPM package.
-
-```bash
-pnpm preview
-```
-
 ### `ssx dev`
 
 Starts the Vite development server on port 3000 with hot reload:
@@ -467,6 +463,14 @@ Options:
   -c, --config <file>  Config file (default: "site.config.js")
   -r, --root <dir>     Source root directory (default: "src")
   -p, --port <port>    Dev server port (default: 3000)
+```
+
+### `preview`
+
+Serves the built static site on port 3000 through the `serve` NPM package:
+
+```bash
+pnpm preview
 ```
 
 ---
@@ -622,7 +626,25 @@ ssx build --force
 # Force a clean rebuild of all pages
 ```
 
-Incremental builds respect your page dependencies and invalidate cache when dependencies change.
+Incremental builds respect your page dependencies and invalidate the cache when dependencies change.
+
+---
+
+## Component Compatibility
+
+### Fully Supported
+
+- All Inglorious Web components (`table`, `list`, `select`, `form`)
+- Custom components using lit-html templates
+- Plain HTML and CSS
+
+### Limited Support
+
+- Third-party Web Components (Shoelace, Material Web, etc.)
+  - Will not appear in pre-rendered HTML
+  - Require client-side JavaScript to initialize
+  - Best used for client-only interactive features
+  - Consider using Inglorious Web components for SSG content
 
 ---
 

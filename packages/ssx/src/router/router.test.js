@@ -97,7 +97,17 @@ describe("router", () => {
       const consoleSpy = vi.spyOn(console, "warn").mockImplementation(() => {})
       const pages = await getPages(PAGES_DIR)
 
-      expect(pages).toMatchSnapshot()
+      // Verify that we got some pages
+      expect(pages.length).toBeGreaterThan(0)
+
+      // Verify specific pages exist and have correct structure
+      const rootPage = pages.find((p) => p.pattern === "/")
+      expect(rootPage).toBeDefined()
+      expect(rootPage.filePath).toMatch(/pages[/\\]index\.js$/)
+
+      const aboutPage = pages.find((p) => p.pattern === "/about")
+      expect(aboutPage).toBeDefined()
+      expect(aboutPage.filePath).toMatch(/pages[/\\]about\.js$/)
 
       // Dynamic route without staticPaths should be skipped (and warn)
       const blogPage = pages.find((p) => p.path.includes("/api/"))

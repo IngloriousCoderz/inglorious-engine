@@ -1,5 +1,13 @@
 # @inglorious/ssx
 
+## 1.4.4
+
+### Patch Changes
+
+- Update docs with web components info
+- Updated dependencies
+  - @inglorious/web@4.0.6
+
 ## 1.4.3
 
 ### Patch Changes

@@ -940,6 +940,91 @@ See `src/list.js` in the package for the implementation details and the `example
 
 ---
 
+## Using Third-Party Web Components
+
+Inglorious Web works seamlessly with any Web Component library, such as Shoelace, Material Web Components, or Lion. Thanks to lit-html's efficient diffing algorithm, Web Components maintain their internal state even when the full tree re-renders - the component only updates when its properties change.
+
+### ⚠️ SSG/SSR Considerations
+
+**Inglorious Web's built-in components** (`table`, `list`, `select`, `form`) are fully compatible with [@inglorious/ssx](https://npmjs.com/package/@inglorious/ssx) for static site generation. They render to complete HTML at build time and hydrate seamlessly on the client.
+
+**Third-party Web Components** currently have limited SSR/SSG support. Most Web Component libraries (including Shoelace and Material Web Components) require client-side JavaScript to initialize and render, which means:
+
+- They won't appear in the pre-rendered HTML
+- They're not SEO-friendly in their initial state
+- They may cause FOUC (Flash of Unstyled Content)
+- They should be treated as client-only enhancements
+
+**Recommendation for SSX projects:**
+
+- Use Inglorious Web components for content that needs to be pre-rendered (product listings, blog posts, documentation)
+- Use Web Components for interactive, client-only features (color pickers, rich text editors, admin tools)
+
+**Use Inglorious Web's built-in components when:**
+
+✅ You want full architectural consistency
+✅ You need fine-grained control over behavior
+✅ You want to compose behaviors via type composition
+✅ You need time-travel debugging of component state
+✅ You want minimal bundle size
+✅ You're building a core pattern used throughout your app
+✅ You want the simplest possible tests
+✅ You need custom behavior that third-party components don't provide
+✅ You're using SSX for static site generation
+
+**Use Web Components (like Shoelace) when:**
+
+✅ You need complex, battle-tested UI (date pickers, rich text editors)
+✅ You want a comprehensive design system out of the box
+✅ Speed of development matters more than architectural purity
+✅ You need features you don't want to build yourself (color pickers, tree views)
+✅ The component is isolated or used infrequently
+✅ You're okay with some state living outside the store
+✅ You're building a client-only application (not using SSX)
+
+### Example: Hybrid Approach
+
+```javascript
+import { table } from "@inglorious/web/table"
+import "@shoelace-style/shoelace/dist/components/color-picker/color-picker.js"
+
+const types = {
+  // Inglorious Web component - full store integration
+  productTable: {
+    ...table,
+    data: products,
+    columns: [
+      { id: "name", label: "Product Name" },
+      { id: "price", label: "Price" },
+    ],
+  },
+
+  // Web Component - for specialized UI
+  themeEditor: {
+    colorChange(entity, color) {
+      entity.primaryColor = color
+    },
+
+    render(entity, api) {
+      return html`
+        <div>
+          <label>Primary Color</label>
+          <sl-color-picker
+            value=${entity.primaryColor}
+            @sl-change=${(e) =>
+              api.notify("#themeEditor:colorChange", e.target.value)}
+          ></sl-color-picker>
+        </div>
+      `
+    },
+  },
+}
+```
+
+This hybrid approach gives you the best of both worlds: architectural consistency for core patterns, and battle-tested components for complex UI.
+
+---
+
 ## API Reference
 
 **`mount(store, renderFn, element)`**

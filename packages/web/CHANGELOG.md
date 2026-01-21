@@ -1,5 +1,11 @@
 # @inglorious/react-store
 
+## 4.0.6
+
+### Patch Changes
+
+- Update docs with web components info
+
 ## 4.0.5
 
 ### Patch Changes
