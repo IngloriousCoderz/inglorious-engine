@@ -3,7 +3,7 @@
  */
 import { describe, expect, it } from "vitest"
 
-import { closestAncestor, saturate } from "./utils.js"
+import { closestAncestor, saturate } from "./utils"
 
 describe("utils", () => {
   describe("saturate", () => {

@@ -5,7 +5,7 @@
  * @property {(id: string) => LogoEntity} getEntity
  * @property {(topic: string, payload: any) => void} notify
  */
-import { closestAncestor, isTouchDevice, saturate } from "./utils"
+import { closestAncestor, isTouchDevice, saturate } from "./utils.js"
 
 const MAX_HEAD_TILT_X = 400
 const MAX_HEAD_TILT_Y = 400
