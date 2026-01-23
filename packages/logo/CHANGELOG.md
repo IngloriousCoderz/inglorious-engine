@@ -1,5 +1,11 @@
 # @inglorious/logo
 
+## 2.0.15
+
+### Patch Changes
+
+- Fix directory import in logo
+
 ## 2.0.14
 
 ### Patch Changes

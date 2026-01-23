@@ -17,7 +17,7 @@
 import { html, styleMap, when } from "@inglorious/web"
 
 import eye from "./assets/eye.svg"
-import * as faces from "./assets/faces"
+import * as faces from "./assets/faces/index.js"
 
 const MINUS_FORTY_DEGREES = -0.6981
 const MINUS_FORTY_FIVE_DEGREES = -0.7854
