@@ -1,4 +1,7 @@
 export function isTouchDevice() {
+  // skip during SSX
+  if (typeof window === "undefined") return false
+
   if (
     "ontouchstart" in window ||
     (window.DocumentTouch && document instanceof window.DocumentTouch)

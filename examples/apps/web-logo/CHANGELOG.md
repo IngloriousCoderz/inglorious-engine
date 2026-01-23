@@ -1,5 +1,13 @@
 # lit-todomvc
 
+## 0.1.18
+
+### Patch Changes
+
+- Make logo SSX-friendly
+- Updated dependencies
+  - @inglorious/logo@2.0.16
+
 ## 0.1.17
 
 ### Patch Changes

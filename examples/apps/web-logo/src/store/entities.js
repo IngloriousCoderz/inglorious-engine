@@ -6,7 +6,7 @@ export const entities = {
       isInteractive: false,
       faces: [
         { image: "I", reverse: false, eye: true },
-        { image: "W", reverse: false, eye: false },
+        { image: "F", reverse: false, eye: false },
       ],
     },
   },
@@ -15,7 +15,7 @@ export const entities = {
     size: 256,
     faces: [
       { image: "I", reverse: false, eye: true },
-      { image: "W", reverse: false, eye: false },
+      { image: "F", reverse: false, eye: false },
     ],
     isInteractive: false,
     isScrollPrevented: true,

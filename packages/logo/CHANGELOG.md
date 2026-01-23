@@ -1,5 +1,11 @@
 # @inglorious/logo
 
+## 2.0.16
+
+### Patch Changes
+
+- Make logo SSX-friendly
+
 ## 2.0.15
 
 ### Patch Changes
