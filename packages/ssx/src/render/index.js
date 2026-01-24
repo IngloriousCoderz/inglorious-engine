@@ -5,6 +5,7 @@ const DEFAULT_OPTIONS = {
   lang: "en",
   charset: "UTF-8",
   title: "",
+  favicon: "",
   meta: {},
   styles: [],
   head: "",
@@ -26,17 +27,18 @@ export async function renderPage(store, page, entity, options = {}) {
 
   const getPageOption = createGetPageOption(store, module, entity)
 
-  const lang = getPageOption("lang", DEFAULT_OPTIONS) ?? options.lang
-  const charset = getPageOption("charset", DEFAULT_OPTIONS) ?? options.charset
-  const title = getPageOption("title", DEFAULT_OPTIONS) ?? options.title
+  const lang = getPageOption("lang", DEFAULT_OPTIONS) || options.lang
+  const charset = getPageOption("charset", DEFAULT_OPTIONS) || options.charset
+  const title = getPageOption("title", DEFAULT_OPTIONS) || options.title
+  const favicon = getPageOption("favicon", DEFAULT_OPTIONS) || options.favicon
   const meta = { ...options.meta, ...getPageOption("meta", DEFAULT_OPTIONS) }
   const styles = [
-    ...(options.styles ?? []),
+    ...(options.styles || []),
     ...getPageOption("styles", DEFAULT_OPTIONS),
   ]
-  const head = getPageOption("head", DEFAULT_OPTIONS) ?? options.head
+  const head = getPageOption("head", DEFAULT_OPTIONS) || options.head
   const scripts = [
-    ...(options.scripts ?? []),
+    ...(options.scripts || []),
     ...getPageOption("scripts", DEFAULT_OPTIONS),
   ]
 
@@ -45,6 +47,7 @@ export async function renderPage(store, page, entity, options = {}) {
     lang,
     charset,
     title,
+    favicon,
     meta,
     styles,
     head,

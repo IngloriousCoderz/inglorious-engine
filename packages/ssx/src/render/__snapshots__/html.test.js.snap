@@ -8,6 +8,7 @@ exports[`await toHTML > HTML wrapping > should default to empty title when not p
       <head>
         <meta charset="UTF-8" />
         <title></title>
+        <link rel="icon" type="image/x-icon" href="">
         
         
         
@@ -27,6 +28,7 @@ exports[`await toHTML > HTML wrapping > should handle empty arrays for meta, sty
       <head>
         <meta charset="UTF-8" />
         <title></title>
+        <link rel="icon" type="image/x-icon" href="">
         
         
         
@@ -46,6 +48,7 @@ exports[`await toHTML > HTML wrapping > should include all options in wrapped HT
       <head>
         <meta charset="UTF-8" />
         <title>Complete Page</title>
+        <link rel="icon" type="image/x-icon" href="">
         <meta name="author" content="Test Author">
         <link rel="stylesheet" href="/style.css">
         
@@ -65,6 +68,7 @@ exports[`await toHTML > HTML wrapping > should include meta tags in wrapped HTML
       <head>
         <meta charset="UTF-8" />
         <title>Test Page</title>
+        <link rel="icon" type="image/x-icon" href="">
         <meta name="description" content="Test description">
 <meta name="viewport" content="width=device-width, initial-scale=1">
         
@@ -85,6 +89,7 @@ exports[`await toHTML > HTML wrapping > should include scripts in wrapped HTML 1
       <head>
         <meta charset="UTF-8" />
         <title></title>
+        <link rel="icon" type="image/x-icon" href="">
         
         
         
@@ -105,6 +110,7 @@ exports[`await toHTML > HTML wrapping > should include stylesheets in wrapped HT
       <head>
         <meta charset="UTF-8" />
         <title></title>
+        <link rel="icon" type="image/x-icon" href="">
         
         <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/css/theme.css">
@@ -125,6 +131,7 @@ exports[`await toHTML > HTML wrapping > should wrap HTML with basic DOCTYPE and 
       <head>
         <meta charset="UTF-8" />
         <title>My Page</title>
+        <link rel="icon" type="image/x-icon" href="">
         
         
         
@@ -165,6 +172,7 @@ exports[`await toHTML > complex scenarios > should render wrapped complex page w
       <head>
         <meta charset="UTF-8" />
         <title>My Website</title>
+        <link rel="icon" type="image/x-icon" href="">
         <meta name="description" content="Welcome to my website">
 <meta name="viewport" content="width=device-width">
         <link rel="stylesheet" href="/style.css">

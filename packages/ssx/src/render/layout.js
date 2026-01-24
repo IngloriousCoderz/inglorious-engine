@@ -18,6 +18,7 @@ export function layout(body, options) {
     lang = "en",
     charset = "UTF-8",
     title = "",
+    favicon = "",
     meta = {},
     styles = [],
     head = "",
@@ -30,6 +31,7 @@ export function layout(body, options) {
       <head>
         <meta charset="${charset}" />
         <title>${title}</title>
+        <link rel="icon" type="image/x-icon" href="${favicon}">
         ${Object.entries(meta)
           .map(
             ([name, content]) => `<meta name="${name}" content="${content}">`,

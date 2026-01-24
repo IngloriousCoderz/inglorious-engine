@@ -1,5 +1,11 @@
 # @inglorious/ssx
 
+## 1.5.0
+
+### Minor Changes
+
+- Add favicon to SSX
+
 ## 1.4.4
 
 ### Patch Changes
