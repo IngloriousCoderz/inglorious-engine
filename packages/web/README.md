@@ -261,7 +261,6 @@ import { createStore, html } from "@inglorious/web"
 const types = {
   counter: {
     increment(entity, id) {
-      if (entity.id !== id) return
       entity.value++
     },
 
@@ -270,7 +269,9 @@ const types = {
       return html`
         <div>
           <span>Count: ${entity.value}</span>
-          <button @click=${() => api.notify("increment", entity.id)}>+1</button>
+          <button @click=${() => api.notify(`#${entity.id}:increment`)}>
+            +1
+          </button>
         </div>
       `
     },
