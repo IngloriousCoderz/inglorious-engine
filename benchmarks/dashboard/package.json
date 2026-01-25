@@ -9,7 +9,6 @@
     "dev": "vite",
     "lint": "eslint .",
     "test:watch": "vitest",
-    "test": "vitest run",
     "build": "vite build",
     "preview": "vite preview"
   },
