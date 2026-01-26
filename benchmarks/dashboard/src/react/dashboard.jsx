@@ -103,7 +103,6 @@ export default function Dashboard() {
   const handleSortByValue = () => setSortBy("value")
   const handleSortByProgress = () => setSortBy("progress")
 
-  // Memoized chart data slices
   const chartData1 = filteredData.slice(0, 20)
   const chartData2 = filteredData.slice(20, 40)
   const chartData3 = filteredData.slice(40, 60)

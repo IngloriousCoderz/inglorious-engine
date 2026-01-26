@@ -226,7 +226,7 @@ export const rendering = {
       ${repeat(
         filteredOptions,
         (option) => getOptionValue(option),
-        (option, index) => type.renderOption(entity, option, index, api),
+        (option, index) => type.renderOption(entity, { option, index }, api),
       )}
     </div>`
   },
@@ -239,7 +239,7 @@ export const rendering = {
    * @param {Api} api
    * @returns {TemplateResult}
    */
-  renderOption(entity, option, index, api) {
+  renderOption(entity, { option, index }, api) {
     const optionLabel = getOptionLabel(option)
     const isSelected = isOptionSelected(
       option,

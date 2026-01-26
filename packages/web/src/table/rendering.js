@@ -1,6 +1,7 @@
 import { html } from "lit-html"
 import { classMap } from "lit-html/directives/class-map.js"
 import { ref } from "lit-html/directives/ref.js"
+import { repeat } from "lit-html/directives/repeat.js"
 
 import { filters } from "./filters.js"
 import { getPaginationInfo, getRows, getSortDirection } from "./logic.js"
@@ -45,8 +46,11 @@ export const rendering = {
           }
         })}
       >
-        ${entity.columns.map((column) =>
-          type.renderHeaderColumn(entity, column, api),
+        ${repeat(
+          entity.columns,
+          (column) => column.id,
+          (column, index) =>
+            type.renderHeaderColumn(entity, { column, index }, api),
         )}
       </div>
 
@@ -54,7 +58,7 @@ export const rendering = {
     </div>`
   },
 
-  renderHeaderColumn(entity, column, api) {
+  renderHeaderColumn(entity, { column }, api) {
     return html`<div
       class="iw-table-header-column"
       style=${getColumnStyle(column)}
@@ -88,13 +92,15 @@ export const rendering = {
     const type = api.getType(entity.type)
 
     return html`<div class="iw-table-body">
-      ${getRows(entity).map((row, index) =>
-        type.renderRow(entity, row, index, api),
+      ${repeat(
+        getRows(entity),
+        (row) => row.id,
+        (row, index) => type.renderRow(entity, { row, index }, api),
       )}
     </div>`
   },
 
-  renderRow(entity, row, index, api) {
+  renderRow(entity, { row, index }, api) {
     const type = api.getType(entity.type)
     const rowId = row[entity.rowId ?? "id"]
 
@@ -105,13 +111,16 @@ export const rendering = {
         "iw-table-row-selected": entity.selection?.includes(rowId),
       })}"
     >
-      ${entity.columns.map((column, index) =>
-        type.renderCell(entity, row[column.id], index, api),
+      ${repeat(
+        entity.columns,
+        (column) => column.id,
+        (column, index) =>
+          type.renderCell(entity, { cell: row[column.id], index }, api),
       )}
     </div>`
   },
 
-  renderCell(entity, cell, index, api) {
+  renderCell(entity, { cell, index }, api) {
     const type = api.getType(entity.type)
     const column = entity.columns[index]
 
@@ -123,11 +132,11 @@ export const rendering = {
       })}"
       style=${getColumnStyle(column)}
     >
-      ${type.renderValue(cell, column, api)}
+      ${type.renderValue(entity, { value: cell, column, index }, api)}
     </div>`
   },
 
-  renderValue(value) {
+  renderValue(_, { value }) {
     return value
   },
 

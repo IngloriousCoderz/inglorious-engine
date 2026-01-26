@@ -8,7 +8,7 @@ const DIVISOR = 2
 export const productList = {
   ...list,
 
-  renderItem(item, index) {
+  renderItem(_, { item, index }) {
     return html`<div
       class=${classMap({
         [classes.product]: true,

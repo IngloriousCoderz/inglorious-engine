@@ -5,14 +5,14 @@ import { table } from "@inglorious/web/table"
 import { format } from "date-fns"
 
 const formatters = {
-  isAvailable: (value) => (value ? "✔️" : "❌"),
+  isAvailable: (value) => (value ? "✅" : "❌"),
   createdAt: (value) => format(value, "dd/MM/yyyy HH:mm"),
 }
 
 export const productTable = {
   ...table,
 
-  renderValue(value, column) {
+  renderValue(_, { value, column }) {
     return formatters[column.formatter]?.(value) ?? value
   },
 }

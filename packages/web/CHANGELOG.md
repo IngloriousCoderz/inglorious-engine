@@ -1,5 +1,11 @@
 # @inglorious/react-store
 
+## 4.0.7
+
+### Patch Changes
+
+- Use standard render signature for sub-renders
+
 ## 4.0.6
 
 ### Patch Changes

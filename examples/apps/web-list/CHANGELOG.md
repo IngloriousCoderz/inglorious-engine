@@ -1,5 +1,13 @@
 # lit-todomvc
 
+## 0.1.25
+
+### Patch Changes
+
+- Use standard render signature for sub-renders
+- Updated dependencies
+  - @inglorious/web@4.0.7
+
 ## 0.1.24
 
 ### Patch Changes

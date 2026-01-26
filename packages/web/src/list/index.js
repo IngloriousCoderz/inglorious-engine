@@ -1,5 +1,6 @@
 import { html } from "lit-html"
 import { ref } from "lit-html/directives/ref.js"
+import { repeat } from "lit-html/directives/repeat.js"
 import { styleMap } from "lit-html/directives/style-map.js"
 
 const LIST_START = 0
@@ -108,23 +109,31 @@ export const list = {
             position: "relative",
           })}
         >
-          ${visibleItems.map((item, idx) => {
-            const absoluteIndex = visibleRange.start + idx
-            const top = absoluteIndex * height
+          ${repeat(
+            visibleItems,
+            (item) => item.id,
+            (item, index) => {
+              const absoluteIndex = visibleRange.start + index
+              const top = absoluteIndex * height
 
-            return html`
-              <div
-                style=${styleMap({
-                  position: "absolute",
-                  top: `${top}px`,
-                  width: "100%",
-                })}
-                data-index=${absoluteIndex}
-              >
-                ${type.renderItem(item, absoluteIndex, api)}
-              </div>
-            `
-          })}
+              return html`
+                <div
+                  style=${styleMap({
+                    position: "absolute",
+                    top: `${top}px`,
+                    width: "100%",
+                  })}
+                  data-index=${absoluteIndex}
+                >
+                  ${type.renderItem(
+                    entity,
+                    { item, index: absoluteIndex },
+                    api,
+                  )}
+                </div>
+              `
+            },
+          )}
         </div>
       </div>
     `
@@ -138,8 +147,10 @@ export const list = {
    * @returns {TemplateResult}
    */
   // eslint-disable-next-line no-unused-vars
-  renderItem(item, index, api) {
-    return html`<div>${index + PRETTY_INDEX}. ${JSON.stringify(item)}</div>`
+  renderItem(entity, { item, index }, api) {
+    return html`<div class="iw-list-item">
+      ${index + PRETTY_INDEX}. ${JSON.stringify(item)}
+    </div>`
   },
 }
 

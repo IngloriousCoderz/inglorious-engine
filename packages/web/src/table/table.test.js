@@ -1,11 +1,11 @@
 /**
  * @vitest-environment jsdom
  */
-import { html } from "lit-html"
+import { html, render } from "lit-html"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
 // Mock the filters module to prevent devtools-related errors in the test environment.
-vi.mock("./table/filters.js", () => ({
+vi.mock("./filters.js", () => ({
   filters: { render: () => html`` },
 }))
 
@@ -291,14 +291,18 @@ describe("table", () => {
       // Use the real renderHeader
       api.getType.mockReturnValue(table)
       const result = table.renderHeader(entity, api)
-      const renderedItems = result.values.find(Array.isArray)
+      const container = document.createElement("div")
+      render(result, container)
+      const renderedItems = container.querySelectorAll(
+        ".iw-table-header-column",
+      )
       expect(renderedItems).toHaveLength(entity.columns.length)
     })
 
     it("renderHeaderColumn: should render a title and sort icon", () => {
       table.sortChange(entity, "name") // sort asc
       const column = entity.columns[0] // name column
-      const result = table.renderHeaderColumn(entity, column, api)
+      const result = table.renderHeaderColumn(entity, { column }, api)
       const renderedText = result.strings.join("")
       const title = result.values[2]
       const icon = result.values[3]
@@ -309,7 +313,9 @@ describe("table", () => {
     it("renderBody: should render a row for each visible item", () => {
       api.getType.mockReturnValue(table)
       const result = table.renderBody(entity, api)
-      const [renderedRows] = result.values
+      const container = document.createElement("div")
+      render(result, container)
+      const renderedRows = container.querySelectorAll(".iw-table-row")
       const visibleRows = getRows(entity)
       expect(renderedRows).toHaveLength(visibleRows.length)
     })
@@ -334,7 +340,7 @@ describe("table", () => {
       const cellData = "Test"
       const column = entity.columns[0] // name column
       column.width = 150
-      const result = table.renderCell(entity, cellData, 0, api)
+      const result = table.renderCell(entity, { cell: cellData, index: 0 }, api)
       const styleString = result.values[1]
       expect(styleString).toContain("width: 150px")
     })
