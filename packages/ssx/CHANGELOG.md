@@ -1,5 +1,11 @@
 # @inglorious/ssx
 
+## 1.5.1
+
+### Patch Changes
+
+- Fix hot module reloading in SSX
+
 ## 1.5.0
 
 ### Minor Changes

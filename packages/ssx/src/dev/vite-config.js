@@ -15,24 +15,22 @@ import { markdownPlugin } from "../utils/markdown.js"
  * @returns {Object} The merged Vite configuration.
  */
 export function createViteConfig(options = {}) {
-  const {
-    rootDir = "src",
-    publicDir = "public",
-    vite = {},
-    markdown = {},
-  } = options
+  const { rootDir = ".", vite = {}, markdown = {} } = options
   const { port = 3000 } = vite.dev ?? {}
+
+  const srcDir = path.resolve(process.cwd(), rootDir, "src")
+  const publicDir = path.resolve(process.cwd(), rootDir, "public")
 
   return mergeConfig(
     {
       root: process.cwd(),
-      publicDir: path.resolve(process.cwd(), rootDir, publicDir),
+      publicDir,
       server: { port, middlewareMode: true },
       appType: "custom",
       plugins: [virtualPlugin(), markdownPlugin(markdown)],
       resolve: {
         alias: {
-          "@": path.resolve(process.cwd(), rootDir),
+          "@": srcDir,
         },
       },
     },

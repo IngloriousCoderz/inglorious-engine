@@ -5,7 +5,8 @@ import { describe, expect, it } from "vitest"
 import { generateStore } from "../store"
 import { generateApp } from "./app"
 
-const ROOT_DIR = path.join(__dirname, "..", "__fixtures__")
+const ROOT_DIR = path.join(import.meta.dirname, "..", "__fixtures__")
+const PAGES_DIR = path.join(ROOT_DIR, "src", "pages")
 
 describe("generateApp", () => {
   it("should generate the app script for a static page", async () => {
@@ -13,7 +14,7 @@ describe("generateApp", () => {
       pattern: "/",
       path: "/",
       modulePath: "index.js",
-      filePath: path.join(ROOT_DIR, "pages", "index.js"),
+      filePath: PAGES_DIR,
     }
     const store = await generateStore([page], { rootDir: ROOT_DIR })
 
@@ -27,7 +28,7 @@ describe("generateApp", () => {
       pattern: "/about",
       path: "/about",
       modulePath: "about.js",
-      filePath: path.join(ROOT_DIR, "pages", "about.js"),
+      filePath: path.join(PAGES_DIR, "about.js"),
     }
     const store = await generateStore([page], { rootDir: ROOT_DIR })
 
@@ -41,7 +42,7 @@ describe("generateApp", () => {
       pattern: "/blog",
       path: "/blog",
       modulePath: "blog.js",
-      filePath: path.join(ROOT_DIR, "pages", "blog.js"),
+      filePath: path.join(PAGES_DIR, "blog.js"),
     }
     const store = await generateStore([page], { rootDir: ROOT_DIR })
 
@@ -55,7 +56,7 @@ describe("generateApp", () => {
       pattern: "/posts/:slug",
       path: "/posts/my-first-post",
       modulePath: "post.js",
-      filePath: path.join(ROOT_DIR, "pages", "posts", "_slug.js"),
+      filePath: path.join(PAGES_DIR, "posts", "_slug.js"),
     }
     const store = await generateStore([page], { rootDir: ROOT_DIR })
 

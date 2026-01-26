@@ -21,7 +21,9 @@ export async function dev(options = {}) {
   const config = await loadConfig(options)
 
   const mergedOptions = { ...config, ...options }
-  const { rootDir = "src" } = mergedOptions
+  const { rootDir = "." } = mergedOptions
+
+  const pagesDir = path.join(rootDir, "src", "pages")
 
   console.log("🚀 Starting dev server...\n")
 
@@ -30,16 +32,8 @@ export async function dev(options = {}) {
   const viteServer = await createServer(viteConfig)
   const loader = (p) => viteServer.ssrLoadModule(p)
 
-  // Get all pages once at startup
-  const pages = await getPages(path.join(rootDir, "pages"), loader)
-  console.log(`📄 Found ${pages.length} pages\n`)
-
-  // Generate store config once for all pages
-  const store = await generateStore(pages, mergedOptions, loader)
-
   // Use Vite's middleware first (handles HMR, static files, etc.)
   const connectServer = connect()
-
   connectServer.use(viteServer.middlewares)
 
   // Add SSR middleware
@@ -56,6 +50,9 @@ export async function dev(options = {}) {
         return next() // Let Vite serve it
       }
 
+      // Get all pages on each request (in dev mode, pages might be added/removed)
+      const pages = await getPages(pagesDir, loader)
+
       // Find matching page
       const page = pages.find((p) => matchRoute(p.path, url))
       if (!page) return next()
@@ -63,18 +60,29 @@ export async function dev(options = {}) {
       const module = await loader(page.filePath)
       page.module = module
 
+      // Generate store for THIS request (to pick up changes)
+      const store = await generateStore(pages, mergedOptions, loader)
+
       const entity = store._api.getEntity(page.moduleName)
       if (module.load) {
         await module.load(entity, page)
       }
+
+      // Generate and update the virtual app file BEFORE rendering
+      const app = generateApp(store, pages)
+      virtualFiles.set("/main.js", app)
+
+      // Invalidate the virtual module to ensure Vite picks up changes
+      const virtualModule = viteServer.moduleGraph.getModuleById("/main.js")
+      if (virtualModule) {
+        viteServer.moduleGraph.invalidateModule(virtualModule)
+      }
+
       const html = await renderPage(store, page, entity, {
         ...mergedOptions,
         wrap: true,
         isDev: true,
       })
-
-      const app = generateApp(store, pages)
-      virtualFiles.set("/main.js", app)
 
       res.setHeader("Content-Type", "text/html")
       res.end(html)

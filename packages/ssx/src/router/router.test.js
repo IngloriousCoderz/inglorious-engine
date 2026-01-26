@@ -5,7 +5,7 @@ import { afterEach, describe, expect, it, vi } from "vitest"
 import { getPages, getRoutes, matchRoute, resolvePage } from "./index.js"
 
 const ROOT_DIR = path.join(import.meta.dirname, "..", "__fixtures__")
-const PAGES_DIR = path.join(ROOT_DIR, "pages")
+const PAGES_DIR = path.join(ROOT_DIR, "src", "pages")
 
 describe("router", () => {
   afterEach(() => {

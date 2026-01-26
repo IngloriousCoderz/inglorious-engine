@@ -5,11 +5,12 @@ import { describe, expect, it, vi } from "vitest"
 import { generateStore } from "."
 
 const ROOT_DIR = path.join(import.meta.dirname, "..", "__fixtures__")
+const PAGES_DIR = path.join(ROOT_DIR, "src", "pages")
 
 describe("generateStore", () => {
   it("should generate the proper types and entities from a static page", async () => {
     const page = {
-      filePath: path.join(ROOT_DIR, "pages", "index.js"),
+      filePath: path.join(PAGES_DIR, "index.js"),
     }
 
     const store = await generateStore([page], { rootDir: ROOT_DIR })
@@ -20,7 +21,7 @@ describe("generateStore", () => {
 
   it("should generate the proper types and entities from a page with an entity", async () => {
     const page = {
-      filePath: path.join(ROOT_DIR, "pages", "about.js"),
+      filePath: path.join(PAGES_DIR, "about.js"),
     }
 
     const store = await generateStore([page], { rootDir: ROOT_DIR })
@@ -31,7 +32,7 @@ describe("generateStore", () => {
 
   it("should generate the proper types and entities from a page that has metadata", async () => {
     const page = {
-      filePath: path.join(ROOT_DIR, "pages", "blog.js"),
+      filePath: path.join(PAGES_DIR, "blog.js"),
     }
 
     const store = await generateStore([page], { rootDir: ROOT_DIR })
@@ -42,7 +43,7 @@ describe("generateStore", () => {
 
   it("should handle missing entities.js gracefully", async () => {
     const page = {
-      filePath: path.join(ROOT_DIR, "pages", "index.js"),
+      filePath: path.join(PAGES_DIR, "index.js"),
     }
 
     // Point to a directory that doesn't contain entities.js
@@ -64,8 +65,8 @@ describe("generateStore", () => {
       throw new Error("MODULE_NOT_FOUND")
     })
 
-    const page = { filePath: path.join(ROOT_DIR, "pages", "index.js") }
-    await generateStore([page], { rootDir: "src" }, loader)
+    const page = { filePath: path.join(PAGES_DIR, "index.js") }
+    await generateStore([page], { rootDir: "." }, loader)
 
     expect(loader).toHaveBeenCalledWith(page.filePath)
     expect(loader).toHaveBeenCalledWith(

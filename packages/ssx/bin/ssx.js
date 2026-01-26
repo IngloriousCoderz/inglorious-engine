@@ -27,8 +27,8 @@ program
 program
   .command("dev")
   .description("Start development server with hot reload")
-  .option("-c, --config <file>", "config file path", "site.config.js")
-  .option("-r, --root <dir>", "source root directory", "src")
+  .option("-c, --config <file>", "config file name", "site.config.js")
+  .option("-r, --root <dir>", "root directory", ".")
   .option("-p, --port <port>", "dev server port", 3000)
   .action(async (options) => {
     const cwd = process.cwd()
@@ -54,8 +54,8 @@ program
 program
   .command("build")
   .description("Build site from pages directory")
-  .option("-c, --config <file>", "config file path", "site.config.js")
-  .option("-r, --root <dir>", "source root directory", "src")
+  .option("-c, --config <file>", "config file name", "site.config.js")
+  .option("-r, --root <dir>", "root directory", ".")
   .option("-o, --out <dir>", "output directory", "dist")
   .option("-i, --incremental", "enable incremental builds", true)
   .option("-f, --force", "force clean build (ignore cache)", false)

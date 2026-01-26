@@ -37,13 +37,15 @@ export async function build(options = {}) {
 
   const mergedOptions = { ...config, ...options }
   const {
-    rootDir = "src",
+    rootDir = ".",
     outDir = "dist",
     incremental = true,
     clean = false,
     sitemap,
     rss,
   } = mergedOptions
+
+  const pagesDir = path.join(rootDir, "src", "pages")
 
   console.log("🔨 Starting build...\n")
 
@@ -56,7 +58,7 @@ export async function build(options = {}) {
   const loader = (p) => vite.ssrLoadModule(p)
 
   // 0. Get all pages to build (Fail fast if source is broken)
-  const allPages = await getPages(path.join(rootDir, "pages"), loader)
+  const allPages = await getPages(pagesDir, loader)
   console.log(`📄 Found ${allPages.length} pages\n`)
 
   // Load previous build manifest

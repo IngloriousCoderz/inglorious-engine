@@ -14,7 +14,9 @@ describe("createViteConfig", () => {
 
   it("should respect custom rootDir", () => {
     const config = createViteConfig({ rootDir: "app" })
-    expect(config.resolve.alias["@"]).toBe(path.resolve(process.cwd(), "app"))
+    expect(config.resolve.alias["@"]).toBe(
+      path.resolve(process.cwd(), "app", "src"),
+    )
   })
 
   it("should merge custom vite config", () => {

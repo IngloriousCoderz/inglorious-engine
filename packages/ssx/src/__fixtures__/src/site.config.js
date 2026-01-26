@@ -22,7 +22,7 @@ export default {
   },
 
   // Global assets
-  styles: ["./styles/reset.css", "./styles/theme.css"],
+  styles: ["/styles/reset.css", "/styles/theme.css"],
 
   ...(env === "production" && { scripts: ["./scripts/analytics.js"] }),
 

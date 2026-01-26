@@ -17,7 +17,9 @@ import { getModuleName } from "../utils/module.js"
  * @returns {Promise<Object>} The initialized store instance.
  */
 export async function generateStore(pages = [], options = {}, loader) {
-  const { rootDir = "src" } = options
+  const { rootDir = "." } = options
+  const srcDir = path.join(rootDir, "src")
+
   const load = loader || ((p) => import(pathToFileURL(p)))
 
   const types = {}
@@ -32,7 +34,7 @@ export async function generateStore(pages = [], options = {}, loader) {
 
   for (const ext of extensions) {
     try {
-      const module = await load(path.join(rootDir, "store", `entities.${ext}`))
+      const module = await load(path.join(srcDir, "store", `entities.${ext}`))
       entities = module.entities
       break
     } catch {

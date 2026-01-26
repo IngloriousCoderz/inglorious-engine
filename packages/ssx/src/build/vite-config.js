@@ -11,18 +11,15 @@ import { markdownPlugin } from "../utils/markdown.js"
  * Generate Vite config for building the client bundle
  */
 export function createViteConfig(options = {}) {
-  const {
-    rootDir = "src",
-    outDir = "dist",
-    publicDir = "public",
-    vite = {},
-    markdown = {},
-  } = options
+  const { rootDir = ".", outDir = "dist", vite = {}, markdown = {} } = options
+
+  const srcDir = path.resolve(process.cwd(), rootDir, "src")
+  const publicDir = path.resolve(process.cwd(), rootDir, "public")
 
   return mergeConfig(
     {
-      root: rootDir,
-      publicDir: path.resolve(process.cwd(), rootDir, publicDir),
+      root: process.cwd(),
+      publicDir: publicDir,
       plugins: [
         // minifyTemplateLiterals(), // TODO: minification breaks hydration. The footprint difference is minimal after all
         ViteImageOptimizer({
@@ -52,7 +49,7 @@ export function createViteConfig(options = {}) {
       },
       resolve: {
         alias: {
-          "@": path.resolve(process.cwd(), rootDir),
+          "@": srcDir,
         },
       },
     },
