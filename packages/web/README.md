@@ -32,8 +32,8 @@ Unlike modern frameworks that invent their own languages or rely on signals, pro
 - **Zero Component State**  
   All state lives in the store — never inside components.
 
-- **No Signals, No Subscriptions, No Memory Leaks**  
-  Because every render is triggered by the store, and lit-html handles the rest.
+- **No Signals, No Subscriptions, No Framework-Level Memory Leaks**  
+  Because every render is triggered by the store, and lit-html handles the rest — no subscription cleanup needed.
 
 - **No compilation required**  
   Apps can run directly in the browser — no build/compile step is strictly necessary (though you may use bundlers or Vite for convenience in larger projects).
@@ -59,6 +59,8 @@ Use the scaffolder to create a starter app tailored to your workflow.
 ## Key Architectural Insight
 
 ### ✨ **Inglorious Web re-renders the whole template tree on each state change.**
+
+**Important:** The DOM itself is not re-created. Only the template function reruns, and lit-html's efficient diffing updates just the changed DOM nodes.
 
 Thanks to lit-html's optimized diffing, this is fast, predictable, and surprisingly efficient.
 
@@ -93,7 +95,7 @@ This framework is ideal for both small apps and large business UIs.
 
 ## When NOT to Use Inglorious Web
 
-- You need fine-grained reactivity for very large datasets (1000+ items per view)
+- You're frequently mutating thousands of items without virtualization (though our `list` component handles this elegantly)
 - You're building a library that needs to be framework-agnostic
 - Your team is already deeply invested in React/Vue/Angular
 
@@ -141,7 +143,21 @@ This makes it especially suitable for:
 
 ## Comparison with Other Frameworks
 
-Here's how @inglorious/web compares to the major players:
+### TL;DR Quick Comparison
+
+| Framework      | Reactivity     | Compiler | Component State | Bundle Size | Learning Curve |
+| -------------- | -------------- | -------- | --------------- | ----------- | -------------- |
+| Inglorious Web | Event-based    | None     | No (store only) | Tiny        | Very Low       |
+| React          | VDOM diffing   | None     | Yes             | Large       | Medium/High    |
+| Vue            | Proxy-based    | Optional | Yes             | Medium      | Medium         |
+| Svelte         | Compiler magic | Required | Yes             | Small       | Medium         |
+| SolidJS        | Fine signals   | None     | No (runs once)  | Tiny        | Medium/High    |
+| Qwik           | Resumable      | Required | Yes             | Small       | Very High      |
+
+<details>
+<summary><strong>Click to expand detailed framework comparisons</strong></summary>
+
+Here's how @inglorious/web compares to the major players in detail:
 
 ---
 
@@ -220,6 +236,8 @@ Inglorious Web is minimal, predictable, and tiny.
 
 Inglorious Web is closer philosophically to **HTMX** and **vanilla JS**, but with a declarative rendering model and entity-based state.
 
+</details>
+
 ---
 
 ## Why Choose Inglorious Web
@@ -231,7 +249,7 @@ Inglorious Web is closer philosophically to **HTMX** and **vanilla JS**, but wit
 - One render path, no hidden rules
 - No reactivity graphs
 - No per-component subscriptions
-- No memory leaks
+- No framework-level memory leaks
 - No build step required (apps can run in the browser)
 - Works perfectly in hybrid UI/game engine contexts
 - Uses native ES modules and standards

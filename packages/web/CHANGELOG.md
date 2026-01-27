@@ -1,5 +1,11 @@
 # @inglorious/react-store
 
+## 4.0.9
+
+### Patch Changes
+
+- Clarify some points in Web's documentation
+
 ## 4.0.8
 
 ### Patch Changes
