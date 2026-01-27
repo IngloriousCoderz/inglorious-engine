@@ -18,13 +18,13 @@ This simulates real-world scenarios like factory monitoring dashboards, stock ti
 
 Benchmark with **1000 rows**, **10ms update interval** (100 updates/second):
 
-| Implementation            | FPS (dev) | FPS (prod) | Bundle Size | Mental Overhead |
-| ------------------------- | --------- | ---------- | ----------- | --------------- |
-| 🐌 React Naive            | 43        | 100        | 62.32kB     | Low             |
-| 🏃 React Memoized         | 97        | 100        | 62.48kB     | High            |
-| 🐢 React + Redux          | 26        | 92         | 72.20kB     | Very High       |
-| 🚀 Inglorious (no memo)   | 100       | 100        | 15.21kB     | Low             |
-| 🚀 Inglorious (with memo) | 100       | 100        | 15.37kB     | Low             |
+| Implementation            | FPS (dev) | FPS (prod) | Bundle Size | Mental Overhead | Testability |
+| ------------------------- | --------- | ---------- | ----------- | --------------- | ----------- |
+| 🐌 React Naive            | 43        | 100        | 62.32kB     | Low             | 😱 Hard     |
+| 🏃 React Memoized         | 97        | 100        | 62.48kB     | High            | 😱 Hard     |
+| 🐢 React + Redux          | 26        | 92         | 72.20kB     | Very High       | 😊 Good     |
+| 🚀 Inglorious (no memo)   | 100       | 100        | 15.21kB     | Low             | 🎉 Easy     |
+| 🚀 Inglorious (with memo) | 100       | 100        | 15.37kB     | Low             | 🎉 Easy     |
 
 ### Key Findings
 
@@ -32,7 +32,8 @@ Benchmark with **1000 rows**, **10ms update interval** (100 updates/second):
 ✅ **Bundle size advantage** - Inglorious is **4-5x smaller** (15KB vs 62-72KB)  
 ✅ **Production parity** - Both hit 100 FPS in prod, but Inglorious gets there with less code  
 ✅ **Memoization overhead** - React memoization adds complexity with minimal prod benefit  
-✅ **Redux tax** - RTK adds 10KB+ and slower dev performance for "best practices"
+✅ **Redux tax** - RTK adds 10KB+ and slower dev performance for "best practices"  
+✅ **Testing simplicity** - Inglorious components and types are trivially testable, React hooks require special tooling
 
 ## 🎯 What This Means
 
@@ -199,6 +200,291 @@ export const UPDATE_FREQUENCY = 10
 - Critical for global audiences (India, Brazil, Africa, rural areas)
 - Better Core Web Vitals scores out of the box
 
+## 🧪 Testability Comparison
+
+Testing is where architectural choices really shine or fail.
+
+### React Hooks: Testing Nightmare 😱
+
+```javascript
+// Testing a component with hooks requires special setup
+import { renderHook, act } from "@testing-library/react"
+
+// Can't test hooks in isolation - need renderHook wrapper
+const { result } = renderHook(() => useCustomHook())
+
+// Act wrappers everywhere
+act(() => {
+  result.current.doSomething()
+})
+
+// Testing components requires full React tree
+import { render, fireEvent } from "@testing-library/react"
+const { getByText } = render(<MyComponent />)
+
+// Mocking hooks is painful
+jest.mock("./useCustomHook", () => ({
+  useCustomHook: () => mockData,
+}))
+```
+
+**Problems:**
+
+- ❌ Can't test hooks in isolation without `renderHook`
+- ❌ Need `@testing-library/react-hooks` dependency
+- ❌ `act()` warnings everywhere
+- ❌ Difficult to mock custom hooks
+- ❌ Must render entire component tree to test logic
+- ❌ Async testing is particularly painful
+
+### React + Redux: Much Better 😊
+
+```javascript
+// Redux makes testing easier - logic is separate from components
+import { store } from "./store"
+import { updateRow } from "./dataSlice"
+
+// Test reducers in isolation
+test("updateRow changes row value", () => {
+  const state = { rows: [{ id: 1, value: 100 }] }
+  const newState = reducer(state, updateRow(1))
+  expect(newState.rows[0].value).not.toBe(100)
+})
+
+// Test selectors
+import { selectFilteredRows } from "./selectors"
+const filtered = selectFilteredRows(mockState)
+expect(filtered).toHaveLength(5)
+
+// Components are simpler to test (just pass props from store)
+```
+
+**Improvements:**
+
+- ✅ Logic lives in reducers (pure functions)
+- ✅ Selectors are testable in isolation
+- ✅ Components become simpler (just receive props)
+
+**But:**
+
+- ⚠️ Still need to test action creators
+- ⚠️ Integration tests require store setup
+- ⚠️ Boilerplate for every test file
+
+### Inglorious Web: Trivially Easy 🎉
+
+```javascript
+// Test entity handlers with the trigger() utility
+import { trigger, render } from "@inglorious/web/test"
+import { row } from "./types/row.js"
+
+test("randomUpdate changes row value", () => {
+  const { entity } = trigger(
+    { type: "row", id: 1, value: 100, progress: 50 },
+    row.randomUpdate,
+  )
+
+  expect(entity.value).not.toBe(100)
+  expect(entity.progress).not.toBe(50)
+  // Original entity unchanged - pure function behavior
+})
+
+test("click handler can dispatch events", () => {
+  const { entity, events } = trigger(
+    { type: "row", id: 1, value: 100 },
+    row.click,
+  )
+
+  expect(entity.value).not.toBe(100)
+  // If the handler called api.notify(), events array contains them
+})
+
+// Test render output by rendering to actual HTML
+test("row renders correctly", () => {
+  const entity = {
+    id: 1,
+    name: "Item 1",
+    value: 500,
+    status: "Active",
+    progress: 75,
+    rowId: 1,
+  }
+
+  const mockApi = {
+    notify: jest.fn(),
+  }
+
+  const template = row.render(entity, mockApi)
+  const html = render(template)
+
+  expect(html).toContain("Item 1")
+  expect(html).toContain("500")
+  expect(html).toContain("75%")
+  expect(html).toContain("status-active")
+})
+
+test("row click handler is wired correctly", () => {
+  const entity = {
+    id: 1,
+    name: "Item 1",
+    value: 500,
+    status: "Active",
+    progress: 75,
+    rowId: 1,
+  }
+  const mockApi = { notify: jest.fn() }
+
+  const template = row.render(entity, mockApi)
+  const html = render(template)
+
+  // Verify the onclick handler exists in the HTML
+  expect(html).toContain("onclick")
+})
+
+// Test computed state
+import { compute } from "@inglorious/store"
+
+test("filtered rows excludes non-matching items", () => {
+  const getFiltered = compute(
+    (rows, filter) => rows.filter((r) => r.name.includes(filter)),
+    () => mockRows,
+    () => "Item",
+  )
+
+  const result = getFiltered()
+  expect(result).toHaveLength(3)
+})
+
+// Integration test: create a real store
+import { createStore } from "@inglorious/store"
+
+test("full user interaction flow", () => {
+  const store = createStore({
+    types: { row },
+    entities: {
+      row_1: { type: "row", id: 1, value: 100 },
+    },
+  })
+
+  store.notify("#row_1:randomUpdate")
+
+  expect(store.entities.row_1.value).not.toBe(100)
+})
+```
+
+**Why it's better:**
+
+- ✅ **`trigger()` utility for pure testing** - handlers wrapped in Mutative.js return new state without mutation
+- ✅ **`render()` utility for HTML testing** - render lit-html templates to actual HTML strings
+- ✅ **Test events dispatched** - `trigger()` captures `api.notify()` calls
+- ✅ **Types are just objects with functions** - no special React testing setup
+- ✅ **Pure functions everywhere** - deterministic, easy to reason about
+- ✅ **String assertions are simple** - `.toContain()` is intuitive and clear
+- ✅ **No mocking required** - pass in the data you want to test
+- ✅ **No React testing library needed** - just plain JavaScript testing
+- ✅ **Fast tests** - no component mounting, no DOM manipulation
+- ✅ **Integration tests are straightforward** - create store, notify events, assert state
+
+### The Secret: Mutative.js
+
+Inglorious handlers **look** impure (they mutate entities directly), but the framework wraps them in [Mutative.js](https://mutative.js.org/), which provides:
+
+- ✅ Structural sharing (like Immer/RTK)
+- ✅ 2-6x faster than Immer
+- ✅ Pure function behavior without pure function syntax
+- ✅ Time-travel debugging compatibility
+- ✅ Easy testing with `trigger()`
+
+**You write:**
+
+```javascript
+function increment(entity, payload) {
+  entity.value += payload.amount // Looks impure
+}
+```
+
+**The framework executes:**
+
+```javascript
+const newEntity = produce(entity, (draft) => {
+  draft.value += payload.amount // Actually pure via Mutative
+})
+```
+
+Best of both worlds: mutable syntax, immutable benefits.
+
+### Testing Utilities
+
+Inglorious provides two simple testing utilities via `@inglorious/web/test`:
+
+#### `trigger(entity, handler, payload?, api?)`
+
+Execute an entity handler and get back the new state plus any events dispatched:
+
+```javascript
+const { entity, events } = trigger({ type: "counter", value: 10 }, increment, {
+  amount: 5,
+})
+
+expect(entity.value).toBe(15)
+expect(events).toHaveLength(0)
+```
+
+#### `render(template)`
+
+Render a lit-html template to an HTML string for testing:
+
+```javascript
+const template = myType.render(entity, api)
+const html = render(template)
+
+expect(html).toContain("expected content")
+```
+
+That's it. Two utilities, zero complexity.
+
+### Testing Comparison Summary
+
+| Aspect             | React Hooks            | React + Redux | Inglorious                |
+| ------------------ | ---------------------- | ------------- | ------------------------- |
+| Unit test setup    | Complex                | Medium        | Trivial                   |
+| Dependencies       | @testing-library/react | redux, jest   | None (just a test runner) |
+| Mocking complexity | High                   | Medium        | Low                       |
+| Test speed         | Slow (DOM)             | Medium        | Fast (pure functions)     |
+| Learning curve     | Steep                  | Medium        | Shallow                   |
+| Async testing      | Painful                | Medium        | Easy                      |
+| Pure functions     | No                     | Yes           | Yes (via Mutative)        |
+| Event testing      | Hard                   | Medium        | Easy (`trigger()`)        |
+| Render testing     | DOM queries            | DOM queries   | String assertions         |
+
+### Real-World Impact
+
+**React Hooks Project:**
+
+```bash
+npm install --save-dev \
+  @testing-library/react \
+  @testing-library/react-hooks \
+  @testing-library/jest-dom
+```
+
+- 3+ testing libraries required
+- 100+ lines of test setup boilerplate
+- Developers avoid testing hooks → bugs in production
+
+**Inglorious Project:**
+
+```bash
+npm install --save-dev vitest  # or jest, or node:test
+```
+
+- Just a test runner
+- Two optional utilities: `trigger()` and `render()`
+- Developers actually write tests → fewer bugs
+
+**The Bottom Line:**
+If your framework makes testing painful, developers won't test. If testing is trivial, they will. Inglorious makes testing so easy that you'll actually write tests.
+
 ## 🎓 Learning Resources
 
 - [Inglorious Web Documentation](https://github.com/IngloriousCoderz/inglorious-forge/blob/main/packages/web/README.md)
@@ -287,6 +573,32 @@ We'd love to see comparisons with other frameworks. Our expectations:
 - ✅ "Good enough" is enough (100 FPS without build tools beats 105 FPS with webpack/vite/rollup)
 
 If you value **architectural clarity and zero build complexity** over squeezing out the last 5% of performance, Inglorious Web wins. If you need every millisecond, Svelte might edge ahead - but you'll pay for it in tooling complexity.
+
+**Q: What about testing? I heard React hooks are hard to test.**  
+A: You heard right. Testing React hooks requires `@testing-library/react-hooks`, `act()` wrappers, and constant fighting with async state updates. It's so painful that many developers skip testing hooks entirely.
+
+Redux improves this significantly - reducers and selectors are pure functions, easy to test.
+
+Inglorious takes it further: **entity handlers are pure functions wrapped in Mutative.js**. Use the `trigger()` utility to test them:
+
+```javascript
+import { trigger } from "@inglorious/store/test"
+
+test("increment adds to value", () => {
+  const { entity, events } = trigger(
+    { type: "counter", value: 10 },
+    increment,
+    { amount: 5 },
+  )
+
+  expect(entity.value).toBe(15)
+  expect(events).toEqual([]) // No events dispatched
+})
+```
+
+You write mutable-looking code (`entity.value += 1`), but the framework makes it pure via Mutative.js. Testing gets the benefits of immutability without the ceremony of immutable syntax.
+
+When testing is this easy, developers actually write tests. When testing requires 10 lines of setup, they don't.
 
 ## 📢 Feedback
 

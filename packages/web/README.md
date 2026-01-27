@@ -89,7 +89,7 @@ It's that simple — and surprisingly fast in practice.
 
 This framework is ideal for both small apps and large business UIs.
 
---
+---
 
 ## When NOT to Use Inglorious Web
 
@@ -125,7 +125,7 @@ These systems are powerful but introduce:
 ✔ **Every UI update is a full diff pass**  
 ✔ **Every part of the system is just JavaScript**  
 ✔ **No special lifecycle**  
-✔ **No subscriptions needed**
+✔ **No subscriptions needed**  
 ✔ **No signals**  
 ✔ **No cleanup**  
 ✔ **No surprises**
@@ -139,13 +139,13 @@ This makes it especially suitable for:
 
 ---
 
-# Comparison with Other Frameworks
+## Comparison with Other Frameworks
 
 Here's how @inglorious/web compares to the major players:
 
 ---
 
-## **React**
+### **React**
 
 | Feature                   | React                         | Inglorious Web                     |
 | ------------------------- | ----------------------------- | ---------------------------------- |
@@ -162,7 +162,7 @@ React is powerful but complicated. Inglorious Web is simpler, lighter, and close
 
 ---
 
-## **Vue (3)**
+### **Vue (3)**
 
 | Feature         | Vue                        | Inglorious Web                      |
 | --------------- | -------------------------- | ----------------------------------- |
@@ -176,7 +176,7 @@ Vue reactivity is elegant but complex. Inglorious Web avoids proxies and keeps e
 
 ---
 
-## **Svelte**
+### **Svelte**
 
 | Feature        | Svelte                      | Inglorious Web     |
 | -------------- | --------------------------- | ------------------ |
@@ -189,7 +189,7 @@ Svelte is magic; Inglorious Web is explicit.
 
 ---
 
-## **SolidJS**
+### **SolidJS**
 
 | Feature    | Solid                | Inglorious Web     |
 | ---------- | -------------------- | ------------------ |
@@ -198,12 +198,12 @@ Svelte is magic; Inglorious Web is explicit.
 | Cleanup    | Required             | None               |
 | Behavior   | Highly optimized     | Highly predictable |
 
-Solid is extremely fast but requires a mental model.  
+Solid is extremely fast but requires a mental model shift.  
 Inglorious Web trades peak performance for simplicity and zero overhead.
 
 ---
 
-## **Qwik**
+### **Qwik**
 
 | Feature              | Qwik                 | Inglorious Web |
 | -------------------- | -------------------- | -------------- |
@@ -216,13 +216,13 @@ Inglorious Web is minimal, predictable, and tiny.
 
 ---
 
-## **HTMX / Alpine / Vanilla DOM**
+### **HTMX / Alpine / Vanilla DOM**
 
 Inglorious Web is closer philosophically to **HTMX** and **vanilla JS**, but with a declarative rendering model and entity-based state.
 
 ---
 
-# Why Choose Inglorious Web
+## Why Choose Inglorious Web
 
 - Minimalistic
 - Pure JavaScript
@@ -260,7 +260,7 @@ import { createStore, html } from "@inglorious/web"
 
 const types = {
   counter: {
-    increment(entity, id) {
+    increment(entity) {
       entity.value++
     },
 
@@ -310,6 +310,346 @@ mount(store, renderApp, document.getElementById("root"))
 ```
 
 The `mount` function subscribes to the store and automatically re-renders your template whenever the state changes.
+
+---
+
+## Testing
+
+One of Inglorious Web's greatest strengths is **testability**. Entity handlers are pure functions (via Mutative.js), and render functions return simple templates. No special testing libraries, no complex setup, no mocking hell.
+
+### Testing Utilities
+
+Inglorious Web provides two simple utilities for testing via `@inglorious/web/test`:
+
+#### `trigger(entity, handler, payload?, api?)`
+
+Execute an entity handler and get back the new state plus any events dispatched. Handlers are wrapped in Mutative.js, so they return new immutable state even though you write mutable-looking code.
+
+```javascript
+import { trigger } from "@inglorious/web/test"
+import { counter } from "./types/counter.js"
+
+test("increment adds to value", () => {
+  const { entity, events } = trigger(
+    { type: "counter", id: "counter1", value: 10 },
+    counter.increment,
+    { amount: 5 },
+  )
+
+  expect(entity.value).toBe(15)
+  expect(events).toEqual([]) // No events dispatched
+})
+
+test("increment dispatches overflow event", () => {
+  const { entity, events } = trigger(
+    { type: "counter", id: "counter1", value: 99 },
+    counter.increment,
+    { amount: 5 },
+  )
+
+  expect(entity.value).toBe(104)
+  expect(events).toEqual([{ type: "overflow", payload: { id: "counter1" } }])
+})
+```
+
+#### `render(template)`
+
+Render a lit-html template to an HTML string for testing. Perfect for testing render output with simple string assertions.
+
+```javascript
+import { render } from "@inglorious/web/test"
+import { counter } from "./types/counter.js"
+
+test("counter renders correctly", () => {
+  const entity = {
+    type: "counter",
+    id: "counter1",
+    value: 42,
+  }
+
+  const mockApi = {
+    notify: jest.fn(),
+  }
+
+  const template = counter.render(entity, mockApi)
+  const html = render(template)
+
+  expect(html).toContain("Count: 42")
+  expect(html).toContain("button")
+})
+
+test("counter button has click handler", () => {
+  const entity = { type: "counter", id: "counter1", value: 10 }
+  const mockApi = { notify: jest.fn() }
+
+  const template = counter.render(entity, mockApi)
+  const html = render(template)
+
+  expect(html).toContain("onclick")
+})
+```
+
+### Why Testing is Easy
+
+**No special setup required:**
+
+```bash
+npm install --save-dev vitest  # or jest, or node:test
+```
+
+That's it. No `@testing-library/react`, no `renderHook`, no `act()` wrappers.
+
+**Pure functions everywhere:**
+
+- Entity handlers are pure (thanks to Mutative.js)
+- Render functions are pure (they return templates)
+- No lifecycle hooks to manage
+- No async state updates to wrangle
+
+**Simple assertions:**
+
+- Test handlers: `expect(entity.value).toBe(15)`
+- Test renders: `expect(html).toContain('expected text')`
+- Test events: `expect(events).toHaveLength(1)`
+
+### Testing Patterns
+
+#### Unit Test: Handler Logic
+
+```javascript
+import { trigger } from "@inglorious/web/test"
+import { todo } from "./types/todo.js"
+
+test("toggle changes completed status", () => {
+  const { entity } = trigger(
+    { type: "todo", id: "todo1", text: "Buy milk", completed: false },
+    todo.toggle,
+  )
+
+  expect(entity.completed).toBe(true)
+})
+
+test("delete dispatches remove event", () => {
+  const { events } = trigger(
+    { type: "todo", id: "todo1", text: "Buy milk" },
+    todo.delete,
+  )
+
+  expect(events).toEqual([{ type: "#todoList:removeTodo", payload: "todo1" }])
+})
+```
+
+#### Unit Test: Render Output
+
+```javascript
+import { render } from "@inglorious/web/test"
+import { todo } from "./types/todo.js"
+
+test("todo renders text and status", () => {
+  const entity = {
+    type: "todo",
+    id: "todo1",
+    text: "Buy milk",
+    completed: false,
+  }
+
+  const html = render(todo.render(entity, { notify: jest.fn() }))
+
+  expect(html).toContain("Buy milk")
+  expect(html).not.toContain("completed")
+})
+
+test("completed todo has completed class", () => {
+  const entity = {
+    type: "todo",
+    id: "todo1",
+    text: "Buy milk",
+    completed: true,
+  }
+
+  const html = render(todo.render(entity, { notify: jest.fn() }))
+
+  expect(html).toContain("completed")
+})
+```
+
+#### Integration Test: Full Store
+
+```javascript
+import { createStore } from "@inglorious/web"
+import { counter } from "./types/counter.js"
+
+test("full user interaction flow", () => {
+  const store = createStore({
+    types: { counter },
+    entities: {
+      counter1: { type: "counter", id: "counter1", value: 0 },
+    },
+  })
+
+  // User clicks increment
+  store.notify("#counter1:increment", { amount: 5 })
+  expect(store.entities.counter1.value).toBe(5)
+
+  // User clicks increment again
+  store.notify("#counter1:increment", { amount: 3 })
+  expect(store.entities.counter1.value).toBe(8)
+})
+```
+
+#### Testing Computed State
+
+```javascript
+import { createSelector } from "@inglorious/store"
+
+test("filtered todos excludes completed", () => {
+  const todos = [
+    { id: 1, text: "Buy milk", completed: false },
+    { id: 2, text: "Walk dog", completed: true },
+    { id: 3, text: "Write tests", completed: false },
+  ]
+
+  const getActiveTodos = createSelector([() => todos], (todos) =>
+    todos.filter((t) => !t.completed),
+  )
+
+  const result = getActiveTodos()
+
+  expect(result).toHaveLength(2)
+  expect(result[0].text).toBe("Buy milk")
+  expect(result[1].text).toBe("Write tests")
+})
+```
+
+### Comparison with React Testing
+
+**React (with hooks):**
+
+```javascript
+import { renderHook, act } from "@testing-library/react"
+
+test("counter increments", () => {
+  const { result } = renderHook(() => useCounter())
+
+  act(() => {
+    result.current.increment()
+  })
+
+  expect(result.current.count).toBe(1)
+})
+```
+
+**Inglorious Web:**
+
+```javascript
+import { trigger } from "@inglorious/web/test"
+
+test("counter increments", () => {
+  const { entity } = trigger({ value: 0 }, counter.increment)
+
+  expect(entity.value).toBe(1)
+})
+```
+
+**The difference:**
+
+- ❌ React requires `renderHook`, `act()`, special testing library
+- ✅ Inglorious just calls the function directly
+- ❌ React hooks can't be tested in isolation
+- ✅ Inglorious handlers are just functions
+- ❌ React has async timing issues
+- ✅ Inglorious is synchronous and predictable
+
+### Testing Type Composition
+
+Type composition (like route guards) is also easy to test:
+
+```javascript
+import { trigger } from "@inglorious/web/test"
+import { requireAuth } from "./guards/require-auth.js"
+import { adminPage } from "./pages/admin.js"
+
+test("requireAuth blocks unauthenticated access", () => {
+  // Compose the guard with the page type
+  const guardedPage = requireAuth(adminPage)
+
+  // Mock localStorage.getItem to return null (not logged in)
+  const mockApi = {
+    notify: jest.fn(),
+  }
+
+  const { events } = trigger(
+    { type: "adminPage", id: "admin" },
+    guardedPage.routeChange,
+    { route: "adminPage" },
+    mockApi,
+  )
+
+  // Should redirect to login
+  expect(events).toContainEqual(
+    expect.objectContaining({
+      type: "navigate",
+      payload: expect.objectContaining({ to: "/login" }),
+    }),
+  )
+})
+
+test("requireAuth allows authenticated access", () => {
+  // Mock localStorage.getItem to return user data
+  localStorage.setItem("user", JSON.stringify({ id: 1 }))
+
+  const guardedPage = requireAuth(adminPage)
+  const mockApi = { notify: jest.fn() }
+
+  const { events } = trigger(
+    { type: "adminPage", id: "admin" },
+    guardedPage.routeChange,
+    { route: "adminPage" },
+    mockApi,
+  )
+
+  // Should NOT redirect
+  expect(events).toEqual([])
+
+  // Cleanup
+  localStorage.removeItem("user")
+})
+```
+
+### Fast Test Execution
+
+Because Inglorious tests don't mount components or manipulate the DOM, they're extremely fast:
+
+```bash
+# Typical test suite times
+React: 30-60 seconds for 100 tests
+Inglorious: 1-3 seconds for 100 tests
+```
+
+This makes TDD (Test-Driven Development) actually enjoyable. Fast feedback loops mean you'll actually run tests while coding.
+
+### Best Practices
+
+1. **Test handlers separately from renders** - Unit test logic, integration test UI
+2. **Use descriptive test names** - "increment adds to value" not "test increment"
+3. **Test edge cases** - Empty states, max values, null checks
+4. **Keep tests simple** - One assertion per test when possible
+5. **Don't over-mock** - Only mock what you must (usually just `api.notify`)
+
+### When to Write Tests
+
+- ✅ **Always test:** Complex business logic, calculations, validations
+- ✅ **Often test:** Event handlers, state transitions, conditional renders
+- ⚠️ **Sometimes test:** Simple getters, trivial renders
+- ❌ **Rarely test:** Third-party components, framework internals
+
+### The Bottom Line
+
+If your framework makes testing painful, developers won't test. If testing is trivial, they will.
+
+**Inglorious Web makes testing so easy that you'll actually write tests.**
+
+No special libraries, no complex setup, just pure functions and simple assertions. Testing becomes a natural part of your workflow, not a chore you avoid.
 
 ---
 
@@ -1065,7 +1405,6 @@ import {
   // from lit-html
   mount,
   html,
-  render,
   svg,
   // lit-html directives
   choose,
@@ -1087,6 +1426,7 @@ import {
 import { list } from "@inglorious/web/list"
 import { router } from "@inglorious/web/router"
 import { select } from "@inglorious/web/select"
+import { render, trigger } from "@inglorious/web/test"
 import { table } from "@inglorious/web/table"
 ```
 

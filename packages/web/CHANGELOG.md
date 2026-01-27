@@ -1,5 +1,11 @@
 # @inglorious/react-store
 
+## 4.0.8
+
+### Patch Changes
+
+- Document testing in Inglorious Web
+
 ## 4.0.7
 
 ### Patch Changes
