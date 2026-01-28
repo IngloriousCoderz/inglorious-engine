@@ -96,8 +96,15 @@ This framework is ideal for both small apps and large business UIs.
 ## When NOT to Use Inglorious Web
 
 - You're frequently mutating thousands of items without virtualization (though our `list` component handles this elegantly)
-- You're building a library that needs to be framework-agnostic
-- Your team is already deeply invested in React/Vue/Angular
+- You need framework-agnostic components for users who might not use Inglorious (use Web Components instead)
+- Your team is already deeply invested in React/Vue/Angular and migration costs outweigh benefits
+
+## When Inglorious Web EXCELS
+
+- Building **internal component libraries** - Types are more customizable than React components
+- Creating **design systems** - Spread, override, and compose behaviors freely
+- Building **pattern libraries** - Ship pre-configured entity types that users can adapt
+- Apps where **predictable state flow** matters more than ecosystem size
 
 ---
 
@@ -145,14 +152,16 @@ This makes it especially suitable for:
 
 ### TL;DR Quick Comparison
 
-| Framework      | Reactivity     | Compiler | Component State | Bundle Size | Learning Curve |
-| -------------- | -------------- | -------- | --------------- | ----------- | -------------- |
-| Inglorious Web | Event-based    | None     | No (store only) | Tiny        | Very Low       |
-| React          | VDOM diffing   | None     | Yes             | Large       | Medium/High    |
-| Vue            | Proxy-based    | Optional | Yes             | Medium      | Medium         |
-| Svelte         | Compiler magic | Required | Yes             | Small       | Medium         |
-| SolidJS        | Fine signals   | None     | No (runs once)  | Tiny        | Medium/High    |
-| Qwik           | Resumable      | Required | Yes             | Small       | Very High      |
+| Framework      | Reactivity     | Build Transform  | Runtime Compiler | Component State | Bundle Size | Learning Curve |
+| -------------- | -------------- | ---------------- | ---------------- | --------------- | ----------- | -------------- |
+| Inglorious Web | Event-based    | None required    | No               | No (store only) | Tiny        | Very Low       |
+| React          | VDOM diffing   | JSX + optional\* | No               | Yes             | Large       | Medium/High    |
+| Vue            | Proxy-based    | SFC (optional)   | Available        | Yes             | Medium      | Medium         |
+| Svelte         | Compiler magic | Required         | No               | Yes             | Small       | Medium         |
+| SolidJS        | Fine signals   | JSX only         | No               | No (runs once)  | Tiny        | Medium/High    |
+| Qwik           | Resumable      | Required         | No               | Yes             | Small       | Very High      |
+
+\*React Compiler (stable 2024+) provides automatic memoization
 
 <details>
 <summary><strong>Click to expand detailed framework comparisons</strong></summary>
@@ -1296,6 +1305,86 @@ const store = createStore({ types, entities })
 ```
 
 See `src/list.js` in the package for the implementation details and the `examples/apps/web-list` demo for a complete working example. In the demo the `productList` type extends the `list` type and provides `renderItem(item, index)` to render each visible item — see `examples/apps/web-list/src/product-list/product-list.js`.
+
+---
+
+## Building Component Libraries with Inglorious Web
+
+**Inglorious types are uniquely suited for component libraries** because they're fully customizable through JavaScript's spread operator.
+
+### The Pattern
+
+**Library publishes types:**
+
+```javascript
+// @acme/design-system/table.js
+export const table = {
+  render(entity, api) {
+    const type = api.getType(entity.type)
+
+    return html`
+      <table>
+        ${entity.data.map((row) => type.renderRow(entity, row, api))}
+      </table>
+    `
+  },
+
+  renderRow(entity, row, api) {
+    return html`<tr>
+      ${row.name}
+    </tr>`
+  },
+
+  rowClick(entity, row) {
+    entity.selectedRow = row
+  },
+}
+```
+
+**Users customize freely:**
+
+```javascript
+import { table } from "@acme/design-system/table"
+
+// Use as-is
+const simpleTable = { ...table }
+
+// Override methods
+const customTable = {
+  ...table,
+  renderRow(entity, row, api) {
+    return html`<tr class="custom">
+      ${row.name} - ${row.email}
+    </tr>`
+  },
+}
+
+// Compose with behaviors
+import { sortable, exportable } from "@acme/design-system/behaviors"
+
+const advancedTable = [
+  table,
+  sortable,
+  exportable,
+  {
+    rowClick(entity, row) {
+      console.log("Custom click handler", row)
+    },
+  },
+]
+```
+
+### Why This Is Better Than React Components
+
+| Feature                    | React Components               | Inglorious Types                          |
+| -------------------------- | ------------------------------ | ----------------------------------------- |
+| Customize rendering        | Only if `render` prop exposed  | Override `render()` method directly       |
+| Customize behavior         | Only if callback props exposed | Override any method                       |
+| Compose multiple libraries | Wrapper hell / HOCs            | Array composition `[type1, type2, {...}]` |
+| Access internals           | Private - must fork            | Public - spread and override              |
+| Type safety                | Props interface                | Entity schema + method signatures         |
+
+**Users get complete control** without forking your library. They can override rendering, behavior, or both—down to individual methods.
 
 ---
 

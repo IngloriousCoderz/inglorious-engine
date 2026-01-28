@@ -1,5 +1,11 @@
 # @inglorious/react-store
 
+## 4.0.10
+
+### Patch Changes
+
+- Document component libraries
+
 ## 4.0.9
 
 ### Patch Changes
