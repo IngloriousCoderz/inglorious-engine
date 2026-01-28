@@ -171,7 +171,7 @@ export const UPDATE_FREQUENCY = 10
 
 ### Inglorious (with memo) (`/src/inglorious-memo/`)
 
-- **Optional memoization** - Uses `createSelector()` for derived state
+- **Optional memoization** - Uses `compute()` for derived state
 - **Same performance** - Still 100 FPS
 - **Same bundle size** - 15KB (negligible difference)
 - **The lesson:** Memoization is a convenience, not a requirement
@@ -532,7 +532,7 @@ A: Production parity doesn't tell the full story:
 - Junior devs will struggle with the optimization burden
 
 **Q: Is memoization ever useful in Inglorious?**  
-A: Yes! Use `createSelector()` for genuinely expensive calculations (complex data transformations, heavy algorithms). But you don't need it for basic rendering performance like you do in React.
+A: Yes! Use `compute()` for genuinely expensive calculations (complex data transformations, heavy algorithms). But you don't need it for basic rendering performance like you do in React.
 
 **Q: How do I measure FPS on my machine?**  
 A: Each implementation has a built-in FPS counter in the top-right. Watch it for 30 seconds to see stable performance. The browser's Performance tab also shows detailed frame timing.

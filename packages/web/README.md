@@ -527,7 +527,7 @@ test("full user interaction flow", () => {
 #### Testing Computed State
 
 ```javascript
-import { createSelector } from "@inglorious/store"
+import { compute } from "@inglorious/store"
 
 test("filtered todos excludes completed", () => {
   const todos = [
@@ -536,8 +536,9 @@ test("filtered todos excludes completed", () => {
     { id: 3, text: "Write tests", completed: false },
   ]
 
-  const getActiveTodos = createSelector([() => todos], (todos) =>
-    todos.filter((t) => !t.completed),
+  const getActiveTodos = compute(
+    (todos) => todos.filter((t) => !t.completed),
+    [() => todos],
   )
 
   const result = getActiveTodos()
@@ -1506,7 +1507,8 @@ import {
   // from @inglorious/store
   createStore,
   createDevtools,
-  createSelector,
+  compute,
+  createSelector, // for Redux compatibility
   // from @inglorious/store/test
   trigger,
   // from lit-html

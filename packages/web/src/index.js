@@ -1,6 +1,7 @@
 export { mount } from "./mount.js"
 export { createStore } from "@inglorious/store"
 export { createDevtools } from "@inglorious/store/client/devtools.js"
+export { compute } from "@inglorious/store/select.js"
 export { createSelector } from "@inglorious/store/select.js"
 export { trigger } from "@inglorious/store/test.js"
 export { html, svg } from "lit-html"

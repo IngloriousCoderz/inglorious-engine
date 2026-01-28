@@ -1,4 +1,4 @@
-import { createSelector } from "@inglorious/web"
+import { compute } from "@inglorious/web"
 
 const SAME = 0
 
@@ -6,8 +6,7 @@ export const selectRows = (entities) => entities.table.data
 const selectFilter = (entities) => entities.metrics.filter
 const selectSortBy = (entities) => entities.metrics.sortBy
 
-export const selectFilteredRows = createSelector(
-  [selectRows, selectFilter, selectSortBy],
+export const selectFilteredRows = compute(
   (rows, filter, sortBy) =>
     rows
       .filter((row) => {
@@ -22,12 +21,16 @@ export const selectFilteredRows = createSelector(
         if (sortBy === "progress") return b.progress - a.progress
         return SAME
       }),
+  [selectRows, selectFilter, selectSortBy],
 )
 
 export const selectChartData = (start, end) =>
-  createSelector([selectFilteredRows], (rows) => {
-    const values = rows.slice(start, end).map((r) => r.value)
-    const max = Math.max(...values)
-    const avg = Math.floor(values.reduce((a, b) => a + b) / values.length)
-    return { values, max, avg }
-  })
+  compute(
+    (rows) => {
+      const values = rows.slice(start, end).map((r) => r.value)
+      const max = Math.max(...values)
+      const avg = Math.floor(values.reduce((a, b) => a + b) / values.length)
+      return { values, max, avg }
+    },
+    [selectFilteredRows],
+  )

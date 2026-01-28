@@ -1,5 +1,16 @@
 # @inglorious/react-store
 
+## 4.1.0
+
+### Minor Changes
+
+- Add and document the compute() function for derived state
+
+### Patch Changes
+
+- Updated dependencies
+  - @inglorious/store@9.1.0
+
 ## 4.0.11
 
 ### Patch Changes

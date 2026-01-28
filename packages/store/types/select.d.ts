@@ -13,12 +13,26 @@ export type OutputSelector<TState = any, TResult = any> = (
 ) => TResult
 
 /**
- * Creates a memoized selector function.
- * @param inputSelectors - An array of input selector functions.
- * @param resultFunc - A function that receives the results of the input selectors and returns a computed value.
- * @returns A memoized selector function that, when called, returns the selected state.
+ * Creates a memoized derived computation from input selectors.
  */
-export function createSelector<TState = any, TResult = any>(
-  inputSelectors: InputSelector<TState, any>[],
-  resultFunc: (...args: any[]) => TResult,
+export function compute<TState, TInputs extends readonly unknown[], TResult>(
+  resultFunc: (...args: TInputs) => TResult,
+  inputSelectors: {
+    [K in keyof TInputs]: InputSelector<TState, TInputs[K]>
+  },
+): OutputSelector<TState, TResult>
+
+/**
+ * Redux-compatible alias for `compute`.
+ * Prefer `compute` in new code.
+ */
+export function createSelector<
+  TState,
+  TInputs extends readonly unknown[],
+  TResult,
+>(
+  inputSelectors: {
+    [K in keyof TInputs]: InputSelector<TState, TInputs[K]>
+  },
+  resultFunc: (...args: TInputs) => TResult,
 ): OutputSelector<TState, TResult>

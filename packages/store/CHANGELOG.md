@@ -1,5 +1,11 @@
 # @inglorious/store
 
+## 9.1.0
+
+### Minor Changes
+
+- Add and document the compute() function for derived state
+
 ## 9.0.1
 
 ### Patch Changes

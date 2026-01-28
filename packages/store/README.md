@@ -651,6 +651,125 @@ Instead of re-rendering after each event, you can batch them and re-render once.
 
 ---
 
+## 🧮 Derived State with `compute`
+
+Inglorious Store is fully compatible with Redux selectors, but it also provides a simpler, more explicit primitive for derived state: **`compute`**.
+
+`compute` lets you derive values from the store state in a predictable and memoized way, without hidden reactivity or dependency graphs.
+
+### Basic example
+
+```js
+import { compute } from "@inglorious/store"
+
+const selectCounter = (state) => state.counter1.value
+const selectMultiplier = (state) => state.settings.multiplier
+
+const selectResult = compute(
+  (count, multiplier) => count * multiplier,
+  [selectCounter, selectMultiplier],
+)
+```
+
+The returned function is a standard selector:
+
+```js
+const result = selectResult(api.getEntities())
+```
+
+And it works seamlessly with `react-redux` or `@inglorious/react-store`:
+
+```js
+const value = useSelector(selectResult)
+```
+
+---
+
+### How `compute` works
+
+- Each **input selector** is called with the current state
+- The results are compared using **strict equality (`===`)**
+- If none of the inputs changed, the **previous result is reused**
+- If at least one input changed, the result is recomputed
+
+There is:
+
+- ❌ no deep comparison
+- ❌ no proxy-based reactivity
+- ❌ no implicit dependency tracking
+
+Memoization is **explicit and predictable**, based purely on the values returned by your selectors.
+
+---
+
+### Why `compute` instead of magic reactivity?
+
+`compute` matches the core philosophy of Inglorious Store:
+
+- derived state is just a function
+- updates are explicit
+- behavior is easy to reason about
+- performance characteristics are obvious
+
+If an input selector returns a new reference, the computation runs again.
+If it doesn’t, it won’t.
+
+No surprises.
+
+---
+
+### Zero or single input selectors
+
+`compute` supports any number of inputs — including zero:
+
+```js
+const selectConstant = compute(() => 42)
+```
+
+Or just one:
+
+```js
+const selectDouble = compute(
+  (count) => count * 2,
+  [(entities) => entities.counter1.value],
+)
+```
+
+---
+
+### `createSelector` (Redux compatibility)
+
+For migration and familiarity, Inglorious Store also exports `createSelector`, which is fully compatible with Redux:
+
+```js
+import { createSelector } from "@inglorious/store"
+
+const selectResult = createSelector(
+  [(state) => state.counter1.value],
+  (count) => count * 2,
+)
+```
+
+Internally, `createSelector` is just an alias for `compute`.
+
+> **Note:** `compute` is the preferred API for new code.
+> `createSelector` exists mainly for Redux compatibility and migration.
+
+---
+
+### When to use `compute`
+
+Use `compute` when:
+
+- you need derived or aggregated state
+- you want memoization without magic
+- you want selectors that are easy to test
+- you want predictable recomputation rules
+
+If you already know Redux selectors, you already know how to use `compute` — just with fewer rules and less ceremony.
+
+---
+
 ## Comparison with Other State Libraries
 
 | Feature                   | Redux        | RTK          | Zustand    | Jotai      | Pinia      | MobX       | Inglorious Store |
@@ -732,6 +851,8 @@ Both work (`dispatch` is provided just for Redux compatibility), but `notify` is
 store.notify("eventName", payload)
 store.dispatch({ type: "eventName", payload }) // Redux-compatible alternative
 ```
+
+---
 
 ### 🧩 Type Safety
 

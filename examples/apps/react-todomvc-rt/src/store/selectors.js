@@ -1,16 +1,16 @@
-import { createSelector } from "@inglorious/store/select"
+import { compute } from "@inglorious/store/select"
 
 export const selectValue = (entities) => entities.form.value
 export const selectTasks = (entities) => entities.list.tasks
 
 export const selectTasksCount = (filter) =>
-  createSelector([selectTasks], (tasks) => getTasks(tasks, filter).length)
+  compute((tasks) => getTasks(tasks, filter).length, [selectTasks])
 
 export const selectActiveFilter = (entities) => entities.footer.activeFilter
 
-export const selectFilteredTasks = createSelector(
-  [selectTasks, selectActiveFilter],
+export const selectFilteredTasks = compute(
   (tasks, activeFilter) => getTasks(tasks, activeFilter),
+  [selectTasks, selectActiveFilter],
 )
 
 function getTasks(tasks, filter) {

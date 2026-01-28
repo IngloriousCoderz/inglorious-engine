@@ -1,5 +1,12 @@
 # @inglorious/server
 
+## 14.0.0
+
+### Patch Changes
+
+- Updated dependencies
+  - @inglorious/store@9.1.0
+
 ## 13.0.1
 
 ### Patch Changes

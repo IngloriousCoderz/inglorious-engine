@@ -7,6 +7,7 @@ export {
   TypesConfig,
 } from "@inglorious/store"
 
+export { compute } from "@inglorious/store/select"
 export { createSelector } from "@inglorious/store/select"
 export { trigger } from "@inglorious/store/test"
 

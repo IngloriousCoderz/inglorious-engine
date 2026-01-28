@@ -1,4 +1,4 @@
-import { createSelector } from "@inglorious/web"
+import { compute } from "@inglorious/web"
 
 import type { AppState, Filter, Task } from "../../types"
 
@@ -6,17 +6,14 @@ export const selectValue = (entities: AppState) => entities.form.value
 export const selectTasks = (entities: AppState) => entities.list.tasks
 
 export const selectTasksCount = (filter?: Filter) =>
-  createSelector(
-    [selectTasks],
-    (tasks: Task[]) => getTasks(tasks, filter).length,
-  )
+  compute((tasks: Task[]) => getTasks(tasks, filter).length, [selectTasks])
 
 export const selectActiveFilter = (entities: AppState): Filter =>
   entities.footer.activeFilter
 
-export const selectFilteredTasks = createSelector(
-  [selectTasks, selectActiveFilter],
+export const selectFilteredTasks = compute(
   (tasks: Task[], activeFilter: Filter) => getTasks(tasks, activeFilter),
+  [selectTasks, selectActiveFilter],
 )
 
 function getTasks(tasks: Task[], filter?: Filter) {
