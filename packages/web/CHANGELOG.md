@@ -1,5 +1,11 @@
 # @inglorious/react-store
 
+## 4.0.11
+
+### Patch Changes
+
+- Better document table and list
+
 ## 4.0.10
 
 ### Patch Changes

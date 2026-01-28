@@ -1,5 +1,11 @@
 import type { TemplateResult } from "lit-html"
 import type { Api } from "./mount"
+import type { SelectOption } from "./select"
+
+/**
+ * Represents a single row of data in the table.
+ */
+export type TableRow = Record<string, any>
 
 /**
  * Represents a column definition for the table.
@@ -18,17 +24,17 @@ export interface TableColumn {
   /** Filter configuration. */
   filter?: {
     type: "text" | "number" | "range" | "select" | "date" | "time" | "datetime"
-    options?: any[]
+    options?: SelectOption[]
     [key: string]: any
   }
-  /** The width of the column. */
-  width?: number
+  /** The width of the column, in pixels or as a string (e.g., '10%'). */
+  width?: number | string
   /** Optional formatter key or function. */
   formatter?: string | ((value: any) => any)
-  /** Custom sort function. */
-  sortFn?: (a: any, b: any) => number
-  /** Custom filter function. */
-  filterFn?: (row: any, filterValue: any) => boolean
+  /** Custom sort function for a column, operating on two rows. */
+  sortFn?: (a: TableRow, b: TableRow) => number
+  /** Custom filter function for a column, operating on a single row. */
+  filterFn?: (row: TableRow, filterValue: any) => boolean
   /** Custom format function. */
   format?: (value: any) => string
   /** Any other custom properties. */
@@ -38,7 +44,7 @@ export interface TableColumn {
 /**
  * Represents the state of a table entity.
  */
-export interface TableEntity<T = any> {
+export interface TableEntity<T extends TableRow = TableRow> {
   /** A unique identifier for the table entity. */
   id: string | number
   /** The entity type. */
@@ -52,11 +58,13 @@ export interface TableEntity<T = any> {
   /** Filtering state. */
   filters: Record<string, any>
   /** Search state. */
-  search: { value: string } | null
+  search: { value: string; placeholder?: string } | null
   /** Selected row IDs. */
   selection: (string | number)[]
   /** Pagination state. */
   pagination: { page: number; pageSize: number } | null
+  /** The property on a row object that uniquely identifies it. Defaults to 'id'. */
+  rowId?: string
   /** Whether multi-select is enabled. */
   isMultiSelect: boolean
   /** Any other custom properties. */
@@ -198,35 +206,43 @@ export declare const table: {
   /**
    * Renders a single row.
    * @param entity The table entity.
-   * @param item The data item for the row.
-   * @param index The index of the row.
+   * @param payload The payload for rendering the row.
+   * @param payload.row The data item for the row.
+   * @param payload.index The index of the row.
    * @param api The store API.
    */
   renderRow(
     entity: TableEntity,
-    item: any,
-    index: number,
+    payload: { row: TableRow; index: number },
     api: Api,
   ): TemplateResult
 
   /**
    * Renders a single cell.
    * @param entity The table entity.
-   * @param item The data item for the row.
-   * @param column The column definition.
+   * @param payload The payload for rendering the cell.
+   * @param payload.cell The data for the cell.
+   * @param payload.index The column index of the cell.
    * @param api The store API.
    */
   renderCell(
     entity: TableEntity,
-    item: any,
-    column: TableColumn,
+    payload: { cell: any; index: number },
     api: Api,
   ): TemplateResult
 
   /**
    * Renders the value of a cell.
-   * @param value The raw value from the data item.
-   * @param column The column definition.
+   * @param entity The table entity.
+   * @param payload The payload for rendering the value.
+   * @param payload.value The raw value from the data item.
+   * @param payload.column The column definition.
+   * @param payload.index The column index.
+   * @param api The store API.
    */
-  renderValue(value: any, column: TableColumn): any
+  renderValue(
+    entity: TableEntity,
+    payload: { value: any; column: TableColumn; index: number },
+    api: Api,
+  ): any
 }

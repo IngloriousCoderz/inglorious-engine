@@ -1,3 +1,11 @@
+/**
+ * @typedef {import('../../types/api').API} API
+ * @typedef {import('../../types/table').TableColumn} TableColumn
+ * @typedef {import('../../types/table').TableEntity} TableEntity
+ * @typedef {import('../../types/table').TableRow} TableRow
+ * @typedef {import('lit-html').TemplateResult} TemplateResult
+ */
+
 import { html } from "lit-html"
 import { classMap } from "lit-html/directives/class-map.js"
 import { ref } from "lit-html/directives/ref.js"
@@ -12,14 +20,28 @@ const LAST_PAGE = 1
 const PRETTY_PAGE = 1
 const PERCENTAGE_TO_FLEX = 0.01
 
+/**
+ * Rendering logic for the table component.
+ */
 export const rendering = {
+  /**
+   * Measures and sets initial column widths.
+   * This is called after the initial render to capture the "auto" widths of columns.
+   * @param {TableEntity} entity The table entity.
+   * @param {HTMLElement} containerEl The header row element containing the columns.
+   */
   mount(entity, containerEl) {
     const columns = containerEl.querySelectorAll(":scope > *")
     ;[...columns].forEach((column, index) => {
       entity.columns[index].width = column.offsetWidth
     })
   },
-
+  /**
+   * Renders the main table component.
+   * @param {TableEntity} entity The table entity.
+   * @param {API} api The API object.
+   * @returns {TemplateResult} The rendered table.
+   */
   render(entity, api) {
     const type = api.getType(entity.type)
 
@@ -28,7 +50,12 @@ export const rendering = {
       ${type.renderFooter(entity, api)}
     </div> `
   },
-
+  /**
+   * Renders the table header.
+   * @param {TableEntity} entity The table entity.
+   * @param {API} api The API object.
+   * @returns {TemplateResult} The rendered header.
+   */
   renderHeader(entity, api) {
     const type = api.getType(entity.type)
 
@@ -57,7 +84,14 @@ export const rendering = {
       ${entity.search && type.renderSearchbar(entity, api)}
     </div>`
   },
-
+  /**
+   * Renders a single column in the header.
+   * @param {TableEntity} entity The table entity.
+   * @param {object} payload The payload.
+   * @param {TableColumn} payload.column The column definition.
+   * @param {API} api The API object.
+   * @returns {TemplateResult} The rendered header column.
+   */
   renderHeaderColumn(entity, { column }, api) {
     return html`<div
       class="iw-table-header-column"
@@ -75,7 +109,12 @@ export const rendering = {
       ${column.isFilterable && filters.render(entity, column, api)}
     </div>`
   },
-
+  /**
+   * Renders the search bar.
+   * @param {TableEntity} entity The table entity.
+   * @param {API} api The API object.
+   * @returns {TemplateResult} The rendered search bar.
+   */
   renderSearchbar(entity, api) {
     return html`<input
       name="search"
@@ -87,7 +126,12 @@ export const rendering = {
       class="iw-table-searchbar"
     />`
   },
-
+  /**
+   * Renders the table body with rows.
+   * @param {TableEntity} entity The table entity.
+   * @param {API} api The API object.
+   * @returns {TemplateResult} The rendered table body.
+   */
   renderBody(entity, api) {
     const type = api.getType(entity.type)
 
@@ -99,7 +143,15 @@ export const rendering = {
       )}
     </div>`
   },
-
+  /**
+   * Renders a single row in the table body.
+   * @param {TableEntity} entity The table entity.
+   * @param {object} payload The payload.
+   * @param {TableRow} payload.row The row data.
+   * @param {number} payload.index The row index.
+   * @param {API} api The API object.
+   * @returns {TemplateResult} The rendered row.
+   */
   renderRow(entity, { row, index }, api) {
     const type = api.getType(entity.type)
     const rowId = row[entity.rowId ?? "id"]
@@ -119,7 +171,15 @@ export const rendering = {
       )}
     </div>`
   },
-
+  /**
+   * Renders a single cell within a row.
+   * @param {TableEntity} entity The table entity.
+   * @param {object} payload The payload.
+   * @param {any} payload.cell The cell data.
+   * @param {number} payload.index The column index.
+   * @param {API} api The API object.
+   * @returns {TemplateResult} The rendered cell.
+   */
   renderCell(entity, { cell, index }, api) {
     const type = api.getType(entity.type)
     const column = entity.columns[index]
@@ -136,10 +196,22 @@ export const rendering = {
     </div>`
   },
 
-  renderValue(_, { value }) {
+  /**
+   * Renders the value within a cell. This can be overridden for custom formatting.
+   * @param {TableEntity} _entity The table entity (ignored).
+   * @param {object} payload The payload.
+   * @param {any} payload.value The value to render.
+   * @returns {any} The value to be rendered.
+   */
+  renderValue(_entity, { value }) {
     return value
   },
-
+  /**
+   * Renders the table footer.
+   * @param {TableEntity} entity The table entity.
+   * @param {API} api The API object.
+   * @returns {TemplateResult} The rendered footer.
+   */
   renderFooter(entity, api) {
     const type = api.getType(entity.type)
     const pagination = getPaginationInfo(entity)
@@ -172,7 +244,13 @@ export const rendering = {
       </div>
     </div>`
   },
-
+  /**
+   * Renders the pagination controls.
+   * @param {TableEntity} entity The table entity.
+   * @param {object} pagination The pagination info object from `getPaginationInfo`.
+   * @param {API} api The API object.
+   * @returns {TemplateResult} The rendered pagination controls.
+   */
   renderPagination(entity, pagination, api) {
     return html`<div class="iw-table-row">
       <button
@@ -226,6 +304,11 @@ export const rendering = {
   },
 }
 
+/**
+ * Generates the style string for a column.
+ * @param {TableColumn} column The column definition.
+ * @returns {string} The style string.
+ */
 function getColumnStyle(column) {
   if (typeof column.width === "string") {
     if (column.width?.endsWith("%")) {
@@ -240,6 +323,11 @@ function getColumnStyle(column) {
   return `width: ${column.width}px`
 }
 
+/**
+ * Gets the appropriate sort icon for a given direction.
+ * @param {"asc"|"desc"|null} direction The sort direction.
+ * @returns {string} The sort icon.
+ */
 function getSortIcon(direction) {
   switch (direction) {
     case "asc":

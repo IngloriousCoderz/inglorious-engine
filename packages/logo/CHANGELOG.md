@@ -1,5 +1,12 @@
 # @inglorious/logo
 
+## 2.0.21
+
+### Patch Changes
+
+- Updated dependencies
+  - @inglorious/web@4.0.11
+
 ## 2.0.20
 
 ### Patch Changes

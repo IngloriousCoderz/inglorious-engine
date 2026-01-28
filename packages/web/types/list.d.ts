@@ -2,58 +2,66 @@ import type { TemplateResult } from "lit-html"
 import type { Api } from "./mount"
 
 /**
- * Represents the visible range of items in the list.
+ * Represents a single item in the list's data array.
+ * It's a generic record but should ideally have a unique `id`.
  */
-export interface VisibleRange {
-  start: number
-  end: number
-}
+export type ListItem = Record<string, any> & { id: string | number }
 
 /**
- * Represents the state of a list entity.
+ * Represents the state of a virtualized list entity.
  */
-export interface ListEntity<T = any> {
+export interface ListEntity<T extends ListItem = ListItem> {
   /** A unique identifier for the list entity. */
   id: string | number
-  /** The entity type (usually 'list'). */
+
+  /** The entity type, used to look up rendering logic. */
   type: string
-  /** The array of items to render. */
+
+  /** The full array of items for the list. */
   items: T[]
-  /** The current scroll position of the list container. */
+
+  /** The current scroll position from the top in pixels. */
   scrollTop: number
-  /** The range of items currently visible (plus buffer). */
-  visibleRange: VisibleRange
-  /** The height of the viewport in pixels. */
+
+  /** The start and end indices of the currently visible items (including buffer). */
+  visibleRange: { start: number; end: number }
+
+  /** The height of the visible viewport in pixels. */
   viewportHeight: number
-  /** The number of extra items to render above and below the visible range. */
+
+  /** The number of items to render outside the viewport (above and below). */
   bufferSize: number
-  /** The fixed height of each item in pixels, or null if measuring. */
+
+  /** The measured height of a single item in pixels. Null until measured on mount. */
   itemHeight: number | null
-  /** The estimated height of an item, used before measurement. */
+
+  /** An estimated height for items used for calculations before they are measured. */
   estimatedHeight: number
+
   /** Any other custom properties. */
   [key: string]: any
 }
 
 /**
- * The list type implementation.
+ * The list type implementation, combining logic and rendering.
  */
 export declare const list: {
   /**
    * Initializes the list entity with default state.
-   * @param entity The list entity.
+   * @param entity The list entity to initialize.
    */
   create(entity: ListEntity): void
 
   /**
-   * Handles the scroll event to update the visible range.
+   * Handles the scroll event to update the visible range of items.
    * @param entity The list entity.
    * @param containerEl The scrolling container element.
    */
   scroll(entity: ListEntity, containerEl: HTMLElement): void
 
   /**
-   * Mounts the list, measuring the first item to determine item height.
+   * Mounts the list, measuring the first item to determine the `itemHeight`
+   * for accurate virtualization calculations.
    * @param entity The list entity.
    * @param containerEl The scrolling container element.
    */
@@ -67,10 +75,17 @@ export declare const list: {
   render(entity: ListEntity, api: Api): TemplateResult
 
   /**
-   * Default item renderer.
-   * @param item The item to render.
-   * @param index The index of the item.
+   * Renders a single item in the list. This is a default implementation
+   * and is expected to be overridden by a specific list type.
+   * @param entity The list entity.
+   * @param payload The payload for rendering the item.
+   * @param payload.item The item data.
+   * @param payload.index The item's absolute index in the full list.
    * @param api The store API.
    */
-  renderItem(item: any, index: number, api: Api): TemplateResult
+  renderItem(
+    entity: ListEntity,
+    payload: { item: ListItem; index: number },
+    api: Api,
+  ): TemplateResult
 }
